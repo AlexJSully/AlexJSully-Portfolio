@@ -1,0 +1,73 @@
+{
+  "name": "alexjsully-portfolio",
+  "contributors": [
+    {
+      "name": "Alexander Sullivan",
+      "email": "alexander.j.sullivan@hotmail.com",
+      "url": "https://twitter.com/AlexJSully"
+    }
+  ],
+  "version": "0.1.0",
+  "private": true,
+  "description": "My portfolio website",
+  "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "firebase": "^8.9.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^2.1.0",
+    "workbox-background-sync": "^6.2.0",
+    "workbox-broadcast-update": "^6.2.0",
+    "workbox-cacheable-response": "^6.2.0",
+    "workbox-core": "^6.2.0",
+    "workbox-expiration": "^6.2.0",
+    "workbox-google-analytics": "^6.2.0",
+    "workbox-navigation-preload": "^6.2.0",
+    "workbox-precaching": "^6.2.0",
+    "workbox-range-requests": "^6.2.0",
+    "workbox-routing": "^6.2.0",
+    "workbox-strategies": "^6.2.0",
+    "workbox-streams": "^6.2.0"
+  },
+  "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "bugs": "https://github.com/ASully/alexjsully-portfolio/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ASully/alexjsully-portfolio.git"
+  },
+  "keywords": [
+    "portfolio",
+    "alex",
+    "science",
+    "bioinformatics",
+    "web-dev",
+    "gaming",
+    "showcase"
+  ],
+  "homepage": "."
+}

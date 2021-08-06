@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+    <meta name="title" content="Alexander Sullivan's Portfolio">
+    <link rel="icon" href="%PUBLIC_URL%/icon/favicon.ico" />
+    <!-- Metadata -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#800808" />
+    <meta name="author" content="Alexander Sullivan" />
+    <meta name="description" content="My portfolio website to showcase (and brag) about my all my projects!" />
+    <meta name="keywords" content="portfolio, alex, science, bioinformatics, web-dev, gaming, showcase">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/icon/manifest.json" />
+    <!-- Metadata -->
+    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/icon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/icon/favicon-16x16.png">
+    <link rel="mask-icon" href="%PUBLIC_URL%/icon/safari-pinned-tab.svg" color="#800808">
+    <meta name="apple-mobile-web-app-title" content="Alexander Sullivan's Portfolio">
+    <meta name="application-name" content="Alexander Sullivan's Portfolio">
+    <meta name="msapplication-config" content="%PUBLIC_URL%/icon/browserconfig.xml">
+    <meta name="msapplication-TileColor" content="#800808">
+    <meta name="msapplication-TileImage" content="%PUBLIC_URL%/icon/mstile-144x144.png">
+    <meta name="theme-color" content="#800808">
+    <meta name="twitter:site" content="@AlexJSully">
+    <!-- Resoc -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alexjsully.me">
+    <meta property="og:site_name" content="Alexander Sullivan's Portfolio">
+    <meta property="og:title" content="Alexander Sullivan's Portfolio" />
+    <meta property="og:description" content="My portfolio website to showcase (and brag) about my all my projects!" />
+    <meta property="og:image" content="%PUBLIC_URL%/icon/resoc.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Alexander Sullivan's Portfolio</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GA%"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '%REACT_APP_GA%');
+    </script>
+    <!-- END Google Analytics -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','%REACT_APP_GTM%');</script>
+    <!-- End Google Tag Manager -->
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=%REACT_APP_GTM%"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/8.9.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="/__/firebase/8.9.0/firebase-analytics.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+  </body>
+</html>

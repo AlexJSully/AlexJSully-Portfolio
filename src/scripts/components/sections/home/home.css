@@ -1,0 +1,16 @@
+.home {
+    width: 100% !important;
+    background-image: url('../../../../images/home/background.jpg');
+    background-repeat: no-repeat;
+    background-position: fixed;
+    background-size: 2000px;
+}
+
+.h3-description {
+    text-shadow: 1px 2px 3px #666;
+}
+
+.profilePic {
+    width: 20%;
+    border-radius: 50%;
+}

@@ -1,0 +1,16 @@
+/* Adjust Material-UI */
+.MuiToolbar-root {
+    background-color: #333;
+}
+
+.MuiToolbar-root > * {
+    color: white !important;
+}
+
+.viewPoint-active > * {
+    color: #00f3ff !important;
+}
+
+.flexGrow-empty {
+    flex-grow: 1
+}
