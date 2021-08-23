@@ -10,11 +10,9 @@ export default class Toolbar extends React.Component {
             <Suspense fallback={null}>
                 <AppBar position="fixed">
                     <ToolBar>
-                        <Button className="viewPoint-active" variant="h6">Home</Button>
-                        <Button variant="h6">About</Button>
-                        <Button variant="h6">Projects</Button>
-                        <Button variant="h6">Gaming</Button>
-                        <Button variant="h6">Contact</Button>
+                        <Button className="viewPoint-active">Home</Button>
+                        <Button>Projects</Button>
+                        <Button>Contact</Button>
                     </ToolBar>
                 </AppBar>
             </Suspense>

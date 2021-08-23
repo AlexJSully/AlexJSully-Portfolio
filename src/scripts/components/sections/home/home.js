@@ -48,7 +48,7 @@ export default class Home extends React.Component {
         return (
             <Suspense fallback={<div>Loading...</div>}>
                 <div className="home App" id="home" onMouseMove={(e) => this.handleMoveBackground(e)}>
-                    <img className="profilePic" id="profilePic" src={ProfilePic} alt="Drawn version of me" loading="lazy" onMouseEnter={() => this.handleTriggerSneeze()}/>
+                    <img className="profilePic" id="profilePic" src={ProfilePic} alt="Drawn version of me" loading="lazy" onMouseEnter={() => this.handleTriggerSneeze()} onClick={() => this.handleTriggerSneeze()} />
                     <h3 className="h3-description">
                         Full-Stack Web Developer | Bioinformatician | Gamer
                     </h3>

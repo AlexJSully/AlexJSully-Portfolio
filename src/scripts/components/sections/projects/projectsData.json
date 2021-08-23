@@ -1,0 +1,143 @@
+{
+    "impact-depth": {
+        "name": "Impact Depth",
+        "description": "Visualize citation flow for a publication of interest",
+        "employer": "Personal Project",
+        "url": "https://impactdepth.com/",
+        "thumbnail": "../../../../images/projects/impact-depth/thumbnail.png",
+        "screenshot": "../../../../images/projects/impact-depth/screenshot.png",
+        "dates": {
+            "startDate": "2021-05",
+            "endDate": "2021-08"
+        },
+        "showcase": true,
+        "filter": {
+            "language": ["javascript", "html", "css", "markdown", "json"],
+            "frameworks": ["git", "svg", "mongodb", "react", "d3"],
+            "type": ["web", "science"]
+        }
+    },
+    "eplant-plant-efp": {
+        "name": "ePlant's Plant eFP",
+        "description": "Designed the updated widget version of the eFP tissue expression viewer for ePlant",
+        "employer": "University of Toronto - BAR/Provart Lab",
+        "publication": "https://doi.org/10.1101/2021.04.28.441805",
+        "url": "https://github.com/BioAnalyticResource/ePlant_Plant_eFP",
+        "thumbnail": "../../../../images/projects/eplant-plant-efp/thumbnail.png",
+        "screenshot": "../../../../images/projects/eplant-plant-efp/screenshot.png",
+        "dates": {
+            "startDate": "2019-04",
+            "endDate": "2021-08"
+        },
+        "showcase": false,
+        "filter": {
+            "language": ["javascript", "html", "css", "markdown", "json", "sql"],
+            "frameworks": ["git", "svg", "mysql", "apache"],
+            "type": ["web", "science", "dry-lab"]
+        }
+    },
+    "gaia": {
+        "name": "GAIA",
+        "description": "Generates a summary or answers a question regarding a gene",
+        "employer": "University of Toronto - BAR/Provart Lab",
+        "url": "https://bar.utoronto.ca/gaia/",
+        "thumbnail": "../../../../images/projects/gaia/thumbnail.png",
+        "screenshot": "../../../../images/projects/gaia/screenshot.png",
+        "dates": {
+            "startDate": "2019-04",
+            "endDate": "2021-08"
+        },
+        "showcase": true,
+        "filter": {
+            "language": ["javascript", "html", "css", "markdown", "json", "sql", "python", "php"],
+            "frameworks": ["git", "svg", "mysql", "apache", "google analytics", "nlp", "react", "material-ui", "mongodb"],
+            "type": ["web", "science", "dry-lab", "mobile"]
+        }
+    },
+    "scigrade": {
+        "name": "SciGrade",
+        "description": "Teach CRISPR gRNA design",
+        "employer": "University of Toronto - Human Biology Department",
+        "url": "https://scigrade.com/",
+        "thumbnail": "../../../../images/projects/scigrade/thumbnail.png",
+        "screenshot": "../../../../images/projects/scigrade/screenshot.png",
+        "dates": {
+            "startDate": "2017-08",
+            "endDate": "2018-10"
+        },
+        "showcase": false,
+        "filter": {
+            "language": ["javascript", "html", "css", "markdown", "json"],
+            "frameworks": ["git", "jquery", "bootstrap", "google analytics", "svg", "office", "mongodb", "benchling"],
+            "type": ["web", "science", "dry-lab", "teaching"]
+        }
+    },
+    "efp-seq-browser": {
+        "name": "eFP-Seq Browser",
+        "employer": "University of Toronto - BAR/Provart Lab",
+        "description": "An RNA-Seq based gene expression visualizer web-tool",
+        "publication": "https://doi.org/10.1111/tpj.14468",
+        "url": "https://bar.utoronto.ca/eFP-Seq_Browser/",
+        "thumbnail": "../../../../images/projects/efp-seq-browser/thumbnail.png",
+        "screenshot": "../../../../images/projects/efp-seq-browser/screenshot.png",
+        "dates": {
+            "startDate": "2016-09",
+            "endDate": "2021-06"
+        },
+        "showcase": true,
+        "filter": {
+            "language": ["javascript", "html", "css", "markdown", "python", "php", "r", "sql"],
+            "frameworks": ["git", "jquery", "bootstrap","google analytics", "svg", "google cloud", "amazon aws", "apache", "mysql", "office"],
+            "type": ["web", "science", "dry-lab", "mobile"]
+        }
+    },
+    "biosensing": {
+        "name": "Gold Biosensing",
+        "employer": "University of Toronto - iGEM Toronto",
+        "description": "Developed a synthetic gene using GolS/GolB to detect aqueous gold",
+        "url": "http://2016.igem.org/Team:Toronto",
+        "thumbnail": "../../../../images/projects/biosensing/thumbnail.png",
+        "screenshot": "../../../../images/projects/biosensing/screenshot.png",
+        "dates": {
+            "startDate": "2015-10",
+            "endDate": "2016-11"
+        },
+        "showcase": true,
+        "filter": {
+            "language": ["html", "css", "markdown"],
+            "frameworks": ["git", "benchling", "office"],
+            "type": ["web", "science", "wet-lab"]
+        }
+    },
+    "smalldevtalk": {
+        "name": "Small Dev Talk",
+        "employer": "Small Dev Talk",
+        "description": "News, interviews and showcases of the latest in the indie scene",
+        "url": "https://smalldevtalk.net/",
+        "thumbnail": "../../../../images/projects/smalldevtalk/thumbnail.svg",
+        "screenshot": "../../../../images/projects/smalldevtalk/screenshot.png",
+        "dates": {
+            "startDate": "2013-03",
+            "endDate": "2016-04"
+        },
+        "showcase": true,
+        "filter": {
+            "language": ["javascript", "html", "css", "markdown", "json"],
+            "frameworks": ["git", "jquery", "tumblr", "bootstrap", "svg", "google analytics", "office"],
+            "type": ["web", "coding", "social media", "journalism"]
+        }
+    },
+    "mai-tutor": {
+        "name": "Mai Tutor",
+        "employer": "Mai Tutor",
+        "description": "Tutor for students between grade 1 to 11 in math, science, English, music, geography, and business",
+        "dates": {
+            "startDate": "2012-09",
+            "endDate": "2013-05"
+        },
+        "showcase": false,
+        "filter": {
+            "type": ["teaching"]
+        }
+    }
+}
