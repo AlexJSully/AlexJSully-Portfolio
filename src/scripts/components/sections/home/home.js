@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import { handleMoveBackground } from '../../../interactivity/background-move';
 import './home.css';
 import ProfilePic from '../../../../images/me_drawn/profile_pic_drawn.jpg';
 import SneezePicStart from '../../../../images/me_drawn/profile_pic_drawn_2.jpg';
@@ -11,17 +12,6 @@ export default class Home extends React.Component {
 
         this.moveBackground = false;
         this.hoveredProfilePic = 0;
-    }
-
-    handleMoveBackground(event) {
-        let howMuchMove = 55;
-
-        if (document.getElementById('home') && event?.pageX && event?.pageY) {
-            let moveHeight = (howMuchMove / window.innerHeight) * (event.pageY - window.innerHeight);
-            let moveWidth = (howMuchMove / window.innerWidth) * (event.pageX - window.innerWidth);
-
-            document.getElementById('home').style.backgroundPosition = `${moveWidth}px ${moveHeight}px`;
-        };
     };
 
     handleTriggerSneeze() {
@@ -47,7 +37,7 @@ export default class Home extends React.Component {
     render() {
         return (
             <Suspense fallback={<div>Loading...</div>}>
-                <div className="home App" id="home" onMouseMove={(e) => this.handleMoveBackground(e)}>
+                <div className="home App" id="home" onMouseMove={(e) => handleMoveBackground(e, 'home')}>
                     <img className="profilePic" id="profilePic" src={ProfilePic} alt="Drawn version of me" loading="lazy" onMouseEnter={() => this.handleTriggerSneeze()} onClick={() => this.handleTriggerSneeze()} />
                     <h3 className="h3-description">
                         Full-Stack Web Developer | Bioinformatician | Gamer

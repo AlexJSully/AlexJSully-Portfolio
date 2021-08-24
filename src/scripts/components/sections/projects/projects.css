@@ -12,54 +12,40 @@
 .projects-Container {
     margin: auto;
     width: 100%;
-    background-color: #424242;
-}
-
-.projects-Display {
-    margin: auto;
-    height: 300px;
-    max-height: 300px;
-    background-color: white;
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover;
-    border-radius: 5%;
-    border: 1px solid rgba(0, 0, 0, 0.603);
-    overflow: hidden;
-    cursor: pointer;
+    background-color: #1e2227;
 }
 
 .projects-DisplayContainer {
     margin: auto;
-    color: black;
 }
 
-.project-TitleContainer {
+.projects-Card {
     margin: auto;
-    padding: 3%;
-    margin-top: 25%;
-    width: 60%;
-    border: 1px solid rgba(0, 0, 0, 0.507);
-    border-radius: 20%;
-    backdrop-filter: blur(20px);
-    color: black;
-    text-shadow: 1px 1px #969696; 
-    transition: all 0.1s linear;
+    max-width: 300px;
+    background-color: #1e2227 !important;
+    color: white !important;
+    text-decoration: none !important;
 }
 
-.project-DetailsContainer {
+.projects-Thumbnail {
+    height: calc(100vh / 4 - 1em);
+    width: calc(100vh / 4 - 1em);
+    background-size: contain !important;
+    border-radius: 50%;
+    background-color: #f5f4f4;
     margin: auto;
-    padding: 1%;
-    margin-top: 75%;
-    width: 93%;
-    border: 1px solid rgba(0, 0, 0, 0.507);
-    border-radius: 10%;
-    backdrop-filter: blur(20px);
-    color: black;
-    text-shadow: 1px 1px #969696; 
-    transition: all 0.1s linear;
 }
 
 .projects-URL {
+    text-decoration: none;
+}
+
+/* Modify Material-UI */
+.MuiGrid-spacing-xs-2 {
+    width: auto !important;
+}
+
+.MuiTypography-body2 {
+    color: white !important;
     text-decoration: none !important;
 }

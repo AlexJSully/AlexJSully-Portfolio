@@ -4,8 +4,6 @@
         "description": "Visualize citation flow for a publication of interest",
         "employer": "Personal Project",
         "url": "https://impactdepth.com/",
-        "thumbnail": "../../../../images/projects/impact-depth/thumbnail.png",
-        "screenshot": "../../../../images/projects/impact-depth/screenshot.png",
         "dates": {
             "startDate": "2021-05",
             "endDate": "2021-08"
@@ -23,17 +21,30 @@
         "employer": "University of Toronto - BAR/Provart Lab",
         "publication": "https://doi.org/10.1101/2021.04.28.441805",
         "url": "https://github.com/BioAnalyticResource/ePlant_Plant_eFP",
-        "thumbnail": "../../../../images/projects/eplant-plant-efp/thumbnail.png",
-        "screenshot": "../../../../images/projects/eplant-plant-efp/screenshot.png",
         "dates": {
             "startDate": "2019-04",
             "endDate": "2021-08"
         },
-        "showcase": false,
+        "showcase": true,
         "filter": {
             "language": ["javascript", "html", "css", "markdown", "json", "sql"],
             "frameworks": ["git", "svg", "mysql", "apache"],
             "type": ["web", "science", "dry-lab"]
+        }
+    },
+    "ta": {
+        "name": "Teaching Assistant",
+        "description": "TA at the University of Toronto for bioinformatics (CSB352) and molecular biology (BIO130)",
+        "employer": "University of Toronto",
+        "url": "https://artsci.calendar.utoronto.ca/course/csb352h1",
+        "dates": {
+            "startDate": "2019-01",
+            "endDate": "2021-08"
+        },
+        "showcase": false,
+        "filter": {
+            "language": ["r"],
+            "type": ["web", "science", "dry-lab", "wet-lab", "teaching"]
         }
     },
     "gaia": {
@@ -41,8 +52,6 @@
         "description": "Generates a summary or answers a question regarding a gene",
         "employer": "University of Toronto - BAR/Provart Lab",
         "url": "https://bar.utoronto.ca/gaia/",
-        "thumbnail": "../../../../images/projects/gaia/thumbnail.png",
-        "screenshot": "../../../../images/projects/gaia/screenshot.png",
         "dates": {
             "startDate": "2019-04",
             "endDate": "2021-08"
@@ -59,8 +68,6 @@
         "description": "Teach CRISPR gRNA design",
         "employer": "University of Toronto - Human Biology Department",
         "url": "https://scigrade.com/",
-        "thumbnail": "../../../../images/projects/scigrade/thumbnail.png",
-        "screenshot": "../../../../images/projects/scigrade/screenshot.png",
         "dates": {
             "startDate": "2017-08",
             "endDate": "2018-10"
@@ -78,8 +85,6 @@
         "description": "An RNA-Seq based gene expression visualizer web-tool",
         "publication": "https://doi.org/10.1111/tpj.14468",
         "url": "https://bar.utoronto.ca/eFP-Seq_Browser/",
-        "thumbnail": "../../../../images/projects/efp-seq-browser/thumbnail.png",
-        "screenshot": "../../../../images/projects/efp-seq-browser/screenshot.png",
         "dates": {
             "startDate": "2016-09",
             "endDate": "2021-06"
@@ -96,8 +101,6 @@
         "employer": "University of Toronto - iGEM Toronto",
         "description": "Developed a synthetic gene using GolS/GolB to detect aqueous gold",
         "url": "http://2016.igem.org/Team:Toronto",
-        "thumbnail": "../../../../images/projects/biosensing/thumbnail.png",
-        "screenshot": "../../../../images/projects/biosensing/screenshot.png",
         "dates": {
             "startDate": "2015-10",
             "endDate": "2016-11"
@@ -114,8 +117,6 @@
         "employer": "Small Dev Talk",
         "description": "News, interviews and showcases of the latest in the indie scene",
         "url": "https://smalldevtalk.net/",
-        "thumbnail": "../../../../images/projects/smalldevtalk/thumbnail.svg",
-        "screenshot": "../../../../images/projects/smalldevtalk/screenshot.png",
         "dates": {
             "startDate": "2013-03",
             "endDate": "2016-04"
@@ -137,7 +138,7 @@
         },
         "showcase": false,
         "filter": {
-            "type": ["teaching"]
+            "type": ["teaching", "science"]
         }
     }
 }
