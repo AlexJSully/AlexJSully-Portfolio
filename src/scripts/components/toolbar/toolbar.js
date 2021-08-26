@@ -11,7 +11,7 @@ export default class Toolbar extends React.Component {
                 <AppBar position="fixed">
                     <ToolBar>
                         <Button className="viewPoint-active">Home</Button>
-                        <Button>Projects</Button>
+                        <Button>Experiences</Button>
                         <Button>Contact</Button>
                     </ToolBar>
                 </AppBar>

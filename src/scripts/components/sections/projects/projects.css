@@ -1,3 +1,7 @@
+hr {
+    width: 80%;
+}
+
 .projects {
     color: white;
     margin-top: 2%;
@@ -17,6 +21,7 @@
 
 .projects-DisplayContainer {
     margin: auto;
+    transition: all 0.5s ease;
 }
 
 .projects-Card {
@@ -34,10 +39,88 @@
     border-radius: 50%;
     background-color: #f5f4f4;
     margin: auto;
+    transition: all 0.5s ease;
 }
 
 .projects-URL {
     text-decoration: none;
+}
+
+.project-Experiences {
+    font-size: 1.5em;
+}
+
+.projects-KeywordThumbnail {
+    height: calc(100vh / 16 - 1em);
+    width: calc(100vh / 16 - 1em);
+    background-size: 100% !important;
+    border-radius: 50%;
+    background-color: #f5f4f4;
+    margin: auto;
+    transition: all 0.2s ease;
+}
+
+.projects-KeywordThumbnail:hover {
+    background-size: 115% !important;
+    transition: all 0.2s ease;
+}
+
+.filter-Filtering {
+    height: calc(100vh / 16 - 1em);
+    width: calc(100vh / 16 - 1em);
+    background-size: 75% !important;
+    border-radius: 50%;
+    background-color: #f5f4f4;
+    margin: auto !important;
+    filter: invert(0.75);
+    transition: all 0.2s ease;
+}
+
+.filter-Filtering:hover {
+    background-size: 90% !important;
+    transition: all 0.2s ease;
+}
+
+.filter-Accordion {
+    margin: auto;
+    max-width: 80%;
+    text-align: center;
+    background-color: #1e2227 !important;
+    color: white !important;
+    transition: all 0.2s ease;
+}
+
+.filter-AccordionHeader {
+    justify-content: center;
+    margin: auto !important;
+}
+
+.filter-Header {
+    font-size: 0.75em !important;
+}
+
+.filter-Expand {
+    color: white;
+    font-size: 1em !important;
+    transition: all 0.2s ease;
+}
+
+.filter-Cards {
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.filter-ActionCard {
+    border-radius: 30% !important;
+}
+
+.filter-Switcher {
+    font-size: 0.75em !important;
+    padding: 0 !important;
+}
+
+.filter-SwitcherDescription {
+    margin-top: 0%;
 }
 
 /* Modify Material-UI */
@@ -48,4 +131,26 @@
 .MuiTypography-body2 {
     color: white !important;
     text-decoration: none !important;
+}
+
+.Mui-expanded {
+    margin: auto !important;
+    max-width: 80%;
+}
+
+.MuiAccordionSummary-content {
+    justify-content: center !important;
+}
+
+.MuiSwitch-track {
+    background-color: #00d5ff !important;
+}
+
+.MuiSwitch-thumb {
+    color: #ff23d0 !important;
+}
+
+.MuiAccordionSummary-root:hover {
+    background-color: #272B2F !important;
+    transition: all 0.2s ease;
 }

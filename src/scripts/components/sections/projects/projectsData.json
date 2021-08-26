@@ -3,6 +3,7 @@
         "name": "Impact Depth",
         "description": "Visualize citation flow for a publication of interest",
         "employer": "Personal Project",
+        "most-recent-title": "Creator",
         "url": "https://impactdepth.com/",
         "dates": {
             "startDate": "2021-05",
@@ -11,7 +12,7 @@
         "showcase": true,
         "filter": {
             "language": ["javascript", "html", "css", "markdown", "json"],
-            "frameworks": ["git", "svg", "mongodb", "react", "d3"],
+            "frameworks": ["git", "svg", "mongodb", "react", "d3", "material-ui", "google analytics"],
             "type": ["web", "science"]
         }
     },
@@ -19,6 +20,7 @@
         "name": "ePlant's Plant eFP",
         "description": "Designed the updated widget version of the eFP tissue expression viewer for ePlant",
         "employer": "University of Toronto - BAR/Provart Lab",
+        "most-recent-title": "Data Visualization Programmer",
         "publication": "https://doi.org/10.1101/2021.04.28.441805",
         "url": "https://github.com/BioAnalyticResource/ePlant_Plant_eFP",
         "dates": {
@@ -28,14 +30,15 @@
         "showcase": true,
         "filter": {
             "language": ["javascript", "html", "css", "markdown", "json", "sql"],
-            "frameworks": ["git", "svg", "mysql", "apache"],
-            "type": ["web", "science", "dry-lab"]
+            "frameworks": ["git", "svg", "mysql", "apache", "office"],
+            "type": ["web", "science"]
         }
     },
     "ta": {
         "name": "Teaching Assistant",
         "description": "TA at the University of Toronto for bioinformatics (CSB352) and molecular biology (BIO130)",
         "employer": "University of Toronto",
+        "most-recent-title": "Teaching Assistant",
         "url": "https://artsci.calendar.utoronto.ca/course/csb352h1",
         "dates": {
             "startDate": "2019-01",
@@ -44,13 +47,15 @@
         "showcase": false,
         "filter": {
             "language": ["r"],
-            "type": ["web", "science", "dry-lab", "wet-lab", "teaching"]
+            "frameworks": ["office"],
+            "type": ["web", "science", "teaching"]
         }
     },
     "gaia": {
         "name": "GAIA",
         "description": "Generates a summary or answers a question regarding a gene",
         "employer": "University of Toronto - BAR/Provart Lab",
+        "most-recent-title": "Project Lead",
         "url": "https://bar.utoronto.ca/gaia/",
         "dates": {
             "startDate": "2019-04",
@@ -59,14 +64,15 @@
         "showcase": true,
         "filter": {
             "language": ["javascript", "html", "css", "markdown", "json", "sql", "python", "php"],
-            "frameworks": ["git", "svg", "mysql", "apache", "google analytics", "nlp", "react", "material-ui", "mongodb"],
-            "type": ["web", "science", "dry-lab", "mobile"]
+            "frameworks": ["git", "svg", "mysql", "apache", "google analytics", "nlp", "react", "material-ui", "mongodb", "office"],
+            "type": ["web", "science", "mobile"]
         }
     },
     "scigrade": {
         "name": "SciGrade",
         "description": "Teach CRISPR gRNA design",
         "employer": "University of Toronto - Human Biology Department",
+        "most-recent-title": "Full-Stack Developer",
         "url": "https://scigrade.com/",
         "dates": {
             "startDate": "2017-08",
@@ -76,12 +82,13 @@
         "filter": {
             "language": ["javascript", "html", "css", "markdown", "json"],
             "frameworks": ["git", "jquery", "bootstrap", "google analytics", "svg", "office", "mongodb", "benchling"],
-            "type": ["web", "science", "dry-lab", "teaching"]
+            "type": ["web", "science", "teaching"]
         }
     },
     "efp-seq-browser": {
         "name": "eFP-Seq Browser",
         "employer": "University of Toronto - BAR/Provart Lab",
+        "most-recent-title": "Data Visualization Programmer",
         "description": "An RNA-Seq based gene expression visualizer web-tool",
         "publication": "https://doi.org/10.1111/tpj.14468",
         "url": "https://bar.utoronto.ca/eFP-Seq_Browser/",
@@ -93,12 +100,13 @@
         "filter": {
             "language": ["javascript", "html", "css", "markdown", "python", "php", "r", "sql"],
             "frameworks": ["git", "jquery", "bootstrap","google analytics", "svg", "google cloud", "amazon aws", "apache", "mysql", "office"],
-            "type": ["web", "science", "dry-lab", "mobile"]
+            "type": ["web", "science", "mobile"]
         }
     },
     "biosensing": {
         "name": "Gold Biosensing",
         "employer": "University of Toronto - iGEM Toronto",
+        "most-recent-title": "Laboratory Research Lead",
         "description": "Developed a synthetic gene using GolS/GolB to detect aqueous gold",
         "url": "http://2016.igem.org/Team:Toronto",
         "dates": {
@@ -109,12 +117,13 @@
         "filter": {
             "language": ["html", "css", "markdown"],
             "frameworks": ["git", "benchling", "office"],
-            "type": ["web", "science", "wet-lab"]
+            "type": ["web", "science"]
         }
     },
     "smalldevtalk": {
         "name": "Small Dev Talk",
         "employer": "Small Dev Talk",
+        "most-recent-title": "Co-creator & Journalist",
         "description": "News, interviews and showcases of the latest in the indie scene",
         "url": "https://smalldevtalk.net/",
         "dates": {
@@ -125,12 +134,13 @@
         "filter": {
             "language": ["javascript", "html", "css", "markdown", "json"],
             "frameworks": ["git", "jquery", "tumblr", "bootstrap", "svg", "google analytics", "office"],
-            "type": ["web", "coding", "social media", "journalism"]
+            "type": ["web"]
         }
     },
     "mai-tutor": {
         "name": "Mai Tutor",
         "employer": "Mai Tutor",
+        "most-recent-title": "Tutor",
         "description": "Tutor for students between grade 1 to 11 in math, science, English, music, geography, and business",
         "dates": {
             "startDate": "2012-09",
