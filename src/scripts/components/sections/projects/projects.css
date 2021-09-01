@@ -102,7 +102,6 @@ hr {
 .filter-Expand {
     color: white;
     font-size: 1em !important;
-    transition: all 0.2s ease;
 }
 
 .filter-Cards {
@@ -123,6 +122,16 @@ hr {
     margin-top: 0%;
 }
 
+.filter-Reset {
+    font-size: 0.5em !important;
+    background-color: #303f9f !important;
+}
+
+.filter-Reset:hover {
+    font-size: 0.5em !important;
+    background-color: #7e0707 !important;
+}
+
 /* Modify Material-UI */
 .MuiGrid-spacing-xs-2 {
     width: auto !important;
@@ -139,6 +148,7 @@ hr {
 }
 
 .MuiAccordionSummary-content {
+    margin: 12px 0 !important;
     justify-content: center !important;
 }
 

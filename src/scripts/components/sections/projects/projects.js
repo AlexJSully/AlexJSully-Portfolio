@@ -13,6 +13,7 @@ const AccordionSummary = React.lazy(() => import('@material-ui/core/AccordionSum
 const AccordionDetails = React.lazy(() => import('@material-ui/core/AccordionDetails'));
 const Switch = React.lazy(() => import('@material-ui/core/Switch'));
 const ExpandMoreIcon = React.lazy(() => import('@material-ui/icons/ExpandMore'));
+const Button = React.lazy(() => import('@material-ui/core/Button'));
 
 export default class Toolbar extends React.Component {
     constructor() {
@@ -149,10 +150,11 @@ export default class Toolbar extends React.Component {
                                 OR
                             </Grid>
                             {filterJSX}
+                            <br />
+                            <Button variant="contained" color="primary" className="filter-Reset" onClick={() => this.resetFilters()}>Reset Filters</Button>
                         </Grid>
                     </AccordionDetails>
                 </Accordion>
-                
             );
 
             this.setState({
@@ -217,6 +219,14 @@ export default class Toolbar extends React.Component {
                     document.getElementById(`${key}_project`).setAttribute('hidden', true);
                 };
             };
+        };
+    };
+
+    resetFilters() {
+        let toReset = {...this.filterList};
+
+        for (let i in toReset) {
+            this.filterProjects(toReset[i]);
         };
     };
 
