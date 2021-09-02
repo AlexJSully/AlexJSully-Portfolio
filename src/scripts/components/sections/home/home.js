@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { handleMoveBackground } from '../../../interactivity/background-move';
+import { WordCarousel } from '../../../interactivity/word-carousel';
 import './home.css';
 import ProfilePic from '../../../../images/me_drawn/profile_pic_drawn.jpg';
 import SneezePicStart from '../../../../images/me_drawn/profile_pic_drawn_2.jpg';
@@ -9,6 +10,8 @@ import SneezingUnsatisfied from '../../../../images/me_drawn/profile_pic_drawn_4
 export default class Home extends React.Component {
     constructor() {
         super();
+
+        this.descriptionCarousel = ['Full-Stack Web Developer', 'Data Visualization Programmer', 'Laboratory Researcher', 'Bioinformatician', 'Computational Biologist', 'Scientist', 'Gamer'];
 
         this.moveBackground = false;
         this.hoveredProfilePic = 0;
@@ -31,18 +34,27 @@ export default class Home extends React.Component {
             setTimeout(() => {
                 document.getElementById('profilePic').src = ProfilePic;
             }, 1500);
-        }
-    }
+        };
+    };
+
+    componentDidMount() {
+        WordCarousel('descriptionText', this.descriptionCarousel);
+    };
 
     render() {
         return (
             <Suspense fallback={null}>
-                <div className="home App" id="home" onMouseMove={(e) => handleMoveBackground(e, 'home')}>
-                    <img className="profilePic" id="profilePic" src={ProfilePic} alt="Drawn version of me" loading="lazy" onMouseEnter={() => this.handleTriggerSneeze()} onClick={() => this.handleTriggerSneeze()} />
+                <div className="home App" id="home" onMouseMove={(e) => handleMoveBackground(e, 'home')} >
+                    <img 
+                        className="profilePic" id="profilePic" src={ProfilePic} alt="Drawn version of me" loading="lazy" 
+                        onMouseEnter={() => this.handleTriggerSneeze()} 
+                        onClick={() => this.handleTriggerSneeze()} 
+                    />
                     <h2 className="h2-description">
                         Alexander Joo-Hyun Sullivan
                     </h2>
-                    <h3 className="h3-description">
+                    <span id="descriptionText" className="carousel-description h3-description"></span>
+                    <h3 className="h3-description" hidden={true}>
                         Full-Stack Web Developer | Bioinformatician | Gamer
                     </h3>
                 </div>
