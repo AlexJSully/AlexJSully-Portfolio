@@ -1,19 +1,19 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import './projects.css';
 import ProjectsData from './projectsData.json';
 import { returnImages, returnFilterImages } from './components/imageImporter';
-const Grid = React.lazy(() => import('@material-ui/core/Grid'));
-const Card = React.lazy(() => import('@material-ui/core/Card'));
-const CardActionArea = React.lazy(() => import('@material-ui/core/CardActionArea'));
-const CardMedia = React.lazy(() => import('@material-ui/core/CardMedia'));
-const CardContent = React.lazy(() => import('@material-ui/core/CardContent'));
-const Typography = React.lazy(() => import('@material-ui/core/Typography'));
-const Accordion = React.lazy(() => import('@material-ui/core/Accordion'));
-const AccordionSummary = React.lazy(() => import('@material-ui/core/AccordionSummary'));
-const AccordionDetails = React.lazy(() => import('@material-ui/core/AccordionDetails'));
-const Switch = React.lazy(() => import('@material-ui/core/Switch'));
-const ExpandMoreIcon = React.lazy(() => import('@material-ui/icons/ExpandMore'));
-const Button = React.lazy(() => import('@material-ui/core/Button'));
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Switch from '@material-ui/core/Switch';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Button from '@material-ui/core/Button';
 
 export default class Toolbar extends React.Component {
     constructor() {
@@ -285,19 +285,17 @@ export default class Toolbar extends React.Component {
 
     render() {
         return (
-            <Suspense fallback={null}>
-                <div id="projectsContainer" className="projects-Container">
-                    <div id="projects" className="projects">
-                        <span className="project-Experiences">Experiences</span>
-                        <br />
-                        {this.state.displayFilter}
-                        <br />
-                        <Grid container spacing={3} className="projects-Grid">
-                            {this.state.displayJSX}
-                        </Grid>
-                    </div>
+            <div id="projectsContainer" className="projects-Container">
+                <div id="projects" className="projects">
+                    <span className="project-Experiences">Experiences</span>
+                    <br />
+                    {this.state.displayFilter}
+                    <br />
+                    <Grid container spacing={3} className="projects-Grid">
+                        {this.state.displayJSX}
+                    </Grid>
                 </div>
-            </Suspense>
+            </div>
         );
     };
 };

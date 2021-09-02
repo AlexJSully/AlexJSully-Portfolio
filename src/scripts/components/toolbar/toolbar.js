@@ -1,21 +1,19 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import './toolbar.css';
-const AppBar = React.lazy(() => import('@material-ui/core/AppBar'));
-const ToolBar = React.lazy(() => import('@material-ui/core/ToolBar'));
-const Button = React.lazy(() => import('@material-ui/core/Button'));
+import AppBar from '@material-ui/core/AppBar';
+import ToolBar from '@material-ui/core/ToolBar';
+import Button from '@material-ui/core/Button';
 
 export default class Toolbar extends React.Component {
     render() {
         return (
-            <Suspense fallback={null}>
-                <AppBar position="fixed">
-                    <ToolBar>
-                        <Button className="viewPoint-active">Home</Button>
-                        <Button>Experiences</Button>
-                        <Button>Contact</Button>
-                    </ToolBar>
-                </AppBar>
-            </Suspense>
+            <AppBar position="fixed">
+                <ToolBar>
+                    <Button className="viewPoint-active">Home</Button>
+                    <Button>Experiences</Button>
+                    <Button>Contact</Button>
+                </ToolBar>
+            </AppBar>
         );
     }
 }

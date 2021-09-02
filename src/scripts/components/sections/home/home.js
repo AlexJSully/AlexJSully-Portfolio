@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { handleMoveBackground } from '../../../interactivity/background-move';
 import { WordCarousel } from '../../../interactivity/word-carousel';
 import './home.css';
@@ -43,22 +43,20 @@ export default class Home extends React.Component {
 
     render() {
         return (
-            <Suspense fallback={null}>
-                <div className="home App" id="home" onMouseMove={(e) => handleMoveBackground(e, 'home')} >
-                    <img 
-                        className="profilePic" id="profilePic" src={ProfilePic} alt="Drawn version of me" loading="lazy" 
-                        onMouseEnter={() => this.handleTriggerSneeze()} 
-                        onClick={() => this.handleTriggerSneeze()} 
-                    />
-                    <h2 className="h2-description">
-                        Alexander Joo-Hyun Sullivan
-                    </h2>
-                    <span id="descriptionText" className="carousel-description h3-description"></span>
-                    <h3 className="h3-description" hidden={true}>
-                        Full-Stack Web Developer | Bioinformatician | Gamer
-                    </h3>
-                </div>
-            </Suspense>
+            <div className="home App" id="home" onMouseMove={(e) => handleMoveBackground(e, 'home')} >
+                <img 
+                    className="profilePic" id="profilePic" src={ProfilePic} alt="Drawn version of me" loading="lazy" 
+                    onMouseEnter={() => this.handleTriggerSneeze()} 
+                    onClick={() => this.handleTriggerSneeze()} 
+                />
+                <h2 className="h2-description">
+                    Alexander Joo-Hyun Sullivan
+                </h2>
+                <span id="descriptionText" className="carousel-description h3-description"></span>
+                <h3 className="h3-description" hidden={true}>
+                    Full-Stack Web Developer | Bioinformatician | Gamer
+                </h3>
+            </div>
         );
     }
 }

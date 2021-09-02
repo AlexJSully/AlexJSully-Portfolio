@@ -1,19 +1,17 @@
-import React, { Suspense} from 'react';
+import React from 'react';
 import './App.css';
-const Toolbar = React.lazy(() => import('./components/toolbar/toolbar'));
-const Home = React.lazy(() => import('./components/sections/home/home'));
-const Projects = React.lazy(() => import('./components/sections/projects/projects'));
+import Toolbar from './components/toolbar/toolbar';
+import Home from './components/sections/home/home';
+import Projects from './components/sections/projects/projects';
 
 export default class App extends React.Component {
   render() {
     return (
-        <Suspense fallback={null}>
-            <div className="App">
-                <Toolbar />
-                <Home />
-                <Projects />
-            </div>
-        </Suspense>
+      <div className="App">
+          <Toolbar />
+          <Home />
+          <Projects />
+      </div>
     );
   }
 }
