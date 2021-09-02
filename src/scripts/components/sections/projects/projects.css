@@ -54,14 +54,14 @@ hr {
     height: calc(100vh / 16 - 1em);
     width: calc(100vh / 16 - 1em);
     background-size: 100% !important;
-    border-radius: 50%;
+    border-radius: 25%;
     background-color: #f5f4f4;
     margin: auto;
-    transition: all 0.2s ease;
+    transition: all 0.5s ease;
 }
 
 .projects-KeywordThumbnail:hover {
-    background-size: 115% !important;
+    background-size: 125% !important;
     transition: all 0.2s ease;
 }
 
@@ -69,11 +69,11 @@ hr {
     height: calc(100vh / 16 - 1em);
     width: calc(100vh / 16 - 1em);
     background-size: 75% !important;
-    border-radius: 50%;
+    border-radius: 25%;
     background-color: #f5f4f4;
     margin: auto !important;
     filter: invert(0.75);
-    transition: all 0.2s ease;
+    transition: all 0.5s ease;
 }
 
 .filter-Filtering:hover {
@@ -124,12 +124,17 @@ hr {
 
 .filter-Reset {
     font-size: 0.5em !important;
-    background-color: #303f9f !important;
+    background-color: #343b42 !important;
+    border: 0.15em solid #0041b9 !important;
+    border-radius: 25% !important;
+    line-height: 2em !important;
+    transition: all 1s ease !important;
 }
 
 .filter-Reset:hover {
-    font-size: 0.5em !important;
-    background-color: #7e0707 !important;
+    background-color: #0041b9 !important;
+    border-radius: 5% !important; 
+    transition: all 0.25s ease !important;
 }
 
 /* Modify Material-UI */

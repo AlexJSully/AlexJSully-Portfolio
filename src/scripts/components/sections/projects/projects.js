@@ -287,7 +287,7 @@ export default class Toolbar extends React.Component {
         return (
             <div id="projectsContainer" className="projects-Container">
                 <div id="projects" className="projects">
-                    <span className="project-Experiences">Experiences</span>
+                    <span className="project-Experiences">Projects & Experience</span>
                     <br />
                     {this.state.displayFilter}
                     <br />

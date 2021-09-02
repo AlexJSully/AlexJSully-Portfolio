@@ -6,6 +6,17 @@
     background-size: 2000px;
 }
 
+.hover-Name {
+    cursor: default;
+    transition: all 5s ease;
+    text-shadow: 1px 2px 3px #666;
+}
+
+.hover-Name:hover {
+    transition: all 0.5s ease;
+    color: rgb(43, 255, 0);
+}
+
 .h2-description {
     text-shadow: 1px 2px 3px #666;
     margin: 0.5em;

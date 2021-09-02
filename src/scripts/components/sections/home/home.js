@@ -1,6 +1,7 @@
 import React from 'react';
 import { handleMoveBackground } from '../../../interactivity/background-move';
 import { WordCarousel } from '../../../interactivity/word-carousel';
+import { createHoverColourWords } from '../../../interactivity/create-hover-words'
 import './home.css';
 import ProfilePic from '../../../../images/me_drawn/profile_pic_drawn.jpg';
 import SneezePicStart from '../../../../images/me_drawn/profile_pic_drawn_2.jpg';
@@ -50,7 +51,7 @@ export default class Home extends React.Component {
                     onClick={() => this.handleTriggerSneeze()} 
                 />
                 <h2 className="h2-description">
-                    Alexander Joo-Hyun Sullivan
+                    {createHoverColourWords("Alexander Joo-Hyun Sullivan", 'hover-Name')}
                 </h2>
                 <span id="descriptionText" className="carousel-description h3-description"></span>
                 <h3 className="h3-description" hidden={true}>

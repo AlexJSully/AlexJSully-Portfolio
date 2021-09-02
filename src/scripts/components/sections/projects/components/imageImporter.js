@@ -42,7 +42,7 @@ export async function returnFilterImages(filterData, which) {
                 let thumbnail;
 
                 try {
-                    thumbnail = await import(`../../../../../images/projects/keyword_filtering/${value[i]}.svg`);
+                    thumbnail = await import(`../../../../../images/icons/${value[i]}.svg`);
                 } catch(error) {
                     // Nothing
                 };
