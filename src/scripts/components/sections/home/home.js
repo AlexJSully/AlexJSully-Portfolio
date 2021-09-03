@@ -1,7 +1,8 @@
 import React from 'react';
 import { handleMoveBackground } from '../../../interactivity/background-move';
 import { WordCarousel } from '../../../interactivity/word-carousel';
-import { createHoverColourWords } from '../../../interactivity/create-hover-words'
+import { createHoverColourWords } from '../../../interactivity/create-hover-words';
+import { aaaahhhh } from '../../../interactivity/aaaahhhh';
 import './home.css';
 import ProfilePic from '../../../../images/me_drawn/profile_pic_drawn.jpg';
 import SneezePicStart from '../../../../images/me_drawn/profile_pic_drawn_2.jpg';
@@ -16,30 +17,44 @@ export default class Home extends React.Component {
 
         this.moveBackground = false;
         this.hoveredProfilePic = 0;
+        this.sneezeCounter = 0;
+        this.aaahhh = false;
     };
 
     handleTriggerSneeze() {
-        this.hoveredProfilePic += 1;
+        if (!this.aaahhh) {
+            this.hoveredProfilePic += 1;
 
-        if (this.hoveredProfilePic % 5 === 0) {
-            document.getElementById('profilePic').src = SneezePicStart;
-
-            setTimeout(() => {
-                document.getElementById('profilePic').src = SneezingPic;
-            }, 500);
-
-            setTimeout(() => {
-                document.getElementById('profilePic').src = SneezingUnsatisfied;
-            }, 800);
-
-            setTimeout(() => {
-                document.getElementById('profilePic').src = ProfilePic;
-            }, 1500);
+            if (this.hoveredProfilePic % 5 === 0) {
+                if (this.sneezeCounter < 5) {
+                    document.getElementById('profilePic').src = SneezePicStart;
+    
+                    setTimeout(() => {
+                        document.getElementById('profilePic').src = SneezingPic;
+                    }, 500);
+        
+                    setTimeout(() => {
+                        document.getElementById('profilePic').src = SneezingUnsatisfied;
+                    }, 800);
+        
+                    setTimeout(() => {
+                        document.getElementById('profilePic').src = ProfilePic;
+                    }, 1500);
+    
+                    this.sneezeCounter += 1;
+                } else {
+                    this.aaahhh = true;
+                    setTimeout(() => {
+                        aaaahhhh();
+                    }, 2801);
+                    
+                };
+            };
         };
     };
 
     componentDidMount() {
-        WordCarousel('descriptionText', this.descriptionCarousel);
+        WordCarousel('description-Carousel', this.descriptionCarousel);
     };
 
     render() {
@@ -53,8 +68,8 @@ export default class Home extends React.Component {
                 <h2 className="h2-description">
                     {createHoverColourWords("Alexander Joo-Hyun Sullivan", 'hover-Name')}
                 </h2>
-                <span id="descriptionText" className="carousel-description h3-description"></span>
-                <h3 className="h3-description" hidden={true}>
+                <span id="description-Carousel" className="carousel-description h3-description"></span>
+                <h3 className="h3-description" id="no-motion-description" hidden={true}>
                     Full-Stack Web Developer | Bioinformatician | Gamer
                 </h3>
             </div>
