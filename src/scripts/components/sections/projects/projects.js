@@ -148,10 +148,10 @@ export default class Toolbar extends React.Component {
                                     id="andOrSwitcher"
                                 />
                                 OR
+                                <br />
+                                <Button variant="contained" color="primary" className="filter-Reset" onClick={() => this.resetFilters()}>Reset Filters</Button>
                             </Grid>
                             {filterJSX}
-                            <br />
-                            <Button variant="contained" color="primary" className="filter-Reset" onClick={() => this.resetFilters()}>Reset Filters</Button>
                         </Grid>
                     </AccordionDetails>
                 </Accordion>

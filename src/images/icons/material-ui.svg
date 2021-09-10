@@ -1,1 +1,55 @@
-<svg viewBox="0 0 600 476.6" xmlns="http://www.w3.org/2000/svg"><path d="m0 259.8v-259.8l225 129.9v86.6l-150-86.6v173.2z" fill="#00b0ff"/><path d="m225 129.9 225-129.9v259.8l-150 86.6-75-43.3 150-86.6v-86.6l-150 86.6z" fill="#0081cb"/><path d="m225 303.1v86.6l150 86.6v-86.6z" fill="#00b0ff"/><path d="m375 476.3 225-129.9v-173.2l-75 43.3v86.6l-150 86.6zm150-346.4v-86.6l75-43.3v86.6z" fill="#0081cb"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 50 49.999999"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="material-ui.svg"
+   width="50"
+   height="50"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     showgrid="false"
+     width="50px"
+     inkscape:zoom="1.7456987"
+     inkscape:cx="152.66094"
+     inkscape:cy="130.32031"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="80"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg10" />
+  <path
+     d="M 0,26.804167 V 5.1541667 L 18.75,15.979167 v 7.216667 L 6.25,15.979167 V 30.4125 Z"
+     fill="#00b0ff"
+     id="path2"
+     style="stroke-width:0.0833333" />
+  <path
+     d="M 18.75,15.979167 37.5,5.1541667 V 26.804167 L 25,34.020834 18.75,30.4125 31.25,23.195834 v -7.216667 l -12.5,7.216667 z"
+     fill="#0081cb"
+     id="path4"
+     style="stroke-width:0.0833333" />
+  <path
+     d="m 18.75,30.4125 v 7.216667 l 12.5,7.216667 v -7.216667 z"
+     fill="#00b0ff"
+     id="path6"
+     style="stroke-width:0.0833333" />
+  <path
+     d="M 31.25,44.845834 50,34.020834 V 19.5875 l -6.25,3.608334 V 30.4125 l -12.5,7.216667 z M 43.75,15.979167 V 8.7625 L 50,5.1541667 v 7.2166663 z"
+     fill="#0081cb"
+     id="path8"
+     style="stroke-width:0.0833333" />
+</svg>
