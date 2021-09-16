@@ -8,6 +8,10 @@ import ProfilePic from '../../../../images/me_drawn/profile_pic_drawn.jpg';
 import SneezePicStart from '../../../../images/me_drawn/profile_pic_drawn_2.jpg';
 import SneezingPic from '../../../../images/me_drawn/profile_pic_drawn_3.jpg';
 import SneezingUnsatisfied from '../../../../images/me_drawn/profile_pic_drawn_4.jpg';
+// Material-UI
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 export default class Home extends React.Component {
     constructor() {
@@ -19,6 +23,10 @@ export default class Home extends React.Component {
         this.hoveredProfilePic = 0;
         this.sneezeCounter = 0;
         this.aaahhh = false;
+
+        this.state = {
+            displayAccessibilityToggles: null
+        };
     };
 
     handleTriggerSneeze() {
@@ -53,13 +61,46 @@ export default class Home extends React.Component {
         };
     };
 
+    handleGlobalDyslexia() {
+        if (document.getElementById('dyslexia-toggle').checked) {
+            document.getElementsByTagName('body')[0].classList.add('dyslexia-global');
+        } else {
+            document.getElementsByTagName('body')[0].classList.remove('dyslexia-global');
+        };
+    };
+
+    createAccessibilityToggles() {
+        if (!this.state.displayAccessibilityToggles) {
+            this.setState({
+                displayAccessibilityToggles: (
+                    <FormGroup row className="accessibility-toggles">
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    id="dyslexia-toggle"
+                                    onChange={() => this.handleGlobalDyslexia()}
+                                    color="secondary"
+                                />
+                            }
+                            className="dyslexia-toggle"
+                            label="Dyslexic Font"
+                            title="Change all font to OpenDyslexic2"
+                        />
+                    </FormGroup>
+                )
+            });
+        };
+    };
+
     componentDidMount() {
         WordCarousel('description-Carousel', this.descriptionCarousel);
+        this.createAccessibilityToggles();
     };
 
     render() {
         return (
             <div className="home App" id="home" onMouseMove={(e) => handleMoveBackground(e, 'home')} >
+                {this.state.displayAccessibilityToggles}
                 <img 
                     className="profilePic" id="profilePic" src={ProfilePic} alt="Drawn version of me" loading="lazy" 
                     onMouseEnter={() => this.handleTriggerSneeze()} 

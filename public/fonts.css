@@ -1,0 +1,8 @@
+@font-face {
+    font-family: OpenDyslexia2;
+    src: url(./fonts/OpenDyslexic2/OpenDyslexic-Regular.otf);
+}
+
+.dyslexia-global {
+    font-family: OpenDyslexia2 !important;
+}

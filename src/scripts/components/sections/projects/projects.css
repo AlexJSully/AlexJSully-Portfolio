@@ -169,3 +169,12 @@ hr {
     background-color: #272B2F !important;
     transition: all 0.2s ease;
 }
+
+/* Accessibility */
+.dyslexia-global .MuiTypography-root {
+    font-family: OpenDyslexia2 !important;
+}
+
+.dyslexia-global .MuiButton-label {
+    font-family: OpenDyslexia2 !important;
+}

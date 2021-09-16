@@ -41,3 +41,20 @@
     width: 20%;
     border-radius: 50%;
 }
+
+.accessibility-toggles {
+    position: absolute;
+    top: 0;
+    margin: 1%;
+}
+
+.dyslexia-toggle .MuiTypography-root {
+    font-family: OpenDyslexia2 !important;
+    font-size: 0.6em;
+}
+
+/* Material-UI */
+.MuiCheckbox-root {
+    color: #08f500 !important;
+    transition: all 0.5s ease;
+}
