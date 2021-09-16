@@ -7,10 +7,10 @@ import Contact from './components/sections/contact/contact';
 export default class App extends React.Component {
   render() {
     return (
-      <div className="App">
-          <Home />
-          <Projects />
-          <Contact />
+      <div className="App" key={'App-section'}>
+          <Home key={'Home-section'} />
+          <Projects key={'Projects-section'} />
+          <Contact key={'Contact-section'} />
       </div>
     );
   }

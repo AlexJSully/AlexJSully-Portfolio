@@ -137,6 +137,15 @@ hr {
     transition: all 0.25s ease !important;
 }
 
+/* Accessibility */
+.dyslexia-global .MuiTypography-root {
+    font-family: OpenDyslexia2 !important;
+}
+
+.dyslexia-global .MuiButton-label {
+    font-family: OpenDyslexia2 !important;
+}
+
 /* Modify Material-UI */
 .MuiGrid-spacing-xs-2 {
     width: auto !important;
@@ -170,11 +179,6 @@ hr {
     transition: all 0.2s ease;
 }
 
-/* Accessibility */
-.dyslexia-global .MuiTypography-root {
-    font-family: OpenDyslexia2 !important;
-}
-
-.dyslexia-global .MuiButton-label {
-    font-family: OpenDyslexia2 !important;
+.MuiGrid-spacing-xs-2 {
+    width: 100%;
 }

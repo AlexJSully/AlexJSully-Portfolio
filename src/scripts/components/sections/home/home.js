@@ -9,7 +9,6 @@ import SneezePicStart from '../../../../images/me_drawn/profile_pic_drawn_2.jpg'
 import SneezingPic from '../../../../images/me_drawn/profile_pic_drawn_3.jpg';
 import SneezingUnsatisfied from '../../../../images/me_drawn/profile_pic_drawn_4.jpg';
 // Material-UI
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
@@ -73,20 +72,20 @@ export default class Home extends React.Component {
         if (!this.state.displayAccessibilityToggles) {
             this.setState({
                 displayAccessibilityToggles: (
-                    <FormGroup row className="accessibility-toggles">
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    id="dyslexia-toggle"
-                                    onChange={() => this.handleGlobalDyslexia()}
-                                    color="secondary"
-                                />
-                            }
-                            className="dyslexia-toggle"
-                            label="Dyslexic Font"
-                            title="Change all font to OpenDyslexic2"
-                        />
-                    </FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                id="dyslexia-toggle"
+                                onChange={() => this.handleGlobalDyslexia()}
+                                color="secondary"
+                                key="dyslexia-toggle"
+                            />
+                        }
+                        className="accessibility-toggles dyslexia-toggle"
+                        label="Dyslexic Font"
+                        title="Change all font to OpenDyslexic2"
+                        key="accessibility-toggles"
+                    />
                 )
             });
         };
@@ -99,18 +98,23 @@ export default class Home extends React.Component {
 
     render() {
         return (
-            <div className="home App" id="home" onMouseMove={(e) => handleMoveBackground(e, 'home')} >
+            <div className="home App" id="home" key="home-Container" onMouseMove={(e) => handleMoveBackground(e, 'home')} >
                 {this.state.displayAccessibilityToggles}
                 <img 
-                    className="profilePic" id="profilePic" src={ProfilePic} alt="Drawn version of me" loading="lazy" 
+                    className="profilePic" 
+                    id="profilePic" 
+                    key="home-ProfilePic"
+                    src={ProfilePic} 
+                    alt="Drawn version of me" 
+                    loading="lazy" 
                     onMouseEnter={() => this.handleTriggerSneeze()} 
                     onClick={() => this.handleTriggerSneeze()} 
                 />
-                <h2 className="h2-description">
+                <h2 className="h2-description" key="home-Name">
                     {createHoverColourWords("Alexander Joo-Hyun Sullivan", 'hover-Name')}
                 </h2>
-                <span id="description-Carousel" className="carousel-description h3-description"></span>
-                <h3 className="h3-description" id="no-motion-description" hidden={true}>
+                <span id="description-Carousel" className="carousel-description h3-description" key="home-DescriptionCarousel"></span>
+                <h3 className="h3-description" id="no-motion-description" key="home-NoMotionDescription" hidden={true}>
                     Full-Stack Web Developer | Bioinformatician | Gamer
                 </h3>
             </div>

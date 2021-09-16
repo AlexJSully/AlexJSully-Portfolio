@@ -40,6 +40,7 @@ export default class Contact extends React.Component {
             socialMediaIcons.push(
                 <Button
                     href={value?.url}
+                    key={`contact-button-${value?.text}-social`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="contact-Button"
@@ -47,23 +48,23 @@ export default class Contact extends React.Component {
                     title={value?.text}
                 />
             );
-        }
+        };
         
         return socialMediaIcons;
     };
 
     render() {
         return (
-            <div id="contactContainer" className="contact-Container">
-                <div id="contact" className="contact">
-                    <p>
+            <div id="contactContainer" className="contact-Container" key="contact-Container">
+                <div id="contact" className="contact" key="contact-Contact">
+                    <p key="contact-Text">
                         Interested in working together? <br />
-                        <Button className="workTogether-Button" variant="contained" color="primary" href={`mailto:${this.email}`}>
+                        <Button className="workTogether-Button" variant="contained" color="primary" href={`mailto:${this.email}`}  key="contact-Email">
                             Email
                         </Button>
                     </p>
                     {this.socialMediaIcons()}
-                    <p className="contact-Footer">
+                    <p className="contact-Footer" key="contact-Footer">
                         Handcrafted by <br />
                         <CopyrightIcon/>Alexander Joo-Hyun Sullivan
                     </p>

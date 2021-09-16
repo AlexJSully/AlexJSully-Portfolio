@@ -51,6 +51,7 @@
 .dyslexia-toggle .MuiTypography-root {
     font-family: OpenDyslexia2 !important;
     font-size: 0.6em;
+    text-shadow: 1px 2px 3px #666;
 }
 
 /* Material-UI */

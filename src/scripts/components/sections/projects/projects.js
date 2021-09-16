@@ -15,7 +15,7 @@ import Switch from '@material-ui/core/Switch';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 
-export default class Toolbar extends React.Component {
+export default class Projects extends React.Component {
     constructor() {
         super();
 
@@ -88,8 +88,8 @@ export default class Toolbar extends React.Component {
 
                 if (keywordThumbnail) {
                     innerFilterJSX.push(
-                        <Card className="projects-Card filter-Cards">
-                            <CardActionArea className="filter-ActionCard" onClick={() => this.filterProjects(`${value[i]}`)} id={`${value[i]}_card`}>
+                        <Card className="projects-Card filter-Cards" key={`${key}-${value[i]}-Card`}>
+                            <CardActionArea className="filter-ActionCard" onClick={() => this.filterProjects(`${value[i]}`)} id={`${value[i]}_card`}  key={`${key}-${value[i]}-CardAction`}>
                                 <CardMedia
                                     id={`${value[i]}_filter`}
                                     className="projects-KeywordThumbnail"
@@ -105,9 +105,9 @@ export default class Toolbar extends React.Component {
 
             filterJSX.push(
                 <Grid item xs={12} md={colSize} key={`${key}-filtering`} className="projects-DisplayContainer" >
-                    <Card className="projects-Card">
-                        <CardContent>
-                            <Grid container>
+                    <Card className="projects-Card" key={`${key}-Card`}>
+                        <CardContent key={`${key}-CardContent`}>
+                            <Grid container key={`${key}-GridContainer`}>
                                 {innerFilterJSX}
                             </Grid>
                         </CardContent>
@@ -120,21 +120,22 @@ export default class Toolbar extends React.Component {
             let toDisplay = [];
 
             toDisplay.push(
-                <Accordion className="filter-Accordion" >
+                <Accordion className="filter-Accordion" key={`filter-Accordion`}>
                     <AccordionSummary
                         className="filter-AccordionHeader"
                         aria-controls="filter-content"
                         id="filter-header"
                         onClick={() => this.flipExpandIcon()}
+                        key={`filter-Summary`}
                     >
-                        <Typography className="filter-Header">
-                            Filter <ExpandMoreIcon className="filter-Expand" id="filter-Expand" fontSize="large" />
+                        <Typography className="filter-Header" key={`filter-HeaderText`}>
+                            Filter <ExpandMoreIcon className="filter-Expand" id="filter-Expand" fontSize="large" key={`filter-ExpandMoreIcon`}/>
                         </Typography>
                     </AccordionSummary>
-                    <AccordionDetails>
-                        <Grid container spacing={3} className="projects-Grid">
-                            <Grid item xs={12} className="filter-Switcher">
-                                <p className="filter-SwitcherDescription">
+                    <AccordionDetails key={`filter-AccordionDetails`}>
+                        <Grid container spacing={3} className="projects-Grid" key={`filter-AccordionGrid`}>
+                            <Grid item xs={12} className="filter-Switcher" key={`filter-AccordionSwitcher`}>
+                                <p className="filter-SwitcherDescription" key={`filter-AccordionSwitcherDescription`}>
                                     Select one or more icons to filter my experiences. <br/>
                                     Toggle between "AND" for experiences that contain all selected filters, <br />
                                     or "OR" for experiences that contain at least one selected filter.
@@ -146,10 +147,11 @@ export default class Toolbar extends React.Component {
                                     name="checkedB"
                                     inputProps={{ 'aria-label': 'primary checkbox' }}
                                     id="andOrSwitcher"
+                                    key={`filter-AccordionSwitch`}
                                 />
                                 OR
                                 <br />
-                                <Button variant="contained" color="primary" className="filter-Reset" onClick={() => this.resetFilters()}>Reset Filters</Button>
+                                <Button variant="contained" color="primary" className="filter-Reset" onClick={() => this.resetFilters()} key={`filter-Reset`}>Reset Filters</Button>
                             </Grid>
                             {filterJSX}
                         </Grid>
@@ -257,7 +259,7 @@ export default class Toolbar extends React.Component {
                                         <Typography gutterBottom variant="h5" component="h2">
                                             {value?.name}
                                         </Typography>
-                                        <Typography variant="body1" color="white" component="p">
+                                        <Typography variant="body1" component="p">
                                             {value?.['most-recent-title']}
                                         </Typography>
                                         <hr />
@@ -285,13 +287,13 @@ export default class Toolbar extends React.Component {
 
     render() {
         return (
-            <div id="projectsContainer" className="projects-Container">
-                <div id="projects" className="projects">
-                    <span className="project-Experiences">Projects & Experience</span>
+            <div id="projectsContainer" className="projects-Container" key={`projects-Container`}>
+                <div id="projects" className="projects" key={`projects`}>
+                    <span className="project-Experiences" key={`projects-Title`}>Projects & Experience</span>
                     <br />
                     {this.state.displayFilter}
                     <br />
-                    <Grid container spacing={3} className="projects-Grid">
+                    <Grid container spacing={2} className="projects-Grid" key={`projects-Grid`}>
                         {this.state.displayJSX}
                     </Grid>
                 </div>

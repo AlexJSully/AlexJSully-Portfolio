@@ -7,7 +7,7 @@
       "url": "https://twitter.com/AlexJSully"
     }
   ],
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": true,
   "description": "My portfolio website",
   "dependencies": {
