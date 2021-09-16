@@ -1,0 +1,37 @@
+.policy-button {
+    margin-left: 0.5em !important;
+}
+
+/* Material-UI */
+.MuiButton-outlinedSecondary {
+    color: #fff !important;
+    border: 1px solid #08f500 !important;
+}
+
+.MuiButton-outlinedSecondary:hover {
+    background-color: #0b52d8 !important;
+    border: 1px solid #0b52d8 !important;
+    transition: all 0.25s ease !important;
+}
+
+.MuiDialog-paper {
+    min-width: 65% !important;
+    max-width: 85% !important;
+    max-height: 75% !important;
+    color: #fff !important;
+    background-color: #343941 !important;
+}
+
+.MuiDialog-paper a {
+    color: rgb(99, 228, 80) !important;
+    text-decoration: none;
+}
+
+.MuiSnackbarContent-message {
+    text-align: center;
+    margin: auto !important;
+}
+
+.MuiSnackbarContent-action {
+    margin: auto !important;
+}

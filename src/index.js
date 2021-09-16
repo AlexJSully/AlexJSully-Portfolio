@@ -4,6 +4,8 @@ import './index.css';
 import App from './scripts/App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+// eslint-disable-next-line no-unused-vars
+import * as firebase from './firebase';
 
 ReactDOM.render(
   <App />,
