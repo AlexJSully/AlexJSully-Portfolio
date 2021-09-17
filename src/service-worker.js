@@ -9,6 +9,7 @@
 
 import { clientsClaim } from 'workbox-core';
 import { precacheAndRoute } from 'workbox-precaching';
+import * as googleAnalytics from 'workbox-google-analytics';
 
 clientsClaim();
 
@@ -25,3 +26,7 @@ self.addEventListener('message', (event) => {
     self.skipWaiting();
   }
 });
+
+// Offline Google Analytics
+// Want offline analytics for your offline PWA? No problem.
+googleAnalytics.initialize();

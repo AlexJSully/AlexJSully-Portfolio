@@ -1,4 +1,4 @@
-import aaaaaahhhhhh from '../../images/aaaahhhh/aaaahhhh.jpg';
+import aaaaaahhhhhh from '../../images/aaaahhhh/aaaahhhh.webp';
 
 export function aaaahhhh() {
     imageAAAAHHHH();

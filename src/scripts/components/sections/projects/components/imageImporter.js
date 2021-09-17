@@ -22,6 +22,14 @@ export async function returnImages(which, type) {
                 };
             };
 
+            if (!thumbnail) {
+                try {
+                    thumbnail = await import(`../../../../../images/projects/${key}/thumbnail.webp`);
+                } catch(error) {
+                    // Nothing
+                };
+            };
+
             images[key] = {};
             images[key]['thumbnail'] = thumbnail?.default;
         };

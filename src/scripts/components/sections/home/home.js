@@ -4,10 +4,10 @@ import { WordCarousel } from '../../../interactivity/word-carousel';
 import { createHoverColourWords } from '../../../interactivity/create-hover-words';
 import { aaaahhhh } from '../../../interactivity/aaaahhhh';
 import './home.css';
-import ProfilePic from '../../../../images/me_drawn/profile_pic_drawn.jpg';
-import SneezePicStart from '../../../../images/me_drawn/profile_pic_drawn_2.jpg';
-import SneezingPic from '../../../../images/me_drawn/profile_pic_drawn_3.jpg';
-import SneezingUnsatisfied from '../../../../images/me_drawn/profile_pic_drawn_4.jpg';
+import ProfilePic from '../../../../images/me_drawn/profile_pic_drawn.webp';
+import SneezePicStart from '../../../../images/me_drawn/profile_pic_drawn_2.webp';
+import SneezingPic from '../../../../images/me_drawn/profile_pic_drawn_3.webp';
+import SneezingUnsatisfied from '../../../../images/me_drawn/profile_pic_drawn_4.webp';
 // Material-UI
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -105,7 +105,7 @@ export default class Home extends React.Component {
                     id="profilePic" 
                     key="home-ProfilePic"
                     src={ProfilePic} 
-                    alt="Drawn version of me" 
+                    alt="Drawn version of me"
                     loading="lazy" 
                     onMouseEnter={() => this.handleTriggerSneeze()} 
                     onClick={() => this.handleTriggerSneeze()} 
