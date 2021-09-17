@@ -1,13 +1,13 @@
-import React from 'react';
-import Cookies from './cookies.js';
-import Privacy from './privacy.js';
+import React, { Suspense } from 'react';
 import './policy.css';
+const Cookies = React.lazy(() => import('./cookies'));
+const Privacy = React.lazy(() => import('./privacy'));
 // Material-UI
-import Snackbar from '@material-ui/core/Snackbar';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
+const Snackbar = React.lazy(() => import('@material-ui/core/Snackbar'));
+const Button = React.lazy(() => import('@material-ui/core/Button'));
+const Dialog = React.lazy(() => import('@material-ui/core/Dialog'));
+const DialogTitle = React.lazy(() => import('@material-ui/core/DialogTitle'));
+const DialogContent = React.lazy(() => import('@material-ui/core/DialogContent'));
 
 export default class Policy extends React.Component {
     constructor() {
@@ -114,7 +114,7 @@ export default class Policy extends React.Component {
 
     render() {
         return (
-            <React.Fragment>
+            <Suspense fallback={null}>
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'bottom',
@@ -150,7 +150,7 @@ export default class Policy extends React.Component {
                         <Privacy />
                     </DialogContent>
                 </Dialog>
-            </React.Fragment>
+            </Suspense>
         );
     };
 };

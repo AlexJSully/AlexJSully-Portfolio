@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './projects.css';
 import ProjectsData from './projectsData.json';
 import { returnImages, returnFilterImages } from './components/imageImporter';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Switch from '@material-ui/core/Switch';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Button from '@material-ui/core/Button';
+const Grid = React.lazy(() => import('@material-ui/core/Grid'));
+const Card = React.lazy(() => import('@material-ui/core/Card'));
+const CardActionArea = React.lazy(() => import('@material-ui/core/CardActionArea'));
+const CardContent = React.lazy(() => import('@material-ui/core/CardContent'));
+const CardMedia = React.lazy(() => import('@material-ui/core/CardMedia'));
+const Typography = React.lazy(() => import('@material-ui/core/Typography'));
+const Accordion = React.lazy(() => import('@material-ui/core/Accordion'));
+const AccordionSummary = React.lazy(() => import('@material-ui/core/AccordionSummary'));
+const AccordionDetails = React.lazy(() => import('@material-ui/core/AccordionDetails'));
+const ExpandMoreIcon = React.lazy(() => import('@material-ui/icons/ExpandMore'));
+const Switch = React.lazy(() => import('@material-ui/core/Switch'));
+const Button = React.lazy(() => import('@material-ui/core/Button'));
 
 export default class Projects extends React.Component {
     constructor() {
@@ -287,17 +287,19 @@ export default class Projects extends React.Component {
 
     render() {
         return (
-            <div id="projectsContainer" className="projects-Container" key={`projects-Container`}>
-                <div id="projects" className="projects" key={`projects`}>
-                    <span className="project-Experiences" key={`projects-Title`}>Projects & Experience</span>
-                    <br />
-                    {this.state.displayFilter}
-                    <br />
-                    <Grid container spacing={2} className="projects-Grid" key={`projects-Grid`}>
-                        {this.state.displayJSX}
-                    </Grid>
+            <Suspense fallback={null}>
+                <div id="projectsContainer" className="projects-Container" key={`projects-Container`}>
+                    <div id="projects" className="projects" key={`projects`}>
+                        <span className="project-Experiences" key={`projects-Title`}>Projects & Experience</span>
+                        <br />
+                        {this.state.displayFilter}
+                        <br />
+                        <Grid container spacing={2} className="projects-Grid" key={`projects-Grid`}>
+                            {this.state.displayJSX}
+                        </Grid>
+                    </div>
                 </div>
-            </div>
+            </Suspense>
         );
     };
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { handleMoveBackground } from '../../../interactivity/background-move';
 import { WordCarousel } from '../../../interactivity/word-carousel';
 import { createHoverColourWords } from '../../../interactivity/create-hover-words';
@@ -9,8 +9,8 @@ import SneezePicStart from '../../../../images/me_drawn/profile_pic_drawn_2.webp
 import SneezingPic from '../../../../images/me_drawn/profile_pic_drawn_3.webp';
 import SneezingUnsatisfied from '../../../../images/me_drawn/profile_pic_drawn_4.webp';
 // Material-UI
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+const FormControlLabel = React.lazy(() => import('@material-ui/core/FormControlLabel'));
+const Checkbox = React.lazy(() => import('@material-ui/core/Checkbox'));
 
 export default class Home extends React.Component {
     constructor() {
@@ -98,26 +98,28 @@ export default class Home extends React.Component {
 
     render() {
         return (
-            <div className="home App" id="home" key="home-Container" onMouseMove={(e) => handleMoveBackground(e, 'home')} >
-                {this.state.displayAccessibilityToggles}
-                <img 
-                    className="profilePic" 
-                    id="profilePic" 
-                    key="home-ProfilePic"
-                    src={ProfilePic} 
-                    alt="Drawn version of me"
-                    loading="lazy" 
-                    onMouseEnter={() => this.handleTriggerSneeze()} 
-                    onClick={() => this.handleTriggerSneeze()} 
-                />
-                <h2 className="h2-description" key="home-Name">
-                    {createHoverColourWords("Alexander Joo-Hyun Sullivan", 'hover-Name')}
-                </h2>
-                <span id="description-Carousel" className="carousel-description h3-description" key="home-DescriptionCarousel"></span>
-                <h3 className="h3-description" id="no-motion-description" key="home-NoMotionDescription" hidden={true}>
-                    Full-Stack Web Developer | Bioinformatician | Gamer
-                </h3>
-            </div>
+            <Suspense fallback={null}>
+                <div className="home App" id="home" key="home-Container" onMouseMove={(e) => handleMoveBackground(e, 'home')} >
+                    {this.state.displayAccessibilityToggles}
+                    <img 
+                        className="profilePic" 
+                        id="profilePic" 
+                        key="home-ProfilePic"
+                        src={ProfilePic} 
+                        alt="Drawn version of me"
+                        loading="lazy" 
+                        onMouseEnter={() => this.handleTriggerSneeze()} 
+                        onClick={() => this.handleTriggerSneeze()} 
+                    />
+                    <h2 className="h2-description" key="home-Name">
+                        {createHoverColourWords("Alexander Joo-Hyun Sullivan", 'hover-Name')}
+                    </h2>
+                    <span id="description-Carousel" className="carousel-description h3-description" key="home-DescriptionCarousel"></span>
+                    <h3 className="h3-description" id="no-motion-description" key="home-NoMotionDescription" hidden={true}>
+                        Full-Stack Web Developer | Bioinformatician | Gamer
+                    </h3>
+                </div>
+            </Suspense>
         );
     }
 }

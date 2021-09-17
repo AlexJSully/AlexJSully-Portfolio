@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './contact.css';
-import Button from '@material-ui/core/Button';
+const Button = React.lazy(() => import('@material-ui/core/Button'));
 // Icons
-import TwitterIcon from '@material-ui/icons/Twitter';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import CopyrightIcon from '@material-ui/icons/Copyright';
+const TwitterIcon = React.lazy(() => import('@material-ui/icons/Twitter'));
+const GitHubIcon = React.lazy(() => import('@material-ui/icons/GitHub'));
+const LinkedInIcon = React.lazy(() => import('@material-ui/icons/LinkedIn'));
+const CopyrightIcon = React.lazy(() => import('@material-ui/icons/Copyright'));
 
 export default class Contact extends React.Component {
     constructor(props) {
@@ -55,21 +55,23 @@ export default class Contact extends React.Component {
 
     render() {
         return (
-            <div id="contactContainer" className="contact-Container" key="contact-Container">
-                <div id="contact" className="contact" key="contact-Contact">
-                    <p key="contact-Text">
-                        Interested in working together? <br />
-                        <Button className="workTogether-Button" variant="contained" color="primary" href={`mailto:${this.email}`}  key="contact-Email">
-                            Email
-                        </Button>
-                    </p>
-                    {this.socialMediaIcons()}
-                    <p className="contact-Footer" key="contact-Footer">
-                        Handcrafted by <br />
-                        <CopyrightIcon/>Alexander Joo-Hyun Sullivan
-                    </p>
+            <Suspense fallback={null}>
+                <div id="contactContainer" className="contact-Container" key="contact-Container">
+                    <div id="contact" className="contact" key="contact-Contact">
+                        <p key="contact-Text">
+                            Interested in working together? <br />
+                            <Button className="workTogether-Button" variant="contained" color="primary" href={`mailto:${this.email}`}  key="contact-Email">
+                                Email
+                            </Button>
+                        </p>
+                        {this.socialMediaIcons()}
+                        <p className="contact-Footer" key="contact-Footer">
+                            Handcrafted by <br />
+                            <CopyrightIcon/>Alexander Joo-Hyun Sullivan
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </Suspense>
         );
     }
 }
