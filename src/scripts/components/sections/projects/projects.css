@@ -61,7 +61,7 @@ hr {
 }
 
 .projects-KeywordThumbnail:hover {
-    background-size: 125% !important;
+    background-size: 115% !important;
     transition: all 0.2s ease;
 }
 
@@ -77,7 +77,7 @@ hr {
 }
 
 .filter-Filtering:hover {
-    background-size: 90% !important;
+    background-size: 85% !important;
     transition: all 0.2s ease;
 }
 

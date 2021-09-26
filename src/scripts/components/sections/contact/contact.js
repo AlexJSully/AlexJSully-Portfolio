@@ -1,16 +1,18 @@
 import React, { Suspense } from 'react';
 import './contact.css';
-const Button = React.lazy(() => import('@material-ui/core/Button'));
+const Button = React.lazy(() => import('@mui/material/Button'));
 // Icons
-const TwitterIcon = React.lazy(() => import('@material-ui/icons/Twitter'));
-const GitHubIcon = React.lazy(() => import('@material-ui/icons/GitHub'));
-const LinkedInIcon = React.lazy(() => import('@material-ui/icons/LinkedIn'));
-const CopyrightIcon = React.lazy(() => import('@material-ui/icons/Copyright'));
+const TwitterIcon = React.lazy(() => import('@mui/icons-material/Twitter'));
+const GitHubIcon = React.lazy(() => import('@mui/icons-material/GitHub'));
+const LinkedInIcon = React.lazy(() => import('@mui/icons-material/LinkedIn'));
+const CopyrightIcon = React.lazy(() => import('@mui/icons-material/Copyright'));
 
+/** Contact section of UI */
 export default class Contact extends React.Component {
     constructor(props) {
         super(props);
 
+        /** Social media information */
         this.socialMediaInfo = {
             "Twitter": {
                 "url": "https://twitter.com/alexjsully",
@@ -29,10 +31,16 @@ export default class Contact extends React.Component {
             }
         };
 
+        /** Public email address */
         this.email = `alexjsully.connect@outlook.com`;
     };
 
+    /**
+     * Create social media icons
+     * @returns {JSX.Element[]} JSX of social media icons
+     */
     socialMediaIcons() {
+        /** Social media icons */
         let socialMediaIcons = [];
 
         // eslint-disable-next-line no-unused-vars
@@ -73,5 +81,5 @@ export default class Contact extends React.Component {
                 </div>
             </Suspense>
         );
-    }
-}
+    };
+};

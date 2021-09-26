@@ -1,8 +1,16 @@
 import ProjectsData from '../projectsData.json';
 
+// Image data
 let images = {};
 
+/**
+ * Return project thumbnails
+ * @param {String} which Which project you want returned
+ * @param {String} type Which project image you want returned (currently only thumbnails available)
+ * @returns {String} Directory path to project image
+ */
 export async function returnImages(which, type) {
+    // Grab all images on first time this function is called
     if (Object.keys(images).length < 1) {
         // eslint-disable-next-line no-unused-vars
         for (const [key, value] of Object.entries(ProjectsData)) {
@@ -35,14 +43,25 @@ export async function returnImages(which, type) {
         };
     };
     
+    // If image exists, then return it
     if (images?.[which.toString()]?.[type.toString()]) {
         return images[which.toString()][type.toString()];
+    } else {
+        return undefined;
     };
 };
 
+// All filter option thumbnails
 let filterImages = {};
 
+/**
+ * Return desired filter image thumbnail
+ * @param {String} filterData All filter data
+ * @param {String} which Which filtered image thumbnail you want returned 
+ * @returns {String} Directory path to filter image thumbnail
+ */
 export async function returnFilterImages(filterData, which) {
+    // Grab all images on first time this function is called
     if (Object.keys(filterImages).length < 1) {
         // eslint-disable-next-line no-unused-vars
         for (const [key, value] of Object.entries(filterData)) {
@@ -60,7 +79,10 @@ export async function returnFilterImages(filterData, which) {
         };
     };
     
+    // If image exists, then return it
     if (filterImages?.[which.toString()]) {
         return filterImages[which.toString()];
+    } else {
+        return undefined;
     };
 };

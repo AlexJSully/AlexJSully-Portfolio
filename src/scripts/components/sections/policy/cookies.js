@@ -1,5 +1,6 @@
 import React from 'react';
 
+/** Cookies */
 export default class Cookies extends React.Component {
     render() {
         return (

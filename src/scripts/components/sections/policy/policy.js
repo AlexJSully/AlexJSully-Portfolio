@@ -3,12 +3,13 @@ import './policy.css';
 const Cookies = React.lazy(() => import('./cookies'));
 const Privacy = React.lazy(() => import('./privacy'));
 // Material-UI
-const Snackbar = React.lazy(() => import('@material-ui/core/Snackbar'));
-const Button = React.lazy(() => import('@material-ui/core/Button'));
-const Dialog = React.lazy(() => import('@material-ui/core/Dialog'));
-const DialogTitle = React.lazy(() => import('@material-ui/core/DialogTitle'));
-const DialogContent = React.lazy(() => import('@material-ui/core/DialogContent'));
+const Snackbar = React.lazy(() => import('@mui/material/Snackbar'));
+const Button = React.lazy(() => import('@mui/material/Button'));
+const Dialog = React.lazy(() => import('@mui/material/Dialog'));
+const DialogTitle = React.lazy(() => import('@mui/material/DialogTitle'));
+const DialogContent = React.lazy(() => import('@mui/material/DialogContent'));
 
+/** Cookies and privacy policy */
 export default class Policy extends React.Component {
     constructor() {
         super();
@@ -110,7 +111,7 @@ export default class Policy extends React.Component {
 
     componentDidMount() {
         this.determineCookiesAndPolicy();
-    }
+    };
 
     render() {
         return (

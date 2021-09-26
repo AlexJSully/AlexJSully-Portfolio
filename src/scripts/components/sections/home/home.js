@@ -9,33 +9,45 @@ import SneezePicStart from '../../../../images/me_drawn/profile_pic_drawn_2.webp
 import SneezingPic from '../../../../images/me_drawn/profile_pic_drawn_3.webp';
 import SneezingUnsatisfied from '../../../../images/me_drawn/profile_pic_drawn_4.webp';
 // Material-UI
-const FormControlLabel = React.lazy(() => import('@material-ui/core/FormControlLabel'));
-const Checkbox = React.lazy(() => import('@material-ui/core/Checkbox'));
+const FormControlLabel = React.lazy(() => import('@mui/material/FormControlLabel'));
+const Checkbox = React.lazy(() => import('@mui/material/Checkbox'));
 
+/** Landing for portfolio website */
 export default class Home extends React.Component {
     constructor() {
         super();
 
+        /** Professional descriptions */
         this.descriptionCarousel = ['Full-Stack Web Developer', 'Data Visualization Programmer', 'Laboratory Researcher', 'Bioinformatician', 'Computational Biologist', 'Scientist', 'Gamer'];
 
-        this.moveBackground = false;
+        /** How many times the user has hovered over the profile picture */
         this.hoveredProfilePic = 0;
+        /** The number of times the profile picture has sneezed */
         this.sneezeCounter = 0;
+        /** AAAHHH */
         this.aaahhh = false;
 
         this.state = {
+            /** JSX for accessibility features */
             displayAccessibilityToggles: null
         };
     };
 
+    /**
+     * Handle profile picture sneezing
+     */
     handleTriggerSneeze() {
+        // If not trigger easter egg:
         if (!this.aaahhh) {
+            // Add to hover count
             this.hoveredProfilePic += 1;
 
+            // Every 5 times hovered/clicked, trigger sneeze easter egg
             if (this.hoveredProfilePic % 5 === 0) {
                 if (this.sneezeCounter < 5) {
                     document.getElementById('profilePic').src = SneezePicStart;
     
+                    // Have animation trigger based off time
                     setTimeout(() => {
                         document.getElementById('profilePic').src = SneezingPic;
                     }, 500);
@@ -50,16 +62,19 @@ export default class Home extends React.Component {
     
                     this.sneezeCounter += 1;
                 } else {
+                    // Trigger sneeze easter egg
                     this.aaahhh = true;
                     setTimeout(() => {
                         aaaahhhh();
                     }, 2801);
-                    
                 };
             };
         };
     };
 
+    /**
+     * Enable (or disable) global dyslexia font
+     */
     handleGlobalDyslexia() {
         if (document.getElementById('dyslexia-toggle').checked) {
             document.getElementsByTagName('body')[0].classList.add('dyslexia-global');
@@ -68,6 +83,9 @@ export default class Home extends React.Component {
         };
     };
 
+    /**
+     * Create accessibility toggle/checkbox in JSX
+     */
     createAccessibilityToggles() {
         if (!this.state.displayAccessibilityToggles) {
             this.setState({

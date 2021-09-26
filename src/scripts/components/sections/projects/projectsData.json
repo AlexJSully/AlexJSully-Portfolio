@@ -130,7 +130,7 @@
             "startDate": "2013-03",
             "endDate": "2016-04"
         },
-        "showcase": true,
+        "showcase": false,
         "filter": {
             "language": ["javascript", "html", "css", "markdown", "json"],
             "frameworks": ["git", "jquery", "tumblr", "bootstrap", "svg", "google analytics", "office"],

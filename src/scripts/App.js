@@ -5,6 +5,7 @@ const Projects = React.lazy(() => import('./components/sections/projects/project
 const Contact = React.lazy(() => import('./components/sections/contact/contact'));
 const Policy = React.lazy(() => import('./components/sections/policy/policy'));
 
+/** Portfolio and showcase */
 export default class App extends React.Component {
   constructor() {
     super();

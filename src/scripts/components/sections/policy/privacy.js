@@ -1,5 +1,6 @@
 import React from 'react';
 
+/** Privacy */
 export default class Privacy extends React.Component {
     render() {
         return (

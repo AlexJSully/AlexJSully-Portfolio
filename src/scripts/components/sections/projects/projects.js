@@ -2,25 +2,30 @@ import React, { Suspense } from 'react';
 import './projects.css';
 import ProjectsData from './projectsData.json';
 import { returnImages, returnFilterImages } from './components/imageImporter';
-const Grid = React.lazy(() => import('@material-ui/core/Grid'));
-const Card = React.lazy(() => import('@material-ui/core/Card'));
-const CardActionArea = React.lazy(() => import('@material-ui/core/CardActionArea'));
-const CardContent = React.lazy(() => import('@material-ui/core/CardContent'));
-const CardMedia = React.lazy(() => import('@material-ui/core/CardMedia'));
-const Typography = React.lazy(() => import('@material-ui/core/Typography'));
-const Accordion = React.lazy(() => import('@material-ui/core/Accordion'));
-const AccordionSummary = React.lazy(() => import('@material-ui/core/AccordionSummary'));
-const AccordionDetails = React.lazy(() => import('@material-ui/core/AccordionDetails'));
-const ExpandMoreIcon = React.lazy(() => import('@material-ui/icons/ExpandMore'));
-const Switch = React.lazy(() => import('@material-ui/core/Switch'));
-const Button = React.lazy(() => import('@material-ui/core/Button'));
+// Material-UI
+const Grid = React.lazy(() => import('@mui/material/Grid'));
+const Card = React.lazy(() => import('@mui/material/Card'));
+const CardActionArea = React.lazy(() => import('@mui/material/CardActionArea'));
+const CardContent = React.lazy(() => import('@mui/material/CardContent'));
+const CardMedia = React.lazy(() => import('@mui/material/CardMedia'));
+const Typography = React.lazy(() => import('@mui/material/Typography'));
+const Accordion = React.lazy(() => import('@mui/material/Accordion'));
+const AccordionSummary = React.lazy(() => import('@mui/material/AccordionSummary'));
+const AccordionDetails = React.lazy(() => import('@mui/material/AccordionDetails'));
+const ExpandMoreIcon = React.lazy(() => import('@mui/icons-material/ExpandMore'));
+const Switch = React.lazy(() => import('@mui/material/Switch'));
+const Button = React.lazy(() => import('@mui/material/Button'));
 
+/** Display all projects and experiences I've worked on */
 export default class Projects extends React.Component {
     constructor() {
         super();
 
+        /** Filter toggle for including mutually exclusive filters or not */
         this.and = true;
+        /** What filters have been selected */
         this.filterList = [];
+        /** Default projects being showcased */
         this.defaultList = [];
 
         this.state = {
@@ -29,6 +34,9 @@ export default class Projects extends React.Component {
         };
     };
 
+    /**
+     * Toggle including mutually exclusive filters or not
+     */
     handleAndOrChange() {
         if (document.getElementById('andOrSwitcher')) {
             this.and = !document.getElementById('andOrSwitcher').checked;
@@ -37,6 +45,9 @@ export default class Projects extends React.Component {
         };
     };
 
+    /**
+     * Flip the expand icon on the filter accordion
+     */
     flipExpandIcon() {
         if (document.getElementById('filter-Expand')?.style.transform) {
             document.getElementById('filter-Expand').style.transform = null;
@@ -45,7 +56,11 @@ export default class Projects extends React.Component {
         };
     };
 
+    /**
+     * Create filter options and display in component
+     */
     async createFilterDisplay() {
+        /** What filter options are available */
         let filters = {
             'language': [],
             'frameworks': [],
@@ -55,6 +70,7 @@ export default class Projects extends React.Component {
         // eslint-disable-next-line no-unused-vars
         for (const [key, value] of Object.entries(ProjectsData)) {
             if (value?.filter) {
+                /** All filter options */
                 let combinedKeywords = [];
 
                 for (const [innerKey, innerValue] of Object.entries(value.filter)) {
@@ -73,17 +89,21 @@ export default class Projects extends React.Component {
             };
         };
 
+        /** Filter JSX */
         let filterJSX = [];
 
+        /** Material-UI grid item size */
         let colSize = parseInt(12 / Object.keys(filters)?.length);
         if (!colSize || colSize < 1) {
             colSize = 1;
         };
 
         for (const [key, value] of Object.entries(filters)) {
+            /** Each individual filter JSX */
             let innerFilterJSX = [];
 
             for (let i in value) {
+                /** Filter thumbnail */
                 let keywordThumbnail = await returnFilterImages(filters, value[i]);
 
                 if (keywordThumbnail) {
@@ -117,6 +137,7 @@ export default class Projects extends React.Component {
         };
 
         if (filterJSX?.length > 0) {
+            /** Filter's JSX */
             let toDisplay = [];
 
             toDisplay.push(
@@ -165,26 +186,67 @@ export default class Projects extends React.Component {
         };
     };
 
-    filterProjects(whichToFilter = undefined) {
-        if (this.filterList.includes(whichToFilter)) {
-            this.filterList.splice(this.filterList.indexOf(whichToFilter), 1);
+    /**
+     * Filter all projects that have been selected
+     * @param {String | Array} whichToFilter What is being filtered
+     * @param {Boolean} reset Whether should reset all filters [true] or not [false, default] 
+     */
+    filterProjects(whichToFilter = undefined, reset = false) {
+        /** All available filter document elements */
+        let keywordFiltersDocuments = document.getElementsByClassName('projects-KeywordThumbnail');
 
-            document.getElementById(`${whichToFilter}_filter`).classList.add('projects-Thumbnail');
-            document.getElementById(`${whichToFilter}_filter`).classList.remove('filter-Filtering');
-        } else if (whichToFilter) {
-            this.filterList.push(whichToFilter);
+        // If reset, then remove all filter classes and projects
+        if (reset) {
+            for (let i in keywordFiltersDocuments) {
+                if (keywordFiltersDocuments[i].classList) {
+                    keywordFiltersDocuments[i].classList.add('projects-Thumbnail');
+                    keywordFiltersDocuments[i].classList.remove('filter-Filtering'); 
+                };
+            };
 
-            document.getElementById(`${whichToFilter}_filter`).classList.add('filter-Filtering');
-            document.getElementById(`${whichToFilter}_filter`).classList.remove('projects-Thumbnail');  
+            this.filterList = [];
+        } else {
+            // If in instance that filterList becomes undefined, make array again
+            if (!this.filterList) {
+                this.filterList = [];
+            };
+
+            // If filterList doesn't include which to filter, then add. If does, then remove
+            if (this.filterList.includes(whichToFilter)) {
+                this.filterList.splice(this.filterList.indexOf(whichToFilter), 1);
+            } else {
+                this.filterList.push(whichToFilter);
+            };
+
+            for (let i in keywordFiltersDocuments) {
+                if (keywordFiltersDocuments[i]?.id && keywordFiltersDocuments[i]?.classList) {
+                    /** What is being filtered for */
+                    let currentFilter = keywordFiltersDocuments[i].id.substr(0, keywordFiltersDocuments[i].id.length - 7);
+                    /** All class for current filter */
+                    let currentClasses = [...keywordFiltersDocuments[i].classList];
+                    
+                    if (this.filterList.includes(currentFilter) && !currentClasses.includes('projects-Thumbnail')) {
+                        // If to filter for
+                        keywordFiltersDocuments[i].classList.add('projects-Thumbnail');
+                        keywordFiltersDocuments[i].classList.remove('filter-Filtering'); 
+                    } else if (!this.filterList.includes(currentFilter) && !currentClasses.includes('filter-Filtering')) {
+                        // If not to filter for
+                        keywordFiltersDocuments[i].classList.add('filter-Filtering');
+                        keywordFiltersDocuments[i].classList.remove('projects-Thumbnail');  
+                    };
+                }
+                
+            };
         };
-
         
         for (const [key, value] of Object.entries(ProjectsData)) {
             if (this.filterList?.length > 0) {
+                // Should display project?
                 let toDisplay = false;
 
                 if (value?.combinedKeywords) {
                     if (this.and) {
+                        /** Count of filter keywords that match filter list */
                         let containsAll = 0;
     
                         for (let i in this.filterList) {
@@ -224,20 +286,25 @@ export default class Projects extends React.Component {
         };
     };
 
+    /**
+     * Reset selected filters
+     */
     resetFilters() {
-        let toReset = {...this.filterList};
-
-        for (let i in toReset) {
-            this.filterProjects(toReset[i]);
-        };
+        this.filterProjects(this.filterList, true);
     };
 
+    /**
+     * Display projects and experiences in component
+     */
     async createProjectsDisplay() {
         if (ProjectsData) {
+            /** Display projects as JSX */
             let displayJSXData = [];
 
             for (const [key, value] of Object.entries(ProjectsData)) {
+                /** Project thumbnail */
                 let thumbnail = await returnImages(key, "thumbnail");
+                /** Project URL */
                 let url = value?.url || "#";
 
                 if (value?.showcase) {
