@@ -205,7 +205,7 @@ export default class Projects extends React.Component {
             };
 
             this.filterList = [];
-        } else {
+        } else if (whichToFilter) {
             // If in instance that filterList becomes undefined, make array again
             if (!this.filterList) {
                 this.filterList = [];
