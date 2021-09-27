@@ -4,10 +4,10 @@
     {
       "name": "Alexander Sullivan",
       "email": "alexander.j.sullivan@hotmail.com",
-      "url": "https://twitter.com/AlexJSully"
+      "url": "https://alexjsully.me/"
     }
   ],
-  "version": "1.0.7",
+  "version": "1.0.8",
   "private": true,
   "description": "Portfolio and showcase for Alexander Joo-Hyun Sullivan and related projects & experiences.",
   "dependencies": {
