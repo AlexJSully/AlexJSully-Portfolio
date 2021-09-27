@@ -224,18 +224,24 @@ export default class Projects extends React.Component {
                     let currentFilter = keywordFiltersDocuments[i].id.substr(0, keywordFiltersDocuments[i].id.length - 7);
                     /** All class for current filter */
                     let currentClasses = [...keywordFiltersDocuments[i].classList];
-                    
-                    if (this.filterList.includes(currentFilter) && !currentClasses.includes('projects-Thumbnail')) {
-                        // If to filter for
-                        keywordFiltersDocuments[i].classList.add('projects-Thumbnail');
-                        keywordFiltersDocuments[i].classList.remove('filter-Filtering'); 
-                    } else if (!this.filterList.includes(currentFilter) && !currentClasses.includes('filter-Filtering')) {
-                        // If not to filter for
-                        keywordFiltersDocuments[i].classList.add('filter-Filtering');
-                        keywordFiltersDocuments[i].classList.remove('projects-Thumbnail');  
+
+                    if (this.filterList?.length > 0) {
+                        if (this.filterList.includes(currentFilter) && !currentClasses.includes('projects-Thumbnail')) {
+                            // If to filter for
+                            keywordFiltersDocuments[i].classList.add('projects-Thumbnail');
+                            keywordFiltersDocuments[i].classList.remove('filter-Filtering'); 
+                        } else if (!this.filterList.includes(currentFilter) && !currentClasses.includes('filter-Filtering')) {
+                            // If not to filter for
+                            keywordFiltersDocuments[i].classList.add('filter-Filtering');
+                            keywordFiltersDocuments[i].classList.remove('projects-Thumbnail');  
+                        };
+                    } else {
+                        if (currentClasses) {
+                            keywordFiltersDocuments[i].classList.add('projects-Thumbnail');
+                            keywordFiltersDocuments[i].classList.remove('filter-Filtering'); 
+                        };
                     };
-                }
-                
+                };
             };
         };
         
