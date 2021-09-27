@@ -82,8 +82,8 @@ hr {
 }
 
 .filter-Accordion {
-    margin: auto;
-    margin-top: 1%;
+    margin: auto !important;
+    margin-top: 1% !important;
     max-width: 80%;
     text-align: center;
     background-color: #1e2227 !important;
@@ -155,11 +155,6 @@ hr {
 .MuiTypography-body2 {
     color: white !important;
     text-decoration: none !important;
-}
-
-.Mui-expanded {
-    margin: auto !important;
-    max-width: 80%;
 }
 
 .MuiAccordionSummary-content {
