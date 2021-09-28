@@ -52,8 +52,8 @@
 
 .workTogether-Button {
     font-size: 0.5em !important;
-    background-color: #343b42 !important;
-    border: 3px solid #0041b9 !important;
+    background-color: #003ba8 !important;
+    border: 3px solid #003ba8 !important;
     border-radius: 25% !important;
     line-height: 2em !important;
     transition: all 1s ease !important;
@@ -61,6 +61,12 @@
 
 .workTogether-Button:hover {
     background-color: #0041b9 !important;
+    border: 3px solid #0041b9 !important;
     border-radius: 5% !important; 
     transition: all 0.25s ease !important;
+}
+
+/* Material-UI */
+.MuiButton-startIcon {
+    margin: auto !important;
 }
