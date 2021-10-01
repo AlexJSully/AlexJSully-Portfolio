@@ -14,7 +14,15 @@
             "language": ["javascript", "html", "css", "markdown", "json"],
             "frameworks": ["git", "svg", "mongodb", "react", "d3", "material-ui", "google analytics"],
             "type": ["web", "science"]
-        }
+        },
+        "responsibilities": [
+            "Created the citation flow (data-visualization) of each publication's citations dynamically",
+            "Manage database and keeping it up to date",
+            "Designed and handcrafted the UI/UX",
+            "Manage the hosting, analytics and bugs",
+            "Add PWA to allow Impact Depth to be installed from a browser",
+            "Focus on accessibility features to ensure that Impact Depth can be used by as many people as possible, including those with accessibility needs"
+        ]
     },
     "eplant-plant-efp": {
         "name": "ePlant's Plant eFP",
@@ -32,7 +40,12 @@
             "language": ["javascript", "html", "css", "markdown", "json", "sql"],
             "frameworks": ["git", "svg", "mysql", "apache", "office"],
             "type": ["web", "science"]
-        }
+        },
+        "responsibilities": [
+            "Updated ePlant's eFP for Arabidopsis thaliana to be a modular widget",
+            "Modified and cleaned up all SVGs to optimize network",
+            "Made it simple enough that anyone with access to code-base should be able to add a new compendium"
+        ]
     },
     "ta": {
         "name": "Teaching Assistant",
@@ -49,7 +62,12 @@
             "language": ["r"],
             "frameworks": ["office"],
             "type": ["web", "science", "teaching"]
-        }
+        },
+        "responsibilities": [
+            "Taught bioinformatic and biological techniques",
+            "Grade students based on given rubrics",
+            "Respond to all students at any hour to ensure they understood topics and help troubleshoot issues with their bioinformatic tools"
+        ]
     },
     "gaia": {
         "name": "GAIA",
@@ -66,7 +84,15 @@
             "language": ["javascript", "html", "css", "markdown", "json", "sql", "python", "php"],
             "frameworks": ["git", "svg", "mysql", "apache", "google analytics", "nlp", "react", "material-ui", "mongodb", "office"],
             "type": ["web", "science", "mobile"]
-        }
+        },
+        "responsibilities": [
+            "Aggregate data from many different repositories, databases, bioinformatic tools and scientific resources",
+            "Design and developed a statistical natural-language processing (NLP) approach to broadly answer questions about a gene or gene product",
+            "Code front-end UI",
+            "Manage a team of multiple programmers to ensure that GAIA's features are delivered by an expected deadline",
+            "Focus on accessibility features to ensure that GAIA can be used by as many people as possible, including those with accessibility needs",
+            "Worked on data collection, verification and application of a machine-vision model called GeneNet which can detect which figures are genetic models or not"
+        ]
     },
     "scigrade": {
         "name": "SciGrade",
@@ -83,7 +109,13 @@
             "language": ["javascript", "html", "css", "markdown", "json"],
             "frameworks": ["git", "jquery", "bootstrap", "google analytics", "svg", "office", "mongodb", "benchling"],
             "type": ["web", "science", "teaching"]
-        }
+        },
+        "responsibilities": [
+            "Developed a web application that can teach CRISPR gRNA design to students and test them by having them go through examples for multiple human genes",
+            "Developed and managed the backend by handling how users login and have it be verified as students from a specific University of Toronto class",
+            "Developed and managed a database which can be downloaded from the front-end for a specific class' section by the administrators",
+            "Manage the hosting, analytics and bugs"
+        ]
     },
     "efp-seq-browser": {
         "name": "eFP-Seq Browser",
@@ -101,7 +133,14 @@
             "language": ["javascript", "html", "css", "markdown", "python", "php", "r", "sql"],
             "frameworks": ["git", "jquery", "bootstrap","google analytics", "svg", "google cloud", "amazon aws", "apache", "mysql", "office"],
             "type": ["web", "science", "mobile"]
-        }
+        },
+        "responsibilities": [
+            "Join the project half-way through and was able to quickly pick-up and improve upon the existing bioinformatics web-application",
+            "Working on the existing platform, ensured the accuracy and reliability of the statistical outputs for RNA-Seq analysis",
+            "Designed and developed a system which takes users custom RNA-Seq BAM files (that are hosted on Amazon AWS or a personal Google Drive) and have its gene expression and read maps visualized",
+            "Focus on accessibility features to ensure that eFP-Seq Browser can be used by as many people as possible, including those with accessibility needs",
+            "Wrote a first-author peer-reviewed scientific publication for the eFP-Seq Browser with Dr. Nicholas Provart"
+        ]
     },
     "biosensing": {
         "name": "Gold Biosensing",
@@ -118,7 +157,16 @@
             "language": ["html", "css", "markdown"],
             "frameworks": ["git", "benchling", "office"],
             "type": ["web", "science"]
-        }
+        },
+        "responsibilities": [
+            "Designed an approved research proposal for the use of E.coli with an inserted synthetic gene involving GolS and GolB to detect an aqueous gold",
+            "Did scientific techniques including: freeze-drying, gel extraction, cell lysis, SDS gel staining & SDS page, medium prep, bacterial culturing, PCR and restriction-enzyme (RE) digest & ligation",
+            "Managed a team of 9 laboratory researchers, including training",
+            "Managed purchases and finances, as well as communication with external sources for sponsorship/grants",
+            "Ensured safety protocols and training were known by all researchers",
+            "Worked with and assisted a dry lab to quantify the amount of aqueous gold based on colorimetric",
+            "Successfully was able to detect aqueous gold up to 0.5uM efficiently and submitted our research and synthetic gene to the iGEM Jamboree 2016 overgrad and won bronze"
+        ]
     },
     "smalldevtalk": {
         "name": "Small Dev Talk",
@@ -135,7 +183,13 @@
             "language": ["javascript", "html", "css", "markdown", "json"],
             "frameworks": ["git", "jquery", "tumblr", "bootstrap", "svg", "google analytics", "office"],
             "type": ["web"]
-        }
+        },
+        "responsibilities": [
+            "Designed and coded the website/blog",
+            "Journalist",
+            "Handled the Google Ads and finances",
+            "Managed social media and communications"
+        ]
     },
     "mai-tutor": {
         "name": "Mai Tutor",
@@ -149,6 +203,10 @@
         "showcase": false,
         "filter": {
             "type": ["teaching", "science"]
-        }
+        },
+        "responsibilities": [
+            "Tutored students between grade 1 through 1 in math, science, English, music, geography and business",
+            "Gave free extra hours to students in need"
+        ]
     }
 }

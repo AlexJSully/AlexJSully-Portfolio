@@ -40,10 +40,6 @@ export default class Cookies extends React.Component {
                         <p>This site uses Google Analytics which is one of the most widespread and trusted analytics solution on the web for helping us to understand how you use the site and ways that we can improve your experience. These cookies may track things such as how long you spend on the site and the pages that you visit so we can continue to produce engaging content.</p>
                         <p>For more information on Google Analytics cookies, see the official Google Analytics page.</p>
                     </li>
-                    <li>
-                        <p>The Google AdSense service we use to serve advertising uses a DoubleClick cookie to serve more relevant ads across the web and limit the number of times that a given ad is shown to you.</p>
-                        <p>For more information on Google AdSense see the official Google AdSense privacy FAQ.</p>
-                    </li>
                 </ul>
 
                 <p><strong>More Information</strong></p>

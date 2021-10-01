@@ -48,11 +48,11 @@ export default class Projects extends React.Component {
     /**
      * Flip the expand icon on the filter accordion
      */
-    flipExpandIcon() {
-        if (document.getElementById('filter-Expand')?.style.transform) {
-            document.getElementById('filter-Expand').style.transform = null;
-        } else if (document.getElementById('filter-Expand')) {
-            document.getElementById('filter-Expand').style.transform = 'rotate(180deg)';
+    flipExpandIcon(whichToFlip) {
+        if (document.getElementById(whichToFlip)?.style.transform) {
+            document.getElementById(whichToFlip).style.transform = null;
+        } else if (document.getElementById(whichToFlip)) {
+            document.getElementById(whichToFlip).style.transform = 'rotate(180deg)';
         };
     };
 
@@ -146,7 +146,7 @@ export default class Projects extends React.Component {
                         className="filter-AccordionHeader"
                         aria-controls="filter-content"
                         id="filter-header"
-                        onClick={() => this.flipExpandIcon()}
+                        onClick={() => this.flipExpandIcon("filter-Expand")}
                         key={`filter-Summary`}
                     >
                         <Typography className="filter-Header" key={`filter-HeaderText`}>
@@ -317,8 +317,44 @@ export default class Projects extends React.Component {
                     this.defaultList.push(key);
                 };
 
+                let displayResponsibilities = null;
+                if (value?.responsibilities) {
+                    displayResponsibilities = [];
+
+                    let responsibilities = [];
+
+                    for (let i in value.responsibilities) {
+                        responsibilities.push(
+                            <li key={`${key}-responsibilities-${i}`} className="responsibilities-bullets">
+                                {value.responsibilities[i]}
+                            </li>
+                        );
+                    };
+
+                    displayResponsibilities.push(
+                        <Accordion key={`${key}-responsibilities`} className="filter-Accordion responsibilities-Accordion" onClick={(e) => e.preventDefault()}>
+                            <AccordionSummary
+                                className="filter-AccordionHeader responsibilities-AccordionHeader"
+                                aria-controls={`${key}-responsibilities-content`}
+                                id={`${key}-responsibilities-header`}
+                                onClick={() => this.flipExpandIcon(`${key}-responsibilities-expand`)}
+                                key={`${key}-responsibilities-summary`}
+                            >
+                                <Typography className="filter-Header" key={`${key}-responsibilities-HeaderText`}>
+                                    Responsibilities <ExpandMoreIcon className="filter-Expand" id={`${key}-responsibilities-expand`} fontSize="large" key={`${key}-responsibilities-ExpandMoreIcon`}/>
+                                </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <ul>
+                                    {responsibilities}
+                                </ul>
+                            </AccordionDetails>
+                        </Accordion>
+                    );
+                };
+
                 displayJSXData.push(
-                    <Grid item xs={12} md={3} key={key} id={`${key}_project`} className="projects-DisplayContainer" hidden={!value?.showcase} >
+                    <Grid item key={key} id={`${key}_project`} className="projects-DisplayContainer" hidden={!value?.showcase} >
                         <a href={url} target="_blank" rel="noopener noreferrer" className="projects-URL">
                             <Card className="projects-Card">
                                 <CardActionArea>
@@ -339,6 +375,7 @@ export default class Projects extends React.Component {
                                         <Typography variant="body2" color="textSecondary" component="p">
                                             {value?.description}
                                         </Typography>
+                                        {displayResponsibilities}
                                     </CardContent>
                                 </CardActionArea>
                             </Card>

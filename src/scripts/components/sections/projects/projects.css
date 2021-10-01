@@ -53,10 +53,10 @@ hr {
 .projects-KeywordThumbnail {
     height: calc(100vh / 16 - 1em);
     width: calc(100vh / 16 - 1em);
-    background-size: 100% !important;
+    background-size: 102% !important;
+    background-repeat: no-repeat !important;
     border-radius: 25%;
     background-color: #f5f4f4;
-    margin: auto;
     transition: all 0.5s ease;
 }
 
@@ -84,7 +84,7 @@ hr {
 .filter-Accordion {
     margin: auto !important;
     margin-top: 1% !important;
-    max-width: 80%;
+    width: 80%;
     text-align: center;
     background-color: #1e2227 !important;
     color: white !important;
@@ -137,6 +137,24 @@ hr {
     border: 3px solid #0041b9 !important;
     border-radius: 5% !important; 
     transition: all 0.25s ease !important;
+}
+
+.responsibilities-Accordion {
+    margin-left: 0% !important;
+    margin-right: 0% !important;
+    width: 100% !important;
+}
+
+.responsibilities-AccordionHeader {
+    width: 100% !important;
+    font-size: 1.5em !important;
+    margin-left: 0 !important;
+}
+
+.responsibilities-bullets {
+    text-align: left;
+    margin-bottom: 3%;
+    line-height: 1.2em;
 }
 
 /* Accessibility */

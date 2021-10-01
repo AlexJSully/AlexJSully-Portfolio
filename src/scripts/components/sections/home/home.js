@@ -18,7 +18,7 @@ export default class Home extends React.Component {
         super();
 
         /** Professional descriptions */
-        this.descriptionCarousel = ['Full-Stack Web Developer', 'Data Visualization Programmer', 'Laboratory Researcher', 'Bioinformatician', 'Computational Biologist', 'Scientist', 'Gamer'];
+        this.descriptionCarousel = ['Bioinformatician', 'Computational Biologist', 'Data Visualization Programmer', 'Full-Stack Web Developer', 'Laboratory Researcher', 'Scientist', 'Gamer'];
 
         /** How many times the user has hovered over the profile picture */
         this.hoveredProfilePic = 0;
