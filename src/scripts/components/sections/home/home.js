@@ -18,7 +18,7 @@ export default class Home extends React.Component {
         super();
 
         /** Professional descriptions */
-        this.descriptionCarousel = ['Bioinformatician', 'Computational Biologist', 'Data Visualization Programmer', 'Full-Stack Web Developer', 'Laboratory Researcher', 'Scientist', 'Gamer'];
+        this.descriptionCarousel = ['Bioinformatician', 'Computational Biologist', 'Data Visualization Programmer', 'Full-Stack Web Developer', 'Laboratory Researcher', 'Gamer'];
 
         /** How many times the user has hovered over the profile picture */
         this.hoveredProfilePic = 0;
@@ -117,7 +117,7 @@ export default class Home extends React.Component {
     render() {
         return (
             <Suspense fallback={null}>
-                <div className="home App" id="home" key="home-Container" onMouseMove={(e) => handleMoveBackground(e, 'home')} >
+                <div className="home" id="home" key="home-Container" onMouseMove={(e) => handleMoveBackground(e, 'App')} >
                     {this.state.displayAccessibilityToggles}
                     <img 
                         className="profilePic" 

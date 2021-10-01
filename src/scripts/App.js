@@ -16,7 +16,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Suspense fallback={null}>
-        <div className="App" key={'App-section'}>
+        <div id="App" className="App" key={'App-section'}>
             <h1 hidden={true} id="keywords">
               {this.keywords.join(',')}
             </h1>

@@ -4,7 +4,7 @@
  * @param {String} whichElement Which element to move
  * @param {Int | Float} howMuchMove How much to move the image by
  */
-export function handleMoveBackground(event, whichElement, howMuchMove = 55) {
+export function handleMoveBackground(event, whichElement, howMuchMove = 45) {
     if (document.getElementById(whichElement)) {
         if (document.getElementById(whichElement) && event?.pageX && event?.pageY) {
             /** New element height */
