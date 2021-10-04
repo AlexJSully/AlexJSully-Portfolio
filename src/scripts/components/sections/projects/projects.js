@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import './projects.css';
 import ProjectsData from './projectsData.json';
+import FilterData from './filterData.json';
 import { returnImages, returnFilterImages } from './components/imageImporter';
 // Material-UI
 const Grid = React.lazy(() => import('@mui/material/Grid'));
@@ -82,6 +83,7 @@ export default class Projects extends React.Component {
                     if (filters[innerKey]) {
                         filters[innerKey] = [...filters[innerKey], ...innerValue];
                         filters[innerKey] = [...new Set(filters[innerKey])];
+                        filters[innerKey].sort();
                     };
                 };
 
@@ -108,17 +110,20 @@ export default class Projects extends React.Component {
 
                 if (keywordThumbnail) {
                     innerFilterJSX.push(
-                        <Card className="projects-Card filter-Cards" key={`${key}-${value[i]}-Card`}>
-                            <CardActionArea className="filter-ActionCard" onClick={() => this.filterProjects(`${value[i]}`)} id={`${value[i]}_card`}  key={`${key}-${value[i]}-CardAction`}>
-                                <CardMedia
-                                    id={`${value[i]}_filter`}
-                                    className="projects-KeywordThumbnail"
-                                    image={keywordThumbnail}
-                                    title={`${value[i]}`}
-                                    key={`${key}-${value[i]}`}
-                                />
-                            </CardActionArea>
-                        </Card>
+                        <Grid item xs={3}>
+                            <Card className="projects-Card filter-Cards" key={`${key}-${value[i]}-Card`}>
+                                <CardActionArea className="filter-ActionCard" onClick={() => this.filterProjects(`${value[i]}`)} id={`${value[i]}_card`}  key={`${key}-${value[i]}-CardAction`}>
+                                    <CardMedia
+                                        id={`${value[i]}_filter`}
+                                        className="projects-KeywordThumbnail"
+                                        image={keywordThumbnail}
+                                        title={`${FilterData?.[value[i]]?.name || value[i]}`}
+                                        key={`${key}-${value[i]}`}
+                                    />
+                                    {FilterData?.[value[i]]?.name || value[i]}
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
                     );
                 };
             };
@@ -127,7 +132,7 @@ export default class Projects extends React.Component {
                 <Grid item xs={12} md={colSize} key={`${key}-filtering`} className="projects-DisplayContainer" >
                     <Card className="projects-Card" key={`${key}-Card`}>
                         <CardContent key={`${key}-CardContent`}>
-                            <Grid container key={`${key}-GridContainer`}>
+                            <Grid container key={`${key}-GridContainer`} spacing={1}   justifyContent="center">
                                 {innerFilterJSX}
                             </Grid>
                         </CardContent>

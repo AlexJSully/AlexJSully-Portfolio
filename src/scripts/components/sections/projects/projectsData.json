@@ -11,7 +11,7 @@
         },
         "showcase": true,
         "filter": {
-            "language": ["javascript", "html", "css", "markdown", "json"],
+            "language": ["javascript", "html", "css", "markdown", "json", "bash"],
             "frameworks": ["git", "svg", "mongodb", "react", "d3", "material-ui", "google analytics"],
             "type": ["web", "science"]
         },
@@ -37,7 +37,7 @@
         },
         "showcase": true,
         "filter": {
-            "language": ["javascript", "html", "css", "markdown", "json", "sql"],
+            "language": ["javascript", "html", "css", "markdown", "json", "sql", "xml", "bash"],
             "frameworks": ["git", "svg", "mysql", "apache", "office"],
             "type": ["web", "science"]
         },
@@ -81,7 +81,7 @@
         },
         "showcase": true,
         "filter": {
-            "language": ["javascript", "html", "css", "markdown", "json", "sql", "python", "php"],
+            "language": ["javascript", "html", "css", "markdown", "json", "sql", "python", "php", "xml", "bash"],
             "frameworks": ["git", "svg", "mysql", "apache", "google analytics", "nlp", "react", "material-ui", "mongodb", "office"],
             "type": ["web", "science", "mobile"]
         },
@@ -130,7 +130,7 @@
         },
         "showcase": true,
         "filter": {
-            "language": ["javascript", "html", "css", "markdown", "python", "php", "r", "sql"],
+            "language": ["javascript", "html", "css", "markdown", "python", "php", "r", "sql", "xml", "bash"],
             "frameworks": ["git", "jquery", "bootstrap","google analytics", "svg", "google cloud", "amazon aws", "apache", "mysql", "office"],
             "type": ["web", "science", "mobile"]
         },

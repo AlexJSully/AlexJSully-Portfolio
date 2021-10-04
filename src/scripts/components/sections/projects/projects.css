@@ -58,6 +58,7 @@ hr {
     border-radius: 25%;
     background-color: #f5f4f4;
     transition: all 0.5s ease;
+    margin: auto;
 }
 
 .projects-KeywordThumbnail:hover {
