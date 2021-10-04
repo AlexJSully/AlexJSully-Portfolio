@@ -110,7 +110,7 @@ export default class Projects extends React.Component {
 
                 if (keywordThumbnail) {
                     innerFilterJSX.push(
-                        <Grid item xs={3}>
+                        <Grid item xs={3} key={`${key}-${value[i]}-Grid`}>
                             <Card className="projects-Card filter-Cards" key={`${key}-${value[i]}-Card`}>
                                 <CardActionArea className="filter-ActionCard" onClick={() => this.filterProjects(`${value[i]}`)} id={`${value[i]}_card`}  key={`${key}-${value[i]}-CardAction`}>
                                     <CardMedia
@@ -366,7 +366,6 @@ export default class Projects extends React.Component {
                     /** Keywords as JSX */
                     let keywordsFilters = [];
 
-                    // eslint-disable-next-line no-unused-vars
                     for (const [filter, keywords] of Object.entries(value.filter)) {
                         let innerKeywords = [];
                         for (let i in keywords) {
@@ -377,7 +376,7 @@ export default class Projects extends React.Component {
 
                         if (innerKeywords.length > 0) {
                             keywordsFilters.push(
-                                <p>
+                                <p key={`keywordFilters-${filter}-words`}>
                                     {innerKeywords.join(", ")}
                                 </p>
                             );

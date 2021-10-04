@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import './App.css';
 const Home = React.lazy(() => import('./components/sections/home/home'));
 const Projects = React.lazy(() => import('./components/sections/projects/projects'));
+const Publications = React.lazy(() => import('./components/sections/publications/publications'));
 const Contact = React.lazy(() => import('./components/sections/contact/contact'));
 const Policy = React.lazy(() => import('./components/sections/policy/policy'));
 
@@ -22,6 +23,7 @@ export default class App extends React.Component {
             </h1>
             <Home key={'Home-section'} />
             <Projects key={'Projects-section'} />
+            <Publications key={'Publications-section'} />
             <Contact key={'Contact-section'} />
             <Policy key={'Policy-section'} />
         </div>
