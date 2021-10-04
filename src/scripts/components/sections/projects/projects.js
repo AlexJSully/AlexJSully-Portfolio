@@ -132,7 +132,7 @@ export default class Projects extends React.Component {
                 <Grid item xs={12} md={colSize} key={`${key}-filtering`} className="projects-DisplayContainer" >
                     <Card className="projects-Card" key={`${key}-Card`}>
                         <CardContent key={`${key}-CardContent`}>
-                            <Grid container key={`${key}-GridContainer`} spacing={1}   justifyContent="center">
+                            <Grid container key={`${key}-GridContainer`} spacing={1} justifyContent="center" alignItems="flex-start">
                                 {innerFilterJSX}
                             </Grid>
                         </CardContent>
@@ -159,7 +159,7 @@ export default class Projects extends React.Component {
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails key={`filter-AccordionDetails`}>
-                        <Grid container spacing={3} className="projects-Grid" key={`filter-AccordionGrid`}>
+                        <Grid container spacing={3} className="projects-Grid" key={`filter-AccordionGrid`} justifyContent="center" alignItems="flex-start">
                             <Grid item xs={12} className="filter-Switcher" key={`filter-AccordionSwitcher`}>
                                 <p className="filter-SwitcherDescription" key={`filter-AccordionSwitcherDescription`}>
                                     Select one or more icons to filter my experiences. <br/>
@@ -358,6 +358,52 @@ export default class Projects extends React.Component {
                     );
                 };
 
+                /** Display filter keywords on each project */
+                let displayKeywords = null;
+                if (value?.filter) {
+                    displayKeywords = [];
+
+                    /** Keywords as JSX */
+                    let keywordsFilters = [];
+
+                    // eslint-disable-next-line no-unused-vars
+                    for (const [filter, keywords] of Object.entries(value.filter)) {
+                        let innerKeywords = [];
+                        for (let i in keywords) {
+                            if (FilterData?.[keywords[i]]?.name) {
+                                innerKeywords.push(FilterData[keywords[i]].name);
+                            }
+                        };
+
+                        if (innerKeywords.length > 0) {
+                            keywordsFilters.push(
+                                <p>
+                                    {innerKeywords.join(", ")}
+                                </p>
+                            );
+                        };
+                    };
+
+                    displayKeywords.push(
+                        <Accordion key={`${key}-responsibilities`} className="filter-Accordion responsibilities-Accordion" onClick={(e) => e.preventDefault()}>
+                            <AccordionSummary
+                                className="filter-AccordionHeader responsibilities-AccordionHeader"
+                                aria-controls={`${key}-responsibilities-content`}
+                                id={`${key}-responsibilities-header`}
+                                onClick={() => this.flipExpandIcon(`${key}-responsibilities-expand`)}
+                                key={`${key}-responsibilities-summary`}
+                            >
+                                <Typography className="filter-Header" key={`${key}-responsibilities-HeaderText`}>
+                                    Languages, Libraries, Frameworks and Tools <ExpandMoreIcon className="filter-Expand" id={`${key}-responsibilities-expand`} fontSize="large" key={`${key}-responsibilities-ExpandMoreIcon`}/>
+                                </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                {keywordsFilters}
+                            </AccordionDetails>
+                        </Accordion>
+                    );
+                };
+
                 displayJSXData.push(
                     <Grid item key={key} id={`${key}_project`} className="projects-DisplayContainer" hidden={!value?.showcase} >
                         <a href={url} target="_blank" rel="noopener noreferrer" className="projects-URL">
@@ -381,6 +427,7 @@ export default class Projects extends React.Component {
                                             {value?.description}
                                         </Typography>
                                         {displayResponsibilities}
+                                        {displayKeywords}
                                     </CardContent>
                                 </CardActionArea>
                             </Card>
