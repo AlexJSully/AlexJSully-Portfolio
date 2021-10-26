@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import './projects.css';
 import ProjectsData from './projectsData.json';
 import FilterData from './filterData.json';
@@ -18,38 +18,32 @@ const Switch = React.lazy(() => import('@mui/material/Switch'));
 const Button = React.lazy(() => import('@mui/material/Button'));
 
 /** Display all projects and experiences I've worked on */
-export default class Projects extends React.Component {
-    constructor() {
-        super();
+export default function Projects() {
+    const [displayJSX, setDisplayJSX] = useState(null);
+    const [displayFilter, setDisplayFilter] = useState(null);
 
-        /** Filter toggle for including mutually exclusive filters or not */
-        this.and = true;
-        /** What filters have been selected */
-        this.filterList = [];
-        /** Default projects being showcased */
-        this.defaultList = [];
-
-        this.state = {
-            displayJSX: null,
-            displayFilter: null,
-        };
-    };
+    /** Filter toggle for including mutually exclusive filters or not */
+    let and = true;
+    /** What filters have been selected */
+    let filterList = [];
+    /** Default projects being showcased */
+    let defaultList = [];
 
     /**
      * Toggle including mutually exclusive filters or not
      */
-    handleAndOrChange() {
+    function handleAndOrChange() {
         if (document.getElementById('andOrSwitcher')) {
-            this.and = !document.getElementById('andOrSwitcher').checked;
+            and = !document.getElementById('andOrSwitcher').checked;
 
-            this.filterProjects(undefined);
+            filterProjects(undefined);
         };
     };
 
     /**
      * Flip the expand icon on the filter accordion
      */
-    flipExpandIcon(whichToFlip) {
+    function flipExpandIcon(whichToFlip) {
         if (document.getElementById(whichToFlip)?.style.transform) {
             document.getElementById(whichToFlip).style.transform = null;
         } else if (document.getElementById(whichToFlip)) {
@@ -60,7 +54,7 @@ export default class Projects extends React.Component {
     /**
      * Create filter options and display in component
      */
-    async createFilterDisplay() {
+    async function createFilterDisplay() {
         /** What filter options are available */
         let filters = {
             'language': [],
@@ -112,7 +106,7 @@ export default class Projects extends React.Component {
                     innerFilterJSX.push(
                         <Grid item xs={3} key={`${key}-${value[i]}-Grid`}>
                             <Card className="projects-Card filter-Cards" key={`${key}-${value[i]}-Card`}>
-                                <CardActionArea className="filter-ActionCard" onClick={() => this.filterProjects(`${value[i]}`)} id={`${value[i]}_card`}  key={`${key}-${value[i]}-CardAction`}>
+                                <CardActionArea className="filter-ActionCard" onClick={() => filterProjects(`${value[i]}`)} id={`${value[i]}_card`}  key={`${key}-${value[i]}-CardAction`}>
                                     <CardMedia
                                         id={`${value[i]}_filter`}
                                         className="projects-KeywordThumbnail"
@@ -151,7 +145,7 @@ export default class Projects extends React.Component {
                         className="filter-AccordionHeader"
                         aria-controls="filter-content"
                         id="filter-header"
-                        onClick={() => this.flipExpandIcon("filter-Expand")}
+                        onClick={() => flipExpandIcon("filter-Expand")}
                         key={`filter-Summary`}
                     >
                         <Typography className="filter-Header" key={`filter-HeaderText`}>
@@ -168,7 +162,7 @@ export default class Projects extends React.Component {
                                 </p>
                                 AND
                                 <Switch
-                                    onChange={() => this.handleAndOrChange()}
+                                    onChange={() => handleAndOrChange()}
                                     color="secondary"
                                     name="checkedB"
                                     inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -177,7 +171,7 @@ export default class Projects extends React.Component {
                                 />
                                 OR
                                 <br />
-                                <Button variant="contained" color="primary" className="filter-Reset" onClick={() => this.resetFilters()} key={`filter-Reset`}>Reset Filters</Button>
+                                <Button variant="contained" color="primary" className="filter-Reset" onClick={() => resetFilters()} key={`filter-Reset`}>Reset Filters</Button>
                             </Grid>
                             {filterJSX}
                         </Grid>
@@ -185,9 +179,7 @@ export default class Projects extends React.Component {
                 </Accordion>
             );
 
-            this.setState({
-                displayFilter: toDisplay
-            });
+            setDisplayFilter(toDisplay);
         };
     };
 
@@ -196,7 +188,7 @@ export default class Projects extends React.Component {
      * @param {String | Array} whichToFilter What is being filtered
      * @param {Boolean} reset Whether should reset all filters [true] or not [false, default] 
      */
-    filterProjects(whichToFilter = undefined, reset = false) {
+    function filterProjects(whichToFilter = undefined, reset = false) {
         /** All available filter document elements */
         let keywordFiltersDocuments = document.getElementsByClassName('projects-KeywordThumbnail');
 
@@ -209,18 +201,18 @@ export default class Projects extends React.Component {
                 };
             };
 
-            this.filterList = [];
+            filterList = [];
         } else if (whichToFilter) {
             // If in instance that filterList becomes undefined, make array again
-            if (!this.filterList) {
-                this.filterList = [];
+            if (!filterList) {
+                filterList = [];
             };
 
             // If filterList doesn't include which to filter, then add. If does, then remove
-            if (this.filterList.includes(whichToFilter)) {
-                this.filterList.splice(this.filterList.indexOf(whichToFilter), 1);
+            if (filterList.includes(whichToFilter)) {
+                filterList.splice(filterList.indexOf(whichToFilter), 1);
             } else {
-                this.filterList.push(whichToFilter);
+                filterList.push(whichToFilter);
             };
 
             for (let i in keywordFiltersDocuments) {
@@ -230,12 +222,12 @@ export default class Projects extends React.Component {
                     /** All class for current filter */
                     let currentClasses = [...keywordFiltersDocuments[i].classList];
 
-                    if (this.filterList?.length > 0) {
-                        if (this.filterList.includes(currentFilter) && !currentClasses.includes('projects-Thumbnail')) {
+                    if (filterList?.length > 0) {
+                        if (filterList.includes(currentFilter) && !currentClasses.includes('projects-Thumbnail')) {
                             // If to filter for
                             keywordFiltersDocuments[i].classList.add('projects-Thumbnail');
                             keywordFiltersDocuments[i].classList.remove('filter-Filtering'); 
-                        } else if (!this.filterList.includes(currentFilter) && !currentClasses.includes('filter-Filtering')) {
+                        } else if (!filterList.includes(currentFilter) && !currentClasses.includes('filter-Filtering')) {
                             // If not to filter for
                             keywordFiltersDocuments[i].classList.add('filter-Filtering');
                             keywordFiltersDocuments[i].classList.remove('projects-Thumbnail');  
@@ -251,27 +243,27 @@ export default class Projects extends React.Component {
         };
         
         for (const [key, value] of Object.entries(ProjectsData)) {
-            if (this.filterList?.length > 0) {
+            if (filterList?.length > 0) {
                 // Should display project?
                 let toDisplay = false;
 
                 if (value?.combinedKeywords) {
-                    if (this.and) {
+                    if (and) {
                         /** Count of filter keywords that match filter list */
                         let containsAll = 0;
     
-                        for (let i in this.filterList) {
-                            if (value.combinedKeywords.includes(this.filterList[i])) {
+                        for (let i in filterList) {
+                            if (value.combinedKeywords.includes(filterList[i])) {
                                 containsAll += 1;
                             };
                         };
     
-                        if (containsAll === this.filterList.length) {
+                        if (containsAll === filterList.length) {
                             toDisplay = true;
                         };
                     } else {
-                        for (let i in this.filterList) {
-                            if (value.combinedKeywords.includes(this.filterList[i])) {
+                        for (let i in filterList) {
+                            if (value.combinedKeywords.includes(filterList[i])) {
                                 toDisplay = true;
     
                                 break;
@@ -288,7 +280,7 @@ export default class Projects extends React.Component {
                     };
                 };
             } else {
-                if (this.defaultList.includes(key)) {
+                if (defaultList.includes(key)) {
                     document.getElementById(`${key}_project`).removeAttribute('hidden');
                 } else {
                     document.getElementById(`${key}_project`).setAttribute('hidden', true);
@@ -300,14 +292,14 @@ export default class Projects extends React.Component {
     /**
      * Reset selected filters
      */
-    resetFilters() {
-        this.filterProjects(this.filterList, true);
+    function resetFilters() {
+        filterProjects(filterList, true);
     };
 
     /**
      * Display projects and experiences in component
      */
-    async createProjectsDisplay() {
+    async function createProjectsDisplay() {
         if (ProjectsData) {
             /** Display projects as JSX */
             let displayJSXData = [];
@@ -319,7 +311,7 @@ export default class Projects extends React.Component {
                 let url = value?.url || "#";
 
                 if (value?.showcase) {
-                    this.defaultList.push(key);
+                    defaultList.push(key);
                 };
 
                 let displayResponsibilities = null;
@@ -342,7 +334,7 @@ export default class Projects extends React.Component {
                                 className="filter-AccordionHeader responsibilities-AccordionHeader"
                                 aria-controls={`${key}-responsibilities-content`}
                                 id={`${key}-responsibilities-header`}
-                                onClick={() => this.flipExpandIcon(`${key}-responsibilities-expand`)}
+                                onClick={() => flipExpandIcon(`${key}-responsibilities-expand`)}
                                 key={`${key}-responsibilities-summary`}
                             >
                                 <Typography className="filter-Header" key={`${key}-responsibilities-HeaderText`}>
@@ -389,7 +381,7 @@ export default class Projects extends React.Component {
                                 className="filter-AccordionHeader responsibilities-AccordionHeader"
                                 aria-controls={`${key}-responsibilities-content`}
                                 id={`${key}-responsibilities-header`}
-                                onClick={() => this.flipExpandIcon(`${key}-responsibilities-expand`)}
+                                onClick={() => flipExpandIcon(`${key}-responsibilities-expand`)}
                                 key={`${key}-responsibilities-summary`}
                             >
                                 <Typography className="filter-Header" key={`${key}-responsibilities-HeaderText`}>
@@ -435,32 +427,30 @@ export default class Projects extends React.Component {
                 );
             };
 
-            this.setState({
-                displayJSX: displayJSXData
-            });
+            setDisplayJSX(displayJSXData);
         };
     };
 
-    componentDidMount() {
-        this.createFilterDisplay();
-        this.createProjectsDisplay();
-    };
+    useEffect(() => {
+        if (!displayJSX) {
+            createFilterDisplay();
+            createProjectsDisplay();
+        };
+    });
 
-    render() {
-        return (
-            <Suspense fallback={null}>
-                <div id="projectsContainer" className="projects-Container" key={`projects-Container`}>
-                    <div id="projects" className="projects" key={`projects`}>
-                        <span className="project-Experiences" key={`projects-Title`}>Projects & Experience</span>
-                        <br />
-                        {this.state.displayFilter}
-                        <br />
-                        <Grid container spacing={2} className="projects-Grid" key={`projects-Grid`}>
-                            {this.state.displayJSX}
-                        </Grid>
-                    </div>
+    return (
+        <Suspense fallback={null}>
+            <div id="projectsContainer" className="projects-Container" key={`projects-Container`}>
+                <div id="projects" className="projects" key={`projects`}>
+                    <span className="project-Experiences" key={`projects-Title`}>Projects & Experience</span>
+                    <br />
+                    {displayFilter}
+                    <br />
+                    <Grid container spacing={2} className="projects-Grid" key={`projects-Grid`}>
+                        {displayJSX}
+                    </Grid>
                 </div>
-            </Suspense>
-        );
-    };
+            </div>
+        </Suspense>
+    );
 };

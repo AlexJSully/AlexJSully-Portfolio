@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import './policy.css';
 const Cookies = React.lazy(() => import('./cookies'));
 const Privacy = React.lazy(() => import('./privacy'));
@@ -10,24 +10,14 @@ const DialogTitle = React.lazy(() => import('@mui/material/DialogTitle'));
 const DialogContent = React.lazy(() => import('@mui/material/DialogContent'));
 
 /** Cookies and privacy policy */
-export default class Policy extends React.Component {
-    constructor() {
-        super();
-
-        // Handler functions
-        this.handleClickCnPSnackbar = this.handleClickCnPSnackbar.bind(this);
-        this.handleClickCnPDialog = this.handleClickCnPDialog.bind(this);
-
-        this.state = {
-            displayCnP: false,
-            displayCnPDialog: false
-        };
-    };
+export default function Policy() {
+    const [displayCnP, setDisplayCnP] = useState(false);
+    const [displayCnPDialog, setDisplayCnPDialog] = useState(false);
 
     /**
      * Determines if a cookies and policy should be displayed or not
      */
-     async determineCookiesAndPolicy() {
+    async function determineCookiesAndPolicy() {
         /** The last version number loaded */
         let lastVersion;
         /** Whether the cookies and policy was displayed before */
@@ -68,9 +58,7 @@ export default class Policy extends React.Component {
         };
 
         if (!openedCnP || olderVersion) {
-            this.setState({
-                displayCnP: true
-            });
+            setDisplayCnP(true);
             
             document.cookie = `ajs_p_version=${process.env.REACT_APP_VERSION}; expires=Friday, December 31, 9999 at 7:00:00 AM;`;
         };
@@ -82,14 +70,12 @@ export default class Policy extends React.Component {
      * @param {*} reason 
      * @returns 
      */
-    handleClickCnPSnackbar = (event, reason) => {
+    function handleClickCnPSnackbar(event, reason) {
         if (reason === 'clickaway') {
           return;
         };
     
-        this.setState({
-            displayCnP: false
-        });
+        setDisplayCnP(false);
 
         document.cookie = `openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM;`;
     };
@@ -97,61 +83,55 @@ export default class Policy extends React.Component {
     /**
      * Handle click cookie and policy dialog
      */
-    handleClickCnPDialog() {
-        this.setState({
-            displayCnP: false
-        });
-
-        this.setState({
-            displayCnPDialog: !this.state.displayCnPDialog
-        });
+    function handleClickCnPDialog() {
+        setDisplayCnP(false);
+        
+        setDisplayCnPDialog(!displayCnPDialog);
 
         document.cookie = `openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM;`;
     };
 
-    componentDidMount() {
-        this.determineCookiesAndPolicy();
-    };
+    useEffect(() => {
+        determineCookiesAndPolicy();
+    });
 
-    render() {
-        return (
-            <Suspense fallback={null}>
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                    open={this.state.displayCnP}
-                    onClose={this.handleClickCnPSnackbar}
-                    message="I use cookies to improve your experience!"
-                    action={
-                        <React.Fragment>
-                            <Button variant="outlined" color="secondary" onClick={this.handleClickCnPDialog}>
-                                See cookies & privacy policy
-                            </Button>
-                            <Button variant="outlined" color="secondary" className="policy-button" onClick={this.handleClickCnPSnackbar}>
-                                CLOSE
-                            </Button>
-                        </React.Fragment>
-                    }
-                />
+    return (
+        <Suspense fallback={null}>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                open={displayCnP}
+                onClose={() => handleClickCnPSnackbar()}
+                message="I use cookies to improve your experience!"
+                action={
+                    <React.Fragment>
+                        <Button variant="outlined" color="secondary" onClick={() => handleClickCnPDialog()}>
+                            See cookies & privacy policy
+                        </Button>
+                        <Button variant="outlined" color="secondary" className="policy-button" onClick={() => handleClickCnPSnackbar()}>
+                            CLOSE
+                        </Button>
+                    </React.Fragment>
+                }
+            />
 
-                <Dialog
-                    open={this.state.displayCnPDialog}
-                    onClose={this.handleClickCnPDialog}
-                >
-                    <DialogTitle id="cookies-and-privacy-dialog">
-                        Cookies and Privacy Policy
-                    </DialogTitle>
-                    <DialogContent>
-                        <Cookies />
-                        <br/>
-                        <hr />
-                        <br />
-                        <Privacy />
-                    </DialogContent>
-                </Dialog>
-            </Suspense>
-        );
-    };
+            <Dialog
+                open={displayCnPDialog}
+                onClose={() => handleClickCnPDialog()}
+            >
+                <DialogTitle id="cookies-and-privacy-dialog">
+                    Cookies and Privacy Policy
+                </DialogTitle>
+                <DialogContent>
+                    <Cookies />
+                    <br/>
+                    <hr />
+                    <br />
+                    <Privacy />
+                </DialogContent>
+            </Dialog>
+        </Suspense>
+    );
 };

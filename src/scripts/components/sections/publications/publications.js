@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import PublicationsData from './publicationsData.json';
 import ProjectsData from '../projects/projectsData.json';
 import './publications.css'
@@ -9,19 +9,13 @@ const CardContent = React.lazy(() => import('@mui/material/CardContent'));
 const Typography = React.lazy(() => import('@mui/material/Typography'));
 
 /** Display publications */
-export default class Publications extends React.Component {
-    constructor() {
-        super();
-
-        this.state = {
-            displayJSX: null
-        };
-    };
+export default function Publications() {
+    const [displayJSX, setDisplayJSX] = useState(null);
 
     /**
      * Create JSX to display publications
      */
-    displayPublications() {
+    function displayPublications() {
         /** All publication data */
         let pubs = PublicationsData.publications;
         /** Each publications' JSX */
@@ -45,9 +39,9 @@ export default class Publications extends React.Component {
             if (pubs[i]?.['related-project']) {
                 if (ProjectsData[pubs[i]['related-project']]) {
                     relatedProjectData.push(
-                        <a href={ProjectsData[pubs[i]['related-project']].url} target="_blank" rel="noopener noreferrer" className="publications-URL">
+                        <span className="publications-URL" key={`research-related-${ProjectsData[pubs[i]['related-project']].name}`}>
                             {ProjectsData[pubs[i]['related-project']].name}
-                        </a>
+                        </span>
                     );
                 };
             };
@@ -61,8 +55,8 @@ export default class Publications extends React.Component {
 
             publicationsJSX.push(
                 <Grid item xs={12}>
-                    <a href={`https://doi.org/${pubs[i]?.doi}`} target="_blank" rel="noopener noreferrer" className="publications-URL">
-                        <Card className="publications-Card">
+                    <a href={`https://doi.org/${pubs[i]?.doi}`} target="_blank" rel="noopener noreferrer" className="publications-URL" key={`research-link-${pubs[i]?.title}`}>
+                        <Card className="publications-Card" key={`research-card-${pubs[i]?.title}`}>
                             <CardActionArea>
                                 <CardContent>
                                     <Typography variant="h5" component="h2">
@@ -76,7 +70,9 @@ export default class Publications extends React.Component {
                                     </Typography>
                                     <Typography className="publications-meta" variant="body3" component="p">
                                         {relatedProjectData?.length > 0 ? 
-                                            <span>Related projects: {relatedProjectData}</span> :
+                                            <span key={`related-project-${relatedProjectData}`}>
+                                                Related projects: {relatedProjectData}
+                                            </span> :
                                             null
                                         }
                                     </Typography>
@@ -92,29 +88,25 @@ export default class Publications extends React.Component {
         };
 
         if (publicationsJSX.length > 0) {
-            this.setState({
-                displayJSX: (
-                    <Suspense fallback={null}> 
-                        <div id="publicationsContainer" className="publications-Container" key={`publications-Container`}>
-                            <div id="publications" className="publications" key={`publications`}>
-                                <span className="publications-Title" key={`publications-Title`}>Publications</span>
-                                <br />
-                                <Grid container className="publications-Grid" key={`publications-Grid`}>
-                                    {publicationsJSX}
-                                </Grid>
-                            </div>
+            setDisplayJSX(
+                <Suspense fallback={null} key="publicationJSX"> 
+                    <div id="publicationsContainer" className="publications-Container" key={`publications-Container`}>
+                        <div id="publications" className="publications" key={`publications`}>
+                            <span className="publications-Title" key={`publications-Title`}>Publications</span>
+                            <br />
+                            <Grid container className="publications-Grid" key={`publications-Grid`}>
+                                {publicationsJSX}
+                            </Grid>
                         </div>
-                    </Suspense>
-                )
-            });
+                    </div>
+                </Suspense>
+            );
         };
     };
 
-    componentDidMount() {
-        this.displayPublications();
-    };
+    useEffect(() => {
+        displayPublications();
+    }, []);
 
-    render() {
-        return this.state.displayJSX;
-    }
+    return displayJSX;
 }

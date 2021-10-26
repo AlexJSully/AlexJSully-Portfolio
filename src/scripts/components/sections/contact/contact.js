@@ -8,43 +8,37 @@ const LinkedInIcon = React.lazy(() => import('@mui/icons-material/LinkedIn'));
 const CopyrightIcon = React.lazy(() => import('@mui/icons-material/Copyright'));
 
 /** Contact section of UI */
-export default class Contact extends React.Component {
-    constructor(props) {
-        super(props);
-
-        /** Social media information */
-        this.socialMediaInfo = {
-            "Twitter": {
-                "url": "https://twitter.com/alexjsully",
-                "text": "Twitter",
-                "icon": <TwitterIcon />,
-            },
-            "GitHub": {
-                "url": "https://github.com/asully",
-                "text": "GitHub",
-                "icon": <GitHubIcon />,
-            },
-            "LinkedIn": {
-                "url": "https://www.linkedin.com/in/alexanderjsullivan/",
-                "text": "LinkedIn",
-                "icon": <LinkedInIcon />,
-            }
-        };
-
-        /** Public email address */
-        this.email = `alexjsully.connect@outlook.com`;
+export default function Contact() {
+    let socialMediaInfo = {
+        "Twitter": {
+            "url": "https://twitter.com/alexjsully",
+            "text": "Twitter",
+            "icon": <TwitterIcon />,
+        },
+        "GitHub": {
+            "url": "https://github.com/asully",
+            "text": "GitHub",
+            "icon": <GitHubIcon />,
+        },
+        "LinkedIn": {
+            "url": "https://www.linkedin.com/in/alexanderjsullivan/",
+            "text": "LinkedIn",
+            "icon": <LinkedInIcon />,
+        }
     };
+
+    let email = `alexjsully.connect@outlook.com`;
 
     /**
      * Create social media icons
      * @returns {JSX.Element[]} JSX of social media icons
      */
-    socialMediaIcons() {
+    function socialMediaIcons() {
         /** Social media icons */
         let socialMediaIcons = [];
 
         // eslint-disable-next-line no-unused-vars
-        for (let [key, value] of Object.entries(this.socialMediaInfo)) {
+        for (let [key, value] of Object.entries(socialMediaInfo)) {
             socialMediaIcons.push(
                 <Button
                     href={value?.url}
@@ -61,25 +55,23 @@ export default class Contact extends React.Component {
         return socialMediaIcons;
     };
 
-    render() {
-        return (
-            <Suspense fallback={null}>
-                <div id="contactContainer" className="contact-Container" key="contact-Container">
-                    <div id="contact" className="contact" key="contact-Contact">
-                        <p key="contact-Text">
-                            Interested in working together? <br />
-                            <Button className="workTogether-Button" variant="contained" color="primary" href={`mailto:${this.email}`}  key="contact-Email">
-                                Email
-                            </Button>
-                        </p>
-                        {this.socialMediaIcons()}
-                        <p className="contact-Footer" key="contact-Footer">
-                            Handcrafted by <br />
-                            <CopyrightIcon/>Alexander Joo-Hyun Sullivan
-                        </p>
-                    </div>
+    return (
+        <Suspense fallback={null}>
+            <div id="contactContainer" className="contact-Container" key="contact-Container">
+                <div id="contact" className="contact" key="contact-Contact">
+                    <p key="contact-Text">
+                        Interested in working together? <br />
+                        <Button className="workTogether-Button" variant="contained" color="primary" href={`mailto:${email}`}  key="contact-Email">
+                            Email
+                        </Button>
+                    </p>
+                    {socialMediaIcons()}
+                    <p className="contact-Footer" key="contact-Footer">
+                        Handcrafted by <br />
+                        <CopyrightIcon/>Alexander Joo-Hyun Sullivan
+                    </p>
                 </div>
-            </Suspense>
-        );
-    };
+            </div>
+        </Suspense>
+    );
 };
