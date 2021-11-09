@@ -17,7 +17,7 @@ export default function Home() {
     const [displayAccessibilityToggles, setDisplayAccessibilityToggles] = useState(null);
 
     /** Professional descriptions */
-    let descriptionCarousel = ['Bioinformatician', 'Computational Biologist', 'Data Visualization Programmer', 'Full-Stack Web Developer', 'Laboratory Researcher', 'Gamer'];
+    let descriptionCarousel = ['Bioinformatician', 'Computational Biologist', 'Data Visualization Programmer', 'Full-Stack Web Developer', 'Laboratory Researcher'];
     /** How many times the user has hovered over the profile picture */
     let hoveredProfilePic = 0;
     /** The number of times the profile picture has sneezed */

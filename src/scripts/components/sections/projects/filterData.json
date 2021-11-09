@@ -130,5 +130,9 @@
     "mobile": {
         "name": "Mobile",
         "type": "type"
+    },
+    "firebase": {
+        "name": "Firebase",
+        "type": "frameworks"
     }
 }

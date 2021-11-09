@@ -12,7 +12,7 @@
         "showcase": true,
         "filter": {
             "language": ["javascript", "html", "css", "markdown", "json", "bash"],
-            "frameworks": ["git", "svg", "mongodb", "react", "d3", "material-ui", "google analytics"],
+            "frameworks": ["git", "svg", "mongodb", "react", "d3", "material-ui", "google analytics", "firebase"],
             "type": ["web", "science"]
         },
         "responsibilities": [
@@ -20,7 +20,7 @@
             "Manage database and keeping it up to date",
             "Designed and handcrafted the UI/UX",
             "Manage the hosting, analytics and bugs",
-            "Add PWA to allow Impact Depth to be installed from a browser",
+            "Add PWA to allow Impact Depth to be installed from a browser to desktop and mobile",
             "Focus on accessibility features to ensure that Impact Depth can be used by as many people as possible, including those with accessibility needs"
         ]
     },
@@ -88,8 +88,9 @@
         "responsibilities": [
             "Aggregate data from many different repositories, databases, bioinformatic tools and scientific resources",
             "Design and developed a statistical natural-language processing (NLP) approach to broadly answer questions about a gene or gene product",
+            "Created custom in-house machine reading (MR) logic to answer questions prompted by user",
             "Code front-end UI",
-            "Manage a team of multiple programmers to ensure that GAIA's features are delivered by an expected deadline",
+            "Manage a team of multiple programmers to ensure that GAIA's features are delivered by an expected deadline through iterative/agile development",
             "Focus on accessibility features to ensure that GAIA can be used by as many people as possible, including those with accessibility needs",
             "Worked on data collection, verification and application of a machine-vision model called GeneNet which can detect which figures are genetic models or not"
         ]
@@ -137,8 +138,10 @@
         "responsibilities": [
             "Join the project half-way through and was able to quickly pick-up and improve upon the existing bioinformatics web-application",
             "Working on the existing platform, ensured the accuracy and reliability of the statistical outputs for RNA-Seq analysis",
-            "Designed and developed a system which takes users custom RNA-Seq BAM files (that are hosted on Amazon AWS or a personal Google Drive) and have its gene expression and read maps visualized",
+            "Designed and developed a system which takes users custom RNA-Seq BAM files (that are hosted on Amazon AWS S3 or a personal Google Drive) and have its gene expression and read maps visualized",
             "Focus on accessibility features to ensure that eFP-Seq Browser can be used by as many people as possible, including those with accessibility needs",
+            "Ensured eFP-Seq Browser works on mobile",
+            "Worked with other researchers to ensure the reliability of statistical outputs for RNA-Seq analysis using both Pearson Correlation Coefficient and point-biserial correction coefficient",
             "Wrote a first-author peer-reviewed scientific publication for the eFP-Seq Browser with Dr. Nicholas Provart"
         ]
     },
