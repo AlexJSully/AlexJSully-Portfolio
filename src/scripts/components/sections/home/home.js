@@ -118,13 +118,13 @@ export default function Home() {
                     onMouseEnter={() => handleTriggerSneeze()} 
                     onClick={() => handleTriggerSneeze()} 
                 />
-                <h2 className="h2-description" key="home-Name">
+                <h1 className="h2-description" key="home-Name">
                     {createHoverColourWords("Alexander Joo-Hyun Sullivan", 'hover-Name')}
-                </h2>
+                </h1>
                 <span id="description-Carousel" className="carousel-description h3-description" key="home-DescriptionCarousel"></span>
-                <h3 className="h3-description" id="no-motion-description" key="home-NoMotionDescription" hidden={true}>
+                <h2 className="h3-description" id="no-motion-description" key="home-NoMotionDescription" hidden={true}>
                     Full-Stack Web Developer | Bioinformatician | Gamer
-                </h3>
+                </h2>
             </div>
         </Suspense>
     );
