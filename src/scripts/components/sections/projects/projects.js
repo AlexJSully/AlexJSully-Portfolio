@@ -376,16 +376,16 @@ export default function Projects() {
                     };
 
                     displayKeywords.push(
-                        <Accordion key={`${key}-responsibilities`} className="filter-Accordion responsibilities-Accordion" onClick={(e) => e.preventDefault()}>
+                        <Accordion key={`${key}-languages`} className="filter-Accordion responsibilities-Accordion" onClick={(e) => e.preventDefault()}>
                             <AccordionSummary
                                 className="filter-AccordionHeader responsibilities-AccordionHeader"
-                                aria-controls={`${key}-responsibilities-content`}
-                                id={`${key}-responsibilities-header`}
-                                onClick={() => flipExpandIcon(`${key}-responsibilities-expand`)}
-                                key={`${key}-responsibilities-summary`}
+                                aria-controls={`${key}-languages-content`}
+                                id={`${key}-languages-header`}
+                                onClick={() => flipExpandIcon(`${key}-languages-expand`)}
+                                key={`${key}-languages-summary`}
                             >
-                                <Typography className="filter-Header" key={`${key}-responsibilities-HeaderText`}>
-                                    Languages, Libraries, Frameworks and Tools <ExpandMoreIcon className="filter-Expand" id={`${key}-responsibilities-expand`} fontSize="large" key={`${key}-responsibilities-ExpandMoreIcon`}/>
+                                <Typography className="filter-Header" key={`${key}-languages-HeaderText`}>
+                                    Languages, Libraries, Frameworks and Tools <ExpandMoreIcon className="filter-Expand" id={`${key}-languages-expand`} fontSize="large" key={`${key}-languages-ExpandMoreIcon`}/>
                                 </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
