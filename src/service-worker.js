@@ -10,6 +10,10 @@
 import { clientsClaim } from 'workbox-core';
 import { precacheAndRoute } from 'workbox-precaching';
 import * as googleAnalytics from 'workbox-google-analytics';
+import * as navigationPreload from 'workbox-navigation-preload';
+import {NetworkFirst} from 'workbox-strategies';
+import {registerRoute, NavigationRoute} from 'workbox-routing';
+import { pageCache, staticResourceCache, imageCache, offlineFallback } from 'workbox-recipes';
 
 clientsClaim();
 
@@ -30,3 +34,20 @@ self.addEventListener('message', (event) => {
 // Offline Google Analytics
 // Want offline analytics for your offline PWA? No problem.
 googleAnalytics.initialize();
+
+// Navigation pre-load
+// Enable navigation preload.
+navigationPreload.enable();
+
+// Recipes
+// Enable page caching.
+pageCache();
+
+// Static resource cache
+staticResourceCache();
+
+// Image cache
+imageCache();
+
+// Offline fallback
+offlineFallback();

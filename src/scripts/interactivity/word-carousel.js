@@ -33,7 +33,7 @@ function addLetters(dom, word, wordList) {
             } else {
                 setTimeout(() => {
                     removeLetter(dom, word, wordList);
-                }, (1500));
+                }, (1750));
             };
         } else {
             nextWord(dom, word, wordList);
