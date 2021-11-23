@@ -9,6 +9,7 @@ hr {
 }
 
 .projects-Grid {
+    width: 100% !important;
     margin: auto !important;
     justify-content: center;
 }
@@ -20,6 +21,7 @@ hr {
 }
 
 .projects-DisplayContainer {
+    padding-left: 0px !important;
     transition: all 0.5s ease;
 }
 

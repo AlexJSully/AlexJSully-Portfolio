@@ -11,8 +11,6 @@ import { clientsClaim } from 'workbox-core';
 import { precacheAndRoute } from 'workbox-precaching';
 import * as googleAnalytics from 'workbox-google-analytics';
 import * as navigationPreload from 'workbox-navigation-preload';
-import {NetworkFirst} from 'workbox-strategies';
-import {registerRoute, NavigationRoute} from 'workbox-routing';
 import { pageCache, staticResourceCache, imageCache, offlineFallback } from 'workbox-recipes';
 
 clientsClaim();
