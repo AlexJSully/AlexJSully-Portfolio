@@ -20,7 +20,7 @@
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "web-vitals": "^2.1.2",
-    "workbox-core": "^6.4.1",
+    "workbox-core": "^6.4.2",
     "workbox-google-analytics": "^6.4.1",
     "workbox-navigation-preload": "^6.4.1",
     "workbox-precaching": "^6.4.1",
