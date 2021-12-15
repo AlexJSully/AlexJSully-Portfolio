@@ -1,66 +1,66 @@
 .home {
-    width: 100% !important;
-    text-align: center;
-    min-height: calc(100vh - 1em);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+	width: 100% !important;
+	text-align: center;
+	min-height: calc(100vh - 1em);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: white;
 }
 
 .hover-Name {
-    cursor: default;
-    transition: all 5s ease;
-    text-shadow: 1px 2px 3px #666;
+	cursor: default;
+	transition: all 5s ease;
+	text-shadow: 1px 2px 3px #666;
 }
 
 .hover-Name:hover {
-    transition: all 0.5s ease;
-    color: rgb(43, 255, 0);
+	transition: all 0.5s ease;
+	color: rgb(43, 255, 0);
 }
 
 .h2-description {
-    text-shadow: 1px 2px 3px #666;
-    margin: 0.5em;
-    font-weight: 600;
-    font-size: 1.5em;
+	text-shadow: 1px 2px 3px #666;
+	margin: 0.5em;
+	font-weight: 600;
+	font-size: 1.5em;
 }
 
 .h3-description {
-    text-shadow: 1px 2px 3px #666;
-    margin: 0.5em;
-    font-weight: 500;
-    font-size: 1.17em;
-    line-height: 1.17em;
+	text-shadow: 1px 2px 3px #666;
+	margin: 0.5em;
+	font-weight: 500;
+	font-size: 1.17em;
+	line-height: 1.17em;
 }
 
 .carousel-description {
-    font-size: 1.17em;
-    height: 1.17em;
+	font-size: 1.17em;
+	height: 1.17em;
 }
 
 .profilePic {
-    min-width: 200px;
-    width: 20%;
-    border-radius: 50%;
+	min-width: 200px;
+	width: 20%;
+	border-radius: 50%;
 }
 
 .accessibility-toggles {
-    position: absolute;
-    top: 0;
-    margin: 1%;
+	position: absolute;
+	top: 0;
+	margin: 1%;
 }
 
 .dyslexia-toggle .MuiTypography-root {
-    font-family: OpenDyslexia2 !important;
-    font-size: 0.6em;
-    text-shadow: 1px 2px 3px #666;
+	font-family: OpenDyslexia2 !important;
+	font-size: 0.6em;
+	text-shadow: 1px 2px 3px #666;
 }
 
 /* Material-UI */
 .MuiCheckbox-root {
-    color: #08f500 !important;
-    transition: all 0.5s ease;
+	color: #08f500 !important;
+	transition: all 0.5s ease;
 }

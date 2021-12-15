@@ -1,138 +1,138 @@
 {
-    "javascript": {
-        "name": "JavaScript",
-        "type": "language"
-    },
-    "python": {
-        "name": "Python",
-        "type": "language"
-    },
-    "php": {
-        "name": "PHP",
-        "type": "language"
-    },
-    "csharp": {
-        "name": "C#",
-        "type": "language"
-    },
-    "html": {
-        "name": "HTML",
-        "type": "language"
-    },
-    "css": {
-        "name": "CSS",
-        "type": "language"
-    },
-    "markdown": {
-        "name": "Markdown",
-        "type": "language"
-    },
-    "r": {
-        "name": "R",
-        "type": "language"
-    },
-    "json": {
-        "name": "JSON",
-        "type": "language"
-    },
-    "sql": {
-        "name": "SQL",
-        "type": "language"
-    },
-    "xml": {
-        "name": "XML",
-        "type": "language"
-    },
-    "bash": {
-        "name": "Bash",
-        "type": "language"
-    },
-    "git": {
-        "name": "Git",
-        "type": "frameworks"
-    },
-    "svg": {
-        "name": "SVG",
-        "type": "frameworks"
-    },
-    "mongodb": {
-        "name": "MongoDB",
-        "type": "frameworks"
-    },
-    "react": {
-        "name": "React",
-        "type": "frameworks"
-    },
-    "d3": {
-        "name": "D3",
-        "type": "frameworks"
-    },
-    "material-ui": {
-        "name": "Material-UI",
-        "type": "frameworks"
-    },
-    "google analytics": {
-        "name": "Google Analytics",
-        "type": "frameworks"
-    },
-    "mysql": {
-        "name": "MySQL",
-        "type": "frameworks"
-    },
-    "apache": {
-        "name": "Apache",
-        "type": "frameworks"
-    },
-    "office": {
-        "name": "Microsoft Office",
-        "type": "frameworks"
-    },
-    "nlp": {
-        "name": "NLP",
-        "type": "frameworks"
-    },
-    "jquery": {
-        "name": "jQuery",
-        "type": "frameworks"
-    },
-    "bootstrap": {
-        "name": "Bootstrap",
-        "type": "frameworks"
-    },
-    "benchling": {
-        "name": "Benchling",
-        "type": "frameworks"
-    },
-    "google cloud": {
-        "name": "Google Cloud",
-        "type": "frameworks"
-    },
-    "amazon aws": {
-        "name": "Amazon AWS",
-        "type": "frameworks"
-    },
-    "tumblr": {
-        "name": "Tumblr",
-        "type": "frameworks"
-    },
-    "web": {
-        "name": "Web",
-        "type": "type"
-    },
-    "science": {
-        "name": "Science",
-        "type": "type"
-    },
-    "teaching": {
-        "name": "Teaching",
-        "type": "type"
-    },
-    "mobile": {
-        "name": "Mobile",
-        "type": "type"
-    },
-    "firebase": {
-        "name": "Firebase",
-        "type": "frameworks"
-    }
+	"javascript": {
+		"name": "JavaScript",
+		"type": "language"
+	},
+	"python": {
+		"name": "Python",
+		"type": "language"
+	},
+	"php": {
+		"name": "PHP",
+		"type": "language"
+	},
+	"csharp": {
+		"name": "C#",
+		"type": "language"
+	},
+	"html": {
+		"name": "HTML",
+		"type": "language"
+	},
+	"css": {
+		"name": "CSS",
+		"type": "language"
+	},
+	"markdown": {
+		"name": "Markdown",
+		"type": "language"
+	},
+	"r": {
+		"name": "R",
+		"type": "language"
+	},
+	"json": {
+		"name": "JSON",
+		"type": "language"
+	},
+	"sql": {
+		"name": "SQL",
+		"type": "language"
+	},
+	"xml": {
+		"name": "XML",
+		"type": "language"
+	},
+	"bash": {
+		"name": "Bash",
+		"type": "language"
+	},
+	"git": {
+		"name": "Git",
+		"type": "frameworks"
+	},
+	"svg": {
+		"name": "SVG",
+		"type": "frameworks"
+	},
+	"mongodb": {
+		"name": "MongoDB",
+		"type": "frameworks"
+	},
+	"react": {
+		"name": "React",
+		"type": "frameworks"
+	},
+	"d3": {
+		"name": "D3",
+		"type": "frameworks"
+	},
+	"material-ui": {
+		"name": "Material-UI",
+		"type": "frameworks"
+	},
+	"google analytics": {
+		"name": "Google Analytics",
+		"type": "frameworks"
+	},
+	"mysql": {
+		"name": "MySQL",
+		"type": "frameworks"
+	},
+	"apache": {
+		"name": "Apache",
+		"type": "frameworks"
+	},
+	"office": {
+		"name": "Microsoft Office",
+		"type": "frameworks"
+	},
+	"nlp": {
+		"name": "NLP",
+		"type": "frameworks"
+	},
+	"jquery": {
+		"name": "jQuery",
+		"type": "frameworks"
+	},
+	"bootstrap": {
+		"name": "Bootstrap",
+		"type": "frameworks"
+	},
+	"benchling": {
+		"name": "Benchling",
+		"type": "frameworks"
+	},
+	"google cloud": {
+		"name": "Google Cloud",
+		"type": "frameworks"
+	},
+	"amazon aws": {
+		"name": "Amazon AWS",
+		"type": "frameworks"
+	},
+	"tumblr": {
+		"name": "Tumblr",
+		"type": "frameworks"
+	},
+	"web": {
+		"name": "Web",
+		"type": "type"
+	},
+	"science": {
+		"name": "Science",
+		"type": "type"
+	},
+	"teaching": {
+		"name": "Teaching",
+		"type": "type"
+	},
+	"mobile": {
+		"name": "Mobile",
+		"type": "type"
+	},
+	"firebase": {
+		"name": "Firebase",
+		"type": "frameworks"
+	}
 }

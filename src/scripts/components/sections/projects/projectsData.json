@@ -1,215 +1,237 @@
 {
-    "impact-depth": {
-        "name": "Impact Depth",
-        "description": "Visualize citation flow for a publication of interest",
-        "employer": "Personal Project",
-        "most-recent-title": "Creator",
-        "url": "https://impactdepth.com/",
-        "dates": {
-            "startDate": "2021-05",
-            "endDate": "2021-08"
-        },
-        "showcase": true,
-        "filter": {
-            "language": ["javascript", "html", "css", "markdown", "json", "bash"],
-            "frameworks": ["git", "svg", "mongodb", "react", "d3", "material-ui", "google analytics", "firebase"],
-            "type": ["web", "science"]
-        },
-        "responsibilities": [
-            "Created the citation flow (data-visualization) of each publication's citations dynamically",
-            "Manage database and keeping it up to date",
-            "Designed and handcrafted the UI/UX",
-            "Manage the hosting, analytics and bugs",
-            "Add PWA to allow Impact Depth to be installed from a browser to desktop and mobile",
-            "Focus on accessibility features to ensure that Impact Depth can be used by as many people as possible, including those with accessibility needs"
-        ]
-    },
-    "eplant-plant-efp": {
-        "name": "ePlant's Plant eFP",
-        "description": "Designed the updated widget version of the eFP tissue expression viewer for ePlant",
-        "employer": "University of Toronto - BAR/Provart Lab",
-        "most-recent-title": "Data Visualization Programmer",
-        "publication": "https://doi.org/10.1101/2021.04.28.441805",
-        "url": "https://github.com/BioAnalyticResource/ePlant_Plant_eFP",
-        "dates": {
-            "startDate": "2019-04",
-            "endDate": "2021-08"
-        },
-        "showcase": true,
-        "filter": {
-            "language": ["javascript", "html", "css", "markdown", "json", "sql", "xml", "bash"],
-            "frameworks": ["git", "svg", "mysql", "apache", "office"],
-            "type": ["web", "science"]
-        },
-        "responsibilities": [
-            "Updated ePlant's eFP for Arabidopsis thaliana to be a modular widget",
-            "Modified and cleaned up all SVGs to optimize network",
-            "Made it simple enough that anyone with access to code-base should be able to add a new compendium"
-        ]
-    },
-    "ta": {
-        "name": "Teaching Assistant",
-        "description": "TA at the University of Toronto for bioinformatics (CSB352) and molecular biology (BIO130)",
-        "employer": "University of Toronto",
-        "most-recent-title": "Teaching Assistant",
-        "url": "https://artsci.calendar.utoronto.ca/course/csb352h1",
-        "dates": {
-            "startDate": "2019-01",
-            "endDate": "2021-08"
-        },
-        "showcase": false,
-        "filter": {
-            "language": ["r"],
-            "frameworks": ["office"],
-            "type": ["web", "science", "teaching"]
-        },
-        "responsibilities": [
-            "Taught bioinformatic and biological techniques",
-            "Grade students based on given rubrics",
-            "Respond to all students at any hour to ensure they understood topics and help troubleshoot issues with their bioinformatic tools"
-        ]
-    },
-    "gaia": {
-        "name": "GAIA",
-        "description": "Generates a summary or answers a question regarding a gene",
-        "employer": "University of Toronto - BAR/Provart Lab",
-        "most-recent-title": "Project Lead",
-        "url": "https://bar.utoronto.ca/gaia/",
-        "dates": {
-            "startDate": "2019-04",
-            "endDate": "2021-08"
-        },
-        "showcase": true,
-        "filter": {
-            "language": ["javascript", "html", "css", "markdown", "json", "sql", "python", "php", "xml", "bash"],
-            "frameworks": ["git", "svg", "mysql", "apache", "google analytics", "nlp", "react", "material-ui", "mongodb", "office"],
-            "type": ["web", "science", "mobile"]
-        },
-        "responsibilities": [
-            "Aggregate data from many different repositories, databases, bioinformatic tools and scientific resources",
-            "Design and developed a statistical natural-language processing (NLP) approach to broadly answer questions about a gene or gene product",
-            "Created custom in-house machine reading (MR) logic to answer questions prompted by user",
-            "Code front-end UI",
-            "Manage a team of multiple programmers to ensure that GAIA's features are delivered by an expected deadline through iterative/agile development",
-            "Focus on accessibility features to ensure that GAIA can be used by as many people as possible, including those with accessibility needs",
-            "Worked on data collection, verification and application of a machine-vision model called GeneNet which can detect which figures are genetic models or not"
-        ]
-    },
-    "scigrade": {
-        "name": "SciGrade",
-        "description": "Teach CRISPR gRNA design",
-        "employer": "University of Toronto - Human Biology Department",
-        "most-recent-title": "Full-Stack Developer",
-        "url": "https://scigrade.com/",
-        "dates": {
-            "startDate": "2017-08",
-            "endDate": "2018-10"
-        },
-        "showcase": false,
-        "filter": {
-            "language": ["javascript", "html", "css", "markdown", "json"],
-            "frameworks": ["git", "jquery", "bootstrap", "google analytics", "svg", "office", "mongodb", "benchling"],
-            "type": ["web", "science", "teaching"]
-        },
-        "responsibilities": [
-            "Developed a web application that can teach CRISPR gRNA design to students and test them by having them go through examples for multiple human genes",
-            "Developed and managed the backend by handling how users login and have it be verified as students from a specific University of Toronto class",
-            "Developed and managed a database which can be downloaded from the front-end for a specific class' section by the administrators",
-            "Manage the hosting, analytics and bugs"
-        ]
-    },
-    "efp-seq-browser": {
-        "name": "eFP-Seq Browser",
-        "employer": "University of Toronto - BAR/Provart Lab",
-        "most-recent-title": "Data Visualization Programmer",
-        "description": "An RNA-Seq based gene expression visualizer web-tool",
-        "publication": "https://doi.org/10.1111/tpj.14468",
-        "url": "https://bar.utoronto.ca/eFP-Seq_Browser/",
-        "dates": {
-            "startDate": "2016-09",
-            "endDate": "2021-06"
-        },
-        "showcase": true,
-        "filter": {
-            "language": ["javascript", "html", "css", "markdown", "python", "php", "r", "sql", "xml", "bash"],
-            "frameworks": ["git", "jquery", "bootstrap","google analytics", "svg", "google cloud", "amazon aws", "apache", "mysql", "office"],
-            "type": ["web", "science", "mobile"]
-        },
-        "responsibilities": [
-            "Join the project half-way through and was able to quickly pick-up and improve upon the existing bioinformatics web-application",
-            "Working on the existing platform, ensured the accuracy and reliability of the statistical outputs for RNA-Seq analysis",
-            "Designed and developed a system which takes users custom RNA-Seq BAM files (that are hosted on Amazon AWS S3 or a personal Google Drive) and have its gene expression and read maps visualized",
-            "Focus on accessibility features to ensure that eFP-Seq Browser can be used by as many people as possible, including those with accessibility needs",
-            "Ensured eFP-Seq Browser works on mobile",
-            "Worked with other researchers to ensure the reliability of statistical outputs for RNA-Seq analysis using both Pearson Correlation Coefficient and point-biserial correction coefficient",
-            "Wrote a first-author peer-reviewed scientific publication for the eFP-Seq Browser with Dr. Nicholas Provart"
-        ]
-    },
-    "biosensing": {
-        "name": "Gold Biosensing",
-        "employer": "University of Toronto - iGEM Toronto",
-        "most-recent-title": "Laboratory Research Lead",
-        "description": "Developed a synthetic gene using GolS/GolB to detect aqueous gold",
-        "url": "http://2016.igem.org/Team:Toronto",
-        "dates": {
-            "startDate": "2015-10",
-            "endDate": "2016-11"
-        },
-        "showcase": true,
-        "filter": {
-            "language": ["html", "css", "markdown"],
-            "frameworks": ["git", "benchling", "office"],
-            "type": ["web", "science"]
-        },
-        "responsibilities": [
-            "Designed an approved research proposal for the use of E.coli with an inserted synthetic gene involving GolS and GolB to detect an aqueous gold",
-            "Did scientific techniques including: freeze-drying, gel extraction, cell lysis, SDS gel staining & SDS page, medium prep, bacterial culturing, PCR and restriction-enzyme (RE) digest & ligation",
-            "Managed a team of 9 laboratory researchers, including training",
-            "Managed purchases and finances, as well as communication with external sources for sponsorship/grants",
-            "Ensured safety protocols and training were known by all researchers",
-            "Worked with and assisted a dry lab to quantify the amount of aqueous gold based on colorimetric",
-            "Successfully was able to detect aqueous gold up to 0.5uM efficiently and submitted our research and synthetic gene to the iGEM Jamboree 2016 overgrad and won bronze"
-        ]
-    },
-    "smalldevtalk": {
-        "name": "Small Dev Talk",
-        "employer": "Small Dev Talk",
-        "most-recent-title": "Co-creator & Journalist",
-        "description": "News, interviews and showcases of the latest in the indie scene",
-        "url": "https://smalldevtalk.net/",
-        "dates": {
-            "startDate": "2013-03",
-            "endDate": "2016-04"
-        },
-        "showcase": false,
-        "filter": {
-            "language": ["javascript", "html", "css", "markdown", "json"],
-            "frameworks": ["git", "jquery", "tumblr", "bootstrap", "svg", "google analytics", "office"],
-            "type": ["web"]
-        },
-        "responsibilities": [
-            "Designed and coded the website/blog",
-            "Journalist",
-            "Handled the Google Ads and finances",
-            "Managed social media and communications"
-        ]
-    },
-    "mai-tutor": {
-        "name": "Mai Tutor",
-        "employer": "Mai Tutor",
-        "most-recent-title": "Tutor",
-        "description": "Tutor for students between grade 1 to 11 in math, science, English, music, geography, and business",
-        "dates": {
-            "startDate": "2012-09",
-            "endDate": "2013-05"
-        },
-        "showcase": false,
-        "filter": {
-            "type": ["teaching", "science"]
-        },
-        "responsibilities": [
-            "Tutored students between grade 1 through 1 in math, science, English, music, geography and business",
-            "Gave free extra hours to students in need"
-        ]
-    }
+	"impact-depth": {
+		"name": "Impact Depth",
+		"description": "Visualize citation flow for a publication of interest",
+		"employer": "Personal Project",
+		"most-recent-title": "Creator",
+		"url": "https://impactdepth.com/",
+		"dates": {
+			"startDate": "2021-05",
+			"endDate": "2021-08"
+		},
+		"showcase": true,
+		"filter": {
+			"language": ["javascript", "html", "css", "markdown", "json", "bash"],
+			"frameworks": ["git", "svg", "mongodb", "react", "d3", "material-ui", "google analytics", "firebase"],
+			"type": ["web", "science"]
+		},
+		"responsibilities": [
+			"Created the citation flow (data-visualization) of each publication's citations dynamically",
+			"Manage database and keeping it up to date",
+			"Designed and handcrafted the UI/UX",
+			"Manage the hosting, analytics and bugs",
+			"Add PWA to allow Impact Depth to be installed from a browser to desktop and mobile",
+			"Focus on accessibility features to ensure that Impact Depth can be used by as many people as possible, including those with accessibility needs"
+		]
+	},
+	"eplant-plant-efp": {
+		"name": "ePlant's Plant eFP",
+		"description": "Designed the updated widget version of the eFP tissue expression viewer for ePlant",
+		"employer": "University of Toronto - BAR/Provart Lab",
+		"most-recent-title": "Data Visualization Programmer",
+		"publication": "https://doi.org/10.1101/2021.04.28.441805",
+		"url": "https://github.com/BioAnalyticResource/ePlant_Plant_eFP",
+		"dates": {
+			"startDate": "2019-04",
+			"endDate": "2021-08"
+		},
+		"showcase": true,
+		"filter": {
+			"language": ["javascript", "html", "css", "markdown", "json", "sql", "xml", "bash"],
+			"frameworks": ["git", "svg", "mysql", "apache", "office"],
+			"type": ["web", "science"]
+		},
+		"responsibilities": [
+			"Updated ePlant's eFP for Arabidopsis thaliana to be a modular widget",
+			"Modified and cleaned up all SVGs to optimize network",
+			"Made it simple enough that anyone with access to code-base should be able to add a new compendium"
+		]
+	},
+	"ta": {
+		"name": "Teaching Assistant",
+		"description": "TA at the University of Toronto for bioinformatics (CSB352) and molecular biology (BIO130)",
+		"employer": "University of Toronto",
+		"most-recent-title": "Teaching Assistant",
+		"url": "https://artsci.calendar.utoronto.ca/course/csb352h1",
+		"dates": {
+			"startDate": "2019-01",
+			"endDate": "2021-08"
+		},
+		"showcase": false,
+		"filter": {
+			"language": ["r"],
+			"frameworks": ["office"],
+			"type": ["web", "science", "teaching"]
+		},
+		"responsibilities": [
+			"Taught bioinformatic and biological techniques",
+			"Grade students based on given rubrics",
+			"Respond to all students at any hour to ensure they understood topics and help troubleshoot issues with their bioinformatic tools"
+		]
+	},
+	"gaia": {
+		"name": "GAIA",
+		"description": "Generates a summary or answers a question regarding a gene",
+		"employer": "University of Toronto - BAR/Provart Lab",
+		"most-recent-title": "Project Lead",
+		"url": "https://bar.utoronto.ca/gaia/",
+		"dates": {
+			"startDate": "2019-04",
+			"endDate": "2021-08"
+		},
+		"showcase": true,
+		"filter": {
+			"language": ["javascript", "html", "css", "markdown", "json", "sql", "python", "php", "xml", "bash"],
+			"frameworks": [
+				"git",
+				"svg",
+				"mysql",
+				"apache",
+				"google analytics",
+				"nlp",
+				"react",
+				"material-ui",
+				"mongodb",
+				"office"
+			],
+			"type": ["web", "science", "mobile"]
+		},
+		"responsibilities": [
+			"Aggregate data from many different repositories, databases, bioinformatic tools and scientific resources",
+			"Design and developed a statistical natural-language processing (NLP) approach to broadly answer questions about a gene or gene product",
+			"Created custom in-house machine reading (MR) logic to answer questions prompted by user",
+			"Code front-end UI",
+			"Manage a team of multiple programmers to ensure that GAIA's features are delivered by an expected deadline through iterative/agile development",
+			"Focus on accessibility features to ensure that GAIA can be used by as many people as possible, including those with accessibility needs",
+			"Worked on data collection, verification and application of a machine-vision model called GeneNet which can detect which figures are genetic models or not"
+		]
+	},
+	"scigrade": {
+		"name": "SciGrade",
+		"description": "Teach CRISPR gRNA design",
+		"employer": "University of Toronto - Human Biology Department",
+		"most-recent-title": "Full-Stack Developer",
+		"url": "https://scigrade.com/",
+		"dates": {
+			"startDate": "2017-08",
+			"endDate": "2018-10"
+		},
+		"showcase": false,
+		"filter": {
+			"language": ["javascript", "html", "css", "markdown", "json"],
+			"frameworks": ["git", "jquery", "bootstrap", "google analytics", "svg", "office", "mongodb", "benchling"],
+			"type": ["web", "science", "teaching"]
+		},
+		"responsibilities": [
+			"Developed a web application that can teach CRISPR gRNA design to students and test them by having them go through examples for multiple human genes",
+			"Developed and managed the backend by handling how users login and have it be verified as students from a specific University of Toronto class",
+			"Developed and managed a database which can be downloaded from the front-end for a specific class' section by the administrators",
+			"Manage the hosting, analytics and bugs"
+		]
+	},
+	"efp-seq-browser": {
+		"name": "eFP-Seq Browser",
+		"employer": "University of Toronto - BAR/Provart Lab",
+		"most-recent-title": "Data Visualization Programmer",
+		"description": "An RNA-Seq based gene expression visualizer web-tool",
+		"publication": "https://doi.org/10.1111/tpj.14468",
+		"url": "https://bar.utoronto.ca/eFP-Seq_Browser/",
+		"dates": {
+			"startDate": "2016-09",
+			"endDate": "2021-06"
+		},
+		"showcase": true,
+		"filter": {
+			"language": ["javascript", "html", "css", "markdown", "python", "php", "r", "sql", "xml", "bash"],
+			"frameworks": [
+				"git",
+				"jquery",
+				"bootstrap",
+				"google analytics",
+				"svg",
+				"google cloud",
+				"amazon aws",
+				"apache",
+				"mysql",
+				"office"
+			],
+			"type": ["web", "science", "mobile"]
+		},
+		"responsibilities": [
+			"Join the project half-way through and was able to quickly pick-up and improve upon the existing bioinformatics web-application",
+			"Working on the existing platform, ensured the accuracy and reliability of the statistical outputs for RNA-Seq analysis",
+			"Designed and developed a system which takes users custom RNA-Seq BAM files (that are hosted on Amazon AWS S3 or a personal Google Drive) and have its gene expression and read maps visualized",
+			"Focus on accessibility features to ensure that eFP-Seq Browser can be used by as many people as possible, including those with accessibility needs",
+			"Ensured eFP-Seq Browser works on mobile",
+			"Worked with other researchers to ensure the reliability of statistical outputs for RNA-Seq analysis using both Pearson Correlation Coefficient and point-biserial correction coefficient",
+			"Wrote a first-author peer-reviewed scientific publication for the eFP-Seq Browser with Dr. Nicholas Provart"
+		]
+	},
+	"biosensing": {
+		"name": "Gold Biosensing",
+		"employer": "University of Toronto - iGEM Toronto",
+		"most-recent-title": "Laboratory Research Lead",
+		"description": "Developed a synthetic gene using GolS/GolB to detect aqueous gold",
+		"url": "http://2016.igem.org/Team:Toronto",
+		"dates": {
+			"startDate": "2015-10",
+			"endDate": "2016-11"
+		},
+		"showcase": true,
+		"filter": {
+			"language": ["html", "css", "markdown"],
+			"frameworks": ["git", "benchling", "office"],
+			"type": ["web", "science"]
+		},
+		"responsibilities": [
+			"Designed an approved research proposal for the use of E.coli with an inserted synthetic gene involving GolS and GolB to detect an aqueous gold",
+			"Did scientific techniques including: freeze-drying, gel extraction, cell lysis, SDS gel staining & SDS page, medium prep, bacterial culturing, PCR and restriction-enzyme (RE) digest & ligation",
+			"Managed a team of 9 laboratory researchers, including training",
+			"Managed purchases and finances, as well as communication with external sources for sponsorship/grants",
+			"Ensured safety protocols and training were known by all researchers",
+			"Worked with and assisted a dry lab to quantify the amount of aqueous gold based on colorimetric",
+			"Successfully was able to detect aqueous gold up to 0.5uM efficiently and submitted our research and synthetic gene to the iGEM Jamboree 2016 overgrad and won bronze"
+		]
+	},
+	"smalldevtalk": {
+		"name": "Small Dev Talk",
+		"employer": "Small Dev Talk",
+		"most-recent-title": "Co-creator & Journalist",
+		"description": "News, interviews and showcases of the latest in the indie scene",
+		"url": "https://smalldevtalk.net/",
+		"dates": {
+			"startDate": "2013-03",
+			"endDate": "2016-04"
+		},
+		"showcase": false,
+		"filter": {
+			"language": ["javascript", "html", "css", "markdown", "json"],
+			"frameworks": ["git", "jquery", "tumblr", "bootstrap", "svg", "google analytics", "office"],
+			"type": ["web"]
+		},
+		"responsibilities": [
+			"Designed and coded the website/blog",
+			"Journalist",
+			"Handled the Google Ads and finances",
+			"Managed social media and communications"
+		]
+	},
+	"mai-tutor": {
+		"name": "Mai Tutor",
+		"employer": "Mai Tutor",
+		"most-recent-title": "Tutor",
+		"description": "Tutor for students between grade 1 to 11 in math, science, English, music, geography, and business",
+		"dates": {
+			"startDate": "2012-09",
+			"endDate": "2013-05"
+		},
+		"showcase": false,
+		"filter": {
+			"type": ["teaching", "science"]
+		},
+		"responsibilities": [
+			"Tutored students between grade 1 through 1 in math, science, English, music, geography and business",
+			"Gave free extra hours to students in need"
+		]
+	}
 }

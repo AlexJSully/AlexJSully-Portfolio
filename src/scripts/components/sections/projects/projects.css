@@ -1,205 +1,205 @@
 hr {
-    width: 80%;
+	width: 80%;
 }
 
 .projects {
-    color: white;
-    margin-top: 2%;
-    margin-bottom: 2%;
+	color: white;
+	margin-top: 2%;
+	margin-bottom: 2%;
 }
 
 .projects-Grid {
-    width: 100% !important;
-    margin: auto !important;
-    justify-content: center;
+	width: 100% !important;
+	margin: auto !important;
+	justify-content: center;
 }
 
 .projects-Container {
-    margin: auto;
-    width: 100%;
-    background-color: #1e2227;
+	margin: auto;
+	width: 100%;
+	background-color: #1e2227;
 }
 
 .projects-DisplayContainer {
-    padding-left: 0px !important;
-    transition: all 0.5s ease;
+	padding-left: 0px !important;
+	transition: all 0.5s ease;
 }
 
 .projects-Card {
-    margin: auto;
-    max-width: 300px;
-    background-color: #1e2227 !important;
-    color: white !important;
-    text-decoration: none !important;
+	margin: auto;
+	max-width: 300px;
+	background-color: #1e2227 !important;
+	color: white !important;
+	text-decoration: none !important;
 }
 
 .projects-Thumbnail {
-    height: calc(100vh / 4 - 1em);
-    width: calc(100vh / 4 - 1em);
-    background-size: contain !important;
-    border-radius: 50%;
-    background-color: #f5f4f4;
-    margin: auto;
-    transition: all 0.5s ease;
+	height: calc(100vh / 4 - 1em);
+	width: calc(100vh / 4 - 1em);
+	background-size: contain !important;
+	border-radius: 50%;
+	background-color: #f5f4f4;
+	margin: auto;
+	transition: all 0.5s ease;
 }
 
 .projects-URL {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 .project-Experiences {
-    font-size: 1.5em;
+	font-size: 1.5em;
 }
 
 .projects-KeywordThumbnail {
-    height: calc(100vh / 16 - 1em);
-    width: calc(100vh / 16 - 1em);
-    background-size: 102% !important;
-    background-repeat: no-repeat !important;
-    border-radius: 25%;
-    background-color: #f5f4f4;
-    transition: all 0.5s ease;
-    margin: auto;
+	height: calc(100vh / 16 - 1em);
+	width: calc(100vh / 16 - 1em);
+	background-size: 102% !important;
+	background-repeat: no-repeat !important;
+	border-radius: 25%;
+	background-color: #f5f4f4;
+	transition: all 0.5s ease;
+	margin: auto;
 }
 
 .projects-KeywordThumbnail:hover {
-    background-size: 115% !important;
-    transition: all 0.2s ease;
+	background-size: 115% !important;
+	transition: all 0.2s ease;
 }
 
 .filter-Filtering {
-    height: calc(100vh / 16 - 1em);
-    width: calc(100vh / 16 - 1em);
-    background-size: 75% !important;
-    border-radius: 25%;
-    background-color: #f5f4f4;
-    margin: auto !important;
-    filter: invert(0.75);
-    transition: all 0.5s ease;
+	height: calc(100vh / 16 - 1em);
+	width: calc(100vh / 16 - 1em);
+	background-size: 75% !important;
+	border-radius: 25%;
+	background-color: #f5f4f4;
+	margin: auto !important;
+	filter: invert(0.75);
+	transition: all 0.5s ease;
 }
 
 .filter-Filtering:hover {
-    background-size: 85% !important;
-    transition: all 0.2s ease;
+	background-size: 85% !important;
+	transition: all 0.2s ease;
 }
 
 .filter-Accordion {
-    margin: auto !important;
-    margin-top: 1% !important;
-    width: 80%;
-    text-align: center;
-    background-color: #1e2227 !important;
-    color: white !important;
-    transition: all 0.2s ease;
+	margin: auto !important;
+	margin-top: 1% !important;
+	width: 80%;
+	text-align: center;
+	background-color: #1e2227 !important;
+	color: white !important;
+	transition: all 0.2s ease;
 }
 
 .filter-AccordionHeader {
-    justify-content: center;
-    margin: auto !important;
+	justify-content: center;
+	margin: auto !important;
 }
 
 .filter-Header {
-    font-size: 0.75em !important;
+	font-size: 0.75em !important;
 }
 
 .filter-Expand {
-    color: white;
-    font-size: 1em !important;
+	color: white;
+	font-size: 1em !important;
 }
 
 .filter-Cards {
-    margin-top: 1%;
-    margin-bottom: 1%;
+	margin-top: 1%;
+	margin-bottom: 1%;
 }
 
 .filter-ActionCard {
-    border-radius: 30% !important;
+	border-radius: 30% !important;
 }
 
 .filter-Switcher {
-    font-size: 0.75em !important;
-    padding: 0 !important;
+	font-size: 0.75em !important;
+	padding: 0 !important;
 }
 
 .filter-SwitcherDescription {
-    margin-top: 0%;
+	margin-top: 0%;
 }
 
 .filter-Reset {
-    font-size: 0.65em !important;
-    background-color: #003ba8 !important;
-    border: 3px solid #003ba8 !important;
-    border-radius: 25% !important;
-    line-height: 2em !important;
-    transition: all 1s ease !important;
+	font-size: 0.65em !important;
+	background-color: #003ba8 !important;
+	border: 3px solid #003ba8 !important;
+	border-radius: 25% !important;
+	line-height: 2em !important;
+	transition: all 1s ease !important;
 }
 
 .filter-Reset:hover {
-    background-color: #0041b9 !important;
-    border: 3px solid #0041b9 !important;
-    border-radius: 5% !important; 
-    transition: all 0.25s ease !important;
+	background-color: #0041b9 !important;
+	border: 3px solid #0041b9 !important;
+	border-radius: 5% !important;
+	transition: all 0.25s ease !important;
 }
 
 .responsibilities-Accordion {
-    margin-left: 0% !important;
-    margin-right: 0% !important;
-    width: 100% !important;
+	margin-left: 0% !important;
+	margin-right: 0% !important;
+	width: 100% !important;
 }
 
 .responsibilities-AccordionHeader {
-    width: 100% !important;
-    font-size: 1.5em !important;
-    margin-left: 0 !important;
+	width: 100% !important;
+	font-size: 1.5em !important;
+	margin-left: 0 !important;
 }
 
 .responsibilities-bullets {
-    text-align: left;
-    margin-bottom: 3%;
-    line-height: 1.2em;
+	text-align: left;
+	margin-bottom: 3%;
+	line-height: 1.2em;
 }
 
 /* Accessibility */
 .dyslexia-global .MuiTypography-root {
-    font-family: OpenDyslexia2 !important;
+	font-family: OpenDyslexia2 !important;
 }
 
 .dyslexia-global .MuiButton-label {
-    font-family: OpenDyslexia2 !important;
+	font-family: OpenDyslexia2 !important;
 }
 
 /* Modify Material-UI */
 .MuiGrid-spacing-xs-2 {
-    width: auto !important;
+	width: auto !important;
 }
 
 .MuiTypography-body2 {
-    color: white !important;
-    text-decoration: none !important;
+	color: white !important;
+	text-decoration: none !important;
 }
 
 .MuiAccordionSummary-content {
-    margin: 12px 0 !important;
-    justify-content: center !important;
+	margin: 12px 0 !important;
+	justify-content: center !important;
 }
 
 .MuiSwitch-track {
-    background-color: #00d5ff !important;
+	background-color: #00d5ff !important;
 }
 
 .MuiSwitch-thumb {
-    color: #ff23d0 !important;
+	color: #ff23d0 !important;
 }
 
 .MuiAccordionSummary-root {
-    border-radius: 5% !important; 
+	border-radius: 5% !important;
 }
 
 .MuiAccordionSummary-root:hover {
-    background-color: #272B2F !important;
-    transition: all 0.2s ease;
+	background-color: #272b2f !important;
+	transition: all 0.2s ease;
 }
 
 .MuiGrid-spacing-xs-2 {
-    width: 100%;
+	width: 100%;
 }

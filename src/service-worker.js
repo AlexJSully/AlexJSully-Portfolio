@@ -7,11 +7,11 @@
 // You can also remove this file if you'd prefer not to use a
 // service worker, and the Workbox build step will be skipped.
 
-import { clientsClaim } from 'workbox-core';
-import { precacheAndRoute } from 'workbox-precaching';
-import * as googleAnalytics from 'workbox-google-analytics';
-import * as navigationPreload from 'workbox-navigation-preload';
-import { pageCache, staticResourceCache, imageCache, offlineFallback } from 'workbox-recipes';
+import {clientsClaim} from "workbox-core";
+import {precacheAndRoute} from "workbox-precaching";
+import * as googleAnalytics from "workbox-google-analytics";
+import * as navigationPreload from "workbox-navigation-preload";
+import {pageCache, staticResourceCache, imageCache, offlineFallback} from "workbox-recipes";
 
 clientsClaim();
 
@@ -23,10 +23,10 @@ precacheAndRoute(self.__WB_MANIFEST);
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
+self.addEventListener("message", (event) => {
+	if (event.data && event.data.type === "SKIP_WAITING") {
+		self.skipWaiting();
+	}
 });
 
 // Offline Google Analytics
