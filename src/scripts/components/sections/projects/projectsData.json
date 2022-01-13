@@ -1,4 +1,26 @@
 {
+	"masterpiece-studio": {
+		"name": "Masterpiece Studio",
+		"description": "Visualize citation flow for a publication of interest",
+		"employer": "Brinx Software Inc",
+		"most-recent-title": "Full Stack Developer",
+		"url": "https://masterpiecestudio.com/",
+		"dates": {
+			"startDate": "2021-12",
+			"endDate": "Current"
+		},
+		"showcase": true,
+		"filter": {
+			"language": ["javascript", "html", "css", "markdown", "json", "bash"],
+			"frameworks": ["git", "svg", "react", "bootstrap", "google analytics", "firebase", "sql", "google cloud"],
+			"type": ["web", "mobile"]
+		},
+		"responsibilities": [
+			"Update, maintain and create new features and components for the web application",
+			"Design and develop API endpoints for the web application",
+			"Optimize the web application and make it accessibility friendly"
+		]
+	},
 	"impact-depth": {
 		"name": "Impact Depth",
 		"description": "Visualize citation flow for a publication of interest",

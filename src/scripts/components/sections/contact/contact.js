@@ -1,11 +1,12 @@
-import React, { Suspense } from "react";
+import React, {Suspense, lazy} from "react";
 import "./contact.css";
-const Button = React.lazy(() => import("@mui/material/Button"));
+// Lazy load Material-UI components
+const Button = lazy(() => import("@mui/material/Button"));
 // Icons
-const TwitterIcon = React.lazy(() => import("@mui/icons-material/Twitter"));
-const GitHubIcon = React.lazy(() => import("@mui/icons-material/GitHub"));
-const LinkedInIcon = React.lazy(() => import("@mui/icons-material/LinkedIn"));
-const CopyrightIcon = React.lazy(() => import("@mui/icons-material/Copyright"));
+const TwitterIcon = lazy(() => import("@mui/icons-material/Twitter"));
+const GitHubIcon = lazy(() => import("@mui/icons-material/GitHub"));
+const LinkedInIcon = lazy(() => import("@mui/icons-material/LinkedIn"));
+const CopyrightIcon = lazy(() => import("@mui/icons-material/Copyright"));
 
 /** Contact section of UI */
 export default function Contact() {
@@ -57,11 +58,7 @@ export default function Contact() {
 
 	return (
 		<Suspense fallback={null}>
-			<div
-				id="contactContainer"
-				className="contact-Container"
-				key="contact-Container"
-			>
+			<div id="contactContainer" className="contact-Container" key="contact-Container">
 				<div id="contact" className="contact" key="contact-Contact">
 					<p key="contact-Text">
 						Interested in working together? <br />

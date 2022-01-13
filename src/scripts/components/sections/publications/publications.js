@@ -1,12 +1,12 @@
-import React, {Suspense, useState, useEffect} from "react";
+import React, {Suspense, lazy, useState, useEffect} from "react";
 import PublicationsData from "./publicationsData.json";
 import ProjectsData from "../projects/projectsData.json";
 import "./publications.css";
-const Grid = React.lazy(() => import("@mui/material/Grid"));
-const Card = React.lazy(() => import("@mui/material/Card"));
-const CardActionArea = React.lazy(() => import("@mui/material/CardActionArea"));
-const CardContent = React.lazy(() => import("@mui/material/CardContent"));
-const Typography = React.lazy(() => import("@mui/material/Typography"));
+const Grid = lazy(() => import("@mui/material/Grid"));
+const Card = lazy(() => import("@mui/material/Card"));
+const CardActionArea = lazy(() => import("@mui/material/CardActionArea"));
+const CardContent = lazy(() => import("@mui/material/CardContent"));
+const Typography = lazy(() => import("@mui/material/Typography"));
 
 /** Display publications */
 export default function Publications() {
@@ -57,7 +57,7 @@ export default function Publications() {
 			abstract += "...";
 
 			publicationsJSX.push(
-				<Grid item xs={12}>
+				<Grid item xs={12} key={`publications-grid-${pubs[i]?.doi}`}>
 					<a
 						href={`https://doi.org/${pubs[i]?.doi}`}
 						target="_blank"
@@ -127,7 +127,7 @@ export default function Publications() {
 							<span className="publications-Title" key={`publications-Title`}>
 								Publications
 							</span>
-							<br />
+							<br key={"publications-break"} />
 							<Grid container className="publications-Grid" key={`publications-Grid`}>
 								{publicationsJSX}
 							</Grid>

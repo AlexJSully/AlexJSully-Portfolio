@@ -1,4 +1,4 @@
-import React, {Suspense, useState, useEffect} from "react";
+import React, {Suspense, lazy, useState, useEffect} from "react";
 import {handleMoveBackground} from "../../../interactivity/background-move";
 import {WordCarousel} from "../../../interactivity/word-carousel";
 import {createHoverColourWords} from "../../../interactivity/create-hover-words";
@@ -8,9 +8,10 @@ import ProfilePic from "../../../../images/me_drawn/profile_pic_drawn.webp";
 import SneezePicStart from "../../../../images/me_drawn/profile_pic_drawn_2.webp";
 import SneezingPic from "../../../../images/me_drawn/profile_pic_drawn_3.webp";
 import SneezingUnsatisfied from "../../../../images/me_drawn/profile_pic_drawn_4.webp";
-// Material-UI
-const FormControlLabel = React.lazy(() => import("@mui/material/FormControlLabel"));
-const Checkbox = React.lazy(() => import("@mui/material/Checkbox"));
+// Lazy load Material-UI components
+const Skeleton = lazy(() => import("@mui/material/Skeleton"));
+const FormControlLabel = lazy(() => import("@mui/material/FormControlLabel"));
+const Checkbox = lazy(() => import("@mui/material/Checkbox"));
 
 /** Landing for portfolio website */
 export default function Home() {
@@ -87,20 +88,22 @@ export default function Home() {
 	function createAccessibilityToggles() {
 		if (!displayAccessibilityToggles) {
 			setDisplayAccessibilityToggles(
-				<FormControlLabel
-					control={
-						<Checkbox
-							id="dyslexia-toggle"
-							onChange={() => handleGlobalDyslexia()}
-							color="secondary"
-							key="dyslexia-toggle"
-						/>
-					}
-					className="accessibility-toggles dyslexia-toggle"
-					label="Dyslexic Font"
-					title="Change all font to OpenDyslexic2"
-					key="accessibility-toggles"
-				/>,
+				<Suspense fallback={<Skeleton width="178px" height="42px" sx={{bgcolor: "#1e222796"}} />}>
+					<FormControlLabel
+						control={
+							<Checkbox
+								id="dyslexia-toggle"
+								onChange={() => handleGlobalDyslexia()}
+								color="secondary"
+								key="dyslexia-toggle"
+							/>
+						}
+						className="accessibility-toggles dyslexia-toggle"
+						label="Dyslexic Font"
+						title="Change all font to OpenDyslexic2"
+						key="accessibility-toggles"
+					/>
+				</Suspense>,
 			);
 		}
 	}
@@ -111,13 +114,8 @@ export default function Home() {
 	});
 
 	return (
-		<Suspense fallback={null}>
-			<div
-				className="home"
-				id="home"
-				key="home-Container"
-				onMouseMove={(e) => handleMoveBackground(e, "App")}
-			>
+		<Suspense fallback={<Skeleton width="60vh" height="100vh" sx={{bgcolor: "#1e222796"}} />}>
+			<div className="home" id="home" key="home-Container" onMouseMove={(e) => handleMoveBackground(e, "App")}>
 				{displayAccessibilityToggles}
 				<img
 					className="profilePic"
@@ -137,12 +135,7 @@ export default function Home() {
 					className="carousel-description h3-description"
 					key="home-DescriptionCarousel"
 				></span>
-				<h2
-					className="h3-description"
-					id="no-motion-description"
-					key="home-NoMotionDescription"
-					hidden={true}
-				>
+				<h2 className="h3-description" id="no-motion-description" key="home-NoMotionDescription" hidden={true}>
 					Full-Stack Web Developer | Bioinformatician | Gamer
 				</h2>
 			</div>

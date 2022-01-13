@@ -14,27 +14,26 @@ export async function returnImages(which, type) {
 	if (Object.keys(images).length < 1) {
 		// eslint-disable-next-line no-unused-vars
 		for (const [key, value] of Object.entries(ProjectsData)) {
+			/** Thumbnail image */
 			let thumbnail;
 
-			try {
-				thumbnail = await import(`../../../../../images/projects/${key}/thumbnail.png`);
-			} catch (error) {
-				// Nothing
-			}
+			/** Supported image formats */
+			let imageFormats = ["webp", "png", "jpg", "gif", "jpeg", "svg", "bmp", "ico", "tiff", "tif"];
 
-			if (!thumbnail) {
-				try {
-					thumbnail = await import(`../../../../../images/projects/${key}/thumbnail.svg`);
-				} catch (error) {
-					// Nothing
-				}
-			}
+			for (let i in imageFormats) {
+				// Only proceed if the image does not exist
+				if (!thumbnail) {
+					// Try to find image, if not, move to next format
+					try {
+						thumbnail = await import(`../../../../../images/projects/${key}/thumbnail.${imageFormats[i]}`);
 
-			if (!thumbnail) {
-				try {
-					thumbnail = await import(`../../../../../images/projects/${key}/thumbnail.webp`);
-				} catch (error) {
-					// Nothing
+						break;
+					} catch (error) {
+						continue;
+					}
+				} else {
+					// If image found, stop looping
+					break;
 				}
 			}
 

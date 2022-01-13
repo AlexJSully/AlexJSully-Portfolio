@@ -1,13 +1,13 @@
-import React, {Suspense, useState, useEffect} from "react";
+import React, {Suspense, lazy, useState, useEffect} from "react";
 import "./policy.css";
-const Cookies = React.lazy(() => import("./cookies"));
-const Privacy = React.lazy(() => import("./privacy"));
+const Cookies = lazy(() => import("./cookies"));
+const Privacy = lazy(() => import("./privacy"));
 // Material-UI
-const Snackbar = React.lazy(() => import("@mui/material/Snackbar"));
-const Button = React.lazy(() => import("@mui/material/Button"));
-const Dialog = React.lazy(() => import("@mui/material/Dialog"));
-const DialogTitle = React.lazy(() => import("@mui/material/DialogTitle"));
-const DialogContent = React.lazy(() => import("@mui/material/DialogContent"));
+const Snackbar = lazy(() => import("@mui/material/Snackbar"));
+const Button = lazy(() => import("@mui/material/Button"));
+const Dialog = lazy(() => import("@mui/material/Dialog"));
+const DialogTitle = lazy(() => import("@mui/material/DialogTitle"));
+const DialogContent = lazy(() => import("@mui/material/DialogContent"));
 
 /** Cookies and privacy policy */
 export default function Policy() {
@@ -107,11 +107,7 @@ export default function Policy() {
 				message="I use cookies to improve your experience!"
 				action={
 					<React.Fragment>
-						<Button
-							variant="outlined"
-							color="secondary"
-							onClick={() => handleClickCnPDialog()}
-						>
+						<Button variant="outlined" color="secondary" onClick={() => handleClickCnPDialog()}>
 							See cookies & privacy policy
 						</Button>
 						<Button
@@ -127,9 +123,7 @@ export default function Policy() {
 			/>
 
 			<Dialog open={displayCnPDialog} onClose={() => handleClickCnPDialog()}>
-				<DialogTitle id="cookies-and-privacy-dialog">
-					Cookies and Privacy Policy
-				</DialogTitle>
+				<DialogTitle id="cookies-and-privacy-dialog">Cookies and Privacy Policy</DialogTitle>
 				<DialogContent>
 					<Cookies />
 					<br />

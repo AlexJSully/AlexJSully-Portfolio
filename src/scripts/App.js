@@ -1,10 +1,10 @@
-import React, {Suspense} from "react";
+import React, {Suspense, lazy} from "react";
 import "./App.css";
-const Home = React.lazy(() => import("./components/sections/home/home"));
-const Projects = React.lazy(() => import("./components/sections/projects/projects"));
-const Publications = React.lazy(() => import("./components/sections/publications/publications"));
-const Contact = React.lazy(() => import("./components/sections/contact/contact"));
-const Policy = React.lazy(() => import("./components/sections/policy/policy"));
+const Home = lazy(() => import("./components/sections/home/home"));
+const Projects = lazy(() => import("./components/sections/projects/projects"));
+const Publications = lazy(() => import("./components/sections/publications/publications"));
+const Contact = lazy(() => import("./components/sections/contact/contact"));
+const Policy = lazy(() => import("./components/sections/policy/policy"));
 
 /** Portfolio and showcase */
 export default function App() {
