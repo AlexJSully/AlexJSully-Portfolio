@@ -1,10 +1,10 @@
 @font-face {
-    font-family: OpenDyslexia2;
-    src: url(./fonts/OpenDyslexic2/OpenDyslexic-Regular.otf);
-    font-display: swap;
+	font-family: OpenDyslexia2;
+	src: url(./fonts/OpenDyslexic2/OpenDyslexic-Regular.otf);
+	font-display: swap;
 }
 
 .dyslexia-global {
-    font-family: OpenDyslexia2 !important;
-    text-shadow: 1px 2px 3px rgb(93, 105, 91) !important;
+	font-family: OpenDyslexia2 !important;
+	text-shadow: 1px 2px 3px rgb(93, 105, 91) !important;
 }

@@ -7,15 +7,15 @@
 			"url": "https://alexjsully.me/"
 		}
 	],
-	"version": "1.0.40",
+	"version": "1.0.41",
 	"private": true,
 	"description": "Portfolio and showcase for Alexander Joo-Hyun Sullivan and related projects & experiences.",
 	"dependencies": {
 		"@emotion/react": "^11.7.1",
 		"@emotion/styled": "^11.6.0",
-		"@mui/icons-material": "^5.3.0",
-		"@mui/material": "^5.3.0",
-		"firebase": "^9.6.4",
+		"@mui/icons-material": "^5.4.1",
+		"@mui/material": "^5.4.1",
+		"firebase": "^9.6.6",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-scripts": "5.0.0",
@@ -27,11 +27,12 @@
 		"workbox-recipes": "^6.4.2"
 	},
 	"scripts": {
-		"analyze": "source-map-explorer 'build/static/js/*.js'",
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"eject": "react-scripts eject",
+		"analyze": "source-map-explorer 'build/static/js/*.js'",
+		"prettier": "prettier --write --end-of-line auto ./"
 	},
 	"eslintConfig": {
 		"extends": [
