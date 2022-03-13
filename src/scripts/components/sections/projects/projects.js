@@ -506,7 +506,15 @@ export default function Projects() {
 					<br />
 					{displayFilter}
 					<br />
-					<Grid container spacing={2} className="projects-Grid" key={`projects-Grid`}>
+					<Grid
+						container
+						direction="row"
+						justifyContent="space-evenly"
+						alignItems="center"
+						spacing={2}
+						className="projects-Grid"
+						key={`projects-Grid`}
+					>
 						{displayJSX}
 					</Grid>
 				</div>

@@ -35,8 +35,10 @@ hr {
 
 .projects-Thumbnail {
 	height: calc(100vh / 4 - 1em);
+	max-height: 300px;
 	width: calc(100vh / 4 - 1em);
-	background-size: contain !important;
+	max-width: 300px;
+	background-size: cover !important;
 	border-radius: 50%;
 	background-color: #f5f4f4;
 	margin: auto;
