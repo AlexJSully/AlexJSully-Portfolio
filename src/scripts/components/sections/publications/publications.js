@@ -17,13 +17,13 @@ export default function Publications() {
 	 */
 	function displayPublications() {
 		/** All publication data */
-		let pubs = PublicationsData.publications;
+		const pubs = PublicationsData.publications;
 		/** Each publications' JSX */
-		let publicationsJSX = [];
+		const publicationsJSX = [];
 
 		for (let i = 0; i < pubs.length; i++) {
 			/** Metadata */
-			let metaData = [];
+			const metaData = [];
 			if (pubs[i]?.doi) {
 				metaData.push(`DOI: ${pubs[i].doi}`);
 			}
@@ -35,7 +35,7 @@ export default function Publications() {
 			}
 
 			/** What project the publication relates too */
-			let relatedProjectData = [];
+			const relatedProjectData = [];
 			if (pubs[i]?.["related-project"]) {
 				if (ProjectsData[pubs[i]["related-project"]]) {
 					relatedProjectData.push(
@@ -122,13 +122,13 @@ export default function Publications() {
 		if (publicationsJSX.length > 0) {
 			setDisplayJSX(
 				<Suspense fallback={null} key="publicationJSX">
-					<div id="publicationsContainer" className="publications-Container" key={`publications-Container`}>
-						<div id="publications" className="publications" key={`publications-Content`}>
-							<span className="publications-Title" key={`publications-Title`}>
+					<div id="publicationsContainer" className="publications-Container" key="publications-Container">
+						<div id="publications" className="publications" key="publications-Content">
+							<span className="publications-Title" key="publications-Title">
 								Publications
 							</span>
-							<br key={"publications-break"} />
-							<Grid container className="publications-Grid" key={`publications-Grid`}>
+							<br key="publications-break" />
+							<Grid container className="publications-Grid" key="publications-Grid">
 								{publicationsJSX}
 							</Grid>
 						</div>

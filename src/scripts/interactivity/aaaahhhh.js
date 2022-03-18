@@ -7,7 +7,7 @@ export function aaaahhhh() {
 	imageAAAAHHHH();
 	textAAAAHHHH();
 
-	document.title = `Alexander Sullivan's AAAAHHHHH`;
+	document.title = "Alexander Sullivan's AAAAHHHHH";
 }
 
 /**
@@ -15,16 +15,16 @@ export function aaaahhhh() {
  */
 function imageAAAAHHHH() {
 	/** Document's AAAAHHHH */
-	let docs = document.querySelectorAll(`div[style]`);
-	for (let i in docs) {
+	const docs = document.querySelectorAll("div[style]");
+	for (const i in docs) {
 		if (docs[i]?.style?.backgroundImage) {
 			docs[i].style.backgroundImage = `url(${aaaaaahhhhhh})`;
 		}
 	}
 
 	/** Document's AAAAHHHH part 2 */
-	let imgs = document.getElementsByTagName("img");
-	for (let i in imgs) {
+	const imgs = document.getElementsByTagName("img");
+	for (const i in imgs) {
 		if (imgs[i]?.src) {
 			imgs[i].src = aaaaaahhhhhh;
 		}
@@ -38,7 +38,7 @@ function imageAAAAHHHH() {
  */
 function textAAAAHHHH() {
 	/** AAAAHHHH LIST OF DOCUMENT TAGS */
-	let docs = [
+	const docs = [
 		...document.getElementsByTagName("span"),
 		...document.getElementsByTagName("p"),
 		...document.getElementsByTagName("h1"),
@@ -46,14 +46,14 @@ function textAAAAHHHH() {
 		...document.getElementsByTagName("h3"),
 	];
 
-	for (let i in docs) {
+	for (const i in docs) {
 		if (docs[i]?.childNodes) {
-			for (let c in docs[i].childNodes) {
+			for (const c in docs[i].childNodes) {
 				if (docs[i]?.childNodes[c]?.nodeName === "#text" && docs[i]?.childNodes[c]?.textContent?.length > 0) {
 					/** AAAAHHHH OLD TEXT */
-					let text = docs[i].childNodes[c].textContent;
+					const text = docs[i].childNodes[c].textContent;
 					/** AAAAHHHH NEW TEXT */
-					let newText = convertAAAAHH(text);
+					const newText = convertAAAAHH(text);
 					docs[i].childNodes[c].textContent = newText;
 				}
 			}
@@ -74,18 +74,18 @@ export function convertAAAAHH(aaaahhhh) {
 	let newAAAAHHHH = "";
 
 	/** AAAAHHHHlength */
-	let AAAAHHHHlength = aaaahhhh.length;
+	const AAAAHHHHlength = aaaahhhh.length;
 
 	/** splitAAAAHHHH */
-	let splitAAAAHHHH = aaaahhhh.split("");
-	for (let i in splitAAAAHHHH) {
+	const splitAAAAHHHH = aaaahhhh.split("");
+	for (const i in splitAAAAHHHH) {
 		if (splitAAAAHHHH[i] === " ") {
 			newAAAAHHHH += " ";
 		} else {
 			/** to AAAAHHHH */
-			let toUpper = splitAAAAHHHH[i].toUpperCase();
+			const toUpper = splitAAAAHHHH[i].toUpperCase();
 			/** is AAAAHHHH */
-			let isUpper = toUpper === splitAAAAHHHH[i];
+			const isUpper = toUpper === splitAAAAHHHH[i];
 
 			/** which AAAAHHHH */
 			let whichLetter = i < AAAAHHHHlength / 2 ? "a" : "h";

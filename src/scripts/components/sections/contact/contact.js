@@ -10,7 +10,7 @@ const CopyrightIcon = lazy(() => import("@mui/icons-material/Copyright"));
 
 /** Contact section of UI */
 export default function Contact() {
-	let socialMediaInfo = {
+	const socialMediaInfo = {
 		Twitter: {
 			url: "https://twitter.com/alexjsully",
 			text: "Twitter",
@@ -28,7 +28,7 @@ export default function Contact() {
 		},
 	};
 
-	let email = `alexjsully.connect@outlook.com`;
+	const email = "alexjsully.connect@outlook.com";
 
 	/**
 	 * Create social media icons
@@ -36,10 +36,10 @@ export default function Contact() {
 	 */
 	function socialMediaIcons() {
 		/** Social media icons */
-		let socialMediaIcons = [];
+		const socialMediaIcons = [];
 
 		// eslint-disable-next-line no-unused-vars
-		for (let [key, value] of Object.entries(socialMediaInfo)) {
+		for (const [key, value] of Object.entries(socialMediaInfo)) {
 			socialMediaIcons.push(
 				<Button
 					href={value?.url}

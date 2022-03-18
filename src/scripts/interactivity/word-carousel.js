@@ -1,5 +1,5 @@
 /** How many letters per second */
-let lettersPerSecond = 16;
+const lettersPerSecond = 16;
 
 /**
  * Display list of words as a carousel
@@ -22,7 +22,7 @@ function addLetters(dom, word, wordList) {
 	if (document.getElementById(dom)) {
 		if (word?.length > 0) {
 			/** Position of the word's letter */
-			let pos = document.getElementById(dom)?.textContent?.length;
+			const pos = document.getElementById(dom)?.textContent?.length;
 
 			if (pos < word?.length) {
 				document.getElementById(dom).textContent += word[pos];
@@ -51,7 +51,7 @@ function removeLetter(dom, word, wordList) {
 	if (document.getElementById(dom)) {
 		if (word?.length > 0) {
 			/** Position of the word's letter */
-			let pos = document.getElementById(dom)?.textContent?.length;
+			const pos = document.getElementById(dom)?.textContent?.length;
 
 			if (pos > 0) {
 				document.getElementById(dom).textContent = document

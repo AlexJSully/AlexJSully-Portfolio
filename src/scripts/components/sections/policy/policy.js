@@ -23,11 +23,11 @@ export default function Policy() {
 		/** Whether the cookies and policy was displayed before */
 		let openedCnP;
 		/** All document cookies */
-		let cookies = document.cookie?.split(";");
+		const cookies = document.cookie?.split(";");
 
-		for (let i in cookies) {
+		for (const i in cookies) {
 			/** Cookie parameters */
-			let cookieParams = cookies[i].split("=");
+			const cookieParams = cookies[i].split("=");
 
 			if (cookieParams[0].trim().toLowerCase() === "ajs_p_version") {
 				lastVersion = cookieParams[1];
@@ -44,9 +44,9 @@ export default function Policy() {
 		let olderVersion = false;
 		if (lastVersion) {
 			/** Last version number loaded */
-			let ajs_p_version = lastVersion.split(".");
+			const ajs_p_version = lastVersion.split(".");
 			/** Current version number */
-			let currentNum = process.env.REACT_APP_VERSION.split(".");
+			const currentNum = process.env.REACT_APP_VERSION.split(".");
 
 			if (Number(ajs_p_version[0]) < Number(currentNum[0])) {
 				olderVersion = true;
@@ -77,7 +77,7 @@ export default function Policy() {
 
 		setDisplayCnP(false);
 
-		document.cookie = `openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM;`;
+		document.cookie = "openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM;";
 	}
 
 	/**
@@ -88,7 +88,7 @@ export default function Policy() {
 
 		setDisplayCnPDialog(!displayCnPDialog);
 
-		document.cookie = `openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM;`;
+		document.cookie = "openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM;";
 	}
 
 	useEffect(() => {
@@ -106,7 +106,7 @@ export default function Policy() {
 				onClose={() => handleClickCnPSnackbar()}
 				message="I use cookies to improve your experience!"
 				action={
-					<React.Fragment>
+					<>
 						<Button variant="outlined" color="secondary" onClick={() => handleClickCnPDialog()}>
 							See cookies & privacy policy
 						</Button>
@@ -118,7 +118,7 @@ export default function Policy() {
 						>
 							CLOSE
 						</Button>
-					</React.Fragment>
+					</>
 				}
 			/>
 

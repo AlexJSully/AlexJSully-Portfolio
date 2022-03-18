@@ -8,9 +8,9 @@ export function handleMoveBackground(event, whichElement, howMuchMove = 45) {
 	if (document.getElementById(whichElement)) {
 		if (document.getElementById(whichElement) && event?.pageX && event?.pageY) {
 			/** New element height */
-			let moveHeight = (howMuchMove / window.innerHeight) * (event.pageY - window.innerHeight);
+			const moveHeight = (howMuchMove / window.innerHeight) * (event.pageY - window.innerHeight);
 			/** New element width */
-			let moveWidth = (howMuchMove / window.innerWidth) * (event.pageX - window.innerWidth);
+			const moveWidth = (howMuchMove / window.innerWidth) * (event.pageX - window.innerWidth);
 
 			document.getElementById(whichElement).style.backgroundPosition = `${moveWidth}px ${moveHeight}px`;
 		}

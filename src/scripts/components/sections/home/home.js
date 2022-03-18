@@ -18,7 +18,7 @@ export default function Home() {
 	const [displayAccessibilityToggles, setDisplayAccessibilityToggles] = useState(null);
 
 	/** Professional descriptions */
-	let descriptionCarousel = [
+	const descriptionCarousel = [
 		"Bioinformatician",
 		"Computational Biologist",
 		"Data Visualization Programmer",
@@ -134,8 +134,8 @@ export default function Home() {
 					id="description-Carousel"
 					className="carousel-description h3-description"
 					key="home-DescriptionCarousel"
-				></span>
-				<h2 className="h3-description" id="no-motion-description" key="home-NoMotionDescription" hidden={true}>
+				/>
+				<h2 className="h3-description" id="no-motion-description" key="home-NoMotionDescription" hidden>
 					Full-Stack Web Developer | Bioinformatician | Gamer
 				</h2>
 			</div>
