@@ -2,6 +2,10 @@
 
 My portfolio website to showcase (and brag) about my all my projects!
 
+[![Codiga Code Quality Score](https://api.codiga.io/project/32058/score/svg)](https://api.codiga.io/project/32058/score/svg)
+[![Codiga Code Grade](https://api.codiga.io/project/32058/status/svg)](https://api.codiga.io/project/32058/status/svg)
+[![DeepSource](https://deepsource.io/gh/ASully/AlexJSully-Portfolio.svg/?label=active+issues&show_trend=true&token=5AtKqjJVeOH_bCbpMIGC6GCH)](https://deepsource.io/gh/ASully/AlexJSully-Portfolio/?ref=repository-badge)
+
 ## Getting Started
 
 Go to https://alexjsully.me to see this portfolio!
