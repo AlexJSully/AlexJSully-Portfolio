@@ -27,7 +27,7 @@ export default function Projects() {
 	/** What filters have been selected */
 	let filterList = [];
 	/** Default projects being showcased */
-	let defaultList = [];
+	const defaultList = [];
 
 	/**
 	 * Toggle including mutually exclusive filters or not
@@ -56,7 +56,7 @@ export default function Projects() {
 	 */
 	async function createFilterDisplay() {
 		/** What filter options are available */
-		let filters = {
+		const filters = {
 			language: [],
 			frameworks: [],
 			type: [],
@@ -81,12 +81,12 @@ export default function Projects() {
 					}
 				}
 
-				ProjectsData[key]["combinedKeywords"] = combinedKeywords;
+				ProjectsData[key].combinedKeywords = combinedKeywords;
 			}
 		}
 
 		/** Filter JSX */
-		let filterJSX = [];
+		const filterJSX = [];
 
 		/** Material-UI grid item size */
 		let colSize = parseInt(12 / Object.keys(filters)?.length);
@@ -96,11 +96,11 @@ export default function Projects() {
 
 		for (const [key, value] of Object.entries(filters)) {
 			/** Each individual filter JSX */
-			let innerFilterJSX = [];
+			const innerFilterJSX = [];
 
-			for (let i in value) {
+			for (const i in value) {
 				/** Filter thumbnail */
-				let keywordThumbnail = await returnFilterImages(filters, value[i]);
+				const keywordThumbnail = await returnFilterImages(filters, value[i]);
 
 				if (keywordThumbnail) {
 					innerFilterJSX.push(
@@ -148,38 +148,38 @@ export default function Projects() {
 
 		if (filterJSX?.length > 0) {
 			/** Filter's JSX */
-			let toDisplay = [];
+			const toDisplay = [];
 
 			toDisplay.push(
-				<Accordion className="filter-Accordion" key={`filter-Accordion`}>
+				<Accordion className="filter-Accordion" key="filter-Accordion">
 					<AccordionSummary
 						className="filter-AccordionHeader"
 						aria-controls="filter-content"
 						id="filter-header"
 						onClick={() => flipExpandIcon("filter-Expand")}
-						key={`filter-Summary`}
+						key="filter-Summary"
 					>
-						<Typography className="filter-Header" key={`filter-HeaderText`}>
+						<Typography className="filter-Header" key="filter-HeaderText">
 							Filter{" "}
 							<ExpandMoreIcon
 								className="filter-Expand"
 								id="filter-Expand"
 								fontSize="large"
-								key={`filter-ExpandMoreIcon`}
+								key="filter-ExpandMoreIcon"
 							/>
 						</Typography>
 					</AccordionSummary>
-					<AccordionDetails key={`filter-AccordionDetails`}>
+					<AccordionDetails key="filter-AccordionDetails">
 						<Grid
 							container
 							spacing={3}
 							className="projects-Grid"
-							key={`filter-AccordionGrid`}
+							key="filter-AccordionGrid"
 							justifyContent="center"
 							alignItems="flex-start"
 						>
-							<Grid item xs={12} className="filter-Switcher" key={`filter-AccordionSwitcher`}>
-								<p className="filter-SwitcherDescription" key={`filter-AccordionSwitcherDescription`}>
+							<Grid item xs={12} className="filter-Switcher" key="filter-AccordionSwitcher">
+								<p className="filter-SwitcherDescription" key="filter-AccordionSwitcherDescription">
 									Select one or more icons to filter my experiences. <br />
 									Toggle between "AND" for experiences that contain all selected filters, <br />
 									or "OR" for experiences that contain at least one selected filter.
@@ -191,7 +191,7 @@ export default function Projects() {
 									name="checkedB"
 									inputProps={{"aria-label": "primary checkbox"}}
 									id="andOrSwitcher"
-									key={`filter-AccordionSwitch`}
+									key="filter-AccordionSwitch"
 								/>
 								OR
 								<br />
@@ -200,7 +200,7 @@ export default function Projects() {
 									color="primary"
 									className="filter-Reset"
 									onClick={() => resetFilters()}
-									key={`filter-Reset`}
+									key="filter-Reset"
 								>
 									Reset Filters
 								</Button>
@@ -222,11 +222,11 @@ export default function Projects() {
 	 */
 	function filterProjects(whichToFilter = undefined, reset = false) {
 		/** All available filter document elements */
-		let keywordFiltersDocuments = document.getElementsByClassName("projects-KeywordThumbnail");
+		const keywordFiltersDocuments = document.getElementsByClassName("projects-KeywordThumbnail");
 
 		// If reset, then remove all filter classes and projects
 		if (reset) {
-			for (let i in keywordFiltersDocuments) {
+			for (const i in keywordFiltersDocuments) {
 				if (keywordFiltersDocuments[i].classList) {
 					keywordFiltersDocuments[i].classList.add("projects-Thumbnail");
 					keywordFiltersDocuments[i].classList.remove("filter-Filtering");
@@ -247,15 +247,15 @@ export default function Projects() {
 				filterList.push(whichToFilter);
 			}
 
-			for (let i in keywordFiltersDocuments) {
+			for (const i in keywordFiltersDocuments) {
 				if (keywordFiltersDocuments[i]?.id && keywordFiltersDocuments[i]?.classList) {
 					/** What is being filtered for */
-					let currentFilter = keywordFiltersDocuments[i].id.substr(
+					const currentFilter = keywordFiltersDocuments[i].id.substr(
 						0,
 						keywordFiltersDocuments[i].id.length - 7,
 					);
 					/** All class for current filter */
-					let currentClasses = [...keywordFiltersDocuments[i].classList];
+					const currentClasses = [...keywordFiltersDocuments[i].classList];
 
 					if (filterList?.length > 0) {
 						if (filterList.includes(currentFilter) && !currentClasses.includes("projects-Thumbnail")) {
@@ -290,7 +290,7 @@ export default function Projects() {
 						/** Count of filter keywords that match filter list */
 						let containsAll = 0;
 
-						for (let i in filterList) {
+						for (const i in filterList) {
 							if (value.combinedKeywords.includes(filterList[i])) {
 								containsAll += 1;
 							}
@@ -300,7 +300,7 @@ export default function Projects() {
 							toDisplay = true;
 						}
 					} else {
-						for (let i in filterList) {
+						for (const i in filterList) {
 							if (value.combinedKeywords.includes(filterList[i])) {
 								toDisplay = true;
 
@@ -340,13 +340,13 @@ export default function Projects() {
 	async function createProjectsDisplay() {
 		if (ProjectsData) {
 			/** Display projects as JSX */
-			let displayJSXData = [];
+			const displayJSXData = [];
 
 			for (const [key, value] of Object.entries(ProjectsData)) {
 				/** Project thumbnail */
-				let thumbnail = await returnImages(key, "thumbnail");
+				const thumbnail = await returnImages(key, "thumbnail");
 				/** Project URL */
-				let url = value?.url || "#";
+				const url = value?.url || "#";
 
 				if (value?.showcase) {
 					defaultList.push(key);
@@ -356,9 +356,9 @@ export default function Projects() {
 				if (value?.responsibilities) {
 					displayResponsibilities = [];
 
-					let responsibilities = [];
+					const responsibilities = [];
 
-					for (let i in value.responsibilities) {
+					for (const i in value.responsibilities) {
 						responsibilities.push(
 							<li key={`${key}-responsibilities-${i}`} className="responsibilities-bullets">
 								{value.responsibilities[i]}
@@ -402,11 +402,11 @@ export default function Projects() {
 					displayKeywords = [];
 
 					/** Keywords as JSX */
-					let keywordsFilters = [];
+					const keywordsFilters = [];
 
 					for (const [filter, keywords] of Object.entries(value.filter)) {
-						let innerKeywords = [];
-						for (let i in keywords) {
+						const innerKeywords = [];
+						for (const i in keywords) {
 							if (FilterData?.[keywords[i]]?.name) {
 								innerKeywords.push(FilterData[keywords[i]].name);
 							}
@@ -498,9 +498,9 @@ export default function Projects() {
 
 	return (
 		<Suspense fallback={null}>
-			<div id="projectsContainer" className="projects-Container" key={`projects-Container`}>
-				<div id="projects" className="projects" key={`projects`}>
-					<span className="project-Experiences" key={`projects-Title`}>
+			<div id="projectsContainer" className="projects-Container" key="projects-Container">
+				<div id="projects" className="projects" key="projects">
+					<span className="project-Experiences" key="projects-Title">
 						Projects & Experience
 					</span>
 					<br />
@@ -513,7 +513,7 @@ export default function Projects() {
 						alignItems="center"
 						spacing={2}
 						className="projects-Grid"
-						key={`projects-Grid`}
+						key="projects-Grid"
 					>
 						{displayJSX}
 					</Grid>

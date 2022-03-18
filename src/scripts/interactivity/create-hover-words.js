@@ -6,9 +6,9 @@
  */
 export function createHoverColourWords(text, className) {
 	/** Each letter is surrounded by a span with the given class as JSX */
-	let returnJSX = [];
+	const returnJSX = [];
 
-	for (let i in text) {
+	for (const i in text) {
 		returnJSX.push(
 			<span key={`${text[i]}-${i}`} className={className}>
 				{text[i]}

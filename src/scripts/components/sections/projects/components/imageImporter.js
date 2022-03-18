@@ -1,7 +1,7 @@
 import ProjectsData from "../projectsData.json";
 
 // Image data
-let images = {};
+const images = {};
 
 /**
  * Return project thumbnails
@@ -18,9 +18,9 @@ export async function returnImages(which, type) {
 			let thumbnail;
 
 			/** Supported image formats */
-			let imageFormats = ["webp", "png", "jpg", "gif", "jpeg", "svg", "bmp", "ico", "tiff", "tif"];
+			const imageFormats = ["webp", "png", "jpg", "gif", "jpeg", "svg", "bmp", "ico", "tiff", "tif"];
 
-			for (let i in imageFormats) {
+			for (const i in imageFormats) {
 				// Only proceed if the image does not exist
 				if (!thumbnail) {
 					// Try to find image, if not, move to next format
@@ -38,7 +38,7 @@ export async function returnImages(which, type) {
 			}
 
 			images[key] = {};
-			images[key]["thumbnail"] = thumbnail?.default;
+			images[key].thumbnail = thumbnail?.default;
 		}
 	}
 
@@ -51,7 +51,7 @@ export async function returnImages(which, type) {
 }
 
 // All filter option thumbnails
-let filterImages = {};
+const filterImages = {};
 
 /**
  * Return desired filter image thumbnail
@@ -64,7 +64,7 @@ export async function returnFilterImages(filterData, which) {
 	if (Object.keys(filterImages).length < 1) {
 		// eslint-disable-next-line no-unused-vars
 		for (const [key, value] of Object.entries(filterData)) {
-			for (let i in value) {
+			for (const i in value) {
 				let thumbnail;
 
 				try {
