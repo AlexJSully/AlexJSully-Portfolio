@@ -16,7 +16,7 @@ Go to https://alexjsully.me to see this portfolio!
 
 | Chrome | Firefox | IE  | Edge | Safari | Opera | Tor | Mobile |
 | ------ | ------- | --- | ---- | ------ | ----- | --- | ------ |
-| ✔      | ✔       | X   | ✔    | ✔      | ✔     | ✔   | ✔      |
+| ✔      | ✔       | ✔   | ✔    | ✔      | ✔     | ✔   | ✔      |
 
 ## Installation/Open
 
