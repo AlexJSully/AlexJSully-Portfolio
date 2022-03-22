@@ -42,7 +42,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
 
 ## License
 
-Coming soon...
+[GPL-3.0](LICENSE)
 
 ## Authors
 
