@@ -4,6 +4,8 @@ My portfolio website to showcase (and brag) about my all my projects!
 
 [![Codiga Code Quality Score](https://api.codiga.io/project/32058/score/svg)](https://api.codiga.io/project/32058/score/svg)
 [![Codiga Code Grade](https://api.codiga.io/project/32058/status/svg)](https://api.codiga.io/project/32058/status/svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/03876ea9102600fc4ed2/maintainability)](https://codeclimate.com/github/ASully/AlexJSully-Portfolio/maintainability)
+[![CodeFactor](https://www.codefactor.io/repository/github/asully/alexjsully-portfolio/badge)](https://www.codefactor.io/repository/github/asully/alexjsully-portfolio)
 [![DeepSource](https://deepsource.io/gh/ASully/AlexJSully-Portfolio.svg/?label=active+issues&show_trend=true&token=5AtKqjJVeOH_bCbpMIGC6GCH)](https://deepsource.io/gh/ASully/AlexJSully-Portfolio/?ref=repository-badge)
 
 ## Getting Started
