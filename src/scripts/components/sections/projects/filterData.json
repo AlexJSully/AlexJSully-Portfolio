@@ -134,5 +134,9 @@
 	"firebase": {
 		"name": "Firebase",
 		"type": "frameworks"
+	},
+	"postgresql": {
+		"name": "PostgreSQL",
+		"type": "frameworks"
 	}
 }

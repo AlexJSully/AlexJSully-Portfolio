@@ -122,9 +122,14 @@ export default function Publications() {
 		if (publicationsJSX.length > 0) {
 			setDisplayJSX(
 				<Suspense fallback={null} key="publicationJSX">
-					<div id="publicationsContainer" className="publications-Container" key="publications-Container">
+					<div
+						id="publicationsContainer"
+						className="publications-Container"
+						key="publications-Container"
+						role="region"
+					>
 						<div id="publications" className="publications" key="publications-Content">
-							<span className="publications-Title" key="publications-Title">
+							<span className="publications-Title" key="publications-Title" role="banner">
 								Publications
 							</span>
 							<br key="publications-break" />

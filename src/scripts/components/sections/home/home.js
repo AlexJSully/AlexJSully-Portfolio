@@ -96,12 +96,14 @@ export default function Home() {
 								onChange={() => handleGlobalDyslexia()}
 								color="secondary"
 								key="dyslexia-toggle"
+								role="dyslexia-toggle"
 							/>
 						}
 						className="accessibility-toggles dyslexia-toggle"
 						label="Dyslexic Font"
 						title="Change all font to OpenDyslexic2"
 						key="accessibility-toggles"
+						role="dyslexia-text"
 					/>
 				</Suspense>,
 			);
@@ -120,6 +122,7 @@ export default function Home() {
 				<img
 					className="profilePic"
 					id="profilePic"
+					role="banner"
 					key="home-ProfilePic"
 					src={ProfilePic}
 					alt="Drawn version of me"
@@ -127,15 +130,22 @@ export default function Home() {
 					onMouseEnter={() => handleTriggerSneeze()}
 					onClick={() => handleTriggerSneeze()}
 				/>
-				<h1 className="h2-description" key="home-Name">
+				<h1 className="h2-description" key="home-Name" role="banner">
 					{createHoverColourWords("Alexander Joo-Hyun Sullivan", "hover-Name")}
 				</h1>
 				<span
 					id="description-Carousel"
 					className="carousel-description h3-description"
 					key="home-DescriptionCarousel"
+					role="banner"
 				/>
-				<h2 className="h3-description" id="no-motion-description" key="home-NoMotionDescription" hidden>
+				<h2
+					className="h3-description"
+					id="no-motion-description"
+					key="home-NoMotionDescription"
+					role="banner"
+					hidden
+				>
 					Full-Stack Web Developer | Bioinformatician | Gamer
 				</h2>
 			</div>

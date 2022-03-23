@@ -13,7 +13,7 @@ export default function App() {
 
 	return (
 		<Suspense fallback={null}>
-			<div id="App" className="App" key="App-section">
+			<div id="App" className="App" key="App-section" role="main">
 				<h1 hidden id="keywords">
 					{keywords.join(",")}
 				</h1>

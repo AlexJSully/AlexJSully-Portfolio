@@ -11,8 +11,17 @@
 		},
 		"showcase": true,
 		"filter": {
-			"language": ["javascript", "html", "css", "markdown", "json", "bash"],
-			"frameworks": ["git", "svg", "react", "bootstrap", "google analytics", "firebase", "sql", "google cloud"],
+			"language": ["javascript", "html", "css", "markdown", "json", "bash", "sql"],
+			"frameworks": [
+				"git",
+				"svg",
+				"react",
+				"bootstrap",
+				"google analytics",
+				"firebase",
+				"google cloud",
+				"postgresql"
+			],
 			"type": ["web", "mobile"]
 		},
 		"responsibilities": [

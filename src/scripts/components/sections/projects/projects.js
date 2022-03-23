@@ -498,9 +498,9 @@ export default function Projects() {
 
 	return (
 		<Suspense fallback={null}>
-			<div id="projectsContainer" className="projects-Container" key="projects-Container">
+			<div id="projectsContainer" className="projects-Container" key="projects-Container" role="region">
 				<div id="projects" className="projects" key="projects">
-					<span className="project-Experiences" key="projects-Title">
+					<span className="project-Experiences" key="projects-Title" role="banner">
 						Projects & Experience
 					</span>
 					<br />

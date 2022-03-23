@@ -58,9 +58,9 @@ export default function Contact() {
 
 	return (
 		<Suspense fallback={null}>
-			<div id="contactContainer" className="contact-Container" key="contact-Container">
+			<div id="contactContainer" className="contact-Container" key="contact-Container" role="region">
 				<div id="contact" className="contact" key="contact-Contact">
-					<p key="contact-Text">
+					<p key="contact-Text" role="banner">
 						Interested in working together? <br />
 						<Button
 							className="workTogether-Button"
@@ -73,7 +73,7 @@ export default function Contact() {
 						</Button>
 					</p>
 					{socialMediaIcons()}
-					<p className="contact-Footer" key="contact-Footer">
+					<p className="contact-Footer" key="contact-Footer" role="complementary">
 						Handcrafted by <br />
 						<CopyrightIcon />
 						Alexander Joo-Hyun Sullivan
