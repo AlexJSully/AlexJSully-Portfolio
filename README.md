@@ -36,6 +36,14 @@ I aim to make my portfolio as perfect as possible but unfortunately, there may b
 
 -   None at the moment
 
+## Sponsorship
+
+If you want to support my work, you can through the following methods:
+
+-   [BTC](3Lp4pwF5nXqwFA62BYx4DSvDswyYpskBog)
+-   [ETH](0xc6EB17BD7cbe5976Bfc4f845669cD66Ff340a1A2)
+-   [PayPal](https://paypal.me/alexjsully)
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
