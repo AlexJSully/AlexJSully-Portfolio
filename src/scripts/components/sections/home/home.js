@@ -96,14 +96,14 @@ export default function Home() {
 								onChange={() => handleGlobalDyslexia()}
 								color="secondary"
 								key="dyslexia-toggle"
-								role="dyslexia-toggle"
+								role="checkbox"
 							/>
 						}
 						className="accessibility-toggles dyslexia-toggle"
 						label="Dyslexic Font"
 						title="Change all font to OpenDyslexic2"
 						key="accessibility-toggles"
-						role="dyslexia-text"
+						role="suggestion"
 					/>
 				</Suspense>,
 			);
