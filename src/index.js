@@ -2,7 +2,7 @@ import "react-app-polyfill/ie11"; // For IE 11 support
 import "react-app-polyfill/stable"; // For IE 11 support
 // React
 import React from "react";
-import ReactDOM from "react-dom";
+import {createRoot} from "react-dom/client";
 // Sentry
 import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";
@@ -27,7 +27,9 @@ Sentry.init({
 	tracesSampleRate: 1.0,
 });
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const container = document.getElementById("root");
+const root = createRoot(container);
+root.render(<App />);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
