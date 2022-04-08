@@ -1,4 +1,4 @@
-import ProjectsData from "../projectsData.json";
+import ProjectsData from "../../data/projectsData.json";
 
 // Image data
 const images = {};
@@ -24,7 +24,7 @@ export async function returnImages(which, type) {
 				if (!thumbnail) {
 					// Try to find image, if not, move to next format
 					try {
-						thumbnail = await import(`../../../../../images/projects/${key}/thumbnail.${imageFormats[i]}`);
+						thumbnail = await import(`../../images/projects/${key}/thumbnail.${imageFormats[i]}`);
 
 						break;
 					} catch (error) {
@@ -42,11 +42,7 @@ export async function returnImages(which, type) {
 	}
 
 	// If image exists, then return it
-	if (images?.[which.toString()]?.[type.toString()]) {
-		return images[which.toString()][type.toString()];
-	} else {
-		return undefined;
-	}
+	return images?.[which.toString()]?.[type.toString()] || undefined;
 }
 
 // All filter option thumbnails
@@ -67,7 +63,7 @@ export async function returnFilterImages(filterData, which) {
 				let thumbnail;
 
 				try {
-					thumbnail = await import(`../../../../../images/icons/${value[i]}.svg`);
+					thumbnail = await import(`../../images/icons/${value[i]}.svg`);
 				} catch (error) {
 					// Nothing
 				}
@@ -78,9 +74,5 @@ export async function returnFilterImages(filterData, which) {
 	}
 
 	// If image exists, then return it
-	if (filterImages?.[which.toString()]) {
-		return filterImages[which.toString()];
-	} else {
-		return undefined;
-	}
+	return filterImages?.[which.toString()] || undefined;
 }

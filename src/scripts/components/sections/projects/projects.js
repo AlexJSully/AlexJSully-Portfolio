@@ -1,8 +1,8 @@
 import React, {Suspense, lazy, useState, useEffect} from "react";
 import "./projects.css";
-import ProjectsData from "./projectsData.json";
-import FilterData from "./filterData.json";
-import {returnImages, returnFilterImages} from "./components/imageImporter";
+import ProjectsData from "../../../../data/projectsData.json";
+import FilterData from "../../../../data/filterData.json";
+import {returnImages, returnFilterImages} from "../../../helper/imageImporter";
 
 // Lazy load Material-UI components
 const Grid = lazy(() => import("@mui/material/Grid"));

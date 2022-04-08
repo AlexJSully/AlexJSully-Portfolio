@@ -32,11 +32,7 @@ export default function Policy() {
 			if (cookieParams[0].trim().toLowerCase() === "ajs_p_version") {
 				lastVersion = cookieParams[1];
 			} else if (cookieParams[0].trim().toLowerCase() === "openedcnp") {
-				if (cookieParams[1] === "true") {
-					openedCnP = true;
-				} else {
-					openedCnP = false;
-				}
+				openedCnP = cookieParams?.[1] === "true";
 			}
 		}
 
