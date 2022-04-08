@@ -1,5 +1,7 @@
 import React, {Suspense, lazy} from "react";
 import "./App.css";
+
+// Lazy load components
 const Home = lazy(() => import("./components/sections/home/home"));
 const Projects = lazy(() => import("./components/sections/projects/projects"));
 const Publications = lazy(() => import("./components/sections/publications/publications"));

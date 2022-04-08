@@ -3,6 +3,7 @@ import "./projects.css";
 import ProjectsData from "./projectsData.json";
 import FilterData from "./filterData.json";
 import {returnImages, returnFilterImages} from "./components/imageImporter";
+
 // Lazy load Material-UI components
 const Grid = lazy(() => import("@mui/material/Grid"));
 const Card = lazy(() => import("@mui/material/Card"));
@@ -68,16 +69,13 @@ export default function Projects() {
 				/** All filter options */
 				let combinedKeywords = [];
 
-				for (const [innerKey, innerValue] of Object.entries(value.filter)) {
-					// eslint-disable-next-line no-unused-vars
-					for (const [innerKey, innerValue] of Object.entries(value.filter)) {
-						combinedKeywords = [...combinedKeywords, ...innerValue];
-					}
+				for (const [type, names] of Object.entries(value.filter)) {
+					combinedKeywords = [...combinedKeywords, ...names];
 
-					if (filters[innerKey]) {
-						filters[innerKey] = [...filters[innerKey], ...innerValue];
-						filters[innerKey] = [...new Set(filters[innerKey])];
-						filters[innerKey].sort();
+					if (filters[type]) {
+						filters[type] = [...filters[type], ...names];
+						filters[type] = [...new Set(filters[type])];
+						filters[type].sort();
 					}
 				}
 
@@ -250,7 +248,7 @@ export default function Projects() {
 			for (const i in keywordFiltersDocuments) {
 				if (keywordFiltersDocuments[i]?.id && keywordFiltersDocuments[i]?.classList) {
 					/** What is being filtered for */
-					const currentFilter = keywordFiltersDocuments[i].id.substr(
+					const currentFilter = keywordFiltersDocuments[i].id.substring(
 						0,
 						keywordFiltersDocuments[i].id.length - 7,
 					);

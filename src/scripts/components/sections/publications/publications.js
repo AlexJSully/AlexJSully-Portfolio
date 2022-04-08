@@ -2,6 +2,8 @@ import React, {Suspense, lazy, useState, useEffect} from "react";
 import PublicationsData from "./publicationsData.json";
 import ProjectsData from "../projects/projectsData.json";
 import "./publications.css";
+
+// Lazy load components
 const Grid = lazy(() => import("@mui/material/Grid"));
 const Card = lazy(() => import("@mui/material/Card"));
 const CardActionArea = lazy(() => import("@mui/material/CardActionArea"));
@@ -21,73 +23,69 @@ export default function Publications() {
 		/** Each publications' JSX */
 		const publicationsJSX = [];
 
-		for (let i = 0; i < pubs.length; i++) {
+		pubs.forEach((pub) => {
 			/** Metadata */
 			const metaData = [];
-			if (pubs[i]?.doi) {
-				metaData.push(`DOI: ${pubs[i].doi}`);
+			if (pub?.doi) {
+				metaData.push(`DOI: ${pub.doi}`);
 			}
-			if (pubs[i]?.journal) {
-				metaData.push(`Journal: ${pubs[i].journal}`);
+			if (pub?.journal) {
+				metaData.push(`Journal: ${pub.journal}`);
 			}
-			if (pubs[i]?.date) {
-				metaData.push(`Date: ${pubs[i].date}`);
+			if (pub?.date) {
+				metaData.push(`Date: ${pub.date}`);
 			}
 
 			/** What project the publication relates too */
 			const relatedProjectData = [];
-			if (pubs[i]?.["related-project"]) {
-				if (ProjectsData[pubs[i]["related-project"]]) {
+			if (pub?.["related-project"]) {
+				if (ProjectsData[pub["related-project"]]) {
 					relatedProjectData.push(
 						<span
 							className="publications-URL"
-							key={`research-related-${ProjectsData[pubs[i]["related-project"]].name}-url`}
+							key={`research-related-${ProjectsData[pub["related-project"]].name}-url`}
 						>
-							{ProjectsData[pubs[i]["related-project"]].name}
+							{ProjectsData[pub["related-project"]].name}
 						</span>,
 					);
 				}
 			}
 
 			/** Abstract to a limited number of words */
-			let abstract = pubs[i]?.abstract;
+			let abstract = pub?.abstract;
 			abstract = abstract.split(" ");
 			abstract = abstract.slice(0, 100);
 			abstract = abstract.join(" ");
 			abstract += "...";
 
 			publicationsJSX.push(
-				<Grid item xs={12} key={`publications-grid-${pubs[i]?.doi}`}>
+				<Grid item xs={12} key={`publications-grid-${pub?.doi}`}>
 					<a
-						href={`https://doi.org/${pubs[i]?.doi}`}
+						href={`https://doi.org/${pub?.doi}`}
 						target="_blank"
 						rel="noopener noreferrer"
 						className="publications-URL"
-						key={`research-link-${pubs[i]?.title}`}
+						key={`research-link-${pub?.title}`}
 					>
-						<Card className="publications-Card" key={`research-card-${pubs[i]?.title}`}>
-							<CardActionArea key={`research-card-${pubs[i]?.title}-actionArea`}>
-								<CardContent key={`research-card-${pubs[i]?.title}-content`}>
-									<Typography
-										variant="h5"
-										component="h2"
-										key={`research-card-${pubs[i]?.title}-title`}
-									>
-										{pubs[i]?.title}
+						<Card className="publications-Card" key={`research-card-${pub?.title}`}>
+							<CardActionArea key={`research-card-${pub?.title}-actionArea`}>
+								<CardContent key={`research-card-${pub?.title}-content`}>
+									<Typography variant="h5" component="h2" key={`research-card-${pub?.title}-title`}>
+										{pub?.title}
 									</Typography>
 									<Typography
 										className="publications-meta publications-authors"
 										variant="body3"
 										component="p"
-										key={`research-card-${pubs[i]?.title}-authors`}
+										key={`research-card-${pub?.title}-authors`}
 									>
-										{pubs[i]?.authors.join(", ")}
+										{pub?.authors.join(", ")}
 									</Typography>
 									<Typography
 										className="publications-meta"
 										variant="body3"
 										component="p"
-										key={`research-card-${pubs[i]?.title}-metaData`}
+										key={`research-card-${pub?.title}-metaData`}
 									>
 										{metaData?.length > 0 ? metaData.join(" | ") : null}
 									</Typography>
@@ -95,7 +93,7 @@ export default function Publications() {
 										className="publications-meta"
 										variant="body3"
 										component="p"
-										key={`research-card-${pubs[i]?.title}-relatedProjects`}
+										key={`research-card-${pub?.title}-relatedProjects`}
 									>
 										{relatedProjectData?.length > 0 ? (
 											<span key={`related-project-${relatedProjectData}`}>
@@ -107,7 +105,7 @@ export default function Publications() {
 										className="publications-abstract"
 										variant="body1"
 										component="p"
-										key={`research-card-${pubs[i]?.title}-abstract`}
+										key={`research-card-${pub?.title}-abstract`}
 									>
 										{abstract}
 									</Typography>
@@ -117,7 +115,7 @@ export default function Publications() {
 					</a>
 				</Grid>,
 			);
-		}
+		});
 
 		if (publicationsJSX.length > 0) {
 			setDisplayJSX(

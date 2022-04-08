@@ -12,8 +12,7 @@ const images = {};
 export async function returnImages(which, type) {
 	// Grab all images on first time this function is called
 	if (Object.keys(images).length < 1) {
-		// eslint-disable-next-line no-unused-vars
-		for (const [key, value] of Object.entries(ProjectsData)) {
+		for (const [key] of Object.entries(ProjectsData)) {
 			/** Thumbnail image */
 			let thumbnail;
 
@@ -63,7 +62,7 @@ export async function returnFilterImages(filterData, which) {
 	// Grab all images on first time this function is called
 	if (Object.keys(filterImages).length < 1) {
 		// eslint-disable-next-line no-unused-vars
-		for (const [key, value] of Object.entries(filterData)) {
+		for (const [, value] of Object.entries(filterData)) {
 			for (const i in value) {
 				let thumbnail;
 

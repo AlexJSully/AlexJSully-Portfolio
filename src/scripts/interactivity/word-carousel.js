@@ -56,7 +56,7 @@ function removeLetter(dom, word, wordList) {
 			if (pos > 0) {
 				document.getElementById(dom).textContent = document
 					.getElementById(dom)
-					.textContent.substr(0, document.getElementById(dom).textContent.length - 1);
+					.textContent.substring(0, document.getElementById(dom).textContent.length - 1);
 
 				setTimeout(() => {
 					removeLetter(dom, word, wordList);

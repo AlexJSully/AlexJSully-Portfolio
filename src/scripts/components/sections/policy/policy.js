@@ -48,11 +48,14 @@ export default function Policy() {
 			/** Current version number */
 			const currentNum = process.env.REACT_APP_VERSION.split(".");
 
-			if (Number(ajs_p_version[0]) < Number(currentNum[0])) {
-				olderVersion = true;
-			} else if (Number(ajs_p_version[1]) < Number(currentNum[1])) {
-				olderVersion = true;
-			} else if (Number(ajs_p_version[2]) < Number(currentNum[2])) {
+			/** Major version number */
+			let majorOlder = Number(ajs_p_version[0]) < Number(currentNum[0]);
+			/** Minor version number */
+			let minorOlder = Number(ajs_p_version[1]) < Number(currentNum[1]);
+			/** Patch version number */
+			let patchOlder = Number(ajs_p_version[2]) < Number(currentNum[2]);
+
+			if (majorOlder || minorOlder || patchOlder) {
 				olderVersion = true;
 			}
 		}
@@ -70,7 +73,7 @@ export default function Policy() {
 	 * @param {*} reason
 	 * @returns
 	 */
-	function handleClickCnPSnackbar(event, reason) {
+	function handleClickCnPSnackbar(_event, reason) {
 		if (reason === "clickaway") {
 			return;
 		}

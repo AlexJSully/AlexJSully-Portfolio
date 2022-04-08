@@ -36,11 +36,10 @@ export default function Contact() {
 	 */
 	function socialMediaIcons() {
 		/** Social media icons */
-		const socialMediaIcons = [];
+		const socialMediaIconsList = [];
 
-		// eslint-disable-next-line no-unused-vars
-		for (const [key, value] of Object.entries(socialMediaInfo)) {
-			socialMediaIcons.push(
+		for (const [, value] of Object.entries(socialMediaInfo)) {
+			socialMediaIconsList.push(
 				<Button
 					href={value?.url}
 					key={`contact-button-${value?.text}-social`}
@@ -53,7 +52,7 @@ export default function Contact() {
 			);
 		}
 
-		return socialMediaIcons;
+		return socialMediaIconsList;
 	}
 
 	return (
