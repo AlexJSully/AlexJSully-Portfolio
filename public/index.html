@@ -39,6 +39,35 @@
 		<meta name="msapplication-config" content="https://alexjsully.me/icon/browserconfig.xml" />
 		<meta name="msapplication-TileColor" content="#1e2227" />
 		<meta name="msapplication-TileImage" content="https://alexjsully.me/icon/mstile-144x144.png" />
+		<!-- Open Graph  -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://alexjsully.me/" />
+		<meta property="og:title" content="Alexander Sullivan's Portfolio & Showcase" />
+		<meta
+			property="og:description"
+			content="Portfolio showcase for Alexander Joo-Hyun Sullivan and related projects & experiences. | Masterpiece Studio, Impact Depth, GAIA, ePlant Plant eFP, GAIA, eFP-Seq Browser & Gold Biosensing"
+		/>
+		<meta property="og:image" content="https://alexjsully.me/icon/resoc.png" />
+		<meta property="og:image:url" content="https://alexjsully.me/icon/resoc.png" />
+		<meta property="og:image:secure_url" content="https://alexjsully.me/icon/resoc.png" />
+		<meta property="og:image:type" content="image/png" />
+		<meta property="og:image:alt" content="Alexander Sullivan's Portfolio & Showcase" />
+		<meta property="og:site_name" content="Alexander Sullivan's Portfolio & Showcase" />
+		<meta property="og:image" content="https://alexjsully.me/icon/resoc.png" />
+		<meta property="article:published_time" name="article-published_time" content="2021-11-09T00:00:00+00:00" />
+		<meta property="article:modified_time" name="article-modified_time" content="2022-04-10T12:00:00+00:00" />
+		<meta property="og:publish_date" name="publish_date" content="2021-11-09T00:00:00Z" />
+		<meta itemprop="name" content="Alexander Sullivan's Portfolio & Showcase" />
+		<meta itemprop="url" content="https://alexjsully.me" />
+		<meta
+			itemprop="description"
+			content="Portfolio showcase for Alexander Joo-Hyun Sullivan and related projects & experiences. | Masterpiece Studio, Impact Depth, GAIA, ePlant Plant eFP, GAIA, eFP-Seq Browser & Gold Biosensing"
+		/>
+		<meta itemprop="thumbnailUrl" content="https://alexjsully.me/icon/resoc.png" />
+		<link rel="image_src" href="https://alexjsully.me/icon/resoc.png" />
+		<meta itemprop="image" content="https://alexjsully.me/icon/resoc.png" />
+		<!-- Facebook -->
+		<meta property="fb:app_id" content="%REACT_APP_FACEBOOK_APP_ID%" />
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
 		<meta property="twitter:url" content="https://alexjsully.me/" />
@@ -49,29 +78,6 @@
 			name="twitter:description"
 			content="Portfolio and showcase for Alexander Joo-Hyun Sullivan and related projects & experiences."
 		/>
-		<!-- Open Graph  -->
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://alexjsully.me/" />
-		<meta property="og:title" content="Alexander Sullivan's Portfolio & Showcase" />
-		<meta
-			property="og:description"
-			content="Portfolio showcase for Alexander Joo-Hyun Sullivan and related projects & experiences. | Masterpiece Studio, Impact Depth, GAIA, ePlant Plant eFP, GAIA, eFP-Seq Browser & Gold Biosensing"
-		/>
-		<meta property="og:image" content="https://alexjsully.me/icon/resoc.png" />
-		<meta property="og:site_name" content="Alexander Sullivan's Portfolio & Showcase" />
-		<meta property="og:image" content="https://alexjsully.me/icon/resoc.png" />
-		<meta property="og:publish_date" name="publish_date" content="2021-11-09T00:00:00Z" />
-		<meta itemprop="name" content="Alexander Sullivan's Portfolio & Showcase" />
-		<meta itemprop="url" content="https://alexjsully.me" />
-		<meta
-			itemprop="description"
-			content="Portfolio showcase for Alexander Joo-Hyun Sullivan and related projects & experiences. | Masterpiece Studio, Impact Depth, GAIA, ePlant Plant eFP, GAIA, eFP-Seq Browser & Gold Biosensing"
-		/>
-		<meta itemprop="thumbnailUrl" content="https://alexjsully.me/icon/resoc.png" />
-		<link rel="image_src" href="%PUBLIC_URL%/icon/resoc.png" />
-		<meta itemprop="image" content="https://alexjsully.me/icon/resoc.png" />
-		<!-- Facebook -->
-		<meta property="fb:app_id" content="%REACT_APP_FACEBOOK_APP_ID%" />
 		<!-- Schema/Structured Data -->
 		<script type="application/ld+json">
 			[
@@ -85,7 +91,9 @@
 						"https://alexjsully.me/",
 						"https://www.linkedin.com/in/alexanderjsullivan/",
 						"https://twitter.com/AlexJSully",
-						"https://github.com/asully"
+						"https://github.com/asully",
+						"https://orcid.org/0000-0002-4463-4473",
+						"https://scholar.google.ca/citations?user=1nr3eaAAAAAJ&hl=en"
 					],
 					"jobTitle": "Full Stack Developer",
 					"worksFor": {
@@ -99,7 +107,9 @@
 					},
 					"birthDate": "1995-02-14",
 					"alumniOf": "University of Toronto",
-					"birthPlace": "Ontario, Canada"
+					"birthPlace": "Ontario, Canada",
+					"honorificPrefix": "Mr.",
+					"honorificSuffix": "MSc"
 				},
 				{
 					"@context": "https://schema.org",
@@ -154,6 +164,22 @@
 							}
 						}
 					]
+				},
+				{
+					"@context": "https://schema.org/",
+					"@type": "WebPage",
+					"name": "Alexander Sullivan's Portfolio & Showcase",
+					"speakable": {
+						"@type": "SpeakableSpecification",
+						"cssSelector": [
+							"h2-description",
+							"h3-description",
+							"MuiCardContent-root",
+							"MuiTypography-root",
+							"responsibilities-bullets"
+						]
+					},
+					"url": "https://alexjsully.me/"
 				}
 			]
 		</script>
