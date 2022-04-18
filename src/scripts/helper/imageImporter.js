@@ -18,6 +18,10 @@ export async function returnImages(which, type) {
 
 			/** Supported image formats */
 			const imageFormats = ["webp", "png", "jpg", "gif", "jpeg", "svg", "bmp", "ico", "tiff", "tif"];
+			// If Internet Explorer, remove any non-compatible image formats
+			if (navigator.userAgent.indexOf("MSIE") !== -1 || navigator.userAgent.indexOf("Trident") !== -1) {
+				imageFormats.splice(imageFormats.indexOf("webp"), 1);
+			}
 
 			for (const i in imageFormats) {
 				// Only proceed if the image does not exist

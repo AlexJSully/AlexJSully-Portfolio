@@ -113,6 +113,24 @@ export default function Home() {
 	useEffect(() => {
 		WordCarousel("description-Carousel", descriptionCarousel);
 		createAccessibilityToggles();
+
+		// If IE, change profile picture to jpg version
+		if (navigator.userAgent.indexOf("MSIE") !== -1 || navigator.userAgent.indexOf("Trident") !== -1) {
+			import("../../../../images/me_drawn/profile_pic_drawn.jpg").then((img) => {
+				ProfilePic = img.default;
+			});
+
+			// Do same for sneezing profile pictures
+			import("../../../../images/me_drawn/profile_pic_drawn_2.jpg").then((img) => {
+				SneezePicStart = img.default;
+			});
+			import("../../../../images/me_drawn/profile_pic_drawn_3.jpg").then((img) => {
+				SneezingPic = img.default;
+			});
+			import("../../../../images/me_drawn/profile_pic_drawn_4.jpg").then((img) => {
+				SneezingUnsatisfied = img.default;
+			});
+		}
 	});
 
 	return (
