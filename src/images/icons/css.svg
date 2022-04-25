@@ -1,1 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" id="svg3476" width="50" height="50" version="1.1" viewBox="0 0 46.875 46.875"><metadata id="metadata3481"/><g id="layer1" transform="matrix(0.09155279,0,0,0.0915528,-10.89478,-25.301724)"><g id="g3013" transform="translate(119,276.3622)"><polygon id="polygon2989" points="437.367 100.62 404.321 470.819 255.778 512 107.644 470.877 74.633 100.62" style="fill:#264de4"/><polygon id="polygon2991" points="404.27 130.894 256 130.894 256 480.523 376.03 447.246" style="fill:#2965f1"/><polygon id="polygon2993" points="154.38 313.627 256 313.627 256 268.217 150.31 268.217" style="fill:#ebebeb"/><polygon id="polygon2995" points="256 176.305 255.843 176.305 142.132 176.305 146.26 221.716 256 221.716" style="fill:#ebebeb"/><polygon id="polygon2997" points="177.419 336.333 156.409 336.333 162.771 407.634 255.791 433.457 256 433.399 256 386.153 255.801 386.206 205.227 372.55 201.994 336.333" style="fill:#ebebeb"/><path id="path2999" d="m 160,0 h 55 v 23 h -32 v 23 h 32 v 23 h -55 z"/><path id="path3001" d="m 226,0 h 55 v 20 h -32 v 4 h 32 V 70 H 226 V 49 h 32 v -4 h -32 z"/><path id="path3003" d="m 292,0 h 55 v 20 h -32 v 4 h 32 V 70 H 292 V 49 h 32 v -4 h -32 z"/><polygon id="polygon3005" points="349.62 399.962 360.291 280.411 361.399 268.217 369.597 176.305 255.843 176.305 255.843 221.716 319.831 221.716 315.699 268.217 255.843 268.217 255.843 313.627 311.761 313.627 306.49 372.521 255.843 386.191 255.843 433.435 348.937 407.634" style="fill:#fff"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" id="svg3476" width="50" height="50" version="1.1" viewBox="0 0 46.875 46.875">
+  <g id="layer1" transform="translate(-10.895 -25.302) scale(.09155)">
+    <g id="g3013" transform="translate(119 276.362)">
+      <path id="polygon2989" style="fill:#264de4" d="m437.367 100.62-33.046 370.199L255.778 512l-148.134-41.123L74.633 100.62z"/>
+      <path id="polygon2991" style="fill:#2965f1" d="M404.27 130.894H256v349.629l120.03-33.277z"/>
+      <path id="polygon2993" style="fill:#ebebeb" d="M154.38 313.627H256v-45.41H150.31z"/>
+      <path id="polygon2995" style="fill:#ebebeb" d="M256 176.305H142.132l4.128 45.411H256z"/>
+      <path id="polygon2997" style="fill:#ebebeb" d="M177.419 336.333h-21.01l6.362 71.301 93.02 25.823.209-.058v-47.246l-.199.053-50.574-13.656-3.233-36.217z"/>
+      <path id="path2999" d="M160 0h55v23h-32v23h32v23h-55z"/>
+      <path id="path3001" d="M226 0h55v20h-32v4h32v46h-55V49h32v-4h-32z"/>
+      <path id="path3003" d="M292 0h55v20h-32v4h32v46h-55V49h32v-4h-32z"/>
+      <path id="polygon3005" style="fill:#fff" d="m349.62 399.962 10.671-119.551 1.108-12.194 8.198-91.912H255.843v45.411h63.988l-4.132 46.501h-59.856v45.41h55.918l-5.271 58.894-50.647 13.67v47.244l93.094-25.801z"/>
+    </g>
+  </g>
+</svg>
