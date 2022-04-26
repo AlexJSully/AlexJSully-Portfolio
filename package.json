@@ -18,7 +18,7 @@
 		"@sentry/react": "^6.19.6",
 		"@sentry/tracing": "^6.19.6",
 		"firebase": "^9.6.11",
-		"react": "^18.0.0",
+		"react": "^18.1.0",
 		"react-app-polyfill": "^3.0.0",
 		"react-dom": "^18.0.0",
 		"react-scripts": "5.0.1",
