@@ -59,7 +59,7 @@ export default function Contact() {
 		<Suspense fallback={null}>
 			<div id="contactContainer" className="contact-Container" key="contact-Container" role="region">
 				<div id="contact" className="contact" key="contact-Contact">
-					<p key="contact-Text" role="banner">
+					<p key="contact-Text" role="heading" aria-level="2">
 						Interested in working together? <br />
 						<Button
 							className="workTogether-Button"

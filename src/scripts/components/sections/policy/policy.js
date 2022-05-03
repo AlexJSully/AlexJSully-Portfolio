@@ -75,6 +75,10 @@ export default function Policy() {
 		}
 
 		setDisplayCnP(false);
+		// If the dialog is open, close it
+		if (displayCnPDialog) {
+			setDisplayCnPDialog(false);
+		}
 
 		document.cookie = "openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM;";
 	}

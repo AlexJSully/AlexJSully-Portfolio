@@ -127,7 +127,7 @@ export default function Publications() {
 						role="region"
 					>
 						<div id="publications" className="publications" key="publications-Content">
-							<span className="publications-Title" key="publications-Title" role="banner">
+							<span className="publications-Title" key="publications-Title" role="heading" aria-level="2">
 								Publications
 							</span>
 							<br key="publications-break" />

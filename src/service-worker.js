@@ -7,11 +7,18 @@
 // You can also remove this file if you'd prefer not to use a
 // service worker, and the Workbox build step will be skipped.
 
+// Core Workbox modules:
 import {clientsClaim} from "workbox-core";
 import {precacheAndRoute} from "workbox-precaching";
+// Google Analytics
 import * as googleAnalytics from "workbox-google-analytics";
+// Navigation preload
 import * as navigationPreload from "workbox-navigation-preload";
-import {pageCache, staticResourceCache, imageCache, offlineFallback} from "workbox-recipes";
+// Recipes
+import {offlineFallback, pageCache, staticResourceCache, imageCache} from "workbox-recipes";
+// Offline fallback
+import {setDefaultHandler} from "workbox-routing";
+import {NetworkOnly} from "workbox-strategies";
 
 clientsClaim();
 
@@ -33,19 +40,19 @@ self.addEventListener("message", (event) => {
 // Want offline analytics for your offline PWA? No problem.
 googleAnalytics.initialize();
 
-// Navigation pre-load
 // Enable navigation preload.
 navigationPreload.enable();
 
-// Recipes
-// Enable page caching.
+// Offline preload
+setDefaultHandler(new NetworkOnly());
+
+offlineFallback();
+
+// Page caching
 pageCache();
 
-// Static resource cache
+// Static resources cache
 staticResourceCache();
 
-// Image cache
+// Image caching
 imageCache();
-
-// Offline fallback
-offlineFallback();

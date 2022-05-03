@@ -103,7 +103,7 @@ export default function Home() {
 						label="Dyslexic Font"
 						title="Change all font to OpenDyslexic2"
 						key="accessibility-toggles"
-						role="suggestion"
+						role="switch"
 					/>
 				</Suspense>,
 			);
@@ -134,39 +134,36 @@ export default function Home() {
 	});
 
 	return (
-		<Suspense fallback={<Skeleton width="60vh" height="100vh" sx={{bgcolor: "#1e222796"}} />}>
-			<div className="home" id="home" key="home-Container" onMouseMove={(e) => handleMoveBackground(e, "App")}>
-				{displayAccessibilityToggles}
-				<img
-					className="profilePic"
-					id="profilePic"
-					role="banner"
-					key="home-ProfilePic"
-					src={ProfilePic}
-					alt="Drawn version of me"
-					loading="lazy"
-					onMouseEnter={() => handleTriggerSneeze()}
-					onClick={() => handleTriggerSneeze()}
-				/>
-				<h1 className="h2-description" key="home-Name" role="banner">
-					{createHoverColourWords("Alexander Joo-Hyun Sullivan", "hover-Name")}
-				</h1>
-				<span
-					id="description-Carousel"
-					className="carousel-description h3-description"
-					key="home-DescriptionCarousel"
-					role="banner"
-				/>
-				<h2
-					className="h3-description"
-					id="no-motion-description"
-					key="home-NoMotionDescription"
-					role="banner"
-					hidden
-				>
-					Full-Stack Web Developer | Bioinformatician | Gamer
-				</h2>
-			</div>
-		</Suspense>
+		<div className="home" id="home" key="home-Container" onMouseMove={(e) => handleMoveBackground(e, "App")}>
+			{displayAccessibilityToggles}
+			<img
+				className="profilePic"
+				id="profilePic"
+				key="home-ProfilePic"
+				src={ProfilePic}
+				alt="Drawn version of me"
+				onMouseEnter={() => handleTriggerSneeze()}
+				onClick={() => handleTriggerSneeze()}
+			/>
+			<h1 className="h2-description" key="home-Name" role="banner">
+				{createHoverColourWords("Alexander Joo-Hyun Sullivan", "hover-Name")}
+			</h1>
+			<span
+				id="description-Carousel"
+				className="carousel-description h3-description"
+				key="home-DescriptionCarousel"
+				role="heading"
+				aria-level="1"
+			/>
+			<h2
+				className="h3-description"
+				id="no-motion-description"
+				key="home-NoMotionDescription"
+				aria-level="1"
+				hidden
+			>
+				Full-Stack Web Developer | Bioinformatician | Gamer
+			</h2>
+		</div>
 	);
 }

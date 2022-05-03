@@ -1,8 +1,10 @@
+// React
 import React, {Suspense, lazy} from "react";
+// Custom components
 import "./App.css";
+import Home from "./components/sections/home/home";
 
 // Lazy load components
-const Home = lazy(() => import("./components/sections/home/home"));
 const Projects = lazy(() => import("./components/sections/projects/projects"));
 const Publications = lazy(() => import("./components/sections/publications/publications"));
 const Contact = lazy(() => import("./components/sections/contact/contact"));
@@ -18,8 +20,10 @@ export default function App() {
 			<h1 hidden id="keywords">
 				{keywords.join(",")}
 			</h1>
+
+			<Home key="Home-section" />
+
 			<Suspense fallback={null}>
-				<Home key="Home-section" />
 				<Projects key="Projects-section" />
 				<Publications key="Publications-section" />
 				<Contact key="Contact-section" />

@@ -498,7 +498,7 @@ export default function Projects() {
 		<Suspense fallback={null}>
 			<div id="projectsContainer" className="projects-Container" key="projects-Container" role="region">
 				<div id="projects" className="projects" key="projects">
-					<span className="project-Experiences" key="projects-Title" role="banner">
+					<span className="project-Experiences" key="projects-Title" role="heading" aria-level="2">
 						Projects & Experience
 					</span>
 					<br />

@@ -104,6 +104,8 @@
 	"theme_color": "#1e2227",
 	"background_color": "#1e2227",
 	"start_url": "/",
+	"id": "/",
 	"display": "standalone",
-	"prefer_related_applications": false
+	"prefer_related_applications": false,
+	"orientation": "any"
 }
