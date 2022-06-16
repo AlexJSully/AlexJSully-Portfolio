@@ -30,7 +30,7 @@
 		"workbox-recipes": "^6.5.3"
 	},
 	"devDependencies": {
-		"prettier": "^2.7.0",
+		"prettier": "^2.7.1",
 		"source-map-explorer": "^2.5.2"
 	},
 	"scripts": {
