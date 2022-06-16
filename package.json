@@ -36,7 +36,6 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
-		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"analyze": "source-map-explorer 'build/static/js/*.js'",
 		"prettier": "prettier --write --end-of-line auto ./"
