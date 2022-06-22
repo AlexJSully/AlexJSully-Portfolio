@@ -46,7 +46,7 @@ export async function returnImages(which, type) {
 	}
 
 	// If image exists, then return it
-	return images?.[which.toString()]?.[type.toString()] || undefined;
+	return images?.[which.toString()]?.[type.toString()] || null;
 }
 
 // All filter option thumbnails
@@ -78,5 +78,5 @@ export async function returnFilterImages(filterData, which) {
 	}
 
 	// If image exists, then return it
-	return filterImages?.[which.toString()] || undefined;
+	return filterImages?.[which.toString()] || null;
 }

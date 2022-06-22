@@ -17,7 +17,7 @@ export default function Policy() {
 	/**
 	 * Determines if a cookies and policy should be displayed or not
 	 */
-	async function determineCookiesAndPolicy() {
+	function determineCookiesAndPolicy() {
 		/** The last version number loaded */
 		let lastVersion;
 		/** Whether the cookies and policy was displayed before */

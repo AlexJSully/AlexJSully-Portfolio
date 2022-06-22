@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 // Import the functions you need from the SDKs you need
-import {initializeApp} from "firebase/app";
 import {getAnalytics} from "firebase/analytics";
+import {initializeApp} from "firebase/app";
 import {getPerformance} from "firebase/performance";
 // https://firebase.google.com/docs/web/setup#available-libraries
 

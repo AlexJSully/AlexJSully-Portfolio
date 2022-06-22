@@ -15,10 +15,10 @@ import * as googleAnalytics from "workbox-google-analytics";
 // Navigation preload
 import * as navigationPreload from "workbox-navigation-preload";
 // Recipes
-import {offlineFallback, pageCache, staticResourceCache, imageCache} from "workbox-recipes";
+import {imageCache, offlineFallback, pageCache, staticResourceCache} from "workbox-recipes";
 // Offline fallback
-import {setDefaultHandler} from "workbox-routing";
 import {NetworkOnly} from "workbox-strategies";
+import {setDefaultHandler} from "workbox-routing";
 
 clientsClaim();
 

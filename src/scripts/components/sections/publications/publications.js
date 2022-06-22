@@ -1,6 +1,6 @@
 import React, {Suspense, lazy, useState, useEffect} from "react";
-import PublicationsData from "../../../../data/publicationsData.json";
 import ProjectsData from "../../../../data/projectsData.json";
+import PublicationsData from "../../../../data/publicationsData.json";
 import "./publications.css";
 
 // Lazy load components

@@ -31,13 +31,125 @@ export default function Projects() {
 	const defaultList = [];
 
 	/**
+	 * Filter all projects that have been selected
+	 * @param {String | Array} whichToFilter What is being filtered
+	 * @param {Boolean} reset Whether should reset all filters [true] or not [false, default]
+	 */
+	function filterProjects(whichToFilter, reset = false) {
+		/** All available filter document elements */
+		const keywordFiltersDocuments = document.getElementsByClassName("projects-KeywordThumbnail");
+
+		// If reset, then remove all filter classes and projects
+		if (reset) {
+			for (const i in keywordFiltersDocuments) {
+				if (keywordFiltersDocuments[i].classList) {
+					keywordFiltersDocuments[i].classList.add("projects-Thumbnail");
+					keywordFiltersDocuments[i].classList.remove("filter-Filtering");
+				}
+			}
+
+			filterList = [];
+		} else if (whichToFilter) {
+			// If in instance that filterList becomes undefined, make array again
+			if (!filterList) {
+				filterList = [];
+			}
+
+			// If filterList doesn't include which to filter, then add. If does, then remove
+			if (filterList.includes(whichToFilter)) {
+				filterList.splice(filterList.indexOf(whichToFilter), 1);
+			} else {
+				filterList.push(whichToFilter);
+			}
+
+			for (const i in keywordFiltersDocuments) {
+				if (keywordFiltersDocuments[i]?.id && keywordFiltersDocuments[i]?.classList) {
+					/** What is being filtered for */
+					const currentFilter = keywordFiltersDocuments[i].id.substring(
+						0,
+						keywordFiltersDocuments[i].id.length - 7,
+					);
+					/** All class for current filter */
+					const currentClasses = [...keywordFiltersDocuments[i].classList];
+
+					if (filterList?.length > 0) {
+						if (filterList.includes(currentFilter) && !currentClasses.includes("projects-Thumbnail")) {
+							// If to filter for
+							keywordFiltersDocuments[i].classList.add("projects-Thumbnail");
+							keywordFiltersDocuments[i].classList.remove("filter-Filtering");
+						} else if (
+							!filterList.includes(currentFilter) &&
+							!currentClasses.includes("filter-Filtering")
+						) {
+							// If not to filter for
+							keywordFiltersDocuments[i].classList.add("filter-Filtering");
+							keywordFiltersDocuments[i].classList.remove("projects-Thumbnail");
+						}
+					} else {
+						if (currentClasses) {
+							keywordFiltersDocuments[i].classList.add("projects-Thumbnail");
+							keywordFiltersDocuments[i].classList.remove("filter-Filtering");
+						}
+					}
+				}
+			}
+		}
+
+		for (const [key, value] of Object.entries(ProjectsData)) {
+			if (filterList?.length > 0) {
+				// Should display project?
+				let toDisplay = false;
+
+				if (value?.combinedKeywords) {
+					if (and) {
+						/** Count of filter keywords that match filter list */
+						let containsAll = 0;
+
+						for (const i in filterList) {
+							if (value.combinedKeywords.includes(filterList[i])) {
+								containsAll += 1;
+							}
+						}
+
+						if (containsAll === filterList.length) {
+							toDisplay = true;
+						}
+					} else {
+						for (const i in filterList) {
+							if (value.combinedKeywords.includes(filterList[i])) {
+								toDisplay = true;
+
+								break;
+							}
+						}
+					}
+				}
+
+				if (document.getElementById(`${key}_project`)) {
+					if (toDisplay) {
+						document.getElementById(`${key}_project`).removeAttribute("hidden");
+					} else {
+						document.getElementById(`${key}_project`).setAttribute("hidden", true);
+					}
+				}
+			} else {
+				if (defaultList.includes(key)) {
+					document.getElementById(`${key}_project`).removeAttribute("hidden");
+				} else {
+					document.getElementById(`${key}_project`).setAttribute("hidden", true);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Toggle including mutually exclusive filters or not
 	 */
 	function handleAndOrChange() {
 		if (document.getElementById("andOrSwitcher")) {
 			and = !document.getElementById("andOrSwitcher").checked;
 
-			filterProjects(undefined);
+			filterProjects();
 		}
 	}
 
@@ -50,6 +162,13 @@ export default function Projects() {
 		} else if (document.getElementById(whichToFlip)) {
 			document.getElementById(whichToFlip).style.transform = "rotate(180deg)";
 		}
+	}
+
+	/**
+	 * Reset selected filters
+	 */
+	function resetFilters() {
+		filterProjects(filterList, true);
 	}
 
 	/**
@@ -179,8 +298,9 @@ export default function Projects() {
 							<Grid item xs={12} className="filter-Switcher" key="filter-AccordionSwitcher">
 								<p className="filter-SwitcherDescription" key="filter-AccordionSwitcherDescription">
 									Select one or more icons to filter my experiences. <br />
-									Toggle between "AND" for experiences that contain all selected filters, <br />
-									or "OR" for experiences that contain at least one selected filter.
+									Toggle between &quot;AND&quot; for experiences that contain all selected filters,{" "}
+									<br />
+									or &quot;OR&quot; for experiences that contain at least one selected filter.
 								</p>
 								AND
 								<Switch
@@ -211,125 +331,6 @@ export default function Projects() {
 
 			setDisplayFilter(toDisplay);
 		}
-	}
-
-	/**
-	 * Filter all projects that have been selected
-	 * @param {String | Array} whichToFilter What is being filtered
-	 * @param {Boolean} reset Whether should reset all filters [true] or not [false, default]
-	 */
-	function filterProjects(whichToFilter = undefined, reset = false) {
-		/** All available filter document elements */
-		const keywordFiltersDocuments = document.getElementsByClassName("projects-KeywordThumbnail");
-
-		// If reset, then remove all filter classes and projects
-		if (reset) {
-			for (const i in keywordFiltersDocuments) {
-				if (keywordFiltersDocuments[i].classList) {
-					keywordFiltersDocuments[i].classList.add("projects-Thumbnail");
-					keywordFiltersDocuments[i].classList.remove("filter-Filtering");
-				}
-			}
-
-			filterList = [];
-		} else if (whichToFilter) {
-			// If in instance that filterList becomes undefined, make array again
-			if (!filterList) {
-				filterList = [];
-			}
-
-			// If filterList doesn't include which to filter, then add. If does, then remove
-			if (filterList.includes(whichToFilter)) {
-				filterList.splice(filterList.indexOf(whichToFilter), 1);
-			} else {
-				filterList.push(whichToFilter);
-			}
-
-			for (const i in keywordFiltersDocuments) {
-				if (keywordFiltersDocuments[i]?.id && keywordFiltersDocuments[i]?.classList) {
-					/** What is being filtered for */
-					const currentFilter = keywordFiltersDocuments[i].id.substring(
-						0,
-						keywordFiltersDocuments[i].id.length - 7,
-					);
-					/** All class for current filter */
-					const currentClasses = [...keywordFiltersDocuments[i].classList];
-
-					if (filterList?.length > 0) {
-						if (filterList.includes(currentFilter) && !currentClasses.includes("projects-Thumbnail")) {
-							// If to filter for
-							keywordFiltersDocuments[i].classList.add("projects-Thumbnail");
-							keywordFiltersDocuments[i].classList.remove("filter-Filtering");
-						} else if (
-							!filterList.includes(currentFilter) &&
-							!currentClasses.includes("filter-Filtering")
-						) {
-							// If not to filter for
-							keywordFiltersDocuments[i].classList.add("filter-Filtering");
-							keywordFiltersDocuments[i].classList.remove("projects-Thumbnail");
-						}
-					} else {
-						if (currentClasses) {
-							keywordFiltersDocuments[i].classList.add("projects-Thumbnail");
-							keywordFiltersDocuments[i].classList.remove("filter-Filtering");
-						}
-					}
-				}
-			}
-		}
-
-		for (const [key, value] of Object.entries(ProjectsData)) {
-			if (filterList?.length > 0) {
-				// Should display project?
-				let toDisplay = false;
-
-				if (value?.combinedKeywords) {
-					if (and) {
-						/** Count of filter keywords that match filter list */
-						let containsAll = 0;
-
-						for (const i in filterList) {
-							if (value.combinedKeywords.includes(filterList[i])) {
-								containsAll += 1;
-							}
-						}
-
-						if (containsAll === filterList.length) {
-							toDisplay = true;
-						}
-					} else {
-						for (const i in filterList) {
-							if (value.combinedKeywords.includes(filterList[i])) {
-								toDisplay = true;
-
-								break;
-							}
-						}
-					}
-				}
-
-				if (document.getElementById(`${key}_project`)) {
-					if (toDisplay) {
-						document.getElementById(`${key}_project`).removeAttribute("hidden");
-					} else {
-						document.getElementById(`${key}_project`).setAttribute("hidden", true);
-					}
-				}
-			} else {
-				if (defaultList.includes(key)) {
-					document.getElementById(`${key}_project`).removeAttribute("hidden");
-				} else {
-					document.getElementById(`${key}_project`).setAttribute("hidden", true);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Reset selected filters
-	 */
-	function resetFilters() {
-		filterProjects(filterList, true);
 	}
 
 	/**
