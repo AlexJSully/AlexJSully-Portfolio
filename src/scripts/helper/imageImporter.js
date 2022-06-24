@@ -40,8 +40,10 @@ export async function returnImages(which, type) {
 				}
 			}
 
-			images[key] = {};
-			images[key].thumbnail = thumbnail?.default;
+			if (thumbnail?.default) {
+				images[key] = {};
+				images[key]["thumbnail"] = thumbnail.default;
+			}
 		}
 	}
 

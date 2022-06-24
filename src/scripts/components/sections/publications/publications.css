@@ -1,13 +1,13 @@
 .publications-Container {
+	background-color: #1e2227;
 	margin: auto;
 	width: 100%;
-	background-color: #1e2227;
 }
 
 .publications {
 	color: white;
-	margin-top: 2%;
 	margin-bottom: 2%;
+	margin-top: 2%;
 }
 
 .publications-Title {
@@ -19,17 +19,17 @@
 }
 
 .publications-Card {
-	margin: auto;
-	max-width: 95%;
 	background-color: #1e2227 !important;
 	color: white !important;
-	text-decoration: none !important;
+	margin: auto;
+	max-width: 95%;
 	text-align: left;
+	text-decoration: none !important;
 }
 
 .publications-meta {
-	margin-top: 1% !important;
 	color: rgb(177, 175, 175);
+	margin-top: 1% !important;
 }
 
 .publications-meta .publications-URL {
@@ -37,6 +37,6 @@
 }
 
 .publications-abstract {
-	margin-top: 1% !important;
 	line-height: 1.75em !important;
+	margin-top: 1% !important;
 }

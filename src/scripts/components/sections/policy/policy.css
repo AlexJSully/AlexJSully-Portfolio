@@ -4,8 +4,8 @@
 
 /* Material-UI */
 .MuiButton-outlinedSecondary {
-	color: #fff !important;
 	border: 1px solid #08f500 !important;
+	color: #fff !important;
 }
 
 .MuiButton-outlinedSecondary:hover {
@@ -15,11 +15,11 @@
 }
 
 .MuiDialog-paper {
-	min-width: 65% !important;
-	max-width: 85% !important;
-	max-height: 75% !important;
-	color: #fff !important;
 	background-color: #343941 !important;
+	color: #fff !important;
+	max-height: 75% !important;
+	max-width: 85% !important;
+	min-width: 65% !important;
 }
 
 .MuiDialog-paper a {
@@ -28,8 +28,8 @@
 }
 
 .MuiSnackbarContent-message {
-	text-align: center;
 	margin: auto !important;
+	text-align: center;
 }
 
 .MuiSnackbarContent-action {

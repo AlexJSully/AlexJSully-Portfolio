@@ -45,7 +45,7 @@ export default function Contact() {
 		for (const [, value] of Object.entries(socialMediaInfo)) {
 			socialMediaIconsList.push(
 				<Button
-					href={value?.url}
+					href={value?.url || ""}
 					key={`contact-button-${value?.text}-social`}
 					target="_blank"
 					rel="noopener noreferrer"

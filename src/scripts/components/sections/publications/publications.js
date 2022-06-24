@@ -30,12 +30,15 @@ export default function Publications() {
 		pubs.forEach((pub) => {
 			/** Metadata */
 			const metaData = [];
+
 			if (pub?.doi) {
 				metaData.push(`DOI: ${pub.doi}`);
 			}
+
 			if (pub?.journal) {
 				metaData.push(`Journal: ${pub.journal}`);
 			}
+
 			if (pub?.date) {
 				metaData.push(`Date: ${pub.date}`);
 			}

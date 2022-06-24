@@ -7,19 +7,19 @@
 }
 
 .contact-Container {
-	width: 100%;
 	margin: auto;
+	width: 100%;
 }
 
 .contact-HeaderHover {
 	cursor: default;
-	transition: all 5s ease;
 	text-shadow: 1px 2px 3px #666;
+	transition: all 5s ease;
 }
 
 .contact-HeaderHover:hover {
-	transition: all 0.5s ease;
 	color: #b32ad0;
+	transition: all 0.5s ease;
 }
 
 .contact-Button {
@@ -27,9 +27,9 @@
 }
 
 .contact-Button .MuiSvgIcon-root {
-	font-size: 2.25em !important;
-	border: 1px solid #fff !important;
 	border-radius: 50%;
+	border: 1px solid #fff !important;
+	font-size: 2.25em !important;
 	padding: 0.25em !important;
 	transition: all 1s ease !important;
 }
@@ -42,8 +42,8 @@
 
 .contact-Footer {
 	font-size: 0.5em;
-	margin: auto;
 	margin-top: 2%;
+	margin: auto;
 }
 
 .contact-Footer .MuiSvgIcon-root {
@@ -51,18 +51,18 @@
 }
 
 .workTogether-Button {
-	font-size: 0.5em !important;
 	background-color: #003ba8 !important;
-	border: 3px solid #003ba8 !important;
 	border-radius: 25% !important;
+	border: 3px solid #003ba8 !important;
+	font-size: 0.5em !important;
 	line-height: 2em !important;
 	transition: all 1s ease !important;
 }
 
 .workTogether-Button:hover {
 	background-color: #0041b9 !important;
-	border: 3px solid #0041b9 !important;
 	border-radius: 5% !important;
+	border: 3px solid #0041b9 !important;
 	transition: all 0.25s ease !important;
 }
 
