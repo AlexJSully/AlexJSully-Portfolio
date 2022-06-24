@@ -1,12 +1,16 @@
-import React, {Suspense, lazy} from "react";
+// React
+import React, {lazy, Suspense} from "react";
+// CSS
 import "./contact.css";
+
 // Lazy load Material-UI components
+// Material-UI
 const Button = lazy(() => import("@mui/material/Button"));
-// Icons
-const TwitterIcon = lazy(() => import("@mui/icons-material/Twitter"));
+// Material-UI Icons
+const CopyrightIcon = lazy(() => import("@mui/icons-material/Copyright"));
 const GitHubIcon = lazy(() => import("@mui/icons-material/GitHub"));
 const LinkedInIcon = lazy(() => import("@mui/icons-material/LinkedIn"));
-const CopyrightIcon = lazy(() => import("@mui/icons-material/Copyright"));
+const TwitterIcon = lazy(() => import("@mui/icons-material/Twitter"));
 
 /** Contact section of UI */
 export default function Contact() {

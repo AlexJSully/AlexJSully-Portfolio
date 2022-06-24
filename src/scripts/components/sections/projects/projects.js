@@ -1,8 +1,12 @@
-import React, {Suspense, lazy, useState, useEffect} from "react";
-import "./projects.css";
-import ProjectsData from "../../../../data/projectsData.json";
+// React
+import React, {lazy, Suspense, useState, useEffect} from "react";
+// Data
 import FilterData from "../../../../data/filterData.json";
-import {returnImages, returnFilterImages} from "../../../helper/imageImporter";
+import ProjectsData from "../../../../data/projectsData.json";
+// CSS
+import "./projects.css";
+// Helper functions
+import {returnFilterImages, returnImages} from "../../../helper/imageImporter";
 
 // Lazy load Material-UI components
 const Grid = lazy(() => import("@mui/material/Grid"));
@@ -206,7 +210,7 @@ export default function Projects() {
 		const filterJSX = [];
 
 		/** Material-UI grid item size */
-		let colSize = parseInt(12 / Object.keys(filters)?.length);
+		let colSize = parseInt(12 / (filters ? Object.keys(filters).length : 1));
 		if (!colSize || colSize < 1) {
 			colSize = 1;
 		}

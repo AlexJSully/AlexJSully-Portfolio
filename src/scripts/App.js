@@ -1,14 +1,16 @@
 // React
-import React, {Suspense, lazy} from "react";
-// Custom components
+import React, {lazy, Suspense} from "react";
+// CSS
 import "./App.css";
+// Custom components
 import Home from "./components/sections/home/home";
 
 // Lazy load components
-const Projects = lazy(() => import("./components/sections/projects/projects"));
-const Publications = lazy(() => import("./components/sections/publications/publications"));
+// Custom components
 const Contact = lazy(() => import("./components/sections/contact/contact"));
 const Policy = lazy(() => import("./components/sections/policy/policy"));
+const Projects = lazy(() => import("./components/sections/projects/projects"));
+const Publications = lazy(() => import("./components/sections/publications/publications"));
 
 /** Portfolio and showcase */
 export default function App() {

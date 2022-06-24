@@ -1,13 +1,18 @@
-import React, {Suspense, lazy, useState, useEffect} from "react";
+// React
+import React, {lazy, Suspense, useState, useEffect} from "react";
+// CSS
 import "./policy.css";
+
+// Lazy-load components
+// Custom components
 const Cookies = lazy(() => import("./cookies"));
 const Privacy = lazy(() => import("./privacy"));
 // Material-UI
-const Snackbar = lazy(() => import("@mui/material/Snackbar"));
 const Button = lazy(() => import("@mui/material/Button"));
 const Dialog = lazy(() => import("@mui/material/Dialog"));
-const DialogTitle = lazy(() => import("@mui/material/DialogTitle"));
 const DialogContent = lazy(() => import("@mui/material/DialogContent"));
+const DialogTitle = lazy(() => import("@mui/material/DialogTitle"));
+const Snackbar = lazy(() => import("@mui/material/Snackbar"));
 
 /** Cookies and privacy policy */
 export default function Policy() {

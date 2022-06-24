@@ -1,17 +1,23 @@
-import React, {Suspense, lazy, useState, useEffect} from "react";
+// React
+import React, {lazy, Suspense, useState, useEffect} from "react";
+// Interactive elements
+import {aaaahhhh} from "../../../interactivity/aaaahhhh";
+import {createHoverColourWords} from "../../../interactivity/create-hover-words";
 import {handleMoveBackground} from "../../../interactivity/background-move";
 import {WordCarousel} from "../../../interactivity/word-carousel";
-import {createHoverColourWords} from "../../../interactivity/create-hover-words";
-import {aaaahhhh} from "../../../interactivity/aaaahhhh";
-import "./home.css";
+// Images
 import ProfilePic from "../../../../images/me_drawn/profile_pic_drawn.webp";
 import SneezePicStart from "../../../../images/me_drawn/profile_pic_drawn_2.webp";
 import SneezingPic from "../../../../images/me_drawn/profile_pic_drawn_3.webp";
 import SneezingUnsatisfied from "../../../../images/me_drawn/profile_pic_drawn_4.webp";
+// CSS
+import "./home.css";
+
 // Lazy load Material-UI components
-const Skeleton = lazy(() => import("@mui/material/Skeleton"));
-const FormControlLabel = lazy(() => import("@mui/material/FormControlLabel"));
+// Material-UI
 const Checkbox = lazy(() => import("@mui/material/Checkbox"));
+const FormControlLabel = lazy(() => import("@mui/material/FormControlLabel"));
+const Skeleton = lazy(() => import("@mui/material/Skeleton"));
 
 /** Landing for portfolio website */
 export default function Home() {

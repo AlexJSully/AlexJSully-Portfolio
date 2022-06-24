@@ -2,6 +2,35 @@
 const lettersPerSecond = 16;
 
 /**
+ * Remove letters from word carousel
+ * @param {String} dom Which element will contain the word carousel
+ * @param {String} word Current word
+ * @param {Array} wordList The list of words within the word carousel
+ */
+function removeLetter(dom, word, wordList) {
+	if (document.getElementById(dom)) {
+		if (word?.length > 0) {
+			/** Position of the word's letter */
+			const pos = document.getElementById(dom)?.textContent?.length;
+
+			if (pos > 0) {
+				document.getElementById(dom).textContent = document
+					.getElementById(dom)
+					.textContent.substring(0, document.getElementById(dom).textContent.length - 1);
+
+				setTimeout(() => {
+					removeLetter(dom, word, wordList);
+				}, 1000 / (lettersPerSecond * 2));
+			} else {
+				nextWord(dom, word, wordList);
+			}
+		} else {
+			nextWord(dom, word, wordList);
+		}
+	}
+}
+
+/**
  * Add letters to the word carousel
  * @param {String} dom Which element will contain the word carousel
  * @param {String} word Current word
@@ -27,17 +56,6 @@ function addLetters(dom, word, wordList) {
 		} else {
 			nextWord(dom, word, wordList);
 		}
-	}
-}
-
-/**
- * Display list of words as a carousel
- * @param {String} dom Which element will contain the word carousel
- * @param {Array} wordList The list of words within the word carousel
- */
-export function WordCarousel(dom, wordList) {
-	if (document.getElementById(dom) && wordList?.length > 0) {
-		addLetters(dom, wordList[0], wordList);
 	}
 }
 
@@ -70,30 +88,12 @@ function nextWord(dom, word, wordList) {
 }
 
 /**
- * Remove letters from word carousel
+ * Display list of words as a carousel
  * @param {String} dom Which element will contain the word carousel
- * @param {String} word Current word
  * @param {Array} wordList The list of words within the word carousel
  */
-function removeLetter(dom, word, wordList) {
-	if (document.getElementById(dom)) {
-		if (word?.length > 0) {
-			/** Position of the word's letter */
-			const pos = document.getElementById(dom)?.textContent?.length;
-
-			if (pos > 0) {
-				document.getElementById(dom).textContent = document
-					.getElementById(dom)
-					.textContent.substring(0, document.getElementById(dom).textContent.length - 1);
-
-				setTimeout(() => {
-					removeLetter(dom, word, wordList);
-				}, 1000 / (lettersPerSecond * 2));
-			} else {
-				nextWord(dom, word, wordList);
-			}
-		} else {
-			nextWord(dom, word, wordList);
-		}
+export function WordCarousel(dom, wordList) {
+	if (document.getElementById(dom) && wordList?.length > 0) {
+		addLetters(dom, wordList[0], wordList);
 	}
 }
