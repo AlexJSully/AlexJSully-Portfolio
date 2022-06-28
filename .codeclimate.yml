@@ -1,0 +1,26 @@
+engines:
+    csslint:
+        enabled: true
+        checks:
+            important:
+                enabled: false
+            order-alphabetical:
+                enabled: false
+    scss-lint:
+        enabled: true
+        checks:
+            ColorVariable:
+                enabled: false
+            LeadingZero:
+                enabled: false
+            ImportantRule:
+                enabled: false
+    markdownlint:
+        enabled: true
+        checks:
+            MD013:
+                enabled: false
+            MD029:
+                enabled: false
+            MD030:
+                enabled: false
