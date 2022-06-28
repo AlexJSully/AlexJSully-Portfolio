@@ -4,6 +4,8 @@ engines:
         checks:
             com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck:
                 enabled: false
+    fixme:
+        enabled: true
     csslint:
         enabled: true
         checks:
