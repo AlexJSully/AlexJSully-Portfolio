@@ -1,4 +1,9 @@
 engines:
+    checkstyle:
+        enabled: true
+        checks:
+            com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck:
+                enabled: false
     csslint:
         enabled: true
         checks:
@@ -13,7 +18,11 @@ engines:
                 enabled: false
             LeadingZero:
                 enabled: false
+            Indentation:
+                enabled: false
             ImportantRule:
+                enabled: false
+            SelectorFormat:
                 enabled: false
     markdownlint:
         enabled: true
