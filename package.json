@@ -16,7 +16,7 @@
 		"@mui/icons-material": "^5.8.4",
 		"@mui/material": "^5.8.6",
 		"@sentry/react": "^7.3.0",
-		"@sentry/tracing": "^7.3.0",
+		"@sentry/tracing": "^7.5.1",
 		"firebase": "^9.8.4",
 		"react": "^18.2.0",
 		"react-app-polyfill": "^3.0.0",
