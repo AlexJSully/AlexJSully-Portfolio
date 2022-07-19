@@ -5,7 +5,7 @@
 }
 
 .publications {
-	color: white;
+	color: #fff;
 	margin-bottom: 2%;
 	margin-top: 2%;
 }
@@ -20,7 +20,7 @@
 
 .publications-Card {
 	background-color: #1e2227 !important;
-	color: white !important;
+	color: #fff !important;
 	margin: auto;
 	max-width: 95%;
 	text-align: left;

@@ -37,6 +37,8 @@ engines:
                 enabled: false
             MD030:
                 enabled: false
+            MD034:
+                enabled: false
 exclude_patterns:
     - "**/node_modules/"
     - "**/build/"
