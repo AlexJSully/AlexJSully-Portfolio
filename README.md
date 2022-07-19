@@ -14,7 +14,7 @@ My portfolio website to showcase (and brag) about my all my projects!
 
 ## Getting Started
 
-Go to https://alexjsully.me to see this portfolio!
+Go to <http:>https://alexjsully.me</http:> to see this portfolio!
 
 ## Browser Compatibilities
 
@@ -24,7 +24,7 @@ Go to https://alexjsully.me to see this portfolio!
 
 ## Installation/Open
 
-You can open a live version of my portfolio website at https://alexjsully.me
+You can open a live version of my portfolio website at <http:>https://alexjsully.me</http:>
 
 If you would like to run or modify my portfolio locally, clone the repository with git by running the following command:
 
@@ -32,7 +32,7 @@ If you would like to run or modify my portfolio locally, clone the repository wi
 git clone https://github.com/ASully/alexjsully-portfolio.git
 ```
 
-Then run `npm install`, change to the appropriate directory and then `npm start`. My portfolio will run at http://localhost:3000/.
+Then run `npm install`, change to the appropriate directory and then `npm start`. My portfolio will run at <http:>http://localhost:3000/</http:>.
 
 ## Known issues
 

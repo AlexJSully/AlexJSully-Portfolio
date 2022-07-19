@@ -3,7 +3,7 @@ hr {
 }
 
 .projects {
-	color: white;
+	color: #fff;
 	margin-bottom: 2%;
 	margin-top: 2%;
 }
@@ -21,13 +21,13 @@ hr {
 }
 
 .projects-DisplayContainer {
-	padding-left: 0px !important;
+	padding-left: 0 !important;
 	transition: all 0.5s ease;
 }
 
 .projects-Card {
 	background-color: #1e2227 !important;
-	color: white !important;
+	color: #fff !important;
 	margin: auto;
 	max-width: 300px;
 	text-decoration: none !important;
@@ -87,7 +87,7 @@ hr {
 
 .filter-Accordion {
 	background-color: #1e2227 !important;
-	color: white !important;
+	color: #fff !important;
 	margin-top: 1% !important;
 	margin: auto !important;
 	text-align: center;
@@ -105,7 +105,7 @@ hr {
 }
 
 .filter-Expand {
-	color: white;
+	color: #fff;
 	font-size: 1em !important;
 }
 
@@ -174,7 +174,7 @@ hr {
 }
 
 .MuiTypography-body2 {
-	color: white !important;
+	color: #fff !important;
 	text-decoration: none !important;
 }
 
