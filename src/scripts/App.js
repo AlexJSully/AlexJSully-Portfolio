@@ -1,7 +1,7 @@
-// React
-import React, {lazy, Suspense} from "react";
 // CSS
 import "./App.css";
+// React
+import React, {Suspense, lazy} from "react";
 // Custom components
 import Home from "./components/sections/home/home";
 

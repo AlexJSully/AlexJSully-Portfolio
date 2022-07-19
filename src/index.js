@@ -1,21 +1,22 @@
 import "react-app-polyfill/ie11"; // For IE 11 support
 import "react-app-polyfill/stable"; // For IE 11 support
+// Firebase
+// eslint-disable-next-line no-unused-vars
+import * as firebase from "./firebase";
+// CSS
+import "./index.css";
 // React
 import React from "react";
 import {createRoot} from "react-dom/client";
+// Main app
+import App from "./scripts/App";
 // Sentry
 import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";
-// Main app
-import "./index.css";
-import App from "./scripts/App";
 // Service workers
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 // Google Analytics
 import reportWebVitals from "./reportWebVitals";
-// Firebase
-// eslint-disable-next-line no-unused-vars
-import * as firebase from "./firebase";
 
 Sentry.init({
 	dsn: process.env.REACT_APP_SENTRY,

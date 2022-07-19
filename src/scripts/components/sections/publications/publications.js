@@ -1,9 +1,9 @@
-// React
-import React, {lazy, Suspense, useState, useEffect} from "react";
-// Data
-import PublicationsData from "../../../../data/publicationsData.json";
 // CSS
 import "./publications.css";
+// React
+import React, {Suspense, lazy, useEffect, useState} from "react";
+// Data
+import PublicationsData from "../../../../data/publicationsData.json";
 // Custom components
 import ProjectsData from "../../../../data/projectsData.json";
 

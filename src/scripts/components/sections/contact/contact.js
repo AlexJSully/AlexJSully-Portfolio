@@ -1,7 +1,7 @@
-// React
-import React, {lazy, Suspense} from "react";
 // CSS
 import "./contact.css";
+// React
+import React, {Suspense, lazy} from "react";
 
 // Lazy load Material-UI components
 // Material-UI

@@ -66,15 +66,9 @@ export async function returnFilterImages(filterData, which) {
 		// eslint-disable-next-line no-unused-vars
 		for (const [, value] of Object.entries(filterData)) {
 			for (const i in value) {
-				let thumbnail;
+				const thumbnail = await import(`../../images/icons/${value[i]}.svg`);
 
-				try {
-					thumbnail = await import(`../../images/icons/${value[i]}.svg`);
-				} catch (error) {
-					// Nothing
-				}
-
-				filterImages[value[i]] = thumbnail?.default;
+				filterImages[value[i]] = thumbnail?.default || null;
 			}
 		}
 	}

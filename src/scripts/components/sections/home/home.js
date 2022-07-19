@@ -1,17 +1,17 @@
+// CSS
+import "./home.css";
 // React
-import React, {lazy, Suspense, useState, useEffect} from "react";
+import React, {Suspense, lazy, useEffect, useState} from "react";
 // Interactive elements
+import {WordCarousel} from "../../../interactivity/word-carousel";
 import {aaaahhhh} from "../../../interactivity/aaaahhhh";
 import {createHoverColourWords} from "../../../interactivity/create-hover-words";
 import {handleMoveBackground} from "../../../interactivity/background-move";
-import {WordCarousel} from "../../../interactivity/word-carousel";
 // Images
 import ProfilePic from "../../../../images/me_drawn/profile_pic_drawn.webp";
 import SneezePicStart from "../../../../images/me_drawn/profile_pic_drawn_2.webp";
 import SneezingPic from "../../../../images/me_drawn/profile_pic_drawn_3.webp";
 import SneezingUnsatisfied from "../../../../images/me_drawn/profile_pic_drawn_4.webp";
-// CSS
-import "./home.css";
 
 // Lazy load Material-UI components
 // Material-UI

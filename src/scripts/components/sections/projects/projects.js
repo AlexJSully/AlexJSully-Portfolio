@@ -1,10 +1,10 @@
+// CSS
+import "./projects.css";
 // React
-import React, {lazy, Suspense, useState, useEffect} from "react";
+import React, {Suspense, lazy, useEffect, useState} from "react";
 // Data
 import FilterData from "../../../../data/filterData.json";
 import ProjectsData from "../../../../data/projectsData.json";
-// CSS
-import "./projects.css";
 // Helper functions
 import {returnFilterImages, returnImages} from "../../../helper/imageImporter";
 
@@ -210,7 +210,7 @@ export default function Projects() {
 		const filterJSX = [];
 
 		/** Material-UI grid item size */
-		let colSize = parseInt(12 / (filters ? Object.keys(filters).length : 1));
+		let colSize = parseInt(12 / Number(filters ? Object.keys(filters).length : 1));
 		if (!colSize || colSize < 1) {
 			colSize = 1;
 		}
