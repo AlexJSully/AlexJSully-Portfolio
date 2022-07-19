@@ -42,7 +42,7 @@ export async function returnImages(which, type) {
 
 			if (thumbnail?.default) {
 				images[key] = {};
-				images[key]["thumbnail"] = thumbnail.default;
+				images[key].thumbnail = thumbnail.default;
 			}
 		}
 	}
