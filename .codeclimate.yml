@@ -18,6 +18,8 @@ engines:
         checks:
             ColorVariable:
                 enabled: false
+            Comment:
+                enabled: false
             LeadingZero:
                 enabled: false
             Indentation:
