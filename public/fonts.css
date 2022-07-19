@@ -1,7 +1,7 @@
 @font-face {
 	font-display: swap;
 	font-family: OpenDyslexia2;
-	src: url("./fonts/OpenDyslexic2/OpenDyslexic-Regular.otf");
+	src: url("./fonts/OpenDyslexic2/OpenDyslexic-Regular.otf") format("opentype");
 }
 
 .dyslexia-global {

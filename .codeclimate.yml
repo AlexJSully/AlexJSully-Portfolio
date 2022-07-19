@@ -28,6 +28,8 @@ engines:
                 enabled: false
             SelectorFormat:
                 enabled: false
+            StringQuotes:
+                enabled: false
     markdownlint:
         enabled: true
         checks:
