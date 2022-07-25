@@ -29,6 +29,10 @@ Sentry.init({
 	enabled: process.env.NODE_ENV !== "development",
 });
 
+Sentry.configureScope((scope) => {
+	scope.setTag("app-version", process.env.REACT_APP_VERSION);
+});
+
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(<App />);
