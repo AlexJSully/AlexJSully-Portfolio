@@ -64,7 +64,7 @@ export default function Contact() {
 			<div id="contactContainer" className="contact-Container" key="contact-Container" role="region">
 				<div id="contact" className="contact" key="contact-Contact">
 					<p key="contact-Text" role="heading" aria-level="2">
-						Interested in working together? <br />
+						<h3>Interested in working together?</h3> <br />
 						<Button
 							className="workTogether-Button"
 							variant="contained"
