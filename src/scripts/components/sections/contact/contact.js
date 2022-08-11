@@ -21,7 +21,7 @@ export default function Contact() {
 			icon: <TwitterIcon />,
 		},
 		GitHub: {
-			url: "https://github.com/asully",
+			url: "https://github.com/alexjsully",
 			text: "GitHub",
 			icon: <GitHubIcon />,
 		},
