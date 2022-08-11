@@ -58,10 +58,10 @@
 			"ie >= 11"
 		]
 	},
-	"bugs": "https://github.com/ASully/alexjsully-portfolio/issues",
+	"bugs": "https://github.com/AlexJSully/alexjsully-portfolio/issues",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ASully/alexjsully-portfolio.git"
+		"url": "https://github.com/AlexJSully/alexjsully-portfolio.git"
 	},
 	"keywords": [
 		"portfolio",
@@ -144,7 +144,7 @@
 		"fendo",
 		"ironjoohyun",
 		"theironsoul",
-		"asully",
+		"AlexJSully",
 		"sully",
 		"full-stack-web-developer",
 		"data-visualization-programmer",
