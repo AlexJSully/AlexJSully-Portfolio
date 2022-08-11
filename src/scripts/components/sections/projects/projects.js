@@ -281,7 +281,7 @@ export default function Projects() {
 						key="filter-Summary"
 					>
 						<Typography className="filter-Header" key="filter-HeaderText">
-							<h3>Filter</h3>{" "}
+							<span>Filter</span>{" "}
 							<ExpandMoreIcon
 								className="filter-Expand"
 								id="filter-Expand"
