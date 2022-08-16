@@ -12,12 +12,13 @@ import ProfilePic from "../../../../images/me_drawn/profile_pic_drawn.webp";
 import SneezePicStart from "../../../../images/me_drawn/profile_pic_drawn_2.webp";
 import SneezingPic from "../../../../images/me_drawn/profile_pic_drawn_3.webp";
 import SneezingUnsatisfied from "../../../../images/me_drawn/profile_pic_drawn_4.webp";
+// Material-UI
+import Skeleton from "@mui/material/Skeleton";
 
 // Lazy load Material-UI components
 // Material-UI
 const Checkbox = lazy(() => import("@mui/material/Checkbox"));
 const FormControlLabel = lazy(() => import("@mui/material/FormControlLabel"));
-const Skeleton = lazy(() => import("@mui/material/Skeleton"));
 
 /** Landing for portfolio website */
 export default function Home() {
@@ -148,6 +149,7 @@ export default function Home() {
 				key="home-ProfilePic"
 				src={ProfilePic}
 				alt="Drawn version of me"
+				fetchpriority="high"
 				onMouseEnter={() => handleTriggerSneeze()}
 				onClick={() => handleTriggerSneeze()}
 			/>

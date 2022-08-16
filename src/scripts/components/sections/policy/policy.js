@@ -64,7 +64,7 @@ export default function Policy() {
 		if (!openedCnP || olderVersion) {
 			setDisplayCnP(true);
 
-			document.cookie = `ajs_p_version=${process.env.REACT_APP_VERSION}; expires=Friday, December 31, 9999 at 7:00:00 AM;`;
+			document.cookie = `ajs_p_version=${process.env.REACT_APP_VERSION}; expires=Friday, December 31, 9999 at 7:00:00 AM; SameSite=Strict; Secure`;
 		}
 	}
 
@@ -85,7 +85,7 @@ export default function Policy() {
 			setDisplayCnPDialog(false);
 		}
 
-		document.cookie = "openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM;";
+		document.cookie = "openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM; SameSite=Strict; Secure";
 	}
 
 	/**
@@ -96,7 +96,7 @@ export default function Policy() {
 
 		setDisplayCnPDialog(!displayCnPDialog);
 
-		document.cookie = "openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM;";
+		document.cookie = "openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM; SameSite=Strict; Secure";
 	}
 
 	useEffect(() => {
