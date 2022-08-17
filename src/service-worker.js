@@ -15,7 +15,7 @@ import * as navigationPreload from "workbox-navigation-preload";
 import {clientsClaim} from "workbox-core";
 import {precacheAndRoute} from "workbox-precaching";
 // Recipes
-import {imageCache, offlineFallback, pageCache, staticResourceCache, googleFontsCache} from "workbox-recipes";
+import {googleFontsCache, imageCache, offlineFallback, pageCache, staticResourceCache} from "workbox-recipes";
 // Offline fallback
 import {NetworkOnly} from "workbox-strategies";
 import {setDefaultHandler} from "workbox-routing";
