@@ -11,17 +11,6 @@
 	width: 100%;
 }
 
-.contact-HeaderHover {
-	cursor: default;
-	text-shadow: 1px 2px 3px #666;
-	transition: all 5s ease;
-}
-
-.contact-HeaderHover:hover {
-	color: #b32ad0;
-	transition: all 0.5s ease;
-}
-
 .contact-Button {
 	color: white !important;
 }

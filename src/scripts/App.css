@@ -11,12 +11,3 @@
 	min-height: calc(100vh - 1em);
 	text-align: center;
 }
-
-.App-logo {
-	height: 40vmin;
-	pointer-events: none;
-}
-
-.App-link {
-	color: #61dafb;
-}

@@ -104,6 +104,8 @@ export default function Home() {
 								color="secondary"
 								key="dyslexia-toggle"
 								role="checkbox"
+								aria-checked="false"
+								aria-label="Toggle Dyslexic Font - Checkbox"
 							/>
 						}
 						className="accessibility-toggles dyslexia-toggle"
@@ -111,6 +113,8 @@ export default function Home() {
 						title="Change all font to OpenDyslexic2"
 						key="accessibility-toggles"
 						role="switch"
+						aria-checked="false"
+						aria-label="Toggle Dyslexic Font"
 					/>
 				</Suspense>,
 			);
