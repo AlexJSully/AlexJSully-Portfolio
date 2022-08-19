@@ -43,7 +43,10 @@
 }
 
 .profilePic {
+	aspect-ratio: 1;
 	border-radius: 50%;
+	height: 20%;
+	min-height: 20%;
 	min-width: 200px;
 	width: 20%;
 }

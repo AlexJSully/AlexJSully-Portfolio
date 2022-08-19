@@ -156,6 +156,8 @@ export default function Home() {
 				fetchpriority="high"
 				onMouseEnter={() => handleTriggerSneeze()}
 				onClick={() => handleTriggerSneeze()}
+				width="20%"
+				height="20%"
 			/>
 			<h1 className="h2-description" key="home-Name" role="banner">
 				{createHoverColourWords("Alexander Joo-Hyun Sullivan", "hover-Name")}
