@@ -154,7 +154,7 @@ export default function Home() {
 				src={ProfilePic}
 				alt="Drawn version of me"
 				fetchpriority="high"
-				lazy="auto"
+				loading="auto"
 				onMouseEnter={() => handleTriggerSneeze()}
 				onClick={() => handleTriggerSneeze()}
 				width="20%"
