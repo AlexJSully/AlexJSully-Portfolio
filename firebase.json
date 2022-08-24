@@ -38,7 +38,11 @@
 					},
 					{
 						"key": "Content-Security-Policy",
-						"value": "default-src 'self' 'unsafe-inline' *.google-analytics.com *.googleapis.com *.firebaseio.com *.googletagmanager.com *.google.com *.google.ca *.sentry.io; object-src 'self'; base-uri 'self'"
+						"value": "default-src 'self' *.google-analytics.com *.googleapis.com *.firebaseio.com *.googletagmanager.com *.google.com *.google.ca *.sentry.io; object-src 'self'; base-uri 'self'; form-action 'self'; style-src 'self' 'unsafe-inline';"
+					},
+					{
+						"key": "Permissions-Policy",
+						"value": "fullscreen=*, picture-in-picture=*, xr-spatial-tracking=*, gamepad=*, hid=*, idle-detection=*, window-placement=*"
 					}
 				]
 			}
