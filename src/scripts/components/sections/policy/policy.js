@@ -23,48 +23,10 @@ export default function Policy() {
 	 * Determines if a cookies and policy should be displayed or not
 	 */
 	function determineCookiesAndPolicy() {
-		/** The last version number loaded */
-		let lastVersion;
-		/** Whether the cookies and policy was displayed before */
-		let openedCnP;
-		/** All document cookies */
-		const cookies = document.cookie?.split(";");
-
-		for (const i in cookies) {
-			/** Cookie parameters */
-			const cookieParams = cookies[i].split("=");
-
-			if (cookieParams[0].trim().toLowerCase() === "ajs_p_version") {
-				lastVersion = cookieParams[1];
-			} else if (cookieParams[0].trim().toLowerCase() === "openedcnp") {
-				openedCnP = cookieParams?.[1] === "true";
-			}
-		}
-
-		/** Whether it was an older version [true] or not [false, default] */
-		let olderVersion = false;
-		if (lastVersion) {
-			/** Last version number loaded */
-			const ajs_p_version = lastVersion.split(".");
-			/** Current version number */
-			const currentNum = process.env.REACT_APP_VERSION.split(".");
-
-			/** Major version number */
-			const majorOlder = Number(ajs_p_version[0]) < Number(currentNum[0]);
-			/** Minor version number */
-			const minorOlder = Number(ajs_p_version[1]) < Number(currentNum[1]);
-			/** Patch version number */
-			const patchOlder = Number(ajs_p_version[2]) < Number(currentNum[2]);
-
-			if (majorOlder || minorOlder || patchOlder) {
-				olderVersion = true;
-			}
-		}
-
-		if (!openedCnP || olderVersion) {
+		if (window.localStorage?.getItem("ajs_version") !== process.env.REACT_APP_VERSION) {
 			setDisplayCnP(true);
 
-			document.cookie = `ajs_p_version=${process.env.REACT_APP_VERSION}; expires=Friday, December 31, 9999 at 7:00:00 AM; SameSite=Strict; Secure`;
+			window.localStorage.setItem("ajs_version", process.env.REACT_APP_VERSION);
 		}
 	}
 
