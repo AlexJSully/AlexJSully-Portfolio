@@ -23,10 +23,10 @@ export default function Policy() {
 	 * Determines if a cookies and policy should be displayed or not
 	 */
 	function determineCookiesAndPolicy() {
-		if (window.localStorage?.getItem("ajs_version") !== process.env.REACT_APP_VERSION) {
+		if (window.localStorage?.getItem("@AlexJSully/version") !== process.env.REACT_APP_VERSION) {
 			setDisplayCnP(true);
 
-			window.localStorage.setItem("ajs_version", process.env.REACT_APP_VERSION);
+			window.localStorage.setItem("@AlexJSully/version", process.env.REACT_APP_VERSION);
 		}
 	}
 
