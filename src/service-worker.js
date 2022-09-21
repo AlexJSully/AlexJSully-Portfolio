@@ -7,18 +7,18 @@
 // You can also remove this file if you'd prefer not to use a
 // service worker, and the Workbox build step will be skipped.
 
+// Core Workbox modules:
+import {clientsClaim} from "workbox-core";
+import {precacheAndRoute} from "workbox-precaching";
 // Google Analytics
 import * as googleAnalytics from "workbox-google-analytics";
 // Navigation preload
 import * as navigationPreload from "workbox-navigation-preload";
-// Core Workbox modules:
-import {clientsClaim} from "workbox-core";
-import {precacheAndRoute} from "workbox-precaching";
 // Recipes
 import {googleFontsCache, imageCache, offlineFallback, pageCache, staticResourceCache} from "workbox-recipes";
 // Offline fallback
-import {NetworkOnly} from "workbox-strategies";
 import {setDefaultHandler} from "workbox-routing";
+import {NetworkOnly} from "workbox-strategies";
 
 clientsClaim();
 

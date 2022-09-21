@@ -91,11 +91,13 @@
 		},
 		{
 			"src": "./maskable_icon.png",
+			"sizes": "any",
 			"type": "image/png",
 			"purpose": "any maskable"
 		},
 		{
 			"src": "./safari-pinned-tab.svg",
+			"sizes": "any",
 			"purpose": "monochrome",
 			"type": "image/svg+xml"
 		},
@@ -126,6 +128,13 @@
 			"type": "image/webp",
 			"platform": "wide",
 			"label": "Current and previous projects and experiences"
+		}
+	],
+	"shortcuts": [
+		{
+			"name": "Alexander Sullivan's Portfolio",
+			"url": "/",
+			"description": "Portfolio showcase for Alexander Joo-Hyun Sullivan."
 		}
 	],
 	"description": "Portfolio showcase for Alexander Joo-Hyun Sullivan.",
