@@ -130,13 +130,6 @@
 			"label": "Current and previous projects and experiences"
 		}
 	],
-	"shortcuts": [
-		{
-			"name": "Alexander Sullivan's Portfolio",
-			"url": "/",
-			"description": "Portfolio showcase for Alexander Joo-Hyun Sullivan."
-		}
-	],
 	"description": "Portfolio showcase for Alexander Joo-Hyun Sullivan.",
 	"theme_color": "#1e2227",
 	"background_color": "#1e2227",
