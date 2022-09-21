@@ -98,6 +98,34 @@
 			"src": "./safari-pinned-tab.svg",
 			"purpose": "monochrome",
 			"type": "image/svg+xml"
+		},
+		{
+			"src": "./favicon.ico",
+			"sizes": "any",
+			"type": "image/x-icon"
+		}
+	],
+	"screenshots": [
+		{
+			"src": "./screenshot1.webp",
+			"sizes": "1280x800",
+			"type": "image/webp",
+			"platform": "wide",
+			"label": "Landing page"
+		},
+		{
+			"src": "./screenshot2.webp",
+			"sizes": "1072x1930",
+			"type": "image/webp",
+			"platform": "narrow",
+			"label": "Mobile landing page"
+		},
+		{
+			"src": "./screenshot3.webp",
+			"sizes": "1600x1089",
+			"type": "image/webp",
+			"platform": "wide",
+			"label": "Current and previous projects and experiences"
 		}
 	],
 	"description": "Portfolio showcase for Alexander Joo-Hyun Sullivan.",
@@ -107,5 +135,17 @@
 	"id": "/",
 	"display": "standalone",
 	"prefer_related_applications": false,
-	"orientation": "any"
+	"orientation": "any",
+	"categories": [
+		"bioinformatics",
+		"education",
+		"personal",
+		"portfolio",
+		"research",
+		"resume",
+		"science",
+		"video games",
+		"virtual reality",
+		"website"
+	]
 }
