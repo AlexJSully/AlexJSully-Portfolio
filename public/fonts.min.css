@@ -1,1 +1,9 @@
-@font-face{font-display:swap;font-family:OpenDyslexia2;src:url("./fonts/OpenDyslexic2/OpenDyslexic-Regular.otf?#iefix") format("opentype")}.dyslexia-global{font-family:OpenDyslexia2!important;text-shadow:1px 2px 3px #5d695b!important}
+@font-face {
+	font-display: swap;
+	font-family: OpenDyslexia2;
+	src: url("./fonts/OpenDyslexic2/OpenDyslexic-Regular.otf?#iefix") format("opentype");
+}
+.dyslexia-global {
+	font-family: OpenDyslexia2 !important;
+	text-shadow: 1px 2px 3px #5d695b !important;
+}
