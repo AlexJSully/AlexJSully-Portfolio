@@ -31,7 +31,7 @@
 	},
 	"devDependencies": {
 		"prettier": "^2.7.1",
-		"source-map-explorer": "^2.5.2"
+		"source-map-explorer": "^2.5.3"
 	},
 	"scripts": {
 		"start": "react-scripts start",
