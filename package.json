@@ -13,16 +13,16 @@
 	"dependencies": {
 		"@emotion/react": "^11.10.4",
 		"@emotion/styled": "^11.10.4",
-		"@mui/icons-material": "^5.10.6",
-		"@mui/material": "^5.10.6",
-		"@sentry/react": "^7.13.0",
-		"@sentry/tracing": "^7.13.0",
-		"firebase": "^9.10.0",
+		"@mui/icons-material": "^5.10.9",
+		"@mui/material": "^5.10.9",
+		"@sentry/react": "^7.15.0",
+		"@sentry/tracing": "^7.15.0",
+		"firebase": "^9.12.0",
 		"react": "^18.2.0",
 		"react-app-polyfill": "^3.0.0",
 		"react-dom": "^18.2.0",
 		"react-scripts": "5.0.1",
-		"web-vitals": "^3.0.2",
+		"web-vitals": "^3.0.3",
 		"workbox-core": "^6.5.4",
 		"workbox-google-analytics": "^6.5.4",
 		"workbox-navigation-preload": "^6.5.4",
@@ -31,7 +31,7 @@
 	},
 	"devDependencies": {
 		"prettier": "^2.7.1",
-		"source-map-explorer": "^2.5.2"
+		"source-map-explorer": "^2.5.3"
 	},
 	"scripts": {
 		"start": "react-scripts start",

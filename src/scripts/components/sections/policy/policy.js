@@ -73,18 +73,18 @@ export default function Policy() {
 					horizontal: "left",
 				}}
 				open={displayCnP}
-				onClose={() => handleClickCnPSnackbar()}
+				onClose={handleClickCnPSnackbar}
 				message="I use cookies to improve your experience!"
 				action={
 					<>
-						<Button variant="outlined" color="secondary" onClick={() => handleClickCnPDialog()}>
+						<Button variant="outlined" color="secondary" onClick={handleClickCnPSnackbar}>
 							See cookies & privacy policy
 						</Button>
 						<Button
 							variant="outlined"
 							color="secondary"
 							className="policy-button"
-							onClick={() => handleClickCnPSnackbar()}
+							onClick={handleClickCnPSnackbar}
 						>
 							CLOSE
 						</Button>
@@ -92,7 +92,7 @@ export default function Policy() {
 				}
 			/>
 
-			<Dialog open={displayCnPDialog} onClose={() => handleClickCnPDialog()}>
+			<Dialog open={displayCnPDialog} onClose={handleClickCnPSnackbar}>
 				<DialogTitle id="cookies-and-privacy-dialog">Cookies and Privacy Policy</DialogTitle>
 				<DialogContent>
 					<Cookies />

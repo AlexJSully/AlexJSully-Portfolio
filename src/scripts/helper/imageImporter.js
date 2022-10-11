@@ -14,7 +14,7 @@ export async function returnImages(which, type) {
 	if (Object.keys(images).length < 1) {
 		for (const [key] of Object.entries(ProjectsData)) {
 			/** Thumbnail image */
-			let thumbnail;
+			let thumbnail = undefined;
 
 			/** Supported image formats */
 			const imageFormats = ["webp", "png", "jpg", "gif", "jpeg", "svg", "bmp", "ico", "tiff", "tif"];
@@ -42,7 +42,7 @@ export async function returnImages(which, type) {
 
 			if (thumbnail?.default) {
 				images[key] = {};
-				images[key]["thumbnail"] = thumbnail.default;
+				images[key].thumbnail = thumbnail.default;
 			}
 		}
 	}
@@ -66,9 +66,11 @@ export async function returnFilterImages(filterData, which) {
 		// eslint-disable-next-line no-unused-vars
 		for (const [, value] of Object.entries(filterData)) {
 			for (const i in value) {
-				const thumbnail = await import(`../../images/icons/${value[i]}.svg`);
+				if (value[i]) {
+					const thumbnail = await import(`../../images/icons/${value[i]}.svg`);
 
-				filterImages[value[i]] = thumbnail?.default || null;
+					filterImages[value[i]] = thumbnail?.default || null;
+				}
 			}
 		}
 	}

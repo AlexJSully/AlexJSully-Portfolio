@@ -220,31 +220,33 @@ export default function Projects() {
 			const innerFilterJSX = [];
 
 			for (const i in value) {
-				/** Filter thumbnail */
-				const keywordThumbnail = await returnFilterImages(filters, value[i]);
+				if (value[i]) {
+					/** Filter thumbnail */
+					const keywordThumbnail = await returnFilterImages(filters, value[i]);
 
-				if (keywordThumbnail) {
-					innerFilterJSX.push(
-						<Grid item xs={3} key={`${key}-${value[i]}-Grid`}>
-							<Card className="projects-Card filter-Cards" key={`${key}-${value[i]}-Card`}>
-								<CardActionArea
-									className="filter-ActionCard"
-									onClick={() => filterProjects(`${value[i]}`)}
-									id={`${value[i]}_card`}
-									key={`${key}-${value[i]}-CardAction`}
-								>
-									<CardMedia
-										id={`${value[i]}_filter`}
-										className="projects-KeywordThumbnail"
-										image={keywordThumbnail}
-										title={`${FilterData?.[value[i]]?.name || value[i]}`}
-										key={`${key}-${value[i]}`}
-									/>
-									{FilterData?.[value[i]]?.name || value[i]}
-								</CardActionArea>
-							</Card>
-						</Grid>,
-					);
+					if (keywordThumbnail) {
+						innerFilterJSX.push(
+							<Grid item xs={3} key={`${key}-${value[i]}-Grid`}>
+								<Card className="projects-Card filter-Cards" key={`${key}-${value[i]}-Card`}>
+									<CardActionArea
+										className="filter-ActionCard"
+										onClick={() => filterProjects(`${value[i]}`)}
+										id={`${value[i]}_card`}
+										key={`${key}-${value[i]}-CardAction`}
+									>
+										<CardMedia
+											id={`${value[i]}_filter`}
+											className="projects-KeywordThumbnail"
+											image={keywordThumbnail}
+											title={`${FilterData?.[value[i]]?.name || value[i]}`}
+											key={`${key}-${value[i]}`}
+										/>
+										{FilterData?.[value[i]]?.name || value[i]}
+									</CardActionArea>
+								</Card>
+							</Grid>,
+						);
+					}
 				}
 			}
 
@@ -308,7 +310,7 @@ export default function Projects() {
 								</p>
 								AND
 								<Switch
-									onChange={() => handleAndOrChange()}
+									onChange={handleAndOrChange}
 									color="secondary"
 									name="checkedB"
 									inputProps={{"aria-label": "primary checkbox"}}
@@ -321,7 +323,7 @@ export default function Projects() {
 									variant="contained"
 									color="primary"
 									className="filter-Reset"
-									onClick={() => resetFilters()}
+									onClick={resetFilters}
 									key="filter-Reset"
 								>
 									Reset Filters
@@ -362,11 +364,13 @@ export default function Projects() {
 					const responsibilities = [];
 
 					for (const i in value.responsibilities) {
-						responsibilities.push(
-							<li key={`${key}-responsibilities-${i}`} className="responsibilities-bullets">
-								{value.responsibilities[i]}
-							</li>,
-						);
+						if (value.responsibilities[i]) {
+							responsibilities.push(
+								<li key={`${key}-responsibilities-${i}`} className="responsibilities-bullets">
+									{value.responsibilities[i]}
+								</li>,
+							);
+						}
 					}
 
 					displayResponsibilities.push(

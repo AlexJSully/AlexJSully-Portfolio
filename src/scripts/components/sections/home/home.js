@@ -100,7 +100,7 @@ export default function Home() {
 						control={
 							<Checkbox
 								id="dyslexia-toggle"
-								onChange={() => handleGlobalDyslexia()}
+								onChange={handleGlobalDyslexia}
 								color="secondary"
 								key="dyslexia-toggle"
 								role="checkbox"
@@ -155,8 +155,8 @@ export default function Home() {
 				alt="Drawn version of me"
 				fetchpriority="high"
 				loading="auto"
-				onMouseEnter={() => handleTriggerSneeze()}
-				onClick={() => handleTriggerSneeze()}
+				onMouseEnter={handleTriggerSneeze}
+				onClick={handleTriggerSneeze}
 				width="20%"
 				height="20%"
 			/>
