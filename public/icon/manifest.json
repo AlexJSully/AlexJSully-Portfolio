@@ -90,12 +90,6 @@
 			"purpose": "maskable"
 		},
 		{
-			"src": "./maskable_icon.png",
-			"sizes": "any",
-			"type": "image/png",
-			"purpose": "any maskable"
-		},
-		{
 			"src": "./safari-pinned-tab.svg",
 			"sizes": "any",
 			"purpose": "monochrome",
