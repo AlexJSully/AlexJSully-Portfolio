@@ -7,16 +7,16 @@
 			"url": "https://alexjsully.me/"
 		}
 	],
-	"version": "1.0.49",
+	"version": "1.0.50",
 	"private": true,
 	"description": "Portfolio and showcase for Alexander Joo-Hyun Sullivan and related projects & experiences.",
 	"dependencies": {
 		"@emotion/react": "^11.10.5",
 		"@emotion/styled": "^11.10.5",
 		"@mui/icons-material": "^5.10.9",
-		"@mui/material": "^5.10.11",
-		"@sentry/react": "^7.17.2",
-		"@sentry/tracing": "^7.17.2",
+		"@mui/material": "^5.10.12",
+		"@sentry/react": "^7.17.3",
+		"@sentry/tracing": "^7.17.3",
 		"firebase": "^9.13.0",
 		"react": "^18.2.0",
 		"react-app-polyfill": "^3.0.0",
