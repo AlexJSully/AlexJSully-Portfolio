@@ -1,7 +1,7 @@
 // CSS
 import "./publications.css";
 // React
-import React, {Suspense, lazy, useEffect, useState} from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 // Data
 import PublicationsData from "../../../../data/publicationsData.json";
 // Custom components

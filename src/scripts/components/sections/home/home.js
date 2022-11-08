@@ -1,12 +1,12 @@
 // CSS
 import "./home.css";
 // React
-import React, {Suspense, lazy, useEffect, useState} from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 // Interactive elements
-import {WordCarousel} from "../../../interactivity/word-carousel";
-import {aaaahhhh} from "../../../interactivity/aaaahhhh";
-import {createHoverColourWords} from "../../../interactivity/create-hover-words";
-import {handleMoveBackground} from "../../../interactivity/background-move";
+import { WordCarousel } from "../../../interactivity/word-carousel";
+import { aaaahhhh } from "../../../interactivity/aaaahhhh";
+import { createHoverColourWords } from "../../../interactivity/create-hover-words";
+import { handleMoveBackground } from "../../../interactivity/background-move";
 // Images
 import ProfilePic from "../../../../images/me_drawn/profile_pic_drawn.webp";
 import SneezePicStart from "../../../../images/me_drawn/profile_pic_drawn_2.webp";
@@ -95,7 +95,7 @@ export default function Home() {
 	function createAccessibilityToggles() {
 		if (!displayAccessibilityToggles) {
 			setDisplayAccessibilityToggles(
-				<Suspense fallback={<Skeleton width="178px" height="42px" sx={{bgcolor: "#1e222796"}} />}>
+				<Suspense fallback={<Skeleton width="178px" height="42px" sx={{ bgcolor: "#1e222796" }} />}>
 					<FormControlLabel
 						control={
 							<Checkbox

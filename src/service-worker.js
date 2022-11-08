@@ -8,17 +8,17 @@
 // service worker, and the Workbox build step will be skipped.
 
 // Core Workbox modules:
-import {clientsClaim} from "workbox-core";
-import {precacheAndRoute} from "workbox-precaching";
+import { clientsClaim } from "workbox-core";
+import { precacheAndRoute } from "workbox-precaching";
 // Google Analytics
 import * as googleAnalytics from "workbox-google-analytics";
 // Navigation preload
 import * as navigationPreload from "workbox-navigation-preload";
 // Recipes
-import {googleFontsCache, imageCache, offlineFallback, pageCache, staticResourceCache} from "workbox-recipes";
+import { googleFontsCache, imageCache, offlineFallback, pageCache, staticResourceCache } from "workbox-recipes";
 // Offline fallback
-import {setDefaultHandler} from "workbox-routing";
-import {NetworkOnly} from "workbox-strategies";
+import { setDefaultHandler } from "workbox-routing";
+import { NetworkOnly } from "workbox-strategies";
 
 clientsClaim();
 

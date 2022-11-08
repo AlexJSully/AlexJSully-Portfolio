@@ -1,4 +1,4 @@
-import {getCLS, getFID, getFCP, getLCP, getTTFB} from "web-vitals";
+import { getCLS, getFID, getFCP, getLCP, getTTFB } from "web-vitals";
 
 const reportWebVitals = () => {
 	getCLS(sendToGoogleAnalytics);
@@ -8,7 +8,7 @@ const reportWebVitals = () => {
 	getTTFB(sendToGoogleAnalytics);
 };
 
-function sendToGoogleAnalytics({name, delta, id}) {
+function sendToGoogleAnalytics({ name, delta, id }) {
 	// Assumes the global `gtag()` function exists, see:
 	// https://developers.google.com/analytics/devguides/collection/gtagjs
 	// eslint-disable-next-line no-undef

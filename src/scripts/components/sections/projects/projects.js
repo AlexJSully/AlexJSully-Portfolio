@@ -1,12 +1,12 @@
 // CSS
 import "./projects.css";
 // React
-import React, {Suspense, lazy, useEffect, useState} from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 // Data
 import FilterData from "../../../../data/filterData.json";
 import ProjectsData from "../../../../data/projectsData.json";
 // Helper functions
-import {returnFilterImages, returnImages} from "../../../helper/imageImporter";
+import { returnFilterImages, returnImages } from "../../../helper/imageImporter";
 
 // Lazy load Material-UI components
 const Grid = lazy(() => import("@mui/material/Grid"));
@@ -313,7 +313,7 @@ export default function Projects() {
 									onChange={handleAndOrChange}
 									color="secondary"
 									name="checkedB"
-									inputProps={{"aria-label": "primary checkbox"}}
+									inputProps={{ "aria-label": "primary checkbox" }}
 									id="andOrSwitcher"
 									key="filter-AccordionSwitch"
 								/>

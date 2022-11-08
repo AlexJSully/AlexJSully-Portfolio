@@ -8,12 +8,12 @@ import * as firebase from "./firebase";
 import "./index.css";
 // React
 import React from "react";
-import {createRoot} from "react-dom/client";
+import { createRoot } from "react-dom/client";
 // Main app
 import App from "./scripts/App";
 // Sentry
 import * as Sentry from "@sentry/react";
-import {BrowserTracing} from "@sentry/tracing";
+import { BrowserTracing } from "@sentry/tracing";
 // Service workers
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 // Google Analytics

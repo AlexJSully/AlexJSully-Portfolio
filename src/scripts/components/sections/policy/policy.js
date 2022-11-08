@@ -1,7 +1,7 @@
 // CSS
 import "./policy.css";
 // React
-import React, {Suspense, lazy, useEffect, useState} from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 
 // Lazy-load components
 // Custom components
