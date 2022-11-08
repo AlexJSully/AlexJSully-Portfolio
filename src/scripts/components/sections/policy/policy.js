@@ -1,18 +1,18 @@
 // CSS
-import "./policy.css";
+import './policy.css';
 // React
-import React, {Suspense, lazy, useEffect, useState} from "react";
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 
 // Lazy-load components
 // Custom components
-const Cookies = lazy(() => import("./cookies"));
-const Privacy = lazy(() => import("./privacy"));
+const Cookies = lazy(() => import('./cookies'));
+const Privacy = lazy(() => import('./privacy'));
 // Material-UI
-const Button = lazy(() => import("@mui/material/Button"));
-const Dialog = lazy(() => import("@mui/material/Dialog"));
-const DialogContent = lazy(() => import("@mui/material/DialogContent"));
-const DialogTitle = lazy(() => import("@mui/material/DialogTitle"));
-const Snackbar = lazy(() => import("@mui/material/Snackbar"));
+const Button = lazy(() => import('@mui/material/Button'));
+const Dialog = lazy(() => import('@mui/material/Dialog'));
+const DialogContent = lazy(() => import('@mui/material/DialogContent'));
+const DialogTitle = lazy(() => import('@mui/material/DialogTitle'));
+const Snackbar = lazy(() => import('@mui/material/Snackbar'));
 
 /** Cookies and privacy policy */
 export default function Policy() {
@@ -23,10 +23,10 @@ export default function Policy() {
 	 * Determines if a cookies and policy should be displayed or not
 	 */
 	function determineCookiesAndPolicy() {
-		if (window.localStorage?.getItem("@AlexJSully/version") !== process.env.REACT_APP_VERSION) {
+		if (window.localStorage?.getItem('@AlexJSully/version') !== process.env.REACT_APP_VERSION) {
 			setDisplayCnP(true);
 
-			window.localStorage.setItem("@AlexJSully/version", process.env.REACT_APP_VERSION);
+			window.localStorage.setItem('@AlexJSully/version', process.env.REACT_APP_VERSION);
 		}
 	}
 
@@ -37,7 +37,7 @@ export default function Policy() {
 	 * @returns
 	 */
 	function handleClickCnPSnackbar(_event, reason) {
-		if (reason === "clickaway") {
+		if (reason === 'clickaway') {
 			return;
 		}
 
@@ -47,7 +47,7 @@ export default function Policy() {
 			setDisplayCnPDialog(false);
 		}
 
-		document.cookie = "openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM; SameSite=Strict; Secure";
+		document.cookie = 'openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM; SameSite=Strict; Secure';
 	}
 
 	useEffect(() => {
@@ -58,8 +58,8 @@ export default function Policy() {
 		<Suspense fallback={null}>
 			<Snackbar
 				anchorOrigin={{
-					vertical: "bottom",
-					horizontal: "left",
+					vertical: 'bottom',
+					horizontal: 'left',
 				}}
 				open={displayCnP}
 				onClose={handleClickCnPSnackbar}
