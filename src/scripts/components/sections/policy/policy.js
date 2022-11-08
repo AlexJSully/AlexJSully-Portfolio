@@ -50,17 +50,6 @@ export default function Policy() {
 		document.cookie = "openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM; SameSite=Strict; Secure";
 	}
 
-	/**
-	 * Handle click cookie and policy dialog
-	 */
-	function handleClickCnPDialog() {
-		setDisplayCnP(false);
-
-		setDisplayCnPDialog(!displayCnPDialog);
-
-		document.cookie = "openedCnP=true; expires=Friday, December 31, 9999 at 7:00:00 AM; SameSite=Strict; Secure";
-	}
-
 	useEffect(() => {
 		determineCookiesAndPolicy();
 	});
