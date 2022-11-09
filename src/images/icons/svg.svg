@@ -10,12 +10,12 @@
   <g id="g22" stroke="#000" stroke-width="38.009" transform="matrix(.17668 0 0 .17727 -1.502 -1.514)">
     <g id="svgstar" transform="translate(150 150)">
       <path id="svgbar" fill="#ffb13b" d="M-84.149-15.851a22.417 22.417 0 1 0 0 31.702H84.15a22.417 22.417 0 1 0 0-31.702z"/>
-      <use id="use15" width="100%" height="100%" x="0" y="0" transform="rotate(45)" xlink:href="#svgbar"/>
-      <use id="use17" width="100%" height="100%" x="0" y="0" transform="rotate(90)" xlink:href="#svgbar"/>
-      <use id="use19" width="100%" height="100%" x="0" y="0" transform="rotate(135)" xlink:href="#svgbar"/>
+      <use xlink:href="#svgbar" id="use15" width="100%" height="100%" x="0" y="0" transform="rotate(45)"/>
+      <use xlink:href="#svgbar" id="use17" width="100%" height="100%" x="0" y="0" transform="rotate(90)"/>
+      <use xlink:href="#svgbar" id="use19" width="100%" height="100%" x="0" y="0" transform="rotate(135)"/>
     </g>
   </g>
-  <use id="use24" width="100%" height="100%" x="0" y="0" transform="matrix(.17668 0 0 .17727 -1.502 -1.514)" xlink:href="#svgstar"/>
-  <use id="use26" width="100%" height="100%" x="0" y="0" opacity=".85" xlink:href="#base"/>
-  <use id="use28" width="100%" height="100%" x="0" y="0" transform="matrix(.17668 0 0 .17727 -1.502 -1.514)" xlink:href="#SVG"/>
+  <use xlink:href="#svgstar" id="use24" width="100%" height="100%" x="0" y="0" transform="matrix(.17668 0 0 .17727 -1.502 -1.514)"/>
+  <use xlink:href="#base" id="use26" width="100%" height="100%" x="0" y="0" opacity=".85"/>
+  <use xlink:href="#SVG" id="use28" width="100%" height="100%" x="0" y="0" transform="matrix(.17668 0 0 .17727 -1.502 -1.514)"/>
 </svg>

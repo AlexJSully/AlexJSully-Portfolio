@@ -1,26 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg49" width="50" height="50" preserveAspectRatio="xMidYMid" version="1.1" viewBox="0 0 25 25">
   <defs id="defs33">
-    <linearGradient id="A" x1="105.124" x2="258.888" y1="18.816" y2="180.747" xlink:href="#G">
+    <linearGradient xlink:href="#G" id="A" x1="105.124" x2="258.888" y1="18.816" y2="180.747">
       <stop id="stop2" offset="0%" stop-color="#f9a03c"/>
       <stop id="stop4" offset="100%" stop-color="#f7974e"/>
     </linearGradient>
-    <linearGradient id="B" x1="-21.438" x2="121.931" y1="48.347" y2="188.876" xlink:href="#G">
+    <linearGradient xlink:href="#G" id="B" x1="-21.438" x2="121.931" y1="48.347" y2="188.876">
       <stop id="stop7" offset="0%" stop-color="#f9a03c"/>
       <stop id="stop9" offset="100%" stop-color="#f7974e"/>
     </linearGradient>
-    <linearGradient id="C" x1="44.776" x2="174.952" y1="97.471" y2="242.691" xlink:href="#G">
+    <linearGradient xlink:href="#G" id="C" x1="44.776" x2="174.952" y1="97.471" y2="242.691">
       <stop id="stop12" offset="0%" stop-color="#f9a03c"/>
       <stop id="stop14" offset="100%" stop-color="#f7974e"/>
     </linearGradient>
-    <linearGradient id="D" x1="29.009" x2="211.054" y1="-4.41" y2="222.914" xlink:href="#G">
+    <linearGradient xlink:href="#G" id="D" x1="29.009" x2="211.054" y1="-4.41" y2="222.914">
       <stop id="stop17" offset="0%" stop-color="#f26d58"/>
       <stop id="stop19" offset="100%" stop-color="#f9a03c"/>
     </linearGradient>
-    <linearGradient id="E" x1="120.653" x2="288.266" y1="6.744" y2="126.53" xlink:href="#G">
+    <linearGradient xlink:href="#G" id="E" x1="120.653" x2="288.266" y1="6.744" y2="126.53">
       <stop id="stop22" offset="0%" stop-color="#b84e51"/>
       <stop id="stop24" offset="100%" stop-color="#f68e48"/>
     </linearGradient>
-    <linearGradient id="F" x1="83.051" x2="91.707" y1="171.518" y2="286.309" xlink:href="#G">
+    <linearGradient xlink:href="#G" id="F" x1="83.051" x2="91.707" y1="171.518" y2="286.309">
       <stop id="stop27" offset="0%" stop-color="#f9a03c"/>
       <stop id="stop29" offset="100%" stop-color="#f7974e"/>
     </linearGradient>

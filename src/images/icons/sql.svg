@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg24" width="50" height="50" fill="#fff" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" version="1.1">
-  <use id="use2" width="100%" height="100%" x=".5" y=".5" transform="matrix(.625 0 0 .625 5.938 -.313)" xlink:href="#A"/>
+  <use xlink:href="#A" id="use2" width="100%" height="100%" x=".5" y=".5" transform="matrix(.625 0 0 .625 5.938 -.313)"/>
   <symbol id="A" overflow="visible">
     <g id="g8" fill="#0072c6" stroke="none">
       <path id="path4" d="M0 10.929v58.14C0 75.106 13.432 80 30 80V10.929Z"/>
-      <use id="use6" width="100%" height="100%" x="0" y="0" xlink:href="#C"/>
+      <use xlink:href="#C" id="use6" width="100%" height="100%" x="0" y="0"/>
     </g>
-    <use id="use10" width="100%" height="100%" x="0" y="0" stroke="none" opacity=".15" xlink:href="#C"/>
+    <use xlink:href="#C" id="use10" width="100%" height="100%" x="0" y="0" stroke="none" opacity=".15"/>
     <path id="path12" stroke="none" d="M60 10.929c0 6.036-13.432 10.929-30 10.929-16.568 0-30-4.893-30-10.929C0 4.893 13.432 0 30 0c16.568 0 30 4.893 30 10.929"/>
     <path id="path14" fill="#7fba00" stroke="none" d="M53.866 10.299c0 3.985-10.685 7.211-23.866 7.211S6.132 14.284 6.132 10.299c0-3.985 10.687-7.211 23.868-7.211s23.866 3.228 23.866 7.211"/>
     <path id="path16" fill="#b8d432" stroke="none" d="M48.867 14.707c3.124-1.219 5.002-2.745 5.002-4.404C53.868 6.318 43.183 3.09 30 3.09S6.134 6.318 6.134 10.303c0 1.658 1.877 3.185 5.002 4.404 4.363-1.704 11.182-2.803 18.865-2.803 7.683 0 14.5 1.099 18.866 2.803"/>
