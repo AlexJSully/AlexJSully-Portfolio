@@ -223,6 +223,8 @@ export default function Projects() {
 				if (value[i]) {
 					/** Filter thumbnail */
 					const keywordThumbnail = await returnFilterImages(filters, value[i]);
+					console.log(filters, value[i]);
+					console.log(keywordThumbnail);
 
 					if (keywordThumbnail) {
 						innerFilterJSX.push(

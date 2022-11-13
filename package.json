@@ -30,15 +30,19 @@
 		"workbox-recipes": "^6.5.4"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "^5.16.5",
+		"@testing-library/react": "^13.4.0",
+		"jest": "^27.5.1",
 		"prettier": "^2.7.1",
 		"source-map-explorer": "^2.5.3"
 	},
 	"scripts": {
-		"start": "react-scripts start",
+		"analyze": "source-map-explorer 'build/static/js/*.js'",
 		"build": "react-scripts build",
 		"eject": "react-scripts eject",
-		"analyze": "source-map-explorer 'build/static/js/*.js'",
-		"prettier": "prettier --write --end-of-line auto ./"
+		"prettier": "prettier --write --end-of-line auto ./",
+		"start": "react-scripts start",
+		"test": "react-scripts test"
 	},
 	"eslintConfig": {
 		"extends": [

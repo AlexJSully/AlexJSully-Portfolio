@@ -148,34 +148,35 @@ export default function Home() {
 		<div className="home" id="home" key="home-Container" onMouseMove={(e) => handleMoveBackground(e, "App")}>
 			{displayAccessibilityToggles}
 			<img
+				alt="Drawn version of me"
 				className="profilePic"
+				data-testid="profilePic"
+				fetchpriority="high"
+				height="20%"
 				id="profilePic"
 				key="home-ProfilePic"
-				src={ProfilePic}
-				alt="Drawn version of me"
-				fetchpriority="high"
 				loading="auto"
-				onMouseEnter={handleTriggerSneeze}
 				onClick={handleTriggerSneeze}
+				onMouseEnter={handleTriggerSneeze}
+				src={ProfilePic}
 				width="20%"
-				height="20%"
 			/>
-			<h1 className="h2-description" key="home-Name" role="banner">
+			<h1 className="h2-description" key="home-Name" role="banner" id="hover-Name">
 				{createHoverColourWords("Alexander Joo-Hyun Sullivan", "hover-Name")}
 			</h1>
 			<span
-				id="description-Carousel"
+				aria-level="1"
 				className="carousel-description h3-description"
+				id="description-Carousel"
 				key="home-DescriptionCarousel"
 				role="heading"
-				aria-level="1"
 			/>
 			<h2
+				aria-level="1"
 				className="h3-description"
+				hidden
 				id="no-motion-description"
 				key="home-NoMotionDescription"
-				aria-level="1"
-				hidden
 			>
 				Full-Stack Web Developer | Bioinformatician | Gamer
 			</h2>

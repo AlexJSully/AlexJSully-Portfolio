@@ -67,7 +67,12 @@ export async function returnFilterImages(filterData, which) {
 		for (const [, value] of Object.entries(filterData)) {
 			for (const i in value) {
 				if (value[i]) {
-					const thumbnail = await import(`../../images/icons/${value[i]}.svg`);
+					let thumbnail;
+					try {
+						thumbnail = await import(`../../images/icons/${value[i]}.svg`);
+					} catch (error) {
+						continue;
+					}
 
 					filterImages[value[i]] = thumbnail?.default || null;
 				}

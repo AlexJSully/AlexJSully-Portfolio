@@ -1,16 +1,14 @@
 // CSS
 import "./contact.css";
 // React
-import React, { Suspense, lazy } from "react";
-
-// Lazy load Material-UI components
+import React from "react";
 // Material-UI
-const Button = lazy(() => import("@mui/material/Button"));
+import Button from "@mui/material/Button";
 // Material-UI Icons
-const CopyrightIcon = lazy(() => import("@mui/icons-material/Copyright"));
-const GitHubIcon = lazy(() => import("@mui/icons-material/GitHub"));
-const LinkedInIcon = lazy(() => import("@mui/icons-material/LinkedIn"));
-const TwitterIcon = lazy(() => import("@mui/icons-material/Twitter"));
+import CopyrightIcon from "@mui/icons-material/Copyright";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import TwitterIcon from "@mui/icons-material/Twitter";
 
 /** Contact section of UI */
 export default function Contact() {
@@ -45,12 +43,13 @@ export default function Contact() {
 		for (const [, value] of Object.entries(socialMediaInfo)) {
 			socialMediaIconsList.push(
 				<Button
+					arial-label={value?.text}
+					className="contact-Button"
 					href={value?.url || ""}
 					key={`contact-button-${value?.text}-social`}
-					target="_blank"
 					rel="noopener noreferrer"
-					className="contact-Button"
 					startIcon={value?.icon}
+					target="_blank"
 					title={value?.text}
 				/>,
 			);
@@ -60,29 +59,27 @@ export default function Contact() {
 	}
 
 	return (
-		<Suspense fallback={null}>
-			<div id="contactContainer" className="contact-Container" key="contact-Container" role="region">
-				<div id="contact" className="contact" key="contact-Contact">
-					<p key="contact-Text" role="heading" aria-level="2">
-						<span>Interested in working together?</span> <br />
-						<Button
-							className="workTogether-Button"
-							variant="contained"
-							color="primary"
-							href={`mailto:${email}`}
-							key="contact-Email"
-						>
-							Email
-						</Button>
-					</p>
-					{socialMediaIcons()}
-					<p className="contact-Footer" key="contact-Footer" role="complementary">
-						Handcrafted by <br />
-						<CopyrightIcon />
-						Alexander Joo-Hyun Sullivan
-					</p>
-				</div>
+		<div id="contactContainer" className="contact-Container" key="contact-Container" role="region">
+			<div id="contact" className="contact" key="contact-Contact">
+				<p key="contact-Text" role="heading" aria-level="2">
+					<span>Interested in working together?</span> <br />
+					<Button
+						className="workTogether-Button"
+						variant="contained"
+						color="primary"
+						href={`mailto:${email}`}
+						key="contact-Email"
+					>
+						Email
+					</Button>
+				</p>
+				{socialMediaIcons()}
+				<p className="contact-Footer" key="contact-Footer" role="complementary">
+					Handcrafted by <br />
+					<CopyrightIcon />
+					Alexander Joo-Hyun Sullivan
+				</p>
 			</div>
-		</Suspense>
+		</div>
 	);
 }
