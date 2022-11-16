@@ -29,14 +29,14 @@
 				"Anne Brown",
 				"Nicholas J. Provart"
 			],
-			"abstract": "ePlant was introduced in 2017 for exploring large Arabidopsis thaliana data sets from the kilometre to nanometre scales. In the past four years we have used the ePlant framework to develop ePlants for 15 agronomically-important species: maize, poplar, tomato, Camelina sativa, soybean, potato, barley, Medicago truncatula, eucalyptus, rice, willow, sunflower, Cannabis sativa, wheat and sugarcane. We also updated the interface to improve performance and accessibility, and added two new views to the Arabidopsis ePlant – the Navigator and Pathways viewers. The former shows phylogenetic relationships between homologs in other species and their expression pattern similarities, with links to view data for those genes in the respective ePlants. The latter shows Plant Reactome metabolic reactions. We also describe new Arabidopsis data sets including single cell RNA-seq data from roots, and how to embed ePlant eFP expression pictographs into any web page.",
+			"abstract": "ePlant was introduced in 2017 for exploring large Arabidopsis thaliana data sets from the kilometre to nanometre scales. In the past four years we have used the ePlant framework to develop ePlants for 15 agronomically-important species: maize, poplar, tomato, Camelina sativa, soybean, potato, barley, Medicago truncatula, eucalyptus, rice, willow, sunflower, Cannabis sativa, wheat and sugarcane. We also updated the interface to improve performance and accessibility, and added two new views to the Arabidopsis ePlant - the Navigator and Pathways viewers. The former shows phylogenetic relationships between homologs in other species and their expression pattern similarities, with links to view data for those genes in the respective ePlants. The latter shows Plant Reactome metabolic reactions. We also describe new Arabidopsis data sets including single cell RNA-seq data from roots, and how to embed ePlant eFP expression pictographs into any web page.",
 			"doi": "10.1101/2021.04.28.441805",
 			"journal": "Preprint (bioRxiv)",
 			"date": "2021-04-29",
 			"related-project": "eplant-plant-efp"
 		},
 		{
-			"title": "An ‘eFP‐Seq Browser’ for visualizing and exploring RNA sequencing data",
+			"title": "An 'eFP-Seq Browser' for visualizing and exploring RNA sequencing data",
 			"authors": [
 				"Alexander Sullivan",
 				"Priyank Purohit",
