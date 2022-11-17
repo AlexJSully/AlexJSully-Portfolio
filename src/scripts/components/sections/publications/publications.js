@@ -105,8 +105,8 @@ export default function Publications () {
                     {relatedProjectData?.length > 0
                       ? (
                         <span key={`related-project-${relatedProjectData}`}>
-                    Related projects: {relatedProjectData}
-                  </span>
+                          Related projects: {relatedProjectData}
+                        </span>
                         )
                       : null}
                   </Typography>
