@@ -5,12 +5,12 @@ import React, { Suspense, lazy } from "react";
 // Custom components
 import Home from "./components/sections/home/home";
 import Projects from "./components/sections/projects/projects";
+import Publications from "./components/sections/publications/publications";
 
 // Lazy load components
 // Custom components
 const Contact = lazy(() => import("./components/sections/contact/contact"));
 const Policy = lazy(() => import("./components/sections/policy/policy"));
-const Publications = lazy(() => import("./components/sections/publications/publications"));
 
 /** Portfolio and showcase */
 export default function App() {
@@ -25,9 +25,9 @@ export default function App() {
 
 			<Home key="Home-section" />
 			<Projects key="Projects-section" />
+			<Publications key="Publications-section" />
 
 			<Suspense fallback={null}>
-				<Publications key="Publications-section" />
 				<Contact key="Contact-section" />
 				<Policy key="Policy-section" />
 			</Suspense>
