@@ -6,10 +6,10 @@ const images = {};
 /**
  * Return project thumbnails
  * @param {String} which Which project you want returned
- * @param {String} type Which project image you want returned (currently only thumbnails available)
+ * @param {String} [type="thumbnail"] Which project image you want returned (currently only thumbnails available)
  * @returns {String} Directory path to project image
  */
-export async function returnImages(which, type) {
+export async function returnImages(which, type = "thumbnail") {
 	// Grab all images on first time this function is called
 	if (Object.keys(images).length < 1) {
 		for (const [key] of Object.entries(ProjectsData)) {
@@ -56,7 +56,7 @@ const filterImages = {};
 
 /**
  * Return desired filter image thumbnail
- * @param {String} filterData All filter data
+ * @param {Object} filterData All filter data
  * @param {String} which Which filtered image thumbnail you want returned
  * @returns {String} Directory path to filter image thumbnail
  */

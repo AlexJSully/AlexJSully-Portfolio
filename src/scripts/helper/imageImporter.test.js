@@ -1,6 +1,7 @@
 import "./imageImporter";
 import { returnFilterImages } from "./imageImporter";
 
+/** Test filter data */
 let filterData = {
 	language: [
 		"bash",
