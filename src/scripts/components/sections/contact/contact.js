@@ -4,6 +4,7 @@ import "./contact.css";
 import React from "react";
 // Material-UI
 import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
 // Material-UI Icons
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -42,16 +43,17 @@ export default function Contact() {
 
 		for (const [, value] of Object.entries(socialMediaInfo)) {
 			socialMediaIconsList.push(
-				<Button
-					arial-label={value?.text}
-					className="contact-Button"
-					href={value?.url || ""}
-					key={`contact-button-${value?.text}-social`}
-					rel="noopener noreferrer"
-					startIcon={value?.icon}
-					target="_blank"
-					title={value?.text}
-				/>,
+				<Tooltip title={value?.text} describeChild arrow key={`contact-button-${value?.text}-social-tooltip`}>
+					<Button
+						arial-label={value?.text}
+						className="contact-Button"
+						href={value?.url || ""}
+						key={`contact-button-${value?.text}-social`}
+						rel="noopener noreferrer"
+						startIcon={value?.icon}
+						target="_blank"
+					/>
+				</Tooltip>,
 			);
 		}
 

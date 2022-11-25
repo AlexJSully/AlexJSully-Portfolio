@@ -14,6 +14,7 @@ import SneezingPic from "../../../../images/me_drawn/profile_pic_drawn_3.webp";
 import SneezingUnsatisfied from "../../../../images/me_drawn/profile_pic_drawn_4.webp";
 // Material-UI
 import Skeleton from "@mui/material/Skeleton";
+import Tooltip from "@mui/material/Tooltip";
 
 // Lazy load Material-UI components
 // Material-UI
@@ -96,26 +97,27 @@ export default function Home() {
 		if (!displayAccessibilityToggles) {
 			setDisplayAccessibilityToggles(
 				<Suspense fallback={<Skeleton width="178px" height="42px" sx={{ bgcolor: "#1e222796" }} />}>
-					<FormControlLabel
-						control={
-							<Checkbox
-								id="dyslexia-toggle"
-								onChange={handleGlobalDyslexia}
-								color="secondary"
-								key="dyslexia-toggle"
-								role="checkbox"
-								aria-checked="false"
-								aria-label="Toggle Dyslexic Font - Checkbox"
-							/>
-						}
-						className="accessibility-toggles dyslexia-toggle"
-						label="Dyslexic Font"
-						title="Change all font to OpenDyslexic2"
-						key="accessibility-toggles"
-						role="switch"
-						aria-checked="false"
-						aria-label="Toggle Dyslexic Font"
-					/>
+					<Tooltip title="Change all font to OpenDyslexic2" describeChild arrow>
+						<FormControlLabel
+							control={
+								<Checkbox
+									id="dyslexia-toggle"
+									onChange={handleGlobalDyslexia}
+									color="secondary"
+									key="dyslexia-toggle"
+									role="checkbox"
+									aria-checked="false"
+									aria-label="Toggle Dyslexic Font - Checkbox"
+								/>
+							}
+							className="accessibility-toggles dyslexia-toggle"
+							label="Dyslexic Font"
+							key="accessibility-toggles"
+							role="switch"
+							aria-checked="false"
+							aria-label="Toggle Dyslexic Font"
+						/>
+					</Tooltip>
 				</Suspense>,
 			);
 		}

@@ -1,12 +1,9 @@
-// CSS
 import "./projects.css";
-// React
 import React, { Suspense, lazy, useEffect, useState } from "react";
-// Data
 import FilterData from "../../../../data/filterData.json";
 import ProjectsData from "../../../../data/projectsData.json";
-// Helper functions
 import { returnFilterImages, returnImages } from "../../../helper/imageImporter";
+import Tooltip from "@mui/material/Tooltip";
 
 // Lazy load Material-UI components
 const Grid = lazy(() => import("@mui/material/Grid"));
@@ -234,13 +231,18 @@ export default function Projects() {
 										id={`${value[i]}_card`}
 										key={`${key}-${value[i]}-CardAction`}
 									>
-										<CardMedia
-											id={`${value[i]}_filter`}
-											className="projects-KeywordThumbnail"
-											image={keywordThumbnail}
+										<Tooltip
 											title={`${FilterData?.[value[i]]?.name || value[i]}`}
-											key={`${key}-${value[i]}`}
-										/>
+											describeChild
+											arrow
+										>
+											<CardMedia
+												id={`${value[i]}_filter`}
+												className="projects-KeywordThumbnail"
+												image={keywordThumbnail}
+												key={`${key}-${value[i]}`}
+											/>
+										</Tooltip>
 										{FilterData?.[value[i]]?.name || value[i]}
 									</CardActionArea>
 								</Card>
@@ -463,30 +465,31 @@ export default function Projects() {
 						hidden={!value?.showcase}
 					>
 						<a href={url} target="_blank" rel="noopener noreferrer" className="projects-URL">
-							<Card className="projects-Card">
-								<CardActionArea>
-									<CardMedia
-										id={`${key}-thumbnail`}
-										className="projects-Thumbnail"
-										image={thumbnail}
-										title={key}
-									/>
-									<CardContent>
-										<Typography gutterBottom variant="h5" component="h2">
-											{value?.name}
-										</Typography>
-										<Typography variant="body1" component="p">
-											{value?.["most-recent-title"]}
-										</Typography>
-										<hr />
-										<Typography variant="body2" color="textSecondary" component="p">
-											{value?.description}
-										</Typography>
-										{displayResponsibilities}
-										{displayKeywords}
-									</CardContent>
-								</CardActionArea>
-							</Card>
+							<Tooltip title={value?.name} describeChild arrow>
+								<Card className="projects-Card">
+									<CardActionArea>
+										<CardMedia
+											id={`${key}-thumbnail`}
+											className="projects-Thumbnail"
+											image={thumbnail}
+										/>
+										<CardContent>
+											<Typography gutterBottom variant="h5" component="h2">
+												{value?.name}
+											</Typography>
+											<Typography variant="body1" component="p">
+												{value?.["most-recent-title"]}
+											</Typography>
+											<hr />
+											<Typography variant="body2" color="textSecondary" component="p">
+												{value?.description}
+											</Typography>
+											{displayResponsibilities}
+											{displayKeywords}
+										</CardContent>
+									</CardActionArea>
+								</Card>
+							</Tooltip>
 						</a>
 					</Grid>,
 				);
