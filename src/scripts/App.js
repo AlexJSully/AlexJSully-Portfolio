@@ -3,9 +3,9 @@ import React, { Suspense, lazy } from "react";
 import Home from "./components/sections/home/home";
 import Projects from "./components/sections/projects/projects";
 import Publications from "./components/sections/publications/publications";
+import Contact from "./components/sections/contact/contact";
 
 // Lazy load components
-const Contact = lazy(() => import("./components/sections/contact/contact"));
 const Policy = lazy(() => import("./components/sections/policy/policy"));
 
 /** Portfolio and showcase */
@@ -23,9 +23,9 @@ export default function App() {
 			<Home key="Home-section" />
 			<Projects key="Projects-section" />
 			<Publications key="Publications-section" />
+			<Contact key="Contact-section" />
 
 			<Suspense fallback={null}>
-				<Contact key="Contact-section" />
 				<Policy key="Policy-section" />
 			</Suspense>
 		</div>
