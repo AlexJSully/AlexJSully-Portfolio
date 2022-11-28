@@ -90,6 +90,12 @@
 			"purpose": "maskable"
 		},
 		{
+			"src": "./maskable_icon.png",
+			"sizes": "any",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
 			"src": "./safari-pinned-tab.svg",
 			"sizes": "any",
 			"purpose": "monochrome",
@@ -130,8 +136,12 @@
 	"start_url": "/",
 	"id": "/",
 	"display": "standalone",
+	"display_override": ["standalone", "minimal-ui", "window-controls-overlay"],
 	"prefer_related_applications": false,
 	"orientation": "any",
+	"dir": "ltr",
+	"lang": "en",
+	"scope": "/",
 	"categories": [
 		"bioinformatics",
 		"education",
