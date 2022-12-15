@@ -14,6 +14,7 @@ import App from "./scripts/App";
 // Sentry
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
+import { CaptureConsole, Offline } from "@sentry/integrations";
 // Service workers
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 // Google Analytics
@@ -21,7 +22,13 @@ import reportWebVitals from "./reportWebVitals";
 
 Sentry.init({
 	dsn: process.env.REACT_APP_SENTRY,
-	integrations: [new BrowserTracing()],
+	integrations: [
+		new BrowserTracing(),
+		new CaptureConsole({
+			levels: ["error"],
+		}),
+		new Offline(),
+	],
 
 	// Set tracesSampleRate to 1.0 to capture 100%
 	// of transactions for performance monitoring.
