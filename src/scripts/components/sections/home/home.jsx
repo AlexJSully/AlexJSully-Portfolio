@@ -1,20 +1,23 @@
+/* eslint-disable no-import-assign */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 // CSS
 import "./home.css";
 // React
 import React, { Suspense, lazy, useEffect, useState } from "react";
 // Interactive elements
+import Skeleton from "@mui/material/Skeleton";
+import Tooltip from "@mui/material/Tooltip";
 import { WordCarousel } from "../../../interactivity/word-carousel";
 import { aaaahhhh } from "../../../interactivity/aaaahhhh";
-import { createHoverColourWords } from "../../../interactivity/create-hover-words";
-import { handleMoveBackground } from "../../../interactivity/background-move";
+import CreateHoverColourWords from "../../../interactivity/create-hover-words";
+import handleMoveBackground from "../../../interactivity/background-move";
 // Images
 import ProfilePic from "../../../../images/me_drawn/profile_pic_drawn.webp";
 import SneezePicStart from "../../../../images/me_drawn/profile_pic_drawn_2.webp";
 import SneezingPic from "../../../../images/me_drawn/profile_pic_drawn_3.webp";
 import SneezingUnsatisfied from "../../../../images/me_drawn/profile_pic_drawn_4.webp";
 // Material-UI
-import Skeleton from "@mui/material/Skeleton";
-import Tooltip from "@mui/material/Tooltip";
 
 // Lazy load Material-UI components
 // Material-UI
@@ -43,7 +46,7 @@ export default function Home() {
 	/**
 	 * Handle profile picture sneezing
 	 */
-	function handleTriggerSneeze() {
+	function handleTriggerSneeze(_e) {
 		// If not trigger easter egg:
 		if (!aaahhh) {
 			// Add to hover count
@@ -102,7 +105,9 @@ export default function Home() {
 							control={
 								<Checkbox
 									id="dyslexia-toggle"
-									onChange={handleGlobalDyslexia}
+									onChange={() => {
+										handleGlobalDyslexia();
+									}}
 									color="secondary"
 									key="dyslexia-toggle"
 									role="checkbox"
@@ -164,7 +169,7 @@ export default function Home() {
 				width="20%"
 			/>
 			<h1 className="h2-description" key="home-Name" role="banner" id="hover-Name">
-				{createHoverColourWords("Alexander Joo-Hyun Sullivan", "hover-Name")}
+				{CreateHoverColourWords("Alexander Joo-Hyun Sullivan", "hover-Name")}
 			</h1>
 			<span
 				aria-level="1"

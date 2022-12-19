@@ -1,8 +1,7 @@
-import "./imageImporter";
 import { returnFilterImages } from "./imageImporter";
 
 /** Test filter data */
-let filterData = {
+const filterData = {
 	language: [
 		"bash",
 		"css",

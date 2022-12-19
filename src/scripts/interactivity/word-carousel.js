@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /** How many letters per second */
 const lettersPerSecond = 16;
 
@@ -77,7 +78,8 @@ function nextWord(dom, word, wordList) {
 			/** Next word */
 			let nextWordUse = wordList[pos + 1];
 			if (!nextWordUse) {
-				nextWordUse = wordList[0];
+				// Use array destructuring to get the first element of wordList
+				[nextWordUse] = wordList;
 			}
 
 			setTimeout(() => {
@@ -92,6 +94,7 @@ function nextWord(dom, word, wordList) {
  * @param {String} dom Which element will contain the word carousel
  * @param {Array} wordList The list of words within the word carousel
  */
+// eslint-disable-next-line import/prefer-default-export
 export function WordCarousel(dom, wordList) {
 	if (document.getElementById(dom) && wordList?.length > 0) {
 		addLetters(dom, wordList[0], wordList);

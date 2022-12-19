@@ -1,0 +1,48 @@
+{
+	"env": {
+		"browser": true,
+		"es2021": true,
+		"jest/globals": true,
+		"node": true
+	},
+	"extends": [
+		"airbnb",
+		"eslint:recommended",
+		"plugin:import/recommended",
+		"plugin:react-hooks/recommended",
+		"plugin:react/recommended",
+		"prettier"
+	],
+	"parserOptions": {
+		"ecmaFeatures": { "jsx": true },
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"plugins": ["react", "prettier", "jest"],
+	"rules": {
+		"import/default": 2,
+		"import/export": 2,
+		"import/named": 2,
+		"import/namespace": 2,
+		"import/no-unresolved": [2, { "commonjs": true, "amd": true }],
+		"indent": ["error", "tab"],
+		"jest/no-disabled-tests": "warn",
+		"jest/no-focused-tests": "error",
+		"jest/no-identical-title": "error",
+		"jest/prefer-to-have-length": "warn",
+		"jest/valid-expect": "error",
+		"no-console": "off",
+		"no-continue": "off",
+		"no-restricted-syntax": "off",
+		"no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+		"prettier/prettier": "error",
+		"react-hooks/rules-of-hooks": "error",
+		"react/forbid-prop-types": "off",
+		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+		"react/jsx-props-no-spreading": "off",
+		"react/no-unknown-property": "off",
+		"react/react-in-jsx-scope": "off",
+		"react/require-default-props": ["error", { "ignoreFunctionalComponents": true }],
+		"semi": ["error", "always"]
+	}
+}

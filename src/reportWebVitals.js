@@ -1,16 +1,5 @@
 import { onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from "web-vitals";
 
-const reportWebVitals = () => {
-	if (sendToGoogleAnalytics) {
-		onCLS(sendToGoogleAnalytics);
-		onFCP(sendToGoogleAnalytics);
-		onFID(sendToGoogleAnalytics);
-		onINP(sendToGoogleAnalytics);
-		onLCP(sendToGoogleAnalytics);
-		onTTFB(sendToGoogleAnalytics);
-	}
-};
-
 function sendToGoogleAnalytics({ name, delta, value, id }) {
 	// Assumes the global `gtag()` function exists, see:
 	// https://developers.google.com/analytics/devguides/collection/ga4
@@ -40,4 +29,14 @@ function sendToGoogleAnalytics({ name, delta, value, id }) {
 	});
 }
 
+const reportWebVitals = () => {
+	if (sendToGoogleAnalytics) {
+		onCLS(sendToGoogleAnalytics);
+		onFCP(sendToGoogleAnalytics);
+		onFID(sendToGoogleAnalytics);
+		onINP(sendToGoogleAnalytics);
+		onLCP(sendToGoogleAnalytics);
+		onTTFB(sendToGoogleAnalytics);
+	}
+};
 export default reportWebVitals;

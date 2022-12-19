@@ -3,20 +3,21 @@ import "react-app-polyfill/ie11"; // For IE 11 support
 import "react-app-polyfill/stable"; // For IE 11 support
 // Firebase
 // eslint-disable-next-line no-unused-vars
-import * as firebase from "./firebase";
 // CSS
 import "./index.css";
 // React
 import React from "react";
 import { createRoot } from "react-dom/client";
 // Main app
-import App from "./scripts/App";
 // Sentry
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import { CaptureConsole, Offline } from "@sentry/integrations";
+import App from "./scripts/App";
+// eslint-disable-next-line import/namespace, no-unused-vars
+import * as firebase from "./firebase";
 // Service workers
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import { register } from "./serviceWorkerRegistration";
 // Google Analytics
 import reportWebVitals from "./reportWebVitals";
 
@@ -48,7 +49,7 @@ root.render(<App />);
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.register();
+register();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

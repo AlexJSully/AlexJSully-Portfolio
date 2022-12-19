@@ -1,16 +1,6 @@
 import aaaaaahhhhhh from "../../images/aaaahhhh/aaaahhhh.webp";
 
 /**
- * aaaahhhh
- */
-export function aaaahhhh() {
-	imageAAAAHHHH();
-	textAAAAHHHH();
-
-	document.title = "Alexander Sullivan's AAAAHHHHH";
-}
-
-/**
  * imageAAAAHHHH
  */
 function imageAAAAHHHH() {
@@ -31,6 +21,44 @@ function imageAAAAHHHH() {
 	}
 
 	document.getElementById("home").style.backgroundImage = `url(${aaaaaahhhhhh})`;
+}
+
+/**
+ * convertAAAAHH
+ * @param {String} aaaahhhh AAAAHHHH STRING
+ * @returns {String} aaaahhhh AAAAHHHH STRING
+ */
+export function convertAAAAHH(aaaaahhhh) {
+	/** newAAAAHHHH */
+	let newAAAAHHHH = "";
+
+	/** AAAAHHHHlength */
+	const AAAAHHHHlength = aaaaahhhh.length;
+
+	/** splitAAAAHHHH */
+	const splitAAAAHHHH = aaaaahhhh.split("");
+	for (const i in splitAAAAHHHH) {
+		if (splitAAAAHHHH[i] === " ") {
+			newAAAAHHHH += " ";
+		} else {
+			/** to AAAAAHHHH */
+			const toUpper = splitAAAAHHHH[i].toUpperCase();
+			/** is AAAAAHHHH */
+			const isUpper = toUpper === splitAAAAHHHH[i];
+
+			/** which AAAAAHHHH */
+			let whichLetter = i < AAAAHHHHlength / 2 ? "a" : "h";
+			whichLetter = isUpper ? whichLetter.toUpperCase() : whichLetter;
+
+			newAAAAHHHH += whichLetter;
+		}
+	}
+
+	if (!newAAAAHHHH || newAAAAHHHH?.length === 0) {
+		newAAAAHHHH = aaaaahhhh;
+	}
+
+	return newAAAAHHHH;
 }
 
 /**
@@ -65,39 +93,11 @@ function textAAAAHHHH() {
 }
 
 /**
- * convertAAAAHH
- * @param {String} aaaahhhh AAAAHHHH STRING
- * @returns {String} aaaahhhh AAAAHHHH STRING
+ * aaaahhhh
  */
-export function convertAAAAHH(aaaahhhh) {
-	/** newAAAAHHHH */
-	let newAAAAHHHH = "";
+export function aaaahhhh() {
+	imageAAAAHHHH();
+	textAAAAHHHH();
 
-	/** AAAAHHHHlength */
-	const AAAAHHHHlength = aaaahhhh.length;
-
-	/** splitAAAAHHHH */
-	const splitAAAAHHHH = aaaahhhh.split("");
-	for (const i in splitAAAAHHHH) {
-		if (splitAAAAHHHH[i] === " ") {
-			newAAAAHHHH += " ";
-		} else {
-			/** to AAAAHHHH */
-			const toUpper = splitAAAAHHHH[i].toUpperCase();
-			/** is AAAAHHHH */
-			const isUpper = toUpper === splitAAAAHHHH[i];
-
-			/** which AAAAHHHH */
-			let whichLetter = i < AAAAHHHHlength / 2 ? "a" : "h";
-			whichLetter = isUpper ? whichLetter.toUpperCase() : whichLetter;
-
-			newAAAAHHHH += whichLetter;
-		}
-	}
-
-	if (!newAAAAHHHH || newAAAAHHHH?.length === 0) {
-		newAAAAHHHH = aaaahhhh;
-	}
-
-	return newAAAAHHHH;
+	document.title = "Alexander Sullivan's AAAAHHHHH";
 }

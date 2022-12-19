@@ -4,16 +4,18 @@
  * @param {String} className Which class to give it
  * @returns {JSX.Element[]} Each letter is surrounded by a span with the given class
  */
-export function createHoverColourWords(text, className) {
+export default function CreateHoverColourWords(text, className) {
 	/** Each letter is surrounded by a span with the given class as JSX */
 	const returnJSX = [];
 
 	for (const i in text) {
-		returnJSX.push(
-			<span key={`${text[i]}-${i}`} className={className}>
-				{text[i]}
-			</span>,
-		);
+		if (text[i]) {
+			returnJSX.push(
+				<span key={`${text[i]}-${i}`} className={className}>
+					{text[i]}
+				</span>,
+			);
+		}
 	}
 
 	return returnJSX;

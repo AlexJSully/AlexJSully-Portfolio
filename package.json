@@ -28,11 +28,21 @@
 		"workbox-google-analytics": "^6.5.4",
 		"workbox-navigation-preload": "^6.5.4",
 		"workbox-precaching": "6.5.4",
-		"workbox-recipes": "^6.5.4"
+		"workbox-recipes": "^6.5.4",
+		"workbox-routing": "^6.5.4",
+		"workbox-strategies": "^6.5.4"
 	},
 	"devDependencies": {
 		"@testing-library/jest-dom": "^5.16.5",
 		"@testing-library/react": "^13.4.0",
+		"eslint": "^8.30.0",
+		"eslint-config-airbnb": "^19.0.4",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-import": "^2.26.0",
+		"eslint-plugin-jest": "^27.1.7",
+		"eslint-plugin-prettier": "^4.2.1",
+		"eslint-plugin-react": "^7.31.11",
+		"eslint-plugin-react-hooks": "^4.6.0",
 		"jest": "^29.3.1",
 		"prettier": "^2.8.1",
 		"source-map-explorer": "^2.5.3"
@@ -41,7 +51,10 @@
 		"analyze": "source-map-explorer 'build/static/js/*.js'",
 		"build": "react-scripts build",
 		"eject": "react-scripts eject",
+		"eslint": "eslint --fix ./ --ignore-path .gitignore",
+		"eslint:check": "eslint ./ --ignore-path .gitignore",
 		"prettier": "prettier --write ./",
+		"prettier:check": "prettier --check ./",
 		"start": "react-scripts start",
 		"test": "react-scripts test"
 	},

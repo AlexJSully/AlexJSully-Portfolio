@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 // CSS
 import "./policy.css";
 // React

@@ -3,6 +3,9 @@ import ProjectsData from "../../data/projectsData.json";
 // Image data
 const images = {};
 
+/** Supported image formats */
+const imageFormats = ["webp", "svg", "jpg"];
+
 /**
  * Return project thumbnails
  * @param {String} which Which project you want returned
@@ -14,12 +17,13 @@ export async function returnImages(which, type = "thumbnail") {
 	if (Object.keys(images).length < 1) {
 		for (const [key] of Object.entries(ProjectsData)) {
 			/** Thumbnail image */
-			let thumbnail = undefined;
+			let thumbnail;
 
-			/** Supported image formats */
-			const imageFormats = ["webp", "png", "jpg", "gif", "jpeg", "svg", "bmp", "ico", "tiff", "tif"];
 			// If Internet Explorer, remove any non-compatible image formats
-			if (navigator.userAgent.indexOf("MSIE") !== -1 || navigator.userAgent.indexOf("Trident") !== -1) {
+			if (
+				imageFormats.includes("webp") &&
+				(navigator.userAgent.indexOf("MSIE") !== -1 || navigator.userAgent.indexOf("Trident") !== -1)
+			) {
 				imageFormats.splice(imageFormats.indexOf("webp"), 1);
 			}
 
@@ -28,6 +32,7 @@ export async function returnImages(which, type = "thumbnail") {
 				if (!thumbnail) {
 					// Try to find image, if not, move to next format
 					try {
+						// eslint-disable-next-line no-await-in-loop
 						thumbnail = await import(`../../images/projects/${key}/thumbnail.${imageFormats[i]}`);
 
 						break;
@@ -69,6 +74,7 @@ export async function returnFilterImages(filterData, which) {
 				if (value[i]) {
 					let thumbnail;
 					try {
+						// eslint-disable-next-line no-await-in-loop
 						thumbnail = await import(`../../images/icons/${value[i]}.svg`);
 					} catch (error) {
 						continue;

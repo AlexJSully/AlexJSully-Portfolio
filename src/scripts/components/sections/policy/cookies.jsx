@@ -21,8 +21,8 @@ export default function Cookies() {
 				As is common practice with almost all professional websites this site uses cookies, which are tiny files
 				that are downloaded to your computer, to improve your experience. This page describes what information
 				they gather, how we use it and why we sometimes need to store these cookies. We will also share how you
-				can prevent these cookies from being stored however this may downgrade or 'break' certain elements of
-				the sites functionality.
+				can prevent these cookies from being stored however this may downgrade or &apos;break&apos; certain
+				elements of the sites functionality.
 			</p>
 
 			<p>
@@ -32,7 +32,7 @@ export default function Cookies() {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					"What Are Cookies"
+					&quot;What Are Cookies&quot;
 				</a>
 				. Information regarding cookies from this Cookies Policy are from{" "}
 				<a href="https://www.generateprivacypolicy.com/" target="_blank" rel="noopener noreferrer">
@@ -114,8 +114,8 @@ export default function Cookies() {
 
 			<p>
 				Hopefully that has clarified things for you and as was previously mentioned if there is something that
-				you aren't sure whether you need or not it's usually safer to leave cookies enabled in case it does
-				interact with one of the features you use on our site.
+				you aren&apos;t sure whether you need or not it&apos;s usually safer to leave cookies enabled in case it
+				does interact with one of the features you use on our site.
 			</p>
 
 			<p>

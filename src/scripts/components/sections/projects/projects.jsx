@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-no-bind */
 import "./projects.css";
 import React, { Suspense, lazy, useEffect, useState } from "react";
+import Tooltip from "@mui/material/Tooltip";
 import FilterData from "../../../../data/filterData.json";
 import ProjectsData from "../../../../data/projectsData.json";
 import { returnFilterImages, returnImages } from "../../../helper/imageImporter";
-import Tooltip from "@mui/material/Tooltip";
 
 // Lazy load Material-UI components
 const Grid = lazy(() => import("@mui/material/Grid"));
@@ -86,11 +87,9 @@ export default function Projects() {
 							keywordFiltersDocuments[i].classList.add("filter-Filtering");
 							keywordFiltersDocuments[i].classList.remove("projects-Thumbnail");
 						}
-					} else {
-						if (currentClasses) {
-							keywordFiltersDocuments[i].classList.add("projects-Thumbnail");
-							keywordFiltersDocuments[i].classList.remove("filter-Filtering");
-						}
+					} else if (currentClasses) {
+						keywordFiltersDocuments[i].classList.add("projects-Thumbnail");
+						keywordFiltersDocuments[i].classList.remove("filter-Filtering");
 					}
 				}
 			}
@@ -133,12 +132,10 @@ export default function Projects() {
 						document.getElementById(`${key}_project`).setAttribute("hidden", true);
 					}
 				}
+			} else if (defaultList.includes(key)) {
+				document.getElementById(`${key}_project`).removeAttribute("hidden");
 			} else {
-				if (defaultList.includes(key)) {
-					document.getElementById(`${key}_project`).removeAttribute("hidden");
-				} else {
-					document.getElementById(`${key}_project`).setAttribute("hidden", true);
-				}
+				document.getElementById(`${key}_project`).setAttribute("hidden", true);
 			}
 		}
 	}
@@ -207,7 +204,7 @@ export default function Projects() {
 		const filterJSX = [];
 
 		/** Material-UI grid item size */
-		let colSize = parseInt(12 / Number(filters ? Object.keys(filters).length : 1));
+		let colSize = parseInt(12 / Number(filters ? Object.keys(filters).length : 1), 10);
 		if (!colSize || colSize < 1) {
 			colSize = 1;
 		}
@@ -219,6 +216,7 @@ export default function Projects() {
 			for (const i in value) {
 				if (value[i]) {
 					/** Filter thumbnail */
+					// eslint-disable-next-line no-await-in-loop
 					const keywordThumbnail = await returnFilterImages(filters, value[i]);
 
 					if (keywordThumbnail) {
@@ -351,6 +349,7 @@ export default function Projects() {
 
 			for (const [key, value] of Object.entries(ProjectsData)) {
 				/** Project thumbnail */
+				// eslint-disable-next-line no-await-in-loop
 				const thumbnail = await returnImages(key, "thumbnail");
 				/** Project URL */
 				const url = value?.url || "#";
