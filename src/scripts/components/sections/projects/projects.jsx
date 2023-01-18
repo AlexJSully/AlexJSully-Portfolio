@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-no-bind */
-import "./projects.css";
-import React, { Suspense, lazy, useEffect, useState } from "react";
 import Tooltip from "@mui/material/Tooltip";
+import React, { Suspense, lazy, useEffect, useState } from "react";
+
 import FilterData from "../../../../data/filterData.json";
 import ProjectsData from "../../../../data/projectsData.json";
 import { returnFilterImages, returnImages } from "../../../helper/imageImporter";
+import "./projects.css";
 
 // Lazy load Material-UI components
 const Grid = lazy(() => import("@mui/material/Grid"));

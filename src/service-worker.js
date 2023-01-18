@@ -1,19 +1,17 @@
 /* eslint-disable no-restricted-globals */
-
 // This service worker can be customized!
 // See https://developers.google.com/web/tools/workbox/modules
 // for the list of available Workbox modules, or add any other
 // code you'd like.
 // You can also remove this file if you'd prefer not to use a
 // service worker, and the Workbox build step will be skipped.
-
 // Core Workbox modules:
 import { clientsClaim } from "workbox-core";
-import { precacheAndRoute } from "workbox-precaching";
 // Google Analytics
 import * as googleAnalytics from "workbox-google-analytics";
 // Navigation preload
 import * as navigationPreload from "workbox-navigation-preload";
+import { precacheAndRoute } from "workbox-precaching";
 // Recipes
 import { googleFontsCache, imageCache, offlineFallback, pageCache, staticResourceCache } from "workbox-recipes";
 // Offline fallback

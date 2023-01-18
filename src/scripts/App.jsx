@@ -1,9 +1,10 @@
-import "./App.css";
 import React, { Suspense, lazy } from "react";
+
+import "./App.css";
+import Contact from "./components/sections/contact/contact";
 import Home from "./components/sections/home/home";
 import Projects from "./components/sections/projects/projects";
 import Publications from "./components/sections/publications/publications";
-import Contact from "./components/sections/contact/contact";
 
 // Lazy load components
 const Policy = lazy(() => import("./components/sections/policy/policy"));

@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
+
 import Contact from "./contact";
 
 test("renders learn react link", () => {

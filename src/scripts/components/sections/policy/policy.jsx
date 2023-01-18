@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
-// CSS
-import "./policy.css";
-// React
 import React, { Suspense, lazy, useEffect, useState } from "react";
+
+import "./policy.css";
 
 // Lazy-load components
 // Custom components

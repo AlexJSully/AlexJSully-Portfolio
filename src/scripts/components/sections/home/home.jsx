@@ -1,26 +1,24 @@
 /* eslint-disable no-import-assign */
+
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-// CSS
-import "./home.css";
-// React
-import React, { Suspense, lazy, useEffect, useState } from "react";
-// Interactive elements
 import Skeleton from "@mui/material/Skeleton";
 import Tooltip from "@mui/material/Tooltip";
-import { WordCarousel } from "../../../interactivity/word-carousel";
-import { aaaahhhh } from "../../../interactivity/aaaahhhh";
-import CreateHoverColourWords from "../../../interactivity/create-hover-words";
-import handleMoveBackground from "../../../interactivity/background-move";
-// Images
+// React
+import React, { Suspense, lazy, useEffect, useState } from "react";
+
 import ProfilePic from "../../../../images/me_drawn/profile_pic_drawn.webp";
 import SneezePicStart from "../../../../images/me_drawn/profile_pic_drawn_2.webp";
 import SneezingPic from "../../../../images/me_drawn/profile_pic_drawn_3.webp";
 import SneezingUnsatisfied from "../../../../images/me_drawn/profile_pic_drawn_4.webp";
-// Material-UI
+import { aaaahhhh } from "../../../interactivity/aaaahhhh";
+import handleMoveBackground from "../../../interactivity/background-move";
+import CreateHoverColourWords from "../../../interactivity/create-hover-words";
+import { WordCarousel } from "../../../interactivity/word-carousel";
+import "./home.css";
 
 // Lazy load Material-UI components
-// Material-UI
 const Checkbox = lazy(() => import("@mui/material/Checkbox"));
 const FormControlLabel = lazy(() => import("@mui/material/FormControlLabel"));
 

@@ -1,11 +1,8 @@
-// CSS
-import "./publications.css";
-// React
 import React, { Suspense, lazy, useEffect, useState } from "react";
-// Data
-import PublicationsData from "../../../../data/publicationsData.json";
-// Custom components
+
 import ProjectsData from "../../../../data/projectsData.json";
+import PublicationsData from "../../../../data/publicationsData.json";
+import "./publications.css";
 
 // Lazy load components
 const Grid = lazy(() => import("@mui/material/Grid"));

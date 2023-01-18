@@ -1,15 +1,15 @@
-// CSS
-import "./contact.css";
-// React
-import React from "react";
-// Material-UI
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 // Material-UI Icons
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
+// Material-UI
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+// React
+import React from "react";
+
+import "./contact.css";
 
 /** Contact section of UI */
 export default function Contact() {

@@ -1,17 +1,15 @@
-import "react-app-polyfill/ie9"; // For IE 9 support
-import "react-app-polyfill/ie11"; // For IE 11 support
-import "react-app-polyfill/stable"; // For IE 11 support
-import "./index.css";
-import React from "react";
-import { createRoot } from "react-dom/client";
+import { CaptureConsole, Offline } from "@sentry/integrations";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
-import { CaptureConsole, Offline } from "@sentry/integrations";
-import App from "./scripts/App";
-import { register } from "./serviceWorkerRegistration";
-import reportWebVitals from "./reportWebVitals";
+import React from "react";
+import { createRoot } from "react-dom/client";
+
 // eslint-disable-next-line import/namespace, no-unused-vars
 import * as firebase from "./firebase";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import App from "./scripts/App";
+import { register } from "./serviceWorkerRegistration";
 
 Sentry.init({
 	dsn: process.env.REACT_APP_SENTRY,
