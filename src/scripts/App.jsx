@@ -1,5 +1,4 @@
 import React, { Suspense, lazy } from "react";
-
 import "./App.css";
 import Contact from "./components/sections/contact/contact";
 import Home from "./components/sections/home/home";

@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import Tooltip from "@mui/material/Tooltip";
 import React, { Suspense, lazy, useEffect, useState } from "react";
-
 import FilterData from "../../../../data/filterData.json";
 import ProjectsData from "../../../../data/projectsData.json";
 import { returnFilterImages, returnImages } from "../../../helper/imageImporter";

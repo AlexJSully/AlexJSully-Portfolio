@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { Suspense, lazy, useEffect, useState } from "react";
-
 import "./policy.css";
 
 // Lazy-load components

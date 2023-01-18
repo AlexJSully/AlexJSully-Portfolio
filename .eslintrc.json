@@ -33,9 +33,15 @@
 		"jest/valid-expect": "error",
 		"no-console": "off",
 		"no-continue": "off",
+		"no-param-reassign": "off",
 		"no-restricted-syntax": "off",
 		"no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
-		"prettier/prettier": "error",
+		"prettier/prettier": [
+			"warn",
+			{
+				"endOfLine": "auto"
+			}
+		],
 		"react-hooks/rules-of-hooks": "error",
 		"react/forbid-prop-types": "off",
 		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
@@ -43,6 +49,7 @@
 		"react/no-unknown-property": "off",
 		"react/react-in-jsx-scope": "off",
 		"react/require-default-props": ["error", { "ignoreFunctionalComponents": true }],
+		"react/static-property-placement": "off",
 		"semi": ["error", "always"]
 	}
 }
