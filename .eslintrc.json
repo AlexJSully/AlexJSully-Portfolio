@@ -36,12 +36,7 @@
 		"no-param-reassign": "off",
 		"no-restricted-syntax": "off",
 		"no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
-		"prettier/prettier": [
-			"warn",
-			{
-				"endOfLine": "auto"
-			}
-		],
+		"prettier/prettier": ["warn"],
 		"react-hooks/rules-of-hooks": "error",
 		"react/forbid-prop-types": "off",
 		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
