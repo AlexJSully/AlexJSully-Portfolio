@@ -1,12 +1,10 @@
-import React, { Suspense, lazy } from "react";
+import React from "react";
 import "./App.css";
 import Contact from "./components/sections/contact/contact";
 import Home from "./components/sections/home/home";
+import Policy from "./components/sections/policy/policy";
 import Projects from "./components/sections/projects/projects";
 import Publications from "./components/sections/publications/publications";
-
-// Lazy load components
-const Policy = lazy(() => import("./components/sections/policy/policy"));
 
 /** Portfolio and showcase */
 export default function App() {
@@ -25,9 +23,7 @@ export default function App() {
 			<Publications key="Publications-section" />
 			<Contact key="Contact-section" />
 
-			<Suspense fallback={null}>
-				<Policy key="Policy-section" />
-			</Suspense>
+			<Policy key="Policy-section" />
 		</div>
 	);
 }

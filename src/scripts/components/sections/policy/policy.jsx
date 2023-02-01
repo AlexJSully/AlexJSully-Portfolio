@@ -1,12 +1,9 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { Suspense, lazy, useEffect, useState } from "react";
+import Cookies from "./cookies";
 import "./policy.css";
+import Privacy from "./privacy";
 
-// Lazy-load components
-// Custom components
-const Cookies = lazy(() => import("./cookies"));
-const Privacy = lazy(() => import("./privacy"));
-// Material-UI
 const Button = lazy(() => import("@mui/material/Button"));
 const Dialog = lazy(() => import("@mui/material/Dialog"));
 const DialogContent = lazy(() => import("@mui/material/DialogContent"));
