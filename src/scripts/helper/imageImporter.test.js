@@ -1,4 +1,4 @@
-import { returnFilterImages } from "./imageImporter";
+import { returnFilterImages, returnImages } from "./imageImporter";
 
 /** Test filter data */
 const filterData = {
@@ -19,7 +19,25 @@ const filterData = {
 		"xml",
 	],
 };
-test(`Ensure returnFilter returns known image`, async () => {
-	// Expect the returnFilterImages function to return a string that begins with "static/media/javascript" or contains "javascript.svg"
-	expect(await returnFilterImages(filterData, "javascript")).toMatch(/static\/media\/javascript|javascript.svg/);
+
+// Test returnImages function
+describe("returnImages", () => {
+	it("should return null if the project image is not found", async () => {
+		const result = await returnImages("non-existing-project");
+		expect(result).toBe(null);
+	});
+});
+
+// Test returnFilterImages function
+describe("returnFilterImages", () => {
+	it("should return a valid filter image directory path", async () => {
+		const result = await returnFilterImages(filterData, "javascript");
+		expect(typeof result).toBe("string");
+		expect(result).toMatch(/static\/media\/javascript|javascript.svg/);
+	});
+
+	it("should return null if the filter image is not found", async () => {
+		const result = await returnFilterImages(filterData, "non-existing-filter");
+		expect(result).toBe(null);
+	});
 });
