@@ -1,14 +1,11 @@
-// Material-UI Icons
-import CopyrightIcon from "@mui/icons-material/Copyright";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import TwitterIcon from "@mui/icons-material/Twitter";
-// Material-UI
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-// React
-import React from "react";
-import "./contact.css";
+import {
+	Copyright as CopyrightIcon,
+	GitHub as GitHubIcon,
+	LinkedIn as LinkedInIcon,
+	Twitter as TwitterIcon,
+} from "@mui/icons-material";
+import { Button, Tooltip } from "@mui/material";
+import "./contact.scss";
 
 /** Contact section of UI */
 export default function Contact() {

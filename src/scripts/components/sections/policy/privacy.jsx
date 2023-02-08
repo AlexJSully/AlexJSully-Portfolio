@@ -1,5 +1,3 @@
-import React from "react";
-
 /** Privacy */
 export default function Privacy() {
 	return (

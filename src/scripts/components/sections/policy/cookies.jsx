@@ -1,5 +1,3 @@
-import React from "react";
-
 /** Cookies */
 export default function Cookies() {
 	return (

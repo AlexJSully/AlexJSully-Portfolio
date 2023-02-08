@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./App.scss";
 import Contact from "./components/sections/contact/contact";
 import Home from "./components/sections/home/home";
 import Policy from "./components/sections/policy/policy";

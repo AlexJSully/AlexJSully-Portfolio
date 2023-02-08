@@ -3,10 +3,8 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import Skeleton from "@mui/material/Skeleton";
-import Tooltip from "@mui/material/Tooltip";
-// React
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import { Skeleton, Tooltip } from "@mui/material";
+import { Suspense, lazy, useEffect, useState } from "react";
 import ProfilePic from "../../../../images/me_drawn/profile_pic_drawn.webp";
 import SneezePicStart from "../../../../images/me_drawn/profile_pic_drawn_2.webp";
 import SneezingPic from "../../../../images/me_drawn/profile_pic_drawn_3.webp";
@@ -15,7 +13,7 @@ import { aaaahhhh } from "../../../interactivity/aaaahhhh";
 import handleMoveBackground from "../../../interactivity/background-move";
 import CreateHoverColourWords from "../../../interactivity/create-hover-words";
 import { WordCarousel } from "../../../interactivity/word-carousel";
-import "./home.css";
+import "./home.scss";
 
 // Lazy load Material-UI components
 const Checkbox = lazy(() => import("@mui/material/Checkbox"));

@@ -5,7 +5,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 // eslint-disable-next-line import/namespace, no-unused-vars
 import * as firebase from "./firebase";
-import "./index.css";
+import "./index.scss";
 import reportWebVitals from "./reportWebVitals";
 import App from "./scripts/App";
 import { register } from "./serviceWorkerRegistration";

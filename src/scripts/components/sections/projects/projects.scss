@@ -62,11 +62,11 @@ hr {
 	margin: auto;
 	transition: all 0.5s ease;
 	width: calc(100vh / 16 - 1em);
-}
 
-.projects-KeywordThumbnail:hover {
-	background-size: 115% !important;
-	transition: all 0.2s ease;
+	&:hover {
+		background-size: 115% !important;
+		transition: all 0.2s ease;
+	}
 }
 
 .filter-Filtering {
@@ -78,11 +78,11 @@ hr {
 	margin: auto !important;
 	transition: all 0.5s ease;
 	width: calc(100vh / 16 - 1em);
-}
 
-.filter-Filtering:hover {
-	background-size: 85% !important;
-	transition: all 0.2s ease;
+	&:hover {
+		background-size: 85% !important;
+		transition: all 0.2s ease;
+	}
 }
 
 .filter-Accordion {
@@ -134,13 +134,13 @@ hr {
 	font-size: 0.65em !important;
 	line-height: 2em !important;
 	transition: all 1s ease !important;
-}
 
-.filter-Reset:hover {
-	background-color: #0041b9 !important;
-	border-radius: 5% !important;
-	border: 3px solid #0041b9 !important;
-	transition: all 0.25s ease !important;
+	&:hover {
+		background-color: #0041b9 !important;
+		border-radius: 5% !important;
+		border: 3px solid #0041b9 !important;
+		transition: all 0.25s ease !important;
+	}
 }
 
 .responsibilities-Accordion {
@@ -193,9 +193,9 @@ hr {
 
 .MuiAccordionSummary-root {
 	border-radius: 5% !important;
-}
 
-.MuiAccordionSummary-root:hover {
-	background-color: #272b2f !important;
-	transition: all 0.2s ease;
+	&:hover {
+		background-color: #272b2f !important;
+		transition: all 0.2s ease;
+	}
 }

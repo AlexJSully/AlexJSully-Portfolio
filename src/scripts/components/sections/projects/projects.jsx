@@ -1,24 +1,24 @@
 /* eslint-disable react/jsx-no-bind */
-import Tooltip from "@mui/material/Tooltip";
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
+import {
+	Accordion,
+	AccordionDetails,
+	AccordionSummary,
+	Button,
+	Card,
+	CardActionArea,
+	CardContent,
+	CardMedia,
+	Grid,
+	Switch,
+	Tooltip,
+	Typography,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import FilterData from "../../../../data/filterData.json";
 import ProjectsData from "../../../../data/projectsData.json";
 import { returnFilterImages, returnImages } from "../../../helper/imageImporter";
-import "./projects.css";
-
-// Lazy load Material-UI components
-const Grid = lazy(() => import("@mui/material/Grid"));
-const Card = lazy(() => import("@mui/material/Card"));
-const CardActionArea = lazy(() => import("@mui/material/CardActionArea"));
-const CardContent = lazy(() => import("@mui/material/CardContent"));
-const CardMedia = lazy(() => import("@mui/material/CardMedia"));
-const Typography = lazy(() => import("@mui/material/Typography"));
-const Accordion = lazy(() => import("@mui/material/Accordion"));
-const AccordionSummary = lazy(() => import("@mui/material/AccordionSummary"));
-const AccordionDetails = lazy(() => import("@mui/material/AccordionDetails"));
-const ExpandMoreIcon = lazy(() => import("@mui/icons-material/ExpandMore"));
-const Switch = lazy(() => import("@mui/material/Switch"));
-const Button = lazy(() => import("@mui/material/Button"));
+import "./projects.scss";
 
 /** Display all projects and experiences I've worked on */
 export default function Projects() {
@@ -506,28 +506,26 @@ export default function Projects() {
 	});
 
 	return (
-		<Suspense fallback={null}>
-			<div id="projectsContainer" className="projects-Container" key="projects-Container" role="region">
-				<div id="projects" className="projects" key="projects">
-					<span className="project-Experiences" key="projects-Title" role="heading" aria-level="2">
-						Projects & Experience
-					</span>
-					<br />
-					{displayFilter}
-					<br />
-					<Grid
-						container
-						direction="row"
-						justifyContent="space-evenly"
-						alignItems="center"
-						spacing={2}
-						className="projects-Grid"
-						key="projects-Grid"
-					>
-						{displayJSX}
-					</Grid>
-				</div>
+		<div id="projectsContainer" className="projects-Container" key="projects-Container" role="region">
+			<div id="projects" className="projects" key="projects">
+				<span className="project-Experiences" key="projects-Title" role="heading" aria-level="2">
+					Projects & Experience
+				</span>
+				<br />
+				{displayFilter}
+				<br />
+				<Grid
+					container
+					direction="row"
+					justifyContent="space-evenly"
+					alignItems="center"
+					spacing={2}
+					className="projects-Grid"
+					key="projects-Grid"
+				>
+					{displayJSX}
+				</Grid>
 			</div>
-		</Suspense>
+		</div>
 	);
 }

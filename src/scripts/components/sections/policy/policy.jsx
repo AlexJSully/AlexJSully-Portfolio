@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import Cookies from "./cookies";
-import "./policy.css";
+import "./policy.scss";
 import Privacy from "./privacy";
 
 const Button = lazy(() => import("@mui/material/Button"));
