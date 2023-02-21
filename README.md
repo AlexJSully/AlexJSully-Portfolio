@@ -16,9 +16,9 @@ Go to https://alexjsully.me to see this portfolio!
 
 ## Browser Compatibilities
 
-| Chrome | Firefox | IE  | Edge | Safari | Opera | Tor | Mobile |
-| ------ | ------- | --- | ---- | ------ | ----- | --- | ------ |
-| ✔      | ✔       | ✔   | ✔    | ✔      | ✔     | ✔   | ✔      |
+| Chrome | Firefox | Edge | Safari | Opera | Tor | Mobile |
+| ------ | ------- | ---- | ------ | ----- | --- | ------ |
+| ✔      | ✔       | ✔    | ✔      | ✔     | ✔   | ✔      |
 
 ## Installation/Open
 
