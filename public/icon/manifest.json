@@ -163,5 +163,6 @@
 		"video games",
 		"virtual reality",
 		"website"
-	]
+	],
+	"ovr_package_name": "com.alexjsully.portfolio.pwa"
 }
