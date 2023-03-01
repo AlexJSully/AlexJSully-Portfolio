@@ -17,7 +17,7 @@
 		"@mui/material": "^5.11.11",
 		"@sentry/integrations": "^7.39.0",
 		"@sentry/react": "^7.39.0",
-		"@sentry/tracing": "^7.39.0",
+		"@sentry/tracing": "^7.40.0",
 		"firebase": "^9.17.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
