@@ -1,4 +1,4 @@
-import { CaptureConsole, Offline } from "@sentry/integrations";
+import { CaptureConsole } from "@sentry/integrations";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import React from "react";
@@ -25,7 +25,7 @@ Sentry.init({
 		new CaptureConsole({
 			levels: ["error"],
 		}),
-		new Offline(),
+		new Sentry.Replay(),
 	],
 
 	// Set tracesSampleRate to 1.0 to capture 100%
