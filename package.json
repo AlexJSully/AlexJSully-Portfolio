@@ -22,7 +22,7 @@
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-scripts": "5.0.1",
-		"web-vitals": "^3.3.0",
+		"web-vitals": "^3.3.1",
 		"workbox-core": "^6.5.4",
 		"workbox-google-analytics": "^6.5.4",
 		"workbox-navigation-preload": "^6.5.4",
