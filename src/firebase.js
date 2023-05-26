@@ -20,10 +20,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
-// Initialize Performance Monitoring and get a reference to the service
-const perf = getPerformance(app);
+let analytics = null;
+if (app) {
+	// Initialize Performance Monitoring and get a reference to the service
+	analytics = getAnalytics(app);
+
+	// Initialize Performance Monitoring and get a reference to the service
+	const perf = getPerformance(app);
+}
 
 export function logAnalyticsEvent(eventName, eventParams) {
 	if (analytics && eventName) {
