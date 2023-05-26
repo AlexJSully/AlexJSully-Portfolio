@@ -1,6 +1,19 @@
 {
 	"name": "Alexander Sullivan's Portfolio",
+	"background_color": "#1e2227",
+	"description": "Portfolio showcase for Alexander Joo-Hyun Sullivan.",
+	"dir": "ltr",
+	"display": "minimal-ui",
+	"display_override": ["minimal-ui", "standalone", "window-controls-overlay"],
+	"id": "/",
+	"lang": "en",
+	"orientation": "any",
+	"prefer_related_applications": false,
+	"scope": "/",
 	"short_name": "Alexander Sullivan's Portfolio",
+	"start_url": "/",
+	"theme_color": "#1e2227",
+	"edge_side_panel": {},
 	"icons": [
 		{
 			"src": "./android-chrome-36x36.png",
@@ -130,18 +143,6 @@
 			"label": "Current and previous projects and experiences"
 		}
 	],
-	"description": "Portfolio showcase for Alexander Joo-Hyun Sullivan.",
-	"theme_color": "#1e2227",
-	"background_color": "#1e2227",
-	"start_url": "/",
-	"id": "/",
-	"display": "standalone",
-	"display_override": ["standalone", "minimal-ui", "window-controls-overlay"],
-	"prefer_related_applications": false,
-	"orientation": "any",
-	"dir": "ltr",
-	"lang": "en",
-	"scope": "/",
 	"categories": [
 		"bioinformatics",
 		"business",

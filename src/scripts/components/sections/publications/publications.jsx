@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import ProjectsData from "../../../../data/projectsData.json";
 import PublicationsData from "../../../../data/publicationsData.json";
+import { logAnalyticsEvent } from "../../../../firebase";
 import "./publications.scss";
 
 // Lazy load components
@@ -69,6 +70,11 @@ export default function Publications() {
 						rel="noopener noreferrer"
 						className="publications-URL"
 						key={`research-link-${pub?.title}`}
+						onClick={() => {
+							logAnalyticsEvent("click_publications", {
+								name: pub?.title,
+							});
+						}}
 					>
 						<Card className="publications-Card" key={`research-card-${pub?.title}`}>
 							<CardActionArea key={`research-card-${pub?.title}-actionArea`}>

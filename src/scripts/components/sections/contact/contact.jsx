@@ -5,6 +5,7 @@ import {
 	Twitter as TwitterIcon,
 } from "@mui/icons-material";
 import { Button, Tooltip } from "@mui/material";
+import { logAnalyticsEvent } from "../../../../firebase";
 import "./contact.scss";
 
 /** Contact section of UI */
@@ -48,6 +49,11 @@ export default function Contact() {
 						rel="noopener noreferrer"
 						startIcon={value?.icon}
 						target="_blank"
+						onClick={() => {
+							logAnalyticsEvent("click_contact", {
+								contact: value?.text,
+							});
+						}}
 					/>
 				</Tooltip>,
 			);

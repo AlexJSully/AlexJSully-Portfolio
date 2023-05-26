@@ -17,6 +17,7 @@ import {
 import { useEffect, useState } from "react";
 import FilterData from "../../../../data/filterData.json";
 import ProjectsData from "../../../../data/projectsData.json";
+import { logAnalyticsEvent } from "../../../../firebase";
 import { returnFilterImages, returnImages } from "../../../helper/imageImporter";
 import "./projects.scss";
 
@@ -463,7 +464,17 @@ export default function Projects() {
 						className="projects-DisplayContainer"
 						hidden={!value?.showcase}
 					>
-						<a href={url} target="_blank" rel="noopener noreferrer" className="projects-URL">
+						<a
+							href={url}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="projects-URL"
+							onClick={() => {
+								logAnalyticsEvent("click_projects", {
+									name: value?.name,
+								});
+							}}
+						>
 							<Tooltip title={value?.name} describeChild arrow>
 								<Card className="projects-Card">
 									<CardActionArea>

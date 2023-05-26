@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 // Import the functions you need from the SDKs you need
-import { getAnalytics } from "firebase/analytics";
+import { getAnalytics, logEvent } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { getPerformance } from "firebase/performance";
 
@@ -24,3 +24,9 @@ const analytics = getAnalytics(app);
 
 // Initialize Performance Monitoring and get a reference to the service
 const perf = getPerformance(app);
+
+export function logAnalyticsEvent(eventName, eventParams) {
+	if (analytics && eventName) {
+		logEvent(analytics, eventName, eventParams);
+	}
+}
