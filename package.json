@@ -14,7 +14,7 @@
 		"@emotion/react": "^11.11.0",
 		"@emotion/styled": "^11.11.0",
 		"@mui/icons-material": "^5.11.16",
-		"@mui/material": "^5.13.4",
+		"@mui/material": "^5.13.5",
 		"@sentry/integrations": "^7.54.0",
 		"@sentry/react": "^7.54.0",
 		"@sentry/tracing": "^7.54.0",
