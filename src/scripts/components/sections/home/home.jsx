@@ -22,6 +22,10 @@ const FormControlLabel = lazy(() => import("@mui/material/FormControlLabel"));
 /** Landing for portfolio website */
 export default function Home() {
 	const [displayAccessibilityToggles, setDisplayAccessibilityToggles] = useState(null);
+	let ProfilePicDir = ProfilePic;
+	let SneezePicStartDir = SneezePicStart;
+	let SneezingPicDir = SneezingPic;
+	let SneezingUnsatisfiedDir = SneezingUnsatisfied;
 
 	/** Professional descriptions */
 	const descriptionCarousel = [
@@ -50,19 +54,19 @@ export default function Home() {
 			// Every 5 times hovered/clicked, trigger sneeze easter egg
 			if (hoveredProfilePic % 5 === 0) {
 				if (sneezeCounter < 5) {
-					document.getElementById("profilePic").src = SneezePicStart;
+					document.getElementById("profilePic").src = SneezePicStartDir;
 
 					// Have animation trigger based off time
 					setTimeout(() => {
-						document.getElementById("profilePic").src = SneezingPic;
+						document.getElementById("profilePic").src = SneezingPicDir;
 					}, 500);
 
 					setTimeout(() => {
-						document.getElementById("profilePic").src = SneezingUnsatisfied;
+						document.getElementById("profilePic").src = SneezingUnsatisfiedDir;
 					}, 800);
 
 					setTimeout(() => {
-						document.getElementById("profilePic").src = ProfilePic;
+						document.getElementById("profilePic").src = ProfilePicDir;
 					}, 1500);
 
 					sneezeCounter += 1;
@@ -130,18 +134,18 @@ export default function Home() {
 		// If IE, change profile picture to jpg version
 		if (navigator.userAgent.indexOf("MSIE") !== -1 || navigator.userAgent.indexOf("Trident") !== -1) {
 			import("../../../../images/me_drawn/profile_pic_drawn.jpg").then((img) => {
-				ProfilePic = img.default;
+				ProfilePicDir = img.default;
 			});
 
 			// Do same for sneezing profile pictures
 			import("../../../../images/me_drawn/profile_pic_drawn_2.jpg").then((img) => {
-				SneezePicStart = img.default;
+				SneezePicStartDir = img.default;
 			});
 			import("../../../../images/me_drawn/profile_pic_drawn_3.jpg").then((img) => {
-				SneezingPic = img.default;
+				SneezingPicDir = img.default;
 			});
 			import("../../../../images/me_drawn/profile_pic_drawn_4.jpg").then((img) => {
-				SneezingUnsatisfied = img.default;
+				SneezingUnsatisfiedDir = img.default;
 			});
 		}
 	});

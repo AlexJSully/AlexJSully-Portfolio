@@ -19,9 +19,12 @@ function removeLetter(dom, word, wordList) {
 					.getElementById(dom)
 					.textContent.substring(0, document.getElementById(dom).textContent.length - 1);
 
-				setTimeout(() => {
-					removeLetter(dom, word, wordList);
-				}, 1000 / (lettersPerSecond * 2));
+				setTimeout(
+					() => {
+						removeLetter(dom, word, wordList);
+					},
+					1000 / (lettersPerSecond * 2),
+				);
 			} else {
 				nextWord(dom, word, wordList);
 			}
@@ -82,9 +85,12 @@ function nextWord(dom, word, wordList) {
 				[nextWordUse] = wordList;
 			}
 
-			setTimeout(() => {
-				addLetters(dom, nextWordUse, wordList);
-			}, 1000 / (lettersPerSecond * 2));
+			setTimeout(
+				() => {
+					addLetters(dom, nextWordUse, wordList);
+				},
+				1000 / (lettersPerSecond * 2),
+			);
 		}
 	}
 }
