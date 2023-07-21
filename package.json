@@ -15,7 +15,7 @@
 		"@emotion/styled": "^11.11.0",
 		"@mui/icons-material": "^5.14.1",
 		"@mui/material": "^5.14.1",
-		"@sentry/integrations": "^7.59.2",
+		"@sentry/integrations": "^7.60.0",
 		"@sentry/react": "^7.59.2",
 		"@sentry/tracing": "^7.59.2",
 		"firebase": "^10.0.0",
