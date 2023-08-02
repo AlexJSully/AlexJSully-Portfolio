@@ -153,6 +153,7 @@ export default function Home() {
 	return (
 		<div className="home" id="home" key="home-Container" onMouseMove={(e) => handleMoveBackground(e, "App")}>
 			{displayAccessibilityToggles}
+
 			<img
 				alt="Drawn version of me"
 				className="profilePic"
@@ -167,9 +168,11 @@ export default function Home() {
 				src={ProfilePic}
 				width="20%"
 			/>
+
 			<h1 className="h2-description" key="home-Name" role="banner" id="hover-Name">
 				{CreateHoverColourWords("Alexander Joo-Hyun Sullivan", "hover-Name")}
 			</h1>
+
 			<span
 				aria-level="1"
 				className="carousel-description h3-description"
@@ -177,6 +180,7 @@ export default function Home() {
 				key="home-DescriptionCarousel"
 				role="heading"
 			/>
+
 			<h2
 				aria-level="1"
 				className="h3-description"
