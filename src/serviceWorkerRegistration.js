@@ -19,6 +19,10 @@ const isLocalhost = Boolean(
 );
 
 function registerValidSW(swUrl, config) {
+	if (!swUrl || typeof navigator === "undefined" || !navigator?.serviceWorker) {
+		return;
+	}
+
 	navigator.serviceWorker
 		.register(swUrl)
 		.then((registration) => {
