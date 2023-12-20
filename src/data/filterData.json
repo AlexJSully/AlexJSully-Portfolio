@@ -132,11 +132,87 @@
 		"type": "type"
 	},
 	"firebase": {
-		"name": "Firebase",
+		"name": "Google Firebase",
 		"type": "frameworks"
 	},
 	"postgresql": {
 		"name": "PostgreSQL",
+		"type": "frameworks"
+	},
+	"typescript": {
+		"name": "TypeScript",
+		"type": "language"
+	},
+	"sass": {
+		"name": "Sass",
+		"type": "language"
+	},
+	"yml": {
+		"name": "YML",
+		"type": "language"
+	},
+	"postgressql": {
+		"name": "PostgreSQL",
+		"type": "frameworks"
+	},
+	"gltf": {
+		"name": "GLB/GLTF",
+		"type": "language"
+	},
+	"nextjs": {
+		"name": "Next.js",
+		"type": "frameworks"
+	},
+	"nx": {
+		"name": "Nx",
+		"type": "frameworks"
+	},
+	"gitlab": {
+		"name": "GitLab",
+		"type": "frameworks"
+	},
+	"cicd": {
+		"name": "CI/CD",
+		"type": "frameworks"
+	},
+	"sentry": {
+		"name": "Sentry",
+		"type": "frameworks"
+	},
+	"algolia": {
+		"name": "Algolia",
+		"type": "frameworks"
+	},
+	"monday": {
+		"name": "Monday.com",
+		"type": "frameworks"
+	},
+	"figma": {
+		"name": "Figma",
+		"type": "frameworks"
+	},
+	"miro": {
+		"name": "Miro",
+		"type": "frameworks"
+	},
+	"auth0": {
+		"name": "Auth0",
+		"type": "frameworks"
+	},
+	"unity": {
+		"name": "Unity",
+		"type": "frameworks"
+	},
+	"blender": {
+		"name": "Blender",
+		"type": "frameworks"
+	},
+	"postman": {
+		"name": "Postman",
+		"type": "frameworks"
+	},
+	"squarespace": {
+		"name": "SquareSpace",
 		"type": "frameworks"
 	}
 }

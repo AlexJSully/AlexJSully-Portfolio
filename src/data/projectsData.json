@@ -1,17 +1,32 @@
 {
 	"masterpiece-studio": {
 		"name": "Masterpiece Studio",
-		"description": "Update, maintain and create new features for the web application and APIs",
+		"description": "Update, maintain and create new features for web and back-end systems",
 		"employer": "Brinx Software Inc",
 		"most-recent-title": "Full Stack Developer",
-		"url": "https://masterpiecestudio.com/",
+		"url": "https://app.masterpiecex.com/",
 		"dates": {
 			"startDate": "2021-12",
-			"endDate": "Current"
+			"endDate": "2023-12"
 		},
 		"showcase": true,
 		"filter": {
-			"language": ["javascript", "html", "css", "markdown", "json", "bash", "sql"],
+			"language": [
+				"javascript",
+				"typescript",
+				"html",
+				"css",
+				"sass",
+				"markdown",
+				"json",
+				"bash",
+				"sql",
+				"svg",
+				"csharp",
+				"yml",
+				"xml",
+				"gltf"
+			],
 			"frameworks": [
 				"git",
 				"svg",
@@ -20,14 +35,31 @@
 				"google analytics",
 				"firebase",
 				"google cloud",
-				"postgresql"
+				"postgresql",
+				"nextjs",
+				"nx",
+				"gitlab",
+				"cicd",
+				"firebase",
+				"sentry",
+				"algolia",
+				"monday",
+				"figma",
+				"miro",
+				"auth0",
+				"unity",
+				"blender",
+				"postman",
+				"squarespace"
 			],
-			"type": ["web", "mobile"]
+			"type": ["web", "mobile", "app"]
 		},
 		"responsibilities": [
-			"Update, maintain and create new features and components for the web application",
-			"Design and develop API endpoints for the web application",
-			"Optimize the web application and make it accessibility friendly"
+			"Developing, maintaining, delivering and expanding the existing web application for users, including generative AI & VR",
+			"Optimizing the back-end APIs and database for necessary features",
+			"Working with marketing and analytics to ensure they have all the appropriate data for their investigations",
+			"Work closely with board members to ensure their vision is obtained",
+			"Work with design teams directly "
 		]
 	},
 	"impact-depth": {
@@ -88,7 +120,7 @@
 			"startDate": "2019-01",
 			"endDate": "2021-08"
 		},
-		"showcase": false,
+		"showcase": true,
 		"filter": {
 			"language": ["r"],
 			"frameworks": ["office"],
@@ -147,7 +179,7 @@
 			"startDate": "2017-08",
 			"endDate": "2018-10"
 		},
-		"showcase": false,
+		"showcase": true,
 		"filter": {
 			"language": ["javascript", "html", "css", "markdown", "json"],
 			"frameworks": ["git", "jquery", "bootstrap", "google analytics", "svg", "office", "mongodb", "benchling"],
@@ -234,7 +266,7 @@
 			"startDate": "2013-03",
 			"endDate": "2016-04"
 		},
-		"showcase": false,
+		"showcase": true,
 		"filter": {
 			"language": ["javascript", "html", "css", "markdown", "json"],
 			"frameworks": ["git", "jquery", "tumblr", "bootstrap", "svg", "google analytics", "office"],
