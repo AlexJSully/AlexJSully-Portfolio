@@ -1,9 +1,0 @@
-<svg width="50" height="50" version="1.1" id="svg12" xmlns="http://www.w3.org/2000/svg">
-  <g transform="translate(-2.273 -2.273) scale(.2841)" id="g10">
-    <path d="M130 29v132c0 14.77 10.2 23 21 23 10 0 21-7 21-23V30c0-13.54-10-22-21-22s-21 9.33-21 21Z" fill="#f9ab00" id="path2"/>
-    <g fill="#e37400" id="g8">
-      <path d="M75 96v65c0 14.77 10.2 23 21 23 10 0 21-7 21-23V97c0-13.54-10-22-21-22s-21 9.33-21 21Z" id="path4"/>
-      <circle cx="41" cy="163" r="21" id="circle6"/>
-    </g>
-  </g>
-</svg>

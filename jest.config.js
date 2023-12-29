@@ -6,7 +6,7 @@
 module.exports = {
 	clearMocks: true,
 	collectCoverage: true,
-	coverageDirectory: "coverage",
-	coverageProvider: "babel",
-	testEnvironment: "jsdom",
+	coverageDirectory: 'coverage',
+	coverageProvider: 'babel',
+	testEnvironment: 'jsdom',
 };
