@@ -1,7 +1,7 @@
 {
 	"name": "Alexander Sullivan's Portfolio",
 	"version": "2.0.0",
-	"background_color": "#1e2227",
+	"background_color": "#131518",
 	"description": "Portfolio showcase for Alexander Joo-Hyun Sullivan.",
 	"dir": "ltr",
 	"display": "standalone",
@@ -17,7 +17,7 @@
 	"scope": "/",
 	"short_name": "Alexander Sullivan's Portfolio",
 	"start_url": "/",
-	"theme_color": "#1e2227",
+	"theme_color": "#131518",
 	"edge_side_panel": {},
 	"icons": [
 		{
