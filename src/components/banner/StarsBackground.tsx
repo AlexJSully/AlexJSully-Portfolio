@@ -58,11 +58,15 @@ export default function StarsBackground() {
 			setTimeout(() => {
 				handleForceStarAnimation();
 			}, randomTime * 1000);
+		} else {
+			// If there are no stars, create some
+			// eslint-disable-next-line @typescript-eslint/no-use-before-define
+			createStars(false);
 		}
 	};
 
 	/** Create the stars */
-	const createStars = () => {
+	const createStars = (triggerAnimation = true) => {
 		/** The array of stars */
 		const starsArray: any = [];
 		/** The number of stars to create */
@@ -89,9 +93,11 @@ export default function StarsBackground() {
 		setStars(starsArray);
 
 		// Start the shooting star animation forcefully
-		setTimeout(() => {
-			handleForceStarAnimation();
-		}, 1000);
+		if (triggerAnimation) {
+			setTimeout(() => {
+				handleForceStarAnimation();
+			}, 1000);
+		}
 	};
 
 	useEffect(() => {
