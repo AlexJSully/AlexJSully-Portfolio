@@ -15,7 +15,7 @@
 		"jsx": "preserve",
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"module": "esnext",
-		"moduleResolution": "bundler",
+		"moduleResolution": "node",
 		"noEmit": true,
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitAny": false,
@@ -30,7 +30,7 @@
 		"sourceMap": true,
 		"strict": true,
 		"target": "ESNext",
-		"types": ["jest", "node"],
+		"types": ["jest", "node", "cypress"],
 		"plugins": [
 			{
 				"name": "next"
@@ -50,18 +50,7 @@
 		"**/*.tsx",
 		".next/types/**/*.ts",
 		"build/types/**/*.ts",
-		"next-env.d.ts",
 		"next-env.d.ts"
 	],
-	"exclude": [
-		".next",
-		"coverage",
-		"dist",
-		"next.config.js",
-		"node_modules",
-		"node_modules",
-		"out",
-		"postcss.config.js",
-		"tmp"
-	]
+	"exclude": [".next", "coverage", "dist", "next.config.js", "node_modules", "out", "postcss.config.js", "tmp"]
 }

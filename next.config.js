@@ -7,9 +7,7 @@ const withPWA = require('next-pwa')({
 });
 
 const moduleExports = withPWA({
-	basePath: '',
 	reactStrictMode: true,
-	distDir: 'build',
 	eslint: {
 		// Warning: This allows production builds to successfully complete even if
 		// your project has ESLint errors.
@@ -20,14 +18,6 @@ const moduleExports = withPWA({
 	},
 	typescript: {
 		ignoreBuildErrors: true,
-	},
-	modularizeImports: {
-		'@mui/material': {
-			transform: '@mui/material/{{member}}',
-		},
-		'@mui/icons-material/?(((\\w*)?/?)*)': {
-			transform: '@mui/icons-material/{{ matches.[1] }}/{{member}}',
-		},
 	},
 	swcMinify: true,
 	async headers() {
@@ -66,18 +56,34 @@ const moduleExports = withPWA({
 });
 
 const sentryWebpackPluginOptions = {
-	// Additional config options for the Sentry Webpack plugin. Keep in mind that
-	// the following options are set automatically, and overriding them is not
-	// recommended:
-	//   release, url, org, project, authToken, configFile, stripPrefix,
-	//   urlPrefix, include, ignore
+	// Suppresses source map uploading logs during build
+	silent: true,
+	org: process.env.NEXT_PUBLIC_SENTRY_ORG,
+	project: 'personal-portfolio',
 
-	silent: true, // Suppresses all logs
-	options: {
-		environment: process.env.NEXT_PUBLIC_SENTRY_ENV,
-	},
 	// For all available options, see:
-	// https://github.com/getsentry/sentry-webpack-plugin#options.
+	// https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+
+	// Upload a larger set of source maps for prettier stack traces (increases build time)
+	widenClientFileUpload: true,
+
+	// Transpiles SDK to be compatible with IE11 (increases bundle size)
+	transpileClientSDK: true,
+
+	// Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
+	tunnelRoute: '/monitoring',
+
+	// Hides source maps from generated client bundles
+	hideSourceMaps: true,
+
+	// Automatically tree-shake Sentry logger statements to reduce bundle size
+	disableLogger: true,
+
+	// Enables automatic instrumentation of Vercel Cron Monitors.
+	// See the following for more information:
+	// https://docs.sentry.io/product/crons/
+	// https://vercel.com/docs/cron-jobs
+	automaticVercelMonitors: true,
 };
 
 module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);
