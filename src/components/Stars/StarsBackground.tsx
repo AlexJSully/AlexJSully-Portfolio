@@ -11,14 +11,15 @@ export default function StarsBackground(): ReactElement {
 
 	/** The stars to be rendered */
 	const [stars, setStars] = useState<any>(null);
+	const [fade, setFade] = useState(false);
 
 	/** The styles for the stars */
 	const starStyles = {
-		background: `#ffffff40`,
+		background: `#ffffff50`,
 		borderRadius: '50%',
+		opacity: 0.5,
 		position: 'absolute',
 		transition: 'transform 1s',
-		opacity: 0.5,
 	};
 
 	/** Handle the shooting star animation */
@@ -30,7 +31,7 @@ export default function StarsBackground(): ReactElement {
 
 		// Set the animation
 		target.style.animation = `shootAway ${shootingStarSpeed}s forwards`;
-		target.style.background = '#fff90040';
+		target.style.background = '#fff90050';
 		target.style.transform = `scale(${Math.random() * 2 + 1})`;
 
 		// Remove the star after the animation is done
@@ -73,6 +74,8 @@ export default function StarsBackground(): ReactElement {
 		/** Whether or not to forcefully trigger the shooting star animation */
 		triggerAnimation: boolean = true,
 	) => {
+		setFade(false);
+
 		/** The array of stars */
 		const starsArray: any = [];
 		/** The number of stars to create */
@@ -97,6 +100,7 @@ export default function StarsBackground(): ReactElement {
 		}
 
 		setStars(starsArray);
+		setFade(true);
 
 		// Start the shooting star animation forcefully
 		if (triggerAnimation) {
@@ -116,7 +120,7 @@ export default function StarsBackground(): ReactElement {
 
 	return (
 		stars && (
-			<Fade in timeout={1000}>
+			<Fade in={fade} timeout={1000}>
 				<Box
 					key='sky'
 					id='sky'

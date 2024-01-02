@@ -55,13 +55,14 @@ export default function Banner() {
 	return (
 		<Box
 			sx={{
-				height: '55vh',
-				width: '100%',
 				alignItems: 'center',
 				display: 'flex',
 				flexDirection: 'column',
+				height: '55vh',
 				justifyContent: 'center',
+				margin: 'auto',
 				position: 'relative',
+				width: 'fit-content',
 			}}
 		>
 			<Image

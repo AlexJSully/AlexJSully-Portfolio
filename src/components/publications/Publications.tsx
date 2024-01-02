@@ -33,7 +33,7 @@ export default function Publications() {
 					}}
 					variant='h2'
 				>
-					Publications
+					Featured Publications
 				</Typography>
 
 				{publications.map((publication) => (

@@ -60,7 +60,12 @@ export default function ProjectsGrid(): ReactElement {
 							xl={3}
 							xs={12}
 						>
-							<Link href={project.url}>
+							<Link
+								href={project.url}
+								style={{
+									height: '100%',
+								}}
+							>
 								<Card
 									sx={{
 										borderRadius: '16px',
@@ -68,7 +73,12 @@ export default function ProjectsGrid(): ReactElement {
 										height: '100%',
 										aspectRatio: '4/3',
 										backgroundColor: project.color,
-										position: 'relative',
+										transition: 'all 0.5s ease',
+										border: `1px solid ${project.color}`,
+										'&:hover': {
+											transform: 'scale(1.05)',
+											border: '1px solid #00EAB7',
+										},
 									}}
 								>
 									<CardMedia
