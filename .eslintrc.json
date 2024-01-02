@@ -2,7 +2,6 @@
 	"env": {
 		"browser": true,
 		"es2021": true,
-		"jest/globals": true,
 		"node": true
 	},
 	"extends": [
@@ -23,7 +22,7 @@
 		"ecmaFeatures": { "jsx": true },
 		"project": "./tsconfig.json"
 	},
-	"plugins": ["react", "prettier", "jest", "@typescript-eslint"],
+	"plugins": ["react", "prettier", "@typescript-eslint"],
 	"rules": {
 		"@typescript-eslint/dot-notation": "off",
 		"@typescript-eslint/no-explicit-any": "off",
@@ -40,11 +39,6 @@
 		"import/order": "off",
 		"import/prefer-default-export": "off",
 		"indent": ["error", "tab"],
-		"jest/no-disabled-tests": "warn",
-		"jest/no-focused-tests": "error",
-		"jest/no-identical-title": "error",
-		"jest/prefer-to-have-length": "warn",
-		"jest/valid-expect": "error",
 		"no-console": "off",
 		"no-continue": "off",
 		"no-html-link-for-pages": "off",
@@ -78,19 +72,6 @@
 						"ignoreFunctionalComponents": true
 					}
 				]
-			}
-		},
-		{
-			"files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
-			"env": {
-				"jest": true
-			},
-			"rules": {
-				"jest/no-disabled-tests": "warn",
-				"jest/no-focused-tests": "error",
-				"jest/no-identical-title": "error",
-				"jest/prefer-to-have-length": "warn",
-				"jest/valid-expect": "error"
 			}
 		},
 		{
