@@ -62,9 +62,9 @@ export default function Banner() {
 				alignItems: 'center',
 				display: 'flex',
 				flexDirection: 'column',
-				height: '55vh',
+				minHeight: '60vh',
 				justifyContent: 'center',
-				margin: '2rem auto',
+				margin: '2rem auto 3rem',
 				position: 'relative',
 				width: 'fit-content',
 			}}
@@ -78,8 +78,9 @@ export default function Banner() {
 				src={image}
 				style={{
 					borderRadius: '50%',
-					maxWidth: 'min(40vw, 40vh, 300px)',
+					marginTop: '2rem',
 					maxHeight: 'min(40vw, 40vh, 300px)',
+					maxWidth: 'min(40vw, 40vh, 300px)',
 					position: 'relative',
 					zIndex: 1,
 				}}
@@ -119,8 +120,8 @@ export default function Banner() {
 
 			<Typography
 				sx={{
-					marginTop: '2.5rem',
 					fontSize: 'clamp(1.5rem, 2rem, 3rem)',
+					marginTop: '1.5rem',
 					textAlign: 'center',
 					textShadow: '1px 2px 3px #000',
 				}}
