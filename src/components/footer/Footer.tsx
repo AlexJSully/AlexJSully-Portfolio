@@ -64,7 +64,6 @@ export default function Footer() {
 			</Typography>
 
 			<Button
-				variant='contained'
 				sx={{
 					backgroundColor: '#001ca8',
 					borderRadius: '15%',
@@ -79,6 +78,7 @@ export default function Footer() {
 						transition: 'all 0.25s ease',
 					},
 				}}
+				variant='contained'
 			>
 				<Link
 					href='mailto:alexjsully.connect@outlook.com'

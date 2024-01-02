@@ -1,6 +1,5 @@
 'use client';
 
-import { Box } from '@mui/material';
 import { OrbitControls } from '@react-three/drei';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { useRef } from 'react';
