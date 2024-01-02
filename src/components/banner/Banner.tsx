@@ -1,6 +1,5 @@
 'use client';
 
-import StarsBackground from '@components/banner/StarsBackground';
 import { Box, Typography } from '@mui/material';
 import { debounce } from 'lodash';
 import Image from 'next/image';
@@ -44,7 +43,7 @@ export default function Banner() {
 						setImage(imageList[`default`]);
 
 						sneezing.current = false;
-					}, 400);
+					}, 1000);
 				}, 300);
 			}, 500);
 		}
@@ -56,7 +55,7 @@ export default function Banner() {
 	return (
 		<Box
 			sx={{
-				height: '95vh',
+				height: '55vh',
 				width: '100%',
 				alignItems: 'center',
 				display: 'flex',
@@ -65,8 +64,6 @@ export default function Banner() {
 				position: 'relative',
 			}}
 		>
-			<StarsBackground />
-
 			<Image
 				alt='Alexander Sullivan head drawn and stylized'
 				height={500}
@@ -87,7 +84,7 @@ export default function Banner() {
 			<Typography
 				component='h1'
 				sx={{
-					fontSize: 'clamp(1.5rem, 3vw, 3rem)',
+					fontSize: 'clamp(1.5rem, 2.5rem, 2.5rem)',
 					fontWeight: 'bold',
 					marginTop: '1rem',
 					textAlign: 'center',
@@ -103,7 +100,7 @@ export default function Banner() {
 						sx={{
 							cursor: 'default',
 							textShadow: '1px 2px 3px #666',
-							transition: 'all 5s ease',
+							transition: 'all 1s ease',
 							'&:hover': {
 								color: 'rgb(43, 255, 0)',
 								transition: 'all 0.5s ease',
@@ -118,7 +115,7 @@ export default function Banner() {
 			<Typography
 				sx={{
 					marginTop: '2.5rem',
-					fontSize: 'clamp(1.5rem, 3vw, 3rem)',
+					fontSize: 'clamp(1.5rem, 2rem, 3rem)',
 					textAlign: 'center',
 					textShadow: '1px 2px 3px #000',
 				}}

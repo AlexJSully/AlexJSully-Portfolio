@@ -2,10 +2,10 @@
 
 import { Box, Fade } from '@mui/material';
 import { isEmpty } from 'lodash';
-import { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
 /** Create a starry background with shooting stars */
-export default function StarsBackground() {
+export default function StarsBackground(): ReactElement {
 	// @AlexJSully: There is a lot of random math in here
 	// but it's all just to make the stars look random
 
@@ -14,10 +14,11 @@ export default function StarsBackground() {
 
 	/** The styles for the stars */
 	const starStyles = {
-		background: `#ffffff65`,
+		background: `#ffffff40`,
 		borderRadius: '50%',
 		position: 'absolute',
 		transition: 'transform 1s',
+		opacity: 0.5,
 	};
 
 	/** Handle the shooting star animation */
@@ -29,12 +30,14 @@ export default function StarsBackground() {
 
 		// Set the animation
 		target.style.animation = `shootAway ${shootingStarSpeed}s forwards`;
-		target.style.background = '#fff900ff';
+		target.style.background = '#fff90040';
 		target.style.transform = `scale(${Math.random() * 2 + 1})`;
 
 		// Remove the star after the animation is done
 		setTimeout(() => {
-			target.remove();
+			if (target) {
+				target.remove();
+			}
 		}, shootingStarSpeed * 1000);
 	};
 
@@ -66,7 +69,10 @@ export default function StarsBackground() {
 	};
 
 	/** Create the stars */
-	const createStars = (triggerAnimation = true) => {
+	const createStars = (
+		/** Whether or not to forcefully trigger the shooting star animation */
+		triggerAnimation: boolean = true,
+	) => {
 		/** The array of stars */
 		const starsArray: any = [];
 		/** The number of stars to create */
@@ -104,6 +110,7 @@ export default function StarsBackground() {
 		// We want to use useEffect here so that we can use the window object
 
 		createStars();
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -115,10 +122,11 @@ export default function StarsBackground() {
 					id='sky'
 					sx={{
 						left: 0,
-						position: 'absolute',
+						position: 'fixed',
 						top: 0,
-						height: '95vh',
-						width: '100%',
+						height: '100vh',
+						width: '100vw',
+						overflow: 'hidden',
 					}}
 				>
 					{stars}

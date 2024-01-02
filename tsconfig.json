@@ -1,15 +1,7 @@
 {
 	"compilerOptions": {
 		"allowJs": true,
-		"allowSyntheticDefaultImports": true,
-		"baseUrl": ".",
-		"checkJs": false,
-		"declaration": true,
-		"emitDecoratorMetadata": true,
 		"esModuleInterop": true,
-		"experimentalDecorators": true,
-		"forceConsistentCasingInFileNames": true,
-		"importHelpers": true,
 		"incremental": true,
 		"isolatedModules": true,
 		"jsx": "preserve",
@@ -17,20 +9,11 @@
 		"module": "esnext",
 		"moduleResolution": "node",
 		"noEmit": true,
-		"noFallthroughCasesInSwitch": true,
-		"noImplicitAny": false,
-		"noImplicitOverride": true,
-		"noImplicitThis": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
 		"resolveJsonModule": true,
-		"rootDir": ".",
-		"skipDefaultLibCheck": true,
 		"skipLibCheck": true,
-		"sourceMap": true,
 		"strict": true,
 		"target": "ESNext",
-		"types": ["jest", "node", "cypress"],
+		"types": ["jest", "node"],
 		"plugins": [
 			{
 				"name": "next"
@@ -39,6 +22,7 @@
 		"paths": {
 			"@*": ["./src/*"],
 			"@components/*": ["./src/components/*"],
+			"@data/*": ["./src/data/*"],
 			"@layouts/*": ["./src/layouts/*"],
 			"@styles/*": ["./src/styles/*"]
 		}
