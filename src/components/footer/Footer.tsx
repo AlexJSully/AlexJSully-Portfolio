@@ -6,7 +6,7 @@ import {
 	LinkedIn as LinkedInIcon,
 	Twitter as TwitterIcon,
 } from '@mui/icons-material';
-import { IconButton, Stack, Typography } from '@mui/material';
+import { Button, IconButton, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 import { useMemo } from 'react';
 
@@ -50,7 +50,7 @@ export default function Footer() {
 			justifyContent='center'
 			spacing={2}
 			sx={{
-				margin: 'auto',
+				margin: '1rem auto',
 			}}
 		>
 			<Typography
@@ -62,6 +62,41 @@ export default function Footer() {
 			>
 				Interested in working together?
 			</Typography>
+
+			<Button
+				variant='contained'
+				sx={{
+					backgroundColor: '#001ca8',
+					borderRadius: '15%',
+					border: '3px solid #001ca8',
+					fontSize: '0.5rem',
+					lineHeight: '2rem',
+					transition: 'all 1s ease',
+					'&:hover': {
+						backgroundColor: '#0041b9',
+						borderRadius: '5%',
+						border: '3px solid #0041b9',
+						transition: 'all 0.25s ease',
+					},
+				}}
+			>
+				<Link
+					href='mailto:alexjsully.connect@outlook.com'
+					style={{
+						textDecoration: 'none',
+						color: 'inherit',
+					}}
+				>
+					<Typography
+						sx={{
+							color: 'inherit',
+							textDecoration: 'none',
+						}}
+					>
+						Email me
+					</Typography>
+				</Link>
+			</Button>
 
 			<Stack direction='row'>
 				{socials.map((social) => (
