@@ -23,11 +23,11 @@ export default function MPX() {
 				}}
 				justifyContent='center'
 				sx={{
-					width: '100%',
-					minHeight: '60vh',
-					height: '100%',
 					background: 'linear-gradient(14deg, rgba(19,21,24,1) 18%, rgba(24,36,54,1) 100%)',
 					filter: 'progid:DXImageTransform.Microsoft.gradient(startColorstr="#131518",endColorstr="#182436",GradientType=1)',
+					height: '100%',
+					minHeight: '60vh',
+					width: '100%',
 				}}
 			>
 				{/* Text */}
@@ -38,17 +38,17 @@ export default function MPX() {
 					spacing={2}
 					sx={{
 						margin: 'auto',
-						width: '100%',
 						minWidth: '50vw',
+						width: '100%',
 					}}
 				>
 					<Typography
 						sx={{
-							letterSpacing: '.15rem',
 							fontSize: '2.5rem',
-							width: '100%',
-							overflow: 'hidden',
+							letterSpacing: '.15rem',
 							margin: 'auto 2rem',
+							overflow: 'hidden',
+							width: '100%',
 							maxWidth: {
 								xs: '100%',
 								sm: '80%',
@@ -69,19 +69,21 @@ export default function MPX() {
 					>
 						<Link
 							href='https://app.masterpiecex.com/'
+							rel='noopener noreferrer'
 							style={{
-								textDecoration: 'none',
 								color: 'inherit',
+								textDecoration: 'none',
 							}}
+							target='_blank'
 						>
 							<Button
 								sx={{
+									alignItems: 'center',
 									background: 'linear-gradient(126deg, #0EEBBB 0%, #F90 100%)',
 									color: '#000',
-									transition: 'all .2s ease-in-out',
-									fontWeight: 600,
 									display: 'flex',
-									alignItems: 'center',
+									fontWeight: 600,
+									transition: 'all .2s ease-in-out',
 									':hover': {
 										background: 'linear-gradient(180deg, #99FFE9 0%, #99FFE9 100%)',
 									},
@@ -93,8 +95,8 @@ export default function MPX() {
 									height={24}
 									src='/images/icons/mpx.svg'
 									style={{
-										marginRight: '1rem',
 										filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
+										marginRight: '1rem',
 									}}
 									width={24}
 								/>{' '}
@@ -104,19 +106,21 @@ export default function MPX() {
 
 						<Link
 							href='https://www.meta.com/experiences/5502306219889537/'
+							rel='noopener noreferrer'
 							style={{
-								textDecoration: 'none',
 								color: 'inherit',
+								textDecoration: 'none',
 							}}
+							target='_blank'
 						>
 							<Button
 								sx={{
+									alignItems: 'center',
 									background: '#00EAB7',
 									color: '#000',
-									transition: 'all .2s ease-in-out',
-									fontWeight: 600,
 									display: 'flex',
-									alignItems: 'center',
+									fontWeight: 600,
+									transition: 'all .2s ease-in-out',
 									':hover': {
 										background: '#99FFE9',
 									},
@@ -128,8 +132,8 @@ export default function MPX() {
 									height={24}
 									src='/images/icons/meta.svg'
 									style={{
-										marginRight: '1rem',
 										filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
+										marginRight: '1rem',
 									}}
 									width={24}
 								/>{' '}
