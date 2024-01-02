@@ -2,51 +2,85 @@
 	"env": {
 		"browser": true,
 		"es2021": true,
-		"jest/globals": true,
 		"node": true
 	},
 	"extends": [
 		"airbnb",
+		"airbnb-typescript",
+		"airbnb/hooks",
 		"eslint:recommended",
+		"next/core-web-vitals",
+		"plugin:@typescript-eslint/recommended",
 		"plugin:import/recommended",
 		"plugin:react-hooks/recommended",
 		"plugin:react/recommended",
 		"prettier"
 	],
+	"ignorePatterns": ["**/*.config.js", "**/*.config.ts", "build/", "dist/", "node_modules/", "public/"],
+	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"ecmaFeatures": { "jsx": true },
-		"ecmaVersion": "latest",
-		"sourceType": "module"
+		"project": "./tsconfig.json"
 	},
-	"plugins": ["react", "prettier", "jest"],
+	"plugins": ["react", "prettier", "@typescript-eslint"],
 	"rules": {
+		"@typescript-eslint/dot-notation": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/no-shadow": "off",
+		"@typescript-eslint/no-unused-vars": ["error"],
+		"class-methods-use-this": "off",
+		"consistent-return": "off",
 		"import/default": 2,
 		"import/export": 2,
 		"import/named": 2,
 		"import/namespace": 2,
+		"import/no-cycle": "off",
 		"import/no-unresolved": [2, { "commonjs": true, "amd": true }],
 		"import/order": "off",
 		"import/prefer-default-export": "off",
 		"indent": ["error", "tab"],
-		"jest/no-disabled-tests": "warn",
-		"jest/no-focused-tests": "error",
-		"jest/no-identical-title": "error",
-		"jest/prefer-to-have-length": "warn",
-		"jest/valid-expect": "error",
 		"no-console": "off",
 		"no-continue": "off",
+		"no-html-link-for-pages": "off",
 		"no-param-reassign": "off",
 		"no-restricted-syntax": "off",
 		"no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
-		"prettier/prettier": ["warn"],
+		"prettier/prettier": "warn",
+		"radix": "off",
 		"react-hooks/rules-of-hooks": "error",
 		"react/forbid-prop-types": "off",
-		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+		"react/jsx-filename-extension": ["error", { "extensions": [".tsx", ".jsx"] }],
 		"react/jsx-props-no-spreading": "off",
 		"react/no-unknown-property": "off",
 		"react/react-in-jsx-scope": "off",
 		"react/require-default-props": ["error", { "ignoreFunctionalComponents": true }],
 		"react/static-property-placement": "off",
 		"semi": ["error", "always"]
-	}
+	},
+	"overrides": [
+		{
+			"files": ["*.tsx"],
+			"rules": {
+				"react/forbid-prop-types": "off",
+				"react/jsx-props-no-spreading": "off",
+				"react/jsx-sort-props": "warn",
+				"react/static-property-placement": "off",
+				"react/react-in-jsx-scope": "off",
+				"react/require-default-props": [
+					"error",
+					{
+						"ignoreFunctionalComponents": true
+					}
+				]
+			}
+		},
+		{
+			"files": ["*.d.ts"],
+			"rules": {
+				"@typescript-eslint/no-unused-vars": "off",
+				"@typescript-eslint/no-use-before-define": "off",
+				"max-classes-per-file": "off"
+			}
+		}
+	]
 }

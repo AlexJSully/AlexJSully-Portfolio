@@ -1,0 +1,47 @@
+body {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	background-color: #131518;
+	font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif, OpenDyslexia2;
+	margin: 0;
+	overflow-x: hidden;
+	width: auto;
+	color: #fff;
+}
+
+// Custom animations
+@keyframes twinkle {
+	0%,
+	100% {
+		opacity: 0.5;
+	}
+	10%,
+	90% {
+		opacity: 0.7;
+	}
+	20%,
+	80% {
+		opacity: 0.8;
+	}
+	30%,
+	70% {
+		opacity: 0.9;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+
+/* CSS keyframe animation for shooting stars away */
+@keyframes shootAway {
+	0% {
+		transform: scale(1);
+		opacity: 1;
+	}
+
+	100% {
+		transform: translate(-100vw, 100vh) scale(2);
+		opacity: 0;
+	}
+}

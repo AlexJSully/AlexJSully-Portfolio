@@ -49,7 +49,7 @@ engines:
             MD034:
                 enabled: false
 exclude_patterns:
-    - "**/node_modules/"
-    - "**/build/"
-    - ".env"
-    - "**/.vscode/"
+    - '**/node_modules/'
+    - '**/build/'
+    - '.env'
+    - '**/.vscode/'
