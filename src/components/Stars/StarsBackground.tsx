@@ -78,8 +78,10 @@ export default function StarsBackground(): ReactElement {
 
 		/** The array of stars */
 		const starsArray: any = [];
+		/** The max number of stars to create */
+		const maxStars = typeof window !== 'undefined' && window?.innerWidth ? window?.innerWidth : 400;
 		/** The number of stars to create */
-		const numberOfStars = Math.floor(Math.random() * ((window?.innerWidth || 400) / 2)) + 10;
+		const numberOfStars = Math.floor(Math.random() * (maxStars / 2)) + 10;
 
 		// Create the stars based on the number of stars
 		for (let i = 0; i < numberOfStars; i += 1) {

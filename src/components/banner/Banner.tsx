@@ -1,12 +1,16 @@
 'use client';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { debounce } from 'lodash';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 
 /** The banner at the top of the page */
 export default function Banner() {
+	/** Material-UI theme */
+	const theme = useTheme();
+	/** Whether or not the screen is small */
+	const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	/** The sneeze images to be rendered */
 	const imageList = {
 		default: '/images/drawn/profile_pic_drawn.webp',
@@ -60,7 +64,7 @@ export default function Banner() {
 				flexDirection: 'column',
 				height: '55vh',
 				justifyContent: 'center',
-				margin: 'auto',
+				margin: '2rem auto',
 				position: 'relative',
 				width: 'fit-content',
 			}}
@@ -74,8 +78,8 @@ export default function Banner() {
 				src={image}
 				style={{
 					borderRadius: '50%',
-					maxWidth: 'max(20vw, 20vh)',
-					maxHeight: 'max(20vw, 20vh)',
+					maxWidth: 'min(40vw, 40vh, 300px)',
+					maxHeight: 'min(40vw, 40vh, 300px)',
 					position: 'relative',
 					zIndex: 1,
 				}}
@@ -93,7 +97,7 @@ export default function Banner() {
 					zIndex: 1,
 				}}
 			>
-				{'Alexander Joo-Hyun Sullivan'.split('').map((char, index) => (
+				{`Alexander${!smallScreen ? ' Joo-Hyun ' : ' '}Sullivan`.split('').map((char, index) => (
 					<Box
 						// eslint-disable-next-line react/no-array-index-key
 						key={index}
