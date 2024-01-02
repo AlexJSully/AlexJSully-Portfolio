@@ -58,6 +58,7 @@ export default function Banner() {
 
 	return (
 		<Box
+			component='div'
 			sx={{
 				alignItems: 'center',
 				display: 'flex',

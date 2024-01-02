@@ -98,7 +98,15 @@ export default function StarsBackground(): ReactElement {
 				left: `${Math.random() * 100}vw`,
 			};
 
-			starsArray.push(<Box key={i} data-testid='star' onMouseEnter={(e) => handleStarAnimation(e)} sx={style} />);
+			starsArray.push(
+				<Box
+					key={i}
+					component='div'
+					data-testid='star'
+					onMouseEnter={(e) => handleStarAnimation(e)}
+					sx={style}
+				/>,
+			);
 		}
 
 		setStars(starsArray);
@@ -125,6 +133,7 @@ export default function StarsBackground(): ReactElement {
 			<Fade in={fade} timeout={1000}>
 				<Box
 					key='sky'
+					component='div'
 					id='sky'
 					sx={{
 						left: 0,

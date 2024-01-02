@@ -17,7 +17,7 @@ export default function Home() {
 
 	return (
 		<Box
-			// Center the content
+			component='div'
 			sx={{
 				display: 'flex',
 				flexDirection: 'column',
