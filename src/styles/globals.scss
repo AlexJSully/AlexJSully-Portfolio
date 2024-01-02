@@ -2,12 +2,12 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
 	background-color: #131518;
-	font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-		sans-serif, OpenDyslexia2;
+	color: #fff;
+	font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', sans-serif;
 	margin: 0;
 	overflow-x: hidden;
+	scroll-behavior: smooth;
 	width: auto;
-	color: #fff;
 }
 
 // Custom animations
