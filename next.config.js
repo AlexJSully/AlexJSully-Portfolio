@@ -1,9 +1,12 @@
 //@ts-check
 const { withSentryConfig } = require('@sentry/nextjs');
 
+const isDevelopment = process.env.NEXT_PUBLIC_ENVIRONMENT === 'development';
+
 const withPWA = require('next-pwa')({
 	dest: 'public',
 	buildExcludes: ['app-build-manifest.json'],
+	disable: isDevelopment,
 });
 
 const nextConfig = withPWA({
@@ -61,4 +64,4 @@ const sentryWebpackPluginOptions = {
 	automaticVercelMonitors: true,
 };
 
-module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);
+module.exports = isDevelopment ? nextConfig : withSentryConfig(nextConfig, sentryWebpackPluginOptions);
