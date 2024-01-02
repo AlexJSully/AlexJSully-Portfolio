@@ -25,7 +25,7 @@ export default function ProjectsGrid(): ReactElement {
 					}}
 					variant='h2'
 				>
-					Featured Projects
+					{viewMore ? 'All' : 'Featured'} Projects
 				</Typography>
 
 				<Grid

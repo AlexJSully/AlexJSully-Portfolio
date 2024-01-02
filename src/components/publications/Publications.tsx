@@ -21,11 +21,21 @@ export default function Publications() {
 						sm: '80%',
 						md: 'min(1080px, 80%)',
 					},
-					marginTop: '2rem',
+					marginTop: '3rem',
 					marginBottom: '2rem',
 					zIndex: 1,
 				}}
 			>
+				<Typography
+					sx={{
+						fontSize: 'clamp(1.5rem, 2.5vw, 2.5rem)',
+						textAlign: 'center',
+					}}
+					variant='h2'
+				>
+					Publications
+				</Typography>
+
 				{publications.map((publication) => (
 					<Link
 						key={`${publication.doi}-link`}
@@ -62,7 +72,7 @@ export default function Publications() {
 								component='p'
 								variant='body1'
 							>
-								{publication?.abstract}
+								{`${publication?.abstract.substring(0, 550)}...`}
 							</Typography>
 						</Stack>
 					</Link>
