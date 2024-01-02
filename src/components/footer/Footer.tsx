@@ -10,7 +10,9 @@ import { IconButton, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 import { useMemo } from 'react';
 
+/** Renders the footer. */
 export default function Footer() {
+	/** Social media links. */
 	const socials = useMemo(
 		() => [
 			{

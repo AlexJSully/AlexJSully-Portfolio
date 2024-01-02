@@ -6,6 +6,7 @@ export const metadata: Metadata = {
 	description: "Alexander Sullivan's Portfolio & Showcase",
 };
 
+/** Renders the root layout. */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang='en'>

@@ -5,7 +5,9 @@ import { Button, Card, CardMedia, Grid, Stack, Typography } from '@mui/material'
 import Link from 'next/link';
 import { ReactElement, useState } from 'react';
 
+/** Creates a grid of projects. */
 export default function ProjectsGrid(): ReactElement {
+	/** Whether to view all projects [true] or only featured projects [false, default] */
 	const [viewMore, setViewMore] = useState(false);
 
 	return (

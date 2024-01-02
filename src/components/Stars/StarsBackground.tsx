@@ -23,7 +23,7 @@ export default function StarsBackground(): ReactElement {
 	};
 
 	/** Handle the shooting star animation */
-	const handleStarAnimation = async (e: any) => {
+	const handleStarAnimation = (e: any) => {
 		/** The star DOM element */
 		const target = e.target as HTMLElement;
 		/** The speed of the shooting star */
@@ -43,7 +43,7 @@ export default function StarsBackground(): ReactElement {
 	};
 
 	/** Handle the forced shooting star animation */
-	const handleForceStarAnimation = async () => {
+	const handleForceStarAnimation = () => {
 		/** All of the stars */
 		const allStars = document.querySelectorAll('[data-testid="star"]');
 
@@ -53,7 +53,7 @@ export default function StarsBackground(): ReactElement {
 			const randomStar = allStars[Math.floor(Math.random() * allStars.length)] as HTMLElement;
 
 			// Trigger the animation
-			await handleStarAnimation({ target: randomStar });
+			handleStarAnimation({ target: randomStar });
 
 			/** The random time to wait before triggering the next star */
 			const randomTime = Math.random() * 5 + 1;
@@ -72,7 +72,7 @@ export default function StarsBackground(): ReactElement {
 	/** Create the stars */
 	const createStars = (
 		/** Whether or not to forcefully trigger the shooting star animation */
-		triggerAnimation: boolean = true,
+		triggerAnimation = true,
 	) => {
 		setFade(false);
 

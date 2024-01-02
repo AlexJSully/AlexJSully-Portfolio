@@ -5,6 +5,7 @@ import ProjectsGrid from '@components/projects/ProjectsGrid';
 import Publications from '@components/publications/Publications';
 import { Box } from '@mui/material';
 
+/** Renders the home page. */
 export default function Home() {
 	return (
 		<Box

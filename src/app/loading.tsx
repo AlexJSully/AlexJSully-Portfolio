@@ -1,5 +1,6 @@
 import { Box, CircularProgress } from '@mui/material';
 
+/** Renders a loading spinner. */
 export default function Loading() {
 	return (
 		<Box
