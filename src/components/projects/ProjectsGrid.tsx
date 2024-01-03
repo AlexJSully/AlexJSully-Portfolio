@@ -52,12 +52,12 @@ export default function ProjectsGrid(): ReactElement {
 							lg={4}
 							sm={6}
 							sx={{
-								margin: 'auto',
-								justifyContent: 'center',
 								alignItems: 'center',
 								display: viewMore || project.showcase ? 'flex' : 'none',
-								transition: 'all 1s ease-in-out',
 								flexDirection: 'column',
+								justifyContent: 'center',
+								margin: 'auto',
+								transition: 'all 1s ease-in-out',
 							}}
 							xl={3}
 							xs={12}
@@ -65,18 +65,19 @@ export default function ProjectsGrid(): ReactElement {
 							<Link
 								href={project.url}
 								style={{
+									display: 'flex',
 									height: '100%',
 								}}
 							>
 								<Card
 									sx={{
-										borderRadius: '16px',
-										width: '100%',
-										height: '100%',
 										aspectRatio: '4/3',
 										backgroundColor: project.color,
-										transition: 'all 0.5s ease',
 										border: `1px solid ${project.color}`,
+										borderRadius: '16px',
+										height: '100%',
+										transition: 'all 0.5s ease',
+										width: '100%',
 										'&:hover': {
 											transform: 'scale(1.05)',
 											border: '1px solid #00EAB7',
@@ -90,8 +91,8 @@ export default function ProjectsGrid(): ReactElement {
 										}`}
 										sx={{
 											height: '100%',
-											width: '100%',
 											objectFit: 'cover',
+											width: '100%',
 										}}
 									/>
 								</Card>
