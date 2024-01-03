@@ -8,7 +8,9 @@ import { usePathname } from 'next/navigation';
 
 /* eslint-disable no-nested-ternary */
 
+/** General navbar for the site. */
 export default function Navbar() {
+	/** The current pathname */
 	const pathname = usePathname();
 
 	/** Material-UI theme */
@@ -24,11 +26,10 @@ export default function Navbar() {
 		>
 			<Toolbar
 				sx={{
-					zIndex: 10,
 					fontSize: '1.25rem',
-					// Each item is 1rem tall, so 2rem is the height of the navbar
 					height: '2rem',
 					justifyContent: 'space-between',
+					zIndex: 10,
 				}}
 			>
 				{/* Home button */}
@@ -62,8 +63,8 @@ export default function Navbar() {
 						}
 					}}
 					style={{
-						textDecoration: 'none',
 						color: 'inherit',
+						textDecoration: 'none',
 					}}
 				>
 					<Typography>Projects</Typography>
@@ -80,8 +81,8 @@ export default function Navbar() {
 							}
 						}}
 						style={{
-							textDecoration: 'none',
 							color: 'inherit',
+							textDecoration: 'none',
 						}}
 					>
 						<Typography>Publications</Typography>
@@ -95,10 +96,9 @@ export default function Navbar() {
 						height={24}
 						src='/images/drawn/profile_pic_drawn.webp'
 						style={{
+							borderRadius: '50%',
 							filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
 							marginRight: '1rem',
-							borderRadius: '50%',
-							// Inline with the text
 							verticalAlign: 'middle',
 						}}
 						width={24}
