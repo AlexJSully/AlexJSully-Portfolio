@@ -37,7 +37,11 @@ export default function StarsBackground(): ReactElement {
 		// Remove the star after the animation is done
 		setTimeout(() => {
 			if (target) {
-				target.remove();
+				try {
+					target.remove();
+				} catch (e) {
+					console.log(e);
+				}
 			}
 		}, shootingStarSpeed * 1000);
 	};
@@ -48,7 +52,7 @@ export default function StarsBackground(): ReactElement {
 		const allStars = document.querySelectorAll('[data-testid="star"]');
 
 		// Only proceed if there are stars
-		if (!isEmpty(allStars)) {
+		if (!isEmpty(allStars) && allStars.length > 5) {
 			/** Pick a random star */
 			const randomStar = allStars[Math.floor(Math.random() * allStars.length)] as HTMLElement;
 
@@ -56,7 +60,7 @@ export default function StarsBackground(): ReactElement {
 			handleStarAnimation({ target: randomStar });
 
 			/** The random time to wait before triggering the next star */
-			const randomTime = Math.random() * 5 + 1;
+			const randomTime = Math.random() * 5 + 1.5;
 
 			// Recursively call this function
 			setTimeout(() => {
