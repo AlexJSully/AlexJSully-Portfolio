@@ -18,6 +18,21 @@ export default function Navbar() {
 	/** Whether or not the screen is small */
 	const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+	/** All text and logo to be rendered in the navbar header */
+	const navbarHeaderText: any = {
+		'/': {
+			text: 'Alexander Sullivan',
+			logo: '/images/drawn/profile_pic_drawn.webp',
+		},
+		'/portfolio/mpx': {
+			text: 'Masterpiece X',
+			logo: '/images/icons/mpx.svg',
+		},
+	};
+
+	/** The text and logo to be rendered in the navbar header */
+	const navbarHeaderUse: any = navbarHeaderText[pathname] ? navbarHeaderText[pathname] : navbarHeaderText['/'];
+
 	return (
 		<AppBar
 			sx={{
@@ -94,7 +109,7 @@ export default function Navbar() {
 					<Image
 						alt='Logo'
 						height={24}
-						src='/images/drawn/profile_pic_drawn.webp'
+						src={navbarHeaderUse.logo}
 						style={{
 							borderRadius: '50%',
 							filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
@@ -103,7 +118,7 @@ export default function Navbar() {
 						}}
 						width={24}
 					/>
-					Alexander Sullivan
+					{navbarHeaderUse.text}
 				</Typography>
 			</Toolbar>
 		</AppBar>
