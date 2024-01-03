@@ -1,4 +1,5 @@
 import Footer from '@components/footer/Footer';
+import Navbar from '@components/navbar/Navbar';
 import { ReactElement } from 'react';
 
 interface GeneralLayoutProps {
@@ -15,6 +16,8 @@ export default function GeneralLayout({ children }: Readonly<GeneralLayoutProps>
 				scrollBehavior: 'smooth',
 			}}
 		>
+			<Navbar />
+
 			<main>{children}</main>
 
 			<footer>

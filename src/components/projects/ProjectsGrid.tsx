@@ -13,6 +13,8 @@ export default function ProjectsGrid(): ReactElement {
 	return (
 		projects && (
 			<Stack
+				id='projects-grid'
+				className='projects-grid'
 				alignItems='center'
 				direction='column'
 				justifyContent='center'

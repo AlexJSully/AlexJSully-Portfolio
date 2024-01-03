@@ -14,6 +14,8 @@ export default function Publications() {
 	return (
 		publications && (
 			<Stack
+				id='publications'
+				className='publications'
 				direction='column'
 				spacing={2}
 				sx={{
