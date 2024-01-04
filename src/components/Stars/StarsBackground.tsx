@@ -136,7 +136,7 @@ export default function StarsBackground(): ReactElement {
 
 	return (
 		stars && (
-			<Fade in={fade} timeout={1000}>
+			<Fade in={fade} timeout={500}>
 				<Box
 					key='sky'
 					component='div'

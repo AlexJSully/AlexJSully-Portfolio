@@ -21,7 +21,7 @@ const projects = [
 				url: 'https://www.oculus.com/experiences/quest/5502306219889537',
 			},
 		],
-		color: '#18181C',
+		color: '#00EAB7',
 		dates: {
 			startDate: '2021-12',
 			endDate: '2023-12',
@@ -207,8 +207,13 @@ const projects = [
 				icon: '/images/icons/smalldevtalk.svg',
 				url: 'https://smalldevtalk.net/',
 			},
+			{
+				text: 'GitHub',
+				tooltip: 'Visit the GitHub repository for Small Dev Talk',
+				icon: '/images/icons/github.svg',
+				url: 'https://github.com/AlexJSully/Small-Dev-Talk',
+			},
 		],
-		thumbnailFileType: 'svg',
 		color: '#ffffff',
 		dates: {
 			startDate: '2013-03',
