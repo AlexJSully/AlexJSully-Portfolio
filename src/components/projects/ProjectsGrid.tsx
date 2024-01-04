@@ -78,23 +78,22 @@ export default function ProjectsGrid(): ReactElement {
 								<Card
 									sx={{
 										aspectRatio: '4/3',
-										backgroundColor: project.color,
-										border: `1px solid ${project.color}`,
+										backgroundColor: `${project.color || '#000'}25`,
+										border: `1px solid ${project.color || '#000'}25`,
 										borderRadius: '16px',
 										height: '100%',
 										transition: 'all 0.5s ease',
 										width: '100%',
 										'&:hover': {
+											backgroundColor: `${project.color || '#000'}`,
+											border: `1px solid ${project.color || '#000'}`,
 											transform: 'scale(1.05)',
-											border: '1px solid #00EAB7',
 										},
 									}}
 								>
 									<CardMedia
 										component='img'
-										image={`/images/projects/${project.id}/thumbnail.${
-											project.thumbnailFileType ?? 'webp'
-										}`}
+										image={`/images/projects/${project.id}/thumbnail.webp`}
 										sx={{
 											height: '100%',
 											objectFit: 'cover',
@@ -107,15 +106,15 @@ export default function ProjectsGrid(): ReactElement {
 							<Link
 								href={project.url}
 								style={{
-									textDecoration: 'none',
 									color: 'inherit',
+									textDecoration: 'none',
 								}}
 							>
 								<Typography
 									sx={{
 										fontSize: 'clamp(1rem, 1.5vw, 1.5rem)',
-										marginTop: '1rem',
 										marginBottom: '1rem',
+										marginTop: '1rem',
 									}}
 								>
 									{project.name}
@@ -140,15 +139,17 @@ export default function ProjectsGrid(): ReactElement {
 														sx={{
 															alignItems: 'center',
 															backgroundColor: '#24272d',
+															border: `1px solid ${project.color || '#000'}25`,
 															color: '#fff',
 															display: 'flex',
 															fontWeight: 600,
 															transition: 'all .2s ease-in-out',
 															'&:hover': {
 																backgroundColor: '#2c3443',
+																border: `1px solid ${project.color || '#000'}`,
 																img: {
-																	transition: 'all .2s ease-in-out',
 																	transform: 'scale(1.1)',
+																	transition: 'all .2s ease-in-out',
 																},
 															},
 														}}
@@ -159,9 +160,9 @@ export default function ProjectsGrid(): ReactElement {
 															height={24}
 															src={url.icon}
 															style={{
-																transition: 'all .2s ease-in-out',
 																filter: 'drop-shadow(0px 4px 4px rgba(250, 250, 250, 0.2))',
 																marginRight: '0.5rem',
+																transition: 'all .2s ease-in-out',
 															}}
 															width={24}
 														/>{' '}
