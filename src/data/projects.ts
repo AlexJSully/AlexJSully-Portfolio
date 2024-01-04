@@ -207,6 +207,12 @@ const projects = [
 				icon: '/images/icons/smalldevtalk.svg',
 				url: 'https://smalldevtalk.net/',
 			},
+			{
+				text: 'GitHub',
+				tooltip: 'Visit the GitHub repository for Small Dev Talk',
+				icon: '/images/icons/github.svg',
+				url: 'https://github.com/AlexJSully/Small-Dev-Talk',
+			},
 		],
 		thumbnailFileType: 'svg',
 		color: '#ffffff',
