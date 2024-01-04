@@ -25,13 +25,13 @@ export default function Home() {
 				minWidth: '100%',
 			}}
 		>
-			<StarsBackground />
-
 			<Banner />
 
 			<ProjectsGrid />
 
 			<Publications />
+
+			<StarsBackground />
 		</Box>
 	);
 }
