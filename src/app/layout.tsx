@@ -37,8 +37,8 @@ export const metadata: Metadata = {
 		images: [
 			{
 				url: 'https://alexjsully.me/icon/resoc.png',
-				width: 1800,
-				height: 1202,
+				width: 1529,
+				height: 1021,
 				alt: metadataValues.title,
 			},
 		],
