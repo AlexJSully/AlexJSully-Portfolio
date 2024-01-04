@@ -2,7 +2,6 @@
 
 import StarsBackground from '@components/Stars/StarsBackground';
 import Banner from '@components/banner/Banner';
-import Footer from '@components/footer/Footer';
 import ProjectsGrid from '@components/projects/ProjectsGrid';
 import Publications from '@components/publications/Publications';
 import { init } from '@configs/firebase';
@@ -26,15 +25,13 @@ export default function Home() {
 				minWidth: '100%',
 			}}
 		>
-			<StarsBackground />
-
 			<Banner />
 
 			<ProjectsGrid />
 
 			<Publications />
 
-			<Footer />
+			<StarsBackground />
 		</Box>
 	);
 }

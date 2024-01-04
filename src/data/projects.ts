@@ -7,6 +7,20 @@ const projects = [
 		'most-recent-title': 'Full Stack Developer',
 		type: 'Employment',
 		url: 'https://app.masterpiecex.com/',
+		urls: [
+			{
+				text: 'Web App',
+				tooltip: 'Visit the Masterpiece X web app',
+				icon: '/images/icons/mpx.svg',
+				url: 'https://app.masterpiecex.com/',
+			},
+			{
+				text: 'Meta Quest VR',
+				tooltip: 'Download the Meta Quest VR app for Masterpiece X',
+				icon: '/images/icons/meta.svg',
+				url: 'https://www.oculus.com/experiences/quest/5502306219889537',
+			},
+		],
 		color: '#18181C',
 		dates: {
 			startDate: '2021-12',
@@ -22,6 +36,14 @@ const projects = [
 		'most-recent-title': 'Creator',
 		type: 'Personal Project',
 		url: 'https://impactdepth.com/',
+		urls: [
+			{
+				text: 'Web App',
+				tooltip: 'Visit the Impact Depth web app',
+				icon: '/images/icons/impactdepth.svg',
+				url: 'https://impactdepth.com/',
+			},
+		],
 		color: '#0000e3',
 		dates: {
 			startDate: '2021-05',
@@ -38,6 +60,20 @@ const projects = [
 		publication: 'https://doi.org/10.1101/2021.04.28.441805',
 		type: 'Employment',
 		url: 'https://github.com/BioAnalyticResource/ePlant_Plant_eFP',
+		urls: [
+			{
+				text: 'GitHub',
+				tooltip: 'Visit the GitHub repository for the ePlant Plant eFP widget',
+				icon: '/images/icons/github.svg',
+				url: 'https://github.com/BioAnalyticResource/ePlant_Plant_eFP',
+			},
+			{
+				text: 'Publication',
+				tooltip: 'Read the publication for the ePlant Plant eFP widget',
+				icon: '/images/icons/publish.svg',
+				url: 'https://doi.org/10.1101/2021.04.28.441805',
+			},
+		],
 		color: '#cddaa7',
 		dates: {
 			startDate: '2019-04',
@@ -53,6 +89,14 @@ const projects = [
 		'most-recent-title': 'Project Lead',
 		type: 'School (MSc)',
 		url: 'https://bar.utoronto.ca/gaia/',
+		urls: [
+			{
+				text: 'Web App',
+				tooltip: 'Visit the GAIA web app',
+				icon: '/images/icons/bar.svg',
+				url: 'https://bar.utoronto.ca/gaia/',
+			},
+		],
 		color: '#cddaa7',
 		dates: {
 			startDate: '2019-04',
@@ -68,6 +112,20 @@ const projects = [
 		'most-recent-title': 'Full-Stack Developer',
 		type: 'School (Volunteer)',
 		url: 'https://scigrade.com/',
+		urls: [
+			{
+				text: 'Web App',
+				tooltip: 'Visit the SciGrade web app',
+				icon: '/images/icons/scigrade.svg',
+				url: 'https://scigrade.com/',
+			},
+			{
+				text: 'GitHub',
+				tooltip: 'Visit the GitHub repository for SciGrade',
+				icon: '/images/icons/github.svg',
+				url: 'https://github.com/AlexJSully/SciGrade',
+			},
+		],
 		color: '#ffffff',
 		dates: {
 			startDate: '2017-08',
@@ -84,6 +142,26 @@ const projects = [
 		publication: 'https://doi.org/10.1111/tpj.14468',
 		type: 'Employment',
 		url: 'https://bar.utoronto.ca/eFP-Seq_Browser/',
+		urls: [
+			{
+				text: 'Web App',
+				tooltip: 'Visit the eFP-Seq Browser web app',
+				icon: '/images/icons/bar.svg',
+				url: 'https://bar.utoronto.ca/eFP-Seq_Browser/',
+			},
+			{
+				text: 'GitHub',
+				tooltip: 'Visit the GitHub repository for eFP-Seq Browser',
+				icon: '/images/icons/github.svg',
+				url: 'https://github.com/BioAnalyticResource/eFP-Seq_Browser',
+			},
+			{
+				text: 'Publication',
+				tooltip: 'Read the publication for eFP-Seq Browser',
+				icon: '/images/icons/publish.svg',
+				url: 'https://doi.org/10.1111/tpj.14468',
+			},
+		],
 		color: '#cddaa7',
 		dates: {
 			startDate: '2016-09',
@@ -99,6 +177,14 @@ const projects = [
 		'most-recent-title': 'Laboratory Research Lead',
 		type: 'School (Club)',
 		url: 'http://2016.igem.org/Team:Toronto',
+		urls: [
+			{
+				text: 'Website',
+				tooltip: 'View the iGEM Toronto 2016 gold biosensing website for lab results and more',
+				icon: '/images/icons/uoft.svg',
+				url: 'http://2016.igem.org/Team:Toronto',
+			},
+		],
 		color: '#002554',
 		dates: {
 			startDate: '2015-10',
@@ -114,6 +200,14 @@ const projects = [
 		'most-recent-title': 'Co-creator & Journalist',
 		type: 'Personal Project',
 		url: 'https://smalldevtalk.net/',
+		urls: [
+			{
+				text: 'Web app',
+				tooltip: 'Visit the Small Dev Talk web app',
+				icon: '/images/icons/smalldevtalk.svg',
+				url: 'https://smalldevtalk.net/',
+			},
+		],
 		thumbnailFileType: 'svg',
 		color: '#ffffff',
 		dates: {
