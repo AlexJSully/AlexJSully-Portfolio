@@ -1,0 +1,24 @@
+<svg width="1140" height="1197" xmlns="http://www.w3.org/2000/svg" overflow="hidden">
+  <defs>
+    <clipPath id="clip0">
+      <path d="M1264 364h1140v1197H1264z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip0)" transform="translate(-1264 -364)" stroke-miterlimit="8">
+    <path d="m1873 1044 263.91 431.02" stroke="#0D0D0D" stroke-width="27.5" fill="none"/>
+    <path d="m1802.92 997-204.924 431.024" stroke="#000" stroke-width="27.5" fill="none"/>
+    <path d="m1928 602 242.17 262.956" stroke="#0D0D0D" stroke-width="27.5" fill="none"/>
+    <path d="M1833 642v182.263M1738.17 602 1496 868.083" stroke="#000" stroke-width="27.5" fill="none"/>
+    <path d="M1833.5 642.5v182.263" stroke="#85B44D" stroke-width="20.625" fill="none"/>
+    <path d="M1738.67 602.5 1496.5 868.583" stroke="#938EE0" stroke-width="20.625" fill="none"/>
+    <path d="m1928.5 602.5 242.17 262.956" stroke="#00BD7E" stroke-width="20.625" fill="none"/>
+    <path d="m1839.5 989.5 263.91 431.02" stroke="#4AC4E2" stroke-width="20.625" fill="none"/>
+    <path d="m1808.42 989.5-204.924 431.024" stroke="#E54400" stroke-width="20.625" fill="none"/>
+    <path d="M1698.5 504.5c0-76.215 60.44-138 135-138s135 61.785 135 138-60.44 138-135 138-135-61.785-135-138Z" stroke="#0D0D0D" stroke-width="4.583" fill="#FFCF0A" fill-rule="evenodd"/>
+    <path d="M1266.5 965.5c0-76.215 60.22-138 134.5-138s134.5 61.785 134.5 138c0 76.22-60.22 138-134.5 138s-134.5-61.78-134.5-138Z" stroke="#0D0D0D" stroke-width="4.583" fill="#938EE0" fill-rule="evenodd"/>
+    <path d="M1698.5 962.5c0-76.215 60.44-138 135-138s135 61.785 135 138c0 76.22-60.44 138-135 138s-135-61.78-135-138Z" stroke="#0D0D0D" stroke-width="4.583" fill="#85B44D" fill-rule="evenodd"/>
+    <path d="M2131.5 962.5c0-76.215 60.44-138 135-138s135 61.785 135 138c0 76.22-60.44 138-135 138s-135-61.78-135-138Z" stroke="#0D0D0D" stroke-width="4.583" fill="#00BD7E" fill-rule="evenodd"/>
+    <path d="M1429.5 1420.5c0-76.22 60.22-138 134.5-138s134.5 61.78 134.5 138-60.22 138-134.5 138-134.5-61.78-134.5-138Z" stroke="#0D0D0D" stroke-width="4.583" fill="#E54400" fill-rule="evenodd"/>
+    <path d="M1969.5 1420.5c0-76.22 60.22-138 134.5-138s134.5 61.78 134.5 138-60.22 138-134.5 138-134.5-61.78-134.5-138Z" stroke="#0D0D0D" stroke-width="4.583" fill="#4AC4E2" fill-rule="evenodd"/>
+  </g>
+</svg>

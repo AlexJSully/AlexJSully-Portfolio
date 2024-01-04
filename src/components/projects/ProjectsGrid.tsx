@@ -2,6 +2,7 @@
 
 import projects from '@data/projects';
 import { Button, Card, CardMedia, Grid, Stack, Typography } from '@mui/material';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ReactElement, useState } from 'react';
 
@@ -21,6 +22,7 @@ export default function ProjectsGrid(): ReactElement {
 				spacing={2}
 				sx={{
 					margin: 'auto',
+					zIndex: 1,
 				}}
 			>
 				<Typography
@@ -33,13 +35,14 @@ export default function ProjectsGrid(): ReactElement {
 				</Typography>
 
 				<Grid
-					alignItems='center'
+					alignItems='flex-start'
 					container
 					direction='row'
 					justifyContent='center'
 					spacing={2}
 					sx={{
 						margin: 'auto',
+						marginBottom: '2rem',
 						maxWidth: {
 							sm: '75%',
 							xs: '90%',
@@ -57,8 +60,9 @@ export default function ProjectsGrid(): ReactElement {
 								alignItems: 'center',
 								display: viewMore || project.showcase ? 'flex' : 'none',
 								flexDirection: 'column',
-								justifyContent: 'center',
-								margin: 'auto',
+								height: '100%',
+								justifyContent: 'flex-start',
+								margin: '1rem auto auto',
 								transition: 'all 1s ease-in-out',
 							}}
 							xl={3}
@@ -117,6 +121,56 @@ export default function ProjectsGrid(): ReactElement {
 									{project.name}
 								</Typography>
 							</Link>
+
+							{project.urls && (
+								<Grid alignItems='center' container direction='row' justifyContent='center' spacing={2}>
+									{project.urls.map((url) => (
+										<Grid key={`${url.text}-grid-item`} item>
+											<Link
+												href={url.url}
+												rel='noopener noreferrer'
+												style={{
+													color: 'inherit',
+													textDecoration: 'none',
+												}}
+												target='_blank'
+											>
+												<Button
+													sx={{
+														alignItems: 'center',
+														backgroundColor: '#24272d',
+														color: '#fff',
+														display: 'flex',
+														fontWeight: 600,
+														transition: 'all .2s ease-in-out',
+														'&:hover': {
+															backgroundColor: '#2c3443',
+															img: {
+																transition: 'all .2s ease-in-out',
+																transform: 'scale(1.1)',
+															},
+														},
+													}}
+													variant='contained'
+												>
+													<Image
+														alt='Logo'
+														height={24}
+														src={url.icon}
+														style={{
+															transition: 'all .2s ease-in-out',
+															filter: 'drop-shadow(0px 4px 4px rgba(250, 250, 250, 0.2))',
+															marginRight: '0.5rem',
+														}}
+														width={24}
+													/>{' '}
+													{url.text}
+												</Button>
+											</Link>
+										</Grid>
+									))}
+								</Grid>
+							)}
 						</Grid>
 					))}
 				</Grid>

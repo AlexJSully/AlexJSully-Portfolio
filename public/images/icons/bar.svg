@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="BARLogoSVG" width="44" height="44" version="1.1">
+  <g id="barLogo">
+    <path id="barCircle" fill="#9c0" fill-rule="evenodd" stroke="#969696" stroke-linejoin="round" stroke-miterlimit="10" stroke-width=".7" d="M1 22a21 21 0 1 1 42 0 21 21 0 0 1-42 0z"/>
+    <text id="barText" x="4.8" y="27.7" fill="#fff" stroke-width=".3" font-family="Arial, Arial_MSFontService, sans-serif" font-size="15.9" font-weight="700">
+      BAR
+    </text>
+  </g>
+</svg>
