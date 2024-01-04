@@ -82,7 +82,9 @@ export default function Navbar() {
 						textDecoration: 'none',
 					}}
 				>
-					<Typography>Projects</Typography>
+					<Tooltip arrow describeChild title='View projects'>
+						<Typography>Projects</Typography>
+					</Tooltip>
 				</Link>
 
 				{/* Publications */}
@@ -100,7 +102,9 @@ export default function Navbar() {
 							textDecoration: 'none',
 						}}
 					>
-						<Typography>Publications</Typography>
+						<Tooltip arrow describeChild title='View publications'>
+							<Typography>Publications</Typography>
+						</Tooltip>
 					</Link>
 				)}
 
