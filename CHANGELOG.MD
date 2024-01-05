@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 To see tags and releases, please go to [Tags](https://github.com/AlexJSully/AlexJSully-Portfolio/tags) on [GitHub](https://github.com/AlexJSully/AlexJSully-Portfolio).
 
-## [2.0.0] - 2024-01-01
+## [2.0.0] - 2024-01-04
 
 Updated to version 2.0.0! This is a major update that includes a complete redesign of the website.
 
