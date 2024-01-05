@@ -1,5 +1,6 @@
 'use client';
 
+import { logAnalyticsEvent } from '@configs/firebase';
 import publications from '@data/publications';
 import { Stack, Typography } from '@mui/material';
 import Link from 'next/link';
@@ -44,6 +45,9 @@ export default function Publications() {
 					<Link
 						key={`${publication.doi}-link`}
 						href={`https://doi.org/${publication.doi}`}
+						onClick={() => {
+							logAnalyticsEvent(`publication-${publication.doi}`);
+						}}
 						style={{
 							textDecoration: 'none',
 							color: 'inherit',

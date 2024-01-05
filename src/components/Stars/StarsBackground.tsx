@@ -1,5 +1,6 @@
 'use client';
 
+import { logAnalyticsEvent } from '@configs/firebase';
 import { Box, Fade } from '@mui/material';
 import { isEmpty } from 'lodash';
 import { ReactElement, useEffect, useState } from 'react';
@@ -12,6 +13,9 @@ export default function StarsBackground(): ReactElement {
 	/** The stars to be rendered */
 	const [stars, setStars] = useState<any>(null);
 	const [fade, setFade] = useState(false);
+
+	/** Whether or not the stars have been triggered [true] or not [false] */
+	const [starsTriggered, setStarsTriggered] = useState(false);
 
 	/** The styles for the stars */
 	const starStyles = {
@@ -109,7 +113,14 @@ export default function StarsBackground(): ReactElement {
 					key={i}
 					component='div'
 					data-testid='star'
-					onMouseEnter={(e) => handleStarAnimation(e)}
+					onMouseEnter={(e) => {
+						if (!starsTriggered) {
+							setStarsTriggered(true);
+							logAnalyticsEvent('stars-triggered');
+						}
+
+						handleStarAnimation(e);
+					}}
 					sx={style}
 				/>,
 			);

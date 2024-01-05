@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
 // Import the functions you need from the SDKs you need
-import { getAnalytics, logEvent } from 'firebase/analytics';
+import { Analytics, getAnalytics, logEvent } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import { getPerformance } from 'firebase/performance';
 
@@ -18,9 +18,9 @@ const firebaseConfig = {
 	measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-let analytics = null;
+let analytics: Analytics | null = null;
 
-export function logAnalyticsEvent(eventName, eventParams) {
+export function logAnalyticsEvent(eventName: any, eventParams?: object) {
 	if (analytics && eventName) {
 		logEvent(analytics, eventName, eventParams);
 	}

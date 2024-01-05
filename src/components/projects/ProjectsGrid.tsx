@@ -1,5 +1,6 @@
 'use client';
 
+import { logAnalyticsEvent } from '@configs/firebase';
 import projects from '@data/projects';
 import { Button, Card, CardMedia, Grid, Stack, Tooltip, Typography } from '@mui/material';
 import Image from 'next/image';
@@ -22,6 +23,7 @@ export default function ProjectsGrid(): ReactElement {
 				spacing={2}
 				sx={{
 					margin: 'auto',
+					maxWidth: '1920px',
 					zIndex: 1,
 				}}
 			>
@@ -70,10 +72,15 @@ export default function ProjectsGrid(): ReactElement {
 						>
 							<Link
 								href={project.url}
+								onClick={() => {
+									logAnalyticsEvent(`project-${project.id}`);
+								}}
+								rel='noopener noreferrer'
 								style={{
 									display: 'flex',
 									height: '100%',
 								}}
+								target='_blank'
 							>
 								<Card
 									sx={{
@@ -127,6 +134,9 @@ export default function ProjectsGrid(): ReactElement {
 										<Grid key={`${url.text}-grid-item`} item>
 											<Link
 												href={url.url}
+												onClick={() => {
+													logAnalyticsEvent(`project-${project.id}-${url.text}`);
+												}}
 												rel='noopener noreferrer'
 												style={{
 													color: 'inherit',
@@ -178,7 +188,13 @@ export default function ProjectsGrid(): ReactElement {
 					))}
 				</Grid>
 
-				<Button onClick={() => setViewMore(!viewMore)} variant='contained'>
+				<Button
+					onClick={() => {
+						logAnalyticsEvent(`projects-view-more-${viewMore ? 'less' : 'more'}`);
+						setViewMore(!viewMore);
+					}}
+					variant='contained'
+				>
 					{viewMore ? 'Show Less Projects' : 'View More Projects'}
 				</Button>
 			</Stack>

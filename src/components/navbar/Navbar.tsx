@@ -1,5 +1,6 @@
 'use client';
 
+import { logAnalyticsEvent } from '@configs/firebase';
 import { HomeRounded as HomeRoundedIcon } from '@mui/icons-material';
 import { AppBar, Fade, IconButton, Toolbar, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
 import Image from 'next/image';
@@ -54,6 +55,8 @@ export default function Navbar() {
 					<Link
 						href='/'
 						onClick={(e) => {
+							logAnalyticsEvent('navbar_home');
+
 							if (pathname === '/') {
 								e.preventDefault();
 								document.getElementById('content')?.scrollIntoView({ behavior: 'smooth' });
@@ -75,6 +78,8 @@ export default function Navbar() {
 					<Link
 						href='/#projects-grid'
 						onClick={(e) => {
+							logAnalyticsEvent('navbar_projects');
+
 							if (pathname === '/') {
 								e.preventDefault();
 								document.getElementById('projects-grid')?.scrollIntoView({ behavior: 'smooth' });
@@ -95,6 +100,8 @@ export default function Navbar() {
 						<Link
 							href='/#publications'
 							onClick={(e) => {
+								logAnalyticsEvent('navbar_publications');
+
 								if (pathname === '/') {
 									e.preventDefault();
 									document.getElementById('publications')?.scrollIntoView({ behavior: 'smooth' });
