@@ -8,6 +8,7 @@ import {
 	Twitter as TwitterIcon,
 } from '@mui/icons-material';
 import { Button, IconButton, Stack, Typography } from '@mui/material';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo } from 'react';
 
@@ -52,6 +53,7 @@ export default function Footer() {
 			spacing={2}
 			sx={{
 				margin: '1rem auto',
+				maxWidth: '90vw',
 			}}
 		>
 			<Typography
@@ -184,6 +186,61 @@ export default function Footer() {
 				}}
 			>
 				Handcrafted by <br /> Alexander Joo-Hyun Sullivan
+			</Typography>
+
+			<Typography
+				sx={{
+					textAlign: 'center',
+					display: 'flex',
+					// Align center
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}
+			>
+				Open-source on{' '}
+				<Link
+					href='https://github.com/AlexJSully/AlexJSully-Portfolio'
+					onClick={() => {
+						logAnalyticsEvent(`footer-open-source`);
+					}}
+					rel='noopener noreferrer'
+					style={{
+						color: 'inherit',
+						textDecoration: 'none',
+						marginLeft: '0.25rem',
+					}}
+					target='_blank'
+				>
+					<Button
+						sx={{
+							alignItems: 'center',
+							color: '#fff',
+							display: 'inline-flex',
+							fontWeight: 600,
+							transition: 'all .2s ease-in-out',
+							'&:hover': {
+								backgroundColor: '#2c3443',
+								img: {
+									transform: 'scale(1.1)',
+									transition: 'all .2s ease-in-out',
+								},
+							},
+						}}
+					>
+						<Image
+							alt='Logo'
+							height={24}
+							src='/images/icons/github.svg'
+							style={{
+								filter: 'drop-shadow(0px 4px 4px rgba(250, 250, 250, 0.2))',
+								marginRight: '0.5rem',
+								transition: 'all .2s ease-in-out',
+							}}
+							width={24}
+						/>{' '}
+						GitHub
+					</Button>
+				</Link>
 			</Typography>
 		</Stack>
 	);
