@@ -1,5 +1,6 @@
 'use client';
 
+import { logAnalyticsEvent } from '@configs/firebase';
 import {
 	GitHub as GitHubIcon,
 	Instagram as InstagramIcon,
@@ -7,6 +8,7 @@ import {
 	Twitter as TwitterIcon,
 } from '@mui/icons-material';
 import { Button, IconButton, Stack, Typography } from '@mui/material';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo } from 'react';
 
@@ -51,6 +53,7 @@ export default function Footer() {
 			spacing={2}
 			sx={{
 				margin: '1rem auto',
+				maxWidth: '90vw',
 			}}
 		>
 			<Typography
@@ -63,40 +66,88 @@ export default function Footer() {
 				Interested in working together?
 			</Typography>
 
-			<Button
-				sx={{
-					backgroundColor: '#001ca8',
-					borderRadius: '15%',
-					border: '3px solid #001ca8',
-					fontSize: '0.5rem',
-					lineHeight: '2rem',
-					transition: 'all 1s ease',
-					'&:hover': {
-						backgroundColor: '#0041b9',
-						borderRadius: '5%',
-						border: '3px solid #0041b9',
-						transition: 'all 0.25s ease',
-					},
+			<Stack
+				direction={{
+					sm: 'row',
+					xs: 'column',
 				}}
-				variant='contained'
+				spacing={2}
 			>
-				<Link
-					href='mailto:alexjsully.connect@outlook.com'
-					style={{
-						textDecoration: 'none',
-						color: 'inherit',
+				<Button
+					onClick={() => {
+						logAnalyticsEvent(`footer-email`);
 					}}
+					sx={{
+						backgroundColor: '#001ca8',
+						borderRadius: '32px',
+						border: '3px solid #001ca8',
+						fontSize: '0.5rem',
+						lineHeight: '2rem',
+						transition: 'all 1s ease',
+						'&:hover': {
+							backgroundColor: '#0041b9',
+							borderRadius: '5%',
+							border: '3px solid #0041b9',
+							transition: 'all 0.25s ease',
+						},
+					}}
+					variant='contained'
 				>
-					<Typography
-						sx={{
-							color: 'inherit',
+					<Link
+						href='mailto:alexjsully.connect@outlook.com'
+						style={{
 							textDecoration: 'none',
+							color: 'inherit',
 						}}
 					>
-						Email me
-					</Typography>
-				</Link>
-			</Button>
+						<Typography
+							sx={{
+								color: 'inherit',
+								textDecoration: 'none',
+							}}
+						>
+							Email me
+						</Typography>
+					</Link>
+				</Button>
+
+				<Button
+					color='secondary'
+					onClick={() => {
+						logAnalyticsEvent(`footer-resume`);
+					}}
+					sx={{
+						borderRadius: '32px',
+						fontSize: '0.5rem',
+						lineHeight: '2rem',
+						transition: 'all 1s ease',
+						'&:hover': {
+							borderRadius: '5%',
+							transition: 'all 0.25s ease',
+						},
+					}}
+					variant='contained'
+				>
+					<Link
+						href='/resume/Resume.pdf'
+						style={{
+							textDecoration: 'none',
+							color: 'inherit',
+						}}
+						rel='noopener noreferrer'
+						target='_blank'
+					>
+						<Typography
+							sx={{
+								color: 'inherit',
+								textDecoration: 'none',
+							}}
+						>
+							Resume
+						</Typography>
+					</Link>
+				</Button>
+			</Stack>
 
 			<Stack direction='row'>
 				{socials.map((social) => (
@@ -113,6 +164,9 @@ export default function Footer() {
 						<IconButton
 							aria-label={social.name}
 							color='inherit'
+							onClick={() => {
+								logAnalyticsEvent(`footer-${social.name.toLowerCase()}`);
+							}}
 							size='large'
 							sx={{
 								'&:hover': {
@@ -132,6 +186,61 @@ export default function Footer() {
 				}}
 			>
 				Handcrafted by <br /> Alexander Joo-Hyun Sullivan
+			</Typography>
+
+			<Typography
+				sx={{
+					textAlign: 'center',
+					display: 'flex',
+					// Align center
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}
+			>
+				Open-source on{' '}
+				<Link
+					href='https://github.com/AlexJSully/AlexJSully-Portfolio'
+					onClick={() => {
+						logAnalyticsEvent(`footer-open-source`);
+					}}
+					rel='noopener noreferrer'
+					style={{
+						color: 'inherit',
+						textDecoration: 'none',
+						marginLeft: '0.25rem',
+					}}
+					target='_blank'
+				>
+					<Button
+						sx={{
+							alignItems: 'center',
+							color: '#fff',
+							display: 'inline-flex',
+							fontWeight: 600,
+							transition: 'all .2s ease-in-out',
+							'&:hover': {
+								backgroundColor: '#2c3443',
+								img: {
+									transform: 'scale(1.1)',
+									transition: 'all .2s ease-in-out',
+								},
+							},
+						}}
+					>
+						<Image
+							alt='Logo'
+							height={24}
+							src='/images/icons/github.svg'
+							style={{
+								filter: 'drop-shadow(0px 4px 4px rgba(250, 250, 250, 0.2))',
+								marginRight: '0.5rem',
+								transition: 'all .2s ease-in-out',
+							}}
+							width={24}
+						/>{' '}
+						GitHub
+					</Button>
+				</Link>
 			</Typography>
 		</Stack>
 	);

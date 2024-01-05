@@ -1,5 +1,6 @@
 'use client';
 
+import { logAnalyticsEvent } from '@configs/firebase';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { debounce } from 'lodash';
 import Image from 'next/image';
@@ -50,6 +51,8 @@ export default function Banner() {
 					}, 1000);
 				}, 300);
 			}, 500);
+
+			logAnalyticsEvent('trigger_sneeze');
 		}
 	};
 
