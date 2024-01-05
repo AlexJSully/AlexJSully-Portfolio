@@ -52,7 +52,10 @@ export default function Banner() {
 				}, 300);
 			}, 500);
 
-			logAnalyticsEvent('trigger_sneeze');
+			logAnalyticsEvent('trigger_sneeze', {
+				name: 'trigger_sneeze',
+				type: 'hover',
+			});
 		}
 	};
 

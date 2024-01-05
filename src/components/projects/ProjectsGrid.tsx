@@ -73,7 +73,10 @@ export default function ProjectsGrid(): ReactElement {
 							<Link
 								href={project.url}
 								onClick={() => {
-									logAnalyticsEvent(`project-${project.id}`);
+									logAnalyticsEvent(`project-${project.id}`, {
+										name: `project-${project.id}`,
+										type: 'click',
+									});
 								}}
 								rel='noopener noreferrer'
 								style={{
@@ -135,7 +138,10 @@ export default function ProjectsGrid(): ReactElement {
 											<Link
 												href={url.url}
 												onClick={() => {
-													logAnalyticsEvent(`project-${project.id}-${url.text}`);
+													logAnalyticsEvent(`project-${project.id}-${url.text}`, {
+														name: `project-${project.id}-${url.text}`,
+														type: 'click',
+													});
 												}}
 												rel='noopener noreferrer'
 												style={{
@@ -190,7 +196,10 @@ export default function ProjectsGrid(): ReactElement {
 
 				<Button
 					onClick={() => {
-						logAnalyticsEvent(`projects-view-more-${viewMore ? 'less' : 'more'}`);
+						logAnalyticsEvent(`projects-view-more-${viewMore ? 'less' : 'more'}`, {
+							name: `projects-view-more-${viewMore ? 'less' : 'more'}`,
+							type: 'click',
+						});
 						setViewMore(!viewMore);
 					}}
 					variant='contained'

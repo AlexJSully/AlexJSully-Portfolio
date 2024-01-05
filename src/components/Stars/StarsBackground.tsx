@@ -116,7 +116,10 @@ export default function StarsBackground(): ReactElement {
 					onMouseEnter={(e) => {
 						if (!starsTriggered) {
 							setStarsTriggered(true);
-							logAnalyticsEvent('stars-triggered');
+							logAnalyticsEvent('stars-triggered', {
+								name: 'stars-triggered',
+								type: 'hover',
+							});
 						}
 
 						handleStarAnimation(e);
