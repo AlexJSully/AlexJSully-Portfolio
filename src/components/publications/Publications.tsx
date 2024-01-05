@@ -46,7 +46,10 @@ export default function Publications() {
 						key={`${publication.doi}-link`}
 						href={`https://doi.org/${publication.doi}`}
 						onClick={() => {
-							logAnalyticsEvent(`publication-${publication.doi}`);
+							logAnalyticsEvent(`publication-${publication.doi}`, {
+								name: `publication-${publication.doi}`,
+								type: 'click',
+							});
 						}}
 						style={{
 							textDecoration: 'none',

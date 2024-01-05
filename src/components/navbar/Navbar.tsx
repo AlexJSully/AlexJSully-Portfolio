@@ -55,7 +55,10 @@ export default function Navbar() {
 					<Link
 						href='/'
 						onClick={(e) => {
-							logAnalyticsEvent('navbar_home');
+							logAnalyticsEvent('navbar_home', {
+								name: 'navbar_home',
+								type: 'click',
+							});
 
 							if (pathname === '/') {
 								e.preventDefault();
@@ -78,7 +81,10 @@ export default function Navbar() {
 					<Link
 						href='/#projects-grid'
 						onClick={(e) => {
-							logAnalyticsEvent('navbar_projects');
+							logAnalyticsEvent('navbar_projects', {
+								name: 'navbar_projects',
+								type: 'click',
+							});
 
 							if (pathname === '/') {
 								e.preventDefault();
@@ -100,7 +106,10 @@ export default function Navbar() {
 						<Link
 							href='/#publications'
 							onClick={(e) => {
-								logAnalyticsEvent('navbar_publications');
+								logAnalyticsEvent('navbar_publications', {
+									name: 'navbar_publications',
+									type: 'click',
+								});
 
 								if (pathname === '/') {
 									e.preventDefault();

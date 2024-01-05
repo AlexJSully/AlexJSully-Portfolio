@@ -75,7 +75,10 @@ export default function Footer() {
 			>
 				<Button
 					onClick={() => {
-						logAnalyticsEvent(`footer-email`);
+						logAnalyticsEvent(`footer-email`, {
+							name: 'footer-email',
+							type: 'click',
+						});
 					}}
 					sx={{
 						backgroundColor: '#001ca8',
@@ -114,7 +117,10 @@ export default function Footer() {
 				<Button
 					color='secondary'
 					onClick={() => {
-						logAnalyticsEvent(`footer-resume`);
+						logAnalyticsEvent(`footer-resume`, {
+							name: 'footer-resume',
+							type: 'click',
+						});
 					}}
 					sx={{
 						borderRadius: '32px',
@@ -165,7 +171,10 @@ export default function Footer() {
 							aria-label={social.name}
 							color='inherit'
 							onClick={() => {
-								logAnalyticsEvent(`footer-${social.name.toLowerCase()}`);
+								logAnalyticsEvent(`footer-${social.name.toLowerCase()}`, {
+									name: `footer-${social.name.toLowerCase()}`,
+									type: 'click',
+								});
 							}}
 							size='large'
 							sx={{
@@ -201,7 +210,10 @@ export default function Footer() {
 				<Link
 					href='https://github.com/AlexJSully/AlexJSully-Portfolio'
 					onClick={() => {
-						logAnalyticsEvent(`footer-open-source`);
+						logAnalyticsEvent(`footer-open-source`, {
+							name: 'footer-open-source',
+							type: 'click',
+						});
 					}}
 					rel='noopener noreferrer'
 					style={{
