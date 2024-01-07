@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 To see tags and releases, please go to [Tags](https://github.com/AlexJSully/AlexJSully-Portfolio/tags) on [GitHub](https://github.com/AlexJSully/AlexJSully-Portfolio).
 
+## [2.0.2] - 2024-01-07
+
+UI/UX:
+
+-   Updated styling of socials icons and added more socials
+
+Easter egg:
+
+-   Added another easter egg (hint: check the web developer console log)
+
+Bug fix:
+
+-   Fixed analytics events not tracking correctly
+-   Fixed email and resume appearing as a column when there was sufficient spacing to be in a row
+-   Fixed spacing issue where profile picture was touching navbar
+
 ## [2.0.1] - 2024-01-05
 
 UI/UX:
