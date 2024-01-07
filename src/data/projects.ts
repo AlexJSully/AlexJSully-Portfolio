@@ -1,3 +1,15 @@
+import {
+	BarIcon,
+	GitHubIcon,
+	ImpactDepthIcon,
+	MPXIcon,
+	MetaIcon,
+	PublishIcon,
+	SciGradeIcon,
+	SmallDevTalkIcon,
+	UofTIcon,
+} from '@images/icons';
+
 const projects = [
 	{
 		name: 'Masterpiece X',
@@ -11,13 +23,13 @@ const projects = [
 			{
 				text: 'Web App',
 				tooltip: 'Visit the Masterpiece X web app',
-				icon: '/images/icons/mpx.svg',
+				icon: MPXIcon,
 				url: 'https://app.masterpiecex.com/',
 			},
 			{
 				text: 'Meta Quest VR',
 				tooltip: 'Download the Meta Quest VR app for Masterpiece X',
-				icon: '/images/icons/meta.svg',
+				icon: MetaIcon,
 				url: 'https://www.oculus.com/experiences/quest/5502306219889537',
 			},
 		],
@@ -40,7 +52,7 @@ const projects = [
 			{
 				text: 'Web App',
 				tooltip: 'Visit the Impact Depth web app',
-				icon: '/images/icons/impactdepth.svg',
+				icon: ImpactDepthIcon,
 				url: 'https://impactdepth.com/',
 			},
 		],
@@ -64,13 +76,13 @@ const projects = [
 			{
 				text: 'GitHub',
 				tooltip: 'Visit the GitHub repository for the ePlant Plant eFP widget',
-				icon: '/images/icons/github.svg',
+				icon: GitHubIcon,
 				url: 'https://github.com/BioAnalyticResource/ePlant_Plant_eFP',
 			},
 			{
 				text: 'Publication',
 				tooltip: 'Read the publication for the ePlant Plant eFP widget',
-				icon: '/images/icons/publish.svg',
+				icon: PublishIcon,
 				url: 'https://doi.org/10.1101/2021.04.28.441805',
 			},
 		],
@@ -93,7 +105,7 @@ const projects = [
 			{
 				text: 'Web App',
 				tooltip: 'Visit the GAIA web app',
-				icon: '/images/icons/bar.svg',
+				icon: BarIcon,
 				url: 'https://bar.utoronto.ca/gaia/',
 			},
 		],
@@ -116,13 +128,13 @@ const projects = [
 			{
 				text: 'Web App',
 				tooltip: 'Visit the SciGrade web app',
-				icon: '/images/icons/scigrade.svg',
+				icon: SciGradeIcon,
 				url: 'https://scigrade.com/',
 			},
 			{
 				text: 'GitHub',
 				tooltip: 'Visit the GitHub repository for SciGrade',
-				icon: '/images/icons/github.svg',
+				icon: GitHubIcon,
 				url: 'https://github.com/AlexJSully/SciGrade',
 			},
 		],
@@ -146,19 +158,19 @@ const projects = [
 			{
 				text: 'Web App',
 				tooltip: 'Visit the eFP-Seq Browser web app',
-				icon: '/images/icons/bar.svg',
+				icon: BarIcon,
 				url: 'https://bar.utoronto.ca/eFP-Seq_Browser/',
 			},
 			{
 				text: 'GitHub',
 				tooltip: 'Visit the GitHub repository for eFP-Seq Browser',
-				icon: '/images/icons/github.svg',
+				icon: GitHubIcon,
 				url: 'https://github.com/BioAnalyticResource/eFP-Seq_Browser',
 			},
 			{
 				text: 'Publication',
 				tooltip: 'Read the publication for eFP-Seq Browser',
-				icon: '/images/icons/publish.svg',
+				icon: PublishIcon,
 				url: 'https://doi.org/10.1111/tpj.14468',
 			},
 		],
@@ -181,7 +193,7 @@ const projects = [
 			{
 				text: 'Website',
 				tooltip: 'View the iGEM Toronto 2016 gold biosensing website for lab results and more',
-				icon: '/images/icons/uoft.svg',
+				icon: UofTIcon,
 				url: 'http://2016.igem.org/Team:Toronto',
 			},
 		],
@@ -204,13 +216,13 @@ const projects = [
 			{
 				text: 'Web app',
 				tooltip: 'Visit the Small Dev Talk web app',
-				icon: '/images/icons/smalldevtalk.svg',
+				icon: SmallDevTalkIcon,
 				url: 'https://smalldevtalk.net/',
 			},
 			{
 				text: 'GitHub',
 				tooltip: 'Visit the GitHub repository for Small Dev Talk',
-				icon: '/images/icons/github.svg',
+				icon: GitHubIcon,
 				url: 'https://github.com/AlexJSully/Small-Dev-Talk',
 			},
 		],

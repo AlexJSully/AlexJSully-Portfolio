@@ -5,6 +5,7 @@ import Banner from '@components/banner/Banner';
 import ProjectsGrid from '@components/projects/ProjectsGrid';
 import Publications from '@components/publications/Publications';
 import { init } from '@configs/firebase';
+import { debounceConsoleLogLogo } from '@helper/ascii';
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
 
@@ -12,6 +13,8 @@ import { useEffect } from 'react';
 export default function Home() {
 	useEffect(() => {
 		init();
+
+		debounceConsoleLogLogo();
 	}, []);
 
 	return (

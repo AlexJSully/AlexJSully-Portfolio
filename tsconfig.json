@@ -24,6 +24,8 @@
 			"@components/*": ["./src/components/*"],
 			"@configs/*": ["./src/configs/*"],
 			"@data/*": ["./src/data/*"],
+			"@helpers/*": ["./src/helpers/*"],
+			"@images/*": ["./src/images/*"],
 			"@layouts/*": ["./src/layouts/*"],
 			"@styles/*": ["./src/styles/*"]
 		}
@@ -35,7 +37,8 @@
 		"**/*.tsx",
 		".next/types/**/*.ts",
 		"build/types/**/*.ts",
-		"next-env.d.ts"
+		"next-env.d.ts",
+		"types/**/*.d.ts"
 	],
 	"exclude": [".next", "coverage", "dist", "next.config.js", "node_modules", "out", "postcss.config.js", "tmp"]
 }
