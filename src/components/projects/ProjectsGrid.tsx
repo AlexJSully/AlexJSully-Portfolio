@@ -3,7 +3,6 @@
 import { logAnalyticsEvent } from '@configs/firebase';
 import projects from '@data/projects';
 import { Button, Card, CardMedia, Grid, Stack, Tooltip, Typography } from '@mui/material';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ReactElement, useState } from 'react';
 
@@ -160,10 +159,13 @@ export default function ProjectsGrid(): ReactElement {
 															display: 'flex',
 															fontWeight: 600,
 															transition: 'all .2s ease-in-out',
+															svg: {
+																marginRight: '0.5rem',
+															},
 															'&:hover': {
 																backgroundColor: '#2c3443',
 																border: `1px solid ${project.color || '#000'}`,
-																img: {
+																svg: {
 																	transform: 'scale(1.1)',
 																	transition: 'all .2s ease-in-out',
 																},
@@ -171,18 +173,7 @@ export default function ProjectsGrid(): ReactElement {
 														}}
 														variant='contained'
 													>
-														<Image
-															alt='Logo'
-															height={24}
-															src={url.icon}
-															style={{
-																filter: 'drop-shadow(0px 4px 4px rgba(250, 250, 250, 0.2))',
-																marginRight: '0.5rem',
-																transition: 'all .2s ease-in-out',
-															}}
-															width={24}
-														/>{' '}
-														{url.text}
+														{url.icon({})} {url.text}
 													</Button>
 												</Tooltip>
 											</Link>

@@ -1,50 +1,13 @@
 'use client';
 
 import { logAnalyticsEvent } from '@configs/firebase';
-import {
-	GitHub as GitHubIcon,
-	Instagram as InstagramIcon,
-	LinkedIn as LinkedInIcon,
-	Twitter as TwitterIcon,
-} from '@mui/icons-material';
-import { Button, IconButton, Stack, Typography } from '@mui/material';
-import Image from 'next/image';
+import socials from '@data/socials';
+import { GitHubIcon } from '@images/icons';
+import { Button, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import Link from 'next/link';
-import { useMemo } from 'react';
 
 /** Renders the footer. */
 export default function Footer() {
-	/** Social media links. */
-	const socials = useMemo(
-		() => [
-			{
-				name: 'Twitter',
-				icon: <TwitterIcon />,
-				url: 'https://twitter.com/AlexJSully',
-				newTab: true,
-			},
-			{
-				name: 'Instagram',
-				icon: <InstagramIcon />,
-				url: 'https://www.instagram.com/alex.j.sullly/',
-				newTab: true,
-			},
-			{
-				name: 'GitHub',
-				icon: <GitHubIcon />,
-				url: 'https://github.com/AlexJSully',
-				newTab: true,
-			},
-			{
-				name: 'LinkedIn',
-				icon: <LinkedInIcon />,
-				url: 'https://www.linkedin.com/in/alexanderjsullivan/',
-				newTab: true,
-			},
-		],
-		[],
-	);
-
 	return (
 		<Stack
 			alignItems='center'
@@ -149,39 +112,70 @@ export default function Footer() {
 				</Button>
 			</Stack>
 
-			<Stack direction='row'>
+			<Grid
+				alignItems='center'
+				container
+				direction='row'
+				justifyContent='center'
+				spacing={1}
+				sx={{
+					maxWidth: 'min(480px, 90vw)',
+					margin: 'auto',
+				}}
+			>
 				{socials.map((social) => (
-					<Link
-						key={`${social.name}-link`}
-						href={social.url}
-						rel='noopener noreferrer'
-						style={{
-							textDecoration: 'none',
-							color: 'inherit',
+					<Grid
+						key={`${social.name}-grid-item`}
+						item
+						lg={2}
+						md={3}
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
 						}}
-						target={social.newTab ? '_blank' : '_self'}
+						xs={4}
 					>
-						<IconButton
-							aria-label={social.name}
-							color='inherit'
-							onClick={() => {
-								logAnalyticsEvent(`footer-${social.name.toLowerCase()}`, {
-									name: `footer-${social.name.toLowerCase()}`,
-									type: 'click',
-								});
+						<Link
+							key={`${social.name}-link`}
+							href={social.url}
+							rel='noopener noreferrer'
+							style={{
+								textDecoration: 'none',
+								color: 'inherit',
 							}}
-							size='large'
-							sx={{
-								'&:hover': {
-									color: 'primary.main',
-								},
-							}}
+							target='_blank'
 						>
-							{social.icon}
-						</IconButton>
-					</Link>
+							<Tooltip arrow describeChild title={social.name}>
+								<IconButton
+									aria-label={social.name}
+									color='inherit'
+									onClick={() => {
+										logAnalyticsEvent(`footer-${social.name.toLowerCase()}`, {
+											name: `footer-${social.name.toLowerCase()}`,
+											type: 'click',
+										});
+									}}
+									size='large'
+									sx={{
+										color: '#fff',
+										transition: 'all .2s ease-in-out',
+										filter: 'drop-shadow(0px 4px 4px rgba(250, 250, 250, 0.2))',
+										'&:hover': {
+											backgroundColor: '#2c3443',
+											color: social.color ?? 'primary.main',
+											transform: 'scale(1.1)',
+											filter: `drop-shadow(0px 4px 4px ${social.color ?? 'primary.main'})`,
+										},
+									}}
+								>
+									{social.icon({})}
+								</IconButton>
+							</Tooltip>
+						</Link>
+					</Grid>
 				))}
-			</Stack>
+			</Grid>
 
 			<Typography
 				sx={{
@@ -193,11 +187,10 @@ export default function Footer() {
 
 			<Typography
 				sx={{
-					textAlign: 'center',
-					display: 'flex',
-					// Align center
-					justifyContent: 'center',
 					alignItems: 'center',
+					display: 'flex',
+					justifyContent: 'center',
+					textAlign: 'center',
 				}}
 			>
 				Open-source on{' '}
@@ -224,26 +217,22 @@ export default function Footer() {
 							display: 'inline-flex',
 							fontWeight: 600,
 							transition: 'all .2s ease-in-out',
+							svg: {
+								transition: 'all .2s ease-in-out',
+							},
 							'&:hover': {
 								backgroundColor: '#2c3443',
-								img: {
+								svg: {
 									transform: 'scale(1.1)',
-									transition: 'all .2s ease-in-out',
 								},
 							},
 						}}
 					>
-						<Image
-							alt='Logo'
-							height={24}
-							src='/images/icons/github.svg'
-							style={{
-								filter: 'drop-shadow(0px 4px 4px rgba(250, 250, 250, 0.2))',
-								marginRight: '0.5rem',
-								transition: 'all .2s ease-in-out',
+						<GitHubIcon
+							sx={{
+								marginRight: '0.25rem',
 							}}
-							width={24}
-						/>{' '}
+						/>
 						GitHub
 					</Button>
 				</Link>
