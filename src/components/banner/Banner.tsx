@@ -71,7 +71,7 @@ export default function Banner() {
 				flexDirection: 'column',
 				minHeight: '60vh',
 				justifyContent: 'center',
-				margin: '2rem auto 3rem',
+				margin: '3rem auto',
 				position: 'relative',
 				width: 'fit-content',
 			}}

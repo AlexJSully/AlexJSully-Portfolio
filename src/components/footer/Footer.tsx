@@ -136,11 +136,11 @@ export default function Footer() {
 				>
 					<Link
 						href='/resume/Resume.pdf'
+						rel='noopener noreferrer'
 						style={{
 							textDecoration: 'none',
 							color: 'inherit',
 						}}
-						rel='noopener noreferrer'
 						target='_blank'
 					>
 						<Typography
