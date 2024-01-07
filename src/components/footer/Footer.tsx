@@ -66,13 +66,7 @@ export default function Footer() {
 				Interested in working together?
 			</Typography>
 
-			<Stack
-				direction={{
-					sm: 'row',
-					xs: 'column',
-				}}
-				spacing={2}
-			>
+			<Stack direction='row' spacing={2}>
 				<Button
 					onClick={() => {
 						logAnalyticsEvent(`footer-email`, {
