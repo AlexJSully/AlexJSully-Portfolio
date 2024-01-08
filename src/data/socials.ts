@@ -42,7 +42,7 @@ const socials = [
 		color: '#fff',
 	},
 	{
-		name: 'BlueSky',
+		name: 'Bluesky',
 		url: 'https://bsky.app/profile/alexjsully.bsky.social',
 		icon: BlueSkyIcon,
 		color: '#0085ffff',

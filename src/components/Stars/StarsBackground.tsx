@@ -40,9 +40,9 @@ export default function StarsBackground(): ReactElement {
 
 		// Remove the star after the animation is done
 		setTimeout(() => {
-			if (target?.parentNode) {
+			if (target?.parentNode?.contains(target)) {
 				try {
-					target.remove();
+					target.parentNode.removeChild(target);
 				} catch (e) {
 					console.log(e);
 				}
