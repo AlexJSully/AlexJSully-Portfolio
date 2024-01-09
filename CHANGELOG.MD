@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 To see tags and releases, please go to [Tags](https://github.com/AlexJSully/AlexJSully-Portfolio/tags) on [GitHub](https://github.com/AlexJSully/AlexJSully-Portfolio).
 
+## [2.0.4] - 2024-01-08
+
+Data:
+
+-   Updated resume
+
+Bug fix:
+
+-   Fixed removing star node causing application error
+
 ## [2.0.3] - 2024-01-08
 
 Bug fix:
