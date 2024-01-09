@@ -40,12 +40,9 @@ export default function StarsBackground(): ReactElement {
 
 		// Remove the star after the animation is done
 		setTimeout(() => {
-			if (target?.parentNode?.contains(target)) {
-				try {
-					target.parentNode.removeChild(target);
-				} catch (e) {
-					console.log(e);
-				}
+			if (target) {
+				// Change the data attribute so it indicates that the star has been used
+				target.setAttribute('data-star-used', 'true');
 			}
 		}, shootingStarSpeed * 1000);
 	};
@@ -53,7 +50,9 @@ export default function StarsBackground(): ReactElement {
 	/** Handle the forced shooting star animation */
 	const handleForceStarAnimation = () => {
 		/** All of the stars */
-		const allStars = document.querySelectorAll('[data-testid="star"]');
+		const allStars = Array.from(document.querySelectorAll('[data-testid="star"]')).filter(
+			(star) => star.getAttribute('data-star-used') !== 'true',
+		);
 
 		// Only proceed if there are stars
 		if (!isEmpty(allStars) && allStars.length > 15) {
