@@ -19,21 +19,6 @@ export default function Navbar() {
 	/** Whether or not the screen is small */
 	const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-	/** All text and logo to be rendered in the navbar header */
-	const navbarHeaderText: any = {
-		'/': {
-			text: 'Alexander Sullivan',
-			logo: '/images/drawn/profile_pic_drawn.webp',
-		},
-		'/portfolio/mpx': {
-			text: 'Masterpiece X',
-			logo: '/images/icons/mpx.svg',
-		},
-	};
-
-	/** The text and logo to be rendered in the navbar header */
-	const navbarHeaderUse: any = navbarHeaderText[pathname] ? navbarHeaderText[pathname] : navbarHeaderText['/'];
-
 	return (
 		<AppBar
 			sx={{
@@ -47,8 +32,8 @@ export default function Navbar() {
 						fontSize: '1.25rem',
 						height: '2rem',
 						justifyContent: 'space-between',
-						zIndex: 10,
 						transition: 'all 0.5s ease-in-out',
+						zIndex: 10,
 					}}
 				>
 					{/* Home button */}
@@ -128,21 +113,41 @@ export default function Navbar() {
 					)}
 
 					{/* Title */}
-					<Typography>
-						<Image
-							alt='Logo'
-							height={24}
-							src={navbarHeaderUse.logo}
-							style={{
-								borderRadius: '50%',
-								filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
-								marginRight: '1rem',
-								verticalAlign: 'middle',
-							}}
-							width={24}
-						/>
-						{navbarHeaderUse.text}
-					</Typography>
+
+					<Link
+						href='/#socials'
+						onClick={(e) => {
+							logAnalyticsEvent('navbar_socials', {
+								name: 'navbar_socials',
+								type: 'click',
+							});
+
+							if (pathname === '/') {
+								e.preventDefault();
+								document.getElementById('socials')?.scrollIntoView({ behavior: 'smooth' });
+							}
+						}}
+						style={{
+							color: 'inherit',
+							textDecoration: 'none',
+						}}
+					>
+						<Typography>
+							<Image
+								alt='Logo'
+								height={24}
+								src='/images/drawn/profile_pic_drawn.webp'
+								style={{
+									borderRadius: '50%',
+									filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))',
+									marginRight: '1rem',
+									verticalAlign: 'middle',
+								}}
+								width={24}
+							/>
+							Alexander Sullivan
+						</Typography>
+					</Link>
 				</Toolbar>
 			</Fade>
 		</AppBar>

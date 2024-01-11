@@ -114,13 +114,15 @@ export default function Footer() {
 
 			<Grid
 				alignItems='center'
+				className='socials'
 				container
 				direction='row'
+				id='socials'
 				justifyContent='center'
 				spacing={1}
 				sx={{
-					maxWidth: 'min(480px, 90vw)',
 					margin: 'auto',
+					maxWidth: 'min(480px, 90vw)',
 				}}
 			>
 				{socials.map((social) => (
@@ -130,9 +132,9 @@ export default function Footer() {
 						lg={2}
 						md={3}
 						sx={{
+							alignItems: 'center',
 							display: 'flex',
 							justifyContent: 'center',
-							alignItems: 'center',
 						}}
 						xs={4}
 					>
@@ -141,8 +143,8 @@ export default function Footer() {
 							href={social.url}
 							rel='noopener noreferrer'
 							style={{
-								textDecoration: 'none',
 								color: 'inherit',
+								textDecoration: 'none',
 							}}
 							target='_blank'
 						>
@@ -159,13 +161,13 @@ export default function Footer() {
 									size='large'
 									sx={{
 										color: '#fff',
-										transition: 'all .2s ease-in-out',
 										filter: 'drop-shadow(0px 4px 4px rgba(250, 250, 250, 0.2))',
+										transition: 'all .2s ease-in-out',
 										'&:hover': {
 											backgroundColor: '#2c3443',
 											color: social.color ?? 'primary.main',
-											transform: 'scale(1.1)',
 											filter: `drop-shadow(0px 4px 4px ${social.color ?? 'primary.main'})`,
+											transform: 'scale(1.1)',
 										},
 									}}
 								>
@@ -205,8 +207,8 @@ export default function Footer() {
 					rel='noopener noreferrer'
 					style={{
 						color: 'inherit',
-						textDecoration: 'none',
 						marginLeft: '0.25rem',
+						textDecoration: 'none',
 					}}
 					target='_blank'
 				>
