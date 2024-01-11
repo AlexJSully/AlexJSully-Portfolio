@@ -91,7 +91,7 @@ worker-*.js
 .deploy/settings-staging.json
 .deploy/settings.json
 
-# Sentry
+# Sentry Config File
 .sentryclirc
 
 # Flask
