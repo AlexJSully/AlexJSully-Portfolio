@@ -1,3 +1,9 @@
+* {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	scroll-behavior: smooth;
+}
+
 body {
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
@@ -36,12 +42,12 @@ body {
 /* CSS keyframe animation for shooting stars away */
 @keyframes shootAway {
 	0% {
-		transform: scale(1);
 		opacity: 1;
+		transform: scale(1);
 	}
 
 	100% {
-		transform: translate(-100vw, 100vh) scale(2);
 		opacity: 0;
+		transform: translate(-100vw, 100vh) scale(2);
 	}
 }

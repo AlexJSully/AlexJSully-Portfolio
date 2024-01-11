@@ -1,3 +1,4 @@
+import StarsBackground from '@components/Stars/StarsBackground';
 import Footer from '@components/footer/Footer';
 import Navbar from '@components/navbar/Navbar';
 import { ReactElement } from 'react';
@@ -13,12 +14,19 @@ export default function GeneralLayout({ children }: Readonly<GeneralLayoutProps>
 		<div
 			id='content'
 			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				minHeight: '100vh',
 				scrollBehavior: 'smooth',
 			}}
 		>
 			<Navbar />
 
-			<main>{children}</main>
+			<main style={{ flex: '1 0 auto' }}>
+				{children}
+
+				<StarsBackground />
+			</main>
 
 			<footer>
 				<Footer />

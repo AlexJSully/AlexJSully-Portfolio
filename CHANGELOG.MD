@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 To see tags and releases, please go to [Tags](https://github.com/AlexJSully/AlexJSully-Portfolio/tags) on [GitHub](https://github.com/AlexJSully/AlexJSully-Portfolio).
 
+## [2.0.6] - 2024-01-10
+
+Feature:
+
+-   Added error and 404 pages
+-   Clicking name in navbar brings to socials component
+
+Optimizations:
+
+-   Applied anti-aliasing to everything
+-   Applied image caching and remote patterns to Next.js configuration
+-   Prefetched links
+-   Refactored unnecessary code
+
 ## [2.0.5] - 2024-01-09
 
 Data:

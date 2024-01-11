@@ -11,6 +11,12 @@ const withPWA = require('next-pwa')({
 
 const nextConfig = withPWA({
 	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'alexjsully.me',
+			},
+		],
 		minimumCacheTTL: 1800,
 	},
 	async headers() {
