@@ -51,6 +51,7 @@ export default function Publications() {
 								type: 'click',
 							});
 						}}
+						prefetch
 						style={{
 							textDecoration: 'none',
 							color: 'inherit',

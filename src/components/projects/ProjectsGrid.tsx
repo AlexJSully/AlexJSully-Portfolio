@@ -77,6 +77,7 @@ export default function ProjectsGrid(): ReactElement {
 										type: 'click',
 									});
 								}}
+								prefetch
 								rel='noopener noreferrer'
 								style={{
 									display: 'flex',
@@ -114,6 +115,7 @@ export default function ProjectsGrid(): ReactElement {
 
 							<Link
 								href={project.url}
+								prefetch
 								style={{
 									color: 'inherit',
 									textDecoration: 'none',
@@ -142,6 +144,7 @@ export default function ProjectsGrid(): ReactElement {
 														type: 'click',
 													});
 												}}
+												prefetch
 												rel='noopener noreferrer'
 												style={{
 													color: 'inherit',

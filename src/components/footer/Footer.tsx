@@ -55,6 +55,7 @@ export default function Footer() {
 				>
 					<Link
 						href='mailto:alexjsully.connect@outlook.com'
+						prefetch
 						style={{
 							textDecoration: 'none',
 							color: 'inherit',
@@ -93,6 +94,7 @@ export default function Footer() {
 				>
 					<Link
 						href='/resume/Resume.pdf'
+						prefetch
 						rel='noopener noreferrer'
 						style={{
 							textDecoration: 'none',
@@ -141,6 +143,7 @@ export default function Footer() {
 						<Link
 							key={`${social.name}-link`}
 							href={social.url}
+							prefetch
 							rel='noopener noreferrer'
 							style={{
 								color: 'inherit',
@@ -204,6 +207,7 @@ export default function Footer() {
 							type: 'click',
 						});
 					}}
+					prefetch
 					rel='noopener noreferrer'
 					style={{
 						color: 'inherit',
