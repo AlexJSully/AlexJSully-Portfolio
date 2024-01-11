@@ -1,6 +1,7 @@
 import seoKeywords from '@data/keywords';
 import GeneralLayout from '@layouts/GeneralLayout';
 import '@styles/globals.scss';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 
 const metadataValues = {
@@ -228,6 +229,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 			<body>
 				<GeneralLayout>{children}</GeneralLayout>
+
+				<SpeedInsights />
 			</body>
 		</html>
 	);
