@@ -7,7 +7,7 @@
 			"url": "https://alexjsully.me/"
 		}
 	],
-	"version": "2.0.5",
+	"version": "2.0.6",
 	"private": true,
 	"description": "Portfolio and showcase for Alexander Joo-Hyun Sullivan and related projects & experiences.",
 	"scripts": {
@@ -18,7 +18,7 @@
 		"eslint": "eslint --fix ./ --ignore-path .gitignore",
 		"eslint:check": "eslint ./ --ignore-path .gitignore",
 		"lint": "next lint",
-		"pre-commit": "npm run prettier && npm run eslint && npm run build",
+		"pre-commit": "npm run prettier && npm run eslint && npm run lint && npm run build",
 		"prettier": "prettier --write ./",
 		"prettier:check": "prettier --check ./",
 		"start": "next start"
