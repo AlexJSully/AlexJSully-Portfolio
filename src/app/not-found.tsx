@@ -1,24 +1,14 @@
 'use client';
 
-import { Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ReactElement, useEffect } from 'react';
-
-interface ErrorProps {
-	/** The error that occurred. */
-	error: Error & { digest?: string };
-}
+import { ReactElement } from 'react';
 
 /** Renders an error page. */
-export default function Error({ error }: ErrorProps): ReactElement {
+export default function NotFound(): ReactElement {
 	/** The current pathname */
 	const pathname = usePathname();
-
-	useEffect(() => {
-		// Log the error to the console
-		console.error(error);
-	}, [error]);
 
 	return (
 		<Stack
@@ -40,12 +30,23 @@ export default function Error({ error }: ErrorProps): ReactElement {
 				component='h1'
 				sx={{
 					color: 'error.main',
-					fontSize: 'clamp(1.5rem, 2.5rem, 2.5rem)',
+					fontSize: 'clamp(1.5rem, 3rem, 3rem)',
 					fontWeight: 'bold',
 					textAlign: 'center',
 				}}
 			>
-				Oops! Something went wrong.
+				404
+			</Typography>
+
+			<Typography
+				component='h1'
+				sx={{
+					fontSize: 'clamp(1.5rem, 2rem, 2rem)',
+					fontWeight: 'bold',
+					textAlign: 'center',
+				}}
+			>
+				Hey! Where do you think you are going?!
 			</Typography>
 
 			<Typography
@@ -56,7 +57,15 @@ export default function Error({ error }: ErrorProps): ReactElement {
 					textAlign: 'center',
 				}}
 			>
-				Error: {error.message || 'Unknown error.'}
+				<Box
+					component='span'
+					sx={{
+						color: '#25fd00',
+					}}
+				>
+					{pathname}
+				</Box>
+				?! What is that?!
 			</Typography>
 
 			<Link
@@ -96,7 +105,7 @@ export default function Error({ error }: ErrorProps): ReactElement {
 							textTransform: 'none',
 						}}
 					>
-						Go Home
+						Go back home!
 					</Typography>
 				</Button>
 			</Link>
