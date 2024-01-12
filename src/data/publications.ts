@@ -1,3 +1,4 @@
+/** Publications data. */
 const publications = [
 	{
 		title: 'ePlant in 2021: New Species, Viewers, Data Sets, and Widgets',

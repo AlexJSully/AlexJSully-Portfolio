@@ -10,6 +10,7 @@ import {
 	XIcon,
 } from '@images/icons';
 
+/** Social media data */
 const socials = [
 	{
 		name: 'LinkedIn',
