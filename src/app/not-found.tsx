@@ -27,6 +27,7 @@ export default function NotFound(): ReactElement {
 			}}
 		>
 			<Typography
+				aria-label='Page not found'
 				component='h1'
 				sx={{
 					color: 'error.main',

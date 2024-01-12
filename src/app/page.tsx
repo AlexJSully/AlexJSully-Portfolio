@@ -27,11 +27,11 @@ export default function Home() {
 				minWidth: '100%',
 			}}
 		>
-			<Banner />
+			<Banner aria-label='Landing banner' />
 
-			<ProjectsGrid />
+			<ProjectsGrid aria-label='Grid showing projects worked on' />
 
-			<Publications />
+			<Publications aria-label='List of scientific publications' />
 		</Box>
 	);
 }
