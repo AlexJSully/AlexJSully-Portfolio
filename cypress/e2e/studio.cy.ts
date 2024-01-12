@@ -1,0 +1,1 @@
+describe('cypress studio', () => {});

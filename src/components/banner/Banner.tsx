@@ -78,6 +78,7 @@ export default function Banner() {
 		>
 			<Image
 				alt='Alexander Sullivan head drawn and stylized'
+				data-testid='profile_pic'
 				height={500}
 				onClick={debounceSneeze}
 				onMouseEnter={debounceSneeze}
