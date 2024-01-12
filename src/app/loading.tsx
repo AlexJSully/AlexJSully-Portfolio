@@ -1,7 +1,8 @@
 import { Box, CircularProgress } from '@mui/material';
+import { ReactElement } from 'react';
 
 /** Renders a loading spinner. */
-export default function Loading() {
+export default function Loading(): ReactElement {
 	return (
 		<Box
 			component='div'
@@ -16,7 +17,7 @@ export default function Loading() {
 				width: '100%',
 			}}
 		>
-			<CircularProgress />
+			<CircularProgress aria-label='Loading' />
 		</Box>
 	);
 }
