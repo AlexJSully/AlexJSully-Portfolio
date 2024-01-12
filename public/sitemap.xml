@@ -8,7 +8,13 @@
   <!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
   <url>
     <loc>https://alexjsully.me/</loc>
-    <lastmod>2024-01-03T21:53:17+00:00</lastmod>
+    <lastmod>2024-01-12T21:53:17+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://alexjsully.me/resume/Resume.pdf</loc>
+    <lastmod>2024-01-09T21:53:17+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
