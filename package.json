@@ -19,7 +19,6 @@
 		"eslint:check": "eslint ./ --ignore-path .gitignore",
 		"lint": "next lint",
 		"pre-commit": "npm run prettier && npm run eslint && npm run lint && npm run e2e:headless && npm run build ",
-		"prebuild": "npx next telemetry disable",
 		"prettier": "prettier --write ./",
 		"prettier:check": "prettier --check ./",
 		"start": "next start"
