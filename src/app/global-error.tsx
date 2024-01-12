@@ -5,9 +5,15 @@ import * as Sentry from '@sentry/nextjs';
 import NextError from 'next/error';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { ReactElement, memo, useEffect } from 'react';
 
-export default function GlobalError({ error }: { error: Error & { digest?: string } }) {
+interface GlobalErrorProps {
+	/** The error that occurred. */
+	error: Error;
+}
+
+/** Renders an error page. */
+function GlobalError({ error }: GlobalErrorProps): ReactElement {
 	/** The current pathname */
 	const pathname = usePathname();
 
@@ -102,3 +108,5 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
 		</html>
 	);
 }
+
+export default memo(GlobalError);

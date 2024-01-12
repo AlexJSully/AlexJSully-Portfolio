@@ -3,15 +3,15 @@
 import { Button, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, memo, useEffect } from 'react';
 
 interface ErrorProps {
 	/** The error that occurred. */
-	error: Error & { digest?: string };
+	error: Error;
 }
 
 /** Renders an error page. */
-export default function Error({ error }: ErrorProps): ReactElement {
+function Error({ error }: Readonly<ErrorProps>): ReactElement {
 	/** The current pathname */
 	const pathname = usePathname();
 
@@ -103,3 +103,5 @@ export default function Error({ error }: ErrorProps): ReactElement {
 		</Stack>
 	);
 }
+
+export default memo(Error);
