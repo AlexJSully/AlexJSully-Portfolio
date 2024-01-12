@@ -78,6 +78,7 @@ export default function Banner() {
 		>
 			<Image
 				alt='Alexander Sullivan head drawn and stylized'
+				aria-label='Profile Picture for Alexander Sullivan'
 				data-testid='profile_pic'
 				height={500}
 				onClick={debounceSneeze}
@@ -96,6 +97,7 @@ export default function Banner() {
 			/>
 
 			<Typography
+				aria-label='Name'
 				component='h1'
 				sx={{
 					fontSize: 'clamp(1.5rem, 2.5rem, 2.5rem)',

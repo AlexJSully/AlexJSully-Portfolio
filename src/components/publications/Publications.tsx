@@ -15,6 +15,7 @@ export default function Publications() {
 	return (
 		publications && (
 			<Stack
+				aria-label='Publications'
 				className='publications'
 				direction='column'
 				id='publications'
@@ -44,6 +45,7 @@ export default function Publications() {
 				{publications.map((publication) => (
 					<Link
 						key={`${publication.doi}-link`}
+						aria-label={`View ${publication.title} on ${publication.journal}`}
 						href={`https://doi.org/${publication.doi}`}
 						onClick={() => {
 							logAnalyticsEvent(`publication-${publication.doi}`, {

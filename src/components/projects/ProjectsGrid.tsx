@@ -191,6 +191,7 @@ export default function ProjectsGrid(): ReactElement {
 				</Grid>
 
 				<Button
+					aria-label={`${viewMore ? 'Show Less' : 'View More'} Projects`}
 					onClick={() => {
 						logAnalyticsEvent(`projects-view-more-${viewMore ? 'less' : 'more'}`, {
 							name: `projects-view-more-${viewMore ? 'less' : 'more'}`,
