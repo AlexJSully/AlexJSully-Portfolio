@@ -16,7 +16,8 @@ jobs:
                 # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
         steps:
-            - uses: actions/checkout@v2
+            - name: Checkout repository
+              uses: actions/checkout@v4
             - name: Use Node.js ${{ matrix.node-version }}
               uses: actions/setup-node@v2
               with:
@@ -27,8 +28,8 @@ jobs:
               run: npm run prettier:check
             - name: Quality check - eslint
               run: npm run eslint:check
-            - name: Quality check - link
-              run: npm run link
+            - name: Quality check - lint
+              run: npm run lint
             - name: Quality check - cypress
               run: npm run e2e:headless
             - name: Build check
