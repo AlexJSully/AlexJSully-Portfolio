@@ -33,5 +33,11 @@ If applicable, add screenshots to help explain your problem.
 -   Browser [e.g. stock browser, safari]
 -   Version [e.g. 22]
 
+**Potential Fix**
+If you know of a way to fix this vulnerability, please describe it here.
+
+**Severity**
+How severe is the vulnerability? Does it allow an attacker to access sensitive data, or does it potentially lead to a denial of service?
+
 **Additional context**
 Add any other context about the problem here.
