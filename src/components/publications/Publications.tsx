@@ -52,10 +52,12 @@ export default function Publications() {
 							});
 						}}
 						prefetch
+						rel='noopener noreferrer'
 						style={{
 							textDecoration: 'none',
 							color: 'inherit',
 						}}
+						target='_blank'
 					>
 						<Stack
 							key={publication.doi}
