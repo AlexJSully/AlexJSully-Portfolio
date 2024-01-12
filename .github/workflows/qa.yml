@@ -1,0 +1,35 @@
+name: Node.js CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [18.x]
+                # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: Check installs
+              run: npm ci
+            - name: Quality check - prettier
+              run: npm run prettier:check
+            - name: Quality check - eslint
+              run: npm run eslint:check
+            - name: Quality check - link
+              run: npm run link
+            - name: Quality check - cypress
+              run: npm run e2e:headless
+            - name: Build check
+              run: npm run build
