@@ -104,6 +104,7 @@ export default function ProjectsGrid(): ReactElement {
 									}}
 								>
 									<CardMedia
+										alt={`${project.name} Thumbnail`}
 										component='img'
 										image={`/images/projects/${project.id}/thumbnail.webp`}
 										sx={{
