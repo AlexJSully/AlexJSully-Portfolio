@@ -53,3 +53,6 @@ exclude_patterns:
     - '**/build/'
     - '.env'
     - '**/.vscode/'
+    - '**/.git'
+    - '**/.github'
+    - '**/cypress'

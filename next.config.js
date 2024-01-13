@@ -46,7 +46,7 @@ const nextConfig = withPWA({
 					},
 					{
 						key: 'Permissions-Policy',
-						value: 'fullscreen=*, picture-in-picture=*, xr-spatial-tracking=*, gamepad=*, hid=*, idle-detection=*, window-placement=*',
+						value: 'fullscreen=*, picture-in-picture=*, xr-spatial-tracking=*, gamepad=*, hid=*, idle-detection=*, window-management=*',
 					},
 				],
 			},

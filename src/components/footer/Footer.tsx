@@ -11,6 +11,7 @@ export default function Footer() {
 	return (
 		<Stack
 			alignItems='center'
+			aria-label='Footer'
 			direction='column'
 			justifyContent='center'
 			spacing={2}
@@ -20,6 +21,7 @@ export default function Footer() {
 			}}
 		>
 			<Typography
+				aria-label='Interested in working together?'
 				sx={{
 					fontSize: 'clamp(1rem, 2rem, 2rem)',
 					textAlign: 'center',
@@ -31,6 +33,7 @@ export default function Footer() {
 
 			<Stack direction='row' spacing={2}>
 				<Button
+					aria-label='Email me'
 					onClick={() => {
 						logAnalyticsEvent(`footer-email`, {
 							name: 'footer-email',
@@ -54,6 +57,7 @@ export default function Footer() {
 					variant='contained'
 				>
 					<Link
+						aria-label='Email me mailto'
 						href='mailto:alexjsully.connect@outlook.com'
 						prefetch
 						style={{
@@ -73,6 +77,7 @@ export default function Footer() {
 				</Button>
 
 				<Button
+					aria-label='Resume'
 					color='secondary'
 					onClick={() => {
 						logAnalyticsEvent(`footer-resume`, {
@@ -93,6 +98,7 @@ export default function Footer() {
 					variant='contained'
 				>
 					<Link
+						aria-label='Resume download'
 						href='/resume/Resume.pdf'
 						prefetch
 						rel='noopener noreferrer'
@@ -142,6 +148,7 @@ export default function Footer() {
 					>
 						<Link
 							key={`${social.name}-link`}
+							aria-label={`${social.name} link`}
 							href={social.url}
 							prefetch
 							rel='noopener noreferrer'
@@ -200,6 +207,7 @@ export default function Footer() {
 			>
 				Open-source on{' '}
 				<Link
+					aria-label='GitHub repository'
 					href='https://github.com/AlexJSully/AlexJSully-Portfolio'
 					onClick={() => {
 						logAnalyticsEvent(`footer-open-source`, {
@@ -217,6 +225,7 @@ export default function Footer() {
 					target='_blank'
 				>
 					<Button
+						aria-label='GitHub repository button'
 						sx={{
 							alignItems: 'center',
 							color: '#fff',

@@ -10,6 +10,7 @@ import {
 	UofTIcon,
 } from '@images/icons';
 
+/** Project data */
 const projects = [
 	{
 		name: 'Masterpiece X',

@@ -27,6 +27,8 @@ export default function ProjectsGrid(): ReactElement {
 				}}
 			>
 				<Typography
+					className='projects-grid-title'
+					id='projects-grid-title'
 					sx={{
 						fontSize: 'clamp(1.5rem, 2.5vw, 2.5rem)',
 					}}
@@ -64,12 +66,13 @@ export default function ProjectsGrid(): ReactElement {
 								height: '100%',
 								justifyContent: 'flex-start',
 								margin: '1rem auto auto',
-								transition: 'all 1s ease-in-out',
+								transition: 'all 0.5s ease-in-out',
 							}}
 							xl={3}
 							xs={12}
 						>
 							<Link
+								aria-label={`Project: ${project.name}`}
 								href={project.url}
 								onClick={() => {
 									logAnalyticsEvent(`project-${project.id}`, {
@@ -102,8 +105,10 @@ export default function ProjectsGrid(): ReactElement {
 									}}
 								>
 									<CardMedia
+										alt={`${project.name} Thumbnail`}
 										component='img'
 										image={`/images/projects/${project.id}/thumbnail.webp`}
+										loading='lazy'
 										sx={{
 											height: '100%',
 											objectFit: 'cover',
@@ -114,6 +119,7 @@ export default function ProjectsGrid(): ReactElement {
 							</Link>
 
 							<Link
+								aria-label={`Project name: ${project.name}`}
 								href={project.url}
 								prefetch
 								style={{
@@ -137,6 +143,7 @@ export default function ProjectsGrid(): ReactElement {
 									{project.urls.map((url) => (
 										<Grid key={`${url.text}-grid-item`} item>
 											<Link
+												aria-label={`Project:  ${project.name} - ${url.text}`}
 												href={url.url}
 												onClick={() => {
 													logAnalyticsEvent(`project-${project.id}-${url.text}`, {
@@ -154,6 +161,7 @@ export default function ProjectsGrid(): ReactElement {
 											>
 												<Tooltip arrow describeChild title={url.tooltip}>
 													<Button
+														aria-label={`Project button: ${project.name} - ${url.text}`}
 														sx={{
 															alignItems: 'center',
 															backgroundColor: '#24272d',
@@ -189,12 +197,33 @@ export default function ProjectsGrid(): ReactElement {
 				</Grid>
 
 				<Button
+					aria-label={`${viewMore ? 'Show Less' : 'View More'} Projects`}
 					onClick={() => {
 						logAnalyticsEvent(`projects-view-more-${viewMore ? 'less' : 'more'}`, {
 							name: `projects-view-more-${viewMore ? 'less' : 'more'}`,
 							type: 'click',
 						});
 						setViewMore(!viewMore);
+
+						/** Scrolls to the projects grid. */
+						const scrollToProjectsGrid = () => {
+							/** The projects grid. */
+							const projectsGrid = document.getElementById('projects-grid');
+							/** The projects grid title. */
+							const projectsGridTitle = document.getElementById('projects-grid-title');
+
+							if (!projectsGrid || !projectsGridTitle) return;
+
+							// If the projects grid title is not in view, scroll to it.
+							const { top, bottom } = projectsGridTitle.getBoundingClientRect();
+							const isTitleInView = top >= 0 && bottom <= window.innerHeight;
+
+							if (!isTitleInView) {
+								projectsGrid.scrollIntoView({ behavior: 'smooth' });
+							}
+						};
+
+						scrollToProjectsGrid();
 					}}
 					variant='contained'
 				>

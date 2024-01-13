@@ -3,15 +3,15 @@
 import { Button, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, memo, useEffect } from 'react';
 
 interface ErrorProps {
 	/** The error that occurred. */
-	error: Error & { digest?: string };
+	error: Error;
 }
 
 /** Renders an error page. */
-export default function Error({ error }: ErrorProps): ReactElement {
+function Error({ error }: Readonly<ErrorProps>): ReactElement {
 	/** The current pathname */
 	const pathname = usePathname();
 
@@ -60,6 +60,7 @@ export default function Error({ error }: ErrorProps): ReactElement {
 			</Typography>
 
 			<Link
+				aria-label='Go home'
 				href='/'
 				onClick={() => {
 					if (pathname === '/' && typeof window !== 'undefined') {
@@ -73,6 +74,7 @@ export default function Error({ error }: ErrorProps): ReactElement {
 				}}
 			>
 				<Button
+					aria-label='Go home button'
 					sx={{
 						backgroundColor: '#001ca8',
 						border: '3px solid #001ca8',
@@ -103,3 +105,5 @@ export default function Error({ error }: ErrorProps): ReactElement {
 		</Stack>
 	);
 }
+
+export default memo(Error);

@@ -17,6 +17,9 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
+**Actual behavior**
+A clear and concise description of what actually happens.
+
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
@@ -32,6 +35,12 @@ If applicable, add screenshots to help explain your problem.
 -   OS: [e.g. iOS8.1]
 -   Browser [e.g. stock browser, safari]
 -   Version [e.g. 22]
+
+**Workaround**
+If applicable, any known workaround that can be used until the bug is fixed.
+
+**Severity**
+How severe is the bug? Is it a minor inconvenience, or does it make the application unusable?
 
 **Additional context**
 Add any other context about the problem here.
