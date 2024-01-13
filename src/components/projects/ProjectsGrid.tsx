@@ -108,6 +108,7 @@ export default function ProjectsGrid(): ReactElement {
 										alt={`${project.name} Thumbnail`}
 										component='img'
 										image={`/images/projects/${project.id}/thumbnail.webp`}
+										loading='lazy'
 										sx={{
 											height: '100%',
 											objectFit: 'cover',
