@@ -128,24 +128,27 @@
 	"screenshots": [
 		{
 			"src": "./icon/screenshot1.webp",
-			"sizes": "1280x800",
-			"type": "image/webp",
+			"label": "Landing page",
+			"form_factor": "wide",
 			"platform": "wide",
-			"label": "Landing page"
+			"sizes": "1280x800",
+			"type": "image/webp"
 		},
 		{
 			"src": "./icon/screenshot2.webp",
-			"sizes": "1072x1930",
-			"type": "image/webp",
+			"label": "Mobile landing page",
+			"form_factor": "narrow",
 			"platform": "narrow",
-			"label": "Mobile landing page"
+			"sizes": "1072x1930",
+			"type": "image/webp"
 		},
 		{
 			"src": "./icon/screenshot3.webp",
-			"sizes": "1600x1089",
-			"type": "image/webp",
+			"label": "Current and previous projects and experiences",
+			"form_factor": "wide",
 			"platform": "wide",
-			"label": "Current and previous projects and experiences"
+			"sizes": "1600x1089",
+			"type": "image/webp"
 		}
 	],
 	"categories": [
