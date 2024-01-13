@@ -60,6 +60,7 @@ function Error({ error }: Readonly<ErrorProps>): ReactElement {
 			</Typography>
 
 			<Link
+				aria-label='Go home'
 				href='/'
 				onClick={() => {
 					if (pathname === '/' && typeof window !== 'undefined') {
@@ -73,6 +74,7 @@ function Error({ error }: Readonly<ErrorProps>): ReactElement {
 				}}
 			>
 				<Button
+					aria-label='Go home button'
 					sx={{
 						backgroundColor: '#001ca8',
 						border: '3px solid #001ca8',

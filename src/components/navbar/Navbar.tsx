@@ -38,6 +38,7 @@ export default function Navbar() {
 				>
 					{/* Home button */}
 					<Link
+						aria-label='Home'
 						href='/'
 						onClick={(e) => {
 							logAnalyticsEvent('navbar_home', {
@@ -53,6 +54,7 @@ export default function Navbar() {
 					>
 						<Tooltip arrow describeChild title='Home'>
 							<IconButton
+								aria-label='Home button'
 								sx={{
 									color: 'white',
 								}}
@@ -64,6 +66,7 @@ export default function Navbar() {
 
 					{/* Projects */}
 					<Link
+						aria-label='See projects'
 						href='/#projects-grid'
 						onClick={(e) => {
 							logAnalyticsEvent('navbar_projects', {
@@ -89,6 +92,7 @@ export default function Navbar() {
 					{/* Publications */}
 					{!smallScreen && (
 						<Link
+							aria-label='See publications'
 							href='/#publications'
 							onClick={(e) => {
 								logAnalyticsEvent('navbar_publications', {
@@ -115,6 +119,7 @@ export default function Navbar() {
 					{/* Title */}
 
 					<Link
+						aria-label='See socials'
 						href='/#socials'
 						onClick={(e) => {
 							logAnalyticsEvent('navbar_socials', {

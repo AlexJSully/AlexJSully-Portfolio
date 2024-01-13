@@ -70,6 +70,7 @@ export default function NotFound(): ReactElement {
 			</Typography>
 
 			<Link
+				area-label='Go home'
 				href='/'
 				onClick={() => {
 					if (pathname === '/' && typeof window !== 'undefined') {
@@ -83,6 +84,7 @@ export default function NotFound(): ReactElement {
 				}}
 			>
 				<Button
+					aria-label='Go home button'
 					sx={{
 						backgroundColor: '#001ca8',
 						border: '3px solid #001ca8',
