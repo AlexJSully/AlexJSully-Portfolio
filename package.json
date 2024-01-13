@@ -11,7 +11,7 @@
 	"private": true,
 	"description": "Portfolio and showcase for Alexander Joo-Hyun Sullivan and related projects & experiences.",
 	"scripts": {
-		"build": "set NODE_OPTIONS=--max-old-space-size=4096 && next build",
+		"build": "next build",
 		"cypress": "cypress open",
 		"dev": "next dev",
 		"e2e:headless": "start-server-and-test dev http://localhost:3000 \"cypress run --e2e\"",
