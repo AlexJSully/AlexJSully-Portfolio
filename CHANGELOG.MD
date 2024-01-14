@@ -19,7 +19,6 @@ Optimizations:
 -   Added new GitHub Actions CI/CD workflow for code quality check
 -   Lazy load images
 -   Optimized images for file sizes
--   Reduced image file size
 -   Removed unused DeepSource config
 -   Removed used files (3D fox model)
 -   Updated CodeQL workflow
