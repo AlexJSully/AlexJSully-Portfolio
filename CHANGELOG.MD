@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 To see tags and releases, please go to [Releases](https://github.com/AlexJSully/AlexJSully-Portfolio/releases) on [GitHub](https://github.com/AlexJSully/AlexJSully-Portfolio).
 
+## [2.0.8] - 2024-01-14
+
+Added a new easter egg! (Hint: aaaaahhhh!)
+
+Optimizations:
+
+-   Optimized images
+
+Bug fix:
+
+-   Fixed typo
+
 ## [2.0.7] - 2024-01-13
 
 UI/UX:
@@ -19,7 +31,6 @@ Optimizations:
 -   Added new GitHub Actions CI/CD workflow for code quality check
 -   Lazy load images
 -   Optimized images for file sizes
--   Reduced image file size
 -   Removed unused DeepSource config
 -   Removed used files (3D fox model)
 -   Updated CodeQL workflow
