@@ -5,7 +5,8 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 
 const metadataValues = {
-	description: "Alexander Sullivan's Portfolio & Showcase",
+	description:
+		"Alexander Sullivan's Portfolio & Showcase | Full Stack Developer & Bioinformatician - Explore my featured projects, publications and social media links.",
 	name: 'Alexander Joo-Hyun Sullivan',
 	title: "Alexander Sullivan's Portfolio & Showcase",
 	url: 'https://alexjsully.me/',
