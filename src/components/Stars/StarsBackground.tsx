@@ -155,6 +155,7 @@ export default function StarsBackground(): ReactElement {
 					aria-label='Starry background'
 					component='div'
 					id='sky'
+					role='img'
 					sx={{
 						left: 0,
 						position: 'fixed',
