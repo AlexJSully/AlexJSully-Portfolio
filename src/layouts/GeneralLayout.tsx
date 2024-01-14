@@ -1,4 +1,5 @@
 import StarsBackground from '@components/Stars/StarsBackground';
+import CookieSnackbar from '@components/cookie-snackbar/CookieSnackbar';
 import Footer from '@components/footer/Footer';
 import Navbar from '@components/navbar/Navbar';
 import { ReactElement } from 'react';
@@ -26,6 +27,8 @@ export default function GeneralLayout({ children }: Readonly<GeneralLayoutProps>
 				{children}
 
 				<StarsBackground />
+
+				<CookieSnackbar />
 			</main>
 
 			<footer>
