@@ -62,7 +62,7 @@ const projects = [
 			startDate: '2021-05',
 			endDate: '2021-08',
 		},
-		showcase: true,
+		showcase: false,
 	},
 	{
 		name: "ePlant's Plant eFP",
