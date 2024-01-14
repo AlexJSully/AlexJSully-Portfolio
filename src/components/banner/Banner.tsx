@@ -1,6 +1,7 @@
 'use client';
 
 import { logAnalyticsEvent } from '@configs/firebase';
+import { aaaahhhh } from '@helper/aaaahhhh';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { debounce } from 'lodash';
 import Image from 'next/image';
@@ -24,38 +25,51 @@ export default function Banner() {
 	const [image, setImage] = useState(imageList['default']);
 
 	/** The number of times the profile pic has been hovered */
-	let hoverProfilePic = 0;
+	const hoverProfilePic = useRef(0);
+	/** The total number of sneezes */
+	const totalSneeze = useRef(0);
 	/** Whether or not the profile pic is sneezing */
 	const sneezing = useRef(false);
 
 	/** Handle the sneeze animation */
 	const handleTriggerSneeze = () => {
-		hoverProfilePic += 1;
+		hoverProfilePic.current += 1;
 
-		if (hoverProfilePic % 5 === 0 && !sneezing.current) {
-			// Prevent multiple sneezes at once
-			sneezing.current = true;
+		if (hoverProfilePic.current % 5 === 0 && !sneezing.current) {
+			totalSneeze.current += 1;
 
-			setImage(imageList[`sneeze_1`]);
+			if (totalSneeze.current >= 6) {
+				logAnalyticsEvent('trigger_aaaahhhh', {
+					name: 'trigger_aaaahhhh',
+					type: 'hover',
+				});
 
-			setTimeout(() => {
-				setImage(imageList[`sneeze_2`]);
+				aaaahhhh();
+			} else {
+				// Prevent multiple sneezes at once
+				sneezing.current = true;
+
+				setImage(imageList[`sneeze_1`]);
 
 				setTimeout(() => {
-					setImage(imageList[`sneeze_3`]);
+					setImage(imageList[`sneeze_2`]);
 
 					setTimeout(() => {
-						setImage(imageList[`default`]);
+						setImage(imageList[`sneeze_3`]);
 
-						sneezing.current = false;
-					}, 1000);
-				}, 300);
-			}, 500);
+						setTimeout(() => {
+							setImage(imageList[`default`]);
 
-			logAnalyticsEvent('trigger_sneeze', {
-				name: 'trigger_sneeze',
-				type: 'hover',
-			});
+							sneezing.current = false;
+						}, 1000);
+					}, 300);
+				}, 500);
+
+				logAnalyticsEvent('trigger_sneeze', {
+					name: 'trigger_sneeze',
+					type: 'hover',
+				});
+			}
 		}
 	};
 
