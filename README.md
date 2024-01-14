@@ -3,8 +3,6 @@
 My portfolio website to showcase (and brag) about my all my projects!
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/03876ea9102600fc4ed2/maintainability)](https://codeclimate.com/github/AlexJSully/AlexJSully-Portfolio/maintainability)
-[![CodeFactor](https://www.codefactor.io/repository/github/AlexJSully/alexjsully-portfolio/badge)](https://www.codefactor.io/repository/github/AlexJSully/alexjsully-portfolio)
-[![DeepSource](https://deepsource.io/gh/AlexJSully/AlexJSully-Portfolio.svg/?label=active+issues&show_trend=true&token=5AtKqjJVeOH_bCbpMIGC6GCH)](https://deepsource.io/gh/AlexJSully/AlexJSully-Portfolio/?ref=repository-badge)
 [![Follow on Twitter](https://img.shields.io/twitter/follow/alexjsully?style=social)](https://twitter.com/alexjsully)
 [![GitHub repo size](https://img.shields.io/github/repo-size/AlexJSully/alexjsully-portfolio)](https://github.com/AlexJSully/alexjsully-portfolio)
 [![GitHub](https://img.shields.io/github/license/AlexJSully/alexjsully-portfolio)](https://github.com/AlexJSully/alexjsully-portfolio)

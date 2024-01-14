@@ -19,7 +19,6 @@ export default function ProjectsGrid(): ReactElement {
 				direction='column'
 				id='projects-grid'
 				justifyContent='center'
-				spacing={2}
 				sx={{
 					margin: 'auto',
 					maxWidth: '1920px',
@@ -42,7 +41,6 @@ export default function ProjectsGrid(): ReactElement {
 					container
 					direction='row'
 					justifyContent='center'
-					spacing={2}
 					sx={{
 						margin: 'auto',
 						marginBottom: '2rem',
@@ -66,6 +64,7 @@ export default function ProjectsGrid(): ReactElement {
 								height: '100%',
 								justifyContent: 'flex-start',
 								margin: '1rem auto auto',
+								padding: '10px',
 								transition: 'all 0.5s ease-in-out',
 							}}
 							xl={3}

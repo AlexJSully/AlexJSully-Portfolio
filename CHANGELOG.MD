@@ -4,7 +4,54 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-To see tags and releases, please go to [Tags](https://github.com/AlexJSully/AlexJSully-Portfolio/tags) on [GitHub](https://github.com/AlexJSully/AlexJSully-Portfolio).
+To see tags and releases, please go to [Releases](https://github.com/AlexJSully/AlexJSully-Portfolio/releases) on [GitHub](https://github.com/AlexJSully/AlexJSully-Portfolio).
+
+## [2.0.7] - 2024-01-13
+
+UI/UX:
+
+-   Added cookie banner
+-   When viewing more (or less) projects, scroll to top of projects grid
+
+Optimizations:
+
+-   Added Cypress e2e testing
+-   Added new GitHub Actions CI/CD workflow for code quality check
+-   Lazy load images
+-   Optimized images for file sizes
+-   Reduced image file size
+-   Removed unused DeepSource config
+-   Removed used files (3D fox model)
+-   Updated CodeQL workflow
+-   Updated SEO meta data description
+-   Wrapped errors in React memo
+
+Analytics:
+
+-   Added Vercel observability tools to monitor performance
+
+Update:
+
+-   Update packages
+-   Update to Node 20
+
+Documentation:
+
+-   Update public facing email
+-   Update wording on issue templates
+
+Bug fix:
+
+-   Fixed projects grid not being centered on mobile
+-   Fixed resoc Open Graph image being wrong size
+-   Fixed deprecated permission policy APIs
+-   Fixed missing Sentry auth tokens in build
+-   Fixed missing Sentry global error handler
+-   Fixed missing `form_factor` in web manifest
+-   Fixed missing alts on images
+-   Fixed missing aria-labels for accessibility screen readers
+-   Fixed missing roles for accessibility
+-   Fixed publications not opening in new tab
 
 ## [2.0.6] - 2024-01-10
 

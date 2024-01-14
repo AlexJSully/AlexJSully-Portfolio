@@ -1,0 +1,43 @@
+'use client';
+
+import { CloseRounded as CloseIcon } from '@mui/icons-material';
+import { Alert, IconButton, Snackbar, Stack } from '@mui/material';
+import { useEffect, useState } from 'react';
+
+/** Renders the cookie snackbar. */
+export default function CookieSnackbar() {
+	/** Whether the snackbar is open. */
+	const [open, setOpen] = useState(false);
+
+	const handleClose = () => {
+		document.cookie = 'cookie-consent=true; max-age=31536000; path=/';
+
+		setOpen(false);
+	};
+
+	useEffect(() => {
+		// If the cookie 'cookie-consent' is set to true, don't show the snackbar
+		if (document.cookie.includes('cookie-consent=true')) {
+			setOpen(false);
+		} else {
+			setOpen(true);
+
+			setTimeout(() => {
+				document.cookie = 'cookie-consent=true; max-age=31536000; path=/';
+			}, 1000);
+		}
+	}, []);
+
+	return (
+		<Snackbar onClose={handleClose} open={open}>
+			<Alert severity='info'>
+				<Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ width: '100%' }}>
+					This website uses cookies to enhance the user experience.
+					<IconButton aria-label='close' color='inherit' onClick={handleClose} size='small'>
+						<CloseIcon fontSize='small' />
+					</IconButton>
+				</Stack>
+			</Alert>
+		</Snackbar>
+	);
+}
