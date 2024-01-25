@@ -1,7 +1,7 @@
 // This file configures the initialization of Sentry on the client.
 // The config you add here will be used whenever a users loads a page in their browser.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
-import { CaptureConsole } from '@sentry/integrations';
+import { captureConsoleIntegration } from '@sentry/integrations';
 import * as Sentry from '@sentry/nextjs';
 
 Sentry.init({
@@ -21,12 +21,9 @@ Sentry.init({
 
 	// You can remove this option if you're not planning to use the Sentry Session Replay feature:
 	integrations: [
-		new CaptureConsole({
+		captureConsoleIntegration({
 			levels: ['error'],
 		}),
-		new Sentry.Replay({
-			// Additional Replay configuration goes in here, for example:
-			maskAllText: true,
-		}),
+		Sentry.replayIntegration(),
 	],
 });
