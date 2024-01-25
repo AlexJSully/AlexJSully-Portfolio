@@ -17,7 +17,7 @@ const projects = [
 		id: 'mpx',
 		description: 'Update, maintain and create new features for web and back-end systems',
 		employer: 'Brinx Software Inc',
-		'most-recent-title': 'Full Stack Developer',
+		title: 'Full Stack Developer',
 		type: 'Employment',
 		url: 'https://app.masterpiecex.com/',
 		urls: [
@@ -46,7 +46,7 @@ const projects = [
 		id: 'impact-depth',
 		description: 'Visualize citation flow for a publication of interest',
 		employer: 'Personal Project',
-		'most-recent-title': 'Creator',
+		title: 'Creator',
 		type: 'Personal Project',
 		url: 'https://impactdepth.com/',
 		urls: [
@@ -69,7 +69,7 @@ const projects = [
 		id: 'eplant-plant-efp',
 		description: 'Designed the updated widget version of the eFP tissue expression viewer for ePlant',
 		employer: 'University of Toronto - BAR/Provart Lab',
-		'most-recent-title': 'Data Visualization Programmer',
+		title: 'Software Engineer',
 		publication: 'https://doi.org/10.1101/2021.04.28.441805',
 		type: 'Employment',
 		url: 'https://github.com/BioAnalyticResource/ePlant_Plant_eFP',
@@ -99,7 +99,7 @@ const projects = [
 		id: 'gaia',
 		description: 'Generates a summary or answers a question regarding a gene',
 		employer: 'University of Toronto - BAR/Provart Lab',
-		'most-recent-title': 'Project Lead',
+		title: 'Bioinformatician',
 		type: 'School (MSc)',
 		url: 'https://bar.utoronto.ca/gaia/',
 		urls: [
@@ -122,7 +122,7 @@ const projects = [
 		id: 'scigrade',
 		description: 'Teach CRISPR gRNA design',
 		employer: 'University of Toronto - Human Biology Department',
-		'most-recent-title': 'Full-Stack Developer',
+		title: 'Full Stack Developer',
 		type: 'School (Volunteer)',
 		url: 'https://scigrade.com/',
 		urls: [
@@ -151,7 +151,7 @@ const projects = [
 		id: 'efp-seq-browser',
 		description: 'An RNA-Seq based gene expression visualizer web-tool',
 		employer: 'University of Toronto - BAR/Provart Lab',
-		'most-recent-title': 'Data Visualization Programmer',
+		title: 'Data Visualization Programmer',
 		publication: 'https://doi.org/10.1111/tpj.14468',
 		type: 'Employment',
 		url: 'https://bar.utoronto.ca/eFP-Seq_Browser/',
@@ -187,7 +187,7 @@ const projects = [
 		id: 'biosensing',
 		description: 'Developed a synthetic gene using GolS/GolB to detect aqueous gold',
 		employer: 'University of Toronto - iGEM Toronto',
-		'most-recent-title': 'Laboratory Research Lead',
+		title: 'Laboratory Research Lead',
 		type: 'School (Club)',
 		url: 'http://2016.igem.org/Team:Toronto',
 		urls: [
@@ -210,7 +210,7 @@ const projects = [
 		id: 'smalldevtalk',
 		description: 'News, interviews and showcases of the latest in the indie scene',
 		employer: 'Small Dev Talk',
-		'most-recent-title': 'Co-creator & Journalist',
+		title: 'Co-creator & Journalist',
 		type: 'Personal Project',
 		url: 'https://smalldevtalk.net/',
 		urls: [
