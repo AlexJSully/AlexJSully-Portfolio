@@ -129,13 +129,22 @@ export default function ProjectsGrid(): ReactElement {
 								<Typography
 									sx={{
 										fontSize: 'clamp(1rem, 1.5vw, 1.5rem)',
-										marginBottom: '1rem',
 										marginTop: '1rem',
+										fontWeight: 700,
 									}}
 								>
 									{project.name}
 								</Typography>
 							</Link>
+
+							<Typography
+								sx={{
+									fontSize: 'clamp(1rem, 1.25vw, 1.25rem)',
+									marginBottom: '1rem',
+								}}
+							>
+								{project.title}
+							</Typography>
 
 							{project.urls && (
 								<Grid alignItems='center' container direction='row' justifyContent='center' spacing={2}>
