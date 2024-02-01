@@ -29,7 +29,7 @@
 		"@mui/icons-material": "^5.15.6",
 		"@mui/material": "^5.15.6",
 		"@sentry/integrations": "^7.98.0",
-		"@sentry/nextjs": "^7.98.0",
+		"@sentry/nextjs": "^7.99.0",
 		"@vercel/speed-insights": "^1.0.8",
 		"firebase": "^10.7.2",
 		"lodash": "^4.17.21",
