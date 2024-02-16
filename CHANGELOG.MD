@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 To see tags and releases, please go to [Releases](https://github.com/AlexJSully/AlexJSully-Portfolio/releases) on [GitHub](https://github.com/AlexJSully/AlexJSully-Portfolio).
 
+## [2.0.10] - 2024-02-16
+
+UI/UX:
+
+-   Updated "Full Stack Developer" to "Software Developer"
+
+Update:
+
+-   Update packages
+
+Bug fix:
+
+-   Fixed missing cypress e2e config
+-   Fixed `'useLayoutEffect' is not exported from 'react'`
+
 ## [2.0.9] - 2024-01-25
 
 UI/UX:
