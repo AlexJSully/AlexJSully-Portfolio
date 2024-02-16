@@ -16,8 +16,8 @@
 		"types": ["node"],
 		"plugins": [
 			{
-				"name": "next",
-			},
+				"name": "next"
+			}
 		],
 		"paths": {
 			"@*": ["./src/*"],
@@ -27,8 +27,8 @@
 			"@helpers/*": ["./src/helpers/*"],
 			"@images/*": ["./src/images/*"],
 			"@layouts/*": ["./src/layouts/*"],
-			"@styles/*": ["./src/styles/*"],
-		},
+			"@styles/*": ["./src/styles/*"]
+		}
 	},
 	"include": [
 		"**/*.js",
@@ -38,7 +38,7 @@
 		".next/types/**/*.ts",
 		"build/types/**/*.ts",
 		"next-env.d.ts",
-		"types/**/*.d.ts",
+		"types/**/*.d.ts"
 	],
-	"exclude": [".next", "coverage", "dist", "next.config.js", "node_modules", "out", "postcss.config.js", "tmp"],
+	"exclude": [".next", "coverage", "dist", "next.config.js", "node_modules", "out", "postcss.config.js", "tmp"]
 }
