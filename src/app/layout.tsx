@@ -6,7 +6,7 @@ import type { Metadata } from 'next';
 
 const metadataValues = {
 	description:
-		"Alexander Sullivan's Portfolio & Showcase | Full Stack Developer & Bioinformatician - Explore my featured projects, publications and social media links.",
+		"Alexander Sullivan's Portfolio & Showcase | Software Developer & Bioinformatician - Explore my featured projects, publications and social media links.",
 	name: 'Alexander Joo-Hyun Sullivan',
 	title: "Alexander Sullivan's Portfolio & Showcase",
 	url: 'https://alexjsully.me/',
@@ -101,16 +101,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			image: 'https://pbs.twimg.com/profile_images/1443997899378069526/p4e_Vx1Z_400x400.jpg',
 			sameAs: [
 				'https://alexjsully.me/',
-				'https://www.linkedin.com/in/alexanderjsullivan/',
-				'https://twitter.com/AlexJSully',
-				'https://github.com/alexjsully',
+				'https://app.masterpiecex.com/user/alexjsully',
+				'https://bsky.app/profile/alexjsully.bsky.social',
+				'https://github.com/AlexJSully',
+				'https://gitlab.com/asully',
 				'https://orcid.org/0000-0002-4463-4473',
 				'https://scholar.google.ca/citations?user=1nr3eaAAAAAJ&hl=en',
+				'https://twitter.com/alexjsully',
+				'https://www.instagram.com/alex.j.sullly/',
+				'https://www.linkedin.com/in/alexanderjsullivan/',
+				'https://www.threads.net/@alex.j.sullly',
+				'https://www.twitch.tv/alexjsully',
 			],
-			jobTitle: 'Full Stack Developer',
+			jobTitle: 'Software Developer',
 			worksFor: {
 				'@type': 'Organization',
-				name: 'Masterpiece Studio',
+				name: 'Verily',
 			},
 			gender: 'male',
 			address: {
@@ -132,7 +138,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					name: 'What projects have Alexander Sullivan worked on?',
 					acceptedAnswer: {
 						'@type': 'Answer',
-						text: 'Currently working as a Full Stack Developer at Masterpiece Studio. Notable previous projects include: Impact Depth - a tool to visualize citation impact of a scientific publication of interest, GAIA - a web app to aggregate and synthesis agricultural biological data into a single location & eFP-Seq Browser - an RNA-Seq data exploration tool that shows read map coverage of a gene along with a coloured eFP image (doi.org/10.1111/tpj.14468)',
+						text: 'Worked as a Software Developer at Verily. Notable previous projects include: Masterpiece X & Masterpiece X - Generate with Masterpiece Studio, Impact Depth - a tool to visualize citation impact of a scientific publication of interest, GAIA - a web app to aggregate and synthesis agricultural biological data into a single location & eFP-Seq Browser - an RNA-Seq data exploration tool that shows read map coverage of a gene along with a coloured eFP image (doi.org/10.1111/tpj.14468)',
 					},
 				},
 				{
@@ -140,7 +146,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					name: 'What is Alexander Sullivan currently working on?',
 					acceptedAnswer: {
 						'@type': 'Answer',
-						text: 'Currently working as a Full Stack Developer at Masterpiece Studio. Additional projects include: Impact Depth - a tool to visualize citation impact of a scientific publication of interest, and improving accessibility and performance of GAIA & the eFP-Seq Browser',
+						text: 'Worked as a Software Developer at Verily. Additional previous projects include: Masterpiece X & Masterpiece X - Generate with Masterpiece Studio, Impact Depth - a tool to visualize citation impact of a scientific publication of interest, and improving accessibility and performance of GAIA & the eFP-Seq Browser',
 					},
 				},
 				{
@@ -156,7 +162,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					name: 'What is the current employment status of Alexander Sullivan?',
 					acceptedAnswer: {
 						'@type': 'Answer',
-						text: 'Currently working for Masterpiece Studio as a Full Stack Developer.',
+						text: 'Currently working with Verily as a Software Developer.',
 					},
 				},
 				{

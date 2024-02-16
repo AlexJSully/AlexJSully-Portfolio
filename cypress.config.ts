@@ -2,6 +2,7 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
 	e2e: {
+		setupNodeEvents(on, config) {},
 		// Include shadow DOM elements in command results
 		includeShadowDom: true,
 		// Allow certain Content Security Policies
