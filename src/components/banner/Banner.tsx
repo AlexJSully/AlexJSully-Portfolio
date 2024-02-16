@@ -150,7 +150,7 @@ export default function Banner() {
 					textShadow: '1px 2px 3px #000',
 				}}
 			>
-				Full Stack Developer & Bioinformatician
+				Software Developer & Bioinformatician
 			</Typography>
 		</Box>
 	);
