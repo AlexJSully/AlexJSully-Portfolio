@@ -2,7 +2,6 @@ import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
 import BAR from './icons/bar.svg';
 import BlueSky from './icons/bluesky.svg';
 import GitHub from './icons/github.svg';
-import GitLab from './icons/gitlab.svg';
 import ImpactDepth from './icons/impactdepth.svg';
 import Instagram from './icons/instagram.svg';
 import LinkedIn from './icons/linkedin.svg';
@@ -16,14 +15,22 @@ import Twitch from './icons/twitch.svg';
 import UofT from './icons/uoft.svg';
 import X from './icons/x.svg';
 
-function generateIconJSX(icon: any, props: any) {
+/**
+ * Generates a JSX element for the given SVG icon.
+ * @returns The JSX element representing the SVG icon.
+ */
+function generateIconJSX(
+	/** The SVG icon to generate JSX for. */
+	icon: any,
+	/** The properties to apply to the SVG icon. */
+	props: any,
+) {
 	return <SvgIcon component={icon} inheritViewBox {...props} />;
 }
 
 export const BarIcon = (props: SvgIconProps) => generateIconJSX(BAR, props);
 export const BlueSkyIcon = (props: SvgIconProps) => generateIconJSX(BlueSky, props);
 export const GitHubIcon = (props: SvgIconProps) => generateIconJSX(GitHub, props);
-export const GitLabIcon = (props: SvgIconProps) => generateIconJSX(GitLab, props);
 export const ImpactDepthIcon = (props: SvgIconProps) => generateIconJSX(ImpactDepth, props);
 export const InstagramIcon = (props: SvgIconProps) => generateIconJSX(Instagram, props);
 export const LinkedInIcon = (props: SvgIconProps) => generateIconJSX(LinkedIn, props);

@@ -104,7 +104,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				'https://app.masterpiecex.com/user/alexjsully',
 				'https://bsky.app/profile/alexjsully.bsky.social',
 				'https://github.com/AlexJSully',
-				'https://gitlab.com/asully',
 				'https://orcid.org/0000-0002-4463-4473',
 				'https://scholar.google.ca/citations?user=1nr3eaAAAAAJ&hl=en',
 				'https://twitter.com/alexjsully',

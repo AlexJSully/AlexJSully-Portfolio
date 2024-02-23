@@ -1,7 +1,6 @@
 import {
 	BlueSkyIcon,
 	GitHubIcon,
-	GitLabIcon,
 	InstagramIcon,
 	LinkedInIcon,
 	MPXIcon,
@@ -23,12 +22,6 @@ const socials = [
 		url: 'https://github.com/AlexJSully',
 		icon: GitHubIcon,
 		color: '#fff',
-	},
-	{
-		name: 'GitLab',
-		url: 'https://gitlab.com/asully',
-		icon: GitLabIcon,
-		color: '#FCA121',
 	},
 	{
 		name: 'X',
