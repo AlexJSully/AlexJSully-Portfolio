@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 To see tags and releases, please go to [Releases](https://github.com/AlexJSully/AlexJSully-Portfolio/releases) on [GitHub](https://github.com/AlexJSully/AlexJSully-Portfolio).
 
+## [2.0.12] - 2024-07-05
+
+Optimization:
+
+-   Update service worker registration
+
+Update:
+
+-   Update packages to address vulnerabilities
+
 ## [2.0.11] - 2024-02-23
 
 UI/UX:
