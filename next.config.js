@@ -4,9 +4,10 @@ const { withSentryConfig } = require('@sentry/nextjs');
 const isDevelopment = process.env.NEXT_PUBLIC_ENVIRONMENT === 'development';
 
 const withPWA = require('next-pwa')({
-	dest: 'public',
 	buildExcludes: ['app-build-manifest.json'],
+	dest: 'public',
 	disable: isDevelopment,
+	register: true,
 });
 
 const nextConfig = withPWA({
