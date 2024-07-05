@@ -8,6 +8,7 @@ const withPWA = require('next-pwa')({
 	dest: 'public',
 	disable: isDevelopment,
 	register: true,
+	skipWaiting: true,
 });
 
 const nextConfig = withPWA({
