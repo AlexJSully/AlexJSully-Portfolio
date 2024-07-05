@@ -4,9 +4,11 @@ const { withSentryConfig } = require('@sentry/nextjs');
 const isDevelopment = process.env.NEXT_PUBLIC_ENVIRONMENT === 'development';
 
 const withPWA = require('next-pwa')({
-	dest: 'public',
 	buildExcludes: ['app-build-manifest.json'],
+	dest: 'public',
 	disable: isDevelopment,
+	register: true,
+	skipWaiting: true,
 });
 
 const nextConfig = withPWA({
@@ -60,6 +62,11 @@ const nextConfig = withPWA({
 		});
 
 		return config;
+	},
+	// ESLint 9 causes issues with NextJS so disable on build
+	eslint: {
+		// Warning: This allows production builds to successfully complete even if your project has ESLint errors.
+		ignoreDuringBuilds: true,
 	},
 });
 
