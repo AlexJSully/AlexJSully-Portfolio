@@ -3,6 +3,11 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 import { captureConsoleIntegration } from '@sentry/integrations';
 import * as Sentry from '@sentry/nextjs';
+import { Integration } from '@sentry/types';
+
+const consoleIntegration = captureConsoleIntegration({
+	levels: ['error'],
+}) as Integration;
 
 Sentry.init({
 	dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
@@ -20,10 +25,5 @@ Sentry.init({
 	replaysSessionSampleRate: 0.1,
 
 	// You can remove this option if you're not planning to use the Sentry Session Replay feature:
-	integrations: [
-		captureConsoleIntegration({
-			levels: ['error'],
-		}),
-		Sentry.replayIntegration(),
-	],
+	integrations: [consoleIntegration, Sentry.replayIntegration()],
 });
