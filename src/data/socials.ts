@@ -1,13 +1,4 @@
-import {
-	BlueSkyIcon,
-	GitHubIcon,
-	InstagramIcon,
-	LinkedInIcon,
-	MPXIcon,
-	ThreadsIcon,
-	TwitchIcon,
-	XIcon,
-} from '@images/icons';
+import { BlueSkyIcon, GitHubIcon, LinkedInIcon, MPXIcon, TwitchIcon, XIcon } from '@images/icons';
 
 /** Social media data */
 const socials = [
@@ -30,22 +21,10 @@ const socials = [
 		color: '#1DA1F2',
 	},
 	{
-		name: 'threads',
-		url: 'https://www.threads.net/@alex.j.sullly',
-		icon: ThreadsIcon,
-		color: '#fff',
-	},
-	{
 		name: 'Bluesky',
 		url: 'https://bsky.app/profile/alexjsully.bsky.social',
 		icon: BlueSkyIcon,
 		color: '#0085ffff',
-	},
-	{
-		name: 'Instagram',
-		url: 'https://www.instagram.com/alex.j.sullly/',
-		icon: InstagramIcon,
-		color: '#fa7e1eff',
 	},
 	{
 		name: 'Twitch',

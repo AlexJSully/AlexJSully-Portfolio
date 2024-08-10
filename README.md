@@ -28,7 +28,7 @@ If you would like to run or modify my portfolio locally, clone the repository wi
 git clone https://github.com/AlexJSully/alexjsully-portfolio.git
 ```
 
-Then run `npm install`, change to the appropriate directory and then `npm start`. My portfolio will run at <http://localhost:3000/>.
+Then run `npm install`, change to the appropriate directory and then `npm dev`. My portfolio will run at <http://localhost:3000/>.
 
 ## Known issues
 
