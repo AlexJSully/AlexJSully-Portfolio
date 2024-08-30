@@ -4,7 +4,6 @@ const react = require('eslint-plugin-react');
 const reactHooks = require('eslint-plugin-react-hooks');
 const ts = require('@typescript-eslint/eslint-plugin');
 const tsParser = require('@typescript-eslint/parser');
-const importPlugin = require('eslint-plugin-import');
 
 module.exports = [
 	{
@@ -39,7 +38,6 @@ module.exports = [
 		},
 		plugins: {
 			'@typescript-eslint': ts,
-			import: importPlugin,
 			prettier: eslintPluginPrettier,
 			react,
 			'react-hooks': reactHooks,
@@ -51,14 +49,6 @@ module.exports = [
 			'@typescript-eslint/no-unused-vars': ['error'],
 			'class-methods-use-this': 'off',
 			'consistent-return': 'off',
-			'import/default': 2,
-			'import/export': 2,
-			'import/named': 2,
-			'import/namespace': 2,
-			'import/no-cycle': 'off',
-			'import/no-unresolved': [2, { commonjs: true, amd: true }],
-			'import/order': 'off',
-			'import/prefer-default-export': 'off',
 			indent: ['error', 'tab'],
 			'no-console': 'off',
 			'no-continue': 'off',

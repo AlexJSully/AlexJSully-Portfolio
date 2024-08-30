@@ -2,7 +2,6 @@
 
 My portfolio website to showcase (and brag) about my all my projects!
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/03876ea9102600fc4ed2/maintainability)](https://codeclimate.com/github/AlexJSully/AlexJSully-Portfolio/maintainability)
 [![Follow on Twitter](https://img.shields.io/twitter/follow/alexjsully?style=social)](https://twitter.com/alexjsully)
 [![GitHub repo size](https://img.shields.io/github/repo-size/AlexJSully/alexjsully-portfolio)](https://github.com/AlexJSully/alexjsully-portfolio)
 [![GitHub](https://img.shields.io/github/license/AlexJSully/alexjsully-portfolio)](https://github.com/AlexJSully/alexjsully-portfolio)
@@ -42,7 +41,6 @@ If you want to support my work, you can through the following methods:
 
 -   [BTC](3Lp4pwF5nXqwFA62BYx4DSvDswyYpskBog) - 3Lp4pwF5nXqwFA62BYx4DSvDswyYpskBog
 -   [ETH](0xc6EB17BD7cbe5976Bfc4f845669cD66Ff340a1A2) - 0xc6EB17BD7cbe5976Bfc4f845669cD66Ff340a1A2
--   [PayPal](https://paypal.me/alexjsully) - paypal.me/alexjsully
 
 ## Contributing
 
