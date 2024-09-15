@@ -15,6 +15,7 @@
 	"orientation": "any",
 	"prefer_related_applications": false,
 	"scope": "/",
+	"scope_extensions": ["https://alexjsully.me/", "https://alexjsully.com/"],
 	"short_name": "Alexander Sullivan's Portfolio",
 	"start_url": "/",
 	"theme_color": "#131518",
