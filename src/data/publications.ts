@@ -1,6 +1,29 @@
 /** Publications data. */
 const publications = [
 	{
+		title: '20 years of the Bio-Analytic Resource for Plant Biology',
+		authors: [
+			'Alexander Sullivan',
+			'Michael N Lombardo',
+			'Asher Pasha',
+			'Vincent Lau',
+			'Jian Yun Zhuang',
+			'Ashley Christendat',
+			'Bruno Pereira',
+			'Tianhui Zhao',
+			'Youyang Li',
+			'Rachel Wong',
+			'Faisal Z Qureshi',
+			'Nicholas J Provart',
+		],
+		abstract:
+			'The Bio-Analytic Resource for Plant Biology (‘the BAR’, at https://bar.utoronto.ca) is celebrating its 20th year in operation in 2025. The BAR encompasses and provides visualization tools for large ‘omics data sets from plants. The BAR covers data from Arabidopsis, tomato, wheat, barley and 29 other plant species (with data for 2 others to be released soon). These data include nucleotide and protein sequence data, gene expression data, protein-protein and protein–DNA interactions, protein structures, subcellular localizations, and polymorphisms. The data are stored in more than 200 relational databases holding 186 GB of data and are presented to the researchers via web apps. These web apps provide data analysis and visualization tools. Some of the most popular tools are eFP (‘electronic fluorescent pictograph’) Browsers, ePlants and ThaleMine (an Arabidopsis-specific instance of InterMine). The BAR was designated a Global Core Biodata Resource in 2023. Like other GCBRs, the BAR has excellent operational stability, provides access without login requirement, and provides an API for researchers to be able to access BAR data programmatically. We present in this update a new overarching search tool called Gaia that permits easy access to all BAR data, powered by machine learning and artificial intelligence.',
+		doi: '10.1093/nar/gkae920',
+		journal: 'Nucleic Acids Research',
+		date: '2024-10-23',
+		'related-project': 'gaia',
+	},
+	{
 		title: 'ePlant in 2021: New Species, Viewers, Data Sets, and Widgets',
 		authors: [
 			'Ben Waese-Perlman',
