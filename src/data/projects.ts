@@ -109,6 +109,12 @@ const projects = [
 				icon: BarIcon,
 				url: 'https://bar.utoronto.ca/gaia/',
 			},
+			{
+				text: 'Publication',
+				tooltip: 'Read the publication for GAIA',
+				icon: PublishIcon,
+				url: 'https://doi.org/10.1093/nar/gkae920',
+			},
 		],
 		color: '#cddaa7',
 		dates: {
