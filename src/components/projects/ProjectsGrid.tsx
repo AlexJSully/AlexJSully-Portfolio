@@ -90,14 +90,14 @@ export default function ProjectsGrid(): ReactElement {
 								<Card
 									sx={{
 										aspectRatio: '4/3',
-										backgroundColor: `${project.color || '#000'}25`,
-										border: `1px solid ${project.color || '#000'}25`,
+										backgroundColor: `${project.color || '#000'}20`,
+										border: `1px solid ${project.color || '#000'}20`,
 										borderRadius: '16px',
 										height: '100%',
 										transition: 'all 0.5s ease',
 										width: '100%',
 										'&:hover': {
-											backgroundColor: `${project.color || '#000'}`,
+											backgroundColor: `${project.color || '#000'}40`,
 											border: `1px solid ${project.color || '#000'}`,
 											transform: 'scale(1.05)',
 										},
@@ -110,7 +110,7 @@ export default function ProjectsGrid(): ReactElement {
 										loading='lazy'
 										sx={{
 											height: '100%',
-											objectFit: 'cover',
+											objectFit: project.objectFit ?? 'cover',
 											width: '100%',
 										}}
 									/>
@@ -141,9 +141,26 @@ export default function ProjectsGrid(): ReactElement {
 								sx={{
 									fontSize: 'clamp(1rem, 1.25vw, 1.25rem)',
 									marginBottom: '1rem',
+									textAlign: 'center',
 								}}
 							>
-								{project.title}
+								{project.title}{' '}
+								{project.employer ? (
+									<>
+										-{' '}
+										<Link
+											aria-label={`Employer: ${project.employer}`}
+											href={project.employerURL || '/'}
+											prefetch
+											style={{
+												color: 'inherit',
+												textDecoration: 'none',
+											}}
+										>
+											{project.employer}
+										</Link>
+									</>
+								) : null}
 							</Typography>
 
 							{project.urls && (
@@ -167,7 +184,7 @@ export default function ProjectsGrid(): ReactElement {
 												}}
 												target='_blank'
 											>
-												<Tooltip arrow describeChild title={url.tooltip}>
+												<Tooltip arrow describeChild title={url.tooltip} enterDelay={500}>
 													<Button
 														aria-label={`Project button: ${project.name} - ${url.text}`}
 														sx={{
