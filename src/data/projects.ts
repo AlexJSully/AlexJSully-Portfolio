@@ -9,9 +9,56 @@ import {
 	SmallDevTalkIcon,
 	UofTIcon,
 } from '@images/icons';
+import { SvgIconProps } from '@mui/material';
 
 /** Project data */
-const projects = [
+interface Projects {
+	/** The name of the project. */
+	name: string;
+	/** The unique identifier for the project (ex. associated with the image file name). */
+	id: string;
+	/** A description of the project. */
+	description?: string;
+	/** The employer for the project. */
+	employer?: string;
+	/** The URL for the employer (must be provided IF `employer` was provided). */
+	employerURL?: string;
+	/** The title of the project. */
+	title: string;
+	/** Publication URL for the project. */
+	publication?: string;
+	/** The type of project work (ex Employment, Personal Project, School, etc...). */
+	type?: string;
+	/** The URL for the project. */
+	url: string;
+	/** URLs for the buttons to showcase the project. */
+	urls: {
+		/** The text for the button. */
+		text: string;
+		/** The tooltip for the button. */
+		tooltip: string;
+		/** The icon for the button. */
+		icon: (props: SvgIconProps) => JSX.Element;
+		/** The URL for the button. */
+		url: string;
+	}[];
+	/** The color for the project. */
+	color: string;
+	/** The dates for the project. */
+	dates?: {
+		/** The start date for the project. */
+		startDate: string;
+		/** The end date for the project. */
+		endDate: string;
+	};
+	/** Whether to showcase the project (if hidden behind show more button or not) */
+	showcase?: boolean;
+	/** The object fit for the project image (defaults to cover if nothing provided). */
+	objectFit?: string;
+}
+
+/** Project data */
+const projects: Projects[] = [
 	{
 		name: 'FHIRPath',
 		id: 'fhirpath',
