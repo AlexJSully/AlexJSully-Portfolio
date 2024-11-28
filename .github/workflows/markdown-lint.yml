@@ -30,6 +30,5 @@ jobs:
                   key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
                   restore-keys: |
                       ${{ runner.os }}-node-
-
             - name: Run markdownlint on Markdown files
-              run: markdownlint "**/*.md"
+              run: npm run lint:markdown
