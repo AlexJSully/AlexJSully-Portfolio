@@ -18,12 +18,13 @@
 		"e2e:headless": "start-server-and-test dev http://localhost:3000 \"cypress run --e2e\"",
 		"eslint": "eslint --fix ./",
 		"eslint:check": "eslint ./",
+		"lint:markdown": "markdownlint \"**/*.md\"",
 		"prettier": "prettier --write ./",
 		"prettier:check": "prettier --check ./",
 		"start": "next start",
 		"tsc": "tsc --noEmit",
 		"tsc:watch": "tsc --watch --noEmit",
-		"validate": "npm run prettier && npm run eslint && npm run tsc && npm run e2e:headless && npm run build"
+		"validate": "npm run prettier && npm run eslint && npm run tsc && npm run e2e:headless && npm run build && npm run lint:markdown"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.13.5",
@@ -62,6 +63,7 @@
 		"eslint-plugin-react": "^7.37.2",
 		"eslint-plugin-react-hooks": "^5.0.0",
 		"globals": "^15.12.0",
+		"markdownlint-cli": "^0.43.0",
 		"prettier": "^3.4.1",
 		"sass": "^1.81.0",
 		"start-server-and-test": "^2.0.8",

@@ -36,20 +36,20 @@ To add new publications, you need to update the `publications` array in [publica
 1. Open the [publications.ts](../../src/data/publications.ts) file.
 2. Add a new object to the publications array with the following structure:
 
-```json
-{
-	"title": "Publication Title",
-	"authors": [
-		"Author 1",
-		"Author 2"
-		// more authors
-	],
-	"abstract": "Abstract of the publication.",
-	"doi": "10.1234/doi",
-	"journal": "Journal Name",
-	"date": "YYYY-MM-DD",
-	"related-project": "project-id" // optional
-}
-```
+    ```json
+    {
+    	"title": "Publication Title",
+    	"authors": [
+    		"Author 1",
+    		"Author 2"
+    		// more authors
+    	],
+    	"abstract": "Abstract of the publication.",
+    	"doi": "10.1234/doi",
+    	"journal": "Journal Name",
+    	"date": "YYYY-MM-DD",
+    	"related-project": "project-id" // optional
+    }
+    ```
 
 By following these steps, you can successfully add new publications to the publications list.

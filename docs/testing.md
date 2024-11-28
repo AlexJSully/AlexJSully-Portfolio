@@ -38,15 +38,15 @@ To run the tests, you can use the following commands:
 
 1. **Open Cypress**: This command opens the Cypress Test Runner, allowing you to run tests interactively.
 
-```sh
-npm run cypress
-```
+    ```sh
+    npm run cypress
+    ```
 
 2. **Run Cypress Tests in Headless Mode**: This command runs all Cypress tests in headless mode, which is useful for CI/CD pipelines.
 
-```sh
-npm run e2e:headless
-```
+    ```sh
+    npm run e2e:headless
+    ```
 
 ### Running All Tests
 

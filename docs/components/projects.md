@@ -38,35 +38,35 @@ To add new projects, you need to update the `projects` array in [projects.ts](..
 1. Open the [projects.ts](../../src/data/projects.ts) file.
 2. Add a new object to the projects array with the following structure: (see `Projects` interface in [projects.ts](../../src/data/projects.ts) for more details)
 
-```json
-{
-	"name": "Project Name",
-	"id": "project-id", // unique identifier for the project (associated with the image file name or publication)
-	"description": "Project description", // optional
-	"employer": "Employer Name", // optional
-	"employerURL": "https://employer-website.com", // required if employer is provided
-	"title": "Job Title",
-	"publication": "https://publication-url.com", // optional
-	"type": "Employment", // or 'Personal Project', 'School (MSc)', etc.
-	"url": "https://project-url.com", // optional
-	"urls": [
-		// this is used to create a series of buttons with links
-		{
-			"text": "Link Text",
-			"tooltip": "Tooltip description",
-			"icon": "IconComponent", // this is a JSX component
-			"url": "https://link-url.com"
-		}
-	],
-	"color": "#colorCode",
-	"dates": {
-		"startDate": "YYYY-MM",
-		"endDate": "YYYY-MM" // or current if ongoing
-	},
-	"showcase": true, // or false
-	"objectFit": "contain" // optional, cover is used if nothing is provided
-}
-```
+    ```json
+    {
+    	"name": "Project Name",
+    	"id": "project-id", // unique identifier for the project (associated with the image file name or publication)
+    	"description": "Project description", // optional
+    	"employer": "Employer Name", // optional
+    	"employerURL": "https://employer-website.com", // required if employer is provided
+    	"title": "Job Title",
+    	"publication": "https://publication-url.com", // optional
+    	"type": "Employment", // or 'Personal Project', 'School (MSc)', etc.
+    	"url": "https://project-url.com", // optional
+    	"urls": [
+    		// this is used to create a series of buttons with links
+    		{
+    			"text": "Link Text",
+    			"tooltip": "Tooltip description",
+    			"icon": "IconComponent", // this is a JSX component
+    			"url": "https://link-url.com"
+    		}
+    	],
+    	"color": "#colorCode",
+    	"dates": {
+    		"startDate": "YYYY-MM",
+    		"endDate": "YYYY-MM" // or current if ongoing
+    	},
+    	"showcase": true, // or false
+    	"objectFit": "contain" // optional, cover is used if nothing is provided
+    }
+    ```
 
 ### Adding Thumbnail Images
 

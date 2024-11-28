@@ -34,13 +34,13 @@ To add new social media links, you need to update the `socials` array in [social
 1. Open the [socials.ts](../../src/data/socials.ts) file.
 2. Add a new object to the socials array with the following structure:
 
-```typescript
-{
-    name: 'Social Media Name',
-    url: 'https://social-media-url.com',
-    icon: SocialMediaIconComponent,
-    color: '#colorCode',
-}
-```
+    ```typescript
+    {
+    	name: 'Social Media Name',
+    	url: 'https://social-media-url.com',
+    	icon: SocialMediaIconComponent,
+    	color: '#colorCode',
+    }
+    ```
 
 By following these steps, you can successfully add new social media links to the footer.
