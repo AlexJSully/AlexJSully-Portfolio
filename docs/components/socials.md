@@ -10,8 +10,8 @@ The social media links are displayed using the `Footer` component located in [Fo
 
 ### Key Elements
 
-* **Grid Layout**: The social media links are displayed in a responsive grid layout using Material-UI's `Grid`, `Stack`, and `Tooltip` components.
-* **Social Media Icons**: Each social media link is displayed as an icon button with a tooltip.
+- **Grid Layout**: The social media links are displayed in a responsive grid layout using Material-UI's `Grid`, `Stack`, and `Tooltip` components.
+- **Social Media Icons**: Each social media link is displayed as an icon button with a tooltip.
 
 ### Flowchart
 

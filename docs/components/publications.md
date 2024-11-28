@@ -10,9 +10,9 @@ The publications list is displayed using the `Publications` component located in
 
 ### Key Elements
 
-* **Styling**: The component uses inline styles to manage the appearance of publication metadata.
-* **List Layout**: The publications are displayed in a responsive list layout using Material-UI's Stack and Typography components.
-* **Publication Cards**: Each publication is displayed as a card with a title, authors, metadata, and an abstract.
+- **Styling**: The component uses inline styles to manage the appearance of publication metadata.
+- **List Layout**: The publications are displayed in a responsive list layout using Material-UI's Stack and Typography components.
+- **Publication Cards**: Each publication is displayed as a card with a title, authors, metadata, and an abstract.
 
 ### Flowchart
 
@@ -38,17 +38,17 @@ To add new publications, you need to update the `publications` array in [publica
 
 ```json
 {
-    "title": "Publication Title",
-    "authors": [
-        "Author 1",
-        "Author 2",
-        // more authors
-    ],
-    "abstract": "Abstract of the publication.",
-    "doi": "10.1234/doi",
-    "journal": "Journal Name",
-    "date": "YYYY-MM-DD",
-    "related-project": "project-id", // optional
+	"title": "Publication Title",
+	"authors": [
+		"Author 1",
+		"Author 2"
+		// more authors
+	],
+	"abstract": "Abstract of the publication.",
+	"doi": "10.1234/doi",
+	"journal": "Journal Name",
+	"date": "YYYY-MM-DD",
+	"related-project": "project-id" // optional
 }
 ```
 

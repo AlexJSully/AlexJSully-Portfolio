@@ -10,9 +10,9 @@ The projects grid is displayed using the `ProjectsGrid` component located in [Pr
 
 ### Key Elements
 
-* **State Management**: The component uses the `useState` hook to manage whether to view all projects or only featured projects.
-* **Grid Layout**: The projects are displayed in a responsive grid layout using Material-UI's Grid and Stack components.
-* **Project Cards**: Each project is displayed as a card with a thumbnail image, project name, title, employer, and links to relevant resources.
+- **State Management**: The component uses the `useState` hook to manage whether to view all projects or only featured projects.
+- **Grid Layout**: The projects are displayed in a responsive grid layout using Material-UI's Grid and Stack components.
+- **Project Cards**: Each project is displayed as a card with a thumbnail image, project name, title, employer, and links to relevant resources.
 
 ### Flowchart
 
@@ -40,30 +40,31 @@ To add new projects, you need to update the `projects` array in [projects.ts](..
 
 ```json
 {
-    "name": "Project Name",
-    "id": "project-id", // unique identifier for the project (associated with the image file name or publication)
-    "description": "Project description", // optional
-    "employer": "Employer Name", // optional
-    "employerURL": "https://employer-website.com", // required if employer is provided
-    "title": "Job Title",
-    "publication": "https://publication-url.com", // optional
-    "type": "Employment", // or 'Personal Project', 'School (MSc)', etc.
-    "url": "https://project-url.com", // optional
-    "urls": [ // this is used to create a series of buttons with links
-        {
-            "text": "Link Text",
-            "tooltip": "Tooltip description",
-            "icon": "IconComponent", // this is a JSX component
-            "url": "https://link-url.com"
-        }
-    ],
-    "color": "#colorCode",
-    "dates": {
-        "startDate": "YYYY-MM",
-        "endDate": "YYYY-MM" // or current if ongoing
-    },
-    "showcase": true, // or false
-    "objectFit": "contain" // optional, cover is used if nothing is provided
+	"name": "Project Name",
+	"id": "project-id", // unique identifier for the project (associated with the image file name or publication)
+	"description": "Project description", // optional
+	"employer": "Employer Name", // optional
+	"employerURL": "https://employer-website.com", // required if employer is provided
+	"title": "Job Title",
+	"publication": "https://publication-url.com", // optional
+	"type": "Employment", // or 'Personal Project', 'School (MSc)', etc.
+	"url": "https://project-url.com", // optional
+	"urls": [
+		// this is used to create a series of buttons with links
+		{
+			"text": "Link Text",
+			"tooltip": "Tooltip description",
+			"icon": "IconComponent", // this is a JSX component
+			"url": "https://link-url.com"
+		}
+	],
+	"color": "#colorCode",
+	"dates": {
+		"startDate": "YYYY-MM",
+		"endDate": "YYYY-MM" // or current if ongoing
+	},
+	"showcase": true, // or false
+	"objectFit": "contain" // optional, cover is used if nothing is provided
 }
 ```
 
