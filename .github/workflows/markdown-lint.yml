@@ -1,19 +1,20 @@
-name: Code Quality Assurance
+name: Markdown Lint
 
 on:
     push:
         branches: [main]
+        paths:
+            - '**/*.md'
+            - '.github/workflows/markdown-lint.yml'
     pull_request:
         branches: [main]
+        paths:
+            - '**/*.md'
+            - '.github/workflows/markdown-lint.yml'
 
 jobs:
-    build:
+    lint-markdown:
         runs-on: ubuntu-latest
-
-        strategy:
-            matrix:
-                node-version: [20.x]
-                # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
         steps:
             - name: Checkout repository
@@ -29,15 +30,7 @@ jobs:
                   key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
                   restore-keys: |
                       ${{ runner.os }}-node-
-            - name: Check installs
+            - name: Run installs
               run: npm ci --legacy-peer-deps
-            - name: Quality check - prettier
-              run: npm run prettier:check
-            - name: Quality check - eslint
-              run: npm run eslint:check
-            - name: Quality check - type check
-              run: npm run tsc
-            - name: Quality check - cypress
-              run: npm run e2e:headless
-            - name: Build check
-              run: npm run build
+            - name: Run markdownlint on Markdown files
+              run: npm run lint:markdown
