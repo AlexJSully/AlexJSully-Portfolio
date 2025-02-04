@@ -13,7 +13,7 @@
 		"skipLibCheck": true,
 		"strict": true,
 		"target": "ESNext",
-		"types": ["node"],
+		"types": ["node", "react", "react-dom"],
 		"plugins": [
 			{
 				"name": "next"

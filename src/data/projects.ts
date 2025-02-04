@@ -38,7 +38,7 @@ interface Projects {
 		/** The tooltip for the button. */
 		tooltip: string;
 		/** The icon for the button. */
-		icon: (props: SvgIconProps) => JSX.Element;
+		icon: (props: SvgIconProps) => React.ReactElement;
 		/** The URL for the button. */
 		url: string;
 	}[];
@@ -66,7 +66,7 @@ const projects: Projects[] = [
 			'Go implementation of the FHIRPath specification, implemented directly with the google/fhir proto definitions.',
 		employer: 'Verily',
 		employerURL: 'https://verily.com/',
-		title: 'Software Developer',
+		title: 'Software Developer II',
 		type: 'Employment',
 		url: 'https://github.com/verily-src/fhirpath-go',
 		urls: [
