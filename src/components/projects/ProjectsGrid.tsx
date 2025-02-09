@@ -143,6 +143,7 @@ export default function ProjectsGrid(): ReactElement {
 											allow='autoplay; encrypted-media'
 											aria-label={`YouTube video for ${project.name}`}
 											component='iframe'
+											data-testid={`project-${project.id}-video`}
 											loading='lazy'
 											src={getYouTubeURL(project.youtubeURL)}
 											sx={{
@@ -156,6 +157,7 @@ export default function ProjectsGrid(): ReactElement {
 											alt={`Thumbnail image for ${project.name}`}
 											aria-label={`Thumbnail image for ${project.name}`}
 											component='img'
+											data-testid={`project-${project.id}-thumbnail`}
 											image={`/images/projects/${project.id}/thumbnail.webp`}
 											loading='lazy'
 											sx={{
