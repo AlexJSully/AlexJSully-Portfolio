@@ -11,4 +11,19 @@ describe('Landing Page', () => {
 		// Check that the profile picture exists on the page
 		cy.get('[data-testid="profile_pic"]').should('exist');
 	});
+
+	// This test checks if the YouTube video plays on hover
+	it('should play YouTube video on hover for Masterpiece X project', () => {
+		// Check if the page contains the "Masterpiece X" project
+		cy.get('[data-testid="project-mpx"]').should('exist').scrollIntoView();
+
+		// Mouse hover over the project
+		cy.get('[data-testid="project-mpx"]').trigger('mouseover');
+
+		// Wait 4 seconds and check if the YouTube video is playing
+		cy.wait(4000).get('iframe').should('be.visible');
+
+		// Mouse hover out of the project and check if the video stops playing
+		cy.get('[data-testid="project-mpx"]').trigger('mouseout');
+	});
 });

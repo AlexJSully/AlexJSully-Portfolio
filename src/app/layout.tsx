@@ -3,6 +3,7 @@ import GeneralLayout from '@layouts/GeneralLayout';
 import '@styles/globals.scss';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
+import Head from 'next/head';
 
 const metadataValues = {
 	description:
@@ -202,7 +203,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 	return (
 		<html lang='en'>
-			<head>
+			<Head>
 				<meta charSet='utf-8' content='text/html' httpEquiv='Content-Type' />
 				<meta content='width=device-width, initial-scale=1' name='viewport' />
 
@@ -231,7 +232,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					}}
 					type='application/ld+json'
 				/>
-			</head>
+			</Head>
 
 			<body>
 				<GeneralLayout>{children}</GeneralLayout>

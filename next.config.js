@@ -36,7 +36,7 @@ const nextConfig = withPWA({
 					},
 					{
 						key: 'X-Frame-Options',
-						value: 'DENY',
+						value: 'SAMEORIGIN',
 					},
 					{
 						key: 'Strict-Transport-Security',

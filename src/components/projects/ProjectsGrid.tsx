@@ -4,12 +4,27 @@ import { logAnalyticsEvent } from '@configs/firebase';
 import projects from '@data/projects';
 import { Button, Card, CardMedia, Grid, Stack, Tooltip, Typography } from '@mui/material';
 import Link from 'next/link';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 
 /** Creates a grid of projects. */
 export default function ProjectsGrid(): ReactElement {
 	/** Whether to view all projects [true] or only featured projects [false, default] */
 	const [viewMore, setViewMore] = useState(false);
+	const [hoveredProject, setHoveredProject] = useState<string | null>(null);
+	const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
+
+	const handleMouseEnter = (projectId: string) => {
+		hoverTimeout.current = setTimeout(() => {
+			setHoveredProject(projectId);
+		}, 2000); // 2 seconds delay
+	};
+
+	const handleMouseLeave = () => {
+		if (hoverTimeout.current) {
+			clearTimeout(hoverTimeout.current);
+		}
+		setHoveredProject(null);
+	};
 
 	return (
 		projects && (
@@ -56,6 +71,15 @@ export default function ProjectsGrid(): ReactElement {
 							key={project.id}
 							item
 							lg={4}
+							onMouseEnter={() => {
+								handleMouseEnter(project.id);
+
+								logAnalyticsEvent(`project-${project.id}`, {
+									name: `project-${project.id}`,
+									type: 'hover',
+								});
+							}}
+							onMouseLeave={handleMouseLeave}
 							sm={6}
 							sx={{
 								alignItems: 'center',
@@ -66,9 +90,11 @@ export default function ProjectsGrid(): ReactElement {
 								margin: '1rem auto auto',
 								padding: '10px',
 								transition: 'all 0.5s ease-in-out',
+								width: '100%',
 							}}
 							xl={3}
 							xs={12}
+							data-testid={`project-${project.id}`}
 						>
 							<Link
 								aria-label={`Project: ${project.name}`}
@@ -84,6 +110,7 @@ export default function ProjectsGrid(): ReactElement {
 								style={{
 									display: 'flex',
 									height: '100%',
+									width: '100%',
 								}}
 								target='_blank'
 							>
@@ -103,17 +130,33 @@ export default function ProjectsGrid(): ReactElement {
 										},
 									}}
 								>
-									<CardMedia
-										alt={`${project.name} Thumbnail`}
-										component='img'
-										image={`/images/projects/${project.id}/thumbnail.webp`}
-										loading='lazy'
-										sx={{
-											height: '100%',
-											objectFit: project.objectFit ?? 'cover',
-											width: '100%',
-										}}
-									/>
+									{hoveredProject === project.id && project.youtubeURL ? (
+										<CardMedia
+											allow='autoplay; encrypted-media'
+											aria-label={`YouTube video for ${project.name}`}
+											component='iframe'
+											loading='lazy'
+											src={project.youtubeURL}
+											sx={{
+												height: '100%',
+												objectFit: 'cover',
+												width: '100%',
+											}}
+										/>
+									) : (
+										<CardMedia
+											alt={`Thumbnail image for ${project.name}`}
+											aria-label={`Thumbnail image for ${project.name}`}
+											component='img'
+											image={`/images/projects/${project.id}/thumbnail.webp`}
+											loading='lazy'
+											sx={{
+												height: '100%',
+												objectFit: project.objectFit ?? 'cover',
+												width: '100%',
+											}}
+										/>
+									)}
 								</Card>
 							</Link>
 
@@ -129,8 +172,8 @@ export default function ProjectsGrid(): ReactElement {
 								<Typography
 									sx={{
 										fontSize: 'clamp(1rem, 1.5vw, 1.5rem)',
-										marginTop: '1rem',
 										fontWeight: 700,
+										marginTop: '1rem',
 									}}
 								>
 									{project.name}
