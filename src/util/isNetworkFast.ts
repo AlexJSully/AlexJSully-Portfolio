@@ -9,6 +9,11 @@ export function isNetworkFast(): boolean {
 		/** Get the connection object from the navigator */
 		const connection = (navigator as any).connection;
 
+		if (connection.saveData) {
+			// Save data mode is enabled
+			return false;
+		}
+
 		/** Check if the network is slow based on the known slow network types */
 		const slowType = ['slow-2g', '2g', '3g'].includes(connection.effectiveType);
 		/** Check if the network is slow based on the downlink/download speed */
