@@ -86,7 +86,7 @@ const projects: Projects[] = [
 		},
 		showcase: true,
 		objectFit: 'contain',
-		youtubeURL: 'https://www.youtube.com/embed/jCyQ-g-6pv0?autoplay=1&mute=1&cc_load_policy=1&controls=1',
+		youtubeURL: 'https://www.youtube.com/embed/jCyQ-g-6pv0?mute=1&cc_load_policy=1&controls=1',
 	},
 	{
 		name: 'Masterpiece X',
@@ -117,7 +117,7 @@ const projects: Projects[] = [
 			endDate: '2023-12',
 		},
 		showcase: true,
-		youtubeURL: 'https://www.youtube.com/embed/O1TlGOmSQ4M?autoplay=1&mute=1&cc_load_policy=1&controls=1',
+		youtubeURL: 'https://www.youtube.com/embed/O1TlGOmSQ4M?mute=1&cc_load_policy=1&controls=1',
 	},
 	{
 		name: 'Impact Depth',

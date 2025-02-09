@@ -66,7 +66,7 @@ To add new projects, you need to update the `projects` array in [projects.ts](..
     	},
     	"showcase": true, // or false
     	"objectFit": "contain", // optional, cover is used if nothing is provided
-		"youtubeURL": "https://www.youtube.com/embed/{video ID}?autoplay=1&mute=1&cc_load_policy=1&controls=1" // optional: displays a YouTube video to play in the card if mouse hovered over
+    	"youtubeURL": "https://www.youtube.com/embed/{video ID}?autoplay=1&mute=1&cc_load_policy=1&controls=1" // optional: displays a YouTube video to play in the card if mouse hovered over
     }
     ```
 

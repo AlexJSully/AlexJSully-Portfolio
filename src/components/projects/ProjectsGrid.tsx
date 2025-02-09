@@ -3,6 +3,7 @@
 import { logAnalyticsEvent } from '@configs/firebase';
 import projects from '@data/projects';
 import { Button, Card, CardMedia, Grid, Stack, Tooltip, Typography } from '@mui/material';
+import { isNetworkFast } from '@util/isNetworkFast';
 import Link from 'next/link';
 import { ReactElement, useRef, useState } from 'react';
 
@@ -24,6 +25,13 @@ export default function ProjectsGrid(): ReactElement {
 			clearTimeout(hoverTimeout.current);
 		}
 		setHoveredProject(null);
+	};
+
+	const getYouTubeURL = (url: string): string => {
+		if (isNetworkFast()) {
+			return `${url}&autoplay=1`;
+		}
+		return url;
 	};
 
 	return (
@@ -136,7 +144,7 @@ export default function ProjectsGrid(): ReactElement {
 											aria-label={`YouTube video for ${project.name}`}
 											component='iframe'
 											loading='lazy'
-											src={project.youtubeURL}
+											src={getYouTubeURL(project.youtubeURL)}
 											sx={{
 												height: '100%',
 												objectFit: 'cover',
