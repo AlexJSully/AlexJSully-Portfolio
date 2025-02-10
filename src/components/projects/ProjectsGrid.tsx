@@ -11,13 +11,15 @@ import { ReactElement, useRef, useState } from 'react';
 export default function ProjectsGrid(): ReactElement {
 	/** Whether to view all projects [true] or only featured projects [false, default] */
 	const [viewMore, setViewMore] = useState(false);
+	/** Whether to keep track of the currently hovered project */
 	const [hoveredProject, setHoveredProject] = useState<string | null>(null);
+	/** The hover timeout reference */
 	const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
 
 	const handleMouseEnter = (projectId: string) => {
 		hoverTimeout.current = setTimeout(() => {
 			setHoveredProject(projectId);
-		}, 2000); // 2 seconds delay
+		}, 1000); // 2 seconds delay
 	};
 
 	const handleMouseLeave = () => {
@@ -28,10 +30,7 @@ export default function ProjectsGrid(): ReactElement {
 	};
 
 	const getYouTubeURL = (url: string): string => {
-		if (isNetworkFast()) {
-			return `${url}&autoplay=1`;
-		}
-		return url;
+		return isNetworkFast() ? `${url}&autoplay=1` : url;
 	};
 
 	return (
@@ -102,7 +101,7 @@ export default function ProjectsGrid(): ReactElement {
 							}}
 							xl={3}
 							xs={12}
-							data-testid={`project-${project.id}`}
+							data-testid={`project-${project.id}-grid`}
 						>
 							<Link
 								aria-label={`Project: ${project.name}`}

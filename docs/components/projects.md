@@ -27,7 +27,7 @@ flowchart LR
     D --> I[Links]
     E --> J[Thumbnail Image]
     I --> K[Link Buttons]
-	D --> L[YouTube Video]
+    D --> L[YouTube Video]
 ```
 
 ## Adding New Projects

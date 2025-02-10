@@ -14,18 +14,15 @@ describe('Landing Page', () => {
 
 	// This test checks if the YouTube video plays on hover
 	it('should play YouTube video on hover for Masterpiece X project', () => {
-		// Check if the page contains the "Masterpiece X" project
-		cy.get('[data-testid="project-mpx"]').should('exist').scrollIntoView();
+		// Check if the page contains the "Masterpiece X" project and mouse hover over it
+		cy.get('[data-testid="project-mpx-grid"]').should('exist').scrollIntoView().trigger('mouseover');
 
-		// Mouse hover over the project
-		cy.get('[data-testid="project-mpx"]').trigger('mouseover');
-
-		// Wait 5 seconds and check if the YouTube video is playing
-		cy.wait(5000).get('[data-testid="project-mpx-video"]').should('be.visible');
+		// Wait 3 seconds and check if the YouTube video is playing
+		cy.wait(3000).get('[data-testid="project-mpx-video"]').should('be.visible');
 		cy.get('iframe').should('be.visible');
 
 		// Mouse hover out of the project and check if the video stops playing
-		cy.get('[data-testid="project-mpx"]').trigger('mouseout');
+		cy.get('[data-testid="project-mpx-grid"]').trigger('mouseout');
 
 		// Check if the video is hidden
 		cy.get('[data-testid="project-mpx-video"]').should('not.exist');

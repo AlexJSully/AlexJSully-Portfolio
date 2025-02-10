@@ -11,5 +11,9 @@ export default defineConfig({
 		experimentalRunAllSpecs: true,
 		// Enable experimental Cypress Studio feature
 		experimentalStudio: true,
+		// Enable experimental interactive run events
+		experimentalInteractiveRunEvents: true,
+		// Enable experimental memory management
+		experimentalMemoryManagement: true,
 	},
 });
