@@ -17,8 +17,8 @@ describe('Landing Page', () => {
 		// Check if the page contains the "Masterpiece X" project and mouse hover over it
 		cy.get('[data-testid="project-mpx-grid"]').should('exist').scrollIntoView().trigger('mouseover');
 
-		// Wait 3 seconds and check if the YouTube video is playing
-		cy.get('iframe').should('be.visible');
+		// Check if the thumbnail is hidden
+		cy.get('[data-testid="project-mpx-thumbnail"]').should('not.be.visible');
 
 		// Mouse hover out of the project and check if the video stops playing
 		cy.get('[data-testid="project-mpx-grid"]').trigger('mouseout');
