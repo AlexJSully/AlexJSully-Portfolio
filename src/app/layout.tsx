@@ -121,116 +121,116 @@ export const viewport: Viewport = {
 	themeColor: '#131518',
 };
 
-const jsonLD = [
-	{
-		'@context': 'https://schema.org/',
-		'@type': 'Person',
-		name: 'Alexander Joo-Hyun Sullivan',
-		url: 'https://alexjsully.me/',
-		image: 'https://pbs.twimg.com/profile_images/1443997899378069526/p4e_Vx1Z_400x400.jpg',
-		sameAs: [
-			'https://alexjsully.me/',
-			'https://app.masterpiecex.com/user/alexjsully',
-			'https://bsky.app/profile/alexjsully.bsky.social',
-			'https://github.com/AlexJSully',
-			'https://orcid.org/0000-0002-4463-4473',
-			'https://scholar.google.ca/citations?user=1nr3eaAAAAAJ&hl=en',
-			'https://twitter.com/alexjsully',
-			'https://www.instagram.com/alex.j.sullly/',
-			'https://www.linkedin.com/in/alexanderjsullivan/',
-			'https://www.threads.net/@alex.j.sullly',
-			'https://www.twitch.tv/alexjsully',
-		],
-		jobTitle: 'Software Developer',
-		worksFor: {
-			'@type': 'Organization',
-			name: 'Verily',
-		},
-		gender: 'male',
-		address: {
-			'@type': 'PostalAddress',
-			addressCountry: 'Canada',
-		},
-		birthDate: '1995-02-14',
-		alumniOf: 'University of Toronto',
-		birthPlace: 'Ontario, Canada',
-		honorificPrefix: 'Mr.',
-		honorificSuffix: 'MSc',
-	},
-	{
-		'@context': 'https://schema.org',
-		'@type': 'FAQPage',
-		mainEntity: [
-			{
-				'@type': 'Question',
-				name: 'What projects have Alexander Sullivan worked on?',
-				acceptedAnswer: {
-					'@type': 'Answer',
-					text: 'Worked as a Software Developer at Verily. Notable previous projects include: Masterpiece X & Masterpiece X - Generate with Masterpiece Studio, Impact Depth - a tool to visualize citation impact of a scientific publication of interest, GAIA - a web app to aggregate and synthesis agricultural biological data into a single location & eFP-Seq Browser - an RNA-Seq data exploration tool that shows read map coverage of a gene along with a coloured eFP image (doi.org/10.1111/tpj.14468)',
-				},
-			},
-			{
-				'@type': 'Question',
-				name: 'What is Alexander Sullivan currently working on?',
-				acceptedAnswer: {
-					'@type': 'Answer',
-					text: 'Worked as a Software Developer at Verily. Additional previous projects include: Masterpiece X & Masterpiece X - Generate with Masterpiece Studio, Impact Depth - a tool to visualize citation impact of a scientific publication of interest, and improving accessibility and performance of GAIA & the eFP-Seq Browser',
-				},
-			},
-			{
-				'@type': 'Question',
-				name: 'How do I contact Alexander Sullivan?',
-				acceptedAnswer: {
-					'@type': 'Answer',
-					text: 'Easiest way is through my twitter @AlexJSully but you can also reach out to me on LinkedIn.',
-				},
-			},
-			{
-				'@type': 'Question',
-				name: 'What is the current employment status of Alexander Sullivan?',
-				acceptedAnswer: {
-					'@type': 'Answer',
-					text: 'Currently working with Verily as a Software Developer.',
-				},
-			},
-			{
-				'@type': 'Question',
-				name: 'Is Alexander Sullivan currently looking for a new job?',
-				acceptedAnswer: {
-					'@type': 'Answer',
-					text: 'Not currently looking for a new job.',
-				},
-			},
-			{
-				'@type': 'Question',
-				name: 'Does Alexander Sullivan have cats?',
-				acceptedAnswer: {
-					'@type': 'Answer',
-					text: 'Yes! Quynh (Cathy) Cao and I have two amazing cats named MuMu and JuJu. You can find pictures of them on my twitter: @AlexJSully.',
-				},
-			},
-		],
-	},
-	{
-		'@context': 'https://schema.org/',
-		'@type': 'WebPage',
-		name: "Alexander Sullivan's Portfolio & Showcase",
-		speakable: {
-			'@type': 'SpeakableSpecification',
-			cssSelector: [
-				'h2-description',
-				'h3-description',
-				'MuiCardContent-root',
-				'MuiTypography-root',
-				'responsibilities-bullets',
-			],
-		},
-		url: 'https://alexjsully.me/',
-	},
-];
-
 /** Renders the root layout. */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+	const jsonLD = [
+		{
+			'@context': 'https://schema.org/',
+			'@type': 'Person',
+			name: 'Alexander Joo-Hyun Sullivan',
+			url: 'https://alexjsully.me/',
+			image: 'https://pbs.twimg.com/profile_images/1443997899378069526/p4e_Vx1Z_400x400.jpg',
+			sameAs: [
+				'https://alexjsully.me/',
+				'https://app.masterpiecex.com/user/alexjsully',
+				'https://bsky.app/profile/alexjsully.bsky.social',
+				'https://github.com/AlexJSully',
+				'https://orcid.org/0000-0002-4463-4473',
+				'https://scholar.google.ca/citations?user=1nr3eaAAAAAJ&hl=en',
+				'https://twitter.com/alexjsully',
+				'https://www.instagram.com/alex.j.sullly/',
+				'https://www.linkedin.com/in/alexanderjsullivan/',
+				'https://www.threads.net/@alex.j.sullly',
+				'https://www.twitch.tv/alexjsully',
+			],
+			jobTitle: 'Software Developer',
+			worksFor: {
+				'@type': 'Organization',
+				name: 'Verily',
+			},
+			gender: 'male',
+			address: {
+				'@type': 'PostalAddress',
+				addressCountry: 'Canada',
+			},
+			birthDate: '1995-02-14',
+			alumniOf: 'University of Toronto',
+			birthPlace: 'Ontario, Canada',
+			honorificPrefix: 'Mr.',
+			honorificSuffix: 'MSc',
+		},
+		{
+			'@context': 'https://schema.org',
+			'@type': 'FAQPage',
+			mainEntity: [
+				{
+					'@type': 'Question',
+					name: 'What projects have Alexander Sullivan worked on?',
+					acceptedAnswer: {
+						'@type': 'Answer',
+						text: 'Worked as a Software Developer at Verily. Notable previous projects include: Masterpiece X & Masterpiece X - Generate with Masterpiece Studio, Impact Depth - a tool to visualize citation impact of a scientific publication of interest, GAIA - a web app to aggregate and synthesis agricultural biological data into a single location & eFP-Seq Browser - an RNA-Seq data exploration tool that shows read map coverage of a gene along with a coloured eFP image (doi.org/10.1111/tpj.14468)',
+					},
+				},
+				{
+					'@type': 'Question',
+					name: 'What is Alexander Sullivan currently working on?',
+					acceptedAnswer: {
+						'@type': 'Answer',
+						text: 'Worked as a Software Developer at Verily. Additional previous projects include: Masterpiece X & Masterpiece X - Generate with Masterpiece Studio, Impact Depth - a tool to visualize citation impact of a scientific publication of interest, and improving accessibility and performance of GAIA & the eFP-Seq Browser',
+					},
+				},
+				{
+					'@type': 'Question',
+					name: 'How do I contact Alexander Sullivan?',
+					acceptedAnswer: {
+						'@type': 'Answer',
+						text: 'Easiest way is through my twitter @AlexJSully but you can also reach out to me on LinkedIn.',
+					},
+				},
+				{
+					'@type': 'Question',
+					name: 'What is the current employment status of Alexander Sullivan?',
+					acceptedAnswer: {
+						'@type': 'Answer',
+						text: 'Currently working with Verily as a Software Developer.',
+					},
+				},
+				{
+					'@type': 'Question',
+					name: 'Is Alexander Sullivan currently looking for a new job?',
+					acceptedAnswer: {
+						'@type': 'Answer',
+						text: 'Not currently looking for a new job.',
+					},
+				},
+				{
+					'@type': 'Question',
+					name: 'Does Alexander Sullivan have cats?',
+					acceptedAnswer: {
+						'@type': 'Answer',
+						text: 'Yes! Quynh (Cathy) Cao and I have two amazing cats named MuMu and JuJu. You can find pictures of them on my twitter: @AlexJSully.',
+					},
+				},
+			],
+		},
+		{
+			'@context': 'https://schema.org/',
+			'@type': 'WebPage',
+			name: "Alexander Sullivan's Portfolio & Showcase",
+			speakable: {
+				'@type': 'SpeakableSpecification',
+				cssSelector: [
+					'h2-description',
+					'h3-description',
+					'MuiCardContent-root',
+					'MuiTypography-root',
+					'responsibilities-bullets',
+				],
+			},
+			url: 'https://alexjsully.me/',
+		},
+	];
+
 	return (
 		<html lang='en'>
 			<Head>
