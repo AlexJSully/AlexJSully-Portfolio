@@ -7,7 +7,7 @@ import { ReactElement, useEffect, useState } from 'react';
 
 /** Create a starry background with shooting stars */
 export default function StarsBackground(): ReactElement {
-	// @AlexJSully: There is a lot of random math in here
+	// There is a lot of random math in here
 	// but it's all just to make the stars look random
 
 	/** The stars to be rendered */
@@ -141,7 +141,6 @@ export default function StarsBackground(): ReactElement {
 
 	useEffect(() => {
 		// We want to use useEffect here so that we can use the window object
-
 		createStars();
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
