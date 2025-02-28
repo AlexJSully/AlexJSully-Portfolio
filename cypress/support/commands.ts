@@ -1,3 +1,5 @@
+import 'cypress-axe';
+
 /// <reference types="cypress" />
 // ***********************************************
 // This example commands.ts shows you how to
@@ -25,13 +27,29 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+declare global {
+	namespace Cypress {
+		interface Chainable {
+			a11yCheck(): Chainable<void>;
+		}
+	}
+}
+
+/**
+ * Project default settings for `cypress-axe` accessibility check
+ * Only thing being changed is the addition of `violationCallback` console logging any violations
+ * This adds support to see what the violation is instead of the default behaviour just to state there is a violation
+ */
+const axeParams = {
+	context: undefined,
+	rules: undefined,
+	violationCallback: (violations: any) => {
+		console.log('violations', violations);
+	},
+};
+
+// Defines a custom accessibility check which injects `cypress-axe` and performs a default/basic a11y check
+Cypress.Commands.add('a11yCheck', () => {
+	cy.injectAxe();
+	cy.checkA11y(axeParams.context, axeParams.rules, axeParams.violationCallback);
+});
