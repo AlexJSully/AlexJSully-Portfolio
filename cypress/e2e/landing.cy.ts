@@ -6,6 +6,11 @@ describe('Landing Page', () => {
 		cy.visit('http://localhost:3000');
 	});
 
+	afterEach(() => {
+		// Accessibility check
+		cy.a11yCheck();
+	});
+
 	// This test checks that the page renders correctly
 	it('should render page', () => {
 		// Check that the profile picture exists on the page

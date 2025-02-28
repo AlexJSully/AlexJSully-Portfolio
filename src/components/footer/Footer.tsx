@@ -32,38 +32,38 @@ export default function Footer() {
 			</Typography>
 
 			<Stack direction='row' spacing={2}>
-				<Button
-					aria-label='Email me'
-					onClick={() => {
-						logAnalyticsEvent(`footer-email`, {
-							name: 'footer-email',
-							type: 'click',
-						});
+				<Link
+					aria-label='Email me mailto'
+					href='mailto:alexjsully.connect@outlook.com'
+					prefetch
+					style={{
+						textDecoration: 'none',
+						color: 'inherit',
 					}}
-					sx={{
-						backgroundColor: '#001ca8',
-						borderRadius: '32px',
-						border: '3px solid #001ca8',
-						fontSize: '0.5rem',
-						lineHeight: '2rem',
-						transition: 'all 1s ease',
-						'&:hover': {
-							backgroundColor: '#0041b9',
-							borderRadius: '5%',
-							border: '3px solid #0041b9',
-							transition: 'all 0.25s ease',
-						},
-					}}
-					variant='contained'
 				>
-					<Link
-						aria-label='Email me mailto'
-						href='mailto:alexjsully.connect@outlook.com'
-						prefetch
-						style={{
-							textDecoration: 'none',
-							color: 'inherit',
+					<Button
+						aria-label='Email me'
+						onClick={() => {
+							logAnalyticsEvent(`footer-email`, {
+								name: 'footer-email',
+								type: 'click',
+							});
 						}}
+						sx={{
+							backgroundColor: '#001ca8',
+							borderRadius: '32px',
+							border: '3px solid #001ca8',
+							fontSize: '0.5rem',
+							lineHeight: '2rem',
+							transition: 'all 1s ease',
+							'&:hover': {
+								backgroundColor: '#0041b9',
+								borderRadius: '5%',
+								border: '3px solid #0041b9',
+								transition: 'all 0.25s ease',
+							},
+						}}
+						variant='contained'
 					>
 						<Typography
 							sx={{
@@ -73,40 +73,40 @@ export default function Footer() {
 						>
 							Email me
 						</Typography>
-					</Link>
-				</Button>
+					</Button>
+				</Link>
 
-				<Button
-					aria-label='Resume'
-					color='secondary'
-					onClick={() => {
-						logAnalyticsEvent(`footer-resume`, {
-							name: 'footer-resume',
-							type: 'click',
-						});
+				<Link
+					aria-label='Resume download'
+					href='/resume/Resume.pdf'
+					prefetch
+					rel='noopener noreferrer'
+					style={{
+						textDecoration: 'none',
+						color: 'inherit',
 					}}
-					sx={{
-						borderRadius: '32px',
-						fontSize: '0.5rem',
-						lineHeight: '2rem',
-						transition: 'all 1s ease',
-						'&:hover': {
-							borderRadius: '5%',
-							transition: 'all 0.25s ease',
-						},
-					}}
-					variant='contained'
+					target='_blank'
 				>
-					<Link
-						aria-label='Resume download'
-						href='/resume/Resume.pdf'
-						prefetch
-						rel='noopener noreferrer'
-						style={{
-							textDecoration: 'none',
-							color: 'inherit',
+					<Button
+						aria-label='Resume'
+						color='secondary'
+						onClick={() => {
+							logAnalyticsEvent(`footer-resume`, {
+								name: 'footer-resume',
+								type: 'click',
+							});
 						}}
-						target='_blank'
+						sx={{
+							borderRadius: '32px',
+							fontSize: '0.5rem',
+							lineHeight: '2rem',
+							transition: 'all 1s ease',
+							'&:hover': {
+								borderRadius: '5%',
+								transition: 'all 0.25s ease',
+							},
+						}}
+						variant='contained'
 					>
 						<Typography
 							sx={{
@@ -116,8 +116,8 @@ export default function Footer() {
 						>
 							Resume
 						</Typography>
-					</Link>
-				</Button>
+					</Button>
+				</Link>
 			</Stack>
 
 			<Grid

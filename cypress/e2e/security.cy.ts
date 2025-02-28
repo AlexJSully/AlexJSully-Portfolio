@@ -3,6 +3,11 @@ describe('Security Tests', () => {
 		cy.visit('http://localhost:3000');
 	});
 
+	afterEach(() => {
+		// Accessibility check
+		cy.a11yCheck();
+	});
+
 	// This test checks for XSS vulnerability
 	it('should not execute malicious scripts', () => {
 		// Define a malicious input that attempts to inject a script

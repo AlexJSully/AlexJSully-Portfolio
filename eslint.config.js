@@ -2,8 +2,6 @@ const eslintPluginPrettier = require('eslint-plugin-prettier');
 const globals = require('globals');
 const react = require('eslint-plugin-react');
 const reactHooks = require('eslint-plugin-react-hooks');
-const ts = require('@typescript-eslint/eslint-plugin');
-const tsParser = require('@typescript-eslint/parser');
 
 module.exports = [
 	{
@@ -34,19 +32,13 @@ module.exports = [
 				},
 				project: './tsconfig.json',
 			},
-			parser: tsParser,
 		},
 		plugins: {
-			'@typescript-eslint': ts,
 			prettier: eslintPluginPrettier,
 			react,
 			'react-hooks': reactHooks,
 		},
 		rules: {
-			'@typescript-eslint/dot-notation': 'off',
-			'@typescript-eslint/no-explicit-any': 'off',
-			'@typescript-eslint/no-shadow': 'off',
-			'@typescript-eslint/no-unused-vars': ['error'],
 			'class-methods-use-this': 'off',
 			'consistent-return': 'off',
 			indent: ['error', 'tab'],
