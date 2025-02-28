@@ -35,6 +35,11 @@ declare global {
 	}
 }
 
+/**
+ * Project default settings for `cypress-axe` accessibility check
+ * Only thing being changed is the addition of `violationCallback` console logging any violations
+ * This adds support to see what the violation is instead of the default behaviour just to state there is a violation
+ */
 const axeParams = {
 	context: undefined,
 	rules: undefined,
@@ -43,7 +48,7 @@ const axeParams = {
 	},
 };
 
-// Define the custom command
+// Defines a custom accessibility check which injects `cypress-axe` and performs a default/basic a11y check
 Cypress.Commands.add('a11yCheck', () => {
 	cy.injectAxe();
 	cy.checkA11y(axeParams.context, axeParams.rules, axeParams.violationCallback);
