@@ -1,7 +1,7 @@
 'use client';
 
 import { logAnalyticsEvent } from '@configs/firebase';
-import { HomeRounded as HomeRoundedIcon } from '@mui/icons-material';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import { AppBar, Fade, IconButton, Toolbar, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';

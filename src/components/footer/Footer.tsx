@@ -136,15 +136,16 @@ export default function Footer() {
 				{socials.map((social) => (
 					<Grid
 						key={`${social.name}-grid-item`}
-						item
-						lg={2}
-						md={3}
 						sx={{
 							alignItems: 'center',
 							display: 'flex',
 							justifyContent: 'center',
 						}}
-						xs={4}
+						size={{
+							lg: 2,
+							md: 3,
+							xs: 4,
+						}}
 					>
 						<Link
 							key={`${social.name}-link`}
