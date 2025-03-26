@@ -1,6 +1,6 @@
 'use client';
 
-import { CloseRounded as CloseIcon } from '@mui/icons-material';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { Alert, IconButton, Snackbar, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 
@@ -34,7 +34,7 @@ export default function CookieSnackbar() {
 				<Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ width: '100%' }}>
 					This website uses cookies to enhance the user experience.
 					<IconButton aria-label='close' color='inherit' onClick={handleClose} size='small'>
-						<CloseIcon fontSize='small' />
+						<CloseRoundedIcon fontSize='small' />
 					</IconButton>
 				</Stack>
 			</Alert>

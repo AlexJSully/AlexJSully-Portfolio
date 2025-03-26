@@ -76,8 +76,6 @@ export default function ProjectsGrid(): ReactElement {
 					{projects.map((project) => (
 						<Grid
 							key={project.id}
-							item
-							lg={4}
 							onMouseEnter={() => {
 								handleMouseEnter(project.id);
 
@@ -87,7 +85,6 @@ export default function ProjectsGrid(): ReactElement {
 								});
 							}}
 							onMouseLeave={handleMouseLeave}
-							sm={6}
 							sx={{
 								alignItems: 'center',
 								display: viewMore || project.showcase ? 'flex' : 'none',
@@ -99,9 +96,13 @@ export default function ProjectsGrid(): ReactElement {
 								transition: 'all 0.5s ease-in-out',
 								width: '100%',
 							}}
-							xl={3}
-							xs={12}
 							data-testid={`project-${project.id}-grid`}
+							size={{
+								lg: 4,
+								sm: 6,
+								xl: 3,
+								xs: 12,
+							}}
 						>
 							<Link
 								aria-label={`Project: ${project.name}`}
@@ -218,7 +219,7 @@ export default function ProjectsGrid(): ReactElement {
 							{project.urls && (
 								<Grid alignItems='center' container direction='row' justifyContent='center' spacing={2}>
 									{project.urls.map((url) => (
-										<Grid key={`${url.text}-grid-item`} item>
+										<Grid key={`${url.text}-grid-item`}>
 											<Link
 												aria-label={`Project:  ${project.name} - ${url.text}`}
 												href={url.url}
