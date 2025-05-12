@@ -90,34 +90,31 @@ export default function Navbar() {
 					</Link>
 
 					{/* Publications */}
-					{!smallScreen && (
-						<Link
-							aria-label='See publications'
-							href='/#publications'
-							onClick={(e) => {
-								logAnalyticsEvent('navbar_publications', {
-									name: 'navbar_publications',
-									type: 'click',
-								});
+					<Link
+						aria-label='See publications'
+						href='/#publications'
+						onClick={(e) => {
+							logAnalyticsEvent('navbar_publications', {
+								name: 'navbar_publications',
+								type: 'click',
+							});
 
-								if (pathname === '/') {
-									e.preventDefault();
-									document.getElementById('publications')?.scrollIntoView({ behavior: 'smooth' });
-								}
-							}}
-							style={{
-								color: 'inherit',
-								textDecoration: 'none',
-							}}
-						>
-							<Tooltip arrow describeChild title='View publications'>
-								<Typography>Publications</Typography>
-							</Tooltip>
-						</Link>
-					)}
+							if (pathname === '/') {
+								e.preventDefault();
+								document.getElementById('publications')?.scrollIntoView({ behavior: 'smooth' });
+							}
+						}}
+						style={{
+							color: 'inherit',
+							textDecoration: 'none',
+						}}
+					>
+						<Tooltip arrow describeChild title='View publications'>
+							<Typography>Publications</Typography>
+						</Tooltip>
+					</Link>
 
-					{/* Title */}
-
+					{/* Socials */}
 					<Link
 						aria-label='See socials'
 						href='/#socials'
@@ -150,7 +147,6 @@ export default function Navbar() {
 								}}
 								width={24}
 							/>
-							Alexander Sullivan
 						</Typography>
 					</Link>
 				</Toolbar>
