@@ -1,3 +1,4 @@
+import { CustomThemeProvider } from '@components/CustomThemeProvider';
 import seoKeywords from '@data/keywords';
 import GeneralLayout from '@layouts/GeneralLayout';
 import '@styles/globals.scss';
@@ -248,7 +249,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			</Head>
 
 			<body>
-				<GeneralLayout>{children}</GeneralLayout>
+				<CustomThemeProvider>
+					<GeneralLayout>{children}</GeneralLayout>
+				</CustomThemeProvider>
 
 				<SpeedInsights />
 			</body>

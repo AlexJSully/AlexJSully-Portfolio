@@ -150,7 +150,6 @@ export default function Navbar() {
 								}}
 								width={24}
 							/>
-							Alexander Sullivan
 						</Typography>
 					</Link>
 				</Toolbar>
