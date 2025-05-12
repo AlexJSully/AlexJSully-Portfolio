@@ -148,7 +148,7 @@ export default function StarsBackground(): ReactElement {
 
 	return (
 		stars && (
-			<Fade in={fade} timeout={500}>
+			<Fade in={fade} timeout={50}>
 				<Box
 					key='sky'
 					aria-label='Starry background'
