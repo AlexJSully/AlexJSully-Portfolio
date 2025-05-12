@@ -1,5 +1,5 @@
-import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import Avatar from '@components/banner/Avatar';
+import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 
 /** The banner at the top of the page */
 export default function Banner() {
@@ -15,9 +15,9 @@ export default function Banner() {
 				alignItems: 'center',
 				display: 'flex',
 				flexDirection: 'column',
-				minHeight: '60vh',
 				justifyContent: 'center',
 				margin: '3rem auto',
+				minHeight: '60vh',
 				position: 'relative',
 				width: 'fit-content',
 			}}
@@ -36,22 +36,34 @@ export default function Banner() {
 					zIndex: 1,
 				}}
 			>
-				{`Alexander${!smallScreen ? ' Joo-Hyun ' : ' '}Sullivan`.split('').map((char, index) => (
+				{['Alexander ', 'Joo-Hyun', ' Sullivan'].map((part, i) => (
 					<Box
-						// eslint-disable-next-line react/no-array-index-key
-						key={index}
+						key={i}
 						component='span'
 						sx={{
-							cursor: 'default',
-							textShadow: '1px 2px 3px #666',
-							transition: 'all 1s ease',
-							'&:hover': {
-								color: 'rgb(43, 255, 0)',
-								transition: 'all 0.5s ease',
-							},
+							whiteSpace: i === 1 ? 'nowrap' : undefined,
+							display: 'inline-block',
+							p: '0 0.5rem',
+							m: 0,
 						}}
 					>
-						{char}
+						{part.split('').map((char, j) => (
+							<Box
+								key={j}
+								component='span'
+								sx={{
+									cursor: 'default',
+									textShadow: '1px 2px 3px #666',
+									transition: 'all 1s ease',
+									'&:hover': {
+										color: 'rgb(43, 255, 0)',
+										transition: 'all 0.5s ease',
+									},
+								}}
+							>
+								{char}
+							</Box>
+						))}
 					</Box>
 				))}
 			</Typography>
