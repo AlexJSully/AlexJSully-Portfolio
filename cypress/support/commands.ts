@@ -44,13 +44,7 @@ declare global {
  */
 const axeParams = {
 	context: undefined,
-	rules: {
-		rules: {
-			'color-contrast': {
-				enabled: false,
-			},
-		},
-	},
+	rules: undefined,
 	violationCallback: (violations: any) => {
 		console.log('violations', violations);
 	},
