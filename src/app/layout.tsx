@@ -51,6 +51,7 @@ export const metadata: Metadata = {
 		title: metadataValues.title,
 		type: 'website',
 		url: metadataValues.url,
+		siteName: metadataValues.title,
 	},
 
 	// metadataBase
