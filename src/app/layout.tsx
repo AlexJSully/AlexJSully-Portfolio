@@ -233,21 +233,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 	return (
 		<html lang='en'>
-			<Head>
-				{/* httpEquiv support for cache-control and others */}
-				<meta content='max-age=31536000; includeSubDomains; preload' httpEquiv='Strict-Transport-Security' />
-
-				{/* JSON-LD */}
-				<script
-					// eslint-disable-next-line react/no-danger
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify(jsonLD),
-					}}
-					type='application/ld+json'
-				/>
-			</Head>
-
 			<body>
+				<section>
+					{/* JSON-LD */}
+					<script
+						// eslint-disable-next-line react/no-danger
+						dangerouslySetInnerHTML={{
+							__html: JSON.stringify(jsonLD),
+						}}
+						type='application/ld+json'
+					/>
+				</section>
+
 				<GeneralLayout>{children}</GeneralLayout>
 
 				<SpeedInsights />
