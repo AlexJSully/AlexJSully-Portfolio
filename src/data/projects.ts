@@ -160,7 +160,7 @@ const projects: Projects[] = [
 			},
 			{
 				text: 'Publication',
-				tooltip: 'Read the published publication for the ePlant Plant eFP widget',
+				tooltip: 'Read the official publication for the ePlant Plant eFP widget',
 				icon: PublishIcon,
 				url: 'https://doi.org/10.1093/nar/gkae920',
 			},
