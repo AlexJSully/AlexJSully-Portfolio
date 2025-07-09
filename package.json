@@ -32,7 +32,7 @@
 		"@mui/icons-material": "^7.2.0",
 		"@mui/material": "^7.2.0",
 		"@sentry/integrations": "^7.114.0",
-		"@sentry/nextjs": "^9.35.0",
+		"@sentry/nextjs": "^9.36.0",
 		"@vercel/speed-insights": "^1.2.0",
 		"firebase": "^11.10.0",
 		"lodash": "^4.17.21",
@@ -41,11 +41,11 @@
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
 		"sharp": "^0.34.2",
-		"webpack": "^5.99.9"
+		"webpack": "^5.100.0"
 	},
 	"devDependencies": {
-		"@sentry/core": "^9.35.0",
-		"@sentry/types": "^9.35.0",
+		"@sentry/core": "^9.36.0",
+		"@sentry/types": "^9.36.0",
 		"@svgr/webpack": "^8.1.0",
 		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
 		"@types/lodash": "^4.17.20",
