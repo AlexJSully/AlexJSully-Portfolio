@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+title: Alexander Joo-Hyun Sullivan's Portfolio
+message: >-
+    Portfolio and showcase for Alexander Joo-Hyun Sullivan and
+    his related projects & experiences.
+type: software
+authors:
+    - given-names: Alexander
+      family-names: Sullivan
+      orcid: 'https://orcid.org/0000-0002-4463-4473'
+      email: alexjsully.connect@outlook.com
+identifiers:
+    - type: url
+      value: 'https://alexjsully.me/'
+repository-code: 'https://github.com/AlexJSully/AlexJSully-Portfolio'
+url: 'https://alexjsully.me/'
+abstract: >-
+    Portfolio and showcase for Alexander Joo-Hyun Sullivan and
+    his related projects & experiences.
+keywords:
+    - bioinformatics
+    - gaming
+    - portfolio
+    - science
+    - web application
+license: GPL-3.0
+commit: edc816e30539684f7ed6e308331986cbbb2c10e5
+version: 2.0.12
+date-released: '2024-07-05'
