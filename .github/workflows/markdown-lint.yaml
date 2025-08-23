@@ -7,14 +7,14 @@ on:
             - '**/*.md'
             - '.markdownlint.json'
             - '.markdownlintignore'
-            - '.github/workflows/markdown-lint.yml'
+            - '.github/workflows/markdown-lint.yaml'
     pull_request:
         branches: [main]
         paths:
             - '**/*.md'
             - '.markdownlint.json'
             - '.markdownlintignore'
-            - '.github/workflows/markdown-lint.yml'
+            - '.github/workflows/markdown-lint.yaml'
 
 permissions:
     contents: read
