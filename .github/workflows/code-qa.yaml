@@ -14,7 +14,7 @@ on:
             - '**/*.css'
             - '**/*.scss'
             - '**/*.html'
-            - '.github/workflows/code-qa.yml'
+            - '.github/workflows/code-qa.yaml'
     pull_request:
         branches: [main]
         paths:
@@ -28,8 +28,10 @@ on:
             - '**/*.css'
             - '**/*.scss'
             - '**/*.html'
-            - '.github/workflows/code-qa.yml'
+            - '.github/workflows/code-qa.yaml'
 
+permissions:
+    contents: read
 jobs:
     build:
         runs-on: ubuntu-latest
