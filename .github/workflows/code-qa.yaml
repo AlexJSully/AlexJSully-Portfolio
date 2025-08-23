@@ -30,6 +30,8 @@ on:
             - '**/*.html'
             - '.github/workflows/code-qa.yml'
 
+permissions:
+    contents: read
 jobs:
     build:
         runs-on: ubuntu-latest

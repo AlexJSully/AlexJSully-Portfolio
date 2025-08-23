@@ -16,6 +16,8 @@ on:
             - '.markdownlintignore'
             - '.github/workflows/markdown-lint.yml'
 
+permissions:
+    contents: read
 jobs:
     lint-markdown:
         runs-on: ubuntu-latest
