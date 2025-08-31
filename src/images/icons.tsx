@@ -13,6 +13,7 @@ import SmallDevTalk from './icons/smalldevtalk.svg';
 import threads from './icons/threads.svg';
 import Twitch from './icons/twitch.svg';
 import UofT from './icons/uoft.svg';
+import Verily from './icons/verily.svg';
 import X from './icons/x.svg';
 
 /**
@@ -34,12 +35,13 @@ export const GitHubIcon = (props: SvgIconProps) => generateIconJSX(GitHub, props
 export const ImpactDepthIcon = (props: SvgIconProps) => generateIconJSX(ImpactDepth, props);
 export const InstagramIcon = (props: SvgIconProps) => generateIconJSX(Instagram, props);
 export const LinkedInIcon = (props: SvgIconProps) => generateIconJSX(LinkedIn, props);
-export const MetaIcon = (props: SvgIconProps) => generateIconJSX(Meta, props);
 export const MPXIcon = (props: SvgIconProps) => generateIconJSX(MPX, props);
+export const MetaIcon = (props: SvgIconProps) => generateIconJSX(Meta, props);
 export const PublishIcon = (props: SvgIconProps) => generateIconJSX(Publish, props);
 export const SciGradeIcon = (props: SvgIconProps) => generateIconJSX(SciGrade, props);
 export const SmallDevTalkIcon = (props: SvgIconProps) => generateIconJSX(SmallDevTalk, props);
 export const ThreadsIcon = (props: SvgIconProps) => generateIconJSX(threads, props);
 export const TwitchIcon = (props: SvgIconProps) => generateIconJSX(Twitch, props);
 export const UofTIcon = (props: SvgIconProps) => generateIconJSX(UofT, props);
+export const VerilyIcon = (props: SvgIconProps) => generateIconJSX(Verily, props);
 export const XIcon = (props: SvgIconProps) => generateIconJSX(X, props);

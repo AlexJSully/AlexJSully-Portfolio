@@ -8,6 +8,7 @@ import {
 	SciGradeIcon,
 	SmallDevTalkIcon,
 	UofTIcon,
+	VerilyIcon,
 } from '@images/icons';
 import { SvgIconProps } from '@mui/material';
 
@@ -62,7 +63,33 @@ interface Projects {
 /** Project data */
 const projects: Projects[] = [
 	{
-		name: 'FHIRPath',
+		name: 'Verily Workbench',
+		id: 'workbench',
+		description:
+			'Verily Workbench enables researchers to access, analyze and collaborate on complex datasets with the governance and policy oversight to help safely support research.',
+		employer: 'Verily',
+		employerURL: 'https://verily.com/',
+		title: 'Software Developer II',
+		type: 'Employment',
+		url: 'https://verily.com/solutions/platform/workbench',
+		urls: [
+			{
+				text: 'Web App',
+				tooltip: 'Visit the Verily Workbench web app',
+				icon: VerilyIcon,
+				url: 'https://workbench.verily.com/',
+			},
+		],
+		color: '#047a6b',
+		dates: {
+			startDate: '2021-12',
+			endDate: 'current',
+		},
+		showcase: true,
+		youtubeURL: 'https://www.youtube.com/embed/x4uIs3s6P_I?mute=1&cc_load_policy=1&controls=1',
+	},
+	{
+		name: 'FHIRPath Go',
 		id: 'fhirpath',
 		description:
 			'Go implementation of the FHIRPath specification, implemented directly with the google/fhir proto definitions.',
@@ -206,7 +233,7 @@ const projects: Projects[] = [
 			startDate: '2019-04',
 			endDate: '2021-08',
 		},
-		showcase: true,
+		showcase: false,
 	},
 	{
 		name: 'SciGrade',
