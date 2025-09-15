@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import React from 'react';
 import Avatar from './Avatar';
 
 // Mock the firebase analytics
@@ -16,6 +17,28 @@ jest.mock('@helpers/aaaahhhh', () => ({
 jest.mock('lodash', () => ({
 	debounce: jest.fn((fn) => fn),
 }));
+
+// Mock Next.js Image component to capture the original src prop
+jest.mock('next/image', () => {
+	const MockImage = React.forwardRef<HTMLImageElement, any>(
+		({ src, alt, width, height, style, priority, ...props }, ref) => {
+			return React.createElement('img', {
+				ref,
+				src,
+				alt,
+				width,
+				height,
+				style,
+				...props,
+				'data-testid': props['data-testid'] || 'mock-image',
+				'data-original-src': src, // Store original src for testing
+				'data-priority': priority ? 'true' : 'false', // Handle priority prop properly
+			});
+		},
+	);
+	MockImage.displayName = 'MockNextImage';
+	return MockImage;
+});
 
 describe('Avatar', () => {
 	beforeEach(() => {
@@ -35,9 +58,9 @@ describe('Avatar', () => {
 		expect(avatar).toBeInTheDocument();
 		expect(avatar).toHaveAttribute('alt', 'Alexander Sullivan head drawn and stylized');
 		expect(avatar).toHaveAttribute('aria-label', 'Profile Picture for Alexander Sullivan');
-		// Next.js Image component transforms the src, so we check if it contains the encoded original path
-		const src = avatar.getAttribute('src');
-		expect(src).toContain('%2Fimages%2Fdrawn%2Fprofile_pic_drawn.webp');
+		// Test the original src prop value instead of the transformed DOM attribute
+		expect(avatar).toHaveAttribute('data-original-src', '/images/drawn/profile_pic_drawn.webp');
+		expect(avatar).toHaveAttribute('src', '/images/drawn/profile_pic_drawn.webp');
 	});
 
 	it('should start sneeze animation on every 5th hover', async () => {

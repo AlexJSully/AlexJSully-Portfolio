@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { usePathname } from 'next/navigation';
+import React from 'react';
 import Navbar from './Navbar';
 
 // Mock the firebase analytics
@@ -24,12 +25,21 @@ jest.mock('next/link', () => {
 	};
 });
 
-// Mock Next.js Image component
+// Mock Next.js Image component with proper React component
 jest.mock('next/image', () => {
-	return ({ src, alt, ...props }: any) => {
-		// eslint-disable-next-line @next/next/no-img-element
-		return <img src={src} alt={alt} {...props} />;
-	};
+	const MockImage = React.forwardRef<HTMLImageElement, any>(({ src, alt, width, height, ...props }, ref) => {
+		return React.createElement('img', {
+			ref,
+			src,
+			alt,
+			width,
+			height,
+			...props,
+			'data-testid': 'mock-next-image',
+		});
+	});
+	MockImage.displayName = 'MockNextImage';
+	return MockImage;
 });
 
 describe('Navbar', () => {
