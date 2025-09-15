@@ -13,7 +13,7 @@
 		"skipLibCheck": true,
 		"strict": true,
 		"target": "ESNext",
-		"types": ["node", "react", "react-dom"],
+		"types": ["node", "react", "react-dom", "jest", "@testing-library/jest-dom"],
 		"plugins": [
 			{
 				"name": "next"
@@ -27,7 +27,8 @@
 			"@helpers/*": ["./src/helpers/*"],
 			"@images/*": ["./src/images/*"],
 			"@layouts/*": ["./src/layouts/*"],
-			"@styles/*": ["./src/styles/*"]
+			"@styles/*": ["./src/styles/*"],
+			"@util/*": ["./src/util/*"]
 		}
 	},
 	"include": [
@@ -40,5 +41,18 @@
 		"next-env.d.ts",
 		"types/**/*.d.ts"
 	],
-	"exclude": [".next", "coverage", "dist", "next.config.js", "node_modules", "out", "postcss.config.js", "tmp"]
+	"exclude": [
+		".next",
+		"coverage",
+		"dist",
+		"next.config.js",
+		"node_modules",
+		"out",
+		"postcss.config.js",
+		"tmp",
+		"**/*.test.ts",
+		"**/*.test.tsx",
+		"**/*.spec.ts",
+		"**/*.spec.tsx"
+	]
 }

@@ -1,5 +1,5 @@
 import { logAnalyticsEvent } from '@configs/firebase';
-import { aaaahhhh } from '@helper/aaaahhhh';
+import { aaaahhhh } from '@helpers/aaaahhhh';
 import { debounce } from 'lodash';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
