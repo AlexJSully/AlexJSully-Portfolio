@@ -1,4 +1,4 @@
-describe('Security Tests', () => {
+describe('General Security Tests', () => {
 	beforeEach(() => {
 		cy.visit('http://localhost:3000');
 	});
