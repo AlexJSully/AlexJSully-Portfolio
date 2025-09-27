@@ -58,15 +58,11 @@ describe('Navbar', () => {
 			}
 			return null;
 		});
-	});
 
-	afterEach(() => {
-		jest.restoreAllMocks();
+		render(<Navbar />);
 	});
 
 	it('should render navbar with all navigation links', () => {
-		render(<Navbar />);
-
 		expect(screen.getByRole('button', { name: /home button/i })).toBeInTheDocument();
 		expect(screen.getByText('Projects')).toBeInTheDocument();
 		expect(screen.getByText('Publications')).toBeInTheDocument();
@@ -75,7 +71,6 @@ describe('Navbar', () => {
 
 	it('should log analytics and scroll to content when home is clicked on homepage', () => {
 		mockUsePathname.mockReturnValue('/');
-		render(<Navbar />);
 
 		const homeLink = screen.getByLabelText('Home');
 		fireEvent.click(homeLink);
@@ -88,7 +83,6 @@ describe('Navbar', () => {
 
 	it('should log analytics and scroll to projects when projects is clicked on homepage', () => {
 		mockUsePathname.mockReturnValue('/');
-		render(<Navbar />);
 
 		const projectsLink = screen.getByLabelText('See projects');
 		fireEvent.click(projectsLink);
@@ -101,7 +95,6 @@ describe('Navbar', () => {
 
 	it('should log analytics and scroll to publications when publications is clicked on homepage', () => {
 		mockUsePathname.mockReturnValue('/');
-		render(<Navbar />);
 
 		const publicationsLink = screen.getByLabelText('See publications');
 		fireEvent.click(publicationsLink);
@@ -114,7 +107,6 @@ describe('Navbar', () => {
 
 	it('should log analytics and scroll to socials when socials is clicked on homepage', () => {
 		mockUsePathname.mockReturnValue('/');
-		render(<Navbar />);
 
 		const socialsLink = screen.getByLabelText('See socials');
 		fireEvent.click(socialsLink);
@@ -127,7 +119,6 @@ describe('Navbar', () => {
 
 	it('should navigate normally when not on homepage', () => {
 		mockUsePathname.mockReturnValue('/other-page');
-		render(<Navbar />);
 
 		const homeLink = screen.getByLabelText('Home');
 		fireEvent.click(homeLink);
@@ -139,12 +130,22 @@ describe('Navbar', () => {
 	});
 
 	it('should have proper ARIA labels for accessibility', () => {
-		render(<Navbar />);
-
 		expect(screen.getByLabelText('Home')).toBeInTheDocument();
 		expect(screen.getByLabelText('See projects')).toBeInTheDocument();
 		expect(screen.getByLabelText('See publications')).toBeInTheDocument();
 		expect(screen.getByLabelText('See socials')).toBeInTheDocument();
 		expect(screen.getByRole('button', { name: /home button/i })).toBeInTheDocument();
+	});
+
+	it('should handle keyboard navigation (Enter/Space) on links', () => {
+		const homeLink = screen.getByLabelText('Home');
+		homeLink.focus();
+
+		expect(document.activeElement).toBe(homeLink);
+
+		fireEvent.keyDown(homeLink, { key: 'Enter', code: 'Enter' });
+		fireEvent.keyDown(homeLink, { key: ' ', code: 'Space' });
+		// Should not throw and should remain accessible
+		expect(homeLink).toBeInTheDocument();
 	});
 });

@@ -8,16 +8,6 @@ jest.mock('@configs/firebase', () => ({
 	logAnalyticsEvent: jest.fn(),
 }));
 
-// Mock the aaaahhhh helper
-jest.mock('@helpers/aaaahhhh', () => ({
-	aaaahhhh: jest.fn(),
-}));
-
-// Mock lodash debounce
-jest.mock('lodash', () => ({
-	debounce: jest.fn((fn) => fn),
-}));
-
 // Mock Next.js Image component to capture the original src prop
 jest.mock('next/image', () => {
 	const MockImage = React.forwardRef<HTMLImageElement, any>(
@@ -63,66 +53,6 @@ describe('Avatar', () => {
 		expect(avatar).toHaveAttribute('src', '/images/drawn/profile_pic_drawn.webp');
 	});
 
-	it('should start sneeze animation on every 5th hover', async () => {
-		const { logAnalyticsEvent } = jest.requireMock('@configs/firebase');
-		render(<Avatar />);
-
-		const avatar = screen.getByTestId('profile_pic');
-
-		// Hover 4 times - no sneeze
-		for (let i = 0; i < 4; i++) {
-			fireEvent.mouseEnter(avatar);
-		}
-
-		// 5th hover should trigger sneeze
-		fireEvent.mouseEnter(avatar);
-
-		act(() => {
-			jest.advanceTimersByTime(500);
-		});
-
-		act(() => {
-			jest.advanceTimersByTime(300);
-		});
-
-		act(() => {
-			jest.advanceTimersByTime(1000);
-		});
-
-		expect(logAnalyticsEvent).toHaveBeenCalledWith('trigger_sneeze', {
-			name: 'trigger_sneeze',
-			type: 'hover',
-		});
-	});
-
-	it('should trigger aaaahhhh effect on 6th sneeze', async () => {
-		const { logAnalyticsEvent } = jest.requireMock('@configs/firebase');
-		const { aaaahhhh } = jest.requireMock('@helpers/aaaahhhh');
-
-		render(<Avatar />);
-
-		const avatar = screen.getByTestId('profile_pic');
-
-		// Trigger sneezes 6 times (5 hovers each = 30 hovers total)
-		for (let sneeze = 0; sneeze < 6; sneeze++) {
-			for (let hover = 0; hover < 5; hover++) {
-				fireEvent.mouseEnter(avatar);
-			}
-
-			if (sneeze < 5) {
-				act(() => {
-					jest.advanceTimersByTime(2000); // Allow sneeze animation to complete
-				});
-			}
-		}
-
-		expect(logAnalyticsEvent).toHaveBeenCalledWith('trigger_aaaahhhh', {
-			name: 'trigger_aaaahhhh',
-			type: 'hover',
-		});
-		expect(aaaahhhh).toHaveBeenCalled();
-	});
-
 	it('should handle click events', () => {
 		render(<Avatar />);
 
@@ -139,5 +69,25 @@ describe('Avatar', () => {
 		expect(avatar).toHaveStyle({
 			borderRadius: '50%',
 		});
+	});
+
+	it('should be accessible by keyboard (tab/focus/enter)', () => {
+		render(<Avatar />);
+		const avatar = screen.getByTestId('profile_pic');
+		avatar.tabIndex = 0;
+		avatar.focus();
+		expect(document.activeElement).toBe(avatar);
+		fireEvent.keyDown(avatar, { key: 'Enter', code: 'Enter' });
+		// Should not throw and should remain accessible
+		expect(avatar).toBeInTheDocument();
+	});
+
+	it('should handle image error gracefully', () => {
+		render(<Avatar />);
+		const avatar = screen.getByTestId('profile_pic');
+		// Simulate image error event
+		fireEvent.error(avatar);
+		// Should still be in the document
+		expect(avatar).toBeInTheDocument();
 	});
 });

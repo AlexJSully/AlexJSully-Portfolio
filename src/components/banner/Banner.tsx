@@ -1,13 +1,8 @@
 import Avatar from '@components/banner/Avatar';
-import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 /** The banner at the top of the page */
 export default function Banner() {
-	/** Material-UI theme */
-	const theme = useTheme();
-	/** Whether or not the screen is small */
-	const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
 	return (
 		<Box
 			component='div'
