@@ -1,8 +1,8 @@
 // Move mocks and variable declarations above import
-var mockInitializeApp = jest.fn();
-var mockGetAnalytics = jest.fn();
-var mockLogEvent = jest.fn();
-var mockGetPerformance = jest.fn();
+const mockInitializeApp = jest.fn();
+const mockGetAnalytics = jest.fn();
+const mockLogEvent = jest.fn();
+const mockGetPerformance = jest.fn();
 jest.mock('firebase/app', () => ({
 	initializeApp: mockInitializeApp,
 }));
