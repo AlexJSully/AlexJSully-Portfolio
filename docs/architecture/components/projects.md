@@ -41,15 +41,6 @@ flowchart LR
 }
 ```
 
-```ts
-{
-  name: 'Project Name',
-  title: 'Project Title',
-  employer: 'Employer',
-  thumbnail: 'image/path',
-  links: [{ type: 'github', url: '...' }],
-  // ...other fields
-}
 ```
 
 ## 🔗 Related Docs
