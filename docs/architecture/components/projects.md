@@ -41,8 +41,6 @@ flowchart LR
 }
 ```
 
-```
-
 ## 🔗 Related Docs
 
 - [Component Overview](./index.md)
