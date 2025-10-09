@@ -91,11 +91,6 @@ import GitHubIcon from '@images/icons/github.svg';
 
 ## 🔗 Related Docs
 
-1. Place your image in the appropriate subfolder under `public/images/`.
-2. For project thumbnails, create a folder named after your project ID and add `thumbnail.webp`.
-3. Use `.webp` format for best performance. PNG/JPG are supported but less efficient.
-4. Reference your image in the relevant data file or component.
-
 - [Component Documentation](./components.md)
 - [Projects Guide](./components/projects.md)
 
