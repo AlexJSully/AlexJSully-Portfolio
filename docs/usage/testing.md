@@ -24,10 +24,10 @@ flowchart LR
     C --> E[Run Tests]
     D --> F[Custom Commands]
     D --> G[Global Configuration]
- L[Code Quality and Linting] -->|Runs| H[Prettier]
- L --> I[ESLint]
- T[TypeScript] -->|Runs| J[Type Checking]
- K[NextJS Build] -->|Runs| M[Build Tests]
+    L[Code Quality and Linting] -->|Runs| H[Prettier]
+    L --> I[ESLint]
+    T[TypeScript] -->|Runs| J[Type Checking]
+    K[NextJS Build] -->|Runs| M[Build Tests]
 ```
 
 ## Running Tests

@@ -7,9 +7,9 @@ import Head from 'next/head';
 
 const metadataValues = {
 	description:
-		"Alexander Sullivan's Portfolio & Showcase | Software Developer & Bioinformatician - Explore my featured projects, publications and social media links.",
+		"AlexJSully's Portfolio & Showcase | Software Developer & Bioinformatician - Explore my featured projects, publications and social media links.",
 	name: 'Alexander Joo-Hyun Sullivan',
-	title: "Alexander Sullivan's Portfolio & Showcase",
+	title: "AlexJSully's Portfolio & Showcase",
 	url: 'https://alexjsully.me/',
 };
 export const metadata: Metadata = {
@@ -217,7 +217,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		{
 			'@context': 'https://schema.org/',
 			'@type': 'WebPage',
-			name: "Alexander Sullivan's Portfolio & Showcase",
+			name: "AlexJSully's Portfolio & Showcase",
 			speakable: {
 				'@type': 'SpeakableSpecification',
 				cssSelector: [

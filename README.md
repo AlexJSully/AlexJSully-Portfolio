@@ -9,42 +9,44 @@ My portfolio website to showcase (and brag) about my all my projects!
 
 ## Getting Started
 
-Go to <https://alexjsully.me> to see this portfolio!
+Visit <https://alexjsully.me> to view the live portfolio.
 
-## Browser Compatibilities
+To run locally:
+
+```bash
+git clone https://github.com/AlexJSully/alexjsully-portfolio.git
+
+cd alexjsully-portfolio
+
+npm ci
+
+npm run dev
+```
+
+The app will be available at <http://localhost:3000/>.
+
+## Browser Compatibility
 
 | Chrome | Firefox | Edge | Safari | Opera | Tor | Mobile |
 | ------ | ------- | ---- | ------ | ----- | --- | ------ |
 | ✔     | ✔      | ✔   | ✔     | ✔    | ✔  | ✔     |
 
-## Installation/Open
+## Known Issues
 
-You can open a live version of my portfolio website at <https://alexjsully.me>
-
-If you would like to run or modify my portfolio locally, clone the repository with git by running the following command:
-
-```git
-git clone https://github.com/AlexJSully/alexjsully-portfolio.git
-```
-
-Then run `npm ci`, change to the appropriate directory and then `npm dev`. My portfolio will run at <http://localhost:3000/>.
-
-## Known issues
-
-I aim to make my portfolio as perfect as possible but unfortunately, there may be some unforeseen bugs. If you manage to find one that is not here, feel free to create a [bug report](https://github.com/AlexJSully/alexjsully-portfolio/issues/new/choose) so we can fix it.
+If you find a bug, please create a [bug report](https://github.com/AlexJSully/alexjsully-portfolio/issues/new/choose).
 
 - None at the moment
 
-## Sponsorship
-
-If you want to support my work, you can through the following methods:
-
-- [BTC](3Lp4pwF5nXqwFA62BYx4DSvDswyYpskBog) - 3Lp4pwF5nXqwFA62BYx4DSvDswyYpskBog
-- [ETH](0xc6EB17BD7cbe5976Bfc4f845669cD66Ff340a1A2) - 0xc6EB17BD7cbe5976Bfc4f845669cD66Ff340a1A2
-
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. All contributions are welcome!
+
+## Sponsorship
+
+If you want to support my work:
+
+- [BTC](3Lp4pwF5nXqwFA62BYx4DSvDswyYpskBog)
+- [ETH](0xc6EB17BD7cbe5976Bfc4f845669cD66Ff340a1A2)
 
 ## License
 
@@ -52,4 +54,4 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
 
 ## Authors
 
-- Alexander Sullivan - [GitHub](https://github.com/AlexJSully), [Twitter](https://twitter.com/alexjsully), [LinkedIn](https://www.linkedin.com/in/alexanderjsullivan/), [Website](https://alexjsully.me/)
+- Alexander Joo-Hyun Sullivan - [GitHub](https://github.com/AlexJSully), [Twitter](https://twitter.com/alexjsully), [LinkedIn](https://www.linkedin.com/in/alexanderjsullivan/), [Website](https://alexjsully.me/)
