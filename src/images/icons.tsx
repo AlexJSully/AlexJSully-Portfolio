@@ -2,6 +2,7 @@ import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
 import BAR from './icons/bar.svg';
 import BlueSky from './icons/bluesky.svg';
 import GitHub from './icons/github.svg';
+import GolangGopher from './icons/golanggopher.svg';
 import GooglePlayStore from './icons/googleplay.svg';
 import ImpactDepth from './icons/impactdepth.svg';
 import Instagram from './icons/instagram.svg';
@@ -36,6 +37,7 @@ function generateIconJSX(
 export const BarIcon = (props: SvgIconProps) => generateIconJSX(BAR, props);
 export const BlueSkyIcon = (props: SvgIconProps) => generateIconJSX(BlueSky, props);
 export const GitHubIcon = (props: SvgIconProps) => generateIconJSX(GitHub, props);
+export const GolangGopherIcon = (props: SvgIconProps) => generateIconJSX(GolangGopher, props);
 export const GooglePlayStoreIcon = (props: SvgIconProps) => generateIconJSX(GooglePlayStore, props);
 export const ImpactDepthIcon = (props: SvgIconProps) => generateIconJSX(ImpactDepth, props);
 export const InstagramIcon = (props: SvgIconProps) => generateIconJSX(Instagram, props);

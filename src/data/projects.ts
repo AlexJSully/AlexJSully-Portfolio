@@ -1,6 +1,7 @@
 import {
 	BarIcon,
 	GitHubIcon,
+	GolangGopherIcon,
 	GooglePlayStoreIcon,
 	ImpactDepthIcon,
 	MPXIcon,
@@ -177,6 +178,12 @@ const projects: Projects[] = [
 		type: 'Employment',
 		url: 'https://github.com/verily-src/fhirpath-go',
 		urls: [
+			{
+				text: 'go.dev Package',
+				tooltip: 'Visit the FHIRPath Go package page on Go.dev',
+				icon: GolangGopherIcon,
+				url: 'https://pkg.go.dev/github.com/verily-src/fhirpath-go',
+			},
 			{
 				text: 'GitHub',
 				tooltip: 'Visit the open-source GitHub repository for FHIRPath Go',
