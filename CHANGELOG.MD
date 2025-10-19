@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 To see tags and releases, please go to [Releases](https://github.com/AlexJSully/AlexJSully-Portfolio/releases) on [GitHub](https://github.com/AlexJSully/AlexJSully-Portfolio).
 
+## [2.0.13] - 2025-10-18
+
+Feature:
+
+- Added the ability to hover over project thumbnails to play YouTube videos directly
+
+UI/UX:
+
+- Added Verily Me, Workspace Wiki, Verily Workbench and FHIRPath Go to projects section
+- Added GAIA's & ePlant Plant eFP's publications to publications section
+- Removed Threads and Instagram from social links
+
+Accessibility:
+
+- Improved web accessibility
+
+PWA:
+
+- Added `.com` domain to web manifest scope extensions
+
+Security:
+
+- Updated dependencies to address vulnerabilities
+
+Bug fix:
+
+- Fixed hydration errors
+
 ## [2.0.12] - 2024-07-05
 
 Optimization:
