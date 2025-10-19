@@ -31,6 +31,6 @@ keywords:
     - science
     - web application
 license: GPL-3.0
-commit: edc816e30539684f7ed6e308331986cbbb2c10e5
-version: 2.0.12
-date-released: '2024-07-05'
+commit: 7cf8efc05900735f6bda9d2d110749bc0b7de4f4
+version: 2.0.13
+date-released: '2025-10-19'
