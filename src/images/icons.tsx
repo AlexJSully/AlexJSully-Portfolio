@@ -2,11 +2,14 @@ import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
 import BAR from './icons/bar.svg';
 import BlueSky from './icons/bluesky.svg';
 import GitHub from './icons/github.svg';
+import GooglePlayStore from './icons/googleplay.svg';
 import ImpactDepth from './icons/impactdepth.svg';
 import Instagram from './icons/instagram.svg';
+import iOS from './icons/ios.svg';
 import LinkedIn from './icons/linkedin.svg';
 import Meta from './icons/meta.svg';
 import MPX from './icons/mpx.svg';
+import OpenVSX from './icons/openvsx.svg';
 import Publish from './icons/publish.svg';
 import SciGrade from './icons/scigrade.svg';
 import SmallDevTalk from './icons/smalldevtalk.svg';
@@ -14,6 +17,7 @@ import threads from './icons/threads.svg';
 import Twitch from './icons/twitch.svg';
 import UofT from './icons/uoft.svg';
 import Verily from './icons/verily.svg';
+import VSCode from './icons/vscode.svg';
 import X from './icons/x.svg';
 
 /**
@@ -32,11 +36,14 @@ function generateIconJSX(
 export const BarIcon = (props: SvgIconProps) => generateIconJSX(BAR, props);
 export const BlueSkyIcon = (props: SvgIconProps) => generateIconJSX(BlueSky, props);
 export const GitHubIcon = (props: SvgIconProps) => generateIconJSX(GitHub, props);
+export const GooglePlayStoreIcon = (props: SvgIconProps) => generateIconJSX(GooglePlayStore, props);
 export const ImpactDepthIcon = (props: SvgIconProps) => generateIconJSX(ImpactDepth, props);
 export const InstagramIcon = (props: SvgIconProps) => generateIconJSX(Instagram, props);
+export const iOSIcon = (props: SvgIconProps) => generateIconJSX(iOS, props);
 export const LinkedInIcon = (props: SvgIconProps) => generateIconJSX(LinkedIn, props);
-export const MPXIcon = (props: SvgIconProps) => generateIconJSX(MPX, props);
 export const MetaIcon = (props: SvgIconProps) => generateIconJSX(Meta, props);
+export const MPXIcon = (props: SvgIconProps) => generateIconJSX(MPX, props);
+export const OpenVSXIcon = (props: SvgIconProps) => generateIconJSX(OpenVSX, props);
 export const PublishIcon = (props: SvgIconProps) => generateIconJSX(Publish, props);
 export const SciGradeIcon = (props: SvgIconProps) => generateIconJSX(SciGrade, props);
 export const SmallDevTalkIcon = (props: SvgIconProps) => generateIconJSX(SmallDevTalk, props);
@@ -44,4 +51,5 @@ export const ThreadsIcon = (props: SvgIconProps) => generateIconJSX(threads, pro
 export const TwitchIcon = (props: SvgIconProps) => generateIconJSX(Twitch, props);
 export const UofTIcon = (props: SvgIconProps) => generateIconJSX(UofT, props);
 export const VerilyIcon = (props: SvgIconProps) => generateIconJSX(Verily, props);
+export const VSCodeIcon = (props: SvgIconProps) => generateIconJSX(VSCode, props);
 export const XIcon = (props: SvgIconProps) => generateIconJSX(X, props);

@@ -1,14 +1,18 @@
 import {
 	BarIcon,
 	GitHubIcon,
+	GooglePlayStoreIcon,
 	ImpactDepthIcon,
 	MPXIcon,
 	MetaIcon,
+	OpenVSXIcon,
 	PublishIcon,
 	SciGradeIcon,
 	SmallDevTalkIcon,
 	UofTIcon,
+	VSCodeIcon,
 	VerilyIcon,
+	iOSIcon,
 } from '@images/icons';
 import { SvgIconProps } from '@mui/material';
 
@@ -62,6 +66,80 @@ interface Projects {
 
 /** Project data */
 const projects: Projects[] = [
+	{
+		name: 'Verily Me',
+		id: 'verily-me',
+		description:
+			'Verily Me provides patients with personalized health recommendations from licensed clinicians, based on medical history across providers and health systems.',
+		employer: 'Verily',
+		employerURL: 'https://verily.com/',
+		title: 'Software Developer II',
+		type: 'Employment',
+		url: 'https://verilyme.com/',
+		urls: [
+			{
+				text: 'Android',
+				tooltip: 'Download the Verily Me Android app from the Google Play Store',
+				icon: GooglePlayStoreIcon,
+				url: 'https://play.google.com/store/apps/details?id=com.verily.me',
+			},
+			{
+				text: 'iOS',
+				tooltip: 'Download the Verily Me iOS app from the Apple App Store',
+				icon: iOSIcon,
+				url: 'https://apps.apple.com/us/app/verily-me/id6448808133',
+			},
+			{
+				text: 'Web App',
+				tooltip: 'Visit the Verily Me web app',
+				icon: VerilyIcon,
+				url: 'https://app.verilyme.com/',
+			},
+		],
+		color: '#047a6b',
+		dates: {
+			startDate: '2021-12',
+			endDate: 'current',
+		},
+		showcase: true,
+		youtubeURL: 'https://www.youtube.com/embed/zoPr6tYh5wA?mute=1&cc_load_policy=1&controls=1',
+	},
+	{
+		name: 'Workspace Wiki',
+		id: 'workspace-wiki',
+		description:
+			'Workspace Wiki is a VS Code extension that organizes and previews workspace documentation files in a sidebar tree view for fast, privacy-friendly access and editing.',
+		title: 'Creator',
+		type: 'Personal Project',
+		url: 'https://marketplace.visualstudio.com/items?itemName=alexjsully.workspace-wiki',
+		urls: [
+			{
+				text: 'VSCode Marketplace',
+				tooltip: 'Visit the Workspace Wiki Visual Studio Code Extension Marketplace page',
+				icon: VSCodeIcon,
+				url: 'https://marketplace.visualstudio.com/items?itemName=alexjsully.workspace-wiki',
+			},
+			{
+				text: 'Open VSX',
+				tooltip: 'Visit the Workspace Wiki Open VSX Registry page',
+				icon: OpenVSXIcon,
+				url: 'https://open-vsx.org/extension/alexjsully/workspace-wiki',
+			},
+			{
+				text: 'GitHub',
+				tooltip: 'Visit the open-source GitHub repository for Workspace Wiki',
+				icon: GitHubIcon,
+				url: 'https://github.com/AlexJSully/workspace-wiki',
+			},
+		],
+		color: '#2B5797',
+		dates: {
+			startDate: '2025-10',
+			endDate: '2025-10',
+		},
+		showcase: true,
+		objectFit: 'contain',
+	},
 	{
 		name: 'Verily Workbench',
 		id: 'workbench',
