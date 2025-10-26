@@ -9,8 +9,6 @@ export default defineConfig({
 		experimentalCspAllowList: true,
 		// Run all specs together
 		experimentalRunAllSpecs: true,
-		// Enable experimental Cypress Studio feature
-		experimentalStudio: true,
 		// Enable experimental interactive run events
 		experimentalInteractiveRunEvents: true,
 		// Enable experimental memory management
