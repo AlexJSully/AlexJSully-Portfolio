@@ -12,11 +12,9 @@ node_modules
 # Visual Studio Code
 !.vscode/extensions.json
 !.vscode/launch.json
-!.vscode/settings.json
 !.vscode/tasks.json
 .vscode-test
-.vscode/*
-/.vscode
+.vscode/settings.json
 
 # IDEs and editors
 *.launch
