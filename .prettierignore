@@ -48,6 +48,7 @@ Thumbs.db
 .next
 /.next/
 /out/
+next-env.d.ts
 
 # Env files
 !.env.example
