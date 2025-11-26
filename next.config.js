@@ -55,18 +55,13 @@ const nextConfig = withPWA({
 		];
 	},
 
-	webpack(config) {
-		config.module.rules.push({
-			test: /\.svg$/,
-			use: ['@svgr/webpack'],
-		});
-
-		return config;
-	},
-	// ESLint 9 causes issues with NextJS so disable on build
-	eslint: {
-		// Warning: This allows production builds to successfully complete even if your project has ESLint errors.
-		ignoreDuringBuilds: true,
+	turbopack: {
+		rules: {
+			'*.svg': {
+				loaders: ['@svgr/webpack'],
+				as: '*.js',
+			},
+		},
 	},
 });
 
