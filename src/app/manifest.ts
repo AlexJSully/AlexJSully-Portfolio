@@ -3,6 +3,7 @@ import type { MetadataRoute } from 'next';
 export type ManifestWithScopeExtensions = MetadataRoute.Manifest & {
     scope_extensions?: Array<{
         origin: string;
+        type: string;
     }>;
     edge_side_panel?: {
         preferred_width?: number;
@@ -31,9 +32,11 @@ export default function manifest(): ManifestWithScopeExtensions {
         scope_extensions: [
             {
                 origin: 'https://alexjsully.me/',
+                type: 'web',
             },
             {
                 origin: 'https://alexjsully.com/',
+                type: 'web',
             },
         ],
         edge_side_panel: {},
@@ -145,23 +148,22 @@ export default function manifest(): ManifestWithScopeExtensions {
         ],
         screenshots: [
             {
-                src: './icon/screenshot1.webp',
+                src: '/icon/screenshot1.webp',
                 label: 'Landing page',
                 form_factor: 'wide',
                 sizes: '1280x800',
                 type: 'image/webp',
             },
             {
-                src: './icon/screenshot2.webp',
+                src: '/icon/screenshot2.webp',
                 label: 'Mobile landing page',
                 form_factor: 'narrow',
                 sizes: '1072x1930',
                 type: 'image/webp',
             },
             {
-                src: './icon/screenshot3.webp',
+                src: '/icon/screenshot3.webp',
                 label: 'Current and previous projects and experiences',
-                form_factor: 'wide',
                 sizes: '1600x1089',
                 type: 'image/webp',
             },
