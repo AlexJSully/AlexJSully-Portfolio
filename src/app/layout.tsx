@@ -249,6 +249,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<GeneralLayout>{children}</GeneralLayout>
 
 				<ServiceWorkerRegister />
+
 				<SpeedInsights />
 			</body>
 		</html>
