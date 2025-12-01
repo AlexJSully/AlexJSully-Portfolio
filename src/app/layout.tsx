@@ -1,9 +1,9 @@
+import ServiceWorkerRegister from '@components/ServiceWorkerRegister';
 import seoKeywords from '@data/keywords';
 import GeneralLayout from '@layouts/GeneralLayout';
 import '@styles/globals.scss';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
-import Head from 'next/head';
 
 const metadataValues = {
 	description:
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
 	},
 
 	// Web manifest
-	manifest: 'https://alexjsully.me/manifest.webmanifest',
+	manifest: '/manifest.webmanifest',
 
 	// Twitter
 	twitter: {
@@ -247,6 +247,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				</section>
 
 				<GeneralLayout>{children}</GeneralLayout>
+
+				<ServiceWorkerRegister />
 
 				<SpeedInsights />
 			</body>

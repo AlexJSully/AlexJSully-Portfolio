@@ -3,15 +3,7 @@ const { withSentryConfig } = require('@sentry/nextjs');
 
 const isDevelopment = process.env.NEXT_PUBLIC_ENVIRONMENT === 'development';
 
-const withPWA = require('next-pwa')({
-	buildExcludes: ['app-build-manifest.json'],
-	dest: 'public',
-	disable: isDevelopment,
-	register: true,
-	skipWaiting: true,
-});
-
-const nextConfig = withPWA({
+const nextConfig = {
 	images: {
 		remotePatterns: [
 			{
@@ -63,7 +55,7 @@ const nextConfig = withPWA({
 			},
 		},
 	},
-});
+};
 
 const sentryWebpackPluginOptions = {
 	// Suppresses source map uploading logs during build

@@ -10,7 +10,7 @@ This document provides a high-level overview of the architecture for AlexJSully'
 - **Testing:** Cypress (E2E), Jest (unit)
 - **Error Tracking:** Sentry
 - **Backend/Data:** Firebase
-- **PWA Support:** next-pwa
+- **PWA Support:** Native Next.js
 
 ## 📂 Directory Structure
 
@@ -40,7 +40,8 @@ flowchart TD
     React_Components -->|UI| MUI
     NextJS_App -->|API| Firebase
     NextJS_App -->|Error| Sentry
-    NextJS_App -->|Service Worker| PWA
+    NextJS_App -->|Metadata| PWA_Manifest
+    PWA_Manifest -->|Install| User_Device
 ```
 
 ## 🧩 Subsystems

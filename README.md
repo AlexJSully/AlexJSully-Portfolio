@@ -29,7 +29,7 @@ The app will be available at <http://localhost:3000/>.
 
 | Chrome | Firefox | Edge | Safari | Opera | Tor | Mobile |
 | ------ | ------- | ---- | ------ | ----- | --- | ------ |
-| ✔     | ✔      | ✔   | ✔     | ✔    | ✔  | ✔     |
+| ✔      | ✔       | ✔    | ✔      | ✔     | ✔   | ✔      |
 
 ## Known Issues
 

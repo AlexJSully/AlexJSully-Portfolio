@@ -1,62 +1,98 @@
 # Service Workers & PWA Documentation
 
-This document explains how Progressive Web App (PWA) features and service workers are implemented in the AlexJSully Portfolio project.
+This document explains how Progressive Web App (PWA) features are implemented in the AlexJSully Portfolio project using native Next.js capabilities.
 
-## 📦 Purpose
+## Purpose
 
-PWA support enables offline access, faster load times, and installable experiences for users.
+PWA support enables:
 
-## 🏗️ Structure
+- **Installability**: Users can install the website as a standalone app.
+- **Offline Capabilities**: Basic offline support via browser caching and service workers (if configured).
+- **Native-like Experience**: Standalone display mode and custom icons.
 
-## 🔍 Usage Example
+## Architecture
 
-## 🚀 Features
+The PWA implementation relies on Next.js's built-in metadata and route handlers, specifically `manifest.ts`.
 
-- **Offline caching:** Assets, pages, and API responses are cached for offline use.
-- **Service worker:** Handles background sync, cache updates, and push notifications.
-- **Web App Manifest:** Enables installability and controls app appearance on devices.
-- **Responsive design:** Optimized for mobile and desktop.
+```mermaid
+flowchart TD
+    Browser[User Browser]
+    Manifest["src/app/manifest.ts"]
+    Icons["public/icon/"]
+    NextJS[Next.js Server]
 
-## ⚙️ Technical Implementation
-
-### next-pwa Configuration
-
-- The `next-pwa` plugin is configured in `next.config.js`:
-    - Specifies service worker location, caching strategies, and runtime behaviors.
-    - Example config:
-
-```js
-// next.config.js
-const withPWA = require('next-pwa');
-module.exports = withPWA({
-	pwa: {
-		dest: 'public',
-		register: true,
-		skipWaiting: true,
-		disable: process.env.NODE_ENV === 'development',
-	},
-});
+    Browser -- Requests Manifest --> NextJS
+    NextJS -- Generates JSON --> Manifest
+    Manifest -- References --> Icons
+    Browser -- Downloads --> Icons
+    Browser -- Install Prompt --> User
 ```
 
-### Manifest & Icons
+## Features
 
-- `public/manifest.json` defines app name, icons, theme color, and display mode.
-- Icons for various devices are in `public/icon/`.
+- **Dynamic Manifest**: Generated programmatically via `src/app/manifest.ts`.
+- **Responsive Icons**: Multiple icon sizes and maskable icons for different devices.
+- **Theming**: Custom theme and background colors defined in the manifest.
+- **Display Modes**: Supports `standalone`, `minimal-ui`, and `window-controls-overlay`.
 
-### Integration Flow
+## Technical Implementation
 
-1. User visits site; service worker is registered.
-2. Assets and pages are cached according to config.
-3. Manifest enables "Add to Home Screen" prompt.
-4. Updates are pushed via service worker when available.
+### Manifest Generation (`src/app/manifest.ts`)
 
-## 🛠️ Customization & Extensibility
+Instead of a static `manifest.json`, we use a TypeScript file to generate the manifest dynamically. This allows for type safety and easier maintenance.
 
-- Modify caching strategies in `next.config.js` for custom needs.
-- Add push notification support via service worker.
-- Update manifest for branding and install experience.
+```typescript
+// src/app/manifest.ts
+import type { MetadataRoute } from 'next';
 
-## 🔗 Related Docs
+export default function manifest(): MetadataRoute.Manifest {
+	return {
+		name: "Alexander Sullivan's Portfolio",
+		short_name: "Alexander Sullivan's Portfolio",
+		// ... other properties
+		icons: [
+			{
+				src: '/icon/android-chrome-192x192.png',
+				sizes: '192x192',
+				type: 'image/png',
+			},
+			// ... other icons
+		],
+	};
+}
+```
+
+### Service Worker Lifecycle
+
+While `next-pwa` previously handled service worker generation, native Next.js apps can use manual service worker registration or rely on standard browser caching headers.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Network
+    participant Cache
+
+    User->>Browser: Visits Site
+    Browser->>Network: Request Resources
+    Network-->>Browser: Return Resources
+    Browser->>Cache: Cache Static Assets (via Headers)
+
+    opt Offline Mode
+        User->>Browser: Visits Site (Offline)
+        Browser->>Cache: Check Cache
+        Cache-->>Browser: Return Cached Assets
+    end
+```
+
+## Customization
+
+To modify PWA settings:
+
+1. **Manifest**: Edit `src/app/manifest.ts` to change app name, colors, or icons.
+2. **Icons**: Add or replace images in `public/icon/` and update the manifest accordingly.
+
+## Related Docs
 
 - [Architecture Overview](./index.md)
-- [Usage Guides](../usage/index.md)
+- [Next.js Manifest Documentation](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/manifest)
