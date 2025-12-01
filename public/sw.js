@@ -51,7 +51,6 @@ self.addEventListener('fetch', (event) => {
         url.pathname.includes('__nextjs') ||
         url.pathname.includes('/_next/') ||
         url.pathname.includes('/api/') ||
-        url.hostname.includes('analytics.google.com') ||
         url.hostname.includes('vercel') ||
         url.hostname.includes('firebase')
     ) {
