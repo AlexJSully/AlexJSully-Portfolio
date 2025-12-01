@@ -1,16 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-export type ManifestWithScopeExtensions = MetadataRoute.Manifest & {
-	scope_extensions?: Array<{
-		origin: string;
-		type: string;
-	}>;
-	edge_side_panel?: {
-		preferred_width?: number;
-	};
-};
-
-export default function manifest(): ManifestWithScopeExtensions {
+export default function manifest(): MetadataRoute.Manifest {
 	return {
 		name: "Alexander Sullivan's Portfolio",
 		short_name: "Alexander Sullivan's Portfolio",
@@ -29,17 +19,6 @@ export default function manifest(): ManifestWithScopeExtensions {
 			client_mode: ['focus-existing', 'auto'],
 		},
 		prefer_related_applications: false,
-		scope_extensions: [
-			{
-				origin: 'https://alexjsully.me/',
-				type: 'web',
-			},
-			{
-				origin: 'https://alexjsully.com/',
-				type: 'web',
-			},
-		],
-		edge_side_panel: {},
 		icons: [
 			{
 				src: '/icon/android-chrome-36x36.png',
@@ -133,17 +112,6 @@ export default function manifest(): ManifestWithScopeExtensions {
 				sizes: 'any',
 				type: 'image/png',
 				purpose: 'any',
-			},
-			{
-				src: '/icon/safari-pinned-tab.svg',
-				sizes: 'any',
-				purpose: 'monochrome',
-				type: 'image/svg+xml',
-			},
-			{
-				src: '/icon/favicon.ico',
-				sizes: 'any',
-				type: 'image/x-icon',
 			},
 		],
 		screenshots: [
