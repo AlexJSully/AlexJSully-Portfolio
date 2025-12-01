@@ -79,8 +79,6 @@ tsconfig.tsbuildinfo
 
 # Service workers
 *.js.map
-sw.js
-sw.js.map
 workbox-*.js
 worker-*.js
 
