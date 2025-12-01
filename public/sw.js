@@ -50,9 +50,7 @@ self.addEventListener('fetch', (event) => {
         !request.url.startsWith(self.location.origin) ||
         url.pathname.includes('__nextjs') ||
         url.pathname.includes('/_next/') ||
-        url.pathname.includes('/api/') ||
-        url.hostname.includes('vercel') ||
-        url.hostname.includes('firebase')
+        url.pathname.includes('/api/')
     ) {
         return;
     }
