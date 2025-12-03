@@ -62,9 +62,10 @@ self.addEventListener('fetch', (event) => {
                 .then((response) => {
                     // Only cache successful responses
                     if (response.ok) {
-                        const responseClone = response.clone();
+                        // Always clone before putting into cache to avoid "body used" errors
+                        const forCache = response.clone();
                         caches.open(RUNTIME_CACHE).then((cache) => {
-                            cache.put(request, responseClone).catch(() => {
+                            cache.put(request, forCache).catch(() => {
                                 // Silently fail if caching doesn't work
                             });
                         });
@@ -88,8 +89,10 @@ self.addEventListener('fetch', (event) => {
                 fetch(request)
                     .then((response) => {
                         if (response.ok) {
+                            // Clone before caching to avoid "Response body is already used"
+                            const forCache = response.clone();
                             caches.open(RUNTIME_CACHE).then((cache) => {
-                                cache.put(request, response).catch(() => {
+                                cache.put(request, forCache).catch(() => {
                                     // Silently fail if caching doesn't work
                                 });
                             });
