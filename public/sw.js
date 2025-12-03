@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alexjsully-portfolio-v1';
+const CACHE_NAME = 'alexjsully-portfolio';
 const RUNTIME_CACHE = 'runtime-cache';
 
 // Assets to cache immediately
@@ -72,10 +72,9 @@ self.addEventListener('fetch', (event) => {
                     }
                     return response;
                 })
-                .catch(() => {
-                    return caches.match(request).then((response) => {
-                        return response || caches.match('/');
-                    });
+                .catch(async () => {
+                    const response = await caches.match(request);
+                    return response || caches.match('/');
                 })
         );
         return;
@@ -107,8 +106,10 @@ self.addEventListener('fetch', (event) => {
             // Not in cache, fetch from network
             return fetch(request).then((response) => {
                 if (response.ok) {
+                    // Clone immediately before any async work to ensure body isn't consumed
+                    const forCache = response.clone();
                     caches.open(RUNTIME_CACHE).then((cache) => {
-                        cache.put(request, response.clone()).catch(() => {
+                        cache.put(request, forCache).catch(() => {
                             // Silently fail if caching doesn't work
                         });
                     });
@@ -117,28 +118,4 @@ self.addEventListener('fetch', (event) => {
             });
         })
     );
-});
-
-// Background Sync API
-self.addEventListener('sync', (event) => {
-    if (event.tag === 'sync-data') {
-        console.log('Background sync triggered');
-        // Logic to sync data goes here
-    }
-});
-
-// Background Fetch API
-self.addEventListener('backgroundfetchsuccess', (event) => {
-    console.log('Background fetch success', event);
-    // Logic to handle successful background fetch
-});
-
-self.addEventListener('backgroundfetchfail', (event) => {
-    console.log('Background fetch fail', event);
-    // Logic to handle failed background fetch
-});
-
-self.addEventListener('backgroundfetchclick', (event) => {
-    console.log('Background fetch click', event);
-    event.waitUntil(clients.openWindow('/'));
 });
