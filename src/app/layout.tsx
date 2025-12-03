@@ -76,10 +76,16 @@ export const metadata: Metadata = {
 		icon: '/icon/favicon.ico',
 		shortcut: '/icon/apple-touch-icon.png',
 		apple: '/icon/apple-touch-icon.png',
-		other: {
-			rel: 'apple-touch-icon-precomposed',
-			url: '/icon/apple-touch-icon-precomposed.png',
-		},
+		other: [
+			{
+				rel: 'apple-touch-icon-precomposed',
+				url: '/icon/apple-touch-icon-precomposed.png',
+			},
+			{
+				rel: 'mask-icon',
+				url: '/icon/safari-pinned-tab.svg',
+			},
+		],
 	},
 
 	// Web manifest
