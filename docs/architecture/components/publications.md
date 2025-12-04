@@ -11,8 +11,8 @@ The publications list is displayed using the `Publications` component located in
 ### Key Elements
 
 - **Styling**: The component uses inline styles to manage the appearance of publication metadata.
--- **List Layout**: The publications are displayed in a responsive list layout using Material-UI's `Stack` and `Typography` components.
--- **Publication Cards**: Each publication is displayed as a card with a title, authors, metadata, and an abstract. Data is imported from `src/data/publications.ts` and the component logs user interactions via `logAnalyticsEvent`.
+  -- **List Layout**: The publications are displayed in a responsive list layout using Material-UI's `Stack` and `Typography` components.
+  -- **Publication Cards**: Each publication is displayed as a card with a title, authors, metadata, and an abstract. Data is imported from `src/data/publications.ts` and the component logs user interactions via `logAnalyticsEvent`.
 
 ### Flowchart
 

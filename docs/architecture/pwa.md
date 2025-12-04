@@ -48,15 +48,15 @@ Example usage (the app's implementation returns a full `MetadataRoute.Manifest` 
 import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
-    return {
-        name: "Alexander Sullivan's Portfolio",
-        short_name: "Alexander Sullivan's Portfolio",
-        icons: [
-            { src: '/icon/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
-            // ...
-        ],
-        // ...other fields
-    };
+	return {
+		name: "Alexander Sullivan's Portfolio",
+		short_name: "Alexander Sullivan's Portfolio",
+		icons: [
+			{ src: '/icon/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
+			// ...
+		],
+		// ...other fields
+	};
 }
 ```
 

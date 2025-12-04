@@ -46,7 +46,7 @@ This guide walks you through installing, configuring, and running the AlexJSully
     - `NEXT_PUBLIC_FIREBASE_APP_ID`
     - `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID`
     - `NEXT_PUBLIC_SENTRY_DSN` (if Sentry is used in your environment)
-  Place these keys in a local `.env` file during development. Do not commit `.env` to git.
+      Place these keys in a local `.env` file during development. Do not commit `.env` to git.
 - **Path Aliases:**
     - Use TypeScript aliases (see `tsconfig.json`). The project exposes aliases like `@components`, `@data`, `@configs`, `@helpers`, and `@images` for cleaner imports.
 

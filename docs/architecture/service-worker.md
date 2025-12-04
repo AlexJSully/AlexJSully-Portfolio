@@ -23,15 +23,16 @@ The app registers the SW from a client component that runs inside the browser:
 import { useEffect } from 'react';
 
 export default function ServiceWorkerRegister() {
-  useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .then(reg => console.log('Service Worker registered with scope', reg.scope))
-        .catch(err => console.error('Service Worker registration failed:', err));
-    }
-  }, []);
+	useEffect(() => {
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker
+				.register('/sw.js')
+				.then((reg) => console.log('Service Worker registered with scope', reg.scope))
+				.catch((err) => console.error('Service Worker registration failed:', err));
+		}
+	}, []);
 
-  return null;
+	return null;
 }
 ```
 
