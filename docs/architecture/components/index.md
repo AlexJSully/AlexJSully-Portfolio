@@ -25,11 +25,11 @@ flowchart TD
 
 ## 🔍 Component Details
 
-- **Navbar:** Top navigation bar, links to sections. Handles navigation, accessibility, and analytics logging.
+- **Navbar:** Top navigation bar, links to sections. Handles navigation, accessibility, and logs analytics via `logAnalyticsEvent`.
 - **Banner:** Header section, may include avatar and intro. Displays profile and branding.
-- **ProjectsGrid:** Displays project cards in a grid. Handles filtering, analytics, and responsive layout.
-- **Publications:** Lists publications with metadata. Supports links to external resources.
-- **Footer:** Social media links and copyright. Includes contact and resume links.
+- **ProjectsGrid:** Displays project cards in a grid. Located at `src/components/projects/ProjectsGrid.tsx`. Handles filtering, analytics (uses `logAnalyticsEvent`), and responsive layout.
+- **Publications:** Lists publications with metadata. Located at `src/components/publications/Publications.tsx`. Supports external links and logs analytics on interactions.
+- **Footer:** Social media links and copyright. Located at `src/components/footer/Footer.tsx`. Includes contact and resume links and logs analytics.
 - **CookieSnackbar:** Shows cookie consent. Manages cookie state and user interaction.
 - **StarsBackground:** Visual background effect. Renders animated stars for visual appeal.
 

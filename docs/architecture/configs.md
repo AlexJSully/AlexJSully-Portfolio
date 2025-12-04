@@ -19,13 +19,21 @@ Configs manage environment variables, service integrations, and global settings 
 
 ## 🔍 Usage Examples
 
-### Importing Firebase Config
+### Firebase configuration and usage
+
+The runtime `src/configs/firebase.ts` exposes two named functions you should use from the app:
 
 ```ts
-import firebaseConfig from '@configs/firebase';
+import { init, logAnalyticsEvent } from '@configs/firebase';
 
-// Initialize Firebase app
+// Initialize Firebase (call once on app start)
+init();
+
+// Log analytics events anywhere in the app
+logAnalyticsEvent('my_event', { foo: 'bar' });
 ```
+
+There is no default export in the implementation — use the named exports above.
 
 ### Using Environment Variables
 
@@ -34,6 +42,8 @@ const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 ```
 
 ### Sentry Configuration
+
+Sentry is configured via the repository's `sentry.*.config.ts` files. Use Sentry's Next.js SDK initialization patterns in those files; the app uses the standard `@sentry/nextjs` entrypoints. Example usage in application code:
 
 ```ts
 import * as Sentry from '@sentry/nextjs';

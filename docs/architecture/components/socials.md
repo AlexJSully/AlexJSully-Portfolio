@@ -27,7 +27,7 @@ flowchart LR
 
 ## Adding New Social Media Links
 
-To add new social media links, you need to update the `socials` array in [socials.ts](../../src/data/socials.ts).
+To add new social media links, update the `socials` array in `src/data/socials.ts`.
 
 ### Steps to Add a New Social Media Link
 

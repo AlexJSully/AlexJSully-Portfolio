@@ -10,9 +10,10 @@ The projects grid is displayed using the `ProjectsGrid` component located in [Pr
 
 ### Key Elements
 
-- **State Management:** Uses React `useState` to toggle featured/all projects.
-- **Grid Layout:** Responsive grid via MUI Grid/Stack.
-- **Project Cards:** Thumbnail, name, title, employer, resource links.
+- **State Management:** Uses React `useState` and local component state to manage view toggles and UI interactions.
+- **Grid Layout:** Responsive grid via MUI `Grid`/`Stack` and CSS-in-JS styles.
+- **Project Cards:** Thumbnail, name, title, employer, resource links. The component imports the project data from `src/data/projects.ts`.
+- **Analytics:** The component calls `logAnalyticsEvent` for user interactions (e.g., clicking a project link or viewing details).
 
 ### Flowchart
 
@@ -79,9 +80,9 @@ flowchart LR
 
 ### Adding Thumbnail Images
 
-To add a thumbnail image for the new project, place the image in the appropriate directory:
+To add a thumbnail image for a new project, place the image in the appropriate directory:
 
-1. **Navigate to the images directory**: Go to the [public image projects directory](../../public/images/projects).
+1. **Navigate to the images directory**: Go to the `public/images/projects` directory.
 2. **Create a new directory**: Create a new directory with the project ID (e.g., `new-project`).
 3. **Add the thumbnail image**: Place the thumbnail image in the new directory and name it `thumbnail.webp`. Recommended to use `.webp` format for better performance.
 
