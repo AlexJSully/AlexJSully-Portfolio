@@ -39,58 +39,43 @@ flowchart TD
 
 ### Manifest Generation (`src/app/manifest.ts`)
 
-Instead of a static `manifest.json`, we use a TypeScript file to generate the manifest dynamically. This allows for type safety and easier maintenance.
+The app exports a `MetadataRoute.Manifest` from `src/app/manifest.ts`. Next.js will expose this manifest to the browser as `/manifest.webmanifest` when the app is built and served. Using a TypeScript manifest lets you keep manifest values close to application code and use type safety.
 
-```typescript
-// src/app/manifest.ts
+Example usage (the app's implementation returns a full `MetadataRoute.Manifest` object and the root layout references the manifest at `'/manifest.webmanifest'`):
+
+```ts
+// src/app/manifest.ts (exports a Next.js manifest)
 import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
 	return {
 		name: "Alexander Sullivan's Portfolio",
 		short_name: "Alexander Sullivan's Portfolio",
-		// ... other properties
 		icons: [
-			{
-				src: '/icon/android-chrome-192x192.png',
-				sizes: '192x192',
-				type: 'image/png',
-			},
-			// ... other icons
+			{ src: '/icon/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
+			// ...
 		],
+		// ...other fields
 	};
 }
 ```
 
 ### Service Worker Lifecycle
 
-While `next-pwa` previously handled service worker generation, native Next.js apps can use manual service worker registration or rely on standard browser caching headers.
+This project includes a manual service worker implementation at `public/sw.js` and registers it from the client. The app registers the service worker in two places:
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant Browser
-    participant Network
-    participant Cache
+- `src/components/ServiceWorkerRegister.tsx` — a small client component that calls `navigator.serviceWorker.register('/sw.js')` inside a `useEffect`.
+- `src/app/page.tsx` — the home page also calls `navigator.serviceWorker.register('/sw.js')` during its initial `useEffect` (this is a defensive duplicate to ensure registration on client navigations).
 
-    User->>Browser: Visits Site
-    Browser->>Network: Request Resources
-    Network-->>Browser: Return Resources
-    Browser->>Cache: Cache Static Assets (via Headers)
-
-    opt Offline Mode
-        User->>Browser: Visits Site (Offline)
-        Browser->>Cache: Check Cache
-        Cache-->>Browser: Return Cached Assets
-    end
-```
+The service worker uses a cache-first / stale-while-revalidate strategy for static assets and network-first for navigation requests. See `public/sw.js` for the exact implementation.
 
 ## Customization
 
 To modify PWA settings:
 
-1. **Manifest**: Edit `src/app/manifest.ts` to change app name, colors, or icons.
+1. **Manifest**: Edit `src/app/manifest.ts` to change app name, colors, or icons. The root layout uses `manifest: '/manifest.webmanifest'` so changes will propagate at runtime.
 2. **Icons**: Add or replace images in `public/icon/` and update the manifest accordingly.
+3. **Service Worker**: Edit `public/sw.js` to customize caching strategies or precached assets.
 
 ## Related Docs
 

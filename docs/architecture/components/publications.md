@@ -11,8 +11,8 @@ The publications list is displayed using the `Publications` component located in
 ### Key Elements
 
 - **Styling**: The component uses inline styles to manage the appearance of publication metadata.
-- **List Layout**: The publications are displayed in a responsive list layout using Material-UI's Stack and Typography components.
-- **Publication Cards**: Each publication is displayed as a card with a title, authors, metadata, and an abstract.
+  -- **List Layout**: The publications are displayed in a responsive list layout using Material-UI's `Stack` and `Typography` components.
+  -- **Publication Cards**: Each publication is displayed as a card with a title, authors, metadata, and an abstract. Data is imported from `src/data/publications.ts` and the component logs user interactions via `logAnalyticsEvent`.
 
 ### Flowchart
 
@@ -29,7 +29,7 @@ flowchart LR
 
 ## Adding New Publications
 
-To add new publications, you need to update the `publications` array in [publications.ts](../../src/data/publications.ts).
+To add new publications, update the `publications` array in `src/data/publications.ts`.
 
 ### Steps to Add a New Publication
 
