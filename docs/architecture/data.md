@@ -79,7 +79,7 @@ sequenceDiagram
 
 ## 🔗 Related Docs
 
-- [Component Documentation](../components/index.md)
+- [Component Documentation](./components/index.md)
 - [System Architecture](./index.md)
 
 💡 **Tip:** Use TypeScript interfaces for all data structures to ensure type safety and maintainability.

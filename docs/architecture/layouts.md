@@ -30,7 +30,7 @@ export default function Page() {
 ## 🔗 Related Docs
 
 - [System Architecture](./index.md)
-- [Component Architecture](./components.md)
+- [Component Architecture](./components/index.md)
 
 ---
 

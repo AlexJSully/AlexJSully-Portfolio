@@ -32,14 +32,21 @@ flowchart LR
 ```
 
 ```ts
-{
-  name: 'Project Name',
-  title: 'Project Title',
-  employer: 'Employer',
-  thumbnail: 'image/path',
-  links: [{ type: 'github', url: '...' }],
-  // ...other fields
-}
+// Example project object (see src/data/projects.ts)
+const example = {
+	id: 'my-project',
+	name: 'My Project',
+	title: 'Lead Developer',
+	employer: 'Example Co',
+	employerURL: 'https://example.com',
+	url: 'https://example.com/my-project',
+	urls: [{ text: 'GitHub', tooltip: 'Source', icon: /* Svg icon */ () => null, url: 'https://github.com/example' }],
+	color: '#047a6b',
+	dates: { startDate: '2023-01', endDate: '2023-12' },
+	showcase: true,
+	objectFit: 'contain',
+	youtubeURL: 'https://www.youtube.com/embed/VIDEO_ID?mute=1',
+};
 ```
 
 ## 🔗 Related Docs
