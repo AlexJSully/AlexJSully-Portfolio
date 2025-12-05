@@ -80,9 +80,9 @@ While reviewing this #activePullRequest, analyze the entire #codebase and ensure
 - Modify existing documentation files.
 - Add new markdown files only when supported by real code.
 - If creating a **new directory**:
-  **a. Always create an `index.md`**
-    - Must provide an overview of the directory’s purpose and contents.
-      **b. Create only files that correspond directly to real, existing code.**
+    - **a. Always create an `index.md`**
+        - Must provide an overview of the directory’s purpose and contents.
+    - **b. Create only files that correspond directly to real, existing code.**
 - No speculative or forward-looking directories or files.
 
 ---
