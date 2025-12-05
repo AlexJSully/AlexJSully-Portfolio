@@ -46,7 +46,7 @@ flowchart TD
 
 ## 🧩 Subsystems
 
-- **Components:** UI elements (see [Components Docs](../components/index.md))
+- **Components:** UI elements (see [Components Docs](./components/index.md))
 - **Data:** Static and dynamic data sources
 - **Helpers/Utils:** Utility functions for logic and formatting
 - **Layouts:** Page and section layouts
@@ -56,7 +56,7 @@ flowchart TD
 ## 🔗 Related Docs
 
 - [Usage Guides](../usage/index.md)
-- [Component Documentation](../components/index.md)
+- [Component Documentation](./components/index.md)
 
 ---
 

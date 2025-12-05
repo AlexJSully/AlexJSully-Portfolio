@@ -10,56 +10,83 @@ labels:
     - 'mermaid'
 ---
 
-Purpose:
-While reviewing the #activePullRequest, analyze the entire #codebase and ensure
-that the #file:docs directory is fully up to date, consistent, and accurate based
-on the current implementation.
+**Purpose:**
+While reviewing this #activePullRequest, analyze the entire #codebase and ensure the #file:docs directory is accurate, up to date, and fully aligned with the current implementation.
 
-What to do:
+---
 
-1. Audit the `docs/` directory against the real codebase
-    - Identify documentation gaps, inaccuracies, outdated explanations, or missing sections.
-    - Cross-check code comments, architecture, directory structure, core modules, exposed APIs, utilities, and workflows.
+## HARD RULES (Do Not Violate)
 
-2. Update documentation as necessary
-    - Revise outdated sections.
-    - Add missing content.
-    - Rewrite unclear explanations.
-    - Add short code snippets where they meaningfully clarify how something works.
+1. **No forward-looking or speculative content.**
+    - Do NOT generate a `roadmap.md`.
+    - Do NOT document planned features, hypothetical designs, or imagined improvements.
+    - Document only what exists in the current codebase.
 
-3. Use visual diagrams as frequently as appropriate
-    - Prefer Mermaid diagrams to explain architecture, flows, relationships, state transitions, data movement, or component interactions.
-    - Choose diagram types that best communicate the system (e.g., `flowchart`, `sequenceDiagram`, `classDiagram`, `stateDiagram`, `gitGraph`).
-    - When explaining logic, system or architecture, include Mermaid diagrams when applicable.
+2. **No invented code.**
+    - Only reference functions, hooks, classes, types, modules, files, directories, system architecture & design or packages that actually exist.
+    - Verify existence before describing or linking anything.
 
-4. Ensure architectural accuracy
-    - Validate that the documented behavior matches real code.
-    - If implementation diverges from existing docs, update docs to match real behavior.
+3. **No placeholder text or TODOs.**
+    - Do not create empty sections or stubs.
+    - Every sentence must be grounded in verifiable code.
 
-5. Maintain a concise, structured writing style
-    - Keep explanations clear and self–contained.
-    - Avoid unnecessary verbosity.
-    - Highlight important behaviors or assumptions explicitly.
+4. **No unnecessary rewriting of the entire system.**
+    - Only update documentation that is outdated, incorrect, incomplete, or missing.
 
-6. Make changes directly
-    - Modify documentation files.
-    - Add new files if needed.
-    - Update diagrams.
-    - Include only meaningful and defensible changes; do not generate placeholder text.
+---
 
-Goal:
-Produce a clean, accurate, comprehensively updated `docs/` directory that fully
-reflects the current implementation, backed by diagrams and practical examples.
+## What to Do
 
-Acceptance checklist (use as review checklist):
+### 1. Audit the `docs/` directory
 
-- [ ] Audit `docs/` for correctness against actual code
-- [ ] Fix or update inaccurate/outdated pages
-- [ ] Add missing sections or examples
-- [ ] Add Mermaid diagrams where helpful
-- [ ] Ensure examples are runnable/accurate
-- [ ] Run repository `validate` (format, lint and testing) are passing and fix markdown lint issues. For example #file:package.json `npm run validate`
+- Identify inaccuracies, outdated content, missing explanations, or architectural mismatches.
+- Cross-reference source files, comments, directory structure, and actual behavior.
 
-Notes:
+### 2. Update documentation strictly based on verified code
 
-- Prefer concrete changes only; avoid adding placeholders or speculative content.
+- Correct outdated statements.
+- Add missing explanations grounded in the current implementation.
+- Include **small, accurate code snippets** whenever explaining behavior, usage, or examples.
+    - Snippets must reference real code that exists within the codebase.
+    - No invented identifiers.
+
+### 3. Use **Mermaid diagrams extensively**
+
+- Proactively identify any section where a diagram would improve clarity.
+- Include diagrams for:
+    - data flows
+    - module interactions
+    - component relationships
+    - lifecycle steps
+    - architectural overviews
+    - system interactions
+- Use only diagrams that reflect **actual, current code** (no hypothetical structures).
+- Prefer `flowchart`, `sequenceDiagram`, `classDiagram`, and `stateDiagram` when appropriate.
+
+### 4. Reference real files frequently using markdown links
+
+- Whenever referencing a file or module, **link directly to the file using proper markdown**: `[Description](relative/path/to/file.ts)`
+- Confirm the file exists before linking.
+- Use file links liberally so readers can immediately navigate to source.
+
+### 5. Maintain clarity and conciseness
+
+- Keep explanations self-contained and clear.
+- Highlight real architectural decisions, assumptions, and edge cases.
+- Avoid verbosity or speculative commentary.
+
+### 6. Apply changes directly (docs only)
+
+- Modify existing documentation files.
+- Add new markdown files only when supported by real code.
+- If creating a **new directory**:
+    - **a. Always create an `index.md`**
+        - Must provide an overview of the directory’s purpose and contents.
+    - **b. Create only files that correspond directly to real, existing code.**
+- No speculative or forward-looking directories or files.
+
+---
+
+## Final Step
+
+After completing all changes, run `npm run validate` from #file:package.json and ensure markdown linting passes cleanly.

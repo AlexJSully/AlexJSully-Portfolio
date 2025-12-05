@@ -91,7 +91,7 @@ import GitHubIcon from '@images/icons/github.svg';
 
 ## 🔗 Related Docs
 
-- [Component Documentation](./components.md)
+- [Component Documentation](./components/index.md)
 - [Projects Guide](./components/projects.md)
 
 ---

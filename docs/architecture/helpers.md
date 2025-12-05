@@ -21,17 +21,25 @@ Helpers provide reusable utility functions for formatting, logic, and data manip
 ### ASCII Art Helper
 
 ```ts
-import { asciiArt } from '@helpers/ascii';
+import { consoleLogLogo, debounceConsoleLogLogo } from '@helpers/ascii';
 
-console.log(asciiArt('Portfolio'));
+// Print ASCII logo once
+consoleLogLogo();
+
+// Debounced version for repeated calls
+debounceConsoleLogLogo();
 ```
 
 ### Custom Logic Helper
 
 ```ts
-import { aaaahhhh } from '@helpers/aaaahhhh';
+import { aaaahhhh, convertAAAAHH } from '@helpers/aaaahhhh';
 
-const result = aaaahhhh('Hello!');
+// Run the playful page-wide transform
+aaaahhhh();
+
+// Convert text to the AAAAHHHH form
+const converted = convertAAAAHH('Hello World');
 ```
 
 ## 🧩 Integration & Relationships
