@@ -166,19 +166,19 @@ Components are composed in the [`GeneralLayout`](../../src/layouts/GeneralLayout
 
 ```tsx
 export default function GeneralLayout({ children }) {
-    return (
-        <div id='content'>
-            <Navbar />
-            <main>
-                {children}
-                <StarsBackground />
-                <CookieSnackbar />
-            </main>
-            <footer>
-                <Footer />
-            </footer>
-        </div>
-    );
+	return (
+		<div id='content'>
+			<Navbar />
+			<main>
+				{children}
+				<StarsBackground />
+				<CookieSnackbar />
+			</main>
+			<footer>
+				<Footer />
+			</footer>
+		</div>
+	);
 }
 ```
 

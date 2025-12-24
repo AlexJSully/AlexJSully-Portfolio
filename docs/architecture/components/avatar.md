@@ -111,7 +111,7 @@ When the avatar sneezes 6 times, it triggers [`aaaahhhh()`](../../src/helpers/aa
 3. Changes background images
 4. Creates a playful page transformation
 
-See [AAAAHHHH Helper Documentation](./helpers.md#aaaahhhh-helper) for details.
+See [AAAAHHHH Helper Documentation](../helpers.md#aaaahhhh-helper) for details.
 
 ### Analytics Integration
 

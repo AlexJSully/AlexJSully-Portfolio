@@ -251,8 +251,8 @@ Ensure these IDs exist in your page structure.
 
 ## Related Documentation
 
-- [GeneralLayout](./layouts.md)
-- [Firebase Analytics](./configs.md#firebase-configuration-and-usage)
+- [GeneralLayout](../layouts.md)
+- [Firebase Analytics](../configs.md#firebase-configuration-and-usage)
 - [Components Overview](./index.md)
 
 ---

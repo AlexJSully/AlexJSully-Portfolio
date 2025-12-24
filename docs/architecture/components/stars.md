@@ -233,7 +233,7 @@ stateDiagram-v2
 
 ## Related Documentation
 
-- [GeneralLayout](./layouts.md)
+- [GeneralLayout](../layouts.md)
 - [Components Overview](./index.md)
 - [Global Styles](../../src/styles/globals.scss)
 
