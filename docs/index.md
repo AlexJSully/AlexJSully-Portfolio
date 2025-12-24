@@ -2,7 +2,7 @@
 
 Welcome to the comprehensive documentation for AlexJSully's Portfolio project. This site is designed for both newcomers and experienced developers to understand, use, and extend the codebase with ease.
 
-## 📚 Documentation Structure
+## Documentation Structure
 
 ```text
 /docs
@@ -27,9 +27,10 @@ Welcome to the comprehensive documentation for AlexJSully's Portfolio project. T
 │   └── testing.md          # How to run and contribute tests
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 - [Architecture Overview](./architecture/index.md)
+- [App Directory (Next.js)](./architecture/app-directory.md)
 - [Data Architecture](./architecture/data.md)
 - [Helpers](./architecture/helpers.md)
 - [Images & Icons](./architecture/images.md)
@@ -39,24 +40,20 @@ Welcome to the comprehensive documentation for AlexJSully's Portfolio project. T
 - [Utils](./architecture/utils.md)
 - [Detailed Components](./architecture/components/index.md)
 
-## 🚀 Usage Guides
+## Usage Guides
 
 - [Usage Overview](./usage/index.md)
 - [Setup & Installation](./usage/setup.md)
 - [Testing Guide](./usage/testing.md)
 
-## 🧩 Components
+## Components
 
 - [Component Overview](./architecture/components/index.md)
 - [Projects Component](./architecture/components/projects.md)
 - [Publications Component](./architecture/components/publications.md)
 - [Socials Component](./architecture/components/socials.md)
 
-## 📝 Contributing & Code of Conduct
+## Contributing & Code of Conduct
 
 - [Contributing Guide](../CONTRIBUTING.md)
 - [Code of Conduct](../CODE_OF_CONDUCT.md)
-
----
-
-For any questions, see the [README.md](../README.md) or open an issue.

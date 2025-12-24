@@ -11,7 +11,7 @@ labels:
 ---
 
 **Purpose:**
-While reviewing this #activePullRequest, analyze the entire #codebase and ensure the #file:docs directory is accurate, up to date, and fully aligned with the current implementation.
+While reviewing this #activePullRequest #changes, analyze the entire #codebase and ensure the #file:docs directory is accurate, up to date, and fully aligned with the current implementation.
 
 ---
 
@@ -32,6 +32,19 @@ While reviewing this #activePullRequest, analyze the entire #codebase and ensure
 
 4. **No unnecessary rewriting of the entire system.**
     - Only update documentation that is outdated, incorrect, incomplete, or missing.
+
+---
+
+---
+
+## Execution Order (IMPORTANT)
+
+1. **Audit `docs/` first**
+2. **Only if `docs/` is already accurate**, then:
+    - Audit markdown files elsewhere in the repository (root or subdirectories)
+    - Audit in-code documentation/comments where clarity or accuracy is lacking
+
+Do **not** skip ahead.
 
 ---
 
