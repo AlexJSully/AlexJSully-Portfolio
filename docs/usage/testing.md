@@ -17,52 +17,80 @@ The testing setup in this codebase uses Cypress for end-to-end (E2E) testing. Th
 ### Flowchart
 
 ```mermaid
-flowchart LR
-    A[Cypress Configuration] -->|Defines| B[Test Settings]
-    B --> C[Test Files]
-    B --> D[Support Files]
-    C --> E[Run Tests]
-    D --> F[Custom Commands]
-    D --> G[Global Configuration]
-    L[Code Quality and Linting] -->|Runs| H[Prettier]
-    L --> I[ESLint]
-    T[TypeScript] -->|Runs| J[Type Checking]
-    K[NextJS Build] -->|Runs| M[Build Tests]
+flowchart TD
+    Validate[npm run validate] --> Prettier[Prettier Format]
+    Prettier --> ESLint[ESLint Check]
+    ESLint --> TSC[TypeScript Check]
+    TSC --> Jest[Jest Unit Tests]
+    Jest --> Cypress[Cypress E2E Tests]
+    Cypress --> Build[Next.js Build]
+    Build --> Markdown[Markdown Lint]
+    Markdown --> Success[✓ All Checks Passed]
+
+    Prettier -->|Fails| PrettierFix[Run: npm run prettier]
+    ESLint -->|Fails| ESLintFix[Run: npm run eslint]
+    TSC -->|Fails| TSCFix[Fix TypeScript errors]
+    Jest -->|Fails| JestFix[Fix unit tests]
+    Cypress -->|Fails| CypressFix[Fix E2E tests]
+    Build -->|Fails| BuildFix[Fix build errors]
+    Markdown -->|Fails| MarkdownFix[Fix markdown issues]
 ```
 
 ## Running Tests
 
 To run the tests, you can use the following commands:
 
+### Running Jest Unit Tests
+
+1. **Run all Jest tests:**
+
+    ```sh
+    npm run test:jest
+    ```
+
+2. **Run Jest with coverage:**
+
+    ```sh
+    npm run test:jest:coverage
+    ```
+
+    This generates a coverage report showing which parts of the code are tested.
+
 ### Running Cypress Tests
 
-1. **Open Cypress**: This command opens the Cypress Test Runner, allowing you to run tests interactively.
+1. **Open Cypress Test Runner:** This command opens the Cypress Test Runner, allowing you to run tests interactively.
 
     ```sh
     npm run cypress
+    # or
+    npm run test:cypress:open
     ```
 
-2. **Run Cypress Tests in Headless Mode**: This command runs all Cypress tests in headless mode, which is useful for CI/CD pipelines.
+2. **Run Cypress Tests in Headless Mode:** This command runs all Cypress tests in headless mode, which is useful for CI/CD pipelines.
 
     ```sh
     npm run e2e:headless
+    # or
+    npm run test:cypress:e2e
     ```
 
 ### Running All Tests
 
-To run all tests, including linting and type checking, use the following command:
+To run all tests, linting, type checking, and build, use the following command:
 
 ```sh
 npm run validate
 ```
 
-This command runs the following checks:
+This command runs the following checks in order:
 
-- **Prettier**: Ensures code formatting is consistent.
-- **ESLint**: Checks for code quality and potential issues.
-- **TypeScript**: Ensures type safety.
-- **Cypress**: Runs end-to-end tests.
-- **Build**: Ensures the project builds successfully.
+1. **Prettier**: Ensures code formatting is consistent.
+2. **ESLint**: Checks for code quality and potential issues.
+3. **TypeScript**: Ensures type safety with `tsc --noEmit`.
+4. **Jest**: Runs unit tests.
+5. **Cypress**: Runs end-to-end tests.
+6. **Build**: Ensures the project builds successfully with `next build`.
+7. **Markdown Lint**: Validates markdown files.
 
 ### Cypress Test Example
 
