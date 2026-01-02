@@ -35,8 +35,6 @@ While reviewing this #activePullRequest #changes, analyze the entire #codebase a
 
 ---
 
----
-
 ## Execution Order (IMPORTANT)
 
 1. **Audit `docs/` first**
