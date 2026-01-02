@@ -23,6 +23,7 @@
 			"@*": ["./src/*"],
 			"@components/*": ["./src/components/*"],
 			"@configs/*": ["./src/configs/*"],
+			"@constants/*": ["./src/constants/*"],
 			"@data/*": ["./src/data/*"],
 			"@helpers/*": ["./src/helpers/*"],
 			"@images/*": ["./src/images/*"],

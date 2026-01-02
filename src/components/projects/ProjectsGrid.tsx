@@ -1,11 +1,12 @@
 'use client';
 
 import { logAnalyticsEvent } from '@configs/firebase';
+import { DELAYS } from '@constants/index';
 import projects from '@data/projects';
 import { Button, Card, CardMedia, Grid, Stack, Tooltip, Typography } from '@mui/material';
 import { isNetworkFast } from '@util/isNetworkFast';
 import Link from 'next/link';
-import { ReactElement, useRef, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 
 /** Creates a grid of projects. */
 export default function ProjectsGrid(): ReactElement {
@@ -19,7 +20,7 @@ export default function ProjectsGrid(): ReactElement {
 	const handleMouseEnter = (projectId: string) => {
 		hoverTimeout.current = setTimeout(() => {
 			setHoveredProject(projectId);
-		}, 1000); // 2 seconds delay
+		}, DELAYS.PROJECT_HOVER_VIDEO);
 	};
 
 	const handleMouseLeave = () => {
@@ -32,6 +33,15 @@ export default function ProjectsGrid(): ReactElement {
 	const getYouTubeURL = (url: string): string => {
 		return isNetworkFast() ? `${url}&autoplay=1` : url;
 	};
+
+	useEffect(() => {
+		// Cleanup timeout on unmount
+		return () => {
+			if (hoverTimeout.current) {
+				clearTimeout(hoverTimeout.current);
+			}
+		};
+	}, []);
 
 	return (
 		projects && (

@@ -1,3 +1,4 @@
+import { DELAYS } from '@constants/index';
 import { debounce } from 'lodash';
 
 export function consoleLogLogo() {
@@ -25,4 +26,4 @@ Welcome to my portfolio! Here you can view a showcase of the projects I've worke
 	`);
 }
 
-export const debounceConsoleLogLogo = debounce(consoleLogLogo, 1000);
+export const debounceConsoleLogLogo = debounce(consoleLogLogo, DELAYS.CONSOLE_LOGO_DEBOUNCE);

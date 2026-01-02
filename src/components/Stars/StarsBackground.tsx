@@ -3,19 +3,22 @@
 import { logAnalyticsEvent } from '@configs/firebase';
 import { Box, Fade } from '@mui/material';
 import { isEmpty } from 'lodash';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 
 /** Create a starry background with shooting stars */
-export default function StarsBackground(): ReactElement {
+export default function StarsBackground(): ReactElement | null {
 	// There is a lot of random math in here
 	// but it's all just to make the stars look random
 
 	/** The stars to be rendered */
-	const [stars, setStars] = useState<any>(null);
+	const [stars, setStars] = useState<ReactElement[] | null>(null);
 	const [fade, setFade] = useState(false);
 
 	/** Whether or not the stars have been triggered [true] or not [false] */
 	const [starsTriggered, setStarsTriggered] = useState(false);
+
+	/** Ref to store the force animation timeout for cleanup */
+	const forceAnimationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
 	/** The styles for the stars */
 	const starStyles = {
@@ -27,7 +30,7 @@ export default function StarsBackground(): ReactElement {
 	};
 
 	/** Handle the shooting star animation */
-	const handleStarAnimation = (e: any) => {
+	const handleStarAnimation = (e: React.MouseEvent<HTMLElement> | { target: HTMLElement }): void => {
 		/** The star DOM element */
 		const target = e.target as HTMLElement;
 		/** The speed of the shooting star */
@@ -67,8 +70,8 @@ export default function StarsBackground(): ReactElement {
 			/** The random time to wait before triggering the next star */
 			const randomTime = Math.random() * 5 + 1.5;
 
-			// Recursively call this function
-			setTimeout(() => {
+			// Recursively call this function and store timeout for cleanup
+			forceAnimationTimeoutRef.current = setTimeout(() => {
 				handleForceStarAnimation();
 			}, randomTime * 1000);
 		} else {
@@ -86,7 +89,7 @@ export default function StarsBackground(): ReactElement {
 		setFade(false);
 
 		/** The array of stars */
-		const starsArray: any = [];
+		const starsArray: ReactElement[] = [];
 		/** The max number of stars to create */
 		const maxStars = typeof window !== 'undefined' && window?.innerWidth ? window?.innerWidth : 400;
 		/** The number of stars to create */
@@ -143,6 +146,12 @@ export default function StarsBackground(): ReactElement {
 		// We want to use useEffect here so that we can use the window object
 		createStars();
 
+		// Cleanup timeout on unmount to prevent memory leaks
+		return () => {
+			if (forceAnimationTimeoutRef.current) {
+				clearTimeout(forceAnimationTimeoutRef.current);
+			}
+		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

@@ -24,7 +24,7 @@ describe('NotFound', () => {
 
 		expect(screen.getByRole('heading', { name: /page not found/i })).toBeInTheDocument();
 		expect(screen.getByText('404')).toBeInTheDocument();
-		expect(screen.getByRole('link', { name: /go back home/i })).toBeInTheDocument();
+		expect(screen.getByRole('link', { name: /go home/i })).toBeInTheDocument();
 		expect(screen.getByText('/some-path')).toBeInTheDocument();
 	});
 });
