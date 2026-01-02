@@ -31,6 +31,7 @@ Welcome to the comprehensive documentation for AlexJSully's Portfolio project. T
 
 - [Architecture Overview](./architecture/index.md)
 - [App Directory (Next.js)](./architecture/app-directory.md)
+- [Constants](./architecture/constants.md)
 - [Data Architecture](./architecture/data.md)
 - [Helpers](./architecture/helpers.md)
 - [Images & Icons](./architecture/images.md)

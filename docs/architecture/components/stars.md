@@ -24,33 +24,49 @@ flowchart TD
 
 ### 1. Dynamic Star Generation
 
-Stars are generated on component mount with random properties:
+Stars are generated on component mount based on window width:
 
 ```typescript
 useEffect(() => {
-	const starCount = Math.floor(Math.random() * 50) + 50; // 50-100 stars
+  const maxStars = typeof window !== 'undefined' && window?.innerWidth ? window?.innerWidth : 400;
+  const numberOfStars = Math.floor(Math.random() * (maxStars / 2)) + 10;
 
-	const newStars = Array.from({ length: starCount }, (_, i) => ({
-		id: i,
-		top: `${Math.random() * 100}%`,
-		left: `${Math.random() * 100}%`,
-		size: Math.random() * 3 + 1, // 1-4px
-		animationDuration: `${Math.random() * 3 + 2}s`, // 2-5s
-		animationDelay: `${Math.random() * 5}s`,
-	}));
+  const starsArray: ReactElement[] = [];
 
-	setStars(newStars);
+  for (let i = 0; i < numberOfStars; i += 1) {
+    const starSize = `${Math.random() * 5 + 1}px`;
+
+    const style = {
+      background: `#ffffff50`,
+      borderRadius: '50%',
+      opacity: 0.5,
+      position: 'absolute',
+      transition: 'transform 1s',
+      animation: `twinkle ${Math.random() * 5}s ease-in-out infinite`,
+      width: starSize,
+      height: starSize,
+      top: `${Math.random() * 100}vh`,
+      left: `${Math.random() * 100}vw`,
+    };
+
+    starsArray.push(<Box key={i} data-testid='star' sx={style} onMouseEnter={handleStarAnimation} />);
+  }
+
+  setStars(starsArray);
 }, []);
 ```
+
+**Star Count:** Based on window width (10 to width/2 stars)
 
 ### 2. Star Properties
 
 Each star has:
 
-- **Position:** Random top and left coordinates (0-100%)
-- **Size:** Random size between 1-4px
-- **Animation Duration:** Random duration 2-5 seconds
-- **Animation Delay:** Random delay 0-5 seconds
+- **Position:** Random coordinates using viewport units (`vh`, `vw`) for consistent sizing
+- **Size:** Random size between 1-6px
+- **Animation:** Infinite twinkling with random duration (0-5 seconds)
+- **Opacity:** Semi-transparent at 0.5 for a softer appearance
+- **Background:** White with 50% opacity (`#ffffff50`)
 
 ### 3. Twinkle Animation
 
@@ -79,68 +95,49 @@ The `twinkle` animation should be defined in global styles:
 
 ### 4. Shooting Stars
 
-Occasionally, stars become shooting stars (implementation detail may vary).
+Stars can become shooting stars on hover or through automatic triggering:
 
-## Component Implementation
+```typescript
+import { THRESHOLDS } from '@constants/index';
 
-```tsx
-'use client';
+const handleStarAnimation = (e: React.MouseEvent<HTMLElement> | { target: HTMLElement }): void => {
+	const target = e.target as HTMLElement;
+	const shootingStarSpeed = Math.random() * 4 + 1;
 
-import { Box } from '@mui/material';
-import { useEffect, useState } from 'react';
+	target.style.animation = `shootAway ${shootingStarSpeed}s forwards`;
+	target.style.background = '#fff90050';
+	target.style.transform = `scale(${Math.random() * 2 + 1})`;
 
-export default function StarsBackground() {
-	const [stars, setStars] = useState<Star[]>([]);
+	setTimeout(() => {
+		if (target) {
+			target.setAttribute('data-star-used', 'true');
+		}
+	}, shootingStarSpeed * 1000);
+};
+```
 
-	useEffect(() => {
-		// Generate stars on mount
-		const starCount = Math.floor(Math.random() * 50) + 50;
-		const newStars = Array.from({ length: starCount }, (_, i) => ({
-			id: i,
-			top: `${Math.random() * 100}%`,
-			left: `${Math.random() * 100}%`,
-			size: Math.random() * 3 + 1,
-			animationDuration: `${Math.random() * 3 + 2}s`,
-			animationDelay: `${Math.random() * 5}s`,
-		}));
-		setStars(newStars);
-	}, []);
+**Automatic Shooting Stars:**
 
-	return (
-		<Box
-			id='sky'
-			aria-hidden='true'
-			sx={{
-				position: 'fixed',
-				top: 0,
-				left: 0,
-				width: '100%',
-				height: '100%',
-				backgroundColor: '#131518',
-				zIndex: -1,
-				overflow: 'hidden',
-			}}
-		>
-			{stars.map((star) => (
-				<Box
-					key={star.id}
-					data-testid='star'
-					sx={{
-						position: 'absolute',
-						top: star.top,
-						left: star.left,
-						width: `${star.size}px`,
-						height: `${star.size}px`,
-						backgroundColor: 'white',
-						borderRadius: '50%',
-						animation: `twinkle ${star.animationDuration} infinite`,
-						animationDelay: star.animationDelay,
-					}}
-				/>
-			))}
-		</Box>
+If there are more than `THRESHOLDS.MIN_STARS_FOR_ANIMATION` (15) unused stars, the component automatically triggers random shooting star animations:
+
+```typescript
+const handleForceStarAnimation = () => {
+	const allStars = Array.from(document.querySelectorAll('[data-testid="star"]')).filter(
+		(star) => star.getAttribute('data-star-used') !== 'true',
 	);
-}
+
+	if (!isEmpty(allStars) && allStars.length > THRESHOLDS.MIN_STARS_FOR_ANIMATION) {
+		const randomStar = allStars[Math.floor(Math.random() * allStars.length)] as HTMLElement;
+		if (randomStar) {
+			handleStarAnimation({ target: randomStar });
+		}
+
+		const randomTime = Math.random() * 5 + 1.5;
+		forceAnimationTimeoutRef.current = setTimeout(() => {
+			handleForceStarAnimation();
+		}, randomTime * 1000);
+	}
+};
 ```
 
 ## Rendering Flow
@@ -163,19 +160,45 @@ sequenceDiagram
 
 ## Accessibility
 
-The component uses `aria-hidden='true'` because the background is purely decorative:
+The component uses proper ARIA attributes for screen readers:
 
 ```tsx
-<Box id='sky' aria-hidden='true' sx={{...}}>
+<Box
+  id='sky'
+  aria-label='Starry background'
+  component='div'
+  role='img'
+  sx={{...}}
+>
 ```
+
+**Note:** Unlike decorative backgrounds that use `aria-hidden='true'`, this component uses `role='img'` with an `aria-label` because it's a significant visual element of the user experience.
 
 ## Performance Considerations
 
 1. **Fixed Position:** Uses `position: fixed` to avoid reflow
-2. **z-index: -1:** Renders behind content
+2. **Controlled Overflow:** `overflow: hidden` prevents scrollbars
 3. **GPU Acceleration:** CSS animations use GPU when possible
-4. **Random Generation:** Stars generated once on mount, not on every render
-5. **Controlled Count:** Limited to 50-100 stars for performance
+4. **Single Generation:** Stars generated once on mount, not on every render
+5. **Dynamic Count:** Star count based on viewport width for responsive performance
+6. **Memory Cleanup:** Clears timeout on unmount to prevent memory leaks
+7. **Fade Effect:** Uses MUI Fade component for smooth appearance
+8. **Analytics Throttling:** First hover tracked, subsequent hovers don't spam analytics
+
+**Cleanup Logic:**
+
+```typescript
+useEffect(() => {
+	createStars();
+
+	// Cleanup timeout on unmount to prevent memory leaks
+	return () => {
+		if (forceAnimationTimeoutRef.current) {
+			clearTimeout(forceAnimationTimeoutRef.current);
+		}
+	};
+}, []);
+```
 
 ## Integration
 
@@ -214,11 +237,14 @@ Test file: [`src/components/Stars/StarsBackground.test.tsx`](../../src/component
 
 To customize the background:
 
-1. **Star Count:** Adjust `Math.floor(Math.random() * 50) + 50`
-2. **Star Size:** Modify `Math.random() * 3 + 1`
-3. **Animation Speed:** Change `Math.random() * 3 + 2`
-4. **Background Color:** Update `backgroundColor` in sky container
-5. **Star Color:** Modify star `backgroundColor`
+1. **Star Count:** Adjust `Math.floor(Math.random() * (maxStars / 2)) + 10` in `createStars()`
+2. **Star Size:** Modify `Math.random() * 5 + 1` (currently 1-6px)
+3. **Animation Speed:** Change `Math.random() * 5` for twinkle duration
+4. **Shooting Star Speed:** Adjust `Math.random() * 4 + 1` in `handleStarAnimation`
+5. **Background Color:** Inherited from global `body` background (`#131518`)
+6. **Star Color:** Modify `background: '#ffffff50'` in `starStyles`
+7. **Auto-trigger Threshold:** Update `THRESHOLDS.MIN_STARS_FOR_ANIMATION` in constants
+8. **Initial Trigger Delay:** Update `DELAYS.STAR_ANIMATION_INITIAL` in constants
 
 ## Visual Effect
 

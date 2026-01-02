@@ -14,6 +14,9 @@ The projects grid is displayed using the `ProjectsGrid` component located in [Pr
 - **Grid Layout:** Responsive grid via MUI `Grid`/`Stack` and CSS-in-JS styles.
 - **Project Cards:** Thumbnail, name, title, employer, resource links. The component imports the project data from `src/data/projects.ts`.
 - **Analytics:** The component calls `logAnalyticsEvent` for user interactions (e.g., clicking a project link or viewing details).
+- **Network-Aware:** Uses `isNetworkFast()` utility to conditionally enable video autoplay.
+- **Hover Delay:** Uses `DELAYS.PROJECT_HOVER_VIDEO` (1000ms) before showing videos on hover.
+- **Memory Management:** Cleans up timeout on component unmount to prevent memory leaks.
 
 ### Flowchart
 
@@ -49,7 +52,7 @@ const example = {
 };
 ```
 
-## 🔗 Related Docs
+## Related Docs
 
 - [Component Overview](./index.md)
 - [System Architecture](../architecture/index.md)
