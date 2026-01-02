@@ -70,6 +70,11 @@ export default function StarsBackground(): ReactElement | null {
 			/** The random time to wait before triggering the next star */
 			const randomTime = Math.random() * 5 + 1.5;
 
+			// Clear previous timeout before setting a new one to prevent memory leak
+			if (forceAnimationTimeoutRef.current) {
+				clearTimeout(forceAnimationTimeoutRef.current);
+			}
+
 			// Recursively call this function and store timeout for cleanup
 			forceAnimationTimeoutRef.current = setTimeout(() => {
 				handleForceStarAnimation();
