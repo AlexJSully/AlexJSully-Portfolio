@@ -4,6 +4,7 @@ module.exports = {
 		'^@/(.*)$': '<rootDir>/src/$1',
 		'^@components/(.*)$': '<rootDir>/src/components/$1',
 		'^@configs/(.*)$': '<rootDir>/src/configs/$1',
+		'^@constants/(.*)$': '<rootDir>/src/constants/$1',
 		'^@data/(.*)$': '<rootDir>/src/data/$1',
 		'^@helpers/(.*)$': '<rootDir>/src/helpers/$1',
 		'^@images/(.*)$': '<rootDir>/src/images/$1',

@@ -1,3 +1,4 @@
+import { NETWORK } from '../constants/index';
 import { isNetworkFast } from './isNetworkFast';
 
 // Define proper TypeScript interface for navigator.connection
@@ -68,7 +69,7 @@ describe('isNetworkFast', () => {
 			connection: {
 				saveData: false,
 				effectiveType: '4g',
-				downlink: 1,
+				downlink: NETWORK.SLOW_DOWNLINK_THRESHOLD - 0.1,
 				rtt: 10,
 			},
 		};
@@ -86,7 +87,7 @@ describe('isNetworkFast', () => {
 				saveData: false,
 				effectiveType: '4g',
 				downlink: 10,
-				rtt: 200,
+				rtt: NETWORK.FAST_RTT_THRESHOLD + 50,
 			},
 		};
 		Object.defineProperty(global, 'navigator', {

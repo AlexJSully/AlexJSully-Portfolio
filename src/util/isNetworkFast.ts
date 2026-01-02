@@ -1,3 +1,17 @@
+import { NETWORK } from '@constants/index';
+
+/** Network connection information interface */
+interface NetworkInformation {
+	saveData?: boolean;
+	effectiveType?: '2g' | '3g' | '4g' | 'slow-2g';
+	downlink?: number;
+	rtt?: number;
+}
+
+interface NavigatorWithConnection extends Navigator {
+	connection?: NetworkInformation;
+}
+
 /**
  * Checks if the current network connection is fast.
  *
@@ -7,7 +21,11 @@ export function isNetworkFast(): boolean {
 	// Check if the connection API is available in the navigator
 	if ('connection' in navigator) {
 		/** Get the connection object from the navigator */
-		const connection = (navigator as any).connection;
+		const connection = (navigator as NavigatorWithConnection).connection;
+
+		if (!connection) {
+			return true;
+		}
 
 		if (connection.saveData) {
 			// Save data mode is enabled
@@ -15,11 +33,14 @@ export function isNetworkFast(): boolean {
 		}
 
 		/** Check if the network is slow based on the known slow network types */
-		const slowType = ['slow-2g', '2g', '3g'].includes(connection.effectiveType);
+		const slowType = connection.effectiveType
+			? (NETWORK.SLOW_NETWORK_TYPES as readonly string[]).includes(connection.effectiveType)
+			: false;
 		/** Check if the network is slow based on the downlink/download speed */
-		const slowDown = connection.downlink < 1.5;
+		const slowDown =
+			connection.downlink !== undefined ? connection.downlink < NETWORK.SLOW_DOWNLINK_THRESHOLD : false;
 		/** Check if the network is slow based on the round-trip time (RTT) */
-		const slowRTT = connection.rtt > 100;
+		const slowRTT = connection.rtt !== undefined ? connection.rtt > NETWORK.FAST_RTT_THRESHOLD : false;
 
 		return !(slowType || slowDown || slowRTT);
 	}

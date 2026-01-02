@@ -38,6 +38,8 @@ src/
     ServiceWorkerRegister.tsx
   configs/                  # Configuration files
     firebase.ts             # Firebase initialization
+  constants/                # Application-wide constants
+    index.ts                # Delays, thresholds, network, animations
   data/                     # Static data sources
     keywords.ts             # SEO keywords
     projects.ts             # Project data
@@ -92,6 +94,7 @@ flowchart TD
 ## Subsystems
 
 - **Components:** UI elements (see [Components Docs](./components/index.md))
+- **Constants:** Application-wide configuration values (see [Constants Docs](./constants.md))
 - **Data:** Static and dynamic data sources
 - **Helpers/Utils:** Utility functions for logic and formatting
 - **Layouts:** Page and section layouts

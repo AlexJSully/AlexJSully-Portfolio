@@ -20,13 +20,19 @@ const firebaseConfig = {
 
 let analytics: Analytics | null = null;
 
-export function logAnalyticsEvent(eventName: any, eventParams?: object) {
+/**
+ * Logs an analytics event to Firebase Analytics.
+ * @param eventName - The name of the event to log
+ * @param eventParams - Optional parameters for the event
+ */
+export function logAnalyticsEvent(eventName: string, eventParams?: object): void {
 	if (analytics && eventName) {
 		logEvent(analytics, eventName, eventParams);
 	}
 }
 
-export function init() {
+/** Initializes Firebase app, analytics, and performance monitoring. */
+export function init(): void {
 	// Initialize Firebase
 	const app = initializeApp(firebaseConfig);
 

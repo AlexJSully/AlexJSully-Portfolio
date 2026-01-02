@@ -47,10 +47,11 @@ Location: [`src/components/banner/Avatar.tsx`](../../src/components/banner/Avata
 
 ### Key Features
 
-1. **Sneeze Animation:** Triggered every 5 hovers
-2. **Easter Egg:** After 6 sneezes, triggers the "AAAAHHHH" transformation
+1. **Sneeze Animation:** Triggered every 5 hovers (`THRESHOLDS.SNEEZE_TRIGGER_INTERVAL`)
+2. **Easter Egg:** After 6 sneezes (`THRESHOLDS.AAAAHHHH_TRIGGER_COUNT`), triggers the "AAAAHHHH" transformation
 3. **Analytics Tracking:** Logs user interactions
 4. **Image Optimization:** Uses Next.js Image component
+5. **Memory Management:** Proper cleanup of debounced functions
 
 ### State Management
 
@@ -74,33 +75,49 @@ const imageList = {
 
 ### Sneeze Animation Sequence
 
+The sneeze animation uses constants from `@constants/index` for timing:
+
 ```typescript
+import { ANIMATIONS, THRESHOLDS } from '@constants/index';
+
 handleTriggerSneeze() {
   hoverProfilePic.current += 1;
 
-  if (hoverProfilePic.current % 5 === 0 && !sneezing.current) {
+  if (hoverProfilePic.current % THRESHOLDS.SNEEZE_TRIGGER_INTERVAL === 0 && !sneezing.current) {
     totalSneeze.current += 1;
 
-    if (totalSneeze.current >= 6) {
+    if (totalSneeze.current >= THRESHOLDS.AAAAHHHH_TRIGGER_COUNT) {
       logAnalyticsEvent('trigger_aaaahhhh', {...});
       aaaahhhh(); // Transform entire page
     } else {
       sneezing.current = true;
 
-      // Animate through sneeze sequence
+      // Animate through sneeze sequence using constants
       setImage('sneeze_1');
-      setTimeout(() => setImage('sneeze_2'), 500);
-      setTimeout(() => setImage('sneeze_3'), 800);
       setTimeout(() => {
-        setImage('default');
-        sneezing.current = false;
-      }, 1800);
+        setImage('sneeze_2');
+
+        setTimeout(() => {
+          setImage('sneeze_3');
+
+          setTimeout(() => {
+            setImage('default');
+            sneezing.current = false;
+          }, ANIMATIONS.SNEEZE_STAGE_3);
+        }, ANIMATIONS.SNEEZE_STAGE_2);
+      }, ANIMATIONS.SNEEZE_STAGE_1);
 
       logAnalyticsEvent('trigger_sneeze', {...});
     }
   }
 }
 ```
+
+**Animation Timing:**
+
+- Stage 1: 500ms (`ANIMATIONS.SNEEZE_STAGE_1`)
+- Stage 2: 300ms (`ANIMATIONS.SNEEZE_STAGE_2`)
+- Stage 3: 1000ms (`ANIMATIONS.SNEEZE_STAGE_3`)
 
 ### AAAAHHHH Easter Egg
 
@@ -141,10 +158,24 @@ import Avatar from '@components/banner/Avatar';
 
 ### Performance Considerations
 
-- **Debounced Hover:** Uses `lodash.debounce` to prevent rapid triggering
+- **Debounced Hover:** Uses `lodash.debounce` with `DELAYS.AVATAR_SNEEZE_DEBOUNCE` (100ms) to prevent rapid triggering
 - **Ref-based State:** Uses refs for counters to avoid unnecessary re-renders
 - **Animation Lock:** Prevents overlapping sneeze animations
 - **Image Preloading:** All sneeze images should be optimized as WebP
+- **Cleanup:** Cancels debounce on component unmount to prevent memory leaks
+
+```typescript
+import { DELAYS } from '@constants/index';
+
+const debounceSneeze = debounce(handleTriggerSneeze, DELAYS.AVATAR_SNEEZE_DEBOUNCE);
+
+// Cleanup debounce on unmount
+useEffect(() => {
+	return () => {
+		debounceSneeze.cancel();
+	};
+}, [debounceSneeze]);
+```
 
 ### Accessibility
 

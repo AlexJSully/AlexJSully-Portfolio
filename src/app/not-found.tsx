@@ -70,7 +70,7 @@ export default function NotFound(): ReactElement {
 			</Typography>
 
 			<Link
-				area-label='Go home'
+				aria-label='Go home'
 				href='/'
 				onClick={() => {
 					if (pathname === '/' && typeof window !== 'undefined') {

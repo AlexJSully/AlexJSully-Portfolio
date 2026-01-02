@@ -1,8 +1,9 @@
 import { logAnalyticsEvent } from '@configs/firebase';
+import { ANIMATIONS, DELAYS, THRESHOLDS } from '@constants/index';
 import { aaaahhhh } from '@helpers/aaaahhhh';
 import { debounce } from 'lodash';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Avatar() {
 	/** The number of times the profile pic has been hovered */
@@ -27,10 +28,10 @@ export default function Avatar() {
 	const handleTriggerSneeze = () => {
 		hoverProfilePic.current += 1;
 
-		if (hoverProfilePic.current % 5 === 0 && !sneezing.current) {
+		if (hoverProfilePic.current % THRESHOLDS.SNEEZE_TRIGGER_INTERVAL === 0 && !sneezing.current) {
 			totalSneeze.current += 1;
 
-			if (totalSneeze.current >= 6) {
+			if (totalSneeze.current >= THRESHOLDS.AAAAHHHH_TRIGGER_COUNT) {
 				logAnalyticsEvent('trigger_aaaahhhh', {
 					name: 'trigger_aaaahhhh',
 					type: 'hover',
@@ -53,9 +54,9 @@ export default function Avatar() {
 							setImage(imageList[`default`]);
 
 							sneezing.current = false;
-						}, 1000);
-					}, 300);
-				}, 500);
+						}, ANIMATIONS.SNEEZE_STAGE_3);
+					}, ANIMATIONS.SNEEZE_STAGE_2);
+				}, ANIMATIONS.SNEEZE_STAGE_1);
 
 				logAnalyticsEvent('trigger_sneeze', {
 					name: 'trigger_sneeze',
@@ -66,7 +67,14 @@ export default function Avatar() {
 	};
 
 	/** Debounce the sneeze animation */
-	const debounceSneeze = debounce(handleTriggerSneeze, 100);
+	const debounceSneeze = debounce(handleTriggerSneeze, DELAYS.AVATAR_SNEEZE_DEBOUNCE);
+
+	// Cleanup debounce on unmount
+	useEffect(() => {
+		return () => {
+			debounceSneeze.cancel();
+		};
+	}, [debounceSneeze]);
 
 	return (
 		<Image
