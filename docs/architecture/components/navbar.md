@@ -61,28 +61,22 @@ logAnalyticsEvent('navbar_home', {
 
 ### 3. Responsive Design
 
-Built with Material-UI AppBar and Toolbar:
+Built with Material-UI AppBar and Toolbar components:
 
-```typescript
-<AppBar
-	sx={{
-		backgroundColor: '#131518',
-		transition: 'all 0.5s ease-in-out',
-	}}
->
-	<Toolbar
-		sx={{
-			fontSize: '1.25rem',
-			height: '2rem',
-			justifyContent: 'space-between',
-			transition: 'all 0.5s ease-in-out',
-			zIndex: 10,
-		}}
-	>
-		{/* Navigation items */}
-	</Toolbar>
-</AppBar>
-```
+**AppBar Styling:**
+
+- `backgroundColor: '#131518'` - Dark background matching site theme
+- `transition: 'all 0.5s ease-in-out'` - Smooth transitions for state changes
+
+**Toolbar Styling:**
+
+- `fontSize: '1.25rem'` - Larger text for better readability
+- `height: '2rem'` - Compact height for minimal header footprint
+- `justifyContent: 'space-between'` - Distributes navigation items evenly
+- `transition: 'all 0.5s ease-in-out'` - Smooth transitions
+- `zIndex: 10` - Ensures navbar stays above other content
+
+Both components use the MUI `sx` prop for styling with these properties.
 
 ### 4. Path-aware Behavior
 

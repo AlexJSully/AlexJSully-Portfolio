@@ -179,17 +179,19 @@ useEffect(() => {
 
 ### Accessibility
 
-```tsx
-<Box
-	data-testid='profile_pic'
-	aria-label='Profile picture'
-	role='img'
-	onMouseEnter={debounceHover}
-	sx={{ cursor: 'pointer' }}
->
-	<Image src={image} alt='Alexander Sullivan profile picture' width={200} height={200} priority />
-</Box>
-```
+The avatar container includes proper accessibility attributes:
+
+- `data-testid='profile_pic'` - Testing identifier
+- `aria-label='Profile picture'` - Screen reader label
+- `role='img'` - Semantic role for assistive technologies
+- `onMouseEnter={debounceHover}` - Hover interaction handler
+- `sx` prop with `cursor: 'pointer'` to indicate interactivity
+
+The nested `Image` component includes:
+
+- `alt='Alexander Sullivan profile picture'` - Descriptive alt text
+- `width={200}` and `height={200}` - Explicit dimensions
+- `priority` - Next.js optimization for above-the-fold content
 
 ## Component Interaction
 

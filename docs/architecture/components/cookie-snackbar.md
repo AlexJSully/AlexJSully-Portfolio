@@ -177,15 +177,14 @@ To customize the cookie snackbar:
 4. **Severity:** Change `severity='info'` to `success`, `warning`, or `error`
 5. **Position:** Add `anchorOrigin` prop to Snackbar for positioning
 
-**Example Custom Position:**
+**Custom Position Configuration:**
 
-```tsx
-<Snackbar
-	onClose={handleClose}
-	open={open}
-	anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
->
-```
+The `anchorOrigin` prop accepts an object with two properties:
+
+- `vertical`: Position on vertical axis (`'top'`, `'bottom'`)
+- `horizontal`: Position on horizontal axis (`'left'`, `'center'`, `'right'`)
+
+Example: To center the snackbar at the bottom, set `anchorOrigin` to `vertical: 'bottom'` and `horizontal: 'center'`.
 
 ## Related Documentation
 
