@@ -70,16 +70,12 @@ Each star has:
 
 ### 3. Twinkle Animation
 
-Stars twinkle using CSS animations:
+Stars twinkle using CSS animations applied through the `sx` prop. Each star receives:
 
-```typescript
-sx={{
-	animation: `twinkle ${star.animationDuration} infinite`,
-	animationDelay: star.animationDelay,
-}};
-```
+- **animation:** `twinkle` with dynamic duration (using template literal with `star.animationDuration`) set to infinite
+- **animationDelay:** Random delay from `star.animationDelay` for staggered effect
 
-The `twinkle` animation should be defined in global styles:
+The `twinkle` keyframe animation should be defined in global styles:
 
 ```scss
 @keyframes twinkle {
@@ -162,15 +158,11 @@ sequenceDiagram
 
 The component uses proper ARIA attributes for screen readers:
 
-```tsx
-<Box
-  id='sky'
-  aria-label='Starry background'
-  component='div'
-  role='img'
-  sx={{...}}
->
-```
+- `id='sky'` - Unique identifier for the container
+- `aria-label='Starry background'` - Descriptive label for assistive technologies
+- `component='div'` - Renders as a div element
+- `role='img'` - Identifies as an image for screen readers
+- `sx` prop contains styling with spread operator for dynamic styles
 
 **Note:** Unlike decorative backgrounds that use `aria-hidden='true'`, this component uses `role='img'` with an `aria-label` because it's a significant visual element of the user experience.
 

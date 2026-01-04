@@ -138,7 +138,7 @@ export default function Home() {
 	}, []);
 
 	return (
-		<Box component='div' sx={{ /* styles */ }}>
+		<Box component='div' sx={/* styles */}>
 			<Banner aria-label='Landing banner' />
 			<ProjectsGrid aria-label='Grid showing projects worked on' />
 			<Publications aria-label='List of scientific publications' />
@@ -251,12 +251,14 @@ import { CircularProgress } from '@mui/material';
 
 export default function Loading() {
 	return (
-		<div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
+		<div style={centeredContainerStyles}>
 			<CircularProgress />
 		</div>
 	);
 }
 ```
+
+The container uses inline styles with flexbox centering: `display: 'flex'`, `justifyContent: 'center'`, and `padding: '2rem'`.
 
 ## 404 Not Found
 
