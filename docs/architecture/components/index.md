@@ -1,6 +1,6 @@
 # Components Documentation
 
-This document describes the internal architecture, relationships, and usage of major UI components in the AlexJSully Portfolio project. Components are modular, reusable, and styled with Material-UI and Emotion.
+This document describes the internal architecture, relationships, and usage of major UI components in the Alexander Sullivan's Portfolio project. Components are modular, reusable, and styled with Material-UI and Emotion.
 
 ## Component List & Hierarchy
 

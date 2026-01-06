@@ -1,6 +1,6 @@
 # Service Workers & PWA Documentation
 
-This document explains how Progressive Web App (PWA) features are implemented in the AlexJSully Portfolio project using native Next.js capabilities.
+This document explains how Progressive Web App (PWA) features are implemented in the Alexander Sullivan's Portfolio project using native Next.js capabilities.
 
 ## Purpose
 
