@@ -18,7 +18,7 @@ Documentation produced by this prompt must serve **two audiences simultaneously*
 
 1. **Internal developers / maintainers**
     - To understand system internals, architectural decisions, constraints, and design intent
-    - To preserve *why* things were implemented the way they are and the *how* behind the *what*
+    - To preserve _why_ things were implemented the way they are and the _how_ behind the _what_
 2. **New or external developers**
     - To understand how to use the system, APIs, and modules as tools
     - To quickly navigate from documentation to implementation
@@ -64,12 +64,12 @@ Do **not** skip ahead.
 When documenting behavior, architecture, or usage:
 
 1. **Start with a succinct natural-language explanation**
-    - Explain *what the component does*, *why it exists*, and *how it fits into the system*
+    - Explain _what the component does_, _why it exists_, and _how it fits into the system_
 2. **Link directly to the implementation**
     - Prefer links to real source files over inline code
     - Example:
-      > The request validation logic is centralized in `validateRequest`, which enforces schema constraints before execution.
-      > See implementation: [`src/api/validateRequest.ts`](src/api/validateRequest.ts)
+        > The request validation logic is centralized in `validateRequest`, which enforces schema constraints before execution.
+        > See implementation in the corresponding source file (for example under `src/components/` or `src/util/`), and always link to a real file that exists in this repository.
 3. **Use inline code blocks sparingly and intentionally**
     - Include code snippets **only when they materially improve understanding**, such as:
         - Public API usage examples

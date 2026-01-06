@@ -1,54 +1,95 @@
 # Utils Module Documentation
 
-This document describes the utility functions in the AlexJSully Portfolio project, their technical details, and integration patterns.
+This document describes the utility functions in the Alexander Sullivan's Portfolio project, their technical details, and integration patterns.
 
-## 📦 Purpose
+## Purpose
 
 Utils provide general-purpose functions for network checks, type guards, and other logic not specific to UI or data. They help keep business logic clean and reusable.
 
-## 🏗️ Structure
+## Structure
 
-- Location: `src/util/`
-- Example files:
-    - `isNetworkFast.ts`: Checks if the user's network is fast enough for high-res assets.
+**Location:** [src/util/](../../src/util/)
 
-## 🔍 Usage Examples
+### Available Utilities
 
-### Network Speed Check
+- [`isNetworkFast.ts`](../../src/util/isNetworkFast.ts) — Detects network speed and adjusts asset loading strategy
 
-```ts
+## Network Detection Utility
+
+The `isNetworkFast()` function checks the user's network connection speed using the [Network Information API](https://developer.mozilla.org/en-US/docs/Web/API/Network_Information_API) and determines whether to load high-resolution assets or use optimized versions.
+
+### Usage
+
+```tsx
 import { isNetworkFast } from '@util/isNetworkFast';
 
-if (isNetworkFast()) {
-	// Load high-res images
+export function ProjectsGrid() {
+	const networkFast = isNetworkFast();
+
+	return projects.map((project) => (
+		<ProjectCard
+			key={project.id}
+			project={project}
+			// Load video on hover only if network is fast
+			enableVideoAutoplay={networkFast}
+		/>
+	));
 }
 ```
 
-### Type Guard Utility
+### How It Works
 
-```ts
-import { isString } from '@util/typeGuards';
+The function checks three network characteristics:
 
-function printIfString(val: unknown) {
-	if (isString(val)) {
-		console.log(val);
-	}
-}
+```mermaid
+flowchart TD
+    A["isNetworkFast() called"] --> B{"Connection API<br/>available?"}
+    B -->|No| C["Assume fast<br/>(return true)"]
+    B -->|Yes| D{"Save Data<br/>mode?"}
+    D -->|Yes| E["Return false"]
+    D -->|No| F{"Check effective type"}
+    F -->|2g, 3g, slow-2g| G["Return false"]
+    F -->|4g| H{"Check downlink<br/>speed"}
+    H -->|< 1.5 Mbps| I["Return false"]
+    H -->|>= 1.5 Mbps| J{"Check RTT"}
+    J -->|> 100ms| K["Return false"]
+    J -->|<= 100ms| L["Return true"]
+    C --> M["Result"]
+    E --> M
+    G --> M
+    I --> M
+    K --> M
+    L --> M
 ```
 
-## 🧩 Integration & Relationships
+### Detection Criteria
 
-- Utils are used by components, helpers, and layouts for logic that is not UI-specific.
-- All utility functions are tested with Jest for reliability and maintainability.
-- TypeScript ensures type safety and autocompletion for utility functions.
+The function returns `false` (slow network) if any of these conditions are true:
 
-## Extending Utils
+| Condition       | Threshold             | Type            |
+| --------------- | --------------------- | --------------- |
+| Save Data mode  | Enabled               | Boolean flag    |
+| Network type    | `2g`, `3g`, `slow-2g` | Connection type |
+| Download speed  | < 1.5 Mbps            | Downlink        |
+| Round-trip time | > 100 ms              | RTT             |
 
-- Add new utility functions in `src/util/`.
-- Write corresponding unit tests for each function.
-- Use path aliases (`@util/`) for clean imports.
+All thresholds are defined in [src/constants/index.ts](../../src/constants/index.ts) for easy tuning.
+
+### Integration Points
+
+- [ProjectsGrid](../../src/components/projects/ProjectsGrid.tsx) uses `isNetworkFast()` to decide whether to autoplay video on hover
+- Delays video playback initialization on slow networks (see `DELAYS.PROJECT_HOVER_VIDEO`)
+
+## Integration & Relationships
+
+- **Used by:** [ProjectsGrid component](../../src/components/projects/ProjectsGrid.tsx), potentially other high-bandwidth components
+- **Depends on:** [Network constants](../../src/constants/index.ts) for thresholds
+- **Testing:** All utility functions are tested with Jest for reliability and maintainability
+- **Type Safety:** TypeScript ensures full type safety and IDE autocompletion
 
 ## Related Docs
 
 - [System Architecture](./index.md)
+- [Constants Documentation](./constants.md)
 - [Helpers Documentation](./helpers.md)
+- [Components Documentation](./components/index.md)

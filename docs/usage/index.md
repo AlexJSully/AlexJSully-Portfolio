@@ -1,6 +1,6 @@
 # Usage Guides Overview
 
-This section provides practical guides for installing, configuring, running, and using the AlexJSully Portfolio project. It is designed for both newcomers and experienced developers.
+This section provides practical guides for installing, configuring, running, and using the Alexander Sullivan's Portfolio project. It is designed for both newcomers and experienced developers.
 
 ## Topics Covered
 

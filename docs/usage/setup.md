@@ -1,6 +1,6 @@
 # Setup & Installation Guide
 
-This guide walks you through installing, configuring, and running the AlexJSully Portfolio project locally.
+This guide walks you through installing, configuring, and running the Alexander Sullivan's Portfolio project locally.
 
 ## Prerequisites
 

@@ -1,6 +1,6 @@
 # App Directory (Next.js)
 
-This document explains the Next.js App Router directory structure and implementation in the AlexJSully Portfolio project.
+This document explains the Next.js App Router directory structure and implementation in the Alexander Sullivan's Portfolio project.
 
 ## Overview
 
