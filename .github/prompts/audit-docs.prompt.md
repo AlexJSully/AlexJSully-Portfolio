@@ -41,10 +41,17 @@ Execute **Phase 1** and **Phase 2** in order.
     - **Task:**
         - Update outdated info, fix inaccuracies, and improve overall quality/clarity.
         - Consolidate fragmented files to reduce noise.
-        - **Create New Files & Directories (Strategic Expansion):** You are authorized and encouraged to create new artifacts, but only when strictly necessary.
-            - **New Components:** If a new system component or module exists and does not logically fit into any existing file, create a new one.
-            - **External APIs/Tools:** If a new feature is explicitly meant for external use, create a dedicated usage guide.
-            - **Missing Structures:** If a standard directory is missing but needed to properly organize the new documentation, create it.
+        - **Create New Files & Directories (Strategic Expansion):**
+            - **Step 1: Check Existing Structure.** Before creating anything, scan `docs/`. If a logical home exists, place the file there.
+            - **Step 2: Apply Diátaxis Framework.** If a **NEW** directory is required, or the content is a distinct new system, organize it using the **Diátaxis** structure:
+                - _Tutorials_ (Learning-oriented)
+                - _How-To Guides_ (Problem-oriented)
+                - _Reference_ (Information-oriented)
+                - _Explanation_ (Understanding-oriented)
+            - **Scope:** Create new artifacts for:
+                - **New Components:** Systems, designs, modules or architecture that do not fit into existing files.
+                - **External APIs:** Dedicated usage guides for external consumers.
+                - **Missing Structures:** Standard directories needed for organization.
     - **Next:** Proceed to Phase 3 **ONLY** if Phase 1 and Phase 2 resulted in **ZERO** updates.
 
 3.  **Phase 3: Fallback Cleanup (Conditional)**
@@ -96,6 +103,7 @@ Execute **Phase 1** and **Phase 2** in order.
 - **High-Density, Low-Volume:**
     - Avoid "Wall of Text." Use bullet points and headers to break up density.
     - Do not narrate code line-by-line. Explain _why_ it exists and _how_ the system uses it.
+    - **Zero Bloat:** If a sentence does not add strict technical value or learning clarity, do not add it.
 
 ---
 
@@ -139,12 +147,13 @@ Execute **Phase 1** and **Phase 2** in order.
 
 1.  **Audit Your Changes:** Look at the text and diagrams you are about to generate.
 2.  **Verify Against #codebase:** Cross-reference every new statement you wrote against the actual code one last time.
-3.  **Check for Accuracy:**
+3.  **Check for Accuracy & Bloat:**
     - _Did I hallucinate a function name or function logic?_
     - _Is this path correct?_
     - _Does this diagram match the actual logic flow?_
     - _Are my statements 100% verifiable and grounded in existing #codebase implementation?_
-4.  **Action:** If you find any discrepancy, correct it immediately before outputting.
+    - _Did I write unnecessary fluff? If yes, delete it._
+4.  **Action:** If you find any discrepancy or bloat, correct it immediately before outputting.
 
 ---
 
@@ -158,3 +167,4 @@ Before concluding this task, verify:
 4.  _Are my diagrams strictly based on current #codebase (no styling)?_
 5.  _Did I place implementation citations at the end of sections?_
 6.  _Did I run Phase 2 (General Audit) even if I made changes in Phase 1?_
+7.  _Did I follow the Diátaxis Framework for any NEW directory structures?_
