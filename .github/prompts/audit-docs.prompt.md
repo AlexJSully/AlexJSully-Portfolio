@@ -2,175 +2,159 @@
 title: 'Audit and Update docs/ Directory'
 scope: 'repo'
 targets:
-    - 'docs/'
-    - 'codebase'
+    -  #file:docs
+    -  #codebase
 labels:
     - 'documentation'
     - 'audit'
-    - 'mermaid'
+    - 'maintenance'
 ---
 
-## Purpose
+## Role & Purpose
 
-While reviewing this #activePullRequest #changes, analyze the entire #codebase and ensure the #file:docs directory is accurate, up to date, and fully aligned with the current implementation.
+Act as a **Documentation Auditor**. Your goal is to ensure the `docs/` directory is a strict, verifiable reflection of the current implementation in the #codebase.
 
-Documentation produced by this prompt must serve **two audiences simultaneously**:
+**Audience Strategy (Dual Focus):**
+Documentation must serve two audiences simultaneously:
 
-1. **Internal developers / maintainers**
-    - To understand system internals, architectural decisions, constraints, and design intent
-    - To preserve _why_ things were implemented the way they are and the _how_ behind the _what_
-2. **New or external developers**
-    - To understand how to use the system, APIs, and modules as tools
-    - To quickly navigate from documentation to implementation
+1.  **Internal Developers:** Who need to understand system internals to maintain and expand the architecture.
+2.  **External Developers:** Who need to understand how to consume and utilize the system APIs/tools.
 
----
+**Tone:**
 
-## HARD RULES (Do Not Violate)
-
-1. **No forward-looking or speculative content**
-    - Do NOT generate a `roadmap.md`
-    - Do NOT document planned features, hypothetical designs, or imagined improvements
-    - Document only what exists in the current codebase
-
-2. **No invented code**
-    - Only reference functions, hooks, classes, types, modules, files, directories, system architecture & design, or packages that actually exist
-    - Verify existence before describing or linking anything
-
-3. **No placeholder text or TODOs**
-    - Do not create empty sections or stubs
-    - Every sentence must be grounded in verifiable code
-
-4. **No unnecessary rewriting**
-    - Only update documentation that is outdated, incorrect, incomplete, or missing
-    - Preserve accurate documentation as-is
+- **Approachable:** Clear enough for a new person to pick up the systems quickly.
+- **Technical:** Deep enough for experts to understand nuances and edge cases.
 
 ---
 
-## Execution Order (IMPORTANT)
+## 1. Execution Flow (Sequential)
 
-1. **Audit `docs/` first**
-2. **Only if `docs/` is already accurate**, then:
-    - Audit markdown files elsewhere in the repository (root or subdirectories)
-    - Audit in-code documentation/comments where clarity or accuracy is lacking
+Execute **Phase 1** and **Phase 2** in order.
 
-Do **not** skip ahead.
+1.  **Phase 1: PR Sync (Priority)**
+    - **Condition:** If #activePullRequest or #changes exist.
+    - **Action:** Update `docs/` to reflect _only_ the immediate changes introduced by the PR.
+    - **Next:** Proceed immediately to Phase 2.
 
----
+2.  **Phase 2: General Audit (Mandatory)**
+    - **Action:** Audit the entire `docs/` directory against the current #codebase.
+    - **Task:**
+        - Update outdated info, fix inaccuracies, and improve overall quality/clarity.
+        - Consolidate fragmented files to reduce noise.
+        - **Create New Files & Directories (Strategic Expansion):** You are authorized and encouraged to create new artifacts, but only when strictly necessary.
+            - **New Components:** If a new system component or module exists and does not logically fit into any existing file, create a new one.
+            - **External APIs/Tools:** If a new feature is explicitly meant for external use, create a dedicated usage guide.
+            - **Missing Structures:** If a standard directory is missing but needed to properly organize the new documentation, create it.
+    - **Next:** Proceed to Phase 3 **ONLY** if Phase 1 and Phase 2 resulted in **ZERO** updates.
 
-## Documentation Style & Priorities (CRITICAL)
-
-### Description-first, Code-second
-
-When documenting behavior, architecture, or usage:
-
-1. **Start with a succinct natural-language explanation**
-    - Explain _what the component does_, _why it exists_, and _how it fits into the system_
-2. **Link directly to the implementation**
-    - Prefer links to real source files over inline code
-    - Example:
-        > The request validation logic is centralized in `validateRequest`, which enforces schema constraints before execution.
-        > See implementation in the corresponding source file (for example under `src/components/` or `src/util/`), and always link to a real file that exists in this repository.
-3. **Use inline code blocks sparingly and intentionally**
-    - Include code snippets **only when they materially improve understanding**, such as:
-        - Public API usage examples
-        - Non-obvious control flow
-        - Critical invariants or edge cases
-    - Snippets must be:
-        - Small
-        - Accurate
-        - Directly copied or derived from real code
-    - Avoid restating large sections of implementation inline
-
-**Inline code should reinforce understanding — not replace navigation to source.**
+3.  **Phase 3: Fallback Cleanup (Conditional)**
+    - **Trigger:** You have confirmed that `docs/` is already 100% accurate and required no updates in Phase 1 or 2.
+    - **Action:** Check root Markdown files (e.g., `README.md`) or in-code documentation.
+    - **Task:** Fix only if misleading or factually incorrect.
 
 ---
 
-## What to Do
+## 2. Hard Rules (Do Not Violate)
 
-### 1. Audit the `docs/` directory
+1.  **Zero-Hallucination Policy**
+    - Every single statement must be grounded in a specific line of the #codebase.
+    - If you cannot point to the specific file and line number that proves a statement is true, do not write it.
+    - No speculation on planned features.
 
-- Identify inaccuracies, outdated content, missing explanations, or architectural mismatches
-- Cross-reference:
-    - Source files
-    - Directory structure
-    - In-code comments
-    - Actual runtime behavior
+2.  **No Placeholder Text or TODOs**
+    - Do not create empty sections or stubs.
+    - Do not leave comments like "Add more details here."
+    - Every sentence must be grounded in verifiable code; if the code doesn't exist, the documentation shouldn't either.
 
----
-
-### 2. Update documentation strictly based on verified code
-
-- Correct outdated or incorrect statements
-- Add missing explanations grounded in the current implementation
-- Clearly distinguish:
-    - **Conceptual behavior** (what/why)
-    - **Implementation details** (how)
-- Prefer:
-    - **Explanation + file link**
-    - Over large inline code blocks
+3.  **Unify and Consolidate**
+    - If three files describe one feature, merge them into one authoritative file to reduce cognitive load.
+    - Write less content, but make it higher impact.
 
 ---
 
-### 3. Use Mermaid diagrams extensively
+## 3. Writing Guidelines: Citations, Brevity & Style
 
-Proactively identify any section where a diagram would improve clarity.
+**Goal:** Get to the point. Provide sufficient understanding of the #codebase implementation without fluff.
 
-Include diagrams for:
+- **Paragraph Usage (Introductions & Complexity):**
+    - Paragraphs are encouraged when introducing a new topic or explaining complex system designs/architecture.
+    - **Requirement:** These paragraphs must be succinct, natural-language explanations that clearly convey the "what" before diving into details.
+    - **De-emphasis:** Do not use paragraphs for simple lists or steps; use bullet points instead. Avoid walls of text.
 
-- Data flows
-- Module interactions
-- Component relationships
-- Lifecycle steps
-- Architectural overviews
-- System interactions
+- **Acronym Standards:**
+    - **First Mention:** Always write the full term followed by the acronym in parentheses.
+        - _Example:_ "The Central Processing Unit (CPU) handles the request..."
+    - **Subsequent Mentions:** Use only the acronym.
+        - _Example:_ "...therefore the CPU optimizes the load."
 
-Rules:
+- **File Citations (End-of-Section):**
+    - Do not break the reading flow with inline citations (like scientific papers).
+    - Place links to the source code at the very end of the specific section or paragraph.
+    - **Format:** `Implementation: [filename](./path/to/file)`
+    - **Rule:** All referenced files **MUST** be hyperlinked.
 
-- Diagrams must reflect **actual, current code**
-- No hypothetical or idealized structures
-- Prefer:
-    - `flowchart`
-    - `sequenceDiagram`
-    - `classDiagram`
-    - `stateDiagram`
-
----
-
-### 4. Reference real files frequently using markdown links
-
-- Whenever referencing a file, module, or subsystem:
-    - Link directly using relative paths
-      Example: `[Auth middleware](src/middleware/auth.ts)`
-- Confirm the file exists before linking
-- Use links liberally to encourage source exploration
+- **High-Density, Low-Volume:**
+    - Avoid "Wall of Text." Use bullet points and headers to break up density.
+    - Do not narrate code line-by-line. Explain _why_ it exists and _how_ the system uses it.
 
 ---
 
-### 5. Maintain clarity and conciseness
+## 4. Visual Diagrams
 
-- Keep explanations focused and self-contained
-- Explicitly document:
-    - Architectural decisions (use mermaid diagrams when applicable in addition to text)
-    - Constraints and limitations
-    - Trigger conditions
-    - Expected inputs and outputs
-    - Notable edge cases
-- Avoid verbosity, repetition, or speculative commentary
+**Goal:** Use diagrams to simplify complexity. A picture is worth a thousand words.
 
----
+**When to Use (High Value):**
 
-### 6. Apply changes directly (docs only)
+- **Complex Concepts:** Data flows, component interactions, state lifecycles, and architectural overviews.
+- **Visual Aid:** If a concept is difficult to explain in text, create a diagram.
 
-- Modify existing documentation files
-- Add new markdown files **only when supported by real code**
-- If creating a new directory:
-    - **Always include an `index.md`**
-        - Describe the directory’s purpose and contents
-    - Create files that map directly to existing code artifacts
-- No speculative or forward-looking files or directories
+**When NOT to Use (Low Value):**
+
+- **Trivial Logic:** Do not diagram simple, linear functions or basic CRUD operations.
+- **Over-diagramming:** Do not create a diagram for every single file. Use them strategically where complexity exists.
+
+**Technical Rules:**
+
+- **Accessibility:** Do **NOT** use Mermaid `style` or color customizations. Keep default and clean.
+- **Accuracy:** Diagrams must reflect **actual, current code**. No hypothetical structures.
+- **Types:** Prefer `flowchart`, `sequenceDiagram`, `classDiagram`, `stateDiagram`.
 
 ---
 
-## Final Step
+## 5. Formatting Standards
 
-After completing all changes, run `npm run validate` from #file:package.json and ensure markdown linting passes cleanly.
+1.  **Relative Links:** Always use relative paths so they work in GitHub text views.
+2.  **Code Snippets:** Use sparingly. Only for non-obvious configurations or critical edge cases.
+3.  **Directory Structure:** If creating a new folder, it **must** have an `index.md` describing the directory's purpose.
+4.  **Related Documentation:**
+    - **Scope:** Apply to standard `.md` files (Exclude `index.md` and `README.md`).
+    - **Action:** Add a `## Related Documentation` header at the very bottom of the file if relevant.
+    - **Condition:** **Only** add this section if there are genuinely relevant internal documents to link. Do not force connections or populate with random files.
+
+---
+
+## 6. Self-Correction & Quality Assurance (CRITICAL)
+
+**Before finalizing your output, you must act as a strict Reviewer against your own work.**
+
+1.  **Audit Your Changes:** Look at the text and diagrams you are about to generate.
+2.  **Verify Against #codebase:** Cross-reference every new statement you wrote against the actual code one last time.
+3.  **Check for Accuracy:**
+    - _Did I hallucinate a function name or function logic?_
+    - _Is this path correct?_
+    - _Does this diagram match the actual logic flow?_
+    - _Are my statements 100% verifiable and grounded in existing #codebase implementation?_
+4.  **Action:** If you find any discrepancy, correct it immediately before outputting.
+
+---
+
+## Final Verification Checklist
+
+Before concluding this task, verify:
+
+1.  _Does this content serve both internal and external devs?_
+2.  _Did I remove all placeholders?_
+3.  _Did I properly define all acronyms on first use?_
+4.  _Are my diagrams strictly based on current #codebase (no styling)?_
+5.  _Did I place implementation citations at the end of sections?_
+6.  _Did I run Phase 2 (General Audit) even if I made changes in Phase 1?_
