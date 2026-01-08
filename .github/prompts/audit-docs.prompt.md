@@ -2,12 +2,12 @@
 title: 'Audit and Update docs/ Directory'
 scope: 'repo'
 targets:
-  - #file:docs
-  - #codebase
+    -  #file:docs
+    -  #codebase
 labels:
-  - 'documentation'
-  - 'audit'
-  - 'maintenance'
+    - 'documentation'
+    - 'audit'
+    - 'maintenance'
 ---
 
 ## Role & Purpose
@@ -113,17 +113,20 @@ Execute **Phase 1** and **Phase 2** in order.
 
 **The "Complexity Threshold" (When to Create):**
 If you are documenting the following categories, a **Mermaid** diagram is **strongly expected**:
+
 - **System Interactions:** Multi-service communication.
 - **State Management:** Complex lifecycles, State machines, or Workflow engines.
 - **Data Architecture:** Data ingestion pipelines or Event-driven architectures.
 - **Logic depth:** If a process involves more than 5 distinct steps or components interacting, create a diagram.
 
 **When NOT to Create:**
+
 - **Trivial Logic:** Simple function calls, basic CRUD, or single-file utility functions.
 - **Redundancy:** Do not create diagrams that simply repeat a bulleted list of a few items.
 - **Overuse:** Avoid diagrams for every minor detail. Use only when it adds clarity.
 
 **Technical Rules:**
+
 - **Format:** All diagrams must be written in valid **Mermaid** syntax. No ASCII art or static images.
 - **Accessibility:** Do **NOT** use Mermaid `style` or color customizations. Keep default and clean.
 - **Accuracy:** Diagrams must reflect **actual, current code**. No hypothetical structures.
