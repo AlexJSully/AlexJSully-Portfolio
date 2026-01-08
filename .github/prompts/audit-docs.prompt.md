@@ -2,12 +2,12 @@
 title: 'Audit and Update docs/ Directory'
 scope: 'repo'
 targets:
-    -  #file:docs
-    -  #codebase
+  - #file:docs
+  - #codebase
 labels:
-    - 'documentation'
-    - 'audit'
-    - 'maintenance'
+  - 'documentation'
+  - 'audit'
+  - 'maintenance'
 ---
 
 ## Role & Purpose
@@ -94,11 +94,11 @@ Execute **Phase 1** and **Phase 2** in order.
     - **Subsequent Mentions:** Use only the acronym.
         - _Example:_ "...therefore the CPU optimizes the load."
 
-- **File Citations (End-of-Section):**
-    - Do not break the reading flow with inline citations (like scientific papers).
-    - Place links to the source code at the very end of the specific section or paragraph.
+- **Mandatory File Citations (The "Proof of Work" Rule):**
+    - **Strict Requirement:** You are forbidden from describing technical logic without citing the source file.
+    - **Placement:** Do not break the reading flow with inline citations. Place links at the very end of the specific section or paragraph.
     - **Format:** `Implementation: [filename](./path/to/file)`
-    - **Rule:** All referenced files **MUST** be hyperlinked.
+    - **Enforcement:** If you cannot find the file to link, **delete the text**. You may not write about code you cannot link to.
 
 - **High-Density, Low-Volume:**
     - Avoid "Wall of Text." Use bullet points and headers to break up density.
@@ -107,22 +107,24 @@ Execute **Phase 1** and **Phase 2** in order.
 
 ---
 
-## 4. Visual Diagrams
+## 4. Mermaid/Visual Diagrams (Strategic & Meaningful)
 
-**Goal:** Use diagrams to simplify complexity. A picture is worth a thousand words.
+**Goal:** Proactively use **Mermaid** diagrams to visualize complexity. A picture is worth a thousand words.
 
-**When to Use (High Value):**
+**The "Complexity Threshold" (When to Create):**
+If you are documenting the following categories, a **Mermaid** diagram is **strongly expected**:
+- **System Interactions:** Multi-service communication.
+- **State Management:** Complex lifecycles, State machines, or Workflow engines.
+- **Data Architecture:** Data ingestion pipelines or Event-driven architectures.
+- **Logic depth:** If a process involves more than 5 distinct steps or components interacting, create a diagram.
 
-- **Complex Concepts:** Data flows, component interactions, state lifecycles, and architectural overviews.
-- **Visual Aid:** If a concept is difficult to explain in text, create a diagram.
-
-**When NOT to Use (Low Value):**
-
-- **Trivial Logic:** Do not diagram simple, linear functions or basic CRUD operations.
-- **Over-diagramming:** Do not create a diagram for every single file. Use them strategically where complexity exists.
+**When NOT to Create:**
+- **Trivial Logic:** Simple function calls, basic CRUD, or single-file utility functions.
+- **Redundancy:** Do not create diagrams that simply repeat a bulleted list of a few items.
+- **Overuse:** Avoid diagrams for every minor detail. Use only when it adds clarity.
 
 **Technical Rules:**
-
+- **Format:** All diagrams must be written in valid **Mermaid** syntax. No ASCII art or static images.
 - **Accessibility:** Do **NOT** use Mermaid `style` or color customizations. Keep default and clean.
 - **Accuracy:** Diagrams must reflect **actual, current code**. No hypothetical structures.
 - **Types:** Prefer `flowchart`, `sequenceDiagram`, `classDiagram`, `stateDiagram`.
@@ -147,13 +149,14 @@ Execute **Phase 1** and **Phase 2** in order.
 
 1.  **Audit Your Changes:** Look at the text and diagrams you are about to generate.
 2.  **Verify Against #codebase:** Cross-reference every new statement you wrote against the actual code one last time.
-3.  **Check for Accuracy & Bloat:**
+3.  **Check for Accuracy, Bloat, & Visuals:**
     - _Did I hallucinate a function name or function logic?_
     - _Is this path correct?_
-    - _Does this diagram match the actual logic flow?_
     - _Are my statements 100% verifiable and grounded in existing #codebase implementation?_
     - _Did I write unnecessary fluff? If yes, delete it._
-4.  **Action:** If you find any discrepancy or bloat, correct it immediately before outputting.
+    - **_Did I describe a complex flow (like a Data Flow or Architecture) but skip the Mermaid diagram? If yes, go back and add it._**
+    - _Did I cite the file for the logic I just explained? If not, find the file or delete the text._
+4.  **Action:** If you find any discrepancy, missing citation/diagram, or bloat, correct it immediately before outputting.
 
 ---
 
@@ -164,7 +167,7 @@ Before concluding this task, verify:
 1.  _Does this content serve both internal and external devs?_
 2.  _Did I remove all placeholders?_
 3.  _Did I properly define all acronyms on first use?_
-4.  _Are my diagrams strictly based on current #codebase (no styling)?_
+4.  _Did I include meaningful Mermaid diagrams for complex systems?_
 5.  _Did I place implementation citations at the end of sections?_
 6.  _Did I run Phase 2 (General Audit) even if I made changes in Phase 1?_
 7.  _Did I follow the Diátaxis Framework for any NEW directory structures?_
