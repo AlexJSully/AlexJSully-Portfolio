@@ -4,6 +4,8 @@
 
 This document explains how the testing setup works in this codebase and how to run each test. If you want to contribute to this repository, please refer to the [Contributing Guide](../../CONTRIBUTING.md).
 
+Implementation: [cypress.config.ts](../../cypress.config.ts), [jest.config.js](../../jest.config.js)
+
 ## Testing Setup
 
 The testing setup in this codebase uses Cypress for end-to-end (E2E) testing. The configuration for Cypress is located in [cypress.config.ts](../../cypress.config.ts).
@@ -127,4 +129,7 @@ This repository uses a CI workflow defined in [code-qa.yml](../../.github/workfl
 
 If you want to contribute to this repository, please refer to the [Contributing Guide](../../CONTRIBUTING.md) for more details on the pull request process and code of conduct.
 
-By following these steps, you can successfully run and contribute to the tests in this codebase.
+## Related Documentation
+
+- [Contributing Guide](../../CONTRIBUTING.md)
+- [Setup & Installation](./setup.md)

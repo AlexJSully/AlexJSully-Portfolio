@@ -2,11 +2,13 @@
 
 This document describes configuration files and environment setup in AlexJSully's Portfolio project, their roles, technical details, and how to update or extend them.
 
-## 📦 Purpose
+Implementation: [firebase.ts](../../src/configs/firebase.ts), [next.config.js](../../next.config.js)
+
+## Purpose
 
 Configs manage environment variables, service integrations, and global settings for the app. They enable features like Firebase, Sentry error tracking, and custom runtime options.
 
-## 🏗️ Structure
+## Structure
 
 - **Location:** `src/configs/`
 - **Example files:**
@@ -17,7 +19,7 @@ Configs manage environment variables, service integrations, and global settings 
     - `next.config.js`: Next.js build/runtime config
     - `sentry.client.config.ts`, `sentry.server.config.ts`, `sentry.edge.config.ts`: Sentry error tracking
 
-## 🔍 Usage Examples
+## Usage Examples
 
 ### Firebase configuration and usage
 
@@ -63,36 +65,19 @@ module.exports = {
 };
 ```
 
-## 🧩 Integration & Relationships
+## Integration & Relationships
 
 - Configs are imported by components, helpers, and backend logic for environment-specific behavior.
 - Environment variables are loaded via `.env` and referenced in code using `process.env.*`.
 - Sentry config files enable error tracking for client, server, and edge runtimes.
 
-## 🛠️ Extending Configs
+## Extending Configs
 
 - Add new config files in `src/configs/` for new services.
 - Update `.env` for new environment variables.
 - Document config changes in `README.md` and relevant docs.
 
-## 🔗 Related Docs
+## Related Docs
 
 - [System Architecture](./index.md)
-
 - [PWA Documentation](./pwa.md)
-
-💡 **Tip:** Keep sensitive keys in `.env` and never commit them to version control. Document all config changes for maintainability.
-
-## 🛠️ Practical Guidance
-
-- Store sensitive keys and secrets in `.env` (never commit to git).
-- Document required environment variables for contributors in README.md or a dedicated section.
-- Update config files when adding new services or changing integrations.
-- Validate config changes with `npm run validate`.
-- For Sentry, update DSN and environment in all sentry config files and test error reporting.
-
-## 🧩 Relationships
-
-- Used by data modules, components, and Next.js for service integration.
-- Sentry configs for error tracking.
-- Firebase config for backend/data features.

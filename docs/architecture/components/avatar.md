@@ -179,19 +179,16 @@ useEffect(() => {
 
 ### Accessibility
 
-The avatar container includes proper accessibility attributes:
+The Avatar component uses the Next.js `Image` component with these accessibility attributes:
 
 - `data-testid='profile_pic'` - Testing identifier
-- `aria-label='Profile picture'` - Screen reader label
-- `role='img'` - Semantic role for assistive technologies
-- `onMouseEnter={debounceHover}` - Hover interaction handler
-- `sx` prop with `cursor: 'pointer'` to indicate interactivity
-
-The nested `Image` component includes:
-
-- `alt='Alexander Sullivan profile picture'` - Descriptive alt text
-- `width={200}` and `height={200}` - Explicit dimensions
-- `priority` - Next.js optimization for above-the-fold content
+- `aria-label='Profile Picture for Alexander Sullivan'` - Screen reader label
+- `alt='Alexander Sullivan head drawn and stylized'` - Descriptive alt text
+- `width={500}` and `height={500}` - Explicit dimensions for Next.js optimization
+- `priority` - Optimizes loading for above-the-fold content
+- `onClick={debounceSneeze}` - Click interaction handler (in addition to mouse enter)
+- `onMouseEnter={debounceSneeze}` - Hover interaction handler
+- `style` prop with `cursor: 'pointer'` via borderRadius and positioning
 
 ## Component Interaction
 
@@ -229,10 +226,7 @@ Test file: [`src/components/banner/Avatar.test.tsx`](../../src/components/banner
 
 ## Related Documentation
 
-- [Helpers: AAAAHHHH](./helpers.md#aaaahhhh-helper)
-- [Components Overview](./components/index.md)
-- [Firebase Analytics](./configs.md#firebase-configuration-and-usage)
-
----
-
-💡 **Tip:** Try hovering over the profile picture to discover the sneeze animation and Easter egg!
+- [Helpers: AAAAHHHH](../helpers.md#aaaahhhh-easter-egg-helper)
+- [Components Overview](./index.md)
+- [Firebase Analytics](../configs.md)
+- [Constants](../constants.md)
