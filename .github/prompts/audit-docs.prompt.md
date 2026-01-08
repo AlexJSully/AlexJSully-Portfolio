@@ -52,10 +52,10 @@ Execute **Phase 1** and **Phase 2** in order.
         - **Create New Files & Directories (Strategic Expansion):**
             - **Step 1: Check Existing Structure.** Before creating anything, scan `docs/`. If a logical home exists, place the file there.
             - **Step 2: Apply Diátaxis Framework.** If a **NEW** directory is required, or the content is a distinct new system, organize it using the **Diátaxis** structure:
-                - _Tutorials_ (Learning-oriented)
-                - _How-To Guides_ (Problem-oriented)
-                - _Reference_ (Information-oriented)
-                - _Explanation_ (Understanding-oriented)
+                - _Tutorials_ (Learning-oriented): step-by-step introductions that take a newcomer from zero to a working outcome. Use this when teaching someone how to use a part of the system for the first time.
+                - _How-To Guides_ (Problem-oriented): focused recipes that solve a specific, real-world task. Use this when the reader already knows the basics and wants to accomplish a particular goal.
+                - _Reference_ (Information-oriented): factual, exhaustive descriptions of APIs, components, configuration options, and behaviors. Use this when documenting “what exists” and its exact inputs/outputs.
+                - _Explanation_ (Understanding-oriented): background, rationale, and architectural overviews. Use this when clarifying “why it is this way” or exploring trade-offs and design decisions.
             - **Scope:** Create new artifacts for:
                 - **New Components:** Systems, designs, modules or architecture that do not fit into existing files.
                 - **External APIs:** Dedicated usage guides for external consumers.
