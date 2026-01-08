@@ -1,12 +1,14 @@
 # Images & Icons Documentation
 
-This document explains how images and icons are used, organized, and named in AlexJSully's Portfolio project, and how contributors can add their own.
+This document explains how images and icons are used, organized, and named in Alexander Sullivan's Portfolio project, and how contributors can add their own.
 
-## 📦 Purpose
+Implementation: [icons.tsx](../../src/images/icons.tsx), [public/images/](../../public/images/)
+
+## Purpose
 
 Images and icons provide visual context, branding, and UI elements throughout the portfolio. They are used for project thumbnails, profile pictures, social media links, and custom graphics.
 
-## 🏗️ Structure
+## Structure
 
 ### Images
 
@@ -25,7 +27,7 @@ Images and icons provide visual context, branding, and UI elements throughout th
 - **Usage:**
     - Social media links, UI buttons, branding, and navigation
 
-## 📝 Naming Conventions
+## Naming Conventions
 
 ### Image Naming
 
@@ -38,7 +40,7 @@ Images and icons provide visual context, branding, and UI elements throughout th
 - Social: `github.svg`, `linkedin.svg`, `twitter.svg`, etc.
 - UI: Use clear, lowercase names (e.g., `bar.svg`, `publish.svg`)
 
-## 🔍 Usage Examples
+## Usage Examples
 
 ### Using Images in Components
 
@@ -83,17 +85,13 @@ import GitHubIcon from '@images/icons/github.svg';
 3. Import it in your component as shown above.
 4. Use with MUI `IconButton` or directly in JSX.
 
-## 🧩 Relationships
+## Relationships
 
 - Images are referenced in data files (e.g., `projects.ts`) and components.
 - Icons are imported as React components or used in MUI IconButton.
 - Both are essential for UI consistency and branding.
 
-## 🔗 Related Docs
+## Related Documentation
 
 - [Component Documentation](./components/index.md)
 - [Projects Guide](./components/projects.md)
-
----
-
-💡 **Tip:** Use `.webp` for images when possible for better performance. Keep icon names lowercase and descriptive. Always optimize images for web.

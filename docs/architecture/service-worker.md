@@ -17,7 +17,9 @@ This file documents the service worker implementation used by the site.
 
 ## How the app registers the service worker
 
-The app registers the SW from a client component that runs inside the browser:
+The app registers the SW from two locations:
+
+**ServiceWorkerRegister component** ([src/components/ServiceWorkerRegister.tsx](../../src/components/ServiceWorkerRegister.tsx)):
 
 ```tsx
 import { useEffect } from 'react';
@@ -36,7 +38,11 @@ export default function ServiceWorkerRegister() {
 }
 ```
 
-The home page (`src/app/page.tsx`) also attempts to register the same `'/sw.js'` as a defensive measure for client navigations.
+**Home page** ([src/app/page.tsx](../../src/app/page.tsx)) also registers the SW within its `useEffect` as a defensive measure for client-side navigations.
+
+Both registration points use identical registration logic to ensure the service worker is registered regardless of entry point.
+
+Implementation: [ServiceWorkerRegister.tsx](../../src/components/ServiceWorkerRegister.tsx), [page.tsx](../../src/app/page.tsx)
 
 ## Customizing caching
 

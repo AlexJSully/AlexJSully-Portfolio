@@ -2,6 +2,8 @@
 
 This document describes the layout system in the Alexander Sullivan's Portfolio project.
 
+Implementation: [GeneralLayout.tsx](../../src/layouts/GeneralLayout.tsx)
+
 ## Purpose
 
 Layouts define the structure and composition of pages and sections, ensuring consistent UI, navigation, and shared component behavior across the entire site.
@@ -63,7 +65,7 @@ To create a new layout variant:
 4. Use in appropriate page files
 5. Add corresponding `.test.tsx` file
 
-## Related Docs
+## Related Documentation
 
 - [System Architecture](./index.md)
 - [App Directory & Routing](./app-directory.md)

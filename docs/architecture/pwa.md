@@ -2,6 +2,8 @@
 
 This document explains how Progressive Web App (PWA) features are implemented in the Alexander Sullivan's Portfolio project using native Next.js capabilities.
 
+Implementation: [manifest.ts](../../src/app/manifest.ts)
+
 ## Purpose
 
 PWA support enables:
@@ -77,7 +79,8 @@ To modify PWA settings:
 2. **Icons**: Add or replace images in `public/icon/` and update the manifest accordingly.
 3. **Service Worker**: Edit `public/sw.js` to customize caching strategies or precached assets.
 
-## Related Docs
+## Related Documentation
 
 - [Architecture Overview](./index.md)
+- [Service Worker Implementation](./service-worker.md)
 - [Next.js Manifest Documentation](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/manifest)
