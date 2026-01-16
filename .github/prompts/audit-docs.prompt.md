@@ -369,6 +369,7 @@ For **EVERY** documented configuration option:
 - _Would this documentation work across different deployment environments (local dev, Docker, Kubernetes)?_
 
 **Action:**
+
 - Replace ALL internal variable names with external configuration names.
 - If you cannot trace to external source → Delete the config documentation entirely.
 - Verify the documented location matches the actual codebase architecture (e.g., Kubernetes vs .env).
