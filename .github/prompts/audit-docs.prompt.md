@@ -307,6 +307,7 @@ For any pre-existing content you modified:
 
 **Step 6: Final Action**
 If you find any:
+
 - Hallucinations or unverified statements → Remove immediately
 - Missing citations → Add citation or remove text
 - Config variable names instead of user-facing names → Correct or remove
