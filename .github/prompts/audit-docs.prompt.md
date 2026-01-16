@@ -195,6 +195,13 @@ Execute **Phase 1** and **Phase 2** in order.
 
 **Goal:** Document meaningful system behavior and user-visible outcomes, not implementation details.
 
+**CRITICAL CONTEXT-AWARENESS RULE:**
+
+Before documenting any flow, ask yourself: **"What is the PRIMARY PURPOSE of this documentation?"**
+
+- If documenting **data processing, business logic, user workflows, API flows, system architecture** → Observability is NOT a major step
+- If documenting **observability infrastructure, logging systems, metrics pipelines, monitoring architecture** → Observability IS the subject
+
 **The "Architectural Significance" Filter (STRICTLY APPLY):**
 
 When documenting logic flows, data pipelines, or process steps, include **ONLY** steps that meet **ALL THREE** of these criteria:
@@ -203,46 +210,95 @@ When documenting logic flows, data pipelines, or process steps, include **ONLY**
 2. **State/Data Transformation:** The step fundamentally changes data, system state, or execution path in a way that matters to the overall process outcome.
 3. **Cannot Be Removed:** If you removed this step, the process would fail, produce different output, or behave differently to external observers.
 
-**Mandatory Exclusions (NEVER Document as Flow Steps):**
+**Mandatory Exclusions (NEVER Document as Flow Steps - Unless Explicitly Documenting These Systems):**
 
-Apply these exclusions **UNLESS** you are explicitly documenting the excluded system itself (e.g., writing a document about the logging architecture):
-
-- **Logging/Monitoring:** Any log statements, debug output, or monitoring calls. These are observability, not business logic.
+**OBSERVABILITY & INSTRUMENTATION (Exclude from ALL non-observability docs):**
+- **Logging:** Any log statements, debug output, structured logging, log aggregation calls
     - ❌ "Log request received"
-    - ❌ "Write audit log"
-    - ❌ "Debug output task details"
-- **Metrics/Telemetry:** Any metrics collection, performance tracking, or telemetry emissions.
-    - ❌ "Increment counter"
+    - ❌ "Write audit log entry"
+    - ❌ "Log to stdout/stderr"
+    - ❌ "Send log to aggregator"
+- **Metrics/Telemetry:** Any metrics collection, counters, gauges, histograms, performance tracking
+    - ❌ "Increment request counter"
     - ❌ "Record latency metric"
     - ❌ "Emit telemetry event"
-- **Trivial Validation:** Simple checks that almost always pass (null checks, type checks, basic format validation).
+    - ❌ "Send metrics to channel/queue" (even if using Go channels, Kafka, etc. for metrics)
+    - ❌ "Update Prometheus metrics"
+    - ❌ "Track operation duration"
+- **Tracing:** Distributed tracing, span creation, trace context propagation
+    - ❌ "Start trace span"
+    - ❌ "Add trace attributes"
+    - ❌ "Propagate trace context"
+- **Monitoring/Alerting:** Health checks, heartbeats, alert triggers (unless the system being documented IS a health check/monitoring system)
+    - ❌ "Send heartbeat"
+    - ❌ "Update health status"
+    - ❌ "Trigger alert on threshold"
+
+**IMPLEMENTATION MECHANICS (Exclude from architectural docs):**
+- **Trivial Validation:** Simple checks that almost always pass
     - ❌ "Check if input is not null"
     - ❌ "Validate parameter types"
-    - Exception: Complex validation with business rules (e.g., "Validate user has required permissions") IS significant.
-- **Internal Helpers/Utilities:** Function calls that don't change observable behavior.
+    - Exception: Complex validation with business rules IS significant
+- **Internal Helpers/Utilities:** Function calls that don't change observable behavior
     - ❌ "Format timestamp"
     - ❌ "Parse JSON"
-    - ❌ "Convert data structure" (unless this conversion is the core purpose)
-- **Developer Debugging:** Code that exists solely for development.
+    - ❌ "Convert data structure" (unless conversion is the core purpose)
+- **Developer Debugging:** Code that exists solely for development
     - ❌ "Print debug information"
     - ❌ "Set breakpoint variable"
-- **Error Handling (When Trivial):** Simple try-catch blocks that just re-throw.
+- **Error Handling (When Trivial):** Simple try-catch that just re-throws
     - ❌ "Wrap in try-catch"
-    - Exception: Error handling with fallback logic, retries, or recovery IS significant.
+    - Exception: Error handling with fallback logic, retries, or recovery IS significant
 
-**The "So What?" Test:**
+**The "Is This Observability?" Test (APPLY FIRST):**
 
-Before documenting a step, ask: **"If I explained this system to a user/architect, would they care about this step?"**
+Before documenting any step involving channels, queues, event emission, or data collection, ask:
 
-- ✅ YES → "Fetch data from external API" (User cares: affects what data they get)
-- ✅ YES → "Transform data to target format" (User cares: affects final output)
-- ✅ YES → "Retry on failure with exponential backoff" (User cares: affects reliability)
-- ❌ NO → "Log API response" (User doesn't care: internal observability)
-- ❌ NO → "Increment request counter" (User doesn't care: internal metrics)
+1. **Purpose Question:** "Is this step's PURPOSE to observe/measure the system, or to transform/deliver business value?"
+   - If observability → Exclude (unless documenting observability system)
+   - If business value → Include
+
+2. **Removal Question:** "If I removed this step, would the core functionality still work correctly?"
+   - If yes (functionality unchanged) → It's observability → Exclude
+   - If no (functionality breaks) → It's architectural → Include
+
+3. **User Question:** "Does the end user care about this step's EXISTENCE (not just its outcome)?"
+   - If no → It's implementation detail → Exclude
+   - If yes → It's architectural → Include
+
+**Examples of the Test in Practice:**
+
+**Scenario: Data Processing Pipeline with Metrics**
+- ✅ "Receive message from Kafka topic" (Business: data ingestion)
+- ❌ "Send processing metrics to Go channel" (Observability: monitoring processing)
+- ✅ "Transform data to target schema" (Business: data transformation)
+- ❌ "Increment processed_records counter" (Observability: tracking volume)
+- ✅ "Write transformed data to database" (Business: data persistence)
+
+**Scenario: API Request Flow with Logging**
+- ✅ "Authenticate user via JWT token" (Business: security)
+- ❌ "Log authentication attempt" (Observability: audit trail)
+- ✅ "Fetch user profile from cache or database" (Business: data retrieval)
+- ❌ "Record cache hit/miss metric" (Observability: performance tracking)
+- ✅ "Return JSON response" (Business: API contract)
+
+**Scenario: Background Job with Telemetry**
+- ✅ "Poll job queue for pending tasks" (Business: task orchestration)
+- ❌ "Emit queue depth metric" (Observability: monitoring backlog)
+- ✅ "Execute task-specific business logic" (Business: core functionality)
+- ❌ "Trace execution with OpenTelemetry" (Observability: distributed tracing)
+- ✅ "Mark job as completed in database" (Business: state management)
+
+**When Observability IS the Subject (Document These Steps):**
+
+If the document's title or purpose explicitly includes:
+- "Logging Architecture," "Metrics Collection," "Observability," "Monitoring System," "Tracing Infrastructure," "Telemetry Pipeline," "Health Check System"
+
+Then document the observability steps as PRIMARY architectural steps.
 
 **Example - Data Streaming Flow:**
 
-**Context:** Documenting a data processing pipeline (NOT documenting the logging/metrics systems).
+**Context:** Documenting a data processing pipeline (NOT documenting observability).
 
 - **CORRECT (Architectural Steps Only):**
     1. Receive task from message queue
@@ -251,27 +307,17 @@ Before documenting a step, ask: **"If I explained this system to a user/architec
     4. Stream chunks to client via WebSocket
     5. Update task status to completed
 
-- **INCORRECT (Includes Non-Architectural Steps):**
+- **INCORRECT (Includes Observability Steps):**
     1. Receive task from message queue
-    2. **~~Log task receipt~~** ← REMOVE: Logging (unless documenting logging system)
-    3. **~~Validate task format~~** ← REMOVE: Trivial validation
+    2. **~~Send task receipt metric to Go channel~~** ← REMOVE: Observability
+    3. **~~Log task details~~** ← REMOVE: Observability
     4. Fetch data from external API
-    5. **~~Log API response~~** ← REMOVE: Logging
-    6. **~~Record API latency~~** ← REMOVE: Metrics
-    7. Transform data to target schema
-    8. Stream chunks to client via WebSocket
-    9. **~~Log each chunk sent~~** ← REMOVE: Logging
-    10. **~~Emit streaming metrics~~** ← REMOVE: Metrics
-    11. Update task status to completed
-    12. **~~Write completion log~~** ← REMOVE: Logging
-
-**Special Case - When Logging/Metrics ARE Significant:**
-
-If you are documenting the logging system itself, metrics collection system, or observability infrastructure, then logging/metrics steps are the PRIMARY subject and should be documented. Use judgment based on the document's purpose.
-
-- ✅ Document titled "Logging Architecture" → Document log collection, aggregation, storage
-- ✅ Document titled "Metrics Pipeline" → Document metric emission, collection, alerting
-- ❌ Document titled "Data Processing Flow" → Do NOT document logging as a major step
+    5. **~~Track API latency~~** ← REMOVE: Observability
+    6. Transform data to target schema
+    7. Stream chunks to client via WebSocket
+    8. **~~Emit streaming progress metrics~~** ← REMOVE: Observability
+    9. Update task status to completed
+    10. **~~Log completion~~** ← REMOVE: Observability
 
 ---
 
@@ -294,14 +340,13 @@ If you are documenting the following categories, a **Mermaid** diagram is **stro
 - **Trivial Logic:** Simple function calls, basic CRUD operations, or single-file utility functions.
 - **Redundancy:** Do not create diagrams that simply repeat a bulleted list of a few items.
 - **Overuse:** Avoid diagrams for every minor detail. Use only when it meaningfully improves understanding.
-- **Reader Consideration:** Not all readers prefer visual diagrams. Use judiciously and ensure accompanying text can stand alone.
 
 **Technical Rules:**
 
 - **Format:** All diagrams must be written in valid **Mermaid** syntax. No ASCII art or static images.
 - **Accessibility:** Do **NOT** use Mermaid `style` or color customizations. Keep default and clean.
 - **Accuracy:** Diagrams must reflect **actual, current code**. No hypothetical structures or planned features.
-- **Apply Architectural Filter:** When creating flowcharts or sequence diagrams for processes, **exclude logging, metrics, and trivial validation steps** just as you would in written documentation (unless documenting those systems themselves).
+- **Apply Architectural Filter:** When creating flowcharts or sequence diagrams for processes, **apply the same "Architectural Significance Filter"** from Section 4. Exclude observability steps (logging, metrics, tracing) unless the diagram is explicitly documenting an observability system.
 - **Types (Choose Most Appropriate):**
     - `flowchart` - Process flows, decision trees, system flows
     - `sequenceDiagram` - Temporal interactions between components
@@ -352,13 +397,13 @@ For **EVERY SINGLE STATEMENT** you wrote, verify:
 **Step 2: Architecture & Flow Verification (STRICT FILTER)**
 For any documented process or logic flow:
 
-- _Did I list logging, metrics, or debugging as a "step"?_ (If yes → Remove unless documenting logging/metrics system)
+- _Did I apply the "Is This Observability?" test to every step?_
 - _Did I include trivial validation or utility calls as major steps?_ (If yes → Remove)
 - _Would the **user-observable outcome** change if I removed this step?_ (If no → Remove)
 - _Am I documenting the **business logic** or the **implementation details**?_ (Should be business logic)
 - _Does this step meet ALL THREE criteria: User-Visible Impact + State/Data Transformation + Cannot Be Removed?_ (If no to any → Remove)
 
-**Action:** Remove ALL non-architectural steps. Apply "So What?" test to each step.
+**Action:** Remove ALL non-architectural steps. Every step must pass all three criteria.
 
 **Step 3: Configuration Verification (MANDATORY TRACE)**
 For **EVERY** documented configuration option:
@@ -390,16 +435,16 @@ For any pre-existing content you modified:
 - _Did I insert NEW subjective words? (If yes → Remove them. Preserved existing ones are OK)._
 - _Did I cite the file for the logic I explained? (If no → Find file or remove text)._
 - _Did I create a Mermaid diagram where appropriate for complex systems?_
-- _Did I exclude logging/metrics from Mermaid flowcharts (unless documenting those systems)?_
+- _Did I exclude observability from Mermaid diagrams (unless documenting observability systems)?_
 - _Did I choose the most appropriate Mermaid diagram type for the structure?_
 
-**Step 6: Final Action**
+**Step 6: Final Action (Before Output)**
 If you find any:
 
 - **Hallucinations or unverified statements** → Delete immediately, no exceptions
 - **Statements without exact file citations** → Add citation or delete statement
 - **Internal config variable names** → Trace to external source and correct, or delete
-- **Logging/metrics as flow steps** (when not documenting those systems) → Delete
+- **Observability steps in non-observability docs** (logging, metrics, tracing, monitoring) → Delete
 - **Trivial validation/utility steps in flows** → Delete
 - **Subjective language you added** → Remove (preserve existing)
 - **Code dumps** → Replace with links
@@ -416,21 +461,17 @@ Before concluding this task, verify:
 
 1.  _Did I **open and read the actual implementation file** for every documented behavior?_
 2.  _Can I cite **exact file paths and line numbers** for every statement?_
-3.  _Did I use **external-facing config names** (env vars, config files, deployment.yaml) instead of internal variables?_
-4.  _Did I **trace every config** from code back to its external source?_
-5.  _Did I document **only architecturally significant steps** in flows (excluding logging/metrics/trivial validation)?_
-6.  _Did I apply the **"So What?" test** to every flow step?_
-7.  _Did I preserve accurate pre-existing content and only correct errors?_
-8.  _Did I avoid deleting pre-existing content unless absolutely necessary?_
-9.  _Does this content serve both internal and external devs?_
-10. _Did I remove all placeholders, unverified statements, and speculation?_
-11. _Did I properly define all acronyms on first use?_
-12. _Did I include appropriate Mermaid diagrams for complex systems?_
-13. _Did I exclude logging/metrics from Mermaid diagrams (unless documenting those systems)?_
-14. _Did I choose the best Mermaid diagram type for each visualization?_
-15. _Did I replace massive code dumps with links?_
-16. _Did I place implementation citations at the end of sections?_
-17. _Did I run Phase 2 (General Audit) even if I made changes in Phase 1?_
-18. _Did I follow the Diátaxis Framework for any NEW directory structures?_
-19. _Can every statement I wrote be traced to a specific line of code I **actually read**?_
-20. _Did I eliminate ALL use of speculative language ("appears," "seems," "likely," "probably")?_
+3.  _Did I determine the PRIMARY PURPOSE of each document (business logic vs observability)?_
+4.  _Did I **exclude ALL observability** (logging, metrics, tracing, monitoring) from non-observability documentation?_
+5.  _Did I apply the **"Is This Observability?" test** to every questionable step?_
+6.  _Did I use **external-facing config names** (env vars, config files, deployment.yaml) instead of internal variables?_
+7.  _Did I **trace every config** from code back to its external source?_
+8.  _Did I document **only architecturally significant steps** in flows (meeting ALL THREE criteria)?_
+9.  _Did I preserve accurate pre-existing content and only correct errors?_
+10. _Did I avoid deleting pre-existing content unless absolutely necessary?_
+11. _Does this content serve both internal and external devs?_
+12. _Did I remove all placeholders, unverified statements, and speculation?_
+13. _Did I properly define all acronyms on first use?_
+14. _Did I include appropriate Mermaid diagrams for complex systems?_
+15. _Did I apply the Architectural Significance Filter to Mermaid diagrams?_
+16. _Did I choose the best Mermaid diagram type for each visualization?_
