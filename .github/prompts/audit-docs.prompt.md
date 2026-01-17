@@ -195,129 +195,45 @@ Execute **Phase 1** and **Phase 2** in order.
 
 **Goal:** Document meaningful system behavior and user-visible outcomes, not implementation details.
 
-**CRITICAL CONTEXT-AWARENESS RULE:**
+**The "Architectural Significance" Filter:**
 
-Before documenting any flow, ask yourself: **"What is the PRIMARY PURPOSE of this documentation?"**
+When documenting logic flows, data pipelines, or process steps, include **ONLY** steps that meet these criteria:
 
-- If documenting **data processing, business logic, user workflows, API flows, system architecture** → Observability is NOT a major step
-- If documenting **observability infrastructure, logging systems, metrics pipelines, monitoring architecture** → Observability IS the subject
+1. **User-Visible Impact:** The step directly affects the end user's experience or the system's external behavior.
+2. **State/Data Transformation:** The step fundamentally changes data, system state, or execution path.
+3. **Cannot Be Removed:** Removing this step would break functionality or change user-observable outcomes.
 
-**The "Architectural Significance" Filter (STRICTLY APPLY):**
+**What to Exclude from Architectural Flows:**
 
-When documenting logic flows, data pipelines, or process steps, include **ONLY** steps that meet **ALL THREE** of these criteria:
+Unless you are explicitly documenting observability/monitoring systems, exclude:
 
-1. **User-Visible Impact:** The step directly affects the end user's experience, the system's external behavior, or the final output/state.
-2. **State/Data Transformation:** The step fundamentally changes data, system state, or execution path in a way that matters to the overall process outcome.
-3. **Cannot Be Removed:** If you removed this step, the process would fail, produce different output, or behave differently to external observers.
+- **Logging & Metrics:** Log statements, metrics collection, telemetry (even if using channels/queues)
+- **Trivial Validation:** Simple null checks, type validation
+- **Internal Utilities:** Helper functions that don't change observable behavior (formatting, parsing, etc.)
+- **Debug Code:** Developer-only debugging features
 
-**Mandatory Exclusions (NEVER Document as Flow Steps - Unless Explicitly Documenting These Systems):**
+**Simple Test:** Ask "Would removing this step change what the user experiences or receives?" If no, exclude it.
 
-**OBSERVABILITY & INSTRUMENTATION (Exclude from ALL non-observability docs):**
-- **Logging:** Any log statements, debug output, structured logging, log aggregation calls
-    - ❌ "Log request received"
-    - ❌ "Write audit log entry"
-    - ❌ "Log to stdout/stderr"
-    - ❌ "Send log to aggregator"
-- **Metrics/Telemetry:** Any metrics collection, counters, gauges, histograms, performance tracking
-    - ❌ "Increment request counter"
-    - ❌ "Record latency metric"
-    - ❌ "Emit telemetry event"
-    - ❌ "Send metrics to channel/queue" (even if using Go channels, Kafka, etc. for metrics)
-    - ❌ "Update Prometheus metrics"
-    - ❌ "Track operation duration"
-- **Tracing:** Distributed tracing, span creation, trace context propagation
-    - ❌ "Start trace span"
-    - ❌ "Add trace attributes"
-    - ❌ "Propagate trace context"
-- **Monitoring/Alerting:** Health checks, heartbeats, alert triggers (unless the system being documented IS a health check/monitoring system)
-    - ❌ "Send heartbeat"
-    - ❌ "Update health status"
-    - ❌ "Trigger alert on threshold"
+**Example - Data Processing Flow:**
 
-**IMPLEMENTATION MECHANICS (Exclude from architectural docs):**
-- **Trivial Validation:** Simple checks that almost always pass
-    - ❌ "Check if input is not null"
-    - ❌ "Validate parameter types"
-    - Exception: Complex validation with business rules IS significant
-- **Internal Helpers/Utilities:** Function calls that don't change observable behavior
-    - ❌ "Format timestamp"
-    - ❌ "Parse JSON"
-    - ❌ "Convert data structure" (unless conversion is the core purpose)
-- **Developer Debugging:** Code that exists solely for development
-    - ❌ "Print debug information"
-    - ❌ "Set breakpoint variable"
-- **Error Handling (When Trivial):** Simple try-catch that just re-throws
-    - ❌ "Wrap in try-catch"
-    - Exception: Error handling with fallback logic, retries, or recovery IS significant
+**CORRECT:**
 
-**The "Is This Observability?" Test (APPLY FIRST):**
+1. Receive message from queue
+2. Fetch data from external API
+3. Transform data to target schema
+4. Write to database
+5. Send response to client
 
-Before documenting any step involving channels, queues, event emission, or data collection, ask:
+**INCORRECT:**
 
-1. **Purpose Question:** "Is this step's PURPOSE to observe/measure the system, or to transform/deliver business value?"
-   - If observability → Exclude (unless documenting observability system)
-   - If business value → Include
-
-2. **Removal Question:** "If I removed this step, would the core functionality still work correctly?"
-   - If yes (functionality unchanged) → It's observability → Exclude
-   - If no (functionality breaks) → It's architectural → Include
-
-3. **User Question:** "Does the end user care about this step's EXISTENCE (not just its outcome)?"
-   - If no → It's implementation detail → Exclude
-   - If yes → It's architectural → Include
-
-**Examples of the Test in Practice:**
-
-**Scenario: Data Processing Pipeline with Metrics**
-- ✅ "Receive message from Kafka topic" (Business: data ingestion)
-- ❌ "Send processing metrics to Go channel" (Observability: monitoring processing)
-- ✅ "Transform data to target schema" (Business: data transformation)
-- ❌ "Increment processed_records counter" (Observability: tracking volume)
-- ✅ "Write transformed data to database" (Business: data persistence)
-
-**Scenario: API Request Flow with Logging**
-- ✅ "Authenticate user via JWT token" (Business: security)
-- ❌ "Log authentication attempt" (Observability: audit trail)
-- ✅ "Fetch user profile from cache or database" (Business: data retrieval)
-- ❌ "Record cache hit/miss metric" (Observability: performance tracking)
-- ✅ "Return JSON response" (Business: API contract)
-
-**Scenario: Background Job with Telemetry**
-- ✅ "Poll job queue for pending tasks" (Business: task orchestration)
-- ❌ "Emit queue depth metric" (Observability: monitoring backlog)
-- ✅ "Execute task-specific business logic" (Business: core functionality)
-- ❌ "Trace execution with OpenTelemetry" (Observability: distributed tracing)
-- ✅ "Mark job as completed in database" (Business: state management)
-
-**When Observability IS the Subject (Document These Steps):**
-
-If the document's title or purpose explicitly includes:
-- "Logging Architecture," "Metrics Collection," "Observability," "Monitoring System," "Tracing Infrastructure," "Telemetry Pipeline," "Health Check System"
-
-Then document the observability steps as PRIMARY architectural steps.
-
-**Example - Data Streaming Flow:**
-
-**Context:** Documenting a data processing pipeline (NOT documenting observability).
-
-- **CORRECT (Architectural Steps Only):**
-    1. Receive task from message queue
-    2. Fetch data from external API
-    3. Transform data to target schema
-    4. Stream chunks to client via WebSocket
-    5. Update task status to completed
-
-- **INCORRECT (Includes Observability Steps):**
-    1. Receive task from message queue
-    2. **~~Send task receipt metric to Go channel~~** ← REMOVE: Observability
-    3. **~~Log task details~~** ← REMOVE: Observability
-    4. Fetch data from external API
-    5. **~~Track API latency~~** ← REMOVE: Observability
-    6. Transform data to target schema
-    7. Stream chunks to client via WebSocket
-    8. **~~Emit streaming progress metrics~~** ← REMOVE: Observability
-    9. Update task status to completed
-    10. **~~Log completion~~** ← REMOVE: Observability
+1. Receive message from queue
+2. ~~Log message receipt~~ ← Observability
+3. ~~Send metrics to channel~~ ← Observability
+4. Fetch data from external API
+5. ~~Track API latency~~ ← Observability
+6. Transform data to target schema
+7. Write to database
+8. Send response to client
 
 ---
 
