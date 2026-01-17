@@ -136,7 +136,7 @@ if (totalSneeze.current >= THRESHOLDS.AAAAHHHH_TRIGGER_COUNT) {
 
 ## Integration & Relationships
 
-- **Used by:** [Avatar component](../../src/components/banner/Avatar.tsx) (Easter egg trigger), [Root layout](../../src/app/layout.tsx) (ASCII logo)
+- **Used by:** [Avatar component](../../src/components/banner/Avatar.tsx) (Easter egg trigger), [Home page](../../src/app/page.tsx) (ASCII logo)
 - **Depends on:** [Constants](../../src/constants/index.ts) for timing and thresholds, [Firebase](../../src/configs/firebase.ts) for analytics
 - **Testing:** All helper functions have comprehensive Jest test coverage
 - **Type Safety:** TypeScript ensures type safety and IDE autocompletion
