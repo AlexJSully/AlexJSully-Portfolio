@@ -2,7 +2,7 @@
 
 This directory contains AI-powered prompt templates designed for **GitHub Copilot's coding agent** to automate code review, documentation auditing, and quality improvements. These prompts integrate seamlessly with Visual Studio Code (VSCode) and GitHub's pull request workflow.
 
-> **⚠️ CRITICAL: AI Accuracy Warning**
+> [!CAUTION] ⚠️ CRITICAL: AI Accuracy Warning
 >
 > **These prompts execute AI-driven code analysis and documentation generation. AI makes mistakes and hallucinations.** It is of utmost importance that you **carefully review all changes and output** before merging any PR. Do not blindly trust the AI's work. Verify that all suggested changes are:
 >
@@ -107,7 +107,7 @@ targets:
 
 ## Important Safety Notes
 
-> **⚠️ AI Makes Mistakes**
+> [!CAUTION] ⚠️ AI Makes Mistakes
 >
 > - **Hallucinations:** AI may invent function names, file paths, or code logic that don't exist
 > - **Inaccuracies:** AI may misinterpret complex code or miss edge cases
