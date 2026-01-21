@@ -38,6 +38,11 @@ module.exports = [
 			react,
 			'react-hooks': reactHooks,
 		},
+		settings: {
+			react: {
+				version: 'detect',
+			},
+		},
 		rules: {
 			'class-methods-use-this': 'off',
 			'consistent-return': 'off',
