@@ -110,7 +110,7 @@ Act as a **Principal Code Reviewer, Security Auditor, and Refactoring Architect*
         - **Identify logs at risk:** Audit logging statements to identify which logs may contain PHI/PII (e.g., user inputs, API request/response bodies, database records, error objects containing user data)
         - **Sanitize ONLY risky logs:** Apply sanitization, redaction, or hashing ONLY to logs that may contain sensitive data
         - **Preserve debugging utility:** Keep logs maximally useful for debugging by NOT sanitizing logs that don't contain sensitive data
-        - **Examples of what to sanitize:** User IDs (hash or use opaque identifiers), email addresses, phone numbers, health information, addresses, SSN/SIN, credit card numbers
+        - **Examples of what to sanitize:** User identifiers (replace with opaque but consistent identifiers such as randomly generated UUIDs; if hashing is used, ensure a stable hashing mechanism is applied consistently so log entries remain correlatable), email addresses, phone numbers, health information, addresses, SSN/SIN, credit card numbers
         - **Examples of safe logs:** Application state, configuration values (non-secret), flow control messages, performance metrics, non-sensitive error codes
         - **Never log:** Authentication tokens, passwords, API keys, session identifiers, encryption keys
     - Include correlation IDs for request tracing
