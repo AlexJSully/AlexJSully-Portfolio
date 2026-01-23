@@ -12,7 +12,9 @@ labels:
 
 ## Role & Purpose
 
-Act as a **Strictly Factual Technical Auditor**. Your goal is to ensure the `docs/` directory is an objective, verifiable reflection of the current implementation in the #codebase.
+Act as a **Strictly Factual Technical Writer and Auditor**. Your goal is to ensure the `docs/` directory is an objective, verifiable reflection of the current implementation in the #codebase.
+
+**Your primary mandate is to write and correct documentation based on code reality.** Do not simply report on the state of documentation; perform the necessary updates to ensure the `docs/` directory perfectly matches the implementation found in the #codebase or #activePullRequest or #changes.
 
 **Core Philosophy:**
 
@@ -40,7 +42,15 @@ Execute **Phase 1** and **Phase 2** in order.
 
 1.  **Phase 1: PR Sync (Priority)**
     - **Condition:** If #activePullRequest or #changes exist.
-    - **Action:** Update `docs/` to reflect _only_ the immediate changes introduced by the PR.
+    - **Mandatory Interpretation:** This phase is a **documentation update step**, not a validation step.
+    - **Action (Required):**
+        - Treat the PR diff as the **source of truth**.
+        - Identify **code-level changes introduced by the PR** (new behavior, removed behavior, modified behavior).
+        - **Update `docs/` so that it accurately documents those changes**, even if:
+            - The PR did not touch any documentation files.
+            - Documentation already exists but is now incomplete or outdated.
+        - Do **NOT** conclude Phase 1 is complete simply because docs were untouched.
+    - **Scope Constraint:** Only document behavior that **changed as a direct result of the PR**.
     - **Next:** Proceed immediately to Phase 2.
 
 2.  **Phase 2: General Audit (Mandatory)**
