@@ -42,7 +42,7 @@ Execute **Phase 1** and **Phase 2** in order.
 
 1.  **Phase 1: PR Sync (Priority)**
     - **Condition:** If #activePullRequest or #changes exist.
-    - **Mandatory Interpretation:** This phase is **NOT** a validation step. It is a **documentation update step**.
+    - **Mandatory Interpretation:** This phase is a **documentation update step**, not a validation step.
     - **Action (Required):**
         - Treat the PR diff as the **source of truth**.
         - Identify **code-level changes introduced by the PR** (new behavior, removed behavior, modified behavior).
