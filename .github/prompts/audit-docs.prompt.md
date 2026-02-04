@@ -38,7 +38,7 @@ Documentation must serve two audiences simultaneously:
 
 ## 1. Execution Flow (Sequential)
 
-Execute **Phase 1** and **Phase 2** in order.
+Execute **all three phases** in order.
 
 1.  **Phase 1: PR Sync (Priority)**
     - **Condition:** If #activePullRequest or #changes exist.
@@ -51,6 +51,7 @@ Execute **Phase 1** and **Phase 2** in order.
             - Documentation already exists but is now incomplete or outdated.
         - Do **NOT** conclude Phase 1 is complete simply because docs were untouched.
     - **Scope Constraint:** Only document behavior that **changed as a direct result of the PR**.
+    - **Output Requirement:** Explicitly state whether you made changes or found the `docs/` directory already accurate for PR changes.
     - **Next:** Proceed immediately to Phase 2.
 
 2.  **Phase 2: General Audit (Mandatory)**
@@ -76,12 +77,57 @@ Execute **Phase 1** and **Phase 2** in order.
                 - **New Components:** Systems, designs, modules or architecture that do not fit into existing files.
                 - **External APIs:** Dedicated usage guides for external consumers.
                 - **Missing Structures:** Standard directories needed for organization.
-    - **Next:** Proceed to Phase 3 **ONLY** if Phase 1 and Phase 2 resulted in **ZERO** updates.
+    - **Output Requirement:** Explicitly state whether you made changes or found the `docs/` directory already accurate.
+    - **Next:** Proceed immediately to Phase 3.
 
-3.  **Phase 3: Fallback Cleanup (Conditional)**
-    - **Trigger:** You have confirmed that `docs/` is already 100% accurate and required no updates in Phase 1 or 2.
-    - **Action:** Check root Markdown files (e.g., `README.md`) or in-code documentation.
-    - **Task:** Fix only if misleading or factually incorrect. Apply same preservation and deletion policies as Phase 2.
+3.  **Phase 3: In-Code Documentation Audit (Mandatory)**
+    - **CRITICAL:** This phase is **NOT** conditional. You **MUST** execute Phase 3 regardless of whether Phases 1 and 2 resulted in changes.
+    - **Scope:** Audit ALL in-code documentation and comments across the entire the given target, including:
+        - **Root-level or subdirectory Markdown files:** Any `.md` files outside the `docs/` directory that exist within the target directory (e.g., `src/README.md`, `scripts/howto.md`)
+        - **Docstrings/JSDoc/GoDoc/etc.:** Function, method, class, interface, type, and module documentation comments
+        - **Inline comments:** Explanatory comments within code that describe logic, decisions, or behavior
+        - **Package/module headers:** Top-of-file documentation blocks
+    - **Action (Required - Execute ALL Steps):**
+        1. **Scan the target** for all files containing documentation or comments (`.md` files, source code files with docstrings/comments)
+        2. **Read the current implementation** of each documented element
+        3. **Verify accuracy** by comparing documentation/comments against actual code behavior
+        4. **Update or remove** inaccurate, outdated, or misleading content
+        5. **Add missing documentation** ONLY for:
+            - Exported/public functions, methods, classes, interfaces, and types that lack any documentation
+            - Complex internal logic that would be unclear to future maintainers (use sparingly)
+        6. **Remove bloat**:
+            - Delete over-verbose AI-generated comments that merely narrate code
+            - Remove redundant comments that restate obvious code behavior (unless critical for understanding)
+            - **Keep only:** Critical "why" explanations, non-obvious "what" descriptions, and essential "how" for complex algorithms
+    - **In-Code Documentation Standards:**
+        - **Exported/Public Elements:** Must have concise docstrings/JSDoc explaining:
+            - **What:** What the function/class/method does (1-2 sentences max)
+            - **Parameters:** Brief description of each parameter (when non-obvious)
+            - **Returns:** What is returned (when non-obvious)
+            - **Why:** Only include if the purpose is non-obvious from the name
+        - **Internal/Private Elements:** Document ONLY if:
+            - Logic is complex or non-obvious
+            - There are important gotchas or edge cases
+            - Future maintainers would struggle to understand the code without explanation
+        - **Inline Comments:** Use sparingly. Include ONLY when:
+            - Explaining non-obvious business logic or algorithms
+            - Documenting workarounds or known issues
+            - Clarifying complex conditionals or data transformations
+        - **Anti-Patterns to Remove:**
+            - ❌ Comments that restate code: `// Increment counter` above `counter++`
+            - ❌ Obvious parameter descriptions: `@param id - The id` for `function getUser(id: string)`
+            - ❌ Verbose AI-generated docstrings with excessive detail
+            - ❌ Outdated comments describing old behavior
+            - ❌ TODO comments without context or owner (either fix or remove)
+    - **Same Rules Apply:** Follow all guidelines from Hard Rules, Writing Guidelines, and Quality Assurance sections
+        - Zero hallucination: Only document what the code actually does
+        - Strict objectivity: No subjective adjectives in new comments
+        - Mandatory verification: Read the implementation before updating comments
+        - Preservation: Only modify existing comments if factually incorrect
+    - **Output Requirement:** You **MUST** report the results of Phase 3:
+        - List files where in-code documentation was updated
+        - Summarize types of changes made (corrections, additions, bloat removal)
+        - If NO changes were needed, explicitly state: "Phase 3: Audited in-code documentation across X files - all accurate, no changes required"
 
 ---
 
@@ -401,3 +447,6 @@ Before concluding this task, verify:
 14. _Did I include appropriate Mermaid diagrams for complex systems?_
 15. _Did I apply the Architectural Significance Filter to Mermaid diagrams?_
 16. _Did I choose the best Mermaid diagram type for each visualization?_
+17. _Did I execute Phase 3 and audit in-code documentation?_
+18. _Did I scan source files for docstrings/comments and verify accuracy?_
+19. _Did I remove bloat from in-code documentation?_
