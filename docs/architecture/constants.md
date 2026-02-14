@@ -1,150 +1,62 @@
 # Constants Module
 
-## Overview
+The constants module centralizes timing, thresholds, and configuration values used throughout the application. These values control interactive behaviors, network detection, and animations.
 
-The `constants` module provides centralized application-wide configuration values, thresholds, and magic numbers used throughout the codebase. This approach improves maintainability, testability, and makes it easier to tune application behavior.
+## Why Centralize Constants?
 
-## Location
+Using a single source of truth for magic numbers provides:
 
-**Path:** `src/constants/index.ts`
+- **Easier Tuning:** Change behavior across the app by editing one file
+- **Testability:** Constants can be imported and verified in tests
+- **Maintainability:** No hunting through components to find timing values
+- **Documentation:** Descriptive names make values self-explanatory
 
 ## Module Exports
 
+The module exports four const objects, each grouping related values:
+
 ### `DELAYS`
 
-Time delays in milliseconds for various debounce and timing operations.
+Debounce delays and timing values in milliseconds:
 
-```typescript
-export const DELAYS = {
-	/** Debounce delay for console logo (1000ms) */
-	CONSOLE_LOGO_DEBOUNCE: 1000,
+- `CONSOLE_LOGO_DEBOUNCE` (1000ms) — Prevents duplicate ASCII logo prints in console
+- `PROJECT_HOVER_VIDEO` (1000ms) — Delay before showing video on project card hover
+- `AVATAR_SNEEZE_DEBOUNCE` (100ms) — Debounce for avatar hover interactions
+- `STAR_ANIMATION_INITIAL` (1000ms) — Initial delay for forced star shooting animations
 
-	/** Delay before showing project video on hover (1000ms) */
-	PROJECT_HOVER_VIDEO: 1000,
-
-	/** Delay for avatar sneeze debounce (100ms) */
-	AVATAR_SNEEZE_DEBOUNCE: 100,
-
-	/** Initial delay for force star animation (1000ms) */
-	STAR_ANIMATION_INITIAL: 1000,
-} as const;
-```
-
-**Usage Example:**
-
-```typescript
-import { DELAYS } from '@constants/index';
-
-const debouncedFunc = debounce(handler, DELAYS.AVATAR_SNEEZE_DEBOUNCE);
-```
-
----
+**Usage:** Import to control debouncing and timing in components.
 
 ### `THRESHOLDS`
 
-Trigger thresholds for interactive features and animations.
+Trigger thresholds for interactive features:
 
-```typescript
-export const THRESHOLDS = {
-	/** Number of hovers before triggering sneeze (5) */
-	SNEEZE_TRIGGER_INTERVAL: 5,
+- `SNEEZE_TRIGGER_INTERVAL` (5) — Number of hovers before avatar sneeze animation
+- `AAAAHHHH_TRIGGER_COUNT` (6) — Number of sneezes before Easter egg activation
+- `MIN_STARS_FOR_ANIMATION` (15) — Minimum stars required before forcing animation
 
-	/** Total sneezes before triggering aaaahhhh easter egg (6) */
-	AAAAHHHH_TRIGGER_COUNT: 6,
-
-	/** Minimum number of stars before forcing animation (15) */
-	MIN_STARS_FOR_ANIMATION: 15,
-} as const;
-```
-
-**Usage Example:**
-
-```typescript
-import { THRESHOLDS } from '@constants/index';
-
-if (hoverCount % THRESHOLDS.SNEEZE_TRIGGER_INTERVAL === 0) {
-	triggerSneeze();
-}
-```
-
----
+**Usage:** Import to control when interactions trigger animations or Easter eggs.
 
 ### `NETWORK`
 
-Network performance thresholds used to detect slow connections and adapt behavior accordingly.
+Network performance thresholds for adaptive loading:
 
-```typescript
-export const NETWORK = {
-	/** Maximum downlink speed (Mbps) to be considered slow (1.5) */
-	SLOW_DOWNLINK_THRESHOLD: 1.5,
+- `SLOW_DOWNLINK_THRESHOLD` (1.5 Mbps) — Maximum speed considered slow
+- `FAST_RTT_THRESHOLD` (100ms) — Maximum round-trip time considered fast
+- `SLOW_NETWORK_TYPES` (['slow-2g', '2g', '3g']) — Network types always considered slow
 
-	/** Maximum RTT (ms) to be considered fast (100) */
-	FAST_RTT_THRESHOLD: 100,
-
-	/** Network types considered slow */
-	SLOW_NETWORK_TYPES: ['slow-2g', '2g', '3g'] as const,
-} as const;
-```
-
-**Usage Example:**
-
-```typescript
-import { NETWORK } from '@constants/index';
-
-const isSlow = connection.downlink < NETWORK.SLOW_DOWNLINK_THRESHOLD;
-```
-
----
+**Usage:** Import in [isNetworkFast()](../../src/util/isNetworkFast.ts) to determine whether to autoplay videos.
 
 ### `ANIMATIONS`
 
-Animation duration values in milliseconds for multi-stage animations.
+Multi-stage animation durations in milliseconds:
 
-```typescript
-export const ANIMATIONS = {
-	/** Avatar sneeze animation stage 1 (500ms) */
-	SNEEZE_STAGE_1: 500,
+- `SNEEZE_STAGE_1` (500ms) — First frame of avatar sneeze
+- `SNEEZE_STAGE_2` (300ms) — Second frame of avatar sneeze
+- `SNEEZE_STAGE_3` (1000ms) — Final frame of avatar sneeze
 
-	/** Avatar sneeze animation stage 2 (300ms) */
-	SNEEZE_STAGE_2: 300,
+**Usage:** Import to sequence the avatar sneeze animation in [Avatar component](../../src/components/banner/Avatar.tsx).
 
-	/** Avatar sneeze animation stage 3 (1000ms) */
-	SNEEZE_STAGE_3: 1000,
-} as const;
-```
-
-**Usage Example:**
-
-```typescript
-import { ANIMATIONS } from '@constants/index';
-
-setTimeout(() => {
-	setImage('sneeze_2');
-}, ANIMATIONS.SNEEZE_STAGE_1);
-```
-
----
-
-## Design Rationale
-
-### Why Centralize Constants?
-
-1. **Single Source of Truth:** All timing and threshold values are defined in one place
-2. **Easier Tuning:** Adjust application behavior by changing values in one file
-3. **Better Testing:** Constants can be imported and verified in tests
-4. **Type Safety:** Using `as const` provides literal type inference
-5. **Documentation:** Constants are self-documenting with descriptive names
-
-### Best Practices
-
-- **Always use constants instead of magic numbers** in application code
-- **Document what each constant represents** using JSDoc comments
-- **Group related constants** under appropriate namespaces
-- **Use `as const`** for immutability and better type inference
-
----
-
-## See Also
+Implementation: [src/constants/index.ts](../../src/constants/index.ts)
 
 - [Utils Documentation](./utils.md) - Utility functions that use these constants
 - [Helpers Documentation](./helpers.md) - Helper functions that use these constants

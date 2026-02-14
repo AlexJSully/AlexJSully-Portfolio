@@ -1,105 +1,78 @@
 # System Architecture Overview
 
-This document provides a high-level overview of the architecture for AlexJSully's Portfolio project. The system is modular, maintainable, and leverages modern web technologies for performance and scalability.
+AlexJSully's Portfolio is a Next.js portfolio application that uses server-side rendering (SSR) and React Server Components (RSC) to deliver a fast, SEO-friendly experience. The architecture separates concerns into components, data, configuration, and utilities.
+
+## Technology Stack
+
+- **Framework:** Next.js 16+ with App Router
+- **Language:** TypeScript (strict mode)
+- **UI Library:** Material-UI (MUI) with Emotion for styling
+- **Testing:** Jest (unit), Cypress (E2E with accessibility testing)
+- **Error Tracking:** Sentry for client and server errors
+- **Analytics:** Firebase Analytics and Performance Monitoring
+- **PWA:** Service worker for offline support and app installation
 
 ## Architectural Patterns
 
-- **Framework:** Next.js 16+ (React 19+)
-- **Routing:** App Router (Next.js App Directory)
-- **Language:** TypeScript
-- **UI:** Material-UI (MUI) + Emotion
-- **Testing:** Cypress (E2E), Jest (unit)
-- **Error Tracking:** Sentry
-- **Analytics:** Firebase Analytics & Performance
-- **PWA Support:** Native Next.js manifest + Service Worker
+The codebase follows these design patterns:
 
-## 📂 Directory Structure
+**Static Data as Code:** Project and publication data lives in TypeScript files ([src/data/](../../src/data/)) rather than a database. This enables type safety, compile-time validation, and fast builds without runtime queries.
 
-```text
-src/
-  app/                      # Next.js App Router
-    layout.tsx              # Root layout with metadata
-    page.tsx                # Home page
-    manifest.ts             # PWA manifest generator
-    robots.ts               # SEO robots.txt generator
-    error.tsx               # Error boundary
-    global-error.tsx        # Global error boundary
-    not-found.tsx           # 404 page
-    loading.tsx             # Loading UI
-    sw.js/                  # Service worker route handler
-  components/               # React components
-    banner/                 # Banner with avatar
-    cookie-snackbar/        # Cookie consent
-    footer/                 # Footer with socials
-    navbar/                 # Navigation bar
-    projects/               # Projects grid
-    publications/           # Publications list
-    Stars/                  # Animated background
-    ServiceWorkerRegister.tsx
-  configs/                  # Configuration files
-    firebase.ts             # Firebase initialization
-  constants/                # Application-wide constants
-    index.ts                # Delays, thresholds, network, animations
-  data/                     # Static data sources
-    keywords.ts             # SEO keywords
-    projects.ts             # Project data
-    publications.ts         # Publication data
-    socials.ts              # Social media links
-  helpers/                  # Helper functions
-    aaaahhhh.ts             # Fun Easter egg logic
-    ascii.ts                # ASCII art generation
-  images/                   # SVG icons
-    icons/
-  layouts/                  # Layout components
-    GeneralLayout.tsx       # Main layout wrapper
-  styles/                   # Global styles
-    globals.scss
-  util/                     # Utility functions
-    isNetworkFast.ts        # Network speed detection
-public/
-  images/                   # Static images
-    projects/               # Project thumbnails
-    drawn/                  # Hand-drawn graphics
-    aaaahhhh/               # Easter egg images
-  resume/                   # Resume files
-  icon/                     # PWA icons
-  sw.js                     # Service worker implementation
-  sitemap.xml               # SEO sitemap
-```
+**Centralized Constants:** Timing values, thresholds, and configuration live in [src/constants/index.ts](../../src/constants/index.ts) using TypeScript's `as const` for literal types. This allows tuning behavior without hunting through components.
+
+**Path Aliases:** TypeScript path mapping (`@components`, `@data`, `@helpers`) eliminates brittle relative imports and makes refactoring safer.
+
+Implementation: [src/app/layout.tsx](../../src/app/layout.tsx), [src/app/page.tsx](../../src/app/page.tsx)
 
 ## System Flow
 
+The application follows this request lifecycle:
+
 ```mermaid
 flowchart TD
-    User[User Browser] -->|Request| NextJS[Next.js Server]
-    NextJS -->|SSR/RSC| Layout[Root Layout]
-    Layout -->|Renders| Navbar[Navbar]
-    Layout -->|Renders| Page[Page Content]
-    Layout -->|Renders| Footer[Footer]
-    Page -->|Fetches| Data[Static Data]
-    Data -->|Projects| ProjectsGrid[ProjectsGrid]
-    Data -->|Publications| Pubs[Publications]
-    Data -->|Socials| Footer
-    Page -->|Initializes| Firebase[Firebase SDK]
-    Firebase -->|Analytics| Events[User Events]
-    Firebase -->|Performance| Metrics[Performance Metrics]
-    NextJS -->|Errors| Sentry[Sentry Error Tracking]
-    NextJS -->|Generates| Manifest[PWA Manifest]
-    NextJS -->|Generates| Robots[robots.txt]
-    User -->|Installs| SW[Service Worker]
-    SW -->|Caches| Assets[Static Assets]
-    Manifest -->|Enables| Install[App Install Prompt]
+    Browser[User Browser] -->|HTTP Request| NextJS[Next.js Server]
+    NextJS -->|SSR| Layout[Render Root Layout]
+    Layout -->|Nest| Page[Render Page]
+    Page -->|Import| Data[Static Data Files]
+    Data -->|Type-Safe| Components[React Components]
+    Components -->|HTML| Browser
+    Browser -->|Client Hydration| ClientInit[Initialize Client Features]
+    ClientInit -->|Register| SW[Service Worker]
+    ClientInit -->|Initialize| Firebase[Firebase SDK]
+    Firebase -->|Track| Analytics[User Events]
 ```
 
-## Subsystems
+**Request Flow:**
 
-- **Components:** UI elements (see [Components Docs](./components/index.md))
-- **Constants:** Application-wide configuration values (see [Constants Docs](./constants.md))
-- **Data:** Static and dynamic data sources
-- **Helpers/Utils:** Utility functions for logic and formatting
-- **Layouts:** Page and section layouts
-- **Testing:** E2E and unit tests
-- **Config:** Environment and service configuration
+1. Browser requests page from Next.js server
+2. Server renders root layout with metadata (SEO, OpenGraph, PWA manifest)
+3. Page component imports static data from [src/data/](../../src/data/)
+4. Components receive type-safe data and render to HTML
+5. Browser receives HTML and hydrates React components
+6. Client initializes service worker and Firebase analytics
+7. User interactions trigger analytics events
+
+**Key Behaviors:**
+
+- **No Database Queries:** All data is imported at build time from TypeScript files
+- **Progressive Enhancement:** Content renders without JavaScript; interactivity enhances experience
+- **Offline Support:** Service worker caches assets for offline use
+
+Implementation: [src/app/page.tsx](../../src/app/page.tsx), [src/layouts/GeneralLayout.tsx](../../src/layouts/GeneralLayout.tsx)
+
+## Module Organization
+
+**Components** ([src/components/](../../src/components/)) contain UI logic and rendering. See [Component Documentation](./components/index.md).
+
+**Constants** ([src/constants/index.ts](../../src/constants/index.ts)) centralize timing, thresholds, and configuration values. See [Constants Documentation](./constants.md).
+
+**Data** ([src/data/](../../src/data/)) stores typed project, publication, and metadata. See [Data Architecture](./data.md).
+
+**Helpers** ([src/helpers/](../../src/helpers/)) provide reusable logic like Easter egg transformations and ASCII art. See [Helpers Documentation](./helpers.md).
+
+**Utils** ([src/util/](../../src/util/)) contain network checks and other utilities. See [Utils Documentation](./utils.md).
+
+**Configs** ([src/configs/](../../src/configs/)) manage Firebase and environment setup. See [Configs Documentation](./configs.md).
 
 ## Related Docs
 

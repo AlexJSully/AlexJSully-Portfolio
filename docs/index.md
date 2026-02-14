@@ -1,38 +1,32 @@
 # AlexJSully's Portfolio Documentation
 
-Welcome to the comprehensive documentation for AlexJSully's Portfolio project. This site is designed for both newcomers and experienced developers to understand, use, and extend the codebase with ease.
+This documentation explains the architecture and usage of AlexJSully's Portfolio—a Next.js-based portfolio website showcasing projects, publications, and professional work.
 
-## Documentation Structure
+## What This Portfolio Does
 
-```text
-/docs
-├── index.md                      # Overview of the repository
-├── architecture/                 # System architecture and design
-│   ├── index.md                  # Architecture overview
-│   ├── app-directory.md          # Next.js App Router structure
-│   ├── constants.md              # Application constants
-│   ├── data.md                   # Data architecture
-│   ├── configs.md                # Configuration files
-│   ├── helpers.md                # Helper functions
-│   ├── images.md                 # Images & icons
-│   ├── layouts.md                # Layout components
-│   ├── pwa.md                    # Service workers & PWA
-│   ├── service-worker.md         # Service worker implementation
-│   ├── utils.md                  # Utility functions
-│   └── components/               # Detailed component documentation
-│       ├── index.md              # Component hierarchy
-│       ├── avatar.md             # Banner & Avatar component
-│       ├── navbar.md             # Navigation component
-│       ├── projects.md           # Projects grid component
-│       ├── publications.md       # Publications component
-│       ├── socials.md            # Footer / Socials component
-│       ├── stars.md              # Stars background component
-│       └── cookie-snackbar.md    # Cookie consent component
-└── usage/                        # Usage guides and practical how-tos
-    ├── index.md                  # Usage overview
-    ├── setup.md                  # Installation & configuration
-    └── testing.md                # Testing guide
-```
+The portfolio is a client-side rendered application that displays:
+
+- **Projects:** Interactive grid showing employment history and personal projects with video previews
+- **Publications:** Academic publications with DOIs and abstracts
+- **Profile:** Animated avatar with Easter egg interactions
+- **Analytics:** User interaction tracking via Firebase
+- **PWA Support:** Installable web app with offline capabilities
+
+## For External Users
+
+If you want to use this portfolio template for your own site:
+
+- [Setup & Installation](./usage/setup.md) — Get started with local development
+- [Adding Projects](./architecture/components/projects.md) — Customize the projects grid
+- [Testing Guide](./usage/testing.md) — Run tests and validation
+
+## For Internal Developers
+
+If you're maintaining or extending this codebase:
+
+- [Architecture Overview](./architecture/index.md) — System design and patterns
+- [Component Documentation](./architecture/components/index.md) — UI component behaviors
+- [Data Architecture](./architecture/data.md) — How data flows through the application
 
 ## Architecture
 
@@ -54,18 +48,13 @@ Welcome to the comprehensive documentation for AlexJSully's Portfolio project. T
 - [Setup & Installation](./usage/setup.md)
 - [Testing Guide](./usage/testing.md)
 
-## Components
+## Key Features
 
-All major UI components have detailed documentation:
-
-- [Component Overview](./architecture/components/index.md) — Component hierarchy and relationships
-- [Banner & Avatar](./architecture/components/avatar.md) — Profile banner with animated avatar and Easter egg
-- [Navbar](./architecture/components/navbar.md) — Top navigation with smooth scrolling
-- [ProjectsGrid](./architecture/components/projects.md) — Portfolio projects showcase
-- [Publications](./architecture/components/publications.md) — Academic publications list
-- [Footer / Socials](./architecture/components/socials.md) — Social media links
-- [StarsBackground](./architecture/components/stars.md) — Animated starfield background
-- [CookieSnackbar](./architecture/components/cookie-snackbar.md) — Cookie consent notification
+- **Network-Aware Loading:** Adapts video autoplay based on connection speed
+- **Easter Egg:** Hidden interaction triggered by avatar hover
+- **Progressive Web App:** Installable with offline support via service worker
+- **Analytics Tracking:** Firebase integration for user behavior insights
+- **Accessibility:** ARIA labels, semantic HTML, and keyboard navigation
 
 ## Contributing & Code of Conduct
 
