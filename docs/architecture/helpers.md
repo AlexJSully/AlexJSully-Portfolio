@@ -1,150 +1,80 @@
-# Helpers Module Documentation
+# Helpers Module
 
-This document describes the purpose, architecture, and usage of helper functions in the Alexander Sullivan's Portfolio project, with technical details and integration patterns.
+Helper functions provide reusable logic for UI formatting, animations, and page transformations. These functions are pure utilities imported by components.
 
-## Purpose
+## ASCII Logo Helper
 
-Helpers provide reusable utility functions for formatting, logic, and data manipulation. They help keep components clean and focused on UI, separating business logic from presentation.
+The ASCII helper ([src/helpers/ascii.ts](../../src/helpers/ascii.ts)) generates styled ASCII art logged to the browser console when the page loads.
 
-## Structure
+**Functions:**
 
-**Location:** [src/helpers/](../../src/helpers/)
+- `consoleLogLogo()` — Immediately logs ASCII art
+- `debounceConsoleLogLogo()` — Debounced version using `DELAYS.CONSOLE_LOGO_DEBOUNCE` (1000ms)
 
-### Available Helpers
+The debounced version prevents duplicate logs during navigation or hot module replacement in development.
 
-- [`ascii.ts`](../../src/helpers/ascii.ts) — Generates ASCII art for branding and fun UI elements
-- [`aaaahhhh.ts`](../../src/helpers/aaaahhhh.ts) — Custom logic for playful UI interactions (Easter egg)
+Called by [src/app/page.tsx](../../src/app/page.tsx) in `useEffect` on mount.
 
-## Usage Examples
+Implementation: [src/helpers/ascii.ts](../../src/helpers/ascii.ts)
 
-### ASCII Art Helper
+## AAAAHHHH Easter Egg Helper
 
-**Location:** [src/helpers/ascii.ts](../../src/helpers/ascii.ts)
+The AAAAHHHH helper ([src/helpers/aaaahhhh.ts](../../src/helpers/aaaahhhh.ts)) transforms the entire page into a playful state after the avatar sneezes 6 times.
 
-Generates and logs ASCII art to the browser console on page load.
-
-```typescript
-import { consoleLogLogo, debounceConsoleLogLogo } from '@helpers/ascii';
-
-// Print ASCII logo once
-consoleLogLogo();
-
-// Debounced version for repeated calls (uses DELAYS.CONSOLE_LOGO_DEBOUNCE)
-debounceConsoleLogLogo();
-```
-
-**Implementation Details:**
-
-The ASCII helper uses constants for timing control:
-
-```typescript
-import { DELAYS } from '@constants/index';
-import { debounce } from 'lodash';
-
-export const debounceConsoleLogLogo = debounce(consoleLogLogo, DELAYS.CONSOLE_LOGO_DEBOUNCE);
-```
-
-**Integration:**
-
-- Called in [src/app/page.tsx](../../src/app/page.tsx) during `useEffect` initialization
-- Uses `DELAYS.CONSOLE_LOGO_DEBOUNCE` (1000ms) to prevent duplicate logs on navigation
-
-### AAAAHHHH Easter Egg Helper
-
-**Location:** [src/helpers/aaaahhhh.ts](../../src/helpers/aaaahhhh.ts)
-
-The `aaaahhhh` helper provides a playful page transformation triggered after multiple avatar sneezes (6 total). This is the ultimate Easter egg!
-
-```typescript
-import { aaaahhhh, convertAAAAHH, imageAAAAHHHH, textAAAAHHHH } from '@helpers/aaaahhhh';
-
-// Trigger full page transformation
-aaaahhhh();
-
-// Convert text to AAAAHHHH format
-const converted = convertAAAAHH('Hello World'); // Returns: 'Aaaaa HHHHHH'
-
-// Transform all text on page
-textAAAAHHHH();
-
-// Transform all images on page
-imageAAAAHHHH();
-```
-
-**How it Works:**
+### Transformation Behavior
 
 ```mermaid
 flowchart TD
-    Trigger["Avatar sneezes<br/>6 times"] --> AaaahhhhCall["aaaahhhh()"]
-    AaaahhhhCall --> Text["textAAAAHHHH()"]
-    AaaahhhhCall --> Images["imageAAAAHHHH()"]
+    Trigger[Avatar sneezes 6 times] --> Call[aaaahhhh function]
+    Call --> Text[textAAAAHHHH]
+    Call --> Images[imageAAAAHHHH]
 
-    Text --> Convert["convertAAAAHH()"]
-    Convert --> FirstHalf["First half → A"]
-    Convert --> SecondHalf["Second half → H"]
+    Text --> Convert[convertAAAAHH]
+    Convert --> FirstHalf[First half → 'A']
+    Convert --> SecondHalf[Second half → 'H']
 
-    Images --> ReplaceImg["Replace img src"]
-    Images --> ReplaceBg["Replace bg images"]
+    Images --> ImgReplace[Replace img src]
+    Images --> BgReplace[Replace bg images]
 
-    FirstHalf --> TextElements["Apply to: span, p, h1-h3, button"]
-    SecondHalf --> TextElements
+    FirstHalf --> Apply[Apply to text elements]
+    SecondHalf --> Apply
 
-    ReplaceImg --> ImageElements["All img & bg-image elements"]
-    ReplaceBg --> ImageElements
-
-    TextElements --> Result["Aahh aaaaaahhhh!"]
-    ImageElements --> Result
+    Apply --> Page[Transformed page]
+    ImgReplace --> Page
+    BgReplace --> Page
 ```
 
-**Text Conversion Logic:**
+**Text Transformation Logic:**
 
-- First half of word → 'A' (or 'a' if lowercase)
-- Second half of word → 'H' (or 'h' if lowercase)
+The `convertAAAAHH()` function splits words in half:
+
+- First half characters → 'A' (lowercase → 'a')
+- Second half characters → 'H' (lowercase → 'h')
 - Spaces and special characters preserved
+- Example: "Hello World" → "Aaaaa HHHHHH"
 
-**Image Transformation:**
+Applied to: `<span>`, `<p>`, `<h1>`, `<h2>`, `<h3>`, `<button>` elements.
 
-- Replaces all `<img>` src and srcset attributes
-- Replaces all CSS background images in style attributes
-- Updates the stars background with cover image
-- Uses `/images/aaaahhhh/aaaahhhh.webp` as replacement image
+**Image Transformation Logic:**
 
-**Target Elements:**
+The `imageAAAAHHHH()` function replaces:
 
-Text transformation applies to:
+- All `<img>` `src` and `srcset` attributes → `/images/aaaahhhh/aaaahhhh.webp`
+- All inline `backgroundImage` CSS properties → same image
+- Stars background container → sets background image with cover sizing
 
-- `<span>`, `<p>`, `<h1>`, `<h2>`, `<h3>`, `<button>`
+**Page Title:** Changes to "Alexander Sullivan's AAAAHHHHH"
 
-Image transformation applies to:
+### Trigger Flow
 
-- All `<img>` tags
-- All elements with `backgroundImage` CSS property
+The Avatar component tracks sneeze count using `THRESHOLDS.AAAAHHHH_TRIGGER_COUNT` (6). On the 6th sneeze, instead of animating, it calls `aaaahhhh()` and logs a `trigger_aaaahhhh` analytics event.
 
-**Triggering the Easter Egg:**
+See [Avatar Component Documentation](./components/avatar.md) for trigger implementation.
 
-The Easter egg is triggered from [Avatar component](../../src/components/banner/Avatar.tsx):
+Implementation: [src/helpers/aaaahhhh.ts](../../src/helpers/aaaahhhh.ts)
 
-```typescript
-if (totalSneeze.current >= THRESHOLDS.AAAAHHHH_TRIGGER_COUNT) {
-	logAnalyticsEvent('trigger_aaaahhhh', {
-		name: 'trigger_aaaahhhh',
-		type: 'hover',
-	});
-	aaaahhhh(); // Transform entire page!
-}
-```
+## Related Documentation
 
-## Integration & Relationships
-
-- **Used by:** [Avatar component](../../src/components/banner/Avatar.tsx) (Easter egg trigger), [Home page](../../src/app/page.tsx) (ASCII logo)
-- **Depends on:** [Constants](../../src/constants/index.ts) for timing and thresholds, [Firebase](../../src/configs/firebase.ts) for analytics
-- **Testing:** All helper functions have comprehensive Jest test coverage
-- **Type Safety:** TypeScript ensures type safety and IDE autocompletion
-
-## Related Docs
-
-- [System Architecture](./index.md)
-- [Avatar Component (Easter egg context)](./components/avatar.md)
-- [Constants Documentation](./constants.md)
-- [Utils Documentation](./utils.md)
-- [Firebase Integration](./configs.md)
+- [Avatar Component](./components/avatar.md) — Easter egg trigger
+- [Constants](./constants.md) — Timing and threshold values
+- [Firebase Config](./configs.md) — Analytics event logging

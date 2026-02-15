@@ -1,143 +1,74 @@
 # Data Architecture
 
-This document explains how data is structured, managed, and integrated in the Alexander Sullivan's Portfolio project, with technical details and TypeScript interfaces.
-
-## Data Sources
-
-All static data is centralized in [src/data/](../../src/data/) for consistency and maintainability:
-
-### Static Data Files
-
-- [**projects.ts**](../../src/data/projects.ts) — Project portfolio with employment history, personal projects, and showcase details
-- [**publications.ts**](../../src/data/publications.ts) — Academic publications with DOIs, abstracts, and authors
-- [**socials.ts**](../../src/data/socials.ts) — Social media links and contact information
-- [**keywords.ts**](../../src/data/keywords.ts) — SEO keywords for search engine optimization
-
-### Dynamic Data
-
-- [Firebase integration](../../src/configs/firebase.ts) for analytics, performance monitoring, and real-time features (if configured)
+The portfolio stores all content as TypeScript files in [src/data/](../../src/data/). This "data-as-code" approach provides compile-time type safety, eliminates database queries, and enables fast static builds.
 
 ## Data Flow
 
 ```mermaid
 sequenceDiagram
-    participant Browser
-    participant NextJS[Next.js Server]
+    participant Build[Build Process]
+    participant Data[Data Files]
     participant Component
-    participant DataFile[Data Files]
+    participant Browser
 
-    Browser->>NextJS: Request page
-    NextJS->>Component: Render component
-    Component->>DataFile: Import data (static)
-    DataFile-->>Component: Return typed data
-    Component->>Browser: Render with data
-    Component->>Browser: Initialize Firebase (client-side)
-    Browser->>Browser: Track user events
+    Build->>Data: Import at compile time
+    Data-->>Build: Type-checked data
+    Build->>Component: Pass as props
+    Component->>Browser: Render to HTML
+    Browser->>Browser: No data fetching
 ```
 
-## Data Usage in the Codebase
+1. Next.js build process imports data from [src/data/](../../src/data/)
+2. TypeScript validates data against interfaces
+3. Components receive type-safe data as imports
+4. Next.js pre-renders HTML with embedded data
+5. Browser displays content immediately (no loading states)
 
-- **Data Location:** All static data in [src/data/](../../src/data/) is imported directly into components
-- **Type Safety:** TypeScript interfaces define strict types for each data structure
-- **Path Aliases:** Components use aliases like `@data/projects` for clean imports (no relative paths)
-- **No Runtime Validation:** Data is validated at compile time via TypeScript
-- **Integration Points:**
-    - [ProjectsGrid](../../src/components/projects/ProjectsGrid.tsx) imports [projects.ts](../../src/data/projects.ts)
-    - [Publications](../../src/components/publications/Publications.tsx) imports [publications.ts](../../src/data/publications.ts)
-    - [Footer](../../src/components/footer/Footer.tsx) imports [socials.ts](../../src/data/socials.ts)
-    - [Root Layout](../../src/app/layout.tsx) imports [keywords.ts](../../src/data/keywords.ts) for SEO
+## Data Files
 
-## Data Structures & Interfaces
+**Projects** ([src/data/projects.ts](../../src/data/projects.ts)) — Employment history, personal projects, and portfolio items. Each project includes name, employer, dates, thumbnail path, optional YouTube URL, and action links.
 
-### Projects Interface
+**Publications** ([src/data/publications.ts](../../src/data/publications.ts)) — Academic publications with authors, abstracts, DOIs, and journal information. Publications can link to related projects.
 
-Location: [src/data/projects.ts](../../src/data/projects.ts)
+**Socials** ([src/data/socials.ts](../../src/data/socials.ts)) — Social media profiles with platform names, URLs, brand colors, and icon components.
+
+**Keywords** ([src/data/keywords.ts](../../src/data/keywords.ts)) — SEO keywords array used in page metadata for search engine optimization.
+
+## How Components Use Data
+
+Components import data directly using TypeScript path aliases:
 
 ```typescript
-interface Projects {
-	name: string; // Project name
-	id: string; // Unique identifier
-	description?: string; // Optional description
-	employer?: string; // Company/organization name
-	employerURL?: string; // Company website
-	title: string; // Job/role title
-	publication?: string; // Publication URL
-	type?: string; // Employment, Personal Project, etc.
-	url: string; // Project URL
-	urls: Array<{
-		// Links with icons and tooltips
-		text: string;
-		tooltip: string;
-		icon: (props: SvgIconProps) => React.ReactElement;
-		url: string;
-	}>;
-	color: string; // Hex color for card styling
-	dates?: {
-		// Optional date range
-		startDate: string; // YYYY-MM format
-		endDate: string; // YYYY-MM format
-	};
-	showcase?: boolean; // Display in featured section
-	objectFit?: string; // Image fit (cover or contain)
-	youtubeURL?: string; // Optional YouTube embed
-}
+import projects from '@data/projects';
+import publications from '@data/publications';
 ```
 
-### Publications Interface
+- [ProjectsGrid](../../src/components/projects/ProjectsGrid.tsx) maps over projects array to render cards
+- [Publications](../../src/components/publications/Publications.tsx) displays publication list
+- [Footer](../../src/components/footer/Footer.tsx) renders social media links
+- [Root Layout](../../src/app/layout.tsx) uses keywords for SEO metadata
 
-Location: [src/data/publications.ts](../../src/data/publications.ts)
+No fetching, no loading states, no error handling. Data is guaranteed available at render time.
 
-```typescript
-interface Publication {
-	title: string; // Publication title
-	authors: string[]; // List of author names
-	abstract: string; // Publication abstract
-	doi: string; // Digital Object Identifier
-	journal: string; // Journal/conference name
-	date: string; // Publication date (YYYY-MM-DD)
-	'related-project'?: string; // Link to related project ID
-}
-```
+## Data Validation
 
-### Socials Interface
+TypeScript interfaces enforce data structure. For project data, the interface requires:
 
-Location: [src/data/socials.ts](../../src/data/socials.ts)
+- Unique `id` (string) — Must match thumbnail folder name
+- Project `name` (string)
+- Job/role `title` (string)
+- Project `url` (string)
+- `urls` array with link objects containing text, tooltip, icon, and url
+- Hex `color` (string) for card styling
 
-```typescript
-interface Social {
-	name: string; // Social platform name
-	url: string; // Profile URL
-	icon: (props: SvgIconProps) => React.ReactElement; // Icon component
-	color: string; // Brand color
-}
-```
+Optional fields include employer, dates, YouTube URL, and visibility flags.
 
-## Extending Data
+See full interface definitions in [src/data/projects.ts](../../src/data/projects.ts), [src/data/publications.ts](../../src/data/publications.ts), and [src/data/socials.ts](../../src/data/socials.ts).
 
-### Adding a New Project
+Implementation: [src/data/](../../src/data/)
 
-1. Open [src/data/projects.ts](../../src/data/projects.ts)
-2. Add a new object to the `projects` array with required fields
-3. Create a thumbnail at `public/images/projects/{project-id}/thumbnail.webp`
-4. Ensure the `id` matches the folder name
-5. Run `npm run validate` to verify TypeScript types
+## Related Documentation
 
-### Adding a New Publication
-
-1. Open [src/data/publications.ts](../../src/data/publications.ts)
-2. Add a new object with title, authors, abstract, DOI, and date
-3. Optionally link to a related project using the `'related-project'` field
-4. Run `npm run validate` to verify types
-
-### Adding New Keywords
-
-1. Open [src/data/keywords.ts](../../src/data/keywords.ts)
-2. Add relevant SEO keywords to the array
-3. Keywords are used in [src/app/layout.tsx](../../src/app/layout.tsx) for metadata
-
-## Related Docs
-
-- [Projects Component Documentation](./components/projects.md)
-- [Publications Component Documentation](./components/publications.md)
-- [System Architecture](./index.md)
-- [Component Documentation](./components/index.md)
+- [Projects Component](./components/projects.md) — How project data renders
+- [Publications Component](./components/publications.md) — How publication data renders
+- [System Architecture](./index.md) — Overall application flow

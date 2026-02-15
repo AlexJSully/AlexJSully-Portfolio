@@ -166,16 +166,22 @@ Act as a **Principal Code Reviewer, Security Auditor, and Refactoring Architect*
 
 **Objective:** Ensure compliance with applicable data protection and privacy regulations.
 
+Not all regulations apply to every codebase. Determine which regulations are in scope based on the system's data subjects, geography, data types, and regulated activities. Only perform compliance checks for regulations that apply, and explicitly state why any listed regulation is out of scope.
+
 Check compliance with:
 
 - **United States:** HIPAA (Health Insurance Portability and Accountability Act)
+    - Applies when the system handles protected health information (PHI) for a covered entity or business associate.
 - **European Union & Ireland:** GDPR (General Data Protection Regulation)
+    - Applies when the system processes personal data, especially if it profiles users, tracks behavior, or makes decisions that affect individuals.
 - **Canada (Federal):** PIPEDA (Personal Information Protection and Electronic Documents Act)
+    - Applies when the system processes personal information for commercial activities in the private sector.
 - **Canada - Ontario (Provincial):** PHIPA (Personal Health Information Protection Act)
+    - Applies when the system handles personal health information for a health information custodian or their agent.
 - **South Korea:** PIPA (Personal Information Protection Act)
-- **Vietnam:** PDPL (Personal Data Protection Law)
+    - Applies when the system processes personal information, including identifiers, contact data, or behavioral data.
 
-Verify:
+For each applicable regulation, verify:
 
 - Right to access, rectification, erasure, and data portability
 - Breach notification procedures

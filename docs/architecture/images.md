@@ -1,97 +1,55 @@
-# Images & Icons Documentation
+# Images & Icons
 
-This document explains how images and icons are used, organized, and named in Alexander Sullivan's Portfolio project, and how contributors can add their own.
+The portfolio uses two types of visual assets: raster images stored in [public/images/](../../public/images/) and SVG icons in [src/images/icons/](../../src/images/icons/).
 
-Implementation: [icons.tsx](../../src/images/icons.tsx), [public/images/](../../public/images/)
+## Image Organization
 
-## Purpose
+**Project Thumbnails:** Each project has a folder at `public/images/projects/{project-id}/` containing `thumbnail.webp`. The project ID must match the `id` field in [src/data/projects.ts](../../src/data/projects.ts).
 
-Images and icons provide visual context, branding, and UI elements throughout the portfolio. They are used for project thumbnails, profile pictures, social media links, and custom graphics.
+**Profile Images:** Hand-drawn profile graphics live in `public/images/drawn/`, including the default avatar and sneeze animation frames.
 
-## Structure
+**Easter Egg Assets:** Special images for the AAAAHHHH transformation live in `public/images/aaaahhhh/`.
 
-### Images
+Files in `public/` are served statically and referenced by absolute paths (e.g., `/images/projects/gaia/thumbnail.webp`).
 
-- **Location:** `public/images/`
-- **Subfolders:**
-    - `projects/` — Project thumbnails and images, organized by project ID
-    - `drawn/` — Hand-drawn or custom graphics
-    - `aaaahhhh/` — Special or fun images
-- **Usage:**
-    - Project cards, profile, backgrounds, and custom sections
+## Icon System
 
-### Icons
+SVG icons are stored as files in [src/images/icons/](../../src/images/icons/) and imported as React components via `@svgr/webpack`.
 
-- **Location:** `src/images/icons/`
-- **Format:** SVG files for scalability and performance
-- **Usage:**
-    - Social media links, UI buttons, branding, and navigation
+The [icons.tsx](../../src/images/icons.tsx) file exports wrapped icons as MUI-compatible components:
 
-## Naming Conventions
-
-### Image Naming
-
-- Project images: `public/images/projects/{project-id}/thumbnail.webp`
-- Profile: `public/images/profile.webp`
-- Custom: Use descriptive, lowercase names (e.g., `drawn/portfolio-sketch.webp`)
-
-### Icon Naming
-
-- Social: `github.svg`, `linkedin.svg`, `twitter.svg`, etc.
-- UI: Use clear, lowercase names (e.g., `bar.svg`, `publish.svg`)
-
-## Usage Examples
-
-### Using Images in Components
-
-```tsx
-<img src='/images/projects/my-project/thumbnail.webp' alt='Project Thumbnail' />
+```typescript
+import GitHubSVG from './icons/github.svg';
+export const GitHubIcon = (props: SvgIconProps) =>
+  <SvgIcon component={GitHubSVG} inheritViewBox {...props} />;
 ```
 
-### Importing SVG Icons as React Components
+This pattern allows icons to accept MUI `SvgIconProps` (color, fontSize, etc.) while preserving the SVG viewBox.
 
-```tsx
-import GitHubIcon from '@images/icons/github.svg';
+Components import icons from `@images/icons`:
 
-<IconButton>
-	<GitHubIcon />
-</IconButton>;
+```typescript
+import { GitHubIcon } from '@images/icons';
 ```
 
-### Referencing Images in Data Files
+## Why SVGs as React Components?
 
-```ts
-// src/data/projects.ts
-{
-  id: 'my-project',
-  thumbnail: '/images/projects/my-project/thumbnail.webp',
-  ...otherFields
-}
-```
+The `@svgr/webpack` loader converts SVG files to React components at build time. This provides:
 
-### How to Add Your Own Images or Icons
+- **Type Safety:** Icons are typed React components, not strings
+- **Tree Shaking:** Unused icons are excluded from bundles
+- **Props Support:** Icons accept React props for styling
+- **No Runtime Parsing:** SVGs are compiled, not parsed at runtime
 
-#### Adding Images
+## Image Formats
 
-1. Place your image in the appropriate subfolder under `public/images/`.
-2. For project thumbnails, create a folder named after your project ID and add `thumbnail.webp`.
-3. Use `.webp` format for best performance. PNG/JPG are supported but less efficient.
-4. Reference your image in the relevant data file or component.
+**WebP Preferred:** Project thumbnails use WebP format for smaller file sizes. PNG and JPG are supported but less efficient.
 
-#### Adding Icons
+**SVG for Icons:** Scalable vectors ensure crisp rendering at any size without multiple asset files.
 
-1. Add your SVG file to `src/images/icons/`.
-2. Name it descriptively and in lowercase (e.g., `customicon.svg`).
-3. Import it in your component as shown above.
-4. Use with MUI `IconButton` or directly in JSX.
-
-## Relationships
-
-- Images are referenced in data files (e.g., `projects.ts`) and components.
-- Icons are imported as React components or used in MUI IconButton.
-- Both are essential for UI consistency and branding.
+Implementation: [src/images/icons.tsx](../../src/images/icons.tsx)
 
 ## Related Documentation
 
-- [Component Documentation](./components/index.md)
-- [Projects Guide](./components/projects.md)
+- [Projects Component](./components/projects.md) — How project thumbnails render
+- [Data Architecture](./data.md) — Project data structure

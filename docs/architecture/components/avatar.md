@@ -1,232 +1,91 @@
 # Banner & Avatar Components
 
-This document details the Banner and Avatar components that create the introductory section of the portfolio.
-
-## Overview
-
-The Banner component displays the header section with profile information and an animated avatar that includes an Easter egg feature.
-
-## Component Structure
-
-```mermaid
-flowchart TD
-    Banner[Banner Component] -->|Contains| Avatar[Avatar Component]
-    Banner -->|Displays| Title[Title & Subtitle]
-    Avatar -->|Hover| Sneeze[Sneeze Animation]
-    Avatar -->|6x Sneeze| AAAAHHHH[Easter Egg Trigger]
-    AAAAHHHH -->|Calls| Helper[aaaahhhh helper]
-    Helper -->|Transforms| Page[Entire Page]
-```
+The Banner component displays the profile header with an animated avatar that includes interactive sneeze animations and a hidden Easter egg.
 
 ## Banner Component
 
-Location: [`src/components/banner/Banner.tsx`](../../src/components/banner/Banner.tsx)
+The Banner ([src/components/banner/Banner.tsx](../../src/components/banner/Banner.tsx)) is a container component that renders:
 
-**Purpose:** Displays the introductory section with profile image and text.
+- Avatar component with interactive animations
+- Name title split into hoverable characters (green glow on hover)
+- Subtitle displaying role ("Software Developer & Bioinformatician")
+- Responsive layout using MUI Stack for vertical alignment
 
-**Key Features:**
+The component is server-side rendered by default with no client-side state.
 
-- Responsive layout using MUI Grid/Stack
-- Profile avatar with animations
-- Title and subtitle text
-- Accessibility attributes
-
-**Usage Example:**
-
-```tsx
-import Banner from '@components/banner/Banner';
-
-<Banner aria-label='Landing banner' />;
-```
+Implementation: [src/components/banner/Banner.tsx](../../src/components/banner/Banner.tsx)
 
 ## Avatar Component
 
-Location: [`src/components/banner/Avatar.tsx`](../../src/components/banner/Avatar.tsx)
+The Avatar ([src/components/banner/Avatar.tsx](../../src/components/banner/Avatar.tsx)) is a client component (`'use client'`) that displays an interactive profile image.
 
-**Purpose:** Displays an animated profile picture with an interactive sneeze animation and Easter egg.
+### Sneeze Animation Behavior
 
-### Key Features
+The avatar triggers a multi-stage sneeze animation based on hover interactions:
 
-1. **Sneeze Animation:** Triggered every 5 hovers (`THRESHOLDS.SNEEZE_TRIGGER_INTERVAL`)
-2. **Easter Egg:** After 6 sneezes (`THRESHOLDS.AAAAHHHH_TRIGGER_COUNT`), triggers the "AAAAHHHH" transformation
-3. **Analytics Tracking:** Logs user interactions
-4. **Image Optimization:** Uses Next.js Image component
-5. **Memory Management:** Proper cleanup of debounced functions
+1. **Hover Counting:** Each hover/click increments a counter (debounced by 100ms)
+2. **Sneeze Trigger:** Every 5th hover triggers a 3-stage sneeze animation
+3. **Animation Lock:** While sneezing, additional hovers are ignored
+4. **Image Sequence:** Avatar cycles through 4 images (default → sneeze_1 → sneeze_2 → sneeze_3 → default)
+5. **Timing:** Stage transitions use constants (500ms → 300ms → 1000ms)
 
-### State Management
+After each sneeze, the component logs a `trigger_sneeze` analytics event via Firebase.
 
-```typescript
-const hoverProfilePic = useRef(0); // Hover count
-const totalSneeze = useRef(0); // Total sneezes
-const sneezing = useRef(false); // Animation lock
-const [image, setImage] = useState(imageList['default']); // Current image
-```
+### Easter Egg: AAAAHHHH Transformation
 
-### Image Assets
+After the 6th sneeze, instead of animating, the avatar calls the [`aaaahhhh()`](../../src/helpers/aaaahhhh.ts) helper function which:
 
-```typescript
-const imageList = {
-	default: '/images/drawn/profile_pic_drawn.webp',
-	sneeze_1: '/images/drawn/profile_pic_drawn_2.webp',
-	sneeze_2: '/images/drawn/profile_pic_drawn_3.webp',
-	sneeze_3: '/images/drawn/profile_pic_drawn_4.webp',
-};
-```
+- Transforms all text on the page to "AAAAHHHH" format (first half → 'A', second half → 'H')
+- Replaces all images with `/images/aaaahhhh/aaaahhhh.webp`
+- Changes background images including the stars
+- Sets page title to "Alexander Sullivan's AAAAHHHHH"
+- Logs a `trigger_aaaahhhh` analytics event
 
-### Sneeze Animation Sequence
+This creates a playful full-page transformation. See [AAAAHHHH Helper](../helpers.md#aaaahhhh-easter-egg-helper) for implementation details.
 
-The sneeze animation uses constants from `@constants/index` for timing:
+### State Management Strategy
 
-```typescript
-import { ANIMATIONS, THRESHOLDS } from '@constants/index';
+The component uses React refs for counters (hover count, sneeze count, animation lock) to avoid unnecessary re-renders. Only the current image is stored in React state, triggering re-renders for visual updates.
 
-handleTriggerSneeze() {
-  hoverProfilePic.current += 1;
+This pattern keeps the component performant by limiting state updates to what affects the DOM.
 
-  if (hoverProfilePic.current % THRESHOLDS.SNEEZE_TRIGGER_INTERVAL === 0 && !sneezing.current) {
-    totalSneeze.current += 1;
+### Memory Management
 
-    if (totalSneeze.current >= THRESHOLDS.AAAAHHHH_TRIGGER_COUNT) {
-      logAnalyticsEvent('trigger_aaaahhhh', {...});
-      aaaahhhh(); // Transform entire page
-    } else {
-      sneezing.current = true;
-
-      // Animate through sneeze sequence using constants
-      setImage('sneeze_1');
-      setTimeout(() => {
-        setImage('sneeze_2');
-
-        setTimeout(() => {
-          setImage('sneeze_3');
-
-          setTimeout(() => {
-            setImage('default');
-            sneezing.current = false;
-          }, ANIMATIONS.SNEEZE_STAGE_3);
-        }, ANIMATIONS.SNEEZE_STAGE_2);
-      }, ANIMATIONS.SNEEZE_STAGE_1);
-
-      logAnalyticsEvent('trigger_sneeze', {...});
-    }
-  }
-}
-```
-
-**Animation Timing:**
-
-- Stage 1: 500ms (`ANIMATIONS.SNEEZE_STAGE_1`)
-- Stage 2: 300ms (`ANIMATIONS.SNEEZE_STAGE_2`)
-- Stage 3: 1000ms (`ANIMATIONS.SNEEZE_STAGE_3`)
-
-### AAAAHHHH Easter Egg
-
-When the avatar sneezes 6 times, it triggers [`aaaahhhh()`](../../src/helpers/aaaahhhh.ts) which:
-
-1. Converts all text to "AAAAHHHH" format
-2. Replaces all images with the AAAAHHHH image
-3. Changes background images
-4. Creates a playful page transformation
-
-See [AAAAHHHH Helper Documentation](../helpers.md#aaaahhhh-helper) for details.
-
-### Analytics Integration
-
-The component logs two event types:
-
-```typescript
-// Sneeze event
-logAnalyticsEvent('trigger_sneeze', {
-	name: 'trigger_sneeze',
-	type: 'hover',
-});
-
-// Easter egg event
-logAnalyticsEvent('trigger_aaaahhhh', {
-	name: 'trigger_aaaahhhh',
-	type: 'hover',
-});
-```
-
-### Usage Example
-
-```tsx
-import Avatar from '@components/banner/Avatar';
-
-<Avatar />; // No props required
-```
-
-### Performance Considerations
-
-- **Debounced Hover:** Uses `lodash.debounce` with `DELAYS.AVATAR_SNEEZE_DEBOUNCE` (100ms) to prevent rapid triggering
-- **Ref-based State:** Uses refs for counters to avoid unnecessary re-renders
-- **Animation Lock:** Prevents overlapping sneeze animations
-- **Image Preloading:** All sneeze images should be optimized as WebP
-- **Cleanup:** Cancels debounce on component unmount to prevent memory leaks
-
-```typescript
-import { DELAYS } from '@constants/index';
-
-const debounceSneeze = debounce(handleTriggerSneeze, DELAYS.AVATAR_SNEEZE_DEBOUNCE);
-
-// Cleanup debounce on unmount
-useEffect(() => {
-	return () => {
-		debounceSneeze.cancel();
-	};
-}, [debounceSneeze]);
-```
+The component debounces hover interactions using `lodash.debounce` and cancels the debounce function on unmount via `useEffect` cleanup. This prevents memory leaks from pending callbacks after component removal.
 
 ### Accessibility
 
-The Avatar component uses the Next.js `Image` component with these accessibility attributes:
+The avatar uses Next.js `Image` component with:
 
-- `data-testid='profile_pic'` - Testing identifier
-- `aria-label='Profile Picture for Alexander Sullivan'` - Screen reader label
-- `alt='Alexander Sullivan head drawn and stylized'` - Descriptive alt text
-- `width={500}` and `height={500}` - Explicit dimensions for Next.js optimization
-- `priority` - Optimizes loading for above-the-fold content
-- `onClick={debounceSneeze}` - Click interaction handler (in addition to mouse enter)
-- `onMouseEnter={debounceSneeze}` - Hover interaction handler
-- `style` prop with `cursor: 'pointer'` via borderRadius and positioning
+- `priority` flag for above-the-fold loading
+- `alt` text describing the image
+- `aria-label` for screen readers
+- Explicit width/height for layout stability
+- Interactive `onClick` and `onMouseEnter` handlers
 
-## Component Interaction
+Implementation: [src/components/banner/Avatar.tsx](../../src/components/banner/Avatar.tsx)
+
+## Component Interaction Flow
 
 ```mermaid
 sequenceDiagram
     participant User
     participant Avatar
-    participant State
     participant Helper
     participant Analytics
 
     User->>Avatar: Hover (5th time)
-    Avatar->>State: Increment counter
-    State->>Avatar: Trigger sneeze
-    Avatar->>Avatar: Animate sneeze sequence
+    Avatar->>Avatar: Trigger sneeze animation
     Avatar->>Analytics: Log sneeze event
 
-    User->>Avatar: Hover (6th sneeze)
+    User->>Avatar: Hover (30th time, 6th sneeze)
     Avatar->>Helper: Call aaaahhhh()
-    Helper->>Helper: Transform page
+    Helper->>Helper: Transform entire page
     Avatar->>Analytics: Log AAAAHHHH event
 ```
 
-## Testing
-
-Test file: [`src/components/banner/Avatar.test.tsx`](../../src/components/banner/Avatar.test.tsx)
-
-**Test Coverage:**
-
-- Component renders
-- Image changes on hover
-- Sneeze animation triggers
-- Easter egg activation
-- Analytics event logging
-
 ## Related Documentation
 
-- [Helpers: AAAAHHHH](../helpers.md#aaaahhhh-easter-egg-helper)
-- [Components Overview](./index.md)
-- [Firebase Analytics](../configs.md)
-- [Constants](../constants.md)
+- [Helpers: AAAAHHHH](../helpers.md#aaaahhhh-easter-egg-helper) — Easter egg implementation
+- [Constants](../constants.md) — Timing and threshold values
+- [Firebase Analytics](../configs.md) — Event tracking
