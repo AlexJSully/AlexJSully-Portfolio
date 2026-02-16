@@ -70,6 +70,7 @@ Before reviewing any code, answer these questions by reading `#activePullRequest
     - `#getJiraIssueTypeMetaWithFields`
     - `#getJiraProjectIssueTypesMetadata`
     - `#searchJiraIssuesUsingJql`
+  - **Note:** These tools may not be available in all GitHub Copilot environments and may require further set-up. If you cannot access them, do not attempt to call them; instead, infer requirements from the PR title/description, visible ticket links, and any in-PR context.
 - **Diff Scope:** Are there any files changed that seem unrelated to the PR's stated purpose?
 - **Breaking Changes:** Does the PR introduce breaking changes without documenting them?
 - **PR Size:** Is the PR too large to review meaningfully? If so, note it.
@@ -173,8 +174,6 @@ Review `#activePullRequest #changes` across all of the following categories. Ski
 - Does the change introduce any synchronous blocking operations in an async context?
 - Are there any memory leaks (event listeners not cleaned up, subscriptions not unsubscribed, file handles not closed)?
 
-- Do the changes in the PR cause existing documentation to become inaccurate or misleading (drift)? If so, flag the specific docs that need updating.
-
 ### Category 9 — Documentation & Comments
 
 - Are public APIs, functions, types, and classes documented (JSDoc/TSDoc/GoDoc/docstrings)?
@@ -183,8 +182,7 @@ Review `#activePullRequest #changes` across all of the following categories. Ski
 - Is the PR description or linked ticket updated to reflect the implementation approach?
 - Are any README or external docs that describe changed functionality updated?
 - Does the changes in the PR cause existing documentation to become inaccurate or misleading (drift)? If so, flag the specific docs that need updating.
-
-
+- Do the changes in the PR cause existing documentation to become inaccurate or misleading (drift)? If so, flag the specific docs that need updating.
 
 ### Category 10 — Standards & Style Consistency
 
@@ -198,7 +196,7 @@ Apply the relevant style guide for the detected language(s):
 - **Protobuf:** Protobuf Style Guide, proto3 best practices
 - **R:** Google R Style Guide
 - **HTML & CSS/SCSS:** W3C standards
-- **SQL:** Consistent naming, query optimisation, proper indexing
+- **SQL:** Consistent naming, query optimization, proper indexing
 - **Bash/Shell:** ShellCheck compliance, POSIX compatibility
 - **YAML/JSON:** Consistent indentation, key naming conventions
 - **Markdown:** CommonMark, consistent heading hierarchy, accurate links
