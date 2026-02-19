@@ -2,8 +2,6 @@
 
 This document describes configuration files and environment setup in AlexJSully's Portfolio project, their roles, technical details, and how to update or extend them.
 
-Implementation: [firebase.ts](../../src/configs/firebase.ts), [next.config.js](../../next.config.js)
-
 ## Purpose
 
 Configs manage environment variables, service integrations, and global settings for the app. They enable features like Firebase, Sentry error tracking, and custom runtime options.
@@ -17,7 +15,7 @@ Configs manage environment variables, service integrations, and global settings 
 - **Related config files:**
     - `.env`: Environment variables (API keys, secrets)
     - `next.config.js`: Next.js build/runtime config
-    - `sentry.client.config.ts`, `sentry.server.config.ts`, `sentry.edge.config.ts`: Sentry error tracking
+    - [sentry.client.config.ts](../../sentry.client.config.ts), [sentry.server.config.ts](../../sentry.server.config.ts), [sentry.edge.config.ts](../../sentry.edge.config.ts): Sentry error tracking
 
 ## Usage Examples
 

@@ -42,11 +42,13 @@ For **every finding**, output it in this exact format:
 [Explain clearly why this is a problem: what can go wrong, what rule/best practice it violates, what the risk is.]
 
 **Code (current):**
+
 ```language
 // the problematic snippet
 ```
 
 **Suggested Fix:**
+
 ```language
 // the corrected snippet, or pseudocode if a full fix is complex
 ```
@@ -61,16 +63,16 @@ Before reviewing any code, answer these questions by reading `#activePullRequest
 
 - **PR Title & Description:** Does the title accurately describe the change? Is the description complete and clear?
 - **Linked Ticket (Jira / GitHub Issue):** If a ticket/issue is linked, does the code actually implement what the ticket describes? Call out any gaps, scope creep, or unfinished work.
-  - For **GitHub Issues**, use:
-    - `#issue_fetch`
-    - `#issue_read`
-  - For **Jira tickets**, use:
-    - `#getJiraIssue`
-    - `#getJiraIssueRemoteIssueLinks`
-    - `#getJiraIssueTypeMetaWithFields`
-    - `#getJiraProjectIssueTypesMetadata`
-    - `#searchJiraIssuesUsingJql`
-  - **Note:** These tools may not be available in all GitHub Copilot environments and may require further set-up. If you cannot access them, do not attempt to call them; instead, infer requirements from the PR title/description, visible ticket links, and any in-PR context.
+    - For **GitHub Issues**, use:
+        - `#issue_fetch`
+        - `#issue_read`
+    - For **Jira tickets**, use:
+        - `#getJiraIssue`
+        - `#getJiraIssueRemoteIssueLinks`
+        - `#getJiraIssueTypeMetaWithFields`
+        - `#getJiraProjectIssueTypesMetadata`
+        - `#searchJiraIssuesUsingJql`
+    - **Note:** These tools may not be available in all GitHub Copilot environments and may require further set-up. If you cannot access them, do not attempt to call them; instead, infer requirements from the PR title/description, visible ticket links, and any in-PR context.
 - **Diff Scope:** Are there any files changed that seem unrelated to the PR's stated purpose?
 - **Breaking Changes:** Does the PR introduce breaking changes without documenting them?
 - **PR Size:** Is the PR too large to review meaningfully? If so, note it.
@@ -114,8 +116,8 @@ Review `#activePullRequest #changes` across all of the following categories. Ski
 - Is sensitive data encrypted at rest and in transit?
 - Is the minimum necessary data being collected (data minimization)?
 - Are there any new logging statements that could leak sensitive user data (emails, names, health data, IDs)?
-  - Risky: user inputs, API request/response bodies, database records
-  - Never log: passwords, tokens, API keys, session IDs
+    - Risky: user inputs, API request/response bodies, database records
+    - Never log: passwords, tokens, API keys, session IDs
 - Is role-based access control (RBAC) applied to sensitive data correctly?
 
 ---
@@ -251,19 +253,24 @@ After all findings, output a structured summary:
 ## ✅ / 🟡 / 🔴 Overall Verdict: [APPROVED / APPROVED WITH SUGGESTIONS / CHANGES REQUESTED]
 
 ### Quick Stats
+
 - **Files reviewed:** X
 - **Findings:** X Blocking · X Non-blocking · X Suggestions · X Positive callouts
 
 ### PR Alignment
+
 [1–3 sentences on whether the code does what the PR/ticket says]
 
 ### Top Concerns
+
 [Bullet list of the most critical issues — these are the ones that must be resolved before merge]
 
 ### What's Done Well
+
 [Bullet list of genuinely good patterns, decisions, or improvements in this PR]
 
 ### Before Merging
+
 - [ ] [Action item 1]
 - [ ] [Action item 2]
 - [ ] ...

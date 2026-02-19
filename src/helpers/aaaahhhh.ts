@@ -1,10 +1,7 @@
 export const aaaahhhhImage = '/images/aaaahhhh/aaaahhhh.webp';
 
-/**
- * imageAAAAHHHH
- */
-export function imageAAAAHHHH() {
-	/** Document's AAAAHHHH */
+/** imageAAAAHHHH */
+export function imageAAAAHHHH(): void {
 	const docs = document.querySelectorAll<HTMLElement>('div[style]');
 	for (const doc of docs) {
 		if (doc.style.backgroundImage) {
@@ -12,7 +9,6 @@ export function imageAAAAHHHH() {
 		}
 	}
 
-	/** Document's AAAAHHHH part 2 */
 	const imgs = document.getElementsByTagName('img');
 	for (const img of imgs) {
 		if (img.src) {
@@ -28,9 +24,7 @@ export function imageAAAAHHHH() {
 	const skyElement = document.getElementById('sky');
 	if (skyElement) {
 		skyElement.style.backgroundImage = `url(${aaaahhhhImage})`;
-		// No repeat background image
 		skyElement.style.backgroundRepeat = 'no-repeat';
-		// Background image is centered and fills the entire element
 		skyElement.style.backgroundSize = 'cover';
 	}
 }
@@ -40,8 +34,7 @@ export function imageAAAAHHHH() {
  * @param {String} aaaahhhh AAAAHHHH STRING
  * @returns {String} aaaahhhh AAAAHHHH STRING
  */
-export function convertAAAAHH(aaaaahhhh: string) {
-	/** newAAAAHHHH */
+export function convertAAAAHH(aaaaahhhh: string): string {
 	let newAAAAHHHH = '';
 
 	/** AAAAHHHHlength */
@@ -66,18 +59,15 @@ export function convertAAAAHH(aaaaahhhh: string) {
 		}
 	}
 
-	if (!newAAAAHHHH || newAAAAHHHH?.length === 0) {
+	if (!newAAAAHHHH || newAAAAHHHH.length === 0) {
 		newAAAAHHHH = aaaaahhhh;
 	}
 
 	return newAAAAHHHH;
 }
 
-/**
- * textAAAAHHHH
- */
-export function textAAAAHHHH() {
-	/** AAAAHHHH LIST OF DOCUMENT TAGS */
+/** textAAAAHHHH */
+export function textAAAAHHHH(): void {
 	const docs = [
 		...document.getElementsByTagName('span'),
 		...document.getElementsByTagName('p'),
@@ -115,10 +105,8 @@ export function textAAAAHHHH() {
 	}
 }
 
-/**
- * aaaahhhh
- */
-export function aaaahhhh() {
+/** aaaahhhh */
+export function aaaahhhh(): void {
 	imageAAAAHHHH();
 	textAAAAHHHH();
 

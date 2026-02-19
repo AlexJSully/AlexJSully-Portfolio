@@ -236,9 +236,37 @@ Execute **all three phases** in order.
 
 - **Mandatory File Citations (The "Proof of Work" Rule):**
     - **Strict Requirement:** You are forbidden from describing technical logic without citing the source file.
-    - **Placement:** Do not break the reading flow with inline citations. Place links at the very end of the specific section or paragraph.
-    - **Format:** `Implementation: [filename](./path/to/file)`
+    - **Citation Hierarchy (Prefer Inline First):**
+        1. **Inline (preferred):** Weave the link naturally into the prose so it reads as part of the sentence. This keeps the reading flow intact for human readers.
+            - ✅ `Token validation is handled in [`auth.ts`](../src/auth.ts), which checks the Authorization header on every request.`
+            - ✅ `See [`CONTRIBUTING.md`](../CONTRIBUTING.md) for setup steps.`
+        2. **Footer fallback (`Implementation:`):** Use `Implementation: [filename](./path/to/file)` **only** when the context makes inline linking unnatural — for example, when the surrounding text is a bullet list or a table where no prose sentence exists to embed the link.
+            - ✅ Use footer when documenting a list of behaviors with no natural sentence to link from.
+    - **No Redundant Citations:** Never link the same file twice in rapid succession. If it is already linked inline, do not add a footer citation below it.
+        - ❌ WRONG: `See [CONTRIBUTING.md](../CONTRIBUTING.md). Implementation: [CONTRIBUTING.md](../CONTRIBUTING.md)`
     - **Enforcement:** If you cannot find the file to link, **do not write about that logic.** You may not document code you cannot link to.
+
+- **File Reference Linking (STRICTLY ENFORCED - ZERO TOLERANCE):**
+    - **Absolute Rule:** EVERY file reference in documentation MUST be a clickable hyperlink to that file.
+    - **What Counts as a File Reference:** Any mention of a specific filename, regardless of context:
+        - Source code files (`.ts`, `.js`, `.go`, `.py`, etc.)
+        - Configuration files (`.json`, `.yaml`, `.env`, `.toml`, etc.)
+        - Documentation files (`.md`, `.txt`, `README`, etc.)
+        - Scripts (`.sh`, `.ps1`, etc.)
+        - Data files (`.csv`, `.xml`, `.sql`, etc.)
+        - Build files (`Dockerfile`, `Makefile`, `package.json`, etc.)
+    - **Required Format:** Use markdown link syntax: `[filename](relative/path/to/file)`
+    - **Examples of Violations:**
+        - ❌ WRONG: "The config.json file contains server settings"
+        - ✅ RIGHT: "The [`config.json`](../config.json) file contains server settings"
+        - ❌ WRONG: "See server.ts for the implementation"
+        - ✅ RIGHT: "See [`server.ts`](../src/server.ts) for the implementation"
+        - ❌ WRONG: "Authentication logic is in auth/middleware.ts"
+        - ✅ RIGHT: "Authentication logic is in [`auth/middleware.ts`](../auth/middleware.ts)"
+        - ❌ WRONG: "Set environment variables in .env"
+        - ✅ RIGHT: "Set environment variables in [`.env`](../.env)"
+    - **Non-Existent Files:** If you reference a file that doesn't exist in the repository, re-evaluate the statement that relies on that file. Ensure that it is still accurate and verifiable. If not, remove the statement or correct it to reflect the actual codebase.
+    - **Path Verification:** Before writing a file reference, verify the file exists and use the correct relative path from the documentation file's location.
 
 - **High-Density, Low-Volume:**
     - Avoid "Wall of Text." Use bullet points and headers to break up density.
@@ -406,6 +434,9 @@ For any pre-existing content you modified:
 - _Did I inline a full struct or class definition? (If yes → Replace with link)._
 - _Did I insert NEW subjective words? (If yes → Remove them. Preserved existing ones are OK)._
 - _Did I cite the file for the logic I explained? (If no → Find file or remove text)._
+- _Did I link inline where the prose naturally allowed it, rather than defaulting to a footer `Implementation:` line?_
+- _Did I add a redundant `Implementation:` footer for a file already linked inline in the same paragraph? (If yes → Remove the footer.)_
+- _Did I reference ANY file (source, config, docs, scripts) without making it a clickable link? (If yes → SEVERE VIOLATION: Add the link immediately or delete the reference.)_
 - _Did I create a Mermaid diagram where appropriate for complex systems?_
 - _Did I exclude observability from Mermaid diagrams (unless documenting observability systems)?_
 - _Did I choose the most appropriate Mermaid diagram type for the structure?_
@@ -415,6 +446,7 @@ If you find any:
 
 - **Hallucinations or unverified statements** → Delete immediately, no exceptions
 - **Statements without exact file citations** → Add citation or delete statement
+- **Unlinked file references** (any filename mentioned without a hyperlink) → Add link immediately or delete the reference (ZERO TOLERANCE)
 - **Internal config variable names** → Trace to external source and correct, or delete
 - **Observability steps in non-observability docs** (logging, metrics, tracing, monitoring) → Delete
 - **Trivial validation/utility steps in flows** → Delete
