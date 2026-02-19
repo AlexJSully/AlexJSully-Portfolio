@@ -45,7 +45,10 @@ This guide walks you through installing, configuring, and running the Alexander 
     - `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
     - `NEXT_PUBLIC_FIREBASE_APP_ID`
     - `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID`
-    - `NEXT_PUBLIC_SENTRY_DSN` (if Sentry is used in your environment). Set these keys as environment variables during development (commonly via a local untracked [`.env.example`](../../.env.example) template). Do not commit real secrets to git.
+    - `NEXT_PUBLIC_SENTRY_DSN` (if Sentry is used in your environment).
+
+    Set these keys as environment variables during development (commonly via a local untracked [`.env.example`](../../.env.example) template). Do not commit real secrets to git.
+
 - **Path Aliases:**
     - Use TypeScript aliases (see [`tsconfig.json`](../../tsconfig.json)). The project exposes aliases like `@components`, `@data`, `@configs`, `@helpers`, and `@images` for cleaner imports.
 
