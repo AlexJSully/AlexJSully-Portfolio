@@ -238,8 +238,8 @@ Execute **all three phases** in order.
     - **Strict Requirement:** You are forbidden from describing technical logic without citing the source file.
     - **Citation Hierarchy (Prefer Inline First):**
         1. **Inline (preferred):** Weave the link naturally into the prose so it reads as part of the sentence. This keeps the reading flow intact for human readers.
-            - ✅ `Token validation is handled in [`auth.ts`](../src/auth.ts), which checks the Authorization header on every request.`
-            - ✅ `See [`CONTRIBUTING.md`](../CONTRIBUTING.md) for setup steps.`
+            - ✅ Token validation is handled in [`auth.ts`](../src/auth.ts), which checks the Authorization header on every request.
+            - ✅ See [`CONTRIBUTING.md`](../CONTRIBUTING.md) for setup steps.
         2. **Footer fallback (`Implementation:`):** Use `Implementation: [filename](./path/to/file)` **only** when the context makes inline linking unnatural — for example, when the surrounding text is a bullet list or a table where no prose sentence exists to embed the link.
             - ✅ Use footer when documenting a list of behaviors with no natural sentence to link from.
     - **No Redundant Citations:** Never link the same file twice in rapid succession. If it is already linked inline, do not add a footer citation below it.
