@@ -177,6 +177,21 @@ Execute **all three phases** in order.
     - Do not leave comments like "Add more details here" or "To be documented."
     - Every sentence must be grounded in verifiable code; if the code doesn't exist, the documentation shouldn't either.
 
+4.  **Mermaid Diagrams MUST Include Accessibility Metadata (ZERO TOLERANCE)**
+    - **Gating Rule:** No Mermaid diagram can be output unless it includes **both**:
+        1. **`accTitle`** — A concise, single-line accessible title immediately after the diagram type (e.g., `accTitle: Service Worker Registration Flow`)
+        2. **`accDescr`** — An accessible description that explains the diagram's content (single-line: `accDescr: <text>` OR multi-line using `accDescr { ... }`)
+    - **Non-Negotiable:** This applies to **every diagram** — no exceptions, no "sometimes". If you create or modify any Mermaid diagram, it **MUST** have both `accTitle` and `accDescr` before it is considered complete.
+    - **Content Standard:**
+        - `accTitle` must be a **specific, diagram-relevant title** (not "Diagram" or "Flow" — use real labels like "Data Pipeline", "Component Hierarchy", "User Authentication Sequence").
+        - `accDescr` must **meaningfully describe the relationships, flow, or data** shown — enough for a non-sighted user to understand the diagram with this text alone.
+        - Do **not** use placeholder text (e.g., "A diagram showing...", "Description of..."). Write rich, informative descriptions.
+    - **Enforcement:** Before outputting any diagram:
+        - Ask yourself: "Does this diagram have both `accTitle` and `accDescr`?"
+        - If NO → **Do not output the diagram. Add them immediately.**
+        - If YES → Verify the content is meaningful and diagram-specific (not generic).
+    - **Why:** Diagrams are visual — without accessible metadata, screen reader users and search engines cannot understand them. This rule ensures equitable documentation access.
+
 ---
 
 ## 3. Writing Guidelines: Citations, Brevity & Style
@@ -325,6 +340,8 @@ Unless you are explicitly documenting observability/monitoring systems, exclude:
 
 **Goal:** Proactively use **Mermaid** diagrams to visualize complexity. A picture is worth a thousand words.
 
+⚠️ **CRITICAL PRE-REQUISITE:** See **Hard Rule #4 (Mermaid Diagrams MUST Include Accessibility Metadata)** — every diagram must have `accTitle` and `accDescr`. This is non-negotiable.
+
 **The "Complexity Threshold" (When to Create):**
 If you are documenting the following categories, a **Mermaid** diagram is **strongly recommended** (but not required for every instance):
 
@@ -344,7 +361,8 @@ If you are documenting the following categories, a **Mermaid** diagram is **stro
 **Technical Rules:**
 
 - **Format:** All diagrams must be written in valid **Mermaid** syntax. No ASCII art or static images.
-- **Accessibility:** Do **NOT** use Mermaid `style` or color customizations. Keep default and clean.
+- **Accessibility (Visual):** Do **NOT** use Mermaid `style` or color customizations. Keep default and clean.
+- **Accessibility (Screen Readers):** **MANDATORY** — See Hard Rule #4. Every diagram must include `accTitle` and `accDescr` with meaningful, specific content (not generic placeholders). No exceptions.
 - **Accuracy:** Diagrams must reflect **actual, current code**. No hypothetical structures or planned features.
 - **Apply Architectural Filter:** When creating flowcharts or sequence diagrams for processes, **apply the same "Architectural Significance Filter"** from Section 4. Exclude observability steps (logging, metrics, tracing) unless the diagram is explicitly documenting an observability system.
 - **Types (Choose Most Appropriate):**
@@ -440,6 +458,7 @@ For any pre-existing content you modified:
 - _Did I create a Mermaid diagram where appropriate for complex systems?_
 - _Did I exclude observability from Mermaid diagrams (unless documenting observability systems)?_
 - _Did I choose the most appropriate Mermaid diagram type for the structure?_
+- _Does every Mermaid diagram include a meaningful `accTitle` and `accDescr`?_ (If no → Add them immediately)
 
 **Step 6: Final Action (Before Output)**
 If you find any:
@@ -454,6 +473,7 @@ If you find any:
 - **Code dumps** → Replace with links
 - **Unnecessary modifications to accurate pre-existing content** → Revert
 - **Use of "appears," "seems," "likely," "probably," "should," "will"** → Remove or replace with verified facts
+- **Mermaid diagrams missing `accTitle` or `accDescr`** → Add meaningful accessible title and description immediately
 
 **Make ALL corrections before outputting your final documentation. No exceptions.**
 
@@ -479,6 +499,7 @@ Before concluding this task, verify:
 14. _Did I include appropriate Mermaid diagrams for complex systems?_
 15. _Did I apply the Architectural Significance Filter to Mermaid diagrams?_
 16. _Did I choose the best Mermaid diagram type for each visualization?_
-17. _Did I execute Phase 3 and audit in-code documentation?_
-18. _Did I scan source files for docstrings/comments and verify accuracy?_
-19. _Did I remove bloat from in-code documentation?_
+17. _Does every Mermaid diagram have a meaningful `accTitle` and `accDescr` for screen reader accessibility?_
+18. _Did I execute Phase 3 and audit in-code documentation?_
+19. _Did I scan source files for docstrings/comments and verify accuracy?_
+20. _Did I remove bloat from in-code documentation?_

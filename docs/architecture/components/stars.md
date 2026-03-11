@@ -94,8 +94,6 @@ The `twinkle` keyframe animation should be defined in global styles:
 Stars can become shooting stars on hover or through automatic triggering:
 
 ```typescript
-import { THRESHOLDS } from '@constants/index';
-
 const handleStarAnimation = (e: React.MouseEvent<HTMLElement> | { target: HTMLElement }): void => {
 	const target = e.target as HTMLElement;
 	const shootingStarSpeed = Math.random() * 4 + 1;
