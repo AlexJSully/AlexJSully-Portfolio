@@ -134,12 +134,7 @@ if (pathname === '/') {
 
 ```tsx
 <Link aria-label='See socials' href='/#socials'>
-	<Image
-		alt='Logo'
-		height={24}
-		src='/images/drawn/profile_pic_drawn.webp'
-		width={24}
-	/>
+	<Image alt='Logo' height={24} src='/images/drawn/profile_pic_drawn.webp' width={24} />
 </Link>
 ```
 

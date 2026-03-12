@@ -1,4 +1,5 @@
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
+import { ComponentType, ReactElement } from 'react';
 import BAR from './icons/bar.svg';
 import BlueSky from './icons/bluesky.svg';
 import GitHub from './icons/github.svg';
@@ -27,28 +28,32 @@ import X from './icons/x.svg';
  * @param props MUI SvgIcon props (color, fontSize, etc.)
  * @returns JSX element rendering the wrapped SVG icon
  */
-function generateIconJSX(icon: any, props: any) {
+function generateIconJSX(icon: ComponentType, props: SvgIconProps): ReactElement {
 	return <SvgIcon component={icon} inheritViewBox {...props} />;
 }
 
-export const BarIcon = (props: SvgIconProps) => generateIconJSX(BAR, props);
-export const BlueSkyIcon = (props: SvgIconProps) => generateIconJSX(BlueSky, props);
-export const GitHubIcon = (props: SvgIconProps) => generateIconJSX(GitHub, props);
-export const GolangGopherIcon = (props: SvgIconProps) => generateIconJSX(GolangGopher, props);
-export const GooglePlayStoreIcon = (props: SvgIconProps) => generateIconJSX(GooglePlayStore, props);
-export const ImpactDepthIcon = (props: SvgIconProps) => generateIconJSX(ImpactDepth, props);
-export const InstagramIcon = (props: SvgIconProps) => generateIconJSX(Instagram, props);
-export const iOSIcon = (props: SvgIconProps) => generateIconJSX(iOS, props);
-export const LinkedInIcon = (props: SvgIconProps) => generateIconJSX(LinkedIn, props);
-export const MetaIcon = (props: SvgIconProps) => generateIconJSX(Meta, props);
-export const MPXIcon = (props: SvgIconProps) => generateIconJSX(MPX, props);
-export const OpenVSXIcon = (props: SvgIconProps) => generateIconJSX(OpenVSX, props);
-export const PublishIcon = (props: SvgIconProps) => generateIconJSX(Publish, props);
-export const SciGradeIcon = (props: SvgIconProps) => generateIconJSX(SciGrade, props);
-export const SmallDevTalkIcon = (props: SvgIconProps) => generateIconJSX(SmallDevTalk, props);
-export const ThreadsIcon = (props: SvgIconProps) => generateIconJSX(threads, props);
-export const TwitchIcon = (props: SvgIconProps) => generateIconJSX(Twitch, props);
-export const UofTIcon = (props: SvgIconProps) => generateIconJSX(UofT, props);
-export const VerilyIcon = (props: SvgIconProps) => generateIconJSX(Verily, props);
-export const VSCodeIcon = (props: SvgIconProps) => generateIconJSX(VSCode, props);
-export const XIcon = (props: SvgIconProps) => generateIconJSX(X, props);
+export const BarIcon = (props: SvgIconProps): ReactElement => generateIconJSX(BAR as ComponentType, props);
+export const BlueSkyIcon = (props: SvgIconProps): ReactElement => generateIconJSX(BlueSky as ComponentType, props);
+export const GitHubIcon = (props: SvgIconProps): ReactElement => generateIconJSX(GitHub as ComponentType, props);
+export const GolangGopherIcon = (props: SvgIconProps): ReactElement =>
+	generateIconJSX(GolangGopher as ComponentType, props);
+export const GooglePlayStoreIcon = (props: SvgIconProps): ReactElement =>
+	generateIconJSX(GooglePlayStore as ComponentType, props);
+export const ImpactDepthIcon = (props: SvgIconProps): ReactElement =>
+	generateIconJSX(ImpactDepth as ComponentType, props);
+export const InstagramIcon = (props: SvgIconProps): ReactElement => generateIconJSX(Instagram as ComponentType, props);
+export const iOSIcon = (props: SvgIconProps): ReactElement => generateIconJSX(iOS as ComponentType, props);
+export const LinkedInIcon = (props: SvgIconProps): ReactElement => generateIconJSX(LinkedIn as ComponentType, props);
+export const MetaIcon = (props: SvgIconProps): ReactElement => generateIconJSX(Meta as ComponentType, props);
+export const MPXIcon = (props: SvgIconProps): ReactElement => generateIconJSX(MPX as ComponentType, props);
+export const OpenVSXIcon = (props: SvgIconProps): ReactElement => generateIconJSX(OpenVSX as ComponentType, props);
+export const PublishIcon = (props: SvgIconProps): ReactElement => generateIconJSX(Publish as ComponentType, props);
+export const SciGradeIcon = (props: SvgIconProps): ReactElement => generateIconJSX(SciGrade as ComponentType, props);
+export const SmallDevTalkIcon = (props: SvgIconProps): ReactElement =>
+	generateIconJSX(SmallDevTalk as ComponentType, props);
+export const ThreadsIcon = (props: SvgIconProps): ReactElement => generateIconJSX(threads as ComponentType, props);
+export const TwitchIcon = (props: SvgIconProps): ReactElement => generateIconJSX(Twitch as ComponentType, props);
+export const UofTIcon = (props: SvgIconProps): ReactElement => generateIconJSX(UofT as ComponentType, props);
+export const VerilyIcon = (props: SvgIconProps): ReactElement => generateIconJSX(Verily as ComponentType, props);
+export const VSCodeIcon = (props: SvgIconProps): ReactElement => generateIconJSX(VSCode as ComponentType, props);
+export const XIcon = (props: SvgIconProps): ReactElement => generateIconJSX(X as ComponentType, props);

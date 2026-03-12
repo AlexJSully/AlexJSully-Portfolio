@@ -58,78 +58,41 @@ targets:
 
 ### [`audit-pr.prompt.md`](./audit-pr.prompt.md)
 
-**Purpose:** Perform a thorough, opinionated code review of a pull request across 13 comprehensive categories. Acts as a Principal Code Reviewer to identify issues, suggest fixes, and provide actionable feedback ready for human review and posting.
+**Purpose:** Perform a thorough, opinionated code review of a pull request across 13 categories. Produces ready-to-post comments with severity triage and an overall summary for human review.
 
 **Key Features:**
 
 - **3-Step Review Process:**
-    - Step 1: PR Alignment Check (verify PR title, description, linked ticket, diff scope, breaking changes, and PR size)
-    - Step 2: Categorized Code Review (13 review categories covering correctness, security, privacy, performance, testing, and more)
-    - Step 3: Overall Summary (structured verdict with stats, top concerns, and positive callouts)
-- **13 Review Categories:**
-    1. Correctness & Logic
-    2. Security & Vulnerability
-    3. Privacy & Data Protection
-    4. Error Handling & Resilience
-    5. Code Quality & Cleanliness
-    6. Architecture & Design
-    7. Testing
-    8. Performance & Efficiency
-    9. Documentation & Comments
-    10. Standards & Style Consistency
-    11. Accessibility (UI changes only)
-    12. Concurrency & Thread Safety
-    13. Regulatory & Compliance
-- **Severity Triage:** Marks findings as 🔴 Blocking, 🟡 Non-blocking, 🔵 Suggestions, or ✅ Positive callouts
-- **Specific, Actionable Feedback:** Every finding includes file path, line range, issue description, and suggested fix (where applicable)
+    - Step 1: PR Alignment Check (title, description, linked ticket, diff scope, breaking changes, PR size)
+    - Step 2: Categorized Code Review (13 categories — correctness, security, privacy, performance, testing, etc.)
+    - Step 3: Overall Summary (verdict, stats, top concerns, positive callouts)
+- **Severity Triage:** 🔴 Blocking, 🟡 Non-blocking, 🔵 Suggestions, ✅ Positive callouts
+- **Actionable Findings:** Every finding includes file path, line range, issue description, and suggested fix
 
 **When to Use:**
 
 - During pull request reviews (before merge)
 - As a second opinion on code changes
-- To ensure comprehensive coverage of security, privacy, and performance concerns
 - When you need detailed, ready-to-post review comments
-
-**Assumptions:**
-
-- Active GitHub pull request with `#activePullRequest` and `#changes` accessible
-- No external tools required (GitHub/Jira tools are optional and noted as conditional)
 
 ---
 
 ### [`audit-quality.prompt.md`](./audit-quality.prompt.md)
 
-**Purpose:** Perform a deep-dive audit of your codebase to identify architectural flaws, technical debt, and maintainability issues—then automatically implement improvements.
+**Purpose:** Perform a deep-dive audit of your codebase to identify architectural flaws, technical debt, and maintainability issues — then automatically implement improvements.
 
 **Key Features:**
 
-- **Breadth-First Audit:** Analyzes code architecture, design patterns, code health, security, and standards
-- **Test-Driven Implementation:** Applies refactors using a TDD (Test-Driven Development) approach
-- **Automatic Validation:** Runs your project's validation command to ensure changes work
-- **Documentation Sync:** Updates documentation to reflect code changes (Step n-1 before final validation)
-
-**What It Analyzes:**
-
-- Architecture & design patterns (coupling, modularity, over-engineering)
-- Code health (correctness, clarity, cyclomatic complexity, dead code, DRY violations)
-- Robustness & error handling (resilience, idempotency, swallowed errors)
-- Security & privacy concerns
-- Standards & style adherence
-- Accessibility (for UI code)
-- Test quality and coverage
+- **Breadth-First Audit:** Analyzes architecture, code health, security, privacy, performance, and 16 total categories
+- **Proactive Implementation:** Identifies issues and immediately implements fixes
+- **Incremental Validation:** Runs your project's validation command after each change
+- **Documentation Sync:** Updates documentation to reflect code changes
 
 **When to Use:**
 
-- During code review cycles (before PR merge)
 - As part of regular maintenance sprints
 - When tackling technical debt
 - Before major releases (ensure code quality baseline)
-
-**Assumptions:**
-
-- Your project has a test suite (Jest, Cypress, etc.)
-- You have a validation script defined (e.g., `npm run validate`)
-- You follow a specific style guide (defaults to Google Style Guide)
 
 ---
 

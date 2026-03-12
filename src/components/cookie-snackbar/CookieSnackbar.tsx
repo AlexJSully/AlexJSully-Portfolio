@@ -12,7 +12,7 @@ export default function CookieSnackbar() {
 	const [open, setOpen] = useState(false);
 
 	const handleClose = () => {
-		document.cookie = 'cookie-consent=true; max-age=31536000; path=/';
+		document.cookie = 'cookie-consent=true; max-age=31536000; path=/; SameSite=Strict';
 		setOpen(false);
 	};
 
@@ -25,7 +25,7 @@ export default function CookieSnackbar() {
 		} else {
 			setOpen(true);
 			setTimeout(() => {
-				document.cookie = 'cookie-consent=true; max-age=31536000; path=/';
+				document.cookie = 'cookie-consent=true; max-age=31536000; path=/; SameSite=Strict';
 			}, 1000);
 		}
 	}, []);

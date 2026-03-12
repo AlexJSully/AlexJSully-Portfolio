@@ -77,12 +77,12 @@ export function textAAAAHHHH(): void {
 		...document.getElementsByTagName('button'),
 	];
 
-	for (const i in docs) {
+	for (let i = 0; i < docs.length; i += 1) {
 		if (docs[i]?.childNodes) {
-			for (const c in docs[i].childNodes) {
+			for (let c = 0; c < docs[i].childNodes.length; c += 1) {
 				if (docs[i].childNodes[c].nodeName === '#text') {
 					/** AAAAHHHH OLD TEXT */
-					const text = docs?.[i]?.childNodes?.[c]?.textContent;
+					const text = docs[i].childNodes[c].textContent;
 
 					if (text) {
 						/** AAAAHHHH NEW TEXT */

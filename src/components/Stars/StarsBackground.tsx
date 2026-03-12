@@ -117,7 +117,7 @@ export default function StarsBackground(): ReactElement | null {
 
 			starsArray.push(
 				<Box
-					key={i}
+					key={`star-${i}`}
 					component='div'
 					data-testid='star'
 					onMouseEnter={(e) => {
