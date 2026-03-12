@@ -37,3 +37,6 @@ export const ANIMATIONS = {
 	SNEEZE_STAGE_2: 300,
 	SNEEZE_STAGE_3: 1000,
 } as const;
+
+/** The maximum number of stars to render in the background */
+export const MAX_STARS = 600;

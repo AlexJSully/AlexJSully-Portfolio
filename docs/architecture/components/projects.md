@@ -22,6 +22,8 @@ The projects grid is displayed using the `ProjectsGrid` component located in [Pr
 
 ```mermaid
 flowchart LR
+    accTitle: Projects Grid Data Flow
+    accDescr: ProjectsGrid component fetches projects data, maps to grid items, displays project cards with thumbnail image, name, title/employer, and action links. Includes network-aware video autoplay
     A[ProjectsGrid Component] -->|Fetches| B[Projects Data]
     B --> C[Maps Projects to Grid Items]
     C --> D[Displays Project Cards]

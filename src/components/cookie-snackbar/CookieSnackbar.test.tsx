@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import CookieSnackbar from './CookieSnackbar';
 
 // Mock document.cookie
@@ -52,31 +52,21 @@ describe('CookieSnackbar', () => {
 		});
 	});
 
-	it('should auto-set cookie after 1 second if not already set', async () => {
-		jest.useFakeTimers();
+	it('should only set cookie when user explicitly clicks close button', async () => {
 		render(<CookieSnackbar />);
-		expect(document.cookie).not.toContain('cookie-consent=true');
-		await act(async () => {
-			jest.advanceTimersByTime(1000);
-		});
-		expect(document.cookie).toContain('cookie-consent=true');
-		jest.useRealTimers();
-	});
 
-	it('should not double-set cookie on repeated mounts', async () => {
-		jest.useFakeTimers();
-		render(<CookieSnackbar />);
-		await act(async () => {
-			jest.advanceTimersByTime(1000);
+		await waitFor(() => {
+			expect(screen.getByText(/This website uses cookies to enhance the user experience/)).toBeInTheDocument();
 		});
-		expect(document.cookie.match(/cookie-consent=true/g)?.length || 0).toBe(1);
-		// Unmount and re-mount
-		document.cookie = '';
-		render(<CookieSnackbar />);
-		await act(async () => {
-			jest.advanceTimersByTime(1000);
-		});
-		expect(document.cookie.match(/cookie-consent=true/g)?.length || 0).toBe(1);
-		jest.useRealTimers();
+
+		// Verify cookie is not set initially
+		expect(document.cookie).not.toContain('cookie-consent=true');
+
+		// Click the close button
+		const closeButton = screen.getByRole('button', { name: /close/i });
+		fireEvent.click(closeButton);
+
+		// Verify cookie is now set
+		expect(document.cookie).toContain('cookie-consent=true');
 	});
 });

@@ -21,6 +21,8 @@ The portfolio uses Next.js App Router, where file names in [src/app/](../../src/
 
 ```mermaid
 flowchart TD
+    accTitle: App Router Component Hierarchy
+    accDescr: Layout wraps all routes and provides metadata, includes GeneralLayout which contains Navbar, Footer, StarsBackground and CookieSnackbar. Page renders Banner, ProjectsGrid, and Publications
     Layout[layout.tsx] -->|Wraps| Page[page.tsx]
     Layout -->|Provides| Metadata[SEO & Metadata]
     Layout -->|Includes| GL[GeneralLayout]

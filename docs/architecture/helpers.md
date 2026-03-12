@@ -25,6 +25,8 @@ The AAAAHHHH helper ([src/helpers/aaaahhhh.ts](../../src/helpers/aaaahhhh.ts)) t
 
 ```mermaid
 flowchart TD
+    accTitle: AAAAHHHH Transformation Logic Flow
+    accDescr: When avatar sneezes 6 times, the aaaahhhh function is called which transforms text (first half becomes A, second half becomes H) and replaces all images with the aaaahhhh image, then applies changes to the page
     Trigger[Avatar sneezes 6 times] --> Call[aaaahhhh function]
     Call --> Text[textAAAAHHHH]
     Call --> Images[imageAAAAHHHH]

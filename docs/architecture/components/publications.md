@@ -18,6 +18,8 @@ The publications list is displayed using the `Publications` component located in
 
 ```mermaid
 flowchart LR
+    accTitle: Publications List Data Flow
+    accDescr: Publications component fetches publication data, maps to list items, displays publication cards with title, authors, metadata, and abstract
     A[Publications Component] -->|Fetches| B[Publications Data]
     B --> C[Maps Publications to List Items]
     C --> D[Displays Publication Cards]

@@ -38,7 +38,7 @@ describe('aaaahhhh', () => {
 						item: (i: number) => arr[i] ?? null,
 						namedItem: () => null,
 						[Symbol.iterator]: function* () {
-							for (let el of arr) yield el;
+							for (const el of arr) yield el;
 						},
 					},
 					arr,

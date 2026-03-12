@@ -2,6 +2,7 @@
 
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { Alert, IconButton, Snackbar, Stack } from '@mui/material';
+import { hasCookieConsent, setCookieConsent } from '@util/cookieConsent';
 import { useEffect, useState } from 'react';
 
 /** Renders the cookie snackbar. */
@@ -12,21 +13,16 @@ export default function CookieSnackbar() {
 	const [open, setOpen] = useState(false);
 
 	const handleClose = () => {
-		document.cookie = 'cookie-consent=true; max-age=31536000; path=/';
+		setCookieConsent();
 		setOpen(false);
 	};
 
 	useEffect(() => {
 		setMounted(true);
 
-		// If the cookie 'cookie-consent' is set to true, don't show the snackbar
-		if (document.cookie.includes('cookie-consent=true')) {
-			setOpen(false);
-		} else {
+		// Only show snackbar if user hasn't already accepted cookies
+		if (!hasCookieConsent()) {
 			setOpen(true);
-			setTimeout(() => {
-				document.cookie = 'cookie-consent=true; max-age=31536000; path=/';
-			}, 1000);
 		}
 	}, []);
 

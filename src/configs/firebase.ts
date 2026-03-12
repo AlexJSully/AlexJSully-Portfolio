@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
 // Import the functions you need from the SDKs you need
 import { Analytics, getAnalytics, logEvent } from 'firebase/analytics';
-import { initializeApp } from 'firebase/app';
+import { getApp, getApps, initializeApp } from 'firebase/app';
 import { getPerformance } from 'firebase/performance';
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -31,16 +30,28 @@ export function logAnalyticsEvent(eventName: string, eventParams?: object): void
 	}
 }
 
-/** Initializes Firebase app, analytics, and performance monitoring. */
+/**
+ * Initializes Firebase app, analytics, and performance monitoring.
+ * Must be called once on the client side before logAnalyticsEvent will function.
+ * Typically called in app initialization (e.g., in a page useEffect or client component).
+ * Safe to call multiple times; only the first call will initialize the analytics instance.
+ */
 export function init(): void {
-	// Initialize Firebase
-	const app = initializeApp(firebaseConfig);
+	// Only initialize if Firebase hasn't been initialized yet
+	if (getApps().length === 0) {
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
 
-	if (app) {
-		// Initialize Performance Monitoring and get a reference to the service
+		if (app) {
+			// Initialize Analytics and get a reference to the service
+			analytics = getAnalytics(app);
+
+			// Initialize Performance Monitoring
+			getPerformance(app);
+		}
+	} else if (!analytics) {
+		// Firebase is initialized but analytics hasn't been set up yet
+		const app = getApp();
 		analytics = getAnalytics(app);
-
-		// Initialize Performance Monitoring and get a reference to the service
-		const perf = getPerformance(app);
 	}
 }

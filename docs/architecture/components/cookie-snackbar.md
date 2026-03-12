@@ -12,6 +12,8 @@ The CookieSnackbar component displays a cookie consent notification to users whe
 
 ```mermaid
 flowchart TD
+    accTitle: Cookie Snackbar State Management
+    accDescr: CookieSnackbar checks if browser cookie is set. If not set, shows notification and expires in 1 year. If set, hides notification
     CookieSnackbar[CookieSnackbar] -->|Checks| Cookie[Browser Cookie]
     Cookie -->|Not Set| Show[Show Notification]
     Cookie -->|Set| Hide[Hide Notification]
@@ -69,6 +71,8 @@ const handleClose = () => {
 
 ```mermaid
 sequenceDiagram
+    accTitle: Cookie Consent Component Sequence
+    accDescr: When user visits site, component mounts on client and checks document cookie. If cookie exists, notification is hidden. If not, it shows notification and sets cookie after 1 second, or user can click close
     participant User
     participant Component
     participant Browser

@@ -12,6 +12,8 @@ The StarsBackground component creates a visually appealing animated background w
 
 ```mermaid
 flowchart TD
+    accTitle: StarsBackground Component Architecture
+    accDescr: StarsBackground creates a sky container with star elements that have random positions, sizes, twinkle animations, and occasional shooting star effects
     StarsBackground[StarsBackground] -->|Creates| Container[Sky Container]
     Container -->|Generates| Stars[Star Elements]
     Stars -->|Random| Position[Random Positions]
@@ -94,8 +96,6 @@ The `twinkle` keyframe animation should be defined in global styles:
 Stars can become shooting stars on hover or through automatic triggering:
 
 ```typescript
-import { THRESHOLDS } from '@constants/index';
-
 const handleStarAnimation = (e: React.MouseEvent<HTMLElement> | { target: HTMLElement }): void => {
 	const target = e.target as HTMLElement;
 	const shootingStarSpeed = Math.random() * 4 + 1;
@@ -140,6 +140,8 @@ const handleForceStarAnimation = () => {
 
 ```mermaid
 sequenceDiagram
+    accTitle: StarsBackground Mount and Rendering Sequence
+    accDescr: On mount, component calculates star count, generates star properties, updates state, renders elements, and applies CSS animations
     participant Component
     participant State
     participant DOM
@@ -242,6 +244,8 @@ To customize the background:
 
 ```mermaid
 stateDiagram-v2
+    accTitle: Star Twinkle Animation Life Cycle
+    accDescr: Stars cycle through visible (opacity 1), fading (2-5s random), dim (opacity 0.3), brightening (2-5s random), then back to visible state
     [*] --> Visible: opacity 1
     Visible --> Fading: 2-5s random
     Fading --> Dim: opacity 0.3

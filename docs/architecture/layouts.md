@@ -29,6 +29,8 @@ The GeneralLayout component wraps all page content and provides a consistent str
 
 ```mermaid
 flowchart TD
+    accTitle: GeneralLayout Component Composition
+    accDescr: GeneralLayout main wrapper contains Navbar, Main content area (flex container), StarsBackground, CookieSnackbar, and Footer. Main content holds page-specific children
     GeneralLayout["GeneralLayout<br/>(Main Wrapper)"]
     GeneralLayout -->|Contains| Navbar
     GeneralLayout -->|Contains| Main["Main Content<br/>(Flex Container)"]

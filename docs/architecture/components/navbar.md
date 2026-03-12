@@ -10,14 +10,18 @@ The Navbar component is a fixed-position navigation bar located in [`src/compone
 
 ```mermaid
 flowchart LR
+    accTitle: Navbar Navigation Structure
+    accDescr: Navbar contains Home button and links for Projects, Publications, Socials, and Resume. Each item scrolls to or opens its target section or PDF
     Navbar[Navbar] -->|Contains| Home[Home Button]
     Navbar -->|Contains| Projects[Projects Link]
     Navbar -->|Contains| Pubs[Publications Link]
+    Navbar -->|Contains| Socials[Socials Link]
     Navbar -->|Contains| Resume[Resume Link]
 
     Home -->|Scroll to| Top[Page Top]
     Projects -->|Scroll to| ProjectsGrid[Projects Grid]
     Pubs -->|Scroll to| PublicationsList[Publications]
+    Socials -->|Scroll to| Footer[Footer / Socials]
     Resume -->|Opens| PDF[Resume PDF]
 ```
 
@@ -57,6 +61,7 @@ logAnalyticsEvent('navbar_home', {
 - `navbar_home` - Home button click
 - `navbar_projects` - Projects link click
 - `navbar_publications` - Publications link click
+- `navbar_socials` - Socials link click
 - `navbar_resume` - Resume link click
 
 ### 3. Responsive Design
@@ -121,6 +126,18 @@ if (pathname === '/') {
 **Target:** `#publications` section
 **Text:** "Publications"
 
+### Socials Link
+
+**Icon:** Profile picture (drawn avatar)
+**Target:** `#socials` section (Footer)
+**Behavior:** Displays a small profile image that links to the social media links in the footer
+
+```tsx
+<Link aria-label='See socials' href='/#socials'>
+	<Image alt='Logo' height={24} src='/images/drawn/profile_pic_drawn.webp' width={24} />
+</Link>
+```
+
 ### Resume Link
 
 **Target:** External PDF (`/resume/resume.pdf`)
@@ -147,6 +164,8 @@ if (pathname === '/') {
 
 ```mermaid
 sequenceDiagram
+    accTitle: Navbar Navigation Interaction Sequence
+    accDescr: User clicks navbar items. Navbar logs events, checks pathname, then either smooth scrolls on home page or navigates to hash on other pages. Shows both Projects and Socials click flows
     participant User
     participant Navbar
     participant Router
@@ -162,6 +181,18 @@ sequenceDiagram
         DOM->>DOM: scrollIntoView({behavior: 'smooth'})
     else On Other Page
         Navbar->>Router: Navigate to /#projects-grid
+        Router->>DOM: Scroll to section
+    end
+
+    User->>Navbar: Click Socials
+    Navbar->>Analytics: Log event
+    Navbar->>Router: Check pathname
+
+    alt On Home Page
+        Navbar->>DOM: getElementById('socials')
+        DOM->>DOM: scrollIntoView({behavior: 'smooth'})
+    else On Other Page
+        Navbar->>Router: Navigate to /#socials
         Router->>DOM: Scroll to section
     end
 ```

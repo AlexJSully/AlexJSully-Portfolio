@@ -1,4 +1,3 @@
-const eslintPluginPrettier = require('eslint-plugin-prettier');
 const globals = require('globals');
 const react = require('eslint-plugin-react');
 const reactHooks = require('eslint-plugin-react-hooks');
@@ -34,7 +33,6 @@ module.exports = [
 			},
 		},
 		plugins: {
-			prettier: eslintPluginPrettier,
 			react,
 			'react-hooks': reactHooks,
 		},
@@ -53,7 +51,6 @@ module.exports = [
 			'no-param-reassign': 'off',
 			'no-restricted-syntax': 'off',
 			'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
-			'prettier/prettier': 'warn',
 			radix: 'off',
 			'react-hooks/rules-of-hooks': 'error',
 			'react/forbid-prop-types': 'off',

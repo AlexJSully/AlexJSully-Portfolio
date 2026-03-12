@@ -15,7 +15,19 @@ interface NavigatorWithConnection extends Navigator {
 /**
  * Checks if the current network connection is fast.
  *
- * @returns {boolean} True if the network is fast, false otherwise.
+ * Uses the Network Information API to determine connection quality based on:
+ * - Data saver mode (saveData flag indicates user preference for reduced data usage)
+ * - Effective connection type (2g, 3g, 4g, slow-2g categorization)
+ * - Downlink speed in Mbps (>= 1.5 Mbps considered fast for video/media)
+ * - Round-trip time in milliseconds (<= 100ms considered fast for interactivity)
+ *
+ * Threshold rationale:
+ * - 1.5 Mbps downlink: Sufficient for video playback and heavy asset loading
+ * - 100ms RTT: Acceptable for interactive features and real-time responsiveness
+ * - Slow network types (2g, slow-2g, 3g): Limited performance for heavy assets
+ *
+ * @returns {boolean} True if the network connection is fast, false if slow or saving data.
+ *                   Returns true if Network Information API is unavailable (optimistic assumption).
  */
 export function isNetworkFast(): boolean {
 	// Check if the connection API is available in the navigator

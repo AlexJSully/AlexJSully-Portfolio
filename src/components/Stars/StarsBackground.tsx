@@ -1,6 +1,7 @@
 'use client';
 
 import { logAnalyticsEvent } from '@configs/firebase';
+import { MAX_STARS } from '@constants/index';
 import { Box, Fade } from '@mui/material';
 import { isEmpty } from 'lodash';
 import { ReactElement, useEffect, useRef, useState } from 'react';
@@ -95,8 +96,12 @@ export default function StarsBackground(): ReactElement | null {
 
 		/** The array of stars */
 		const starsArray: ReactElement[] = [];
-		/** The max number of stars to create */
-		const maxStars = typeof window !== 'undefined' && window?.innerWidth ? window?.innerWidth : 400;
+
+		/** Calculate max stars based on screen width but cap at MAX_STARS to prevent performance issues */
+		const screenWidth = typeof window !== 'undefined' && window?.innerWidth ? window?.innerWidth : 400;
+		// Cap at MAX_STARS stars maximum
+		const maxStars = Math.min(screenWidth, MAX_STARS);
+
 		/** The number of stars to create */
 		const numberOfStars = Math.floor(Math.random() * (maxStars / 2)) + 10;
 
@@ -117,7 +122,7 @@ export default function StarsBackground(): ReactElement | null {
 
 			starsArray.push(
 				<Box
-					key={i}
+					key={`star-${i}`}
 					component='div'
 					data-testid='star'
 					onMouseEnter={(e) => {

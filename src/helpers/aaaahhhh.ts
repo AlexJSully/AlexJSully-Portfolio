@@ -1,6 +1,6 @@
 export const aaaahhhhImage = '/images/aaaahhhh/aaaahhhh.webp';
 
-/** imageAAAAHHHH */
+/** Replaces all images and background images on the page with the AAAAHHHH image. */
 export function imageAAAAHHHH(): void {
 	const docs = document.querySelectorAll<HTMLElement>('div[style]');
 	for (const doc of docs) {
@@ -20,7 +20,7 @@ export function imageAAAAHHHH(): void {
 		}
 	}
 
-	// Change background image of id='sky' to aaaaahhhh image
+	// Set the sky background element to the aaaahhhh image
 	const skyElement = document.getElementById('sky');
 	if (skyElement) {
 		skyElement.style.backgroundImage = `url(${aaaahhhhImage})`;
@@ -30,18 +30,18 @@ export function imageAAAAHHHH(): void {
 }
 
 /**
- * convertAAAAHH
- * @param {String} aaaahhhh AAAAHHHH STRING
- * @returns {String} aaaahhhh AAAAHHHH STRING
+ * Converts string characters to A or H based on position.
+ * First half of characters become 'A', second half become 'H'.
+ * Preserves spaces and capitalization.
+ * @param aaaaahhhh - The input string to transform
+ * @returns Transformed string with A/H characters
  */
 export function convertAAAAHH(aaaaahhhh: string): string {
 	let newAAAAHHHH = '';
 
-	/** AAAAHHHHlength */
 	const AAAAHHHHlength: number = aaaaahhhh.length;
-
-	/** splitAAAAHHHH */
 	const splitAAAAHHHH = aaaaahhhh.split('');
+
 	for (let i = 0; i < AAAAHHHHlength; i += 1) {
 		if (splitAAAAHHHH[i] === ' ') {
 			newAAAAHHHH += ' ';
@@ -66,7 +66,7 @@ export function convertAAAAHH(aaaaahhhh: string): string {
 	return newAAAAHHHH;
 }
 
-/** textAAAAHHHH */
+/** Transforms all text elements on the page to AAAAHHHH format. */
 export function textAAAAHHHH(): void {
 	const docs = [
 		...document.getElementsByTagName('span'),
@@ -77,12 +77,12 @@ export function textAAAAHHHH(): void {
 		...document.getElementsByTagName('button'),
 	];
 
-	for (const i in docs) {
+	for (let i = 0; i < docs.length; i += 1) {
 		if (docs[i]?.childNodes) {
-			for (const c in docs[i].childNodes) {
+			for (let c = 0; c < docs[i].childNodes.length; c += 1) {
 				if (docs[i].childNodes[c].nodeName === '#text') {
 					/** AAAAHHHH OLD TEXT */
-					const text = docs?.[i]?.childNodes?.[c]?.textContent;
+					const text = docs[i].childNodes[c].textContent;
 
 					if (text) {
 						/** AAAAHHHH NEW TEXT */
@@ -105,7 +105,7 @@ export function textAAAAHHHH(): void {
 	}
 }
 
-/** aaaahhhh */
+/** Transforms entire page into AAAAHHHH format by calling image and text transformations. */
 export function aaaahhhh(): void {
 	imageAAAAHHHH();
 	textAAAAHHHH();
