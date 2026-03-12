@@ -10,6 +10,8 @@ The Navbar component is a fixed-position navigation bar located in [`src/compone
 
 ```mermaid
 flowchart LR
+    accTitle: Navbar Navigation Structure
+    accDescr: Navbar contains Home button and links for Projects, Publications, Socials, and Resume. Each item scrolls to or opens its target section or PDF
     Navbar[Navbar] -->|Contains| Home[Home Button]
     Navbar -->|Contains| Projects[Projects Link]
     Navbar -->|Contains| Pubs[Publications Link]
@@ -167,6 +169,8 @@ if (pathname === '/') {
 
 ```mermaid
 sequenceDiagram
+    accTitle: Navbar Navigation Interaction Sequence
+    accDescr: User clicks navbar items. Navbar logs events, checks pathname, then either smooth scrolls on home page or navigates to hash on other pages. Shows both Projects and Socials click flows
     participant User
     participant Navbar
     participant Router

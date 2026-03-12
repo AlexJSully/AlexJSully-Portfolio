@@ -22,15 +22,12 @@ import VSCode from './icons/vscode.svg';
 import X from './icons/x.svg';
 
 /**
- * Generates a JSX element for the given SVG icon.
- * @returns The JSX element representing the SVG icon.
+ * Wraps an SVG icon component with Material-UI SvgIcon for consistent styling and sizing.
+ * @param icon The SVG component to wrap
+ * @param props MUI SvgIcon props (color, fontSize, etc.)
+ * @returns JSX element rendering the wrapped SVG icon
  */
-function generateIconJSX(
-	/** The SVG icon to generate JSX for. */
-	icon: any,
-	/** The properties to apply to the SVG icon. */
-	props: any,
-) {
+function generateIconJSX(icon: any, props: any) {
 	return <SvgIcon component={icon} inheritViewBox {...props} />;
 }
 

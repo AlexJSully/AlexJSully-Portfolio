@@ -30,6 +30,8 @@ The application follows this request lifecycle:
 
 ```mermaid
 flowchart TD
+    accTitle: System Request Lifecycle
+    accDescr: Request flow showing how a browser request is processed by Next.js server, rendered using static data, and hydrated on client with service worker and Firebase initialization
     Browser[User Browser] -->|HTTP Request| NextJS[Next.js Server]
     NextJS -->|SSR| Layout[Render Root Layout]
     Layout -->|Nest| Page[Render Page]

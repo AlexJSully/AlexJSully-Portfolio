@@ -19,6 +19,8 @@ This document describes the internal architecture, relationships, and usage of m
 
 ```mermaid
 flowchart TD
+    accTitle: Page Component Composition Tree
+    accDescr: Root Layout wraps Navbar, Main Content, Footer, and ServiceWorkerRegister. Main Content contains Banner, ProjectsGrid, Publications, StarsBackground, CookieSnackbar. Banner contains Avatar. ProjectsGrid and Publications generate cards. Footer contains social links
     RootLayout[Root Layout] --> Navbar
     RootLayout --> Main[Main Content]
     RootLayout --> Footer
@@ -186,6 +188,8 @@ Data flow:
 
 ```mermaid
 sequenceDiagram
+    accTitle: Page Data Integration and Analytics Flow
+    accDescr: Page imports projects, publications, socials from data. Data is passed as props to components. Components render UI and log analytics events to Firebase
     participant Page
     participant Data
     participant Component
@@ -231,6 +235,8 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
+    accTitle: Component Data and Event Flow
+    accDescr: Data is imported from src/data into page.tsx. Page passes data as props to ProjectsGrid, Publications, Footer, Navbar and Avatar. All components log events to Firebase
     Data[src/data/] -->|Import| Page[page.tsx]
     Page -->|Props| ProjectsGrid
     Page -->|Props| Publications

@@ -17,6 +17,8 @@ The social media links are displayed using the `Footer` component located in [Fo
 
 ```mermaid
 flowchart LR
+    accTitle: Social Media Links Display Flow
+    accDescr: Footer component fetches socials data, maps to grid items, displays social media icons with tooltips and links to each platform
     A[Footer Component] -->|Fetches| B[Socials Data]
     B --> C[Maps Socials to Grid Items]
     C --> D[Displays Social Media Icons]

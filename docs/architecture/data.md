@@ -6,6 +6,8 @@ The portfolio stores all content as TypeScript files in [src/data/](../../src/da
 
 ```mermaid
 sequenceDiagram
+    accTitle: Build-Time Data Integration Sequence
+    accDescr: Shows how build process imports and type-checks data files, passes them as props to components, renders HTML with embedded data, avoiding any runtime data fetching
     participant Build[Build Process]
     participant Data[Data Files]
     participant Component

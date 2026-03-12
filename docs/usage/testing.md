@@ -20,6 +20,8 @@ The testing setup in this codebase uses Cypress for end-to-end (E2E) testing. Th
 
 ```mermaid
 flowchart TD
+    accTitle: Validation Pipeline Workflow
+    accDescr: npm run validate executes: Prettier formatting, ESLint code quality, TypeScript type checking, Jest unit tests, Cypress E2E tests, Next.js build, and Markdown linting. Each step can fail with specific fix commands
     Validate[npm run validate] --> Prettier[Prettier Format]
     Prettier --> ESLint[ESLint Check]
     ESLint --> TSC[TypeScript Check]

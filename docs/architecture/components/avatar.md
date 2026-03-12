@@ -69,6 +69,8 @@ Implementation: [src/components/banner/Avatar.tsx](../../src/components/banner/A
 
 ```mermaid
 sequenceDiagram
+    accTitle: Avatar Sneeze and Easter Egg Interaction Sequence
+    accDescr: User hovers avatar on 5th time triggering sneeze animation and logging event. On 30th time (6th sneeze), aaaahhhh helper is called to transform page and log event
     participant User
     participant Avatar
     participant Helper

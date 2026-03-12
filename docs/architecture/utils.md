@@ -43,6 +43,8 @@ The function checks three network characteristics:
 
 ```mermaid
 flowchart TD
+    accTitle: Network Speed Detection Decision Tree
+    accDescr: Decision tree showing how isNetworkFast checks Connection API availability, save data mode, network type, downlink speed, and RTT to determine if network is fast enough for video autoplay
     A["isNetworkFast() called"] --> B{"Connection API<br/>available?"}
     B -->|No| C["Assume fast<br/>(return true)"]
     B -->|Yes| D{"Save Data<br/>mode?"}

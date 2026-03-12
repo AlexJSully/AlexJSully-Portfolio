@@ -18,6 +18,8 @@ The PWA implementation relies on Next.js's built-in metadata and route handlers,
 
 ```mermaid
 flowchart TD
+    accTitle: PWA Manifest and Icons Request Flow
+    accDescr: Browser requests PWA manifest from Next.js server which generates JSON and references icons. Browser downloads icons and shows install prompt to user
     Browser[User Browser]
     Manifest["src/app/manifest.ts"]
     Icons["public/icon/"]
