@@ -1,20 +1,23 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 /** Maximum number of retry attempts for service worker registration */
 const MAX_SW_RETRIES = 3;
-/** Delay in milliseconds between retry attempts (exponential backoff) */
+/** Delay in milliseconds between retry attempts (linear backoff) */
 const INITIAL_RETRY_DELAY = 1000;
 
 export default function ServiceWorkerRegister() {
+	/** Ref to track pending retry timeouts for cleanup on unmount */
+	const retryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
 	useEffect(() => {
 		if (!('serviceWorker' in navigator)) {
 			return;
 		}
 
 		/**
-		 * Register the service worker with exponential backoff retry logic
+		 * Register the service worker with linear backoff retry logic
 		 * @param retriesLeft Number of retry attempts remaining
 		 */
 		const registerWithRetry = (retriesLeft: number = MAX_SW_RETRIES): void => {
@@ -31,8 +34,8 @@ export default function ServiceWorkerRegister() {
 							error,
 						);
 
-						// Schedule retry with exponential backoff
-						setTimeout(() => {
+						// Schedule retry with linear backoff
+						retryTimeoutRef.current = setTimeout(() => {
 							registerWithRetry(retriesLeft - 1);
 						}, delayMs);
 					} else {
@@ -44,6 +47,13 @@ export default function ServiceWorkerRegister() {
 
 		// Attempt registration
 		registerWithRetry();
+
+		// Cleanup: clear any pending retry timeout on unmount
+		return () => {
+			if (retryTimeoutRef.current) {
+				clearTimeout(retryTimeoutRef.current);
+			}
+		};
 	}, []);
 
 	return null;

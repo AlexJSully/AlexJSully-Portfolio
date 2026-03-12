@@ -18,8 +18,8 @@ interface NavigatorWithConnection extends Navigator {
  * Uses the Network Information API to determine connection quality based on:
  * - Data saver mode (saveData flag indicates user preference for reduced data usage)
  * - Effective connection type (2g, 3g, 4g, slow-2g categorization)
- * - Downlink speed in Mbps (>1.5 Mbps considered fast for video/media)
- * - Round-trip time in milliseconds (<100ms considered fast for interactivity)
+ * - Downlink speed in Mbps (>= 1.5 Mbps considered fast for video/media)
+ * - Round-trip time in milliseconds (<= 100ms considered fast for interactivity)
  *
  * Threshold rationale:
  * - 1.5 Mbps downlink: Sufficient for video playback and heavy asset loading

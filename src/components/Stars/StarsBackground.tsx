@@ -1,7 +1,7 @@
 'use client';
 
 import { logAnalyticsEvent } from '@configs/firebase';
-import { MAX_STARS } from '@constants';
+import { MAX_STARS } from '@constants/index';
 import { Box, Fade } from '@mui/material';
 import { isEmpty } from 'lodash';
 import { ReactElement, useEffect, useRef, useState } from 'react';

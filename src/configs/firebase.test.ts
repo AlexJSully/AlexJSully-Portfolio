@@ -3,8 +3,12 @@ const mockInitializeApp = jest.fn();
 const mockGetAnalytics = jest.fn();
 const mockLogEvent = jest.fn();
 const mockGetPerformance = jest.fn();
+const mockGetApps = jest.fn();
+const mockGetApp = jest.fn();
 jest.mock('firebase/app', () => ({
 	initializeApp: mockInitializeApp,
+	getApps: mockGetApps,
+	getApp: mockGetApp,
 }));
 jest.mock('firebase/analytics', () => ({
 	getAnalytics: mockGetAnalytics,
@@ -20,6 +24,8 @@ describe('firebase config', () => {
 	const mockApp = {};
 	beforeEach(() => {
 		jest.clearAllMocks();
+		mockGetApps.mockReturnValue([]); // Return empty array by default (not initialized)
+		mockGetApp.mockReturnValue(mockApp);
 		mockInitializeApp.mockReturnValue(mockApp);
 		mockGetAnalytics.mockReturnValue('analytics');
 		mockGetPerformance.mockReturnValue('perf');
@@ -34,6 +40,7 @@ describe('firebase config', () => {
 
 	it('init initializes firebase, analytics, and performance', () => {
 		init();
+		expect(mockGetApps).toHaveBeenCalled();
 		expect(mockInitializeApp).toHaveBeenCalled();
 		expect(mockGetAnalytics).toHaveBeenCalledWith(mockApp);
 		expect(mockGetPerformance).toHaveBeenCalledWith(mockApp);
