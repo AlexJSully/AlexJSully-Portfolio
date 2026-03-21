@@ -47,6 +47,8 @@ The root layout renders GeneralLayout which provides navigation, footer, backgro
 
 **Global Styles:** Imports [globals.scss](../../src/styles/globals.scss) for application-wide CSS.
 
+**Service Worker:** Registers the service worker for PWA functionality.
+
 **Analytics:** Includes Vercel SpeedInsights for performance tracking.
 
 Implementation: [src/app/layout.tsx](../../src/app/layout.tsx)
@@ -58,8 +60,6 @@ The home page ([src/app/page.tsx](../../src/app/page.tsx)) is a client component
 **Firebase Initialization:** Calls `init()` from [src/configs/firebase.ts](../../src/configs/firebase.ts) to start analytics and performance tracking.
 
 **Console Logo:** Debounced ASCII art logged to browser console via [ascii helper](../../src/helpers/ascii.ts).
-
-**Service Worker Registration:** Registers `/sw.js` for PWA offline support. Registration runs once on page load.
 
 **Content Rendering:** Displays Banner, ProjectsGrid, and Publications components in vertical stack.
 
@@ -73,11 +73,11 @@ Implementation: [src/app/page.tsx](../../src/app/page.tsx)
 
 ## Error Handling
 
-**Error Boundary** ([src/app/error.tsx](../../src/app/error.tsx)) — Catches errors in route segments and displays fallback UI with reset button.
+**Error Boundary** ([src/app/error.tsx](../../src/app/error.tsx)) — Catches errors in route segments and displays fallback UI with a "Go Home" button.
 
 **Global Error** ([src/app/global-error.tsx](../../src/app/global-error.tsx)) — Catches errors in root layout, including its own `<html>` and `<body>` tags since layout errors prevent normal rendering.
 
-Both error boundaries are client components that accept `error` and `reset` props.
+Both error boundaries are client components that accept an `error` prop.
 
 ## Loading & 404
 
