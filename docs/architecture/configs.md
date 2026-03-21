@@ -51,18 +51,6 @@ import * as Sentry from '@sentry/nextjs';
 Sentry.init({ dsn: process.env.NEXT_PUBLIC_SENTRY_DSN });
 ```
 
-### Next.js Config Example
-
-```js
-// next.config.js
-module.exports = {
-	reactStrictMode: true,
-	env: {
-		NEXT_PUBLIC_API_KEY: process.env.NEXT_PUBLIC_API_KEY,
-	},
-};
-```
-
 ## Integration & Relationships
 
 - Configs are imported by components, helpers, and backend logic for environment-specific behavior.

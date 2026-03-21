@@ -157,6 +157,9 @@ No exceptions. Do not output any diagram missing either field.
 - **Every file reference must be a clickable markdown link.** `[filename](relative/path)` — no bare filenames, no exceptions.
     - ❌ "See server.ts for the implementation"
     - ✅ "See [`server.ts`](../src/server.ts) for the implementation"
+- **Markdown links must target files, not directories.** If the visible text refers to a directory, link to a file inside that directory such as `index.md`, `README.md`, or the most relevant existing file.
+    - ❌ "[`/design`](../design)"
+    - ✅ "[`/design`](../design/index.md)"
 - **Inline preferred:** Weave links into prose. Use footer `Implementation:` only when inline is unnatural.
 - **No redundant citations:** Don't link the same file twice in adjacent sentences.
 - **Non-existent files:** If the file doesn't exist, re-evaluate and remove or correct the statement.
@@ -227,7 +230,7 @@ For **every statement** you wrote:
 ### Content & Style Checks
 
 - Pre-existing content modified only for factual errors? Accurate content preserved?
-- All file references are clickable links? (fix or delete — ZERO TOLERANCE)
+- All file references are clickable links that resolve to files, not directories? (fix or delete — ZERO TOLERANCE)
 - Config docs use external-facing names only? (trace to source or delete)
 - No new subjective adjectives? (preserve existing ones)
 - No code dumps? (replace with links)
