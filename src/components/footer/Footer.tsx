@@ -10,12 +10,12 @@ import Link from 'next/link';
 export default function Footer() {
 	return (
 		<Stack
-			alignItems='center'
 			aria-label='Footer'
 			direction='column'
-			justifyContent='center'
 			spacing={2}
 			sx={{
+				alignItems: 'center',
+				justifyContent: 'center',
 				margin: '1rem auto',
 				maxWidth: '90vw',
 			}}
@@ -121,14 +121,14 @@ export default function Footer() {
 			</Stack>
 
 			<Grid
-				alignItems='center'
 				className='socials'
 				container
 				direction='row'
 				id='socials'
-				justifyContent='center'
 				spacing={1}
 				sx={{
+					alignItems: 'center',
+					justifyContent: 'center',
 					margin: 'auto',
 					maxWidth: 'min(480px, 90vw)',
 				}}

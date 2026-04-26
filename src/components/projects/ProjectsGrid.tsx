@@ -46,12 +46,12 @@ export default function ProjectsGrid(): ReactElement {
 	return (
 		projects && (
 			<Stack
-				alignItems='center'
 				className='projects-grid'
 				direction='column'
 				id='projects-grid'
-				justifyContent='center'
 				sx={{
+					alignItems: 'center',
+					justifyContent: 'center',
 					margin: 'auto',
 					maxWidth: '1920px',
 					zIndex: 1,
@@ -69,11 +69,11 @@ export default function ProjectsGrid(): ReactElement {
 				</Typography>
 
 				<Grid
-					alignItems='flex-start'
 					container
 					direction='row'
-					justifyContent='center'
 					sx={{
+						alignItems: 'flex-start',
+						justifyContent: 'center',
 						margin: 'auto',
 						marginBottom: '2rem',
 						maxWidth: {
@@ -227,7 +227,15 @@ export default function ProjectsGrid(): ReactElement {
 							</Typography>
 
 							{project.urls && (
-								<Grid alignItems='center' container direction='row' justifyContent='center' spacing={2}>
+								<Grid
+									container
+									direction='row'
+									spacing={2}
+									sx={{
+										alignItems: 'center',
+										justifyContent: 'center',
+									}}
+								>
 									{project.urls.map((url) => (
 										<Grid key={`${url.text}-grid-item`}>
 											<Link

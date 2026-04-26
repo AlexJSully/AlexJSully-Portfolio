@@ -31,7 +31,14 @@ export default function CookieSnackbar() {
 	return (
 		<Snackbar onClose={handleClose} open={open}>
 			<Alert severity='info'>
-				<Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ width: '100%' }}>
+				<Stack
+					direction='row'
+					sx={{
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						width: '100%',
+					}}
+				>
 					This website uses cookies to enhance the user experience.
 					<IconButton aria-label='close' color='inherit' onClick={handleClose} size='small'>
 						<CloseRoundedIcon fontSize='small' />
