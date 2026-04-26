@@ -162,7 +162,6 @@ export default function StarsBackground(): ReactElement | null {
 				clearTimeout(forceAnimationTimeoutRef.current);
 			}
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

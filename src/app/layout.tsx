@@ -243,7 +243,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<section>
 					{/* JSON-LD */}
 					<script
-						// eslint-disable-next-line react/no-danger
 						dangerouslySetInnerHTML={{
 							__html: JSON.stringify(jsonLD),
 						}}
