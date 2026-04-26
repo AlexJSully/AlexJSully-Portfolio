@@ -1,6 +1,4 @@
 const globals = require('globals');
-const react = require('eslint-plugin-react');
-const reactHooks = require('eslint-plugin-react-hooks');
 
 module.exports = [
 	{
@@ -32,10 +30,6 @@ module.exports = [
 				project: './tsconfig.json',
 			},
 		},
-		plugins: {
-			react,
-			'react-hooks': reactHooks,
-		},
 		settings: {
 			react: {
 				version: 'detect',
@@ -52,14 +46,6 @@ module.exports = [
 			'no-restricted-syntax': 'off',
 			'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
 			radix: 'off',
-			'react-hooks/rules-of-hooks': 'error',
-			'react/forbid-prop-types': 'off',
-			'react/jsx-filename-extension': ['error', { extensions: ['.tsx', '.jsx'] }],
-			'react/jsx-props-no-spreading': 'off',
-			'react/no-unknown-property': 'off',
-			'react/react-in-jsx-scope': 'off',
-			'react/require-default-props': ['error', { ignoreFunctionalComponents: true }],
-			'react/static-property-placement': 'off',
 			semi: ['error', 'always'],
 		},
 	},

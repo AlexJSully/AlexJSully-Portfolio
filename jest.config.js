@@ -1,5 +1,10 @@
-module.exports = {
-	preset: 'ts-jest',
+const nextJest = require('next/jest');
+
+const createJestConfig = nextJest({
+	dir: './',
+});
+
+const customJestConfig = {
 	moduleNameMapper: {
 		'^@$': '<rootDir>/src/index.ts',
 		'^@/(.*)$': '<rootDir>/src/$1',
@@ -21,6 +26,7 @@ module.exports = {
 		'^@styles/(.*)$': '<rootDir>/src/styles/$1',
 		'^@util$': '<rootDir>/src/util/index.ts',
 		'^@util/(.*)$': '<rootDir>/src/util/$1',
+		'^.+\\.(svg)$': '<rootDir>/jest/svg-mock.js',
 		'\\.(css|less|scss|sass)$': 'jest-transform-stub',
 		'\\.(svg|png|jpg|jpeg|gif|webp)$': '<rootDir>/jest/svg-mock.js',
 	},
@@ -29,14 +35,6 @@ module.exports = {
 	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 	testPathIgnorePatterns: ['/node_modules/', '/cypress/'],
 	setupFilesAfterEnv: ['<rootDir>/jest/setup.ts'],
-	transform: {
-		'^.+\\.(ts|tsx)$': [
-			'ts-jest',
-			{
-				tsconfig: {
-					jsx: 'react-jsx',
-				},
-			},
-		],
-	},
 };
+
+module.exports = createJestConfig(customJestConfig);

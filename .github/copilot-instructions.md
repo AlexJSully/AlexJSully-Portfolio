@@ -107,7 +107,6 @@ NETWORK.SLOW_DOWNLINK_THRESHOLD; // Network performance checks
 - Tabs for indentation (indent: ['error', 'tab'])
 - Console logs allowed (`no-console: off`)
 - Unused vars with `_` prefix ignored
-- React hooks exhaustive deps enforced
 
 ### TypeScript
 

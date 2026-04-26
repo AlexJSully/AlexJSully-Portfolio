@@ -12,14 +12,14 @@ export default function NotFound(): ReactElement {
 
 	return (
 		<Stack
-			alignItems='center'
 			direction='column'
-			justifyContent='center'
 			spacing={2}
 			sx={{
+				alignItems: 'center',
 				background: 'none',
 				backgroundImage: 'none',
 				flexGrow: 1,
+				justifyContent: 'center',
 				minHeight: '60vh',
 				position: 'relative',
 				width: '100vw',
