@@ -66,10 +66,7 @@ export default function manifest(): MetadataRoute.Manifest {
 
 ### Service Worker Lifecycle
 
-This project includes a manual service worker implementation at `public/sw.js` and registers it from the client. The app registers the service worker in two places:
-
-- `src/components/ServiceWorkerRegister.tsx` — a small client component that calls `navigator.serviceWorker.register('/sw.js')` inside a `useEffect`.
-- `src/app/page.tsx` — the home page also calls `navigator.serviceWorker.register('/sw.js')` during its initial `useEffect` (this is a defensive duplicate to ensure registration on client navigations).
+This project includes a manual service worker implementation at `public/sw.js` and registers it from the client. The app registers the service worker via `src/components/ServiceWorkerRegister.tsx` — a small client component that calls `navigator.serviceWorker.register('/sw.js')` inside a `useEffect`, with linear backoff retry logic on failure.
 
 The service worker uses a cache-first / stale-while-revalidate strategy for static assets and network-first for navigation requests. See `public/sw.js` for the exact implementation.
 
