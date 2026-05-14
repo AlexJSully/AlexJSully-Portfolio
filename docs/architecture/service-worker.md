@@ -17,32 +17,11 @@ This file documents the service worker implementation used by the site.
 
 ## How the app registers the service worker
 
-The app registers the SW from two locations:
+The app registers the SW from [src/components/ServiceWorkerRegister.tsx](../../src/components/ServiceWorkerRegister.tsx), a client component included in the root layout.
 
-**ServiceWorkerRegister component** ([src/components/ServiceWorkerRegister.tsx](../../src/components/ServiceWorkerRegister.tsx)):
+The component calls `navigator.serviceWorker.register('/sw.js')` inside a `useEffect`. On failure it retries up to `MAX_SW_RETRIES` (3) times with linear backoff starting at `INITIAL_RETRY_DELAY` (1000 ms), clearing any pending retry on unmount.
 
-```tsx
-import { useEffect } from 'react';
-
-export default function ServiceWorkerRegister() {
-	useEffect(() => {
-		if ('serviceWorker' in navigator) {
-			navigator.serviceWorker
-				.register('/sw.js')
-				.then((reg) => console.log('Service Worker registered with scope', reg.scope))
-				.catch((err) => console.error('Service Worker registration failed:', err));
-		}
-	}, []);
-
-	return null;
-}
-```
-
-**Home page** ([src/app/page.tsx](../../src/app/page.tsx)) also registers the SW within its `useEffect` as a defensive measure for client-side navigations.
-
-Both registration points use identical registration logic to ensure the service worker is registered regardless of entry point.
-
-Implementation: [ServiceWorkerRegister.tsx](../../src/components/ServiceWorkerRegister.tsx), [page.tsx](../../src/app/page.tsx)
+Implementation: [ServiceWorkerRegister.tsx](../../src/components/ServiceWorkerRegister.tsx)
 
 ## Customizing caching
 

@@ -16,6 +16,7 @@ Configs manage environment variables, service integrations, and global settings 
     - `.env`: Environment variables (API keys, secrets)
     - [`next.config.js`](../../next.config.js): Next.js build/runtime config
     - [`sentry.client.config.ts`](../../sentry.client.config.ts), [`sentry.server.config.ts`](../../sentry.server.config.ts), [`sentry.edge.config.ts`](../../sentry.edge.config.ts): Sentry error tracking
+    - [`src/instrumentation.ts`](../../src/instrumentation.ts), [`src/instrumentation-client.ts`](../../src/instrumentation-client.ts): Next.js Instrumentation hooks for Sentry
 
 ## Usage Examples
 
@@ -43,13 +44,15 @@ const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
 ### Sentry Configuration
 
-Sentry is configured via the repository's `sentry.*.config.ts` files. Use Sentry's Next.js SDK initialization patterns in those files; the app uses the standard `@sentry/nextjs` entrypoints. Example usage in application code:
+Sentry is initialized via three `sentry.*.config.ts` files at the project root and two Next.js Instrumentation hooks:
 
-```ts
-import * as Sentry from '@sentry/nextjs';
+- [`sentry.client.config.ts`](../../sentry.client.config.ts) — Client-side initialization, including session replay and console error capture via `Sentry.captureConsoleIntegration`
+- [`sentry.server.config.ts`](../../sentry.server.config.ts) — Server-side initialization
+- [`sentry.edge.config.ts`](../../sentry.edge.config.ts) — Edge runtime initialization
+- [`src/instrumentation.ts`](../../src/instrumentation.ts) — Next.js `register()` hook that loads the server or edge Sentry config based on the `NEXT_RUNTIME` environment variable; also exports `onRequestError = Sentry.captureRequestError` for automatic request error capture
+- [`src/instrumentation-client.ts`](../../src/instrumentation-client.ts) — Exports `onRouterTransitionStart = Sentry.captureRouterTransitionStart` for client-side router transition tracking
 
-Sentry.init({ dsn: process.env.NEXT_PUBLIC_SENTRY_DSN });
-```
+All `Sentry.*` integrations are imported directly from `@sentry/nextjs`.
 
 ## Integration & Relationships
 
