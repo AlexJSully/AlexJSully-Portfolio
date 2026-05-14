@@ -1,11 +1,5 @@
 // This test suite is for the landing page
 describe('Landing Page', () => {
-	// This hook runs before each test in the suite
-	beforeEach(() => {
-		// Visit the landing page
-		cy.visit('http://localhost:3000');
-	});
-
 	afterEach(() => {
 		// Accessibility check
 		cy.a11yCheck();
@@ -13,15 +7,13 @@ describe('Landing Page', () => {
 
 	// This test checks that the page renders correctly
 	it('should render page', () => {
+		cy.visit('http://localhost:3000');
 		// Check that the profile picture exists on the page
 		cy.get('[data-testid="profile_pic"]').should('exist');
 	});
 
 	it('should show cookie snackbar on first load and not after accepting', () => {
-		const hydrationErrorPattern = /hydration|did not match|content does not match/i;
-		cy.on('window:before:load', (win) => {
-			cy.spy(win.console, 'error').as('consoleError');
-		});
+		cy.visit('http://localhost:3000');
 
 		// The snackbar should be visible on first load
 		cy.get('.MuiSnackbar-root').should('exist').and('be.visible');
@@ -36,8 +28,39 @@ describe('Landing Page', () => {
 
 		// The snackbar should not appear again
 		cy.get('.MuiSnackbar-root').should('not.exist');
+	});
 
-		// Assert no hydration errors in the browser console
-		cy.get('@consoleError').should('not.have.been.calledWithMatch', hydrationErrorPattern);
+	it('initialises without console errors or uncaught exceptions', () => {
+		const uncaught: Error[] = [];
+		cy.on('window:before:load', (win) => {
+			cy.spy(win.console, 'error').as('consoleError');
+
+			win.addEventListener('error', (event) => {
+				uncaught.push(event.error ?? new Error(event.message));
+			});
+			win.addEventListener('unhandledrejection', (event) => {
+				const reason = (event as PromiseRejectionEvent).reason;
+				uncaught.push(reason instanceof Error ? reason : new Error(String(reason)));
+			});
+		});
+
+		cy.visit('http://localhost:3000');
+		cy.get('[data-testid="profile_pic"]').should('exist');
+
+		cy.get('@consoleError').then((spy: unknown) => {
+			const calls = (spy as sinon.SinonSpy).getCalls();
+			const messages = calls.map((c) =>
+				c.args.map((a: unknown) => (a instanceof Error ? a.message : String(a))).join(' '),
+			);
+
+			expect(messages, `unexpected console.error calls:\n${messages.join('\n')}`).to.have.lengthOf(0);
+		});
+
+		cy.then(() => {
+			expect(
+				uncaught,
+				`unexpected uncaught errors:\n${uncaught.map((e) => e.message).join('\n')}`,
+			).to.have.lengthOf(0);
+		});
 	});
 });
