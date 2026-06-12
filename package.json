@@ -38,13 +38,13 @@
 		"@mui/material": "^9.0.1",
 		"@sentry/nextjs": "^10.53.1",
 		"@vercel/speed-insights": "^2.0.0",
-		"firebase": "^12.13.0",
+		"firebase": "^12.14.0",
 		"lodash": "^4.18.1",
 		"next": "^16.2.6",
 		"react": "^19.2.6",
 		"react-dom": "^19.2.6",
 		"sharp": "^0.34.5",
-		"webpack": "^5.106.2"
+		"webpack": "^5.107.2"
 	},
 	"devDependencies": {
 		"@sentry/core": "^10.53.1",
@@ -72,7 +72,7 @@
 		"prettier": "^3.8.3",
 		"sass": "^1.99.0",
 		"start-server-and-test": "^3.0.5",
-		"ts-jest": "^29.4.9",
+		"ts-jest": "^29.4.11",
 		"typescript": "^6.0.3"
 	},
 	"eslintConfig": {
