@@ -4,6 +4,7 @@ module.exports = [
 	{
 		ignores: [
 			'**/*.min.js',
+			'.claude/**/*',
 			'.next/**/*',
 			'.vercel/**/*',
 			'.vscode/**/*',

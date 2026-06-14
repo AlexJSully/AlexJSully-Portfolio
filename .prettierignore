@@ -198,5 +198,8 @@ dist/**/*.js.map
 # nx cache
 .nx/cache
 
+# Claude Code agent tooling (not shipped product)
+.claude/
+
 # Ignore minified files
 *.min.*
