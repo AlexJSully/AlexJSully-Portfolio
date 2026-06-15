@@ -34,7 +34,7 @@ init();
 logAnalyticsEvent('my_event', { foo: 'bar' });
 ```
 
-There is no default export in the implementation — use the named exports above.
+There is no default export in the implementation. Use the named exports above.
 
 ### Using Environment Variables
 
@@ -46,11 +46,11 @@ const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
 Sentry is initialized via three `sentry.*.config.ts` files at the project root and two Next.js Instrumentation hooks:
 
-- [`sentry.client.config.ts`](../../sentry.client.config.ts) — Client-side initialization, including session replay and console error capture via `Sentry.captureConsoleIntegration`
-- [`sentry.server.config.ts`](../../sentry.server.config.ts) — Server-side initialization
-- [`sentry.edge.config.ts`](../../sentry.edge.config.ts) — Edge runtime initialization
-- [`src/instrumentation.ts`](../../src/instrumentation.ts) — Next.js `register()` hook that loads the server or edge Sentry config based on the `NEXT_RUNTIME` environment variable; also exports `onRequestError = Sentry.captureRequestError` for automatic request error capture
-- [`src/instrumentation-client.ts`](../../src/instrumentation-client.ts) — Exports `onRouterTransitionStart = Sentry.captureRouterTransitionStart` for client-side router transition tracking
+- [`sentry.client.config.ts`](../../sentry.client.config.ts) - Client-side initialization, including session replay and console error capture via `Sentry.captureConsoleIntegration`
+- [`sentry.server.config.ts`](../../sentry.server.config.ts) - Server-side initialization
+- [`sentry.edge.config.ts`](../../sentry.edge.config.ts) - Edge runtime initialization
+- [`src/instrumentation.ts`](../../src/instrumentation.ts) - Next.js `register()` hook that loads the server or edge Sentry config based on the `NEXT_RUNTIME` environment variable; also exports `onRequestError = Sentry.captureRequestError` for automatic request error capture
+- [`src/instrumentation-client.ts`](../../src/instrumentation-client.ts) - Exports `onRouterTransitionStart = Sentry.captureRouterTransitionStart` for client-side router transition tracking
 
 All `Sentry.*` integrations are imported directly from `@sentry/nextjs`.
 

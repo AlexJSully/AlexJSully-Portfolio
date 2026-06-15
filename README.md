@@ -41,13 +41,6 @@ If you find a bug, please create a [bug report](https://github.com/AlexJSully/al
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. All contributions are welcome!
 
-## Sponsorship
-
-If you want to support my work:
-
-- [BTC](3Lp4pwF5nXqwFA62BYx4DSvDswyYpskBog)
-- [ETH](0xc6EB17BD7cbe5976Bfc4f845669cD66Ff340a1A2)
-
 ## License
 
 [GPL-3.0](LICENSE)

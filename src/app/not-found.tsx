@@ -5,9 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactElement } from 'react';
 
-/** Renders an error page. */
+/** Renders a 404 not found page. */
 export default function NotFound(): ReactElement {
-	/** The current pathname */
 	const pathname = usePathname();
 
 	return (

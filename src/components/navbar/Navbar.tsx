@@ -7,11 +7,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-/* eslint-disable no-nested-ternary */
-
 /** General navbar for the site. */
 export default function Navbar() {
-	/** The current pathname */
 	const pathname = usePathname();
 
 	return (

@@ -6,11 +6,11 @@ This document explains how the social media links are displayed and how to add n
 
 ## Social Media Links Display
 
-The social media links are displayed using the `Footer` component located in [Footer.tsx](../../src/components/footer/Footer.tsx). This component creates a grid layout to showcase the social media links.
+The social media links are displayed using the `Footer` component located in [Footer.tsx](../../../src/components/footer/Footer.tsx). This component creates a grid layout to showcase the social media links.
 
 ### Key Elements
 
-- **Grid Layout**: The social media links are displayed in a responsive grid layout using Material-UI's `Grid`, `Stack`, and `Tooltip` components.
+- **Grid Layout**: The social media links are displayed in a responsive grid layout using Material-UI's `Grid` and `Tooltip` components.
 - **Social Media Icons**: Each social media link is displayed as an icon button with a tooltip.
 
 ### Flowchart
@@ -18,8 +18,8 @@ The social media links are displayed using the `Footer` component located in [Fo
 ```mermaid
 flowchart LR
     accTitle: Social Media Links Display Flow
-    accDescr: Footer component fetches socials data, maps to grid items, displays social media icons with tooltips and links to each platform
-    A[Footer Component] -->|Fetches| B[Socials Data]
+    accDescr: Footer component imports socials data, maps to grid items, displays social media icons with tooltips and links to each platform
+    A[Footer Component] -->|Imports| B[Socials Data]
     B --> C[Maps Socials to Grid Items]
     C --> D[Displays Social Media Icons]
     D --> E[Social Media Icon]
@@ -33,7 +33,7 @@ To add new social media links, update the `socials` array in `src/data/socials.t
 
 ### Steps to Add a New Social Media Link
 
-1. Open the [socials.ts](../../src/data/socials.ts) file.
+1. Open the [socials.ts](../../../src/data/socials.ts) file.
 2. Add a new object to the socials array with the following structure:
 
     ```typescript

@@ -41,10 +41,9 @@ self.addEventListener('fetch', (event) => {
 
     // Skip caching for:
     // 1. Non-GET requests (POST, PUT, DELETE, etc. can't be cached)
-    // 2. Cross-origin requests
+    // 2. Cross-origin requests (covers analytics and other third-party calls)
     // 3. Next.js development URLs
-    // 4. Analytics and tracking requests
-    // 5. API calls
+    // 4. API calls
     if (
         request.method !== 'GET' ||
         !request.url.startsWith(self.location.origin) ||

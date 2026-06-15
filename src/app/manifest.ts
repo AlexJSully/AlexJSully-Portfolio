@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 
+/** Generates the PWA web app manifest served at /manifest.webmanifest. */
 export default function manifest(): MetadataRoute.Manifest {
 	return {
 		name: "Alexander Sullivan's Portfolio",

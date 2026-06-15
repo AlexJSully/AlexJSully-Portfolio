@@ -1,9 +1,6 @@
 ---
 title: 'Pull Request Review'
 scope: 'selection'
-targets:
-    - 'activePullRequest'
-    - 'changes'
 labels:
     - 'review'
     - 'quality'
@@ -32,7 +29,7 @@ Act as a **Principal Code Reviewer**. Produce a thorough, opinionated review of 
 
 Use this structure for every finding:
 
-```
+```text
 ### [SEVERITY EMOJI] [Short Title]
 
 **File:** `path/to/file.ts`, lines X–Y

@@ -1,6 +1,6 @@
 # Images & Icons
 
-The portfolio uses two types of visual assets: raster images stored in [public/images/](../../public/images/) and SVG icons in [src/images/icons/](../../src/images/icons/).
+The portfolio uses two types of visual assets: raster images stored in [public/images/](../../public/images/drawn/profile_pic_drawn.webp) and SVG icons in [src/images/icons/](../../src/images/icons/github.svg).
 
 ## Image Organization
 
@@ -14,14 +14,18 @@ Files in `public/` are served statically and referenced by absolute paths (e.g.,
 
 ## Icon System
 
-SVG icons are stored as files in [src/images/icons/](../../src/images/icons/) and imported as React components via `@svgr/webpack`.
+SVG icons are stored as files in [src/images/icons/](../../src/images/icons/github.svg) and imported as React components via `@svgr/webpack`.
 
 The [icons.tsx](../../src/images/icons.tsx) file exports wrapped icons as MUI-compatible components:
 
 ```typescript
-import GitHubSVG from './icons/github.svg';
-export const GitHubIcon = (props: SvgIconProps) =>
-  <SvgIcon component={GitHubSVG} inheritViewBox {...props} />;
+import GitHub from './icons/github.svg';
+
+function generateIconJSX(icon: ComponentType, props: SvgIconProps): ReactElement {
+	return <SvgIcon component={icon} inheritViewBox {...props} />;
+}
+
+export const GitHubIcon = (props: SvgIconProps): ReactElement => generateIconJSX(GitHub as ComponentType, props);
 ```
 
 This pattern allows icons to accept MUI `SvgIconProps` (color, fontSize, etc.) while preserving the SVG viewBox.
@@ -51,5 +55,5 @@ Implementation: [src/images/icons.tsx](../../src/images/icons.tsx)
 
 ## Related Documentation
 
-- [Projects Component](./components/projects.md) — How project thumbnails render
-- [Data Architecture](./data.md) — Project data structure
+- [Projects Component](./components/projects.md) - How project thumbnails render
+- [Data Architecture](./data.md) - Project data structure

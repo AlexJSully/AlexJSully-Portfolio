@@ -8,8 +8,8 @@ The ASCII helper ([src/helpers/ascii.ts](../../src/helpers/ascii.ts)) generates 
 
 **Functions:**
 
-- `consoleLogLogo()` — Immediately logs ASCII art
-- `debounceConsoleLogLogo()` — Debounced version using `DELAYS.CONSOLE_LOGO_DEBOUNCE` (1000ms)
+- `consoleLogLogo()` - Immediately logs ASCII art
+- `debounceConsoleLogLogo()` - Debounced version using `DELAYS.CONSOLE_LOGO_DEBOUNCE` (1000ms)
 
 The debounced version prevents duplicate logs during navigation or hot module replacement in development.
 
@@ -48,12 +48,12 @@ flowchart TD
 
 **Text Transformation Logic:**
 
-The `convertAAAAHH()` function splits words in half:
+The `convertAAAAHH()` function splits the full string at its character midpoint:
 
-- First half characters → 'A' (lowercase → 'a')
-- Second half characters → 'H' (lowercase → 'h')
-- Spaces and special characters preserved
-- Example: "Hello World" → "Aaaaa HHHHHH"
+- Characters before the midpoint → 'A' (lowercase → 'a')
+- Characters from the midpoint on → 'H' (lowercase → 'h')
+- Spaces and original capitalization are preserved; every other character (letters, punctuation, digits) becomes 'A' or 'H' by position
+- Example: "one two three" → "aaa aaa hhhhh"
 
 Applied to: `<span>`, `<p>`, `<h1>`, `<h2>`, `<h3>`, `<button>` elements.
 
@@ -62,7 +62,7 @@ Applied to: `<span>`, `<p>`, `<h1>`, `<h2>`, `<h3>`, `<button>` elements.
 The `imageAAAAHHHH()` function replaces:
 
 - All `<img>` `src` and `srcset` attributes → `/images/aaaahhhh/aaaahhhh.webp`
-- All inline `backgroundImage` CSS properties → same image
+- Inline `backgroundImage` on `<div>` elements → same image
 - Stars background container → sets background image with cover sizing
 
 **Page Title:** Changes to "Alexander Sullivan's AAAAHHHHH"
@@ -77,6 +77,6 @@ Implementation: [src/helpers/aaaahhhh.ts](../../src/helpers/aaaahhhh.ts)
 
 ## Related Documentation
 
-- [Avatar Component](./components/avatar.md) — Easter egg trigger
-- [Constants](./constants.md) — Timing and threshold values
-- [Firebase Config](./configs.md) — Analytics event logging
+- [Avatar Component](./components/avatar.md) - Easter egg trigger
+- [Constants](./constants.md) - Timing and threshold values
+- [Firebase Config](./configs.md) - Analytics event logging

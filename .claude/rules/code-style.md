@@ -12,15 +12,15 @@ These rules mirror [`.github/copilot-instructions.md`](../../.github/copilot-ins
 
 - **Tabs, not spaces** for indentation (ESLint errors otherwise).
 - Semicolons required; single quotes (including JSX); `printWidth` 120; trailing commas everywhere.
-- Imports are sorted automatically by `@trivago/prettier-plugin-sort-imports` — don't hand-order them.
+- Imports are sorted automatically by `@trivago/prettier-plugin-sort-imports` - don't hand-order them.
 - Prefix intentionally-unused variables/args with `_` (e.g. `_event`) so ESLint ignores them.
 
 ## Imports
 
 - **Always use path aliases, never relative paths.** Aliases are defined in [`tsconfig.json`](../../tsconfig.json) and mirrored in [`jest.config.js`](../../jest.config.js):
   `@/`, `@components/`, `@configs/`, `@constants/`, `@data/`, `@helpers/`, `@images/`, `@layouts/`, `@styles/`, `@util/`.
-- Example: `import Avatar from '@components/banner/Avatar';` — not `'../banner/Avatar'`.
-- Import Node built-in modules with the **bare specifier** (`import { readFileSync } from 'fs'`), never the `node:` prefix (`'node:fs'`). Matches the existing convention — e.g. `require('util')` in [`jest/setup.ts`](../../jest/setup.ts).
+- Example: `import Avatar from '@components/banner/Avatar';` - not `'../banner/Avatar'`.
+- Import Node built-in modules with the **bare specifier** (`import { readFileSync } from 'fs'`), never the `node:` prefix (`'node:fs'`). Matches the existing convention - e.g. `require('util')` in [`jest/setup.ts`](../../jest/setup.ts).
 
 ## Components & styling
 
@@ -31,4 +31,4 @@ These rules mirror [`.github/copilot-instructions.md`](../../.github/copilot-ins
 ## TypeScript
 
 - Strict mode is on; types must be explicit (no implicit `any`).
-- Do **not** "fix" an existing `any` by swapping it to `unknown` or adding an `eslint-disable` — replace it with a specific concrete type, and respect an `any` that is intentional.
+- Do **not** "fix" an existing `any` by swapping it to `unknown` or adding an `eslint-disable` - replace it with a specific concrete type, and respect an `any` that is intentional.

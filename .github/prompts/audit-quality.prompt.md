@@ -1,8 +1,6 @@
 ---
 title: 'Comprehensive Codebase Audit & Quality Improvement'
 scope: 'repo'
-targets:
-    - 'codebase'
 labels:
     - 'audit'
     - 'refactoring'

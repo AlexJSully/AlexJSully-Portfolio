@@ -43,7 +43,7 @@ flowchart TD
 
 ### Manifest Generation (`src/app/manifest.ts`)
 
-The app exports a `MetadataRoute.Manifest` from `src/app/manifest.ts`. Next.js will expose this manifest to the browser as `/manifest.webmanifest` when the app is built and served. Using a TypeScript manifest lets you keep manifest values close to application code and use type safety.
+The app exports a `MetadataRoute.Manifest` from `src/app/manifest.ts`. Next.js exposes this manifest to the browser as `/manifest.webmanifest` when the app is built and served. Using a TypeScript manifest lets you keep manifest values close to application code and use type safety.
 
 Example usage (the app's implementation returns a full `MetadataRoute.Manifest` object and the root layout references the manifest at `'/manifest.webmanifest'`):
 
@@ -66,7 +66,7 @@ export default function manifest(): MetadataRoute.Manifest {
 
 ### Service Worker Lifecycle
 
-This project includes a manual service worker implementation at `public/sw.js` and registers it from the client. The app registers the service worker via `src/components/ServiceWorkerRegister.tsx` — a small client component that calls `navigator.serviceWorker.register('/sw.js')` inside a `useEffect`, with linear backoff retry logic on failure.
+This project includes a manual service worker implementation at `public/sw.js` and registers it from the client. The app registers the service worker via `src/components/ServiceWorkerRegister.tsx`, a small client component that calls `navigator.serviceWorker.register('/sw.js')` inside a `useEffect`, with linear backoff retry logic on failure.
 
 The service worker uses a cache-first / stale-while-revalidate strategy for static assets and network-first for navigation requests. See `public/sw.js` for the exact implementation.
 
@@ -74,7 +74,7 @@ The service worker uses a cache-first / stale-while-revalidate strategy for stat
 
 To modify PWA settings:
 
-1. **Manifest**: Edit `src/app/manifest.ts` to change app name, colors, or icons. The root layout uses `manifest: '/manifest.webmanifest'` so changes will propagate at runtime.
+1. **Manifest**: Edit `src/app/manifest.ts` to change app name, colors, or icons. The root layout references the manifest by its route URL (`manifest: '/manifest.webmanifest'`) rather than importing the object, so it stays decoupled from the manifest's values.
 2. **Icons**: Add or replace images in `public/icon/` and update the manifest accordingly.
 3. **Service Worker**: Edit `public/sw.js` to customize caching strategies or precached assets.
 

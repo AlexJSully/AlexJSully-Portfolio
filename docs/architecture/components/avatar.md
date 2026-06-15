@@ -4,20 +4,20 @@ The Banner component displays the profile header with an animated avatar that in
 
 ## Banner Component
 
-The Banner ([src/components/banner/Banner.tsx](../../src/components/banner/Banner.tsx)) is a container component that renders:
+The Banner ([src/components/banner/Banner.tsx](../../../src/components/banner/Banner.tsx)) is a container component that renders:
 
 - Avatar component with interactive animations
 - Name title split into hoverable characters (green glow on hover)
 - Subtitle displaying role ("Software Developer & Bioinformatician")
-- Responsive layout using MUI Stack for vertical alignment
+- Responsive layout using an MUI Box with `flexDirection: 'column'` for vertical alignment
 
 The component is server-side rendered by default with no client-side state.
 
-Implementation: [src/components/banner/Banner.tsx](../../src/components/banner/Banner.tsx)
+Implementation: [src/components/banner/Banner.tsx](../../../src/components/banner/Banner.tsx)
 
 ## Avatar Component
 
-The Avatar ([src/components/banner/Avatar.tsx](../../src/components/banner/Avatar.tsx)) is a client component (`'use client'`) that displays an interactive profile image.
+The Avatar ([src/components/banner/Avatar.tsx](../../../src/components/banner/Avatar.tsx)) is a client component that displays an interactive profile image.
 
 ### Sneeze Animation Behavior
 
@@ -33,7 +33,7 @@ After each sneeze, the component logs a `trigger_sneeze` analytics event via Fir
 
 ### Easter Egg: AAAAHHHH Transformation
 
-After the 6th sneeze, instead of animating, the avatar calls the [`aaaahhhh()`](../../src/helpers/aaaahhhh.ts) helper function which:
+After the 6th sneeze, instead of animating, the avatar calls the [`aaaahhhh()`](../../../src/helpers/aaaahhhh.ts) helper function which:
 
 - Transforms all text on the page to "AAAAHHHH" format (first half → 'A', second half → 'H')
 - Replaces all images with `/images/aaaahhhh/aaaahhhh.webp`
@@ -63,7 +63,7 @@ The avatar uses Next.js `Image` component with:
 - Explicit width/height for layout stability
 - Interactive `onClick` and `onMouseEnter` handlers
 
-Implementation: [src/components/banner/Avatar.tsx](../../src/components/banner/Avatar.tsx)
+Implementation: [src/components/banner/Avatar.tsx](../../../src/components/banner/Avatar.tsx)
 
 ## Component Interaction Flow
 
@@ -81,13 +81,13 @@ sequenceDiagram
     Avatar->>Analytics: Log sneeze event
 
     User->>Avatar: Hover (30th time, 6th sneeze)
+    Avatar->>Analytics: Log AAAAHHHH event
     Avatar->>Helper: Call aaaahhhh()
     Helper->>Helper: Transform entire page
-    Avatar->>Analytics: Log AAAAHHHH event
 ```
 
 ## Related Documentation
 
-- [Helpers: AAAAHHHH](../helpers.md#aaaahhhh-easter-egg-helper) — Easter egg implementation
-- [Constants](../constants.md) — Timing and threshold values
-- [Firebase Analytics](../configs.md) — Event tracking
+- [Helpers: AAAAHHHH](../helpers.md#aaaahhhh-easter-egg-helper) - Easter egg implementation
+- [Constants](../constants.md) - Timing and threshold values
+- [Firebase Analytics](../configs.md) - Event tracking

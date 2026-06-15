@@ -39,14 +39,8 @@ This directory contains AI-powered prompt templates designed for **GitHub Copilo
 - During maintenance cycles (keep docs fresh and accurate)
 - When refactoring or restructuring code
 
-**Configuration:**
-The `targets` field specifies which directories the AI will audit. In a monorepo or complex project, update the targets to match your documentation structure:
-
-```yaml
-targets:
-    -  #file:docs              # Primary docs directory (if root-level docs and not tied to a source directory)
-    -  #file:src #file:docs    # For monorepos where docs are alongside source directory (src = source directory, update to your structure)
-```
+**Targeting other directories:**
+This prompt audits the `docs/` directory and the workspace (`#codebase`) referenced in its body. For a monorepo or a different layout, pass the relevant folders to GitHub Copilot Chat as context (for example `#file:docs`) or edit those references in [`audit-docs.prompt.md`](./audit-docs.prompt.md).
 
 **Platform Support:**
 
