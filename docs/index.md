@@ -1,10 +1,10 @@
 # AlexJSully's Portfolio Documentation
 
-This documentation explains the architecture and usage of AlexJSully's Portfolio—a Next.js-based portfolio website showcasing projects, publications, and professional work.
+This documentation explains the architecture and usage of AlexJSully's Portfolio, a Next.js-based portfolio website showcasing projects, publications, and professional work.
 
 ## What This Portfolio Does
 
-The portfolio is a client-side rendered application that displays:
+The portfolio is a server-rendered Next.js application with client-side interactivity that displays:
 
 - **Projects:** Interactive grid showing employment history and personal projects with video previews
 - **Publications:** Academic publications with DOIs and abstracts
@@ -16,17 +16,17 @@ The portfolio is a client-side rendered application that displays:
 
 If you want to use this portfolio template for your own site:
 
-- [Setup & Installation](./usage/setup.md) — Get started with local development
-- [Adding Projects](./architecture/components/projects.md) — Customize the projects grid
-- [Testing Guide](./usage/testing.md) — Run tests and validation
+- [Setup & Installation](./usage/setup.md) - Get started with local development
+- [Adding Projects](./architecture/components/projects.md) - Customize the projects grid
+- [Testing Guide](./usage/testing.md) - Run tests and validation
 
 ## For Internal Developers
 
 If you're maintaining or extending this codebase:
 
-- [Architecture Overview](./architecture/index.md) — System design and patterns
-- [Component Documentation](./architecture/components/index.md) — UI component behaviors
-- [Data Architecture](./architecture/data.md) — How data flows through the application
+- [Architecture Overview](./architecture/index.md) - System design and patterns
+- [Component Documentation](./architecture/components/index.md) - UI component behaviors
+- [Data Architecture](./architecture/data.md) - How data flows through the application
 
 ## Architecture
 

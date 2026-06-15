@@ -8,7 +8,7 @@ This repo is worked on by **both** GitHub Copilot and Claude Code. Keep these au
 
 - [`.github/copilot-instructions.md`](.github/copilot-instructions.md) — canonical, shared conventions. Copilot cannot read `CLAUDE.md`, so when conventions change, update that file too.
 - [`docs/architecture/`](docs/architecture/index.md) and [`docs/usage/`](docs/usage/index.md) — per-area detail (read these instead of re-deriving structure).
-- [`.claude/rules/`](.claude/rules/) — Claude-specific rules that load automatically. [`code-style.md`](.claude/rules/code-style.md) loads when editing `.ts`/`.tsx`; [`docs-authoring.md`](.claude/rules/docs-authoring.md) loads when editing markdown.
+- [`.claude/rules/`](.claude/rules/code-style.md) — Claude-specific rules that load automatically. [`code-style.md`](.claude/rules/code-style.md) loads when editing `.ts`/`.tsx`; [`docs-authoring.md`](.claude/rules/docs-authoring.md) loads when editing markdown.
 
 ## Commands
 

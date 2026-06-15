@@ -16,7 +16,7 @@ AlexJSully's Portfolio is a Next.js portfolio application that uses server-side 
 
 The codebase follows these design patterns:
 
-**Static Data as Code:** Project and publication data lives in TypeScript files ([src/data/](../../src/data/)) rather than a database. This enables type safety, compile-time validation, and fast builds without runtime queries.
+**Static Data as Code:** Project and publication data lives in TypeScript files ([src/data/](../../src/data/projects.ts)) rather than a database. This enables type safety, compile-time validation, and fast builds without runtime queries.
 
 **Centralized Constants:** Timing values, thresholds, and configuration live in [src/constants/index.ts](../../src/constants/index.ts) using TypeScript's `as const` for literal types. This allows tuning behavior without hunting through components.
 
@@ -35,8 +35,8 @@ flowchart TD
     Browser[User Browser] -->|HTTP Request| NextJS[Next.js Server]
     NextJS -->|SSR| Layout[Render Root Layout]
     Layout -->|Nest| Page[Render Page]
-    Page -->|Import| Data[Static Data Files]
-    Data -->|Type-Safe| Components[React Components]
+    Page -->|Renders| Components[React Components]
+    Components -->|Import| Data[Static Data Files]
     Components -->|HTML| Browser
     Browser -->|Client Hydration| ClientInit[Initialize Client Features]
     ClientInit -->|Register| SW[Service Worker]
@@ -48,7 +48,7 @@ flowchart TD
 
 1. Browser requests page from Next.js server
 2. Server renders root layout with metadata (SEO, OpenGraph, PWA manifest)
-3. Page component imports static data from [src/data/](../../src/data/)
+3. Child components (e.g. ProjectsGrid, Publications) import static data from [src/data/](../../src/data/projects.ts); the root layout imports SEO keywords
 4. Components receive type-safe data and render to HTML
 5. Browser receives HTML and hydrates React components
 6. Client initializes service worker and Firebase analytics
@@ -64,17 +64,17 @@ Implementation: [src/app/page.tsx](../../src/app/page.tsx), [src/layouts/General
 
 ## Module Organization
 
-**Components** ([src/components/](../../src/components/)) contain UI logic and rendering. See [Component Documentation](./components/index.md).
+**Components** ([src/components/](../../src/components/banner/Banner.tsx)) contain UI logic and rendering. See [Component Documentation](./components/index.md).
 
 **Constants** ([src/constants/index.ts](../../src/constants/index.ts)) centralize timing, thresholds, and configuration values. See [Constants Documentation](./constants.md).
 
-**Data** ([src/data/](../../src/data/)) stores typed project, publication, and metadata. See [Data Architecture](./data.md).
+**Data** ([src/data/](../../src/data/projects.ts)) stores typed project, publication, and metadata. See [Data Architecture](./data.md).
 
-**Helpers** ([src/helpers/](../../src/helpers/)) provide reusable logic like Easter egg transformations and ASCII art. See [Helpers Documentation](./helpers.md).
+**Helpers** ([src/helpers/](../../src/helpers/aaaahhhh.ts)) provide reusable logic like Easter egg transformations and ASCII art. See [Helpers Documentation](./helpers.md).
 
-**Utils** ([src/util/](../../src/util/)) contain network checks and other utilities. See [Utils Documentation](./utils.md).
+**Utils** ([src/util/](../../src/util/isNetworkFast.ts)) contain network checks and other utilities. See [Utils Documentation](./utils.md).
 
-**Configs** ([src/configs/](../../src/configs/)) manage Firebase and environment setup. See [Configs Documentation](./configs.md).
+**Configs** ([src/configs/](../../src/configs/firebase.ts)) manage Firebase and environment setup. See [Configs Documentation](./configs.md).
 
 ## Related Docs
 

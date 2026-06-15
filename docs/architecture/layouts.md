@@ -10,35 +10,33 @@ Layouts define the structure and composition of pages and sections, ensuring con
 
 ## Structure
 
-**Location:** [src/layouts/](../../src/layouts)
+**Location:** [src/layouts/](../../src/layouts/GeneralLayout.tsx)
 
-- **GeneralLayout.tsx** — Main layout wrapper composing navigation, content area, and footer
-- **GeneralLayout.test.tsx** — Unit tests for layout functionality
+- **GeneralLayout.tsx** - Main layout wrapper composing navigation, content area, and footer
+- **GeneralLayout.test.tsx** - Unit tests for layout functionality
 
 ## How It Works
 
 The GeneralLayout component wraps all page content and provides a consistent structure:
 
-1. **Navbar** — Fixed navigation bar with site-wide links
-2. **Main Content Area** — Flex container for page-specific content
-3. **StarsBackground** — Animated starfield background
-4. **CookieSnackbar** — Cookie consent notification
-5. **Footer** — Global footer with social links
+1. **Navbar:** Fixed navigation bar with site-wide links
+2. **Main Content Area:** The `<main>` element is a flex item of the root `<div id='content'>` (a `display: flex` column) that grows to fill the remaining vertical space (`flex: '1 0 auto'`); it holds the page-specific children, the **StarsBackground** (animated starfield), and the **CookieSnackbar** (cookie consent notification)
+3. **Footer:** Global footer with social links
 
 ### Component Hierarchy
 
 ```mermaid
 flowchart TD
     accTitle: GeneralLayout Component Composition
-    accDescr: GeneralLayout main wrapper contains Navbar, Main content area (flex container), StarsBackground, CookieSnackbar, and Footer. Main content holds page-specific children
-    GeneralLayout["GeneralLayout<br/>(Main Wrapper)"]
+    accDescr: The GeneralLayout root div is a flex column containing Navbar, a Main content area, and Footer. The Main content area is a flex item that holds the page children, StarsBackground, and CookieSnackbar together
+    GeneralLayout["GeneralLayout<br/>(Root Div, Flex Column)"]
     GeneralLayout -->|Contains| Navbar
-    GeneralLayout -->|Contains| Main["Main Content<br/>(Flex Container)"]
-    GeneralLayout -->|Contains| Stars["StarsBackground"]
-    GeneralLayout -->|Contains| Cookie["CookieSnackbar"]
+    GeneralLayout -->|Contains| Main["Main Content<br/>(Flex Item)"]
     GeneralLayout -->|Contains| Footer
 
     Main -->|Holds| PageContent["Page Content<br/>(Children)"]
+    Main -->|Holds| Stars["StarsBackground"]
+    Main -->|Holds| Cookie["CookieSnackbar"]
 ```
 
 ## Usage Example

@@ -99,7 +99,6 @@ export default function StarsBackground(): ReactElement | null {
 
 		/** Calculate max stars based on screen width but cap at MAX_STARS to prevent performance issues */
 		const screenWidth = typeof window !== 'undefined' && window?.innerWidth ? window?.innerWidth : 400;
-		// Cap at MAX_STARS stars maximum
 		const maxStars = Math.min(screenWidth, MAX_STARS);
 
 		/** The number of stars to create */

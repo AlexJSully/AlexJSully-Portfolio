@@ -4,25 +4,23 @@ This document details the navigation bar component that provides site-wide navig
 
 ## Overview
 
-The Navbar component is a fixed-position navigation bar located in [`src/components/navbar/Navbar.tsx`](../../src/components/navbar/Navbar.tsx). It provides navigation links with smooth scrolling behavior and analytics tracking.
+The Navbar component is a fixed-position navigation bar located in [`src/components/navbar/Navbar.tsx`](../../../src/components/navbar/Navbar.tsx). It provides navigation links with smooth scrolling behavior and analytics tracking.
 
 ## Component Structure
 
 ```mermaid
 flowchart LR
     accTitle: Navbar Navigation Structure
-    accDescr: Navbar contains Home button and links for Projects, Publications, Socials, and Resume. Each item scrolls to or opens its target section or PDF
+    accDescr: Navbar contains Home button and links for Projects, Publications, and Socials. Each item scrolls to its target section
     Navbar[Navbar] -->|Contains| Home[Home Button]
     Navbar -->|Contains| Projects[Projects Link]
     Navbar -->|Contains| Pubs[Publications Link]
     Navbar -->|Contains| Socials[Socials Link]
-    Navbar -->|Contains| Resume[Resume Link]
 
     Home -->|Scroll to| Top[Page Top]
     Projects -->|Scroll to| ProjectsGrid[Projects Grid]
     Pubs -->|Scroll to| PublicationsList[Publications]
     Socials -->|Scroll to| Footer[Footer / Socials]
-    Resume -->|Opens| PDF[Resume PDF]
 ```
 
 ## Key Features
@@ -62,7 +60,6 @@ logAnalyticsEvent('navbar_home', {
 - `navbar_projects` - Projects link click
 - `navbar_publications` - Publications link click
 - `navbar_socials` - Socials link click
-- `navbar_resume` - Resume link click
 
 ### 3. Responsive Design
 
@@ -138,28 +135,6 @@ if (pathname === '/') {
 </Link>
 ```
 
-### Resume Link
-
-**Target:** External PDF (`/resume/resume.pdf`)
-**Behavior:** Opens in new tab
-
-```tsx
-<Link
-	aria-label='See resume'
-	href='/resume/resume.pdf'
-	onClick={() => {
-		logAnalyticsEvent('navbar_resume', {
-			name: 'navbar_resume',
-			type: 'click',
-		});
-	}}
-	rel='noopener noreferrer'
-	target='_blank'
->
-	Resume
-</Link>
-```
-
 ## Interaction Flow
 
 ```mermaid
@@ -221,7 +196,7 @@ sequenceDiagram
 
 ## Testing
 
-Test file: [`src/components/navbar/Navbar.test.tsx`](../../src/components/navbar/Navbar.test.tsx)
+Test file: [`src/components/navbar/Navbar.test.tsx`](../../../src/components/navbar/Navbar.test.tsx)
 
 **Test Coverage:**
 
@@ -229,8 +204,9 @@ Test file: [`src/components/navbar/Navbar.test.tsx`](../../src/components/navbar
 - Navigation links present
 - Click handlers fire
 - Analytics events logged
-- Smooth scroll behavior
-- External links open correctly
+- ARIA labels for accessibility
+- Keyboard navigation (Enter/Space) on links
+- Navigation when not on the homepage
 
 ## Usage Example
 
@@ -243,7 +219,7 @@ import Navbar from '@components/navbar/Navbar';
 
 ## Integration with Layout
 
-The Navbar is rendered in the [`GeneralLayout`](../../src/layouts/GeneralLayout.tsx):
+The Navbar is rendered in the [`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx):
 
 ```tsx
 export default function GeneralLayout({ children }) {
@@ -264,6 +240,7 @@ The component relies on the following element IDs:
 - `content` - Page container
 - `projects-grid` - Projects section
 - `publications` - Publications section
+- `socials` - Socials section (Footer)
 
 Ensure these IDs exist in your page structure.
 

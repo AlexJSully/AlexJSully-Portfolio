@@ -20,11 +20,12 @@ This document describes the internal architecture, relationships, and usage of m
 ```mermaid
 flowchart TD
     accTitle: Page Component Composition Tree
-    accDescr: Root Layout wraps Navbar, Main Content, Footer, and ServiceWorkerRegister. Main Content contains Banner, ProjectsGrid, Publications, StarsBackground, CookieSnackbar. Banner contains Avatar. ProjectsGrid and Publications generate cards. Footer contains social links
-    RootLayout[Root Layout] --> Navbar
-    RootLayout --> Main[Main Content]
-    RootLayout --> Footer
+    accDescr: Root Layout wraps GeneralLayout and ServiceWorkerRegister. GeneralLayout wraps Navbar, Main Content, and Footer. Main Content contains Banner, ProjectsGrid, Publications, StarsBackground, CookieSnackbar. Banner contains Avatar. ProjectsGrid and Publications generate cards. Footer contains social links
+    RootLayout[Root Layout] --> GeneralLayout
     RootLayout --> ServiceWorkerRegister
+    GeneralLayout --> Navbar
+    GeneralLayout --> Main[Main Content]
+    GeneralLayout --> Footer
 
     Main --> Banner
     Main --> ProjectsGrid
@@ -43,7 +44,7 @@ flowchart TD
 
 ### Navbar
 
-**Location:** [`src/components/navbar/Navbar.tsx`](../../src/components/navbar/Navbar.tsx)
+**Location:** [`src/components/navbar/Navbar.tsx`](../../../src/components/navbar/Navbar.tsx)
 
 Top navigation bar with smooth scrolling to page sections.
 
@@ -58,7 +59,7 @@ Top navigation bar with smooth scrolling to page sections.
 
 ### Banner & Avatar
 
-**Location:** [`src/components/banner/Banner.tsx`](../../src/components/banner/Banner.tsx), [`Avatar.tsx`](../../src/components/banner/Avatar.tsx)
+**Location:** [`src/components/banner/Banner.tsx`](../../../src/components/banner/Banner.tsx), [`Avatar.tsx`](../../../src/components/banner/Avatar.tsx)
 
 Header section with animated profile picture featuring a sneeze animation and Easter egg.
 
@@ -73,7 +74,7 @@ Header section with animated profile picture featuring a sneeze animation and Ea
 
 ### ProjectsGrid
 
-**Location:** [`src/components/projects/ProjectsGrid.tsx`](../../src/components/projects/ProjectsGrid.tsx)
+**Location:** [`src/components/projects/ProjectsGrid.tsx`](../../../src/components/projects/ProjectsGrid.tsx)
 
 Displays project cards in a responsive grid layout.
 
@@ -90,7 +91,7 @@ Displays project cards in a responsive grid layout.
 
 ### Publications
 
-**Location:** [`src/components/publications/Publications.tsx`](../../src/components/publications/Publications.tsx)
+**Location:** [`src/components/publications/Publications.tsx`](../../../src/components/publications/Publications.tsx)
 
 Lists publications with authors, abstracts, and metadata.
 
@@ -98,14 +99,13 @@ Lists publications with authors, abstracts, and metadata.
 
 - Publication cards with metadata
 - DOI and journal links
-- Related project linking
 - Analytics tracking
 
 **See:** [Publications Documentation](./publications.md)
 
 ### Footer
 
-**Location:** [`src/components/footer/Footer.tsx`](../../src/components/footer/Footer.tsx)
+**Location:** [`src/components/footer/Footer.tsx`](../../../src/components/footer/Footer.tsx)
 
 Social media links and copyright information.
 
@@ -120,13 +120,13 @@ Social media links and copyright information.
 
 ### StarsBackground
 
-**Location:** [`src/components/Stars/StarsBackground.tsx`](../../src/components/Stars/StarsBackground.tsx)
+**Location:** [`src/components/Stars/StarsBackground.tsx`](../../../src/components/Stars/StarsBackground.tsx)
 
 Animated starfield background with twinkling stars.
 
 **Features:**
 
-- Dynamic star generation (50-100 stars)
+- Dynamic star generation (10 to maxStars/2, capped at 600)
 - CSS animations for twinkling
 - Fixed position background
 - Performance optimized
@@ -135,14 +135,14 @@ Animated starfield background with twinkling stars.
 
 ### CookieSnackbar
 
-**Location:** [`src/components/cookie-snackbar/CookieSnackbar.tsx`](../../src/components/cookie-snackbar/CookieSnackbar.tsx)
+**Location:** [`src/components/cookie-snackbar/CookieSnackbar.tsx`](../../../src/components/cookie-snackbar/CookieSnackbar.tsx)
 
-Cookie consent notification with localStorage persistence.
+Cookie consent notification with cookie-based persistence.
 
 **Features:**
 
 - Cookie consent management
-- localStorage persistence
+- Cookie-based persistence (1 year)
 - MUI Snackbar integration
 - Privacy compliance
 
@@ -150,7 +150,7 @@ Cookie consent notification with localStorage persistence.
 
 ### ServiceWorkerRegister
 
-**Location:** [`src/components/ServiceWorkerRegister.tsx`](../../src/components/ServiceWorkerRegister.tsx)
+**Location:** [`src/components/ServiceWorkerRegister.tsx`](../../../src/components/ServiceWorkerRegister.tsx)
 
 Client component that registers the service worker for PWA functionality.
 
@@ -164,7 +164,7 @@ Client component that registers the service worker for PWA functionality.
 
 ## Relationships & Composition
 
-Components are composed in the [`GeneralLayout`](../../src/layouts/GeneralLayout.tsx):
+Components are composed in the [`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx):
 
 ```tsx
 export default function GeneralLayout({ children }) {
@@ -188,16 +188,14 @@ Data flow:
 
 ```mermaid
 sequenceDiagram
-    accTitle: Page Data Integration and Analytics Flow
-    accDescr: Page imports projects, publications, socials from data. Data is passed as props to components. Components render UI and log analytics events to Firebase
-    participant Page
-    participant Data
+    accTitle: Component Data Integration and Analytics Flow
+    accDescr: Each component imports its own static data directly from the data modules, renders the UI, and logs analytics events to Firebase
     participant Component
+    participant Data
     participant Firebase
 
-    Page->>Data: Import projects, publications, socials
-    Data-->>Page: Static data arrays
-    Page->>Component: Pass data as props
+    Component->>Data: Import from @data (projects, publications, socials)
+    Data-->>Component: Static data arrays
     Component->>Component: Render UI
     Component->>Firebase: Log analytics events
     Firebase-->>Component: Event logged
@@ -236,13 +234,10 @@ sequenceDiagram
 ```mermaid
 flowchart LR
     accTitle: Component Data and Event Flow
-    accDescr: Data is imported from src/data into page.tsx. Page passes data as props to ProjectsGrid, Publications, Footer, Navbar and Avatar. All components log events to Firebase
-    Data[src/data/] -->|Import| Page[page.tsx]
-    Page -->|Props| ProjectsGrid
-    Page -->|Props| Publications
-    Page -->|Static| Footer
-    Page -->|Static| Navbar
-    Page -->|Static| Avatar
+    accDescr: ProjectsGrid, Publications, and Footer import their static data directly from the data modules. These components, along with Navbar and Avatar, log events to Firebase
+    Data[src/data/] -->|Import| ProjectsGrid
+    Data -->|Import| Publications
+    Data -->|Import| Footer
 
     Navbar -->|Events| Firebase[Firebase]
     Avatar -->|Events| Firebase

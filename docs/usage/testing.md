@@ -103,14 +103,14 @@ Here is an example of a Cypress test located in [cypress/e2e/landing.cy.ts](../.
 ```ts
 // This test suite is for the landing page
 describe('Landing Page', () => {
-	// This hook runs before each test in the suite
-	beforeEach(() => {
-		// Visit the landing page
-		cy.visit('http://localhost:3000');
+	// Run an accessibility check after each test
+	afterEach(() => {
+		cy.a11yCheck();
 	});
 
 	// This test checks that the page renders correctly
 	it('should render page', () => {
+		cy.visit('http://localhost:3000');
 		// Check that the profile picture exists on the page
 		cy.get('[data-testid="profile_pic"]').should('exist');
 	});
@@ -119,13 +119,16 @@ describe('Landing Page', () => {
 
 ## Continuous Integration
 
-This repository uses a CI workflow defined in [code-qa.yml](../../.github/workflows/code-qa.yml) to ensure code quality. The workflow runs the following checks on every push and pull request to the `main` branch:
+This repository uses a CI workflow defined in [code-qa.yaml](../../.github/workflows/code-qa.yaml) to ensure code quality. The workflow runs the following checks on every push and pull request to the `main` branch:
 
 - **Prettier**: Ensures code formatting is consistent.
 - **ESLint**: Checks for code quality and potential issues.
 - **TypeScript**: Ensures type safety.
+- **Jest**: Runs unit tests.
 - **Cypress**: Runs end-to-end tests.
 - **Build**: Ensures the project builds successfully.
+
+Markdown files are linted by a separate [markdown-lint.yaml](../../.github/workflows/markdown-lint.yaml) workflow.
 
 ## Contributing
 

@@ -98,7 +98,7 @@ NETWORK.SLOW_DOWNLINK_THRESHOLD; // Network performance checks
 ### Linting & Formatting
 
 - **Indentation**: Tabs (not spaces) - enforced by ESLint
-- **Line length**: No hard limit, use Prettier
+- **Line length**: Prettier wraps at `printWidth` 120 (`.prettierrc`)
 - **Import sorting**: Handled by `@trivago/prettier-plugin-sort-imports`
 - **Unused vars**: Prefix with `_` to ignore (e.g., `_unusedParam`)
 
@@ -138,12 +138,16 @@ export const metadata: Metadata = {
 
 ### Security Headers
 
-CSP and security headers configured in `next.config.js` headers() function. Includes:
+Security headers configured in `next.config.js` headers() function. The `/` route includes:
 
 - X-Content-Type-Options: nosniff
+- X-XSS-Protection: 1; mode=block
 - X-Frame-Options: DENY
 - Strict-Transport-Security (HSTS)
-- Content Security Policy for service workers
+- Referrer-Policy: same-origin
+- Permissions-Policy
+
+The `/sw.js` route sets Content-Type, Cache-Control, and Service-Worker-Allowed headers.
 
 ## Special Features
 
@@ -158,7 +162,7 @@ CSP and security headers configured in `next.config.js` headers() function. Incl
 
 ### Service Worker
 
-- Lives in `public/sw.js` and served via `src/app/sw.js/`
+- Lives in `public/sw.js` and served by Next.js from the public directory at `/sw.js`
 - Registration in `src/components/ServiceWorkerRegister.tsx`
 - Used for PWA offline support
 

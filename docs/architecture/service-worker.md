@@ -13,7 +13,7 @@ This file documents the service worker implementation used by the site.
 - The service worker precaches a small set of core assets (`/`, `/manifest.webmanifest`, `/icon/favicon.ico`).
 - Navigation requests (HTML) use a **network-first** strategy with a cache fallback.
 - Static assets use a **cache-first** with background stale-while-revalidate update flow.
-- The worker skips cross-origin requests, Next.js dev paths (`/_next/`) and API calls.
+- The worker skips non-GET requests, cross-origin requests, Next.js paths (`/_next/`, `__nextjs`) and API calls (`/api/`).
 
 ## How the app registers the service worker
 

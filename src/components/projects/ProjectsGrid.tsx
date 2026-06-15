@@ -301,11 +301,8 @@ export default function ProjectsGrid(): ReactElement {
 						});
 						setViewMore(!viewMore);
 
-						/** Scrolls to the projects grid. */
 						const scrollToProjectsGrid = () => {
-							/** The projects grid. */
 							const projectsGrid = document.getElementById('projects-grid');
-							/** The projects grid title. */
 							const projectsGridTitle = document.getElementById('projects-grid-title');
 
 							if (!projectsGrid || !projectsGridTitle) return;

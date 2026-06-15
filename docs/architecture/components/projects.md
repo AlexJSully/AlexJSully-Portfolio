@@ -6,7 +6,7 @@ This document explains how the projects grid is displayed and how to add new pro
 
 ## Projects Grid Display
 
-The projects grid is displayed using the `ProjectsGrid` component located in [ProjectsGrid.tsx](../../src/components/projects/ProjectsGrid.tsx). This component creates a grid layout to showcase the projects.
+The projects grid is displayed using the `ProjectsGrid` component located in [ProjectsGrid.tsx](../../../src/components/projects/ProjectsGrid.tsx). This component creates a grid layout to showcase the projects.
 
 ### Key Elements
 
@@ -23,8 +23,8 @@ The projects grid is displayed using the `ProjectsGrid` component located in [Pr
 ```mermaid
 flowchart LR
     accTitle: Projects Grid Data Flow
-    accDescr: ProjectsGrid component fetches projects data, maps to grid items, displays project cards with thumbnail image, name, title/employer, and action links. Includes network-aware video autoplay
-    A[ProjectsGrid Component] -->|Fetches| B[Projects Data]
+    accDescr: ProjectsGrid component imports projects data, maps to grid items, displays project cards with thumbnail image, name, title/employer, and action links. Includes network-aware video autoplay
+    A[ProjectsGrid Component] -->|Imports| B[Projects Data]
     B --> C[Maps Projects to Grid Items]
     C --> D[Displays Project Cards]
     D --> E[Project Thumbnail]
@@ -57,7 +57,7 @@ const example = {
 ## Related Docs
 
 - [Component Overview](./index.md)
-- [System Architecture](../architecture/index.md)
+- [System Architecture](../index.md)
 
 ```json
 {
@@ -69,7 +69,7 @@ const example = {
 	"title": "Job Title",
 	"publication": "https://publication-url.com", // optional
 	"type": "Employment", // or 'Personal Project', 'School (MSc)', etc.
-	"url": "https://project-url.com", // optional
+	"url": "https://project-url.com", // required
 	"urls": [
 		// this is used to create a series of buttons with links
 		{
@@ -86,7 +86,7 @@ const example = {
 	},
 	"showcase": true, // or false
 	"objectFit": "contain", // optional, cover is used if nothing is provided
-	"youtubeURL": "https://www.youtube.com/embed/{videoID}?autoplay=1&mute=1&cc_load_policy=1&controls=1" // optional: displays a YouTube video to play in the card if mouse hovered over
+	"youtubeURL": "https://www.youtube.com/embed/{videoID}?mute=1&cc_load_policy=1&controls=1" // optional: displays a YouTube video to play in the card on hover. Autoplay is appended dynamically based on network speed
 }
 ```
 

@@ -4,7 +4,7 @@ This document details the CookieSnackbar component that manages cookie consent n
 
 ## Overview
 
-Location: [`src/components/cookie-snackbar/CookieSnackbar.tsx`](../../src/components/cookie-snackbar/CookieSnackbar.tsx)
+Location: [`src/components/cookie-snackbar/CookieSnackbar.tsx`](../../../src/components/cookie-snackbar/CookieSnackbar.tsx)
 
 The CookieSnackbar component displays a cookie consent notification to users when they first visit the site. It uses browser cookies to remember user consent and avoid showing the notification on subsequent visits.
 
@@ -25,7 +25,7 @@ flowchart TD
 
 1. **Cookie Consent Management:** Tracks and stores user consent using browser cookies
 2. **SSR/Client Safety:** Prevents hydration mismatches with mounted state
-3. **Auto-dismiss:** Automatically sets consent cookie after 1 second if not dismissed
+3. **User-initiated consent:** The consent cookie is set when the user dismisses the snackbar (clicking the close button, clicking away, or pressing Escape), never automatically on load
 4. **Persistent Storage:** Stores consent for 1 year (31,536,000 seconds)
 5. **MUI Integration:** Uses Material-UI Snackbar and Alert components
 6. **Accessibility:** Includes proper ARIA labels for close button
@@ -45,15 +45,9 @@ const [open, setOpen] = useState(false); // Controls snackbar visibility
 useEffect(() => {
 	setMounted(true);
 
-	// Check if consent cookie exists
-	if (document.cookie.includes('cookie-consent=true')) {
-		setOpen(false);
-	} else {
+	// Only show snackbar if user hasn't already accepted cookies
+	if (!hasCookieConsent()) {
 		setOpen(true);
-		// Auto-set cookie after 1 second
-		setTimeout(() => {
-			document.cookie = 'cookie-consent=true; max-age=31536000; path=/';
-		}, 1000);
 	}
 }, []);
 ```
@@ -62,7 +56,7 @@ useEffect(() => {
 
 ```typescript
 const handleClose = () => {
-	document.cookie = 'cookie-consent=true; max-age=31536000; path=/';
+	setCookieConsent();
 	setOpen(false);
 };
 ```
@@ -72,7 +66,7 @@ const handleClose = () => {
 ```mermaid
 sequenceDiagram
     accTitle: Cookie Consent Component Sequence
-    accDescr: When user visits site, component mounts on client and checks document cookie. If cookie exists, notification is hidden. If not, it shows notification and sets cookie after 1 second, or user can click close
+    accDescr: When user visits site, component mounts on client and checks for existing consent. If consent exists, notification is hidden. If not, it shows the notification, and the cookie is set when the user dismisses it (close button, clicking away, or Escape)
     participant User
     participant Component
     participant Browser
@@ -90,9 +84,8 @@ sequenceDiagram
         Cookie-->>Component: Not found
         Component->>Component: setOpen(true)
         Component->>User: Show notification
-        Component->>Cookie: Set after 1s timeout
 
-        User->>Component: Click close
+        User->>Component: Dismiss (close, clickaway, or Escape)
         Component->>Cookie: Set cookie-consent=true
         Component->>Component: setOpen(false)
     end
@@ -104,6 +97,8 @@ sequenceDiagram
 **Cookie Value:** `true`
 **Max Age:** 31,536,000 seconds (1 year)
 **Path:** `/` (site-wide)
+**SameSite:** `Strict`
+**Secure:** Set when the connection is HTTPS
 
 ## SSR Considerations
 
@@ -140,7 +135,7 @@ This ensures:
 
 ## Testing
 
-Test file: [`src/components/cookie-snackbar/CookieSnackbar.test.tsx`](../../src/components/cookie-snackbar/CookieSnackbar.test.tsx)
+Test file: [`src/components/cookie-snackbar/CookieSnackbar.test.tsx`](../../../src/components/cookie-snackbar/CookieSnackbar.test.tsx)
 
 **Test Coverage:**
 
@@ -148,12 +143,11 @@ Test file: [`src/components/cookie-snackbar/CookieSnackbar.test.tsx`](../../src/
 - Snackbar opens when cookie not present
 - Snackbar closes when cookie exists
 - Close button sets cookie and hides snackbar
-- Auto-dismiss sets cookie after 1 second
 - SSR safety (no crash on server)
 
 ## Integration
 
-The component is rendered in [`GeneralLayout`](../../src/layouts/GeneralLayout.tsx):
+The component is rendered in [`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx):
 
 ```tsx
 export default function GeneralLayout({ children }) {
@@ -176,10 +170,9 @@ export default function GeneralLayout({ children }) {
 To customize the cookie snackbar:
 
 1. **Message:** Modify the text in the Alert component
-2. **Cookie Duration:** Change `max-age=31536000` value
-3. **Auto-dismiss Delay:** Adjust `setTimeout(() => {...}, 1000)` delay
-4. **Severity:** Change `severity='info'` to `success`, `warning`, or `error`
-5. **Position:** Add `anchorOrigin` prop to Snackbar for positioning
+2. **Cookie Duration:** Change the `max-age=31536000` value in `getCookieOptions()`
+3. **Severity:** Change `severity='info'` to `success`, `warning`, or `error`
+4. **Position:** Add `anchorOrigin` prop to Snackbar for positioning
 
 **Custom Position Configuration:**
 
@@ -198,4 +191,4 @@ Example: To center the snackbar at the bottom, set `anchorOrigin` to `vertical: 
 
 ---
 
-**Tip:** The component automatically sets the consent cookie after 1 second to avoid interrupting the user experience while still meeting consent requirements.
+**Tip:** The consent cookie is set only when the user dismisses the snackbar; `hasCookieConsent()` parses cookies to avoid substring false positives.

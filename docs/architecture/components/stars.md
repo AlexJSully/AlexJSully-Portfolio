@@ -4,7 +4,7 @@ This document details the StarsBackground component that creates an animated sta
 
 ## Overview
 
-Location: [`src/components/Stars/StarsBackground.tsx`](../../src/components/Stars/StarsBackground.tsx)
+Location: [`src/components/Stars/StarsBackground.tsx`](../../../src/components/Stars/StarsBackground.tsx)
 
 The StarsBackground component creates a visually appealing animated background with twinkling stars and occasional shooting stars.
 
@@ -29,36 +29,14 @@ flowchart TD
 Stars are generated on component mount based on window width:
 
 ```typescript
-useEffect(() => {
-  const maxStars = typeof window !== 'undefined' && window?.innerWidth ? window?.innerWidth : 400;
-  const numberOfStars = Math.floor(Math.random() * (maxStars / 2)) + 10;
-
-  const starsArray: ReactElement[] = [];
-
-  for (let i = 0; i < numberOfStars; i += 1) {
-    const starSize = `${Math.random() * 5 + 1}px`;
-
-    const style = {
-      background: `#ffffff50`,
-      borderRadius: '50%',
-      opacity: 0.5,
-      position: 'absolute',
-      transition: 'transform 1s',
-      animation: `twinkle ${Math.random() * 5}s ease-in-out infinite`,
-      width: starSize,
-      height: starSize,
-      top: `${Math.random() * 100}vh`,
-      left: `${Math.random() * 100}vw`,
-    };
-
-    starsArray.push(<Box key={i} data-testid='star' sx={style} onMouseEnter={handleStarAnimation} />);
-  }
-
-  setStars(starsArray);
-}, []);
+const screenWidth = typeof window !== 'undefined' && window?.innerWidth ? window?.innerWidth : 400;
+const maxStars = Math.min(screenWidth, MAX_STARS);
+const numberOfStars = Math.floor(Math.random() * (maxStars / 2)) + 10;
 ```
 
-**Star Count:** Based on window width (10 to width/2 stars)
+Each star is a `Box` with random size, position, and a `twinkle` animation; the full generation loop lives in `createStars()` in [`StarsBackground.tsx`](../../../src/components/Stars/StarsBackground.tsx).
+
+**Star Count:** Based on window width (10 to maxStars/2, where maxStars is the screen width capped at 600)
 
 ### 2. Star Properties
 
@@ -74,8 +52,7 @@ Each star has:
 
 Stars twinkle using CSS animations applied through the `sx` prop. Each star receives:
 
-- **animation:** `twinkle` with dynamic duration (using template literal with `star.animationDuration`) set to infinite
-- **animationDelay:** Random delay from `star.animationDelay` for staggered effect
+- **animation:** `twinkle` with a random duration (`Math.random() * 5` seconds) and `ease-in-out` timing, set to `infinite`
 
 The `twinkle` keyframe animation should be defined in global styles:
 
@@ -83,10 +60,22 @@ The `twinkle` keyframe animation should be defined in global styles:
 @keyframes twinkle {
 	0%,
 	100% {
-		opacity: 1;
+		opacity: 0.5;
+	}
+	10%,
+	90% {
+		opacity: 0.7;
+	}
+	20%,
+	80% {
+		opacity: 0.8;
+	}
+	30%,
+	70% {
+		opacity: 0.9;
 	}
 	50% {
-		opacity: 0.3;
+		opacity: 1;
 	}
 }
 ```
@@ -114,7 +103,7 @@ const handleStarAnimation = (e: React.MouseEvent<HTMLElement> | { target: HTMLEl
 
 **Automatic Shooting Stars:**
 
-If there are more than `THRESHOLDS.MIN_STARS_FOR_ANIMATION` (15) unused stars, the component automatically triggers random shooting star animations:
+If there are more than 15 unused stars, the component automatically triggers random shooting star animations:
 
 ```typescript
 const handleForceStarAnimation = () => {
@@ -122,7 +111,7 @@ const handleForceStarAnimation = () => {
 		(star) => star.getAttribute('data-star-used') !== 'true',
 	);
 
-	if (!isEmpty(allStars) && allStars.length > THRESHOLDS.MIN_STARS_FOR_ANIMATION) {
+	if (!isEmpty(allStars) && allStars.length > 15) {
 		const randomStar = allStars[Math.floor(Math.random() * allStars.length)] as HTMLElement;
 		if (randomStar) {
 			handleStarAnimation({ target: randomStar });
@@ -148,7 +137,7 @@ sequenceDiagram
     participant CSS
 
     Component->>Component: Mount
-    Component->>State: Calculate star count (50-100)
+    Component->>State: Calculate star count (10 to maxStars/2)
     Component->>State: Generate star properties
     State-->>Component: Update stars array
     Component->>DOM: Render star elements
@@ -196,7 +185,7 @@ useEffect(() => {
 
 ## Integration
 
-The component is rendered in [`GeneralLayout`](../../src/layouts/GeneralLayout.tsx):
+The component is rendered in [`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx):
 
 ```tsx
 export default function GeneralLayout({ children }) {
@@ -216,13 +205,13 @@ export default function GeneralLayout({ children }) {
 
 ## Testing
 
-Test file: [`src/components/Stars/StarsBackground.test.tsx`](../../src/components/Stars/StarsBackground.test.tsx)
+Test file: [`src/components/Stars/StarsBackground.test.tsx`](../../../src/components/Stars/StarsBackground.test.tsx)
 
 **Test Coverage:**
 
 - Component renders
 - Stars are created on mount
-- Star count is within range (50-100)
+- Star count is within range (10 to maxStars/2, maxStars capped at 600)
 - Stars have proper data-testid
 - Accessibility attributes present
 - Performance with large star counts
@@ -237,19 +226,19 @@ To customize the background:
 4. **Shooting Star Speed:** Adjust `Math.random() * 4 + 1` in `handleStarAnimation`
 5. **Background Color:** Inherited from global `body` background (`#131518`)
 6. **Star Color:** Modify `background: '#ffffff50'` in `starStyles`
-7. **Auto-trigger Threshold:** Update `THRESHOLDS.MIN_STARS_FOR_ANIMATION` in constants
-8. **Initial Trigger Delay:** Update `DELAYS.STAR_ANIMATION_INITIAL` in constants
+7. **Auto-trigger Threshold:** Adjust the `allStars.length > 15` check in `handleForceStarAnimation`
+8. **Initial Trigger Delay:** Adjust the hardcoded `1000` in the `setTimeout(() => { handleForceStarAnimation(); }, 1000)` call in `createStars()` (around line 148)
 
 ## Visual Effect
 
 ```mermaid
 stateDiagram-v2
     accTitle: Star Twinkle Animation Life Cycle
-    accDescr: Stars cycle through visible (opacity 1), fading (2-5s random), dim (opacity 0.3), brightening (2-5s random), then back to visible state
+    accDescr: Stars cycle through visible (opacity 1), fading, dim (opacity 0.5), brightening, then back to visible state
     [*] --> Visible: opacity 1
-    Visible --> Fading: 2-5s random
-    Fading --> Dim: opacity 0.3
-    Dim --> Brightening: 2-5s random
+    Visible --> Fading: random duration
+    Fading --> Dim: opacity 0.5
+    Dim --> Brightening: random duration
     Brightening --> Visible: opacity 1
 ```
 
@@ -257,7 +246,7 @@ stateDiagram-v2
 
 - [GeneralLayout](../layouts.md)
 - [Components Overview](./index.md)
-- [Global Styles](../../src/styles/globals.scss)
+- [Global Styles](../../../src/styles/globals.scss)
 
 ---
 

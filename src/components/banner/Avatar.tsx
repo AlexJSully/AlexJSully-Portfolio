@@ -5,6 +5,7 @@ import { debounce } from 'lodash';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
+/** Interactive profile picture; hovering or clicking triggers a sneeze animation that escalates to the aaaahhhh easter egg after a threshold. */
 export default function Avatar() {
 	/** The number of times the profile pic has been hovered */
 	const hoverProfilePic = useRef(0);

@@ -45,7 +45,8 @@ This guide walks you through installing, configuring, and running the Alexander 
     - `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
     - `NEXT_PUBLIC_FIREBASE_APP_ID`
     - `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID`
-    - `NEXT_PUBLIC_SENTRY_DSN` (if Sentry is used in your environment).
+    - `NEXT_PUBLIC_SENTRY_DSN` (if Sentry is used in your environment)
+    - `NEXT_PUBLIC_SENTRY_ORG` (if Sentry is used in your environment)
 
     Set these keys as environment variables during development (commonly via a local untracked `.env` file). Do not commit real secrets to git.
 
