@@ -10,7 +10,7 @@ This document describes the internal architecture, relationships, and usage of m
 - [Banner & Avatar](./avatar.md): Header section with animated profile picture
 - [ProjectsGrid](./projects.md): Displays project cards in a grid
 - [Publications](./publications.md): Lists publications with metadata
-- [Footer](./socials.md): Social media links and copyright
+- [Footer](./socials.md): Social media links, contact buttons, and attribution
 - [StarsBackground](./stars.md): Animated starfield background
 - [CookieSnackbar](./cookie-snackbar.md): Cookie consent notification
 - [ServiceWorkerRegister](../service-worker.md): PWA service worker registration
@@ -98,7 +98,7 @@ Lists publications with authors, abstracts, and metadata.
 **Features:**
 
 - Publication cards with metadata
-- DOI and journal links
+- Card links to the publication's DOI page
 - Analytics tracking
 
 **See:** [Publications Documentation](./publications.md)
@@ -107,7 +107,7 @@ Lists publications with authors, abstracts, and metadata.
 
 **Location:** [`src/components/footer/Footer.tsx`](../../../src/components/footer/Footer.tsx)
 
-Social media links and copyright information.
+Social media links, contact buttons (email and resume), and an open-source attribution.
 
 **Features:**
 

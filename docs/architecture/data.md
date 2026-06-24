@@ -8,8 +8,8 @@ The portfolio stores all content as TypeScript files in [src/data/](../../src/da
 sequenceDiagram
     accTitle: Build-Time Data Integration Sequence
     accDescr: Shows how the build imports and type-checks data files at compile time, after which components import the data directly via @data aliases and render it to HTML, avoiding any runtime data fetching
-    participant Build[Build Process]
-    participant Data[Data Files]
+    participant Build as "Build Process"
+    participant Data as "Data Files"
     participant Component
     participant Browser
 
