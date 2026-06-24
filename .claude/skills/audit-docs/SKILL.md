@@ -21,7 +21,7 @@ Full detail in [`.claude/rules/docs-authoring.md`](../../rules/docs-authoring.md
 
 - **Documentation only.** Change docs/comments/docstrings, never executable code or behaviour (note code problems for a human instead), unless the task explicitly asks for code changes.
 - **Zero hallucination / prove it.** Document only what the code provably does: read it, don't infer from names, types, comments, or structure. If you can't point to the proof, don't write it. No "appears to" / "should" / planned behaviour.
-- **Objective tone.** No subjective adjectives (important, critical, robust, …). Fix existing claims that contradict the code.
+- **Objective tone, not robotic.** No subjective adjectives (important, critical, robust, …); replace each with the concrete cited fact (show, don't tell). Write as a careful human would: formal and neutral, leading with the point and cutting AI tells, per the **Voice** section of the [canonical prompt](../../../.github/prompts/audit-docs.prompt.md). Fix existing claims that contradict the code.
 - **Links.** Every file reference is a clickable relative markdown link to a *file* (never a bare name, never a directory; link its `index.md`/`README.md`). Verify the path resolves.
 - **Snippets.** Link to files instead of pasting definitions; inline only 3-10 lines for a usage example or critical config line.
 - **Mermaid.** Every diagram includes `accTitle` and `accDescr`; valid syntax; reflects real code; choose the fitting diagram type.

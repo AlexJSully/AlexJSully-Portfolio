@@ -33,13 +33,12 @@ After each sneeze, the component logs a `trigger_sneeze` analytics event via Fir
 
 ### Easter Egg: AAAAHHHH Transformation
 
-After the 6th sneeze, instead of animating, the avatar calls the [`aaaahhhh()`](../../../src/helpers/aaaahhhh.ts) helper function which:
+After the 6th sneeze, instead of animating, the avatar logs a `trigger_aaaahhhh` analytics event and then calls the [`aaaahhhh()`](../../../src/helpers/aaaahhhh.ts) helper function, which:
 
 - Transforms all text on the page to "AAAAHHHH" format (first half → 'A', second half → 'H')
 - Replaces all images with `/images/aaaahhhh/aaaahhhh.webp`
 - Changes background images including the stars
 - Sets page title to "Alexander Sullivan's AAAAHHHHH"
-- Logs a `trigger_aaaahhhh` analytics event
 
 This creates a playful full-page transformation. See [AAAAHHHH Helper](../helpers.md#aaaahhhh-easter-egg-helper) for implementation details.
 

@@ -103,8 +103,8 @@ Here is an example of a Cypress test located in [cypress/e2e/landing.cy.ts](../.
 ```ts
 // This test suite is for the landing page
 describe('Landing Page', () => {
-	// Run an accessibility check after each test
 	afterEach(() => {
+		// Accessibility check
 		cy.a11yCheck();
 	});
 
