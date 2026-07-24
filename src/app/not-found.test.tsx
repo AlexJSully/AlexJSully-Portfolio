@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { usePathname } from 'next/navigation';
 import NotFound from './not-found';

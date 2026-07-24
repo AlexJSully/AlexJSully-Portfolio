@@ -44,18 +44,18 @@
 		"types/**/*.d.ts"
 	],
 	"exclude": [
+		"**/*.spec.ts",
+		"**/*.spec.tsx",
 		".claude",
 		".next",
 		"coverage",
+		"cypress",
+		"cypress.config.ts",
 		"dist",
 		"next.config.js",
 		"node_modules",
 		"out",
 		"postcss.config.js",
-		"tmp",
-		"**/*.test.ts",
-		"**/*.test.tsx",
-		"**/*.spec.ts",
-		"**/*.spec.tsx"
+		"tmp"
 	]
 }

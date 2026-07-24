@@ -1,34 +1,5 @@
-import '@testing-library/jest-dom';
-import { act, fireEvent, render, screen } from '@testing-library/react';
-import React from 'react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import Avatar from './Avatar';
-
-// Mock the firebase analytics
-jest.mock('@configs/firebase', () => ({
-	logAnalyticsEvent: jest.fn(),
-}));
-
-// Mock Next.js Image component to capture the original src prop
-jest.mock('next/image', () => {
-	const MockImage = React.forwardRef<HTMLImageElement, any>(
-		({ src, alt, width, height, style, priority, ...props }, ref) => {
-			return React.createElement('img', {
-				ref,
-				src,
-				alt,
-				width,
-				height,
-				style,
-				...props,
-				'data-testid': props['data-testid'] || 'mock-image',
-				'data-original-src': src, // Store original src for testing
-				'data-priority': priority ? 'true' : 'false', // Handle priority prop properly
-			});
-		},
-	);
-	MockImage.displayName = 'MockNextImage';
-	return MockImage;
-});
 
 describe('Avatar', () => {
 	beforeEach(() => {
@@ -48,9 +19,8 @@ describe('Avatar', () => {
 		expect(avatar).toBeInTheDocument();
 		expect(avatar).toHaveAttribute('alt', 'Alexander Sullivan head drawn and stylized');
 		expect(avatar).toHaveAttribute('aria-label', 'Profile Picture for Alexander Sullivan');
-		// Test the original src prop value instead of the transformed DOM attribute
-		expect(avatar).toHaveAttribute('data-original-src', '/images/drawn/profile_pic_drawn.webp');
-		expect(avatar).toHaveAttribute('src', '/images/drawn/profile_pic_drawn.webp');
+		// next/image rewrites the src through its loader, so assert on the underlying image path
+		expect(avatar).toHaveAttribute('src', expect.stringContaining('profile_pic_drawn.webp'));
 	});
 
 	it('should handle click events', () => {

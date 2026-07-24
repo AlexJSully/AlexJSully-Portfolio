@@ -200,5 +200,9 @@ dist/**/*.js.map
 # Claude Code agent tooling (not shipped product)
 .claude/
 
+# Python
+.mypy_cache
+
+
 # Ignore minified files
 *.min.*
