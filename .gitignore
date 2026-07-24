@@ -192,3 +192,6 @@ dist/**/*.js.map
 
 # nx cache
 .nx/cache
+
+# Python
+.mypy_cache

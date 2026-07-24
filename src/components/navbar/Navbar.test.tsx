@@ -1,46 +1,16 @@
-import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { usePathname } from 'next/navigation';
-import React from 'react';
 import Navbar from './Navbar';
 
-// Mock the firebase analytics
+// Mock Firebase analytics so log calls can be asserted.
 jest.mock('@configs/firebase', () => ({
 	logAnalyticsEvent: jest.fn(),
 }));
 
-// Mock Next.js usePathname
+// Mock Next.js usePathname (the app-router hook needs a value in jsdom)
 jest.mock('next/navigation', () => ({
 	usePathname: jest.fn(),
 }));
-
-// Mock Next.js Link component
-jest.mock('next/link', () => {
-	return ({ children, href, onClick, ...props }: any) => {
-		return (
-			<a href={href} onClick={onClick} {...props}>
-				{children}
-			</a>
-		);
-	};
-});
-
-// Mock Next.js Image component with proper React component
-jest.mock('next/image', () => {
-	const MockImage = React.forwardRef<HTMLImageElement, any>(({ src, alt, width, height, ...props }, ref) => {
-		return React.createElement('img', {
-			ref,
-			src,
-			alt,
-			width,
-			height,
-			...props,
-			'data-testid': 'mock-next-image',
-		});
-	});
-	MockImage.displayName = 'MockNextImage';
-	return MockImage;
-});
 
 describe('Navbar', () => {
 	const mockUsePathname = usePathname as jest.MockedFunction<typeof usePathname>;

@@ -1,23 +1,10 @@
-import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Footer from './Footer';
 
-// Mock the firebase analytics
+// Mock Firebase analytics so log calls can be asserted.
 jest.mock('@configs/firebase', () => ({
 	logAnalyticsEvent: jest.fn(),
 }));
-
-// Mock Next.js Link component, filtering out Next.js-specific props like 'prefetch'
-jest.mock('next/link', () => {
-	return ({ children, href, onClick, prefetch, as, replace, scroll, shallow, passHref, locale, ...props }: any) => {
-		// Only pass valid <a> props
-		return (
-			<a href={href} onClick={onClick} {...props}>
-				{children}
-			</a>
-		);
-	};
-});
 
 describe('Footer', () => {
 	const mockLogAnalyticsEvent = jest.requireMock('@configs/firebase').logAnalyticsEvent;

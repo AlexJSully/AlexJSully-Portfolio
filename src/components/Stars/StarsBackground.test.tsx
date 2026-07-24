@@ -1,8 +1,7 @@
-import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import StarsBackground from './StarsBackground';
 
-// Mock the firebase analytics
+// Mock Firebase analytics so log calls can be asserted.
 jest.mock('@configs/firebase', () => ({
 	logAnalyticsEvent: jest.fn(),
 }));
@@ -21,7 +20,7 @@ describe('StarsBackground', () => {
 	});
 
 	it('logs analytics on star hover', async () => {
-		const mockLogAnalyticsEvent = require('@configs/firebase').logAnalyticsEvent;
+		const mockLogAnalyticsEvent = jest.requireMock('@configs/firebase').logAnalyticsEvent;
 		const stars = await screen.findAllByTestId('star');
 
 		fireEvent.mouseEnter(stars[0]);

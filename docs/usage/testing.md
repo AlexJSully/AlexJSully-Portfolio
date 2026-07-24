@@ -13,8 +13,8 @@ The testing setup in this codebase uses Cypress for end-to-end (E2E) testing. Th
 ### Key Elements
 
 - **Cypress Configuration**: The Cypress configuration file defines the settings and options for running tests.
-- **Test Files**: Test files are located in the `cypress/e2e` directory.
-- **Support Files**: Support files are located in the `cypress/support` directory and include custom commands and global configuration.
+- **Test Files**: End-to-end test specs are located in [cypress/e2e/landing.cy.ts](../../cypress/e2e/landing.cy.ts) and related files in the same directory.
+- **Support Files**: Cypress support files are located in [cypress/support/e2e.ts](../../cypress/support/e2e.ts) and [cypress/support/commands.ts](../../cypress/support/commands.ts).
 
 ### Flowchart
 
@@ -90,7 +90,7 @@ This command runs the following checks in order:
 
 1. **Prettier**: Ensures code formatting is consistent.
 2. **ESLint**: Checks for code quality and potential issues.
-3. **TypeScript**: Ensures type safety with `tsc --noEmit`.
+3. **TypeScript**: Ensures type safety by running `npm run tsc` (root `tsconfig.json` and `cypress/tsconfig.json`).
 4. **Jest**: Runs unit tests.
 5. **Cypress**: Runs end-to-end tests.
 6. **Build**: Ensures the project builds successfully with `next build`.

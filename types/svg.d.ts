@@ -1,10 +1,10 @@
-import React = require('react');
-
-// Declare a module for SVG files
+// SVG files are transformed into React components by `@svgr/webpack`
+// (see the `turbopack.rules` entry in next.config.js), so the default
+// export of an .svg import is the component itself.
 declare module '*.svg' {
-	// Export a React component for the SVG
-	export const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>;
-	// Export the SVG file's source as a string
-	const src: string;
-	export default src;
+	import type { FC, SVGProps } from 'react';
+
+	const ReactComponent: FC<SVGProps<SVGSVGElement>>;
+
+	export default ReactComponent;
 }

@@ -1,23 +1,10 @@
-import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Publications from './Publications';
 
-// Mock the firebase analytics
+// Mock Firebase analytics so log calls can be asserted.
 jest.mock('@configs/firebase', () => ({
 	logAnalyticsEvent: jest.fn(),
 }));
-
-// Mock Next.js Link component, filtering out Next.js-specific props like 'prefetch'
-jest.mock('next/link', () => {
-	return ({ children, href, onClick, prefetch, as, replace, scroll, shallow, passHref, locale, ...props }: any) => {
-		// Only pass valid <a> props
-		return (
-			<a href={href} onClick={onClick} {...props}>
-				{children}
-			</a>
-		);
-	};
-});
 
 describe('Publications', () => {
 	const mockLogAnalyticsEvent = jest.requireMock('@configs/firebase').logAnalyticsEvent;
@@ -32,8 +19,7 @@ describe('Publications', () => {
 		expect(screen.getByLabelText('Publications')).toBeInTheDocument();
 		expect(screen.getByText('Featured Publications')).toBeInTheDocument();
 
-		// At least one publication title should be present
-		// (Assumes at least one publication in the mock data)
+		// At least one publication title should be present.
 		const publicationTitles = screen.getAllByRole('heading', { level: 2 });
 		expect(publicationTitles.length).toBeGreaterThan(0);
 	});

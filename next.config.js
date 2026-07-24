@@ -5,6 +5,11 @@ const isDevelopment = process.env.NEXT_PUBLIC_ENVIRONMENT === 'development';
 
 const nextConfig = {
 	images: {
+		// SVGs are handled by @svgr/webpack (see turbopack.rules) and no other
+		// image types are statically imported, so disable Next's static image
+		// imports. This also removes Next's ambient `*.svg` declaration, which
+		// conflicts with the @svgr/webpack-accurate one in types/svg.d.ts.
+		disableStaticImages: true,
 		remotePatterns: [
 			{
 				protocol: 'https',
