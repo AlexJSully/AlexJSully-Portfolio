@@ -20,7 +20,7 @@ describe('Avatar', () => {
 		expect(avatar).toHaveAttribute('alt', 'Alexander Sullivan head drawn and stylized');
 		expect(avatar).toHaveAttribute('aria-label', 'Profile Picture for Alexander Sullivan');
 		// next/image rewrites the src through its loader, so assert on the underlying image path
-		expect(avatar.getAttribute('src')).toContain('profile_pic_drawn.webp');
+		expect(avatar).toHaveAttribute('src', expect.stringContaining('profile_pic_drawn.webp'));
 	});
 
 	it('should handle click events', () => {
