@@ -3,6 +3,7 @@ import 'cypress-axe';
 /// <reference types="cypress" />
 
 declare global {
+	// eslint-disable-next-line no-unused-vars
 	namespace Cypress {
 		interface Chainable {
 			a11yCheck(): Chainable<void>;

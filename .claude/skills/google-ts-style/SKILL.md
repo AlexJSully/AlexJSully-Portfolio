@@ -13,9 +13,9 @@ Anything Prettier settles (quotes, semicolons, line width, blank lines at block 
 
 Four of Google's rules do not apply here. Do not "fix" code to match them.
 
-- **Default exports.** Google bans them. Next.js App Router requires them for `page`, `layout`, `error`, `global-error`, `loading`, `not-found`, `template`, `manifest`, `robots`, `instrumentation`, and `middleware`. Named exports everywhere else.
+- **Default exports.** Google bans them. This repository uses them for components, layouts, App Router route files such as [`page.tsx`](../../../src/app/page.tsx), the data modules such as [`projects.ts`](../../../src/data/projects.ts), and [`theme.ts`](../../../src/styles/theme.ts). Configs, constants, helpers, utilities, instrumentation, and the SVG components in [`icons.tsx`](../../../src/images/icons.tsx) use named exports.
 - **Filenames.** Google specifies `snake_case`. This repository uses kebab-case directories with PascalCase component files ([`cookie-snackbar/CookieSnackbar.tsx`](../../../src/components/cookie-snackbar/CookieSnackbar.tsx)).
-- **Underscore prefixes.** Google bans `_` on identifiers. Here, intentionally unused variables and arguments require it, because ESLint's `no-unused-vars` is configured with `argsIgnorePattern: '^_'`.
+- **Underscore prefixes.** Google bans `_` on identifiers. Here, intentionally unused variables and arguments require it, because [`eslint.config.js`](../../../eslint.config.js) configures `no-unused-vars` with `argsIgnorePattern: '^_'` and `varsIgnorePattern: '^_'`.
 - **Return-type annotations.** Google leaves these to the author rather than mandating them. Treat them as optional and add them where a complex return benefits.
 
 ## Naming
@@ -52,7 +52,7 @@ Four of Google's rules do not apply here. Do not "fix" code to match them.
 
 ## Imports and exports
 
-- Named exports. Only export what is used outside the module.
+- Named exports, exporting only what is used outside the module. The default-export carve-out above overrides this for components, layouts, route files, data modules, and the theme.
 - `export let` is not allowed; expose a getter instead.
 - `import type` when a symbol is used only as a type; `export type` when re-exporting one. [`tsconfig.json`](../../../tsconfig.json) sets `isolatedModules`, which requires the latter.
 - Prefer named imports for frequently used symbols; prefer a namespace import when pulling many symbols from a large API.

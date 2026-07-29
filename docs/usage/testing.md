@@ -101,17 +101,13 @@ This command runs the following checks in order:
 Here is an example of a Cypress test located in [cypress/e2e/landing.cy.ts](../../cypress/e2e/landing.cy.ts):
 
 ```ts
-// This test suite is for the landing page
 describe('Landing Page', () => {
 	afterEach(() => {
-		// Accessibility check
 		cy.a11yCheck();
 	});
 
-	// This test checks that the page renders correctly
 	it('should render page', () => {
 		cy.visit('http://localhost:3000');
-		// Check that the profile picture exists on the page
 		cy.get('[data-testid="profile_pic"]').should('exist');
 	});
 });

@@ -44,7 +44,7 @@ interface Projects {
 		/** The tooltip for the button. */
 		tooltip: string;
 		/** The icon for the button. */
-		icon: (props: SvgIconProps) => React.ReactElement;
+		icon: (_props: SvgIconProps) => React.ReactElement;
 		/** The URL for the button. */
 		url: string;
 	}[];

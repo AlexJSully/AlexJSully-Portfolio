@@ -32,19 +32,9 @@ describe('ThemeRegistry', () => {
 			</ThemeRegistry>,
 		);
 
-		expect(screen.getByTestId('keys')).toHaveTextContent('xs,sm,md,lg,xl,xxl');
-		expect(screen.getByTestId('xxl')).toHaveTextContent('@media (min-width:2560px)');
-	});
-
-	it('keeps the default breakpoints intact', () => {
-		render(
-			<ThemeRegistry>
-				<BreakpointProbe />
-			</ThemeRegistry>,
-		);
-
-		// `createTheme` replaces `breakpoints.values` wholesale, so a missing default would silently
-		// break MUI internals that hardcode `up('sm')`.
-		expect(screen.getByTestId('keys')).toHaveTextContent('xs,sm,md,lg,xl');
+		// Anchored, because `createTheme` replaces `breakpoints.values` wholesale: a dropped default
+		// breaks MUI internals that hardcode `up('sm')`, and an added key changes the cascade.
+		expect(screen.getByTestId('keys')).toHaveTextContent(/^xs,sm,md,lg,xl,xxl$/);
+		expect(screen.getByTestId('xxl')).toHaveTextContent(/^@media \(min-width:2560px\)$/);
 	});
 });

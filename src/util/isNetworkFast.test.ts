@@ -1,4 +1,4 @@
-import { NETWORK } from '../constants/index';
+import { NETWORK } from '@constants/index';
 import { isNetworkFast } from './isNetworkFast';
 
 interface MockConnection {

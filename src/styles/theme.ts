@@ -7,6 +7,7 @@ import { createTheme } from '@mui/material/styles';
  * imports is treated as an ambient module declaration and silently fails to merge.
  */
 declare module '@mui/material/styles' {
+	// eslint-disable-next-line no-unused-vars
 	interface BreakpointOverrides {
 		xxl: true;
 	}

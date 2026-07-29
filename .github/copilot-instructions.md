@@ -24,7 +24,7 @@ npm run test:cypress:e2e  # E2E tests headless
 npm run build             # Production build
 ```
 
-**Always run `npm run validate` before committing.** This is the comprehensive quality gate used in CI/CD.
+**Always run `npm run validate` before committing**, and frequently while making changes. This is the quality gate CI runs.
 
 ### Testing Requirements
 
@@ -58,7 +58,9 @@ import { DELAYS } from '@constants/index';
 import { isNetworkFast } from '@util/isNetworkFast';
 ```
 
-Also: import Node built-ins with the **bare specifier** (`import { readFileSync } from 'fs'`), never the `node:` prefix. Use `import type { Foo }` when a symbol is used only as a type, and `export type { Foo }` when re-exporting one (`isolatedModules` is on). Named exports everywhere, except the Next.js framework files that require a default export (`page`, `layout`, `error`, `global-error`, `loading`, `not-found`, `manifest`, `robots`, `instrumentation`). Never `export let`.
+Also: import Node built-ins with the **bare specifier** (`import { readFileSync } from 'fs'`), never the `node:` prefix. Use `import type { Foo }` when a symbol is used only as a type, and `export type { Foo }` when re-exporting one (`isolatedModules` is on).
+
+Export style follows the kind of module. Components, layouts, App Router route files (`src/app/page.tsx`), the data modules (`src/data/projects.ts`), and `src/styles/theme.ts` default-export their subject. Configs, constants, helpers, utilities, instrumentation, and the SVG components in `src/images/icons.tsx` use named exports. One module can carry both: `src/app/layout.tsx` default-exports `RootLayout` beside named `metadata` and `viewport`. Never `export let`.
 
 ### Component Patterns
 
@@ -116,7 +118,6 @@ The module also exports `ANIMATIONS` and `MAX_STARS`.
 - **Quotes and punctuation**: single quotes including JSX (`jsxSingleQuote`), semicolons required, trailing commas everywhere
 - **Line length**: Prettier wraps at `printWidth` 120 (`.prettierrc`)
 - **Import sorting**: Handled by `@trivago/prettier-plugin-sort-imports`
-- **Unused vars**: Prefix with `_` to ignore (e.g., `_unusedParam`)
 
 ### ESLint Rules (see `eslint.config.js`)
 
@@ -124,7 +125,7 @@ The module also exports `ANIMATIONS` and `MAX_STARS`.
 
 - Tabs for indentation (indent: ['error', 'tab']) and required semicolons
 - Console logs allowed (`no-console: off`)
-- Unused vars are an error, with `_`-prefixed names ignored. The rule is `@typescript-eslint/no-unused-vars`, because the base rule reports `declare module` and `declare global` blocks as unused when TypeScript is merging them
+- Unused vars are an error, with `_`-prefixed names ignored (e.g. `_unusedParam`)
 - `curly` and `padding-line-between-statements` enforce the readability rules below
 
 ### TypeScript
@@ -242,9 +243,3 @@ When writing or editing any Markdown, the canonical spec is [`audit-docs.prompt.
 - **Canadian English** for prose you write or change (colour, behaviour, standardize), never for code identifiers, config keys, or package names
 - **No subjective adjectives** (important, robust, seamless). State the fact that would earn the adjective
 - Every file reference is a clickable Markdown link to a **file**, never a bare filename or a directory, and every Mermaid diagram carries both `accTitle` and `accDescr`
-
-## Common Gotchas
-
-1. **Don't** import from relative paths - use path aliases
-2. **Don't** forget to update tests when changing components
-3. **Always** run `npm run validate` frequently when making changes

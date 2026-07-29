@@ -51,10 +51,7 @@ module.exports = [
 			'no-html-link-for-pages': 'off',
 			'no-param-reassign': 'off',
 			'no-restricted-syntax': 'off',
-			// The base rule cannot see TypeScript declaration merging (`declare module`,
-			// `declare global`) or parameter names inside function types, so it reports
-			// live code as unused. The plugin version understands both.
-			'no-unused-vars': 'off',
+			'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
 			'padding-line-between-statements': [
 				'error',
 				{ blankLine: 'always', prev: '*', next: ['return', 'continue', 'throw'] },

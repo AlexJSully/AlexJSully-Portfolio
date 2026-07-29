@@ -13,8 +13,8 @@ These rules mirror [`.github/copilot-instructions.md`](../../.github/copilot-ins
 - **Tabs, not spaces** for indentation, enforced by Prettier (`useTabs`, `tabWidth` 4 in [`.prettierrc`](../../.prettierrc)).
 - Semicolons required; single quotes including JSX (`jsxSingleQuote`); `printWidth` 120; trailing commas everywhere.
 - Imports are sorted automatically by `@trivago/prettier-plugin-sort-imports` - don't hand-order them.
-- Prefix intentionally-unused variables/args with `_` (e.g. `_event`). This is a deliberate departure from the Google guide, which bans `_` on identifiers.
-- ESLint applies **one rule set to every file**, JavaScript and TypeScript alike, parsed by `@typescript-eslint/parser` (see [`eslint.config.js`](../../eslint.config.js)). Unused variables are caught by `@typescript-eslint/no-unused-vars`, because the base rule reports `declare module` and `declare global` blocks as unused when TypeScript is merging them.
+- Prefix intentionally-unused variables/args with `_` (e.g. `_event`), which `no-unused-vars` ignores. This is a deliberate departure from the Google guide, which bans `_` on identifiers.
+- ESLint applies **one rule set to every file**, JavaScript and TypeScript alike, parsed by `@typescript-eslint/parser` (see [`eslint.config.js`](../../eslint.config.js)).
 
 ## Imports
 
@@ -23,7 +23,7 @@ These rules mirror [`.github/copilot-instructions.md`](../../.github/copilot-ins
 - Example: `import Avatar from '@components/banner/Avatar';` - not `'../banner/Avatar'`. Tests importing their own subject are the one exception; see [`testing.md`](testing.md).
 - Import Node built-in modules with the **bare specifier** (`import { readFileSync } from 'fs'`), never the `node:` prefix (`'node:fs'`). Matches the existing convention - e.g. `require('util')` in [`jest/setup.ts`](../../jest/setup.ts).
 - Use `import type { Foo }` when a symbol is used only as a type, and `export type { Foo }` when re-exporting one. [`tsconfig.json`](../../tsconfig.json) sets `isolatedModules`, which requires the latter.
-- Named exports everywhere, except the Next.js framework files that require a default export: `page`, `layout`, `error`, `global-error`, `loading`, `not-found`, `manifest`, `robots`, and `instrumentation`. Never `export let`.
+- Export style follows the kind of module. Components, layouts, App Router route files such as [`page.tsx`](../../src/app/page.tsx), the data modules such as [`projects.ts`](../../src/data/projects.ts), and [`theme.ts`](../../src/styles/theme.ts) default-export their subject. Configs, constants, helpers, utilities, instrumentation, and the SVG components in [`icons.tsx`](../../src/images/icons.tsx) use named exports. One module can carry both: [`layout.tsx`](../../src/app/layout.tsx) default-exports `RootLayout` beside named `metadata` and `viewport`. Never `export let`.
 
 ## Components & styling
 
