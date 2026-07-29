@@ -53,7 +53,10 @@ export default function ProjectsGrid(): ReactElement {
 					alignItems: 'center',
 					justifyContent: 'center',
 					margin: 'auto',
-					maxWidth: '1920px',
+					maxWidth: {
+						xs: '1920px',
+						xxl: '2560px',
+					},
 					zIndex: 1,
 				}}
 			>
@@ -79,6 +82,7 @@ export default function ProjectsGrid(): ReactElement {
 						maxWidth: {
 							sm: '75%',
 							xs: '90%',
+							xxl: '90%',
 						},
 						zIndex: 1,
 					}}
@@ -109,9 +113,11 @@ export default function ProjectsGrid(): ReactElement {
 							data-testid={`project-${project.id}-grid`}
 							size={{
 								lg: 4,
+								md: 4,
 								sm: 6,
 								xl: 3,
 								xs: 12,
+								xxl: 2,
 							}}
 						>
 							<Link
@@ -305,7 +311,9 @@ export default function ProjectsGrid(): ReactElement {
 							const projectsGrid = document.getElementById('projects-grid');
 							const projectsGridTitle = document.getElementById('projects-grid-title');
 
-							if (!projectsGrid || !projectsGridTitle) return;
+							if (!projectsGrid || !projectsGridTitle) {
+								return;
+							}
 
 							// If the projects grid title is not in view, scroll to it.
 							const { top, bottom } = projectsGridTitle.getBoundingClientRect();

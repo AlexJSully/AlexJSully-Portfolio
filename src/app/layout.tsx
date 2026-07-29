@@ -1,4 +1,5 @@
 import ServiceWorkerRegister from '@components/ServiceWorkerRegister';
+import ThemeRegistry from '@components/ThemeRegistry';
 import seoKeywords from '@data/keywords';
 import GeneralLayout from '@layouts/GeneralLayout';
 import '@styles/globals.scss';
@@ -250,7 +251,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					/>
 				</section>
 
-				<GeneralLayout>{children}</GeneralLayout>
+				<ThemeRegistry>
+					<GeneralLayout>{children}</GeneralLayout>
+				</ThemeRegistry>
 
 				<ServiceWorkerRegister />
 
