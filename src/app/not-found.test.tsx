@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { usePathname } from 'next/navigation';
 import NotFound from './not-found';
 
-// Helper to mock usePathname
 jest.mock('next/navigation', () => ({
 	...jest.requireActual('next/navigation'),
 	usePathname: jest.fn(),

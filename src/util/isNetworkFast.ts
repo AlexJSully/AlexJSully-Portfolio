@@ -1,6 +1,6 @@
 import { NETWORK } from '@constants/index';
 
-/** Network connection information interface */
+/** Shape of `navigator.connection`, which TypeScript's DOM types do not yet declare. */
 interface NetworkInformation {
 	saveData?: boolean;
 	effectiveType?: '2g' | '3g' | '4g' | 'slow-2g';
@@ -30,9 +30,7 @@ interface NavigatorWithConnection extends Navigator {
  *                   Returns true if Network Information API is unavailable (optimistic assumption).
  */
 export function isNetworkFast(): boolean {
-	// Check if the connection API is available in the navigator
 	if ('connection' in navigator) {
-		/** Get the connection object from the navigator */
 		const connection = (navigator as NavigatorWithConnection).connection;
 
 		if (!connection) {
@@ -40,23 +38,19 @@ export function isNetworkFast(): boolean {
 		}
 
 		if (connection.saveData) {
-			// Save data mode is enabled
 			return false;
 		}
 
-		/** Check if the network is slow based on the known slow network types */
 		const slowType = connection.effectiveType
 			? (NETWORK.SLOW_NETWORK_TYPES as readonly string[]).includes(connection.effectiveType)
 			: false;
-		/** Check if the network is slow based on the downlink/download speed */
 		const slowDown =
 			connection.downlink !== undefined ? connection.downlink < NETWORK.SLOW_DOWNLINK_THRESHOLD : false;
-		/** Check if the network is slow based on the round-trip time (RTT) */
 		const slowRTT = connection.rtt !== undefined ? connection.rtt > NETWORK.FAST_RTT_THRESHOLD : false;
 
 		return !(slowType || slowDown || slowRTT);
 	}
 
-	// Assume fast network if the API is not supported
+	// Assume a fast network where the API is unsupported, rather than degrading every asset.
 	return true;
 }

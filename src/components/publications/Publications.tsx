@@ -7,7 +7,6 @@ import Link from 'next/link';
 
 /** Renders a list of featured publications with their details. */
 export default function Publications() {
-	/** Styling for the publication metadata. */
 	const metaStyling = {
 		fontSize: 'clamp(0.5rem, 0.75rem, 0.75rem)',
 	};

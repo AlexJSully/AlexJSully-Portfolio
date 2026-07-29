@@ -12,11 +12,9 @@ interface ErrorProps {
 
 /** Renders an error page. */
 function Error({ error }: Readonly<ErrorProps>): ReactElement {
-	/** The current pathname */
 	const pathname = usePathname();
 
 	useEffect(() => {
-		// Log the error to the console
 		console.error(error);
 	}, [error]);
 
@@ -64,7 +62,6 @@ function Error({ error }: Readonly<ErrorProps>): ReactElement {
 				href='/'
 				onClick={() => {
 					if (pathname === '/' && typeof window !== 'undefined') {
-						// Reload the page
 						window.location.reload();
 					}
 				}}

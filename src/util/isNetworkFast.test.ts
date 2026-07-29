@@ -1,7 +1,6 @@
-import { NETWORK } from '../constants/index';
+import { NETWORK } from '@constants/index';
 import { isNetworkFast } from './isNetworkFast';
 
-// Define proper TypeScript interface for navigator.connection
 interface MockConnection {
 	saveData?: boolean;
 	effectiveType?: '2g' | '3g' | '4g' | 'slow-2g';

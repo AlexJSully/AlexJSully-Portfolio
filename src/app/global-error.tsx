@@ -14,7 +14,6 @@ interface GlobalErrorProps {
 
 /** Renders an error page. */
 function GlobalError({ error }: GlobalErrorProps): ReactElement {
-	/** The current pathname */
 	const pathname = usePathname();
 
 	useEffect(() => {
@@ -67,7 +66,6 @@ function GlobalError({ error }: GlobalErrorProps): ReactElement {
 						href='/'
 						onClick={() => {
 							if (pathname === '/' && typeof window !== 'undefined') {
-								// Reload the page
 								window.location.reload();
 							}
 						}}

@@ -25,8 +25,10 @@ export function setCookieConsent(): void {
 }
 
 /**
- * Check if the user has already accepted cookies
- * Parses document.cookie to avoid false positives from substring matching
+ * Check if the user has already accepted cookies.
+ *
+ * Parses `document.cookie` into pairs rather than substring-matching, which would report a
+ * false positive for any cookie whose value happens to contain the consent name.
  * @returns true if user has accepted cookies, false otherwise
  */
 export function hasCookieConsent(): boolean {

@@ -24,14 +24,18 @@ When creating or editing any markdown file, follow the discipline below. These a
 - Document a tunable value by the **name a consumer changes it by** (env var, config key, CLI flag, or a named member of a centralized constants/config module that other code reads), judging by role, not location. Don't document an ephemeral local variable as the config surface.
 - **Acronyms** in prose you write or edit use capitals (ID, URL) and are expanded on first use per doc ("Deoxyribonucleic acid (DNA)"). Keep exact casing for brand/tool/package names (npm, iOS), domain terms (snRNA), and direct code references (an `id` field).
 - No placeholders, TODOs, or empty "add details here" sections.
+- A document opens with a single H1 named for its file, then a one to three sentence introduction for a reader who does not yet know the subject, then H2s. Headings are unique and fully descriptive ("Retry backoff limits", not "Limits"), because anchors are generated from them, and use sentence case.
+- **Tables only for uniform data scanned quickly.** If columns repeat across rows, cells sit empty, or a cell holds a sentence of prose, use a list instead.
+- Prefer Markdown to raw HTML for layout or styling.
+- Link text names the destination: never "here", "link", "this", or a bare URL.
 
 ## Links & code
 
-- Every file reference is a **clickable markdown link to a file**, never a bare filename and never a link to a directory. Link to a file inside the directory (e.g. its `index.md`/`README.md`) instead.
+- Every file reference is a **clickable markdown link to a file**, never a bare filename and never a link to a directory. Link to a file inside the directory (e.g. its `index.md`/`README.md`) instead. A generic reference, where no particular file is meant, is a code span rather than a link: "update your `README.md`".
 - Use relative links (GitHub-compatible) and verify the path resolves from the doc's own location.
 - Don't paste full definitions/class bodies; link to the file. Inline snippets only for a short usage example, a critical config line, or logic that text can't convey (3-10 lines max).
 
 ## Mermaid
 
-- Every diagram **must** include both `accTitle` (specific) and `accDescr` (a real description, not "a diagram showing…"). No exceptions.
+- Every diagram **must** include both `accTitle` (specific) and `accDescr` (a real description, not "a diagram showing…"). No exceptions. Images are held to the same bar: real alt text, never "screenshot" or "diagram".
 - Valid Mermaid only; reflect actual current code; pick the diagram type that fits (don't default to `flowchart`).

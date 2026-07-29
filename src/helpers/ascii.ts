@@ -1,6 +1,7 @@
 import { DELAYS } from '@constants/index';
 import { debounce } from 'lodash';
 
+/** Prints the site's ASCII-art logo to the browser console. */
 export function consoleLogLogo() {
 	console.log(`
                      #+.
@@ -26,4 +27,9 @@ export function consoleLogLogo() {
    `);
 }
 
+/**
+ * Debounced {@link consoleLogLogo}, so repeated calls print the logo once.
+ *
+ * Change `DELAYS.CONSOLE_LOGO_DEBOUNCE` in the constants module to adjust the window.
+ */
 export const debounceConsoleLogLogo = debounce(consoleLogLogo, DELAYS.CONSOLE_LOGO_DEBOUNCE);

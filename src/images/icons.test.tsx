@@ -25,10 +25,8 @@ describe('Icon exports', () => {
 		it(`${name} renders without crashing and has SVG`, () => {
 			const Icon = (Icons as any)[name];
 			const { container } = render(<Icon data-custom='foo' />);
-			// Should render an SVG element
 			const svg = container.querySelector('svg');
 			expect(svg).toBeInTheDocument();
-			// Should pass custom props
 			expect(svg?.getAttribute('data-custom')).toBe('foo');
 		});
 	});

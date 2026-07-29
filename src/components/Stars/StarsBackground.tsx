@@ -1,27 +1,26 @@
 'use client';
 
 import { logAnalyticsEvent } from '@configs/firebase';
-import { MAX_STARS } from '@constants/index';
+import { DELAYS, MAX_STARS, THRESHOLDS } from '@constants/index';
 import { Box, Fade } from '@mui/material';
 import { isEmpty } from 'lodash';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 
-/** Create a starry background with shooting stars */
+/**
+ * Renders a fixed starry background whose stars twinkle and occasionally shoot.
+ *
+ * Returns `null` until the first client render, since star placement depends on `window`.
+ */
 export default function StarsBackground(): ReactElement | null {
-	// There is a lot of random math in here
-	// but it's all just to make the stars look random
+	// The randomness throughout is cosmetic: it keeps the field from looking tiled.
 
-	/** The stars to be rendered */
 	const [stars, setStars] = useState<ReactElement[] | null>(null);
 	const [fade, setFade] = useState(false);
-
-	/** Whether or not the stars have been triggered [true] or not [false] */
 	const [starsTriggered, setStarsTriggered] = useState(false);
 
-	/** Ref to store the force animation timeout for cleanup */
+	// Held so the pending timeout can be cleared on unmount.
 	const forceAnimationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-	/** The styles for the stars */
 	const starStyles = {
 		background: `#ffffff50`,
 		borderRadius: '50%',
@@ -30,86 +29,66 @@ export default function StarsBackground(): ReactElement | null {
 		transition: 'transform 1s',
 	};
 
-	/** Handle the shooting star animation */
 	const handleStarAnimation = (e: React.MouseEvent<HTMLElement> | { target: HTMLElement }): void => {
-		/** The star DOM element */
 		const target = e.target as HTMLElement;
-		/** The speed of the shooting star */
 		const shootingStarSpeed = Math.random() * 4 + 1;
 
-		// Set the animation
 		target.style.animation = `shootAway ${shootingStarSpeed}s forwards`;
 		target.style.background = '#fff90050';
 		target.style.transform = `scale(${Math.random() * 2 + 1})`;
 
-		// Remove the star after the animation is done
+		// Marks the star spent once its animation finishes, so it is not picked again.
 		setTimeout(() => {
 			if (target) {
-				// Change the data attribute so it indicates that the star has been used
 				target.setAttribute('data-star-used', 'true');
 			}
 		}, shootingStarSpeed * 1000);
 	};
 
-	/** Handle the forced shooting star animation */
 	const handleForceStarAnimation = () => {
-		/** All of the stars */
+		// Stars that have not been shot yet.
 		const allStars = Array.from(document.querySelectorAll('[data-testid="star"]')).filter(
 			(star) => star.getAttribute('data-star-used') !== 'true',
 		);
 
-		// Only proceed if there are stars
-		if (!isEmpty(allStars) && allStars.length > 15) {
-			/** Pick a random star */
+		// Needs a pool larger than the threshold to keep picking from without repeating.
+		if (!isEmpty(allStars) && allStars.length > THRESHOLDS.MIN_STARS_FOR_ANIMATION) {
 			const randomStar = allStars[Math.floor(Math.random() * allStars.length)] as HTMLElement;
 
 			if (randomStar) {
-				// Trigger the animation
 				handleStarAnimation({ target: randomStar });
 			}
 
-			/** The random time to wait before triggering the next star */
 			const randomTime = Math.random() * 5 + 1.5;
 
-			// Clear previous timeout before setting a new one to prevent memory leak
+			// Clearing first prevents an orphaned timeout leaking on every recursion.
 			if (forceAnimationTimeoutRef.current) {
 				clearTimeout(forceAnimationTimeoutRef.current);
 			}
 
-			// Recursively call this function and store timeout for cleanup
 			forceAnimationTimeoutRef.current = setTimeout(() => {
 				handleForceStarAnimation();
 			}, randomTime * 1000);
 		} else {
-			// If there are no stars, create some
-			// eslint-disable-next-line @typescript-eslint/no-use-before-define
+			// Regenerates the field once the usable pool is exhausted.
 			createStars(false);
 		}
 	};
 
-	/** Create the stars */
-	const createStars = (
-		/** Whether or not to forcefully trigger the shooting star animation */
-		triggerAnimation = true,
-	) => {
+	const createStars = (triggerAnimation = true) => {
 		setFade(false);
 
-		/** The array of stars */
 		const starsArray: ReactElement[] = [];
 
-		/** Calculate max stars based on screen width but cap at MAX_STARS to prevent performance issues */
 		const screenWidth = typeof window !== 'undefined' && window?.innerWidth ? window?.innerWidth : 400;
+		// Capped because star count scales with width, and an unbounded field drops frames.
 		const maxStars = Math.min(screenWidth, MAX_STARS);
 
-		/** The number of stars to create */
 		const numberOfStars = Math.floor(Math.random() * (maxStars / 2)) + 10;
 
-		// Create the stars based on the number of stars
 		for (let i = 0; i < numberOfStars; i += 1) {
-			/** The size of the star */
 			const starSize = `${Math.random() * 5 + 1}px`;
 
-			/** Each star will have some randomness of it to make it unique */
 			const style = {
 				...starStyles,
 				animation: `twinkle ${Math.random() * 5}s ease-in-out infinite`,
@@ -143,16 +122,15 @@ export default function StarsBackground(): ReactElement | null {
 		setStars(starsArray);
 		setFade(true);
 
-		// Start the shooting star animation forcefully
 		if (triggerAnimation) {
 			setTimeout(() => {
 				handleForceStarAnimation();
-			}, 1000);
+			}, DELAYS.STAR_ANIMATION_INITIAL);
 		}
 	};
 
 	useEffect(() => {
-		// We want to use useEffect here so that we can use the window object
+		// window is only available after mount.
 		createStars();
 
 		// Cleanup timeout on unmount to prevent memory leaks

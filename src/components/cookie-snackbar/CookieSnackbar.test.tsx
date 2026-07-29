@@ -1,7 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import CookieSnackbar from './CookieSnackbar';
 
-// Mock document.cookie
 Object.defineProperty(document, 'cookie', {
 	writable: true,
 	value: '',
@@ -9,7 +8,6 @@ Object.defineProperty(document, 'cookie', {
 
 describe('CookieSnackbar', () => {
 	beforeEach(() => {
-		// Clear cookies before each test
 		document.cookie = '';
 	});
 
@@ -58,14 +56,11 @@ describe('CookieSnackbar', () => {
 			expect(screen.getByText(/This website uses cookies to enhance the user experience/)).toBeInTheDocument();
 		});
 
-		// Verify cookie is not set initially
 		expect(document.cookie).not.toContain('cookie-consent=true');
 
-		// Click the close button
 		const closeButton = screen.getByRole('button', { name: /close/i });
 		fireEvent.click(closeButton);
 
-		// Verify cookie is now set
 		expect(document.cookie).toContain('cookie-consent=true');
 	});
 });

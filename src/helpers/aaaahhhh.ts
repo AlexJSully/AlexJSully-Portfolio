@@ -1,3 +1,4 @@
+/** Public path of the image every other image is swapped for by the easter egg. */
 export const aaaahhhhImage = '/images/aaaahhhh/aaaahhhh.webp';
 
 /** Replaces all images and background images on the page with the AAAAHHHH image. */
@@ -20,7 +21,7 @@ export function imageAAAAHHHH(): void {
 		}
 	}
 
-	// Set the sky background element to the aaaahhhh image
+	// The starry background paints via CSS rather than an <img>, so it needs handling separately.
 	const skyElement = document.getElementById('sky');
 	if (skyElement) {
 		skyElement.style.backgroundImage = `url(${aaaahhhhImage})`;
@@ -46,12 +47,9 @@ export function convertAAAAHH(aaaaahhhh: string): string {
 		if (splitAAAAHHHH[i] === ' ') {
 			newAAAAHHHH += ' ';
 		} else {
-			/** to AAAAAHHHH */
 			const toUpper = splitAAAAHHHH[i].toUpperCase();
-			/** is AAAAAHHHH */
 			const isUpper = toUpper === splitAAAAHHHH[i];
 
-			/** which AAAAAHHHH */
 			let whichLetter: string = i < AAAAHHHHlength / 2 ? 'a' : 'h';
 			whichLetter = isUpper ? whichLetter.toUpperCase() : whichLetter;
 
@@ -81,11 +79,9 @@ export function textAAAAHHHH(): void {
 		if (docs[i]?.childNodes) {
 			for (let c = 0; c < docs[i].childNodes.length; c += 1) {
 				if (docs[i].childNodes[c].nodeName === '#text') {
-					/** AAAAHHHH OLD TEXT */
 					const text = docs[i].childNodes[c].textContent;
 
 					if (text) {
-						/** AAAAHHHH NEW TEXT */
 						const newText = convertAAAAHH(text);
 						docs[i].childNodes[c].textContent = newText;
 					}

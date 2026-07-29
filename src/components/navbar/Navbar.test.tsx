@@ -20,12 +20,12 @@ describe('Navbar', () => {
 		jest.clearAllMocks();
 		mockUsePathname.mockReturnValue('/');
 
-		// Mock document.getElementById
 		const mockScrollIntoView = jest.fn();
 		jest.spyOn(document, 'getElementById').mockImplementation((id) => {
 			if (['content', 'projects-grid', 'publications', 'socials'].includes(id)) {
 				return { scrollIntoView: mockScrollIntoView } as any;
 			}
+
 			return null;
 		});
 
@@ -115,7 +115,6 @@ describe('Navbar', () => {
 
 		fireEvent.keyDown(homeLink, { key: 'Enter', code: 'Enter' });
 		fireEvent.keyDown(homeLink, { key: ' ', code: 'Space' });
-		// Should not throw and should remain accessible
 		expect(homeLink).toBeInTheDocument();
 	});
 });

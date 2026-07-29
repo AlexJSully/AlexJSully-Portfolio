@@ -1,4 +1,4 @@
-describe('Middleware Security Tests', () => {
+describe('Security headers', () => {
 	beforeEach(() => {
 		cy.visit('http://localhost:3000');
 	});
@@ -7,8 +7,7 @@ describe('Middleware Security Tests', () => {
 		cy.a11yCheck();
 	});
 
-	it('should prevent SSRF through middleware headers', () => {
-		// Test that sensitive headers are not reflected back
+	it('should not reflect forwarded-host headers back in the response', () => {
 		const sensitiveHeaders = {
 			'X-Forwarded-Host': 'evil.com',
 			'X-Forwarded-Proto': 'http',
@@ -25,14 +24,10 @@ describe('Middleware Security Tests', () => {
 				},
 				failOnStatusCode: false,
 			}).then((response) => {
-				// Check that sensitive headers are not reflected in response
-				const responseHeaders = Object.keys(response.headers).map((key) => key.toLowerCase());
 				const responseHeaderValues = Object.values(response.headers).join(' ');
 
-				// Ensure the malicious header value is not reflected back
 				expect(responseHeaderValues).to.not.include(headerValue);
 
-				// Check that response doesn't contain redirect to external domain
 				if (response.status >= 300 && response.status < 400) {
 					const location = response.headers.location;
 					if (location) {
@@ -44,8 +39,7 @@ describe('Middleware Security Tests', () => {
 		});
 	});
 
-	it('should validate redirect destinations in middleware', () => {
-		// Test that redirects don't allow SSRF
+	it('should not redirect to an off-origin destination', () => {
 		const maliciousRedirects = [
 			'http://evil.com',
 			'https://attacker.site/steal-data',
@@ -63,12 +57,10 @@ describe('Middleware Security Tests', () => {
 				if (response.status >= 300 && response.status < 400) {
 					const location = response.headers.location;
 					if (location) {
-						// Should not redirect to external or malicious URLs
 						expect(location).to.not.include('evil.com');
 						expect(location).to.not.include('attacker.site');
 						expect(location).to.not.match(/^(ftp|file|gopher):/);
 
-						// Should only redirect to same origin or relative paths
 						if (typeof location === 'string' && location.startsWith('http')) {
 							expect(location).to.match(/^https?:\/\/localhost(:\d+)?/);
 						}
@@ -78,8 +70,7 @@ describe('Middleware Security Tests', () => {
 		});
 	});
 
-	it('should sanitize request headers in middleware processing', () => {
-		// Test that middleware doesn't process dangerous header combinations
+	it('should not leak internal paths from rewritten request headers', () => {
 		cy.request({
 			url: 'http://localhost:3000',
 			headers: {
@@ -90,10 +81,9 @@ describe('Middleware Security Tests', () => {
 			},
 			failOnStatusCode: false,
 		}).then((response) => {
-			// Verify response doesn't expose internal paths or dangerous content
 			expect(response.body).to.not.include('/etc/passwd');
 			expect(response.body).to.not.include('/admin/secret');
-			expect(response.status).to.not.equal(500); // Should handle gracefully
+			expect(response.status).to.not.equal(500);
 		});
 	});
 });
