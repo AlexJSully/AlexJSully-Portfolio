@@ -64,10 +64,9 @@ describe('ProjectsGrid', () => {
 });
 
 describe('ProjectsGrid responsive columns', () => {
-	/** The grid container's column count — MUI's default, and the divisor every card size derives from. */
-	const GRID_COLUMNS = 12;
+	// MUI's default container width, and the divisor every card size derives from.
+	const gridColumns = 12;
 
-	/** Collects every CSS rule Emotion inserted, as text. */
 	const collectRules = (): string[] => {
 		const rules: string[] = [];
 
@@ -82,7 +81,7 @@ describe('ProjectsGrid responsive columns', () => {
 		return rules;
 	};
 
-	/** Reads the grid item's `size` value emitted at a given `min-width`. */
+	// Parses the card's `size` back out of the `width: calc(...)` rule Emotion emits for a breakpoint.
 	const sizeAt = (rules: string[], minWidth: string): number[] => {
 		const matched = rules
 			.filter((rule) => rule.includes(`min-width:${minWidth}`) && rule.includes('width: calc(100% *'))
@@ -95,6 +94,8 @@ describe('ProjectsGrid responsive columns', () => {
 	let rules: string[];
 
 	beforeEach(() => {
+		jest.clearAllMocks();
+
 		render(
 			<ThemeRegistry>
 				<ProjectsGrid />
@@ -104,10 +105,8 @@ describe('ProjectsGrid responsive columns', () => {
 		rules = collectRules();
 	});
 
-	it('inserts styles that can be inspected', () => {
-		// Guards the assertions below against silently passing if Emotion stops inserting via CSSOM.
-		expect(rules.length).toBeGreaterThan(0);
-		expect(rules.some((rule) => rule.includes('--Grid-parent-columns: 12'))).toBe(true);
+	it('renders a 12 column grid container', () => {
+		expect(rules.some((rule) => rule.includes(`--Grid-parent-columns: ${gridColumns}`))).toBe(true);
 	});
 
 	it.each([
@@ -119,8 +118,8 @@ describe('ProjectsGrid responsive columns', () => {
 	] as const)(
 		'renders $expectedColumns columns from $minWidth ($breakpoint)',
 		({ breakpoint, expectedColumns, minWidth }) => {
-			// A card spans `GRID_COLUMNS / expectedColumns` slots — e.g. 6 columns is a size of 2 out of 12.
-			expect(sizeAt(rules, minWidth)).toEqual([GRID_COLUMNS / expectedColumns]);
+			// A card spans `gridColumns / expectedColumns` slots, so 6 columns is a size of 2 out of 12.
+			expect(sizeAt(rules, minWidth)).toEqual([gridColumns / expectedColumns]);
 			expect(theme.breakpoints.up(breakpoint)).toBe(`@media (min-width:${minWidth})`);
 		},
 	);

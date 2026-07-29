@@ -29,9 +29,13 @@ Every test answers one question: what behaviour does this lock in that a real fu
 
 Reach for roles and accessible names (`getByRole('button', { name: /view more projects/i })`) before test IDs. Do not assert the types of already-typed values, restate the implementation, or write `expect(true).toBe(true)`.
 
-### 4. Mock as little as possible
+### 4. Do not mock
 
-Mock external I/O and platform APIs only: `@configs/firebase`, `next/navigation`, timers, `navigator`. Never mock internal helpers, utilities, or domain logic; if you mock everything, you test nothing. Read mock state with `jest.requireMock(...)` or `as jest.MockedFunction<typeof fn>`, never `require()`.
+Start from zero mocks and add one only when the real dependency cannot run in the test. Before writing any substitute, whether a mock, stub, fake, or behaviour-replacing spy, try in order: the real implementation with real inputs; passing the dependency in as an argument; a real fixture asserted on its real output; or moving the assertion to a level where the seam is real.
+
+Never mock code that holds logic (helpers, utilities, domain logic, components, hooks, constants, `src/data/`), and never mock the subject under test, even partially. Mock only at an input/output boundary, and only the outermost one the test needs: a third-party SDK that reaches the network, this repo's own wrapper around one when testing a consumer of it, framework context the renderer cannot supply (`next/navigation`), the clock, and browser APIs jsdom omits. Anything else needs a comment above it naming which boundary it crosses; if you cannot write that sentence, use the real thing.
+
+A mock added while chasing a red test hides the failure rather than fixing it. Read mock state with `jest.requireMock(...)` or `as jest.MockedFunction<typeof fn>`, never `require()`.
 
 ### 5. Validate
 
