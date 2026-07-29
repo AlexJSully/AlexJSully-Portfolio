@@ -7,8 +7,12 @@ const MAX_SW_RETRIES = 3;
 /** Delay in milliseconds between retry attempts (linear backoff) */
 const INITIAL_RETRY_DELAY = 1000;
 
+/**
+ * Registers the service worker on mount, retrying with linear backoff.
+ *
+ * Renders nothing. Mount it once, near the root, to give the site its offline support.
+ */
 export default function ServiceWorkerRegister() {
-	/** Ref to track pending retry timeouts for cleanup on unmount */
 	const retryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
 	useEffect(() => {
@@ -34,18 +38,15 @@ export default function ServiceWorkerRegister() {
 							error,
 						);
 
-						// Schedule retry with linear backoff
 						retryTimeoutRef.current = setTimeout(() => {
 							registerWithRetry(retriesLeft - 1);
 						}, delayMs);
 					} else {
-						// Final failure after all retries
 						console.error('Service Worker registration failed after all retries:', error);
 					}
 				});
 		};
 
-		// Attempt registration
 		registerWithRetry();
 
 		// Cleanup: clear any pending retry timeout on unmount

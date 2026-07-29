@@ -7,7 +7,6 @@ describe('Banner', () => {
 		// The heading has aria-label 'Name', not the visible name as accessible name
 		const heading = screen.getByRole('heading', { name: 'Name' });
 		expect(heading).toBeInTheDocument();
-		// Check for each part in the visible text
 		expect(heading).toHaveTextContent('Alexander');
 		expect(heading).toHaveTextContent('Joo-Hyun');
 		expect(heading).toHaveTextContent('Sullivan');

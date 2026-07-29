@@ -19,7 +19,6 @@ describe('Publications', () => {
 		expect(screen.getByLabelText('Publications')).toBeInTheDocument();
 		expect(screen.getByText('Featured Publications')).toBeInTheDocument();
 
-		// At least one publication title should be present.
 		const publicationTitles = screen.getAllByRole('heading', { level: 2 });
 		expect(publicationTitles.length).toBeGreaterThan(0);
 	});

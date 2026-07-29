@@ -11,6 +11,39 @@
 						"statusMessage": "Checking docs-authoring rules"
 					}
 				]
+			},
+			{
+				"matcher": "Write|Edit|MultiEdit|Bash",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "node --disable-warning=ExperimentalWarning --experimental-strip-types \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate-gate.mts\"",
+						"statusMessage": "Tracking validation state"
+					}
+				]
+			}
+		],
+		"SubagentStop": [
+			{
+				"matcher": "validator",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "node --disable-warning=ExperimentalWarning --experimental-strip-types \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate-gate.mts\"",
+						"statusMessage": "Recording validation run"
+					}
+				]
+			}
+		],
+		"Stop": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "node --disable-warning=ExperimentalWarning --experimental-strip-types \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate-gate.mts\"",
+						"statusMessage": "Checking the validation gate"
+					}
+				]
 			}
 		]
 	}

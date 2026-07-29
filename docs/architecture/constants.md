@@ -22,7 +22,7 @@ Debounce delays and timing values in milliseconds:
 - `CONSOLE_LOGO_DEBOUNCE` (1000ms) - Prevents duplicate ASCII logo prints in console
 - `PROJECT_HOVER_VIDEO` (1000ms) - Delay before showing video on project card hover
 - `AVATAR_SNEEZE_DEBOUNCE` (100ms) - Debounce for avatar hover interactions
-- `STAR_ANIMATION_INITIAL` (1000ms) - Initial delay for forced star shooting animations (currently unused: [StarsBackground](../../src/components/Stars/StarsBackground.tsx) hardcodes `1000`, so changing this constant has no effect)
+- `STAR_ANIMATION_INITIAL` (1000ms) - Delay before [StarsBackground](../../src/components/Stars/StarsBackground.tsx) starts the forced shooting-star loop
 
 **Usage:** Import to control debouncing and timing in components.
 
@@ -32,7 +32,7 @@ Trigger thresholds for interactive features:
 
 - `SNEEZE_TRIGGER_INTERVAL` (5) - Number of hovers before avatar sneeze animation
 - `AAAAHHHH_TRIGGER_COUNT` (6) - Number of sneezes before Easter egg activation
-- `MIN_STARS_FOR_ANIMATION` (15) - Minimum stars required before forcing animation (currently unused: [StarsBackground](../../src/components/Stars/StarsBackground.tsx) hardcodes `15`, so changing this constant has no effect)
+- `MIN_STARS_FOR_ANIMATION` (15) - Unused stars [StarsBackground](../../src/components/Stars/StarsBackground.tsx) requires before shooting another; below it, the field regenerates
 
 **Usage:** Import to control when interactions trigger animations or Easter eggs.
 

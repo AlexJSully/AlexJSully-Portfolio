@@ -39,7 +39,6 @@ describe('Footer', () => {
 			fireEvent.click(btn);
 		});
 
-		// At least one social analytics event should be logged
 		expect(mockLogAnalyticsEvent).toHaveBeenCalled();
 	});
 

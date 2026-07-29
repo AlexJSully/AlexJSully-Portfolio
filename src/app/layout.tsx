@@ -13,6 +13,8 @@ const metadataValues = {
 	title: "AlexJSully's Portfolio & Showcase",
 	url: 'https://alexjsully.me/',
 };
+
+/** Site-wide metadata Next.js renders into `<head>`: titles, SEO, icons, and social cards. */
 export const metadata: Metadata = {
 	// General
 	title: {
@@ -122,6 +124,7 @@ export const metadata: Metadata = {
 	},
 };
 
+/** Viewport and theme-colour settings Next.js renders into `<head>`. */
 export const viewport: Viewport = {
 	width: 'device-width',
 	initialScale: 1,

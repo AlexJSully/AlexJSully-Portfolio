@@ -48,16 +48,13 @@ describe('Avatar', () => {
 		avatar.focus();
 		expect(document.activeElement).toBe(avatar);
 		fireEvent.keyDown(avatar, { key: 'Enter', code: 'Enter' });
-		// Should not throw and should remain accessible
 		expect(avatar).toBeInTheDocument();
 	});
 
 	it('should handle image error gracefully', () => {
 		render(<Avatar />);
 		const avatar = screen.getByTestId('profile_pic');
-		// Simulate image error event
 		fireEvent.error(avatar);
-		// Should still be in the document
 		expect(avatar).toBeInTheDocument();
 	});
 });

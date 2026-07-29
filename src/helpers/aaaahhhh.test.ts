@@ -1,4 +1,4 @@
-import { aaaahhhh, aaaahhhhImage, convertAAAAHH, imageAAAAHHHH, textAAAAHHHH } from './aaaahhhh';
+import { aaaahhhhImage, convertAAAAHH, imageAAAAHHHH, textAAAAHHHH } from './aaaahhhh';
 
 describe('aaaahhhh', () => {
 	describe('convertAAAAHH', () => {
@@ -31,6 +31,7 @@ describe('aaaahhhh', () => {
 				if (tag === 'h1') arr = [mockH1];
 				if (tag === 'h2' || tag === 'h3') arr = [];
 				if (tag === 'button') arr = [mockButton];
+
 				// Return as HTMLCollectionOf<Element>
 				return Object.assign(
 					{
@@ -47,6 +48,7 @@ describe('aaaahhhh', () => {
 			jest.spyOn(document, 'getElementById').mockImplementation((id) => {
 				if (id === 'description-Carousel') return mockCarousel;
 				if (id === 'no-motion-description') return mockNoMotion;
+
 				return null;
 			});
 		});

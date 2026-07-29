@@ -1,4 +1,3 @@
-// Move mocks and variable declarations above import
 const mockInitializeApp = jest.fn();
 const mockGetAnalytics = jest.fn();
 const mockLogEvent = jest.fn();
@@ -47,7 +46,6 @@ describe('firebase config', () => {
 	});
 
 	it('logAnalyticsEvent logs event if analytics is initialized', () => {
-		// First, initialize
 		init();
 		mockLogEvent.mockClear();
 		logAnalyticsEvent('test_event', { foo: 'bar' });

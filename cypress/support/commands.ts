@@ -1,32 +1,7 @@
 import 'cypress-axe';
 
 /// <reference types="cypress" />
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
+
 declare global {
 	namespace Cypress {
 		interface Chainable {
@@ -36,9 +11,11 @@ declare global {
 }
 
 /**
- * Project default settings for `cypress-axe` accessibility check
- * Only thing being changed is the addition of `violationCallback` console logging any violations
- * This adds support to see what the violation is instead of the default behaviour just to state there is a violation
+ * Settings passed to every `cypress-axe` accessibility check.
+ *
+ * `violationCallback` logs each violation so a failure names the offending rule; the reporter
+ * otherwise states only that a violation occurred. `violations` is `any` because `cypress-axe`
+ * does not export the callback's result type.
  */
 const axeParams = {
 	context: undefined,
@@ -48,7 +25,7 @@ const axeParams = {
 	},
 };
 
-// Defines a custom accessibility check which injects `cypress-axe` and performs a default/basic a11y check
+/** Injects `cypress-axe` and runs an accessibility check with the project defaults. */
 Cypress.Commands.add('a11yCheck', () => {
 	cy.injectAxe();
 	cy.checkA11y(axeParams.context, axeParams.rules, axeParams.violationCallback);

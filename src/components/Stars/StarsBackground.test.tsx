@@ -9,7 +9,6 @@ jest.mock('@configs/firebase', () => ({
 describe('StarsBackground', () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
-		// Mock window dimensions
 		Object.defineProperty(window, 'innerWidth', {
 			writable: true,
 			configurable: true,
