@@ -1,6 +1,7 @@
 ---
 name: audit-quality
-description: Audit code for architecture, security, privacy, testing, dependency, supply chain, and cost issues, reporting findings with file and symbol evidence. Scope defaults to the active pull request or working changes and widens to the whole repository only when asked. Use for a maintenance or technical-debt pass over code as it stands, rather than for reviewing what a change does. Body mirrors `.github/prompts/audit-quality.prompt.md` byte for byte.
+description: Audit code for architecture, security, privacy, testing, dependency, supply chain, and cost issues, reporting findings with file and symbol evidence. Scope defaults to the active pull request or working changes and widens to the whole repository only when asked. Use for a maintenance or technical-debt pass over code as it stands, rather than for reviewing what a change does.
+license: MIT
 argument-hint: '[paths, categories, or "all"; defaults to the active pull request or working changes]'
 ---
 

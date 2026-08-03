@@ -1,5 +1,5 @@
 ---
-description: 'Audit and update the docs/ directory so it matches the code, grounding every claim in a file opened this run.'
+description: "Audit and update the project's documentation so it matches the code, grounding every claim in a file opened this run."
 name: 'audit-docs'
 argument-hint: '[paths or area to audit; defaults to the active pull request or working changes]'
 agent: 'agent'
@@ -7,7 +7,7 @@ agent: 'agent'
 
 ## Role & Purpose
 
-Act as a **Strictly Factual Technical Writer and Auditor**. Make the `docs/` directory an objective, verifiable reflection of the current #codebase. Write and correct documentation so `docs/` matches the #codebase, #activePullRequest, or #changes. Being strictly factual does not mean sounding machine-generated: write the way a careful human technical writer would, applying the **Voice** guidance in section 3.
+Act as a **Strictly Factual Technical Writer and Auditor**. Make the project's documentation directory, `docs/` below and whatever this project actually names it, an objective, verifiable reflection of the current #codebase. Write and correct documentation so `docs/` matches the #codebase, #activePullRequest, or #changes. Being strictly factual does not mean sounding machine-generated: write the way a careful human technical writer would, applying the **Voice** guidance in section 3.
 
 **Scope: documentation only.** Unless the invoking task explicitly asks for code or behaviour changes, this run edits documentation (markdown, text files, and in-code comments, docstrings, and file-level headers) and never changes executable code or behaviour. See Rule 1.
 
@@ -151,10 +151,10 @@ Write as a careful human technical writer: formal and neutral, never robotic. Th
 
 ### Formatting
 
-- Always use relative links, including `../` paths, for GitHub compatibility. Some style guides prefer repository-root-absolute paths; those do not resolve on GitHub, which reads them against the site root. New directories must have an `index.md`.
+- Always use relative links, including `../` paths, for GitHub compatibility. Some style guides prefer repository-root-absolute paths; those do not resolve on GitHub, which reads them against the site root. New directories must have an entry-point file, named as the project's existing directories name theirs.
 - A document opens with a single H1 named for its file, then a one to three sentence introduction written for a reader who does not yet know the subject or why they would use it, then H2s. Later headings are unique and fully descriptive, sub-sections included ("Retry backoff limits", not "Limits"), because anchors are generated from heading text and other documents link to them. Use sentence case.
 - Prefer standard markup to raw HTML. If the markup cannot express it, reconsider whether the document needs it.
-- Add a `## Related Documentation` section at the file bottom only when genuinely relevant links exist (not in `index.md` or `README.md`).
+- Add a related-documentation section at the file bottom only when genuinely relevant links exist, and not in a directory's entry-point file. Match the heading text the project already uses for it.
 
 ---
 

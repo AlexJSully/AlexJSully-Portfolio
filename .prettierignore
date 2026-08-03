@@ -198,9 +198,6 @@ dist/**/*.js.map
 # nx cache
 .nx/cache
 
-# Vendored upstream, kept byte-identical to anthropics/skills so drift stays detectable.
-.claude/skills/skill-creator/
-
 # Python
 .mypy_cache
 

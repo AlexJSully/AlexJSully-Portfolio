@@ -12,10 +12,6 @@
 	// are named `.MD`. Without the second pattern they are silently never linted.
 	"globs": ["**/*.md", "**/*.MD"],
 
-	// Vendored upstream, kept byte-identical to anthropics/skills so drift stays detectable.
-	// Formatting or fixing it would destroy that, so no tool may touch it.
-	"ignores": [".claude/skills/skill-creator/**"],
-
 	"config": {
 		"MD007": false,
 		"MD010": false,

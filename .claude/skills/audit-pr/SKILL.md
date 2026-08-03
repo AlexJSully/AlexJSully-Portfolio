@@ -1,6 +1,7 @@
 ---
 name: audit-pr
-description: Review a pull request or working-branch diff across triaged categories and produce findings with the changed line quoted as evidence. Use when asked to review a pull request, audit a diff before merge, or give a second opinion on someone else's changes. Broader and slower than the built-in /code-review, which covers the working diff, and than /security-review, which covers security only. Body mirrors `.github/prompts/audit-pr.prompt.md` byte for byte.
+description: Review a pull request or working-branch diff across eighteen triaged categories and produce findings with the changed line quoted as evidence. Use when asked to review a pull request, audit a diff before merge, or give a second opinion on someone else's changes. Broader and slower than a quick correctness pass or a security-only review, and it reports findings rather than editing files.
+license: MIT
 argument-hint: '[pull request number or branch; defaults to the active pull request]'
 ---
 
@@ -23,14 +24,25 @@ Review the diff plus whatever you must read to judge it. Reading a caller, a tes
 
 ## Context resolution
 
-GitHub Copilot resolves the references below automatically. Any other agent resolves each one with the listed equivalent before starting. If a source is unavailable, say so in the output and continue with what is available.
+Some agents resolve the references below automatically. Any agent that does not resolves each one itself, using the equivalent listed here, before starting. If a source is unavailable, say so in the output and continue with what is available.
 
-| Reference            | GitHub Copilot              | Claude Code and other agents            |
-| -------------------- | --------------------------- | --------------------------------------- |
-| `#activePullRequest` | Active pull request         | `gh pr diff`, or `git diff main...HEAD` |
-| `#changes`           | Uncommitted working changes | `git diff` and `git diff --staged`      |
-| `#codebase`          | Workspace index             | `Glob`, `Grep`, and `Read`              |
-| `#issue_fetch`       | Linked issue                | `gh issue view <number>`                |
+| Reference            | What it refers to           | Resolve it yourself with                                                |
+| -------------------- | --------------------------- | ----------------------------------------------------------------------- |
+| `#activePullRequest` | Active pull request         | The forge's pull request command, or `git diff <default-branch>...HEAD` |
+| `#changes`           | Uncommitted working changes | `git diff` and `git diff --staged`                                      |
+| `#codebase`          | The project's own files     | Your file-search and file-read tools                                    |
+| `#issue_fetch`       | Linked issue                | The forge's issue command, or the issue link in the description         |
+
+## Bundled references
+
+Open one of these when a category the triage table activated needs its detail. Nothing here is loaded until you open it.
+
+- [`security-and-privacy.md`](references/security-and-privacy.md) - categories 2 and 3, organized by who each finding protects, with the OWASP baselines.
+- [`supply-chain.md`](references/supply-chain.md) - category 15, including install-time execution judged by capability rather than by field name.
+- [`environment-and-observability.md`](references/environment-and-observability.md) - categories 13 and 14, plus the flakiness causes they share.
+- [`cost-and-billing.md`](references/cost-and-billing.md) - category 17, unbounded spend first, then the billing dimension each finding moves.
+- [`finding-refuter.md`](agents/finding-refuter.md) - a subagent running section 6's refutation pass over one finding. Use it per finding when the review is large.
+- [`review-summary.template.md`](assets/review-summary.template.md) - the finding block and summary shapes for section 7.
 
 ## 1. Scope and evidence rules
 
@@ -190,7 +202,7 @@ Can a reader debug this in production without reproducing it locally? Check: a l
 
 Check every added or upgraded dependency and every lockfile entry against what the diff actually imports. Flag: a package name that does not exist, or differs by a character from the intended one, since a generated install command is the usual source; an unpinned or range-widened version on a security-relevant dependency; a source other than the project's usual registry, including a git URL or tarball; a maintainer or ownership change; a version that jumped without a changelog; a resolved URL pointing off-registry; a missing or altered integrity hash on an otherwise unchanged version.
 
-**Install-time code execution is checked by capability, not by field name.** Lifecycle scripts (`preinstall`, `install`, `postinstall`, `prepare`) are the obvious vector, but a native-build hook such as a `binding.gyp` that triggers an implicit rebuild executes code too and evades checks that read only the lifecycle-script fields. **A valid provenance attestation does not establish that a release is safe:** a compromised maintainer account can produce one.
+**Install-time code execution is checked by capability, not by field name.** Declared lifecycle hooks are the obvious vector, whatever the ecosystem calls them (`preinstall`, `install`, `postinstall`, and `prepare` in npm; a build backend or `setup.py` in Python; a task that runs on dependency resolution in Gradle, Rake, or Make). But a native-build descriptor that triggers an implicit rebuild executes code too, and it evades any check that reads only the declared lifecycle fields. **A valid provenance attestation does not establish that a release is safe:** a compromised maintainer account can produce one.
 
 Extend the same reasoning to the build and CI surface: a workflow that checks out an untrusted pull request head while holding write permissions or secrets, a third-party action referenced by a mutable tag rather than an immutable commit identifier, secrets reachable from fork pull requests, a self-hosted runner exposed to forks, and editor or container configuration that executes on open, such as an autorun task or a container post-create command. Agent configuration counts: a checked-in skill, rule, or settings file can grant broad tool access to anyone who trusts the repository.
 

@@ -47,13 +47,13 @@ Never write a comment defending a decision or asserting that the code works. Tha
 
 ```ts
 // Bad: argues for correctness
-// This is safe because createStars is declared below and is already
+// This is safe because renderChart is declared below and is already
 // initialized by the time this callback runs
-createStars();
+renderChart();
 
 // Good: states the constraint that makes it true
-// Runs after the first paint, so the canvas has real dimensions by here
-createStars();
+// Runs after the first paint, so the container has real dimensions by here
+renderChart();
 ```
 
 The good version tells a reader something they can act on. The bad version tells them the author was worried.

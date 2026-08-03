@@ -33,7 +33,7 @@ That includes indirect reliance: a script that shells out to a file there, a con
 
 - `eslint.config.js` listing `.claude/**/*` under `ignores`
 - `tsconfig.json` listing `.claude` under `exclude`
-- `.prettierignore` naming the vendored `.claude/skills/skill-creator/`
+- `.prettierignore` naming a directory under `.claude/` that a formatter must not rewrite
 - `.markdownlint-cli2.jsonc` naming it under `ignores`
 
 ## Where agent tooling gets an entry point

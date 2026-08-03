@@ -1,19 +1,19 @@
 ---
 name: typescript-code-and-test-standards
-description: Enforces the TypeScript and JavaScript authoring standards that formatters and linters cannot catch: comment discipline, JSDoc on every exported symbol, readability rules, the mandate that logic changes ship with tests, one colocated test per source file, and a strict mocking policy whose default is not to mock. Detects the host project's own Prettier, ESLint, TypeScript, and test-runner configuration and obeys that rather than imposing formatting. Use when writing, editing, or reviewing a .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, or .cts file; when adding or repairing a Jest, Vitest, Mocha, or Cypress test; when a failing test tempts a mock, a skip, a weakened assertion, or a production fallback; when writing or auditing JSDoc or code comments; and during any review of a TypeScript or JavaScript diff. Also settles style questions a project's own rules leave open, from a bundled Google TypeScript Style Guide digest.
+description: "TypeScript and JavaScript standards that formatters and linters cannot catch: comment discipline, JSDoc on every exported symbol, logic changes shipping with tests, one colocated test per source file, and a mocking policy whose default is not to mock. Detects the project's own Prettier, ESLint, TypeScript, and test-runner configuration rather than imposing one. Use when writing or reviewing a .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, or .cts file, when adding or repairing a Jest, Vitest, Mocha, or Cypress test, when a failing test tempts a mock or a skip, and when writing or auditing JSDoc or code comments. Includes a Google TypeScript Style Guide digest for questions a project leaves open."
 license: MIT
 metadata:
-    version: "1.0.0"
-    origin: "https://github.com/AlexJSully/AlexJSully-Portfolio"
+    version: '1.0.0'
+    origin: 'https://github.com/AlexJSully/AlexJSully-Portfolio'
 paths:
-    - "**/*.ts"
-    - "**/*.tsx"
-    - "**/*.js"
-    - "**/*.jsx"
-    - "**/*.mjs"
-    - "**/*.cjs"
-    - "**/*.mts"
-    - "**/*.cts"
+    - '**/*.ts'
+    - '**/*.tsx'
+    - '**/*.js'
+    - '**/*.jsx'
+    - '**/*.mjs'
+    - '**/*.cjs'
+    - '**/*.mts'
+    - '**/*.cts'
 ---
 
 # TypeScript code and test standards

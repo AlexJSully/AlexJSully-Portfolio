@@ -1,6 +1,8 @@
 ---
 name: write-tests
 description: Author or repair a Jest or Cypress test in this repository's house style. Use when adding a test, when a source change needs coverage, or when a test is failing and needs a root-cause fix rather than a weakened assertion.
+metadata:
+    internal: true
 ---
 
 # Write tests

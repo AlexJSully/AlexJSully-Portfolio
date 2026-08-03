@@ -24,14 +24,14 @@ Review the diff plus whatever you must read to judge it. Reading a caller, a tes
 
 ## Context resolution
 
-GitHub Copilot resolves the references below automatically. Any other agent resolves each one with the listed equivalent before starting. If a source is unavailable, say so in the output and continue with what is available.
+Some agents resolve the references below automatically. Any agent that does not resolves each one itself, using the equivalent listed here, before starting. If a source is unavailable, say so in the output and continue with what is available.
 
-| Reference            | GitHub Copilot              | Claude Code and other agents            |
-| -------------------- | --------------------------- | --------------------------------------- |
-| `#activePullRequest` | Active pull request         | `gh pr diff`, or `git diff main...HEAD` |
-| `#changes`           | Uncommitted working changes | `git diff` and `git diff --staged`      |
-| `#codebase`          | Workspace index             | `Glob`, `Grep`, and `Read`              |
-| `#issue_fetch`       | Linked issue                | `gh issue view <number>`                |
+| Reference            | What it refers to           | Resolve it yourself with                                                |
+| -------------------- | --------------------------- | ----------------------------------------------------------------------- |
+| `#activePullRequest` | Active pull request         | The forge's pull request command, or `git diff <default-branch>...HEAD` |
+| `#changes`           | Uncommitted working changes | `git diff` and `git diff --staged`                                      |
+| `#codebase`          | The project's own files     | Your file-search and file-read tools                                    |
+| `#issue_fetch`       | Linked issue                | The forge's issue command, or the issue link in the description         |
 
 ## 1. Scope and evidence rules
 
@@ -191,7 +191,7 @@ Can a reader debug this in production without reproducing it locally? Check: a l
 
 Check every added or upgraded dependency and every lockfile entry against what the diff actually imports. Flag: a package name that does not exist, or differs by a character from the intended one, since a generated install command is the usual source; an unpinned or range-widened version on a security-relevant dependency; a source other than the project's usual registry, including a git URL or tarball; a maintainer or ownership change; a version that jumped without a changelog; a resolved URL pointing off-registry; a missing or altered integrity hash on an otherwise unchanged version.
 
-**Install-time code execution is checked by capability, not by field name.** Lifecycle scripts (`preinstall`, `install`, `postinstall`, `prepare`) are the obvious vector, but a native-build hook such as a `binding.gyp` that triggers an implicit rebuild executes code too and evades checks that read only the lifecycle-script fields. **A valid provenance attestation does not establish that a release is safe:** a compromised maintainer account can produce one.
+**Install-time code execution is checked by capability, not by field name.** Declared lifecycle hooks are the obvious vector, whatever the ecosystem calls them (`preinstall`, `install`, `postinstall`, and `prepare` in npm; a build backend or `setup.py` in Python; a task that runs on dependency resolution in Gradle, Rake, or Make). But a native-build descriptor that triggers an implicit rebuild executes code too, and it evades any check that reads only the declared lifecycle fields. **A valid provenance attestation does not establish that a release is safe:** a compromised maintainer account can produce one.
 
 Extend the same reasoning to the build and CI surface: a workflow that checks out an untrusted pull request head while holding write permissions or secrets, a third-party action referenced by a mutable tag rather than an immutable commit identifier, secrets reachable from fork pull requests, a self-hosted runner exposed to forks, and editor or container configuration that executes on open, such as an autorun task or a container post-create command. Agent configuration counts: a checked-in skill, rule, or settings file can grant broad tool access to anyone who trusts the repository.
 

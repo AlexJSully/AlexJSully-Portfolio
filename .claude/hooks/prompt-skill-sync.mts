@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-// PostToolUse hook (Write / Edit / MultiEdit). When one half of a prompt-and-skill
-// pair is edited, names the counterpart that now needs the same edit.
+// PostToolUse hook (Write / Edit / MultiEdit). When one half of a published audit is
+// edited, names the other half, which now has to be judged against it.
 //
 // Run via `node --experimental-strip-types` (no build step, no dependencies).
-// The path-scoped rule `.claude/rules/prompt-skill-sync.md` is the primary carrier
-// of this obligation; this hook is the guaranteed, deterministic backstop, and
-// `.claude/scripts/check-prompt-skill-sync.mjs` is the checker, run on demand through
-// `make -f .claude/Makefile sync-prompts`. It is deliberately not part of `npm run validate`: the repository
-// must build, test, and lint with no agent tooling present.
+// The path-scoped rule `.claude/rules/prompt-skill-sync.md` carries the contract; this hook
+// is the deterministic backstop; `.claude/scripts/check-skill-publishability.mjs` decides the
+// mechanical rules, on demand through `make -f .claude/Makefile check-skills`. That check is
+// deliberately not part of `npm run validate`: the repository must build, test, and lint with
+// no agent tooling present.
 //
 // Type-stripping-safe TypeScript only: type annotations / interfaces, no enums,
 // namespaces, or parameter properties.
@@ -18,27 +18,24 @@ interface ToolInput {
 	file_path?: string;
 }
 
-/** The other half of a mirrored pair, and which way to propagate onto it. */
-interface Counterpart {
-	path: string;
-	direction: string;
-}
-
 interface HookPayload {
 	tool_name?: string;
 	tool_input?: ToolInput;
 }
 
+/** Audits that ship as both a prompt file and a skill directory. */
+const PAIRED = ['audit-docs', 'audit-pr', 'audit-quality'];
+
 /**
- * Returns the counterpart path for either half of a pair, or null for any other file.
+ * Returns the other half of a published audit, or null for any other file.
  *
- * The skill side is scoped to `audit-*` so that an unmirrored skill, such as
- * `typescript-code-and-test-standards`, does not get told its counterpart is a prompt
- * that was never written. This matches the `paths:` glob in the accompanying rule.
+ * Scoped to the named audits so that an unpaired skill, such as
+ * `typescript-code-and-test-standards`, is not told its counterpart is a prompt that was
+ * never written.
  */
-function counterpartOf(filePath: string): Counterpart | null {
-	// Resolved from this file's own location, as `check-prompt-skill-sync.mjs` does, so the
-	// existence test does not silently fail when the hook runs from another directory.
+function counterpartOf(filePath: string): string | null {
+	// Resolved from this file's own location so the existence test does not silently fail
+	// when the hook runs from another directory.
 	const repoRoot = resolve(import.meta.dirname, '..', '..');
 
 	const promptMatch = /\.github\/prompts\/([^/]+)\.prompt\.md$/.exec(filePath);
@@ -46,12 +43,12 @@ function counterpartOf(filePath: string): Counterpart | null {
 		const counterpart = `.claude/skills/${promptMatch[1]}/SKILL.md`;
 
 		// A prompt with no skill yet is not half of a pair, and the checker skips it too.
-		return existsSync(join(repoRoot, counterpart)) ? { path: counterpart, direction: 'to-skill' } : null;
+		return existsSync(join(repoRoot, counterpart)) ? counterpart : null;
 	}
 
-	const skillMatch = /\.claude\/skills\/(audit-[^/]+)\/SKILL\.md$/.exec(filePath);
-	if (skillMatch) {
-		return { path: `.github/prompts/${skillMatch[1]}.prompt.md`, direction: 'to-prompt' };
+	const skillMatch = /\.claude\/skills\/([^/]+)\/SKILL\.md$/.exec(filePath);
+	if (skillMatch && PAIRED.includes(skillMatch[1])) {
+		return `.github/prompts/${skillMatch[1]}.prompt.md`;
 	}
 
 	return null;
@@ -81,12 +78,12 @@ function main(): void {
 			hookSpecificOutput: {
 				hookEventName: 'PostToolUse',
 				additionalContext:
-					`This file is one half of a mirrored pair. Its counterpart \`${counterpart.path}\` carries a ` +
-					'byte-identical body below the frontmatter, and `make -f .claude/Makefile sync-prompts` reports while the two differ. ' +
-					`Mirror the edit before finishing: \`make -f .claude/Makefile sync-prompts-${counterpart.direction}\`, ` +
-					'or run the `/sync-audit-prompts` skill. Only the frontmatter may differ between them, and the ' +
-					'shared body must stay self-contained: no relative links and no reference to a sibling prompt, ' +
-					'because each half is copied into other repositories on its own.',
+					`This file is one half of a published audit. Its counterpart \`${counterpart}\` must still ` +
+					'aim at the same outcome: the two carry the same objective and the same hard rules, and only ' +
+					'the skill half may carry bundled depth. That is a judgement rather than a diff, so hand both ' +
+					'to the `prompt-skill-sync` subagent before finishing, and run ' +
+					'`make -f .claude/Makefile check-skills` for the mechanical rules. Each half is downloaded ' +
+					'alone: the prompt may name nothing beside it, and the skill may name nothing outside itself.',
 			},
 		}),
 	);

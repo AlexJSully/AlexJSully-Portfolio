@@ -240,7 +240,7 @@ Architecture docs in `docs/architecture/`:
 - [`index.md`](../docs/architecture/index.md): system overview
 - [`components/index.md`](../docs/architecture/components/index.md): per-component docs for Avatar, Projects, Publications, and the rest
 
-When writing or editing any Markdown, the canonical spec is [`audit-docs.prompt.md`](prompts/audit-docs.prompt.md). The always-apply subset:
+When writing or editing any Markdown, the full rules are in [`audit-docs.prompt.md`](prompts/audit-docs.prompt.md), and the `audit-docs` skill carries the same rules with worked examples beside them. The always-apply subset:
 
 - **Zero hallucination**: document only what the code provably does. Know the file that proves a claim before writing it
 - **No em-dashes or en-dashes**: replace each with a comma, parenthesis, colon, separate sentence, or a spaced hyphen, including existing ones in any file you edit

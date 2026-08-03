@@ -37,7 +37,7 @@ Fix the cause, not the symptom. Specifically:
 - Never weaken, skip, or delete a test to make a gate pass. Read the test, read the source, find the cause. See [`typescript-code-and-test-standards`](../skills/typescript-code-and-test-standards/SKILL.md) for the rule and [`testing.md`](../rules/testing.md) for this repository's specifics.
 - Never add a fallback in production code to satisfy a failing test.
 - Never silence a type error with `any`, `unknown`, `@ts-ignore`, or an `eslint-disable`. Replace it with a concrete type. See [`code-style.md`](../rules/code-style.md).
-- The prompt-and-skill mirroring check is **not** one of these gates and is not part of `npm run validate`. Run it with `make -f .claude/Makefile sync-prompts` when a change touched either half, and fix a divergence with `make -f .claude/Makefile sync-prompts-to-skill` (or `make -f .claude/Makefile sync-prompts-to-prompt`), never by hand-copying and never by guessing the direction: ask if it is unclear which half was edited.
+- The skill publishability check is **not** one of these gates and is not part of `npm run validate`. Run it with `make -f .claude/Makefile check-skills` when a change touched a skill or a prompt. Whether a published audit's two halves still aim at the same outcome is a judgement rather than a diff, and it belongs to the `prompt-skill-sync` subagent, never to hand-copying.
 - Re-run the failing gate after each fix, then re-run the gates that precede it if your fix touched files they check.
 
 If a failure is pre-existing and unrelated to the change under test, fix it anyway when it is small, and report it plainly when it is not. Do not present it as passing.

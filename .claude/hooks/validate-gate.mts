@@ -99,9 +99,10 @@ function clearState(sessionId: string): void {
  * do reach most of it, and the exclusion accepts that gap rather than marking the session dirty
  * on every edit to a rule or skill file.
  *
- * The mirrored `SKILL.md` files are the exception, because a desync there is worth catching.
- * The prompt-and-skill sync check itself is not a gate; it runs on demand via
- * `make -f .claude/Makefile sync-prompts`.
+ * Markdown under `.claude/skills/` is the exception. `lint:markdown` reaches every file there,
+ * so an unlinted addition would otherwise land locally and surface only as a CI failure.
+ * The skill publishability check itself is not a gate; it runs on demand via
+ * `make -f .claude/Makefile check-skills`.
  */
 function requiresValidation(filePath: string, cwd: string): boolean {
 	if (!filePath) return false;
@@ -110,7 +111,7 @@ function requiresValidation(filePath: string, cwd: string): boolean {
 
 	if (rel.startsWith('..')) return false;
 
-	if (/^\.claude\/skills\/audit-[^/]+\/SKILL\.md$/.test(rel)) return true;
+	if (/^\.claude\/skills\/.+\.md$/.test(rel)) return true;
 
 	if (rel.startsWith('.claude/') || rel.includes('/.claude/')) return false;
 

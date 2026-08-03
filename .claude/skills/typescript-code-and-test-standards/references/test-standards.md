@@ -69,9 +69,9 @@ The sharper version, useful in review: **would this test fail if the behaviour i
 The suite names the subject. The case names the behaviour, as a third-person verb phrase.
 
 ```ts
-describe('ProjectsGrid', () => {
-	it('logs an analytics event on project hover', () => {});
-	it('renders a fallback when the project list is empty', () => {});
+describe('SearchResults', () => {
+	it('logs an analytics event when a result is opened', () => {});
+	it('renders a fallback when the result list is empty', () => {});
 });
 ```
 
@@ -85,9 +85,9 @@ Use a table when rows vary input and expected output across the **same** code pa
 
 ```ts
 it.each([
-	{ breakpoint: 'sm', expectedColumns: 2, minWidth: '600px' },
-	{ breakpoint: 'md', expectedColumns: 3, minWidth: '900px' },
-] as const)('renders $expectedColumns columns from $minWidth ($breakpoint)', ({ expectedColumns, minWidth }) => {});
+	{ role: 'viewer', expectedActions: 1, label: 'Viewer' },
+	{ role: 'editor', expectedActions: 3, label: 'Editor' },
+] as const)('renders $expectedActions actions for $label ($role)', ({ expectedActions, label }) => {});
 ```
 
 Name every field. Positional rows make the case unreadable at the call site and unmaintainable when a column is added.

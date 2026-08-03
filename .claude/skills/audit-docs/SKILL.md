@@ -1,12 +1,13 @@
 ---
 name: audit-docs
-description: Audit and update the project's documentation so it matches the current code, grounding every claim in a file opened this run. Use when creating or editing Markdown or docs, after implementing a feature, before merging a pull request, or whenever asked to audit, sync, fact-check, or refresh documentation. Body mirrors `.github/prompts/audit-docs.prompt.md` byte for byte.
+description: Audit and update the project's documentation so it matches the current code, grounding every claim in a file opened this run. Use when creating or editing Markdown or docs, after implementing a feature, before merging a pull request, or whenever asked to audit, sync, fact-check, or refresh documentation.
+license: MIT
 argument-hint: '[paths or area to audit; defaults to the active pull request or working changes]'
 ---
 
 ## Role & Purpose
 
-Act as a **Strictly Factual Technical Writer and Auditor**. Make the `docs/` directory an objective, verifiable reflection of the current #codebase. Write and correct documentation so `docs/` matches the #codebase, #activePullRequest, or #changes. Being strictly factual does not mean sounding machine-generated: write the way a careful human technical writer would, applying the **Voice** guidance in section 3.
+Act as a **Strictly Factual Technical Writer and Auditor**. Make the project's documentation directory, `docs/` below and whatever this project actually names it, an objective, verifiable reflection of the current #codebase. Write and correct documentation so `docs/` matches the #codebase, #activePullRequest, or #changes. Being strictly factual does not mean sounding machine-generated: write the way a careful human technical writer would, applying the **Voice** guidance in section 3.
 
 **Scope: documentation only.** Unless the invoking task explicitly asks for code or behaviour changes, this run edits documentation (markdown, text files, and in-code comments, docstrings, and file-level headers) and never changes executable code or behaviour. See Rule 1.
 
@@ -17,6 +18,28 @@ Act as a **Strictly Factual Technical Writer and Auditor**. Make the `docs/` dir
 - **Link, do not duplicate.** Point to source files; never copy code into markdown.
 
 **Audience and tone:** every document serves internal developers maintaining the architecture and external developers consuming the APIs, so prefer content useful to both. Serve human skimmers and coding-assistant readers with the same prose: one canonical term per concept, and an ambiguous `it`/`this`/`these` replaced by the actual noun when the referent could drift. Stay approachable for concepts, precise for details, objective always (Rule 3), and formal without being stiff (see **Voice** in section 3). No contractions.
+
+---
+
+## Context resolution
+
+Some agents resolve the references below automatically. Any agent that does not resolves each one itself, using the equivalent listed here, before starting. If a source is unavailable, say so in the output and continue with what is available.
+
+| Reference            | What it refers to           | Resolve it yourself with                                                |
+| -------------------- | --------------------------- | ----------------------------------------------------------------------- |
+| `#codebase`          | The project's own files     | Your file-search and file-read tools                                    |
+| `#activePullRequest` | Active pull request         | The forge's pull request command, or `git diff <default-branch>...HEAD` |
+| `#changes`           | Uncommitted working changes | `git diff` and `git diff --staged`                                      |
+
+## Bundled references
+
+Open one of these when the run needs its detail. Nothing here is loaded until you open it.
+
+- [`evidence-and-citation.md`](references/evidence-and-citation.md) - how to hold proof, which sources are not evidence, and the hallucination patterns each check catches. Read before Phase 2 or 3 on an unfamiliar codebase.
+- [`voice-and-ai-tells.md`](references/voice-and-ai-tells.md) - the tell catalogue with a corrected rewrite for each. Read while writing or revising prose.
+- [`diagram-and-image-accessibility.md`](references/diagram-and-image-accessibility.md) - worked `accTitle` and `accDescr` examples, and how to choose a diagram type. Read before adding or editing a diagram.
+- [`claim-verifier.md`](agents/claim-verifier.md) - a subagent that tries to disprove one claim against the source. Use it on any claim you are not certain of.
+- [`audit-report.template.md`](assets/audit-report.template.md) - the report shape for the end of the run.
 
 ---
 
@@ -150,10 +173,10 @@ Write as a careful human technical writer: formal and neutral, never robotic. Th
 
 ### Formatting
 
-- Always use relative links, including `../` paths, for GitHub compatibility. Some style guides prefer repository-root-absolute paths; those do not resolve on GitHub, which reads them against the site root. New directories must have an `index.md`.
+- Always use relative links, including `../` paths, for GitHub compatibility. Some style guides prefer repository-root-absolute paths; those do not resolve on GitHub, which reads them against the site root. New directories must have an entry-point file, named as the project's existing directories name theirs.
 - A document opens with a single H1 named for its file, then a one to three sentence introduction written for a reader who does not yet know the subject or why they would use it, then H2s. Later headings are unique and fully descriptive, sub-sections included ("Retry backoff limits", not "Limits"), because anchors are generated from heading text and other documents link to them. Use sentence case.
 - Prefer standard markup to raw HTML. If the markup cannot express it, reconsider whether the document needs it.
-- Add a `## Related Documentation` section at the file bottom only when genuinely relevant links exist (not in `index.md` or `README.md`).
+- Add a related-documentation section at the file bottom only when genuinely relevant links exist, and not in a directory's entry-point file. Match the heading text the project already uses for it.
 
 ---
 
