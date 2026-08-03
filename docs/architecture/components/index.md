@@ -14,15 +14,18 @@ This document describes the internal architecture, relationships, and usage of m
 - [StarsBackground](./stars.md): Animated starfield background
 - [CookieSnackbar](./cookie-snackbar.md): Cookie consent notification
 - [ServiceWorkerRegister](../service-worker.md): PWA service worker registration
+- [ThemeRegistry](#themeregistry): Client boundary supplying the MUI theme to every component below it
 
 ### Component Hierarchy
 
 ```mermaid
 flowchart TD
     accTitle: Page Component Composition Tree
-    accDescr: Root Layout wraps GeneralLayout and ServiceWorkerRegister. GeneralLayout wraps Navbar, Main Content, and Footer. Main Content contains Banner, ProjectsGrid, Publications, StarsBackground, CookieSnackbar. Banner contains Avatar. ProjectsGrid and Publications generate cards. Footer contains social links
-    RootLayout[Root Layout] --> GeneralLayout
+    accDescr: Root Layout has three children: ThemeRegistry, ServiceWorkerRegister, and SpeedInsights. ThemeRegistry wraps GeneralLayout, which wraps Navbar, Main Content, and Footer. Main Content contains Banner, ProjectsGrid, Publications, StarsBackground, and CookieSnackbar. Banner contains Avatar. ProjectsGrid and Publications generate cards. Footer contains social links
+    RootLayout[Root Layout] --> ThemeRegistry
+    ThemeRegistry --> GeneralLayout
     RootLayout --> ServiceWorkerRegister
+    RootLayout --> SpeedInsights
     GeneralLayout --> Navbar
     GeneralLayout --> Main[Main Content]
     GeneralLayout --> Footer
@@ -66,7 +69,7 @@ Header section with animated profile picture featuring a sneeze animation and Ea
 **Features:**
 
 - Interactive avatar with sneeze animation
-- Easter egg trigger (6 sneezes activates AAAAHHHH transformation)
+- Easter egg trigger (the sixth sneeze trigger runs the AAAAHHHH transformation in place of a sixth sneeze)
 - Analytics tracking
 - Image optimization
 
@@ -162,27 +165,17 @@ Client component that registers the service worker for PWA functionality.
 
 **See:** [Service Worker Documentation](../service-worker.md)
 
+### ThemeRegistry
+
+**Location:** [`src/components/ThemeRegistry.tsx`](../../../src/components/ThemeRegistry.tsx)
+
+Supplies the MUI theme from [`theme.ts`](../../../src/styles/theme.ts) to everything beneath it, by wrapping its children in MUI's `ThemeProvider`.
+
+It exists as a component of its own because `ThemeProvider` needs a client boundary. Taking `children` as a prop rather than importing the subtree means the components it wraps stay server-rendered: only the provider itself crosses into the client bundle. The theme it supplies adds one breakpoint, `xxl` at 2560px, past MUI's default `xl`, which is what lets [ProjectsGrid](../../../src/components/projects/ProjectsGrid.tsx) widen its card grid on ultra-wide displays.
+
 ## Relationships & Composition
 
-Components are composed in the [`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx):
-
-```tsx
-export default function GeneralLayout({ children }) {
-	return (
-		<div id='content'>
-			<Navbar />
-			<main>
-				{children}
-				<StarsBackground />
-				<CookieSnackbar />
-			</main>
-			<footer>
-				<Footer />
-			</footer>
-		</div>
-	);
-}
-```
+[`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx) composes the site-wide components. Its root `<div id='content'>` is a flex column holding three children in order: the Navbar, a `<main>` element carrying `flex: '1 0 auto'` so it absorbs the leftover height, and a `<footer>` wrapping the Footer component. The page children, StarsBackground, and CookieSnackbar all sit inside that `<main>`. Full structure: [Layouts](../layouts.md).
 
 Data flow:
 

@@ -24,7 +24,7 @@ npm run test:cypress:e2e  # E2E tests headless
 npm run build             # Production build
 ```
 
-**Always run `npm run validate` before committing**, and frequently while making changes. This is the quality gate CI runs.
+**Always run `npm run validate` before committing**, and frequently while making changes. It runs the fixing variants (`prettier`, `eslint`, `lint:markdown`): it repairs whatever an autofix can repair and exits non-zero on the rest, so commit what it rewrote. CI runs the reading variants (`prettier:check`, `eslint:check`, `lint:markdown:check`) and modifies nothing, so a fix left unstaged fails the build.
 
 **Never make the repository depend on AI agent files.** If `.claude/` and `.github/prompts/` were deleted, everything must still build, test, and lint. No `package.json` script, config, workflow, or page under `docs/` may reference or invoke anything in them. The dependency runs one way: agent tooling may name a project command, never the reverse. The only exception is an ignore or exclude glob, which is inert when the path is absent. Agent tooling that needs running gets a target in `.claude/Makefile`, which is deleted along with the tooling it drives.
 
@@ -149,7 +149,7 @@ Follow the [Google TypeScript Style Guide](https://google.github.io/styleguide/t
 - **Control flow**: `===` and `!==` always, except `== null` when both `null` and `undefined` should match. Prefer `for...of`, never unfiltered `for...in`
 - **Errors**: throw only `Error` or a subclass, always via `new Error(...)`. An empty `catch` needs a comment saying why
 
-Not adopted: `snake_case` filenames (kebab-case directories with PascalCase components here), the ban on `_` identifier prefixes (unused arguments require it), and mandatory return-type annotations.
+Not adopted: the ban on default exports (this repository uses them for the module kinds listed above), `snake_case` filenames (kebab-case directories with PascalCase components here), the ban on `_` identifier prefixes (unused arguments require it), and mandatory return-type annotations.
 
 ### Readability
 

@@ -35,43 +35,44 @@ None of them audits your whole repository by default, which matters on a large c
 
 **As a single prompt file.** Copy the `.prompt.md` into `.github/prompts/` and invoke it with `/audit-pr` in chat. Use this path when repository policy prevents installing anything else, since it is one file with no dependencies.
 
-**As a skill, by package manager.** Every prompt above also ships as a skill, and an installer places the directory wherever your agent reads it. Name the one you want:
+**As a skill, by package manager.** Every prompt above also ships as a skill directory. Two installers do the job, and either places it wherever your agent reads it. The skill names are `audit-docs`, `audit-pr`, and `audit-quality`.
+
+With [`npx skills`](https://github.com/vercel-labs/skills), from Vercel Labs:
 
 ```bash
-npx skills add AlexJSully/AlexJSully-Portfolio --skill audit-docs
-npx skills add AlexJSully/AlexJSully-Portfolio --skill audit-pr
-npx skills add AlexJSully/AlexJSully-Portfolio --skill audit-quality
-
-# Dropping `--skill` offers them interactively instead
-npx skills add AlexJSully/AlexJSully-Portfolio
-
-# Adding `--all` takes every one
-npx skills add AlexJSully/AlexJSully-Portfolio --all
+npx skills add AlexJSully/AlexJSully-Portfolio                     # pick from a list
+npx skills add AlexJSully/AlexJSully-Portfolio --skill audit-docs  # or name one
+npx skills add AlexJSully/AlexJSully-Portfolio --all               # or take every one
+npx skills check                                                   # which have updates
+npx skills update                                                  # take them
 ```
 
-Dropping `--skill` offers them interactively instead, and `--all` takes every one. The GitHub CLI does the same job:
+`list` and `remove` manage what you already have.
+
+With [`gh skill`](https://cli.github.com/manual/gh_skill), from the GitHub CLI, version 2.90.0 or later and in public preview:
 
 ```bash
-gh skill install AlexJSully/AlexJSully-Portfolio --skill audit-pr --agent claude
+gh skill install AlexJSully/AlexJSully-Portfolio --skill audit-pr
+gh skill install AlexJSully/AlexJSully-Portfolio --skill audit-pr --pin <tag-or-commit>
+gh skill update
 ```
 
-`npx skills` (Vercel Labs) and `gh skill` (GitHub CLI 2.90.0 or later, in preview) both target Claude Code, Copilot, Cursor, Codex, and Gemini. `gh skill` additionally pins to a tag or commit with `--pin`.
+Both target Claude Code, Copilot, Cursor, Codex, and Gemini CLI. `gh skill` installs for Copilot by default and reaches the others through `--agent`.
+
+**Resolving the `#` references.** Some hosts resolve `#codebase`, `#changes`, and the rest automatically; the ones that do not need a **context resolution** table, which maps each reference to the command to run instead. `audit-pr` and `audit-quality` carry that table in both halves. `audit-docs` carries it in the skill half only, since every host that reads a prompt file resolves those three itself. Which references appear varies: all three use `#codebase` and `#changes`, `audit-docs` and `audit-pr` add `#activePullRequest`, `audit-quality` adds `#file:path`, and `audit-pr` alone adds `#issue_fetch`.
 
 ### Other skills in the same repository
 
-One more is published from the same place and has no prompt half, because it is not an audit you run:
+One more is published from the same place and has no prompt half, because it is not an audit you run. Either installer takes it:
 
 ```bash
 npx skills add AlexJSully/AlexJSully-Portfolio --skill typescript-code-and-test-standards
+gh skill install AlexJSully/AlexJSully-Portfolio --skill typescript-code-and-test-standards
 ```
 
 `typescript-code-and-test-standards` loads while you write rather than after, carrying the TypeScript and JavaScript rules a formatter and a linter cannot check: comment discipline, documentation on every exported symbol, tests shipping alongside logic changes, and a mocking policy whose default is not to mock. It reads the host project's own Prettier, ESLint, and test-runner configuration instead of imposing one, and activates on `.ts`, `.tsx`, `.js`, `.jsx`, `.mjs`, `.cjs`, `.mts`, and `.cts`. It pairs with `audit-quality` rather than overlapping it: one applies as the code is written, the other audits it once it exists.
 
 Two further skills live in that directory carrying `metadata.internal`, so no installer offers them and `--all` skips them. They drive this repository's own tooling and would do nothing in yours.
-
-**As a skill, by hand.** Copy the directory into `.claude/skills/`, `.github/skills/`, or `.agents/skills/`, whichever your agent reads. Invoke it with `/audit-pr`, or let the agent pick it up from its `description`. Either way this is the fuller half: it brings its bundled `references/`, `agents/`, and `assets/` with it.
-
-**Resolving the `#` references.** Some hosts resolve `#codebase`, `#changes`, and the rest automatically; the ones that do not need a **context resolution** table, which maps each reference to the command to run instead. `audit-pr` and `audit-quality` carry that table in both halves. `audit-docs` carries it in the skill half only, since every host that reads a prompt file resolves those three itself. Which references appear varies: all three use `#codebase` and `#changes`, `audit-docs` and `audit-pr` add `#activePullRequest`, `audit-quality` adds `#file:path`, and `audit-pr` alone adds `#issue_fetch`.
 
 ## Keeping the two halves honest
 

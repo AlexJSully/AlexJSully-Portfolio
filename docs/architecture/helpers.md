@@ -1,6 +1,6 @@
 # Helpers Module
 
-Helper functions provide reusable logic for UI formatting, animations, and page transformations. These functions are pure utilities imported by components.
+Helper functions carry the two console and Easter egg behaviours that no component owns. Only [`convertAAAAHH()`](../../src/helpers/aaaahhhh.ts) is a pure function; the rest write to the console, the document title, or the live DOM, so calling one during server rendering would fail on the missing `document`.
 
 ## ASCII Logo Helper
 
@@ -19,7 +19,7 @@ Implementation: [src/helpers/ascii.ts](../../src/helpers/ascii.ts)
 
 ## AAAAHHHH Easter Egg Helper
 
-The AAAAHHHH helper ([src/helpers/aaaahhhh.ts](../../src/helpers/aaaahhhh.ts)) transforms the entire page into a playful state after the avatar sneezes 6 times.
+The AAAAHHHH helper ([src/helpers/aaaahhhh.ts](../../src/helpers/aaaahhhh.ts)) rewrites the live page once the avatar's sneeze counter reaches six.
 
 ### Transformation Behavior
 
@@ -55,7 +55,9 @@ The `convertAAAAHH()` function splits the full string at its character midpoint:
 - Spaces and original capitalization are preserved; every other character (letters, punctuation, digits) becomes 'A' or 'H' by position
 - Example: "one two three" → "aaa aaa hhhhh"
 
-Applied to: `<span>`, `<p>`, `<h1>`, `<h2>`, `<h3>`, `<button>` elements.
+Applied to: `<span>`, `<p>`, `<h1>`, `<h2>`, `<h3>`, `<button>` elements. Within each, only direct `#text` child nodes are rewritten; a nested element is reached through its own entry in that list rather than through its parent.
+
+`textAAAAHHHH()` then looks up two elements by ID, guarding each lookup: it removes `#description-Carousel` if present, and clears the `hidden` attribute from `#no-motion-description` if present. Both lookups are guarded, so a page carrying neither element transforms the same way.
 
 **Image Transformation Logic:**
 
@@ -69,7 +71,7 @@ The `imageAAAAHHHH()` function replaces:
 
 ### Trigger Flow
 
-The Avatar component tracks sneeze count using `THRESHOLDS.AAAAHHHH_TRIGGER_COUNT` (6). On the 6th sneeze, instead of animating, it calls `aaaahhhh()` and logs a `trigger_aaaahhhh` analytics event.
+The Avatar component tracks sneeze count against `THRESHOLDS.AAAAHHHH_TRIGGER_COUNT` (6). It increments the counter before testing it, so the sixth trigger reaches the threshold and takes the Easter egg branch instead of animating: the reader sees five sneezes, then the transformation. Avatar logs a `trigger_aaaahhhh` analytics event before calling `aaaahhhh()`.
 
 See [Avatar Component Documentation](./components/avatar.md) for trigger implementation.
 

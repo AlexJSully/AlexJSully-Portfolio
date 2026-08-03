@@ -87,10 +87,9 @@ The [CookieSnackbar component](../../src/components/cookie-snackbar/CookieSnackb
 
 ## Integration & Relationships
 
-- **Used by:** [ProjectsGrid component](../../src/components/projects/ProjectsGrid.tsx), potentially other high-bandwidth components
+- **Used by:** [`isNetworkFast()`](../../src/util/isNetworkFast.ts) has one caller, [ProjectsGrid](../../src/components/projects/ProjectsGrid.tsx); the cookie functions have one, [CookieSnackbar](../../src/components/cookie-snackbar/CookieSnackbar.tsx)
 - **Depends on:** [Network constants](../../src/constants/index.ts) for thresholds
-- **Testing:** All utility functions are tested with Jest for reliability and maintainability
-- **Type Safety:** TypeScript ensures full type safety and IDE autocompletion
+- **Testing:** [`isNetworkFast.test.ts`](../../src/util/isNetworkFast.test.ts) covers the network utility. [`cookieConsent.ts`](../../src/util/cookieConsent.ts) has no colocated test of its own; its behaviour is exercised indirectly through [`CookieSnackbar.test.tsx`](../../src/components/cookie-snackbar/CookieSnackbar.test.tsx)
 
 ## Related Docs
 

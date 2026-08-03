@@ -10,7 +10,13 @@ interface ErrorProps {
 	error: Error;
 }
 
-/** Renders an error page. */
+/**
+ * Renders the fallback UI for an error thrown inside a route segment.
+ *
+ * Logs to the browser console rather than to Sentry; the root layout is still intact here, so the
+ * page keeps rendering and the reader gets a link home. Shows `error.message`, or "Unknown error."
+ * when the thrown value carries none.
+ */
 function Error({ error }: Readonly<ErrorProps>): ReactElement {
 	const pathname = usePathname();
 

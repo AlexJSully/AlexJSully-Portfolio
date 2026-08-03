@@ -64,6 +64,8 @@ A standalone value (600) capping the number of stars [StarsBackground](../../src
 
 Implementation: [src/constants/index.ts](../../src/constants/index.ts)
 
+## Related Documentation
+
 - [Utils Documentation](./utils.md) - Utility functions that use these constants
 - [Helpers Documentation](./helpers.md) - Helper functions that use these constants
 - [Components Documentation](./components/index.md) - Components that consume constants

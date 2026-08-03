@@ -22,10 +22,14 @@ The portfolio uses Next.js App Router, where file names in [src/app/](../../src/
 ```mermaid
 flowchart TD
     accTitle: App Router Component Hierarchy
-    accDescr: Layout wraps all routes and provides metadata, includes GeneralLayout which contains Navbar, Footer, StarsBackground and CookieSnackbar. Page renders Banner, ProjectsGrid, and Publications
+    accDescr: layout.tsx wraps all routes, provides metadata and JSON-LD structured data, and renders ThemeRegistry, ServiceWorkerRegister, and SpeedInsights. ThemeRegistry wraps GeneralLayout, which contains Navbar, Footer, StarsBackground and CookieSnackbar. page.tsx renders Banner, ProjectsGrid, and Publications
     Layout[layout.tsx] -->|Wraps| Page[page.tsx]
     Layout -->|Provides| Metadata[SEO & Metadata]
-    Layout -->|Includes| GL[GeneralLayout]
+    Layout -->|Emits| JSONLD[JSON-LD structured data]
+    Layout -->|Renders| TR[ThemeRegistry]
+    Layout -->|Renders| SW[ServiceWorkerRegister]
+    Layout -->|Renders| SI[SpeedInsights]
+    TR -->|Wraps| GL[GeneralLayout]
     GL -->|Contains| Navbar
     GL -->|Contains| Footer
     GL -->|Contains| Stars[StarsBackground]
@@ -35,13 +39,15 @@ flowchart TD
     Page -->|Renders| Pubs[Publications]
 ```
 
-The root layout renders GeneralLayout which provides navigation, footer, background, and cookie consent for all pages.
+The root layout wraps GeneralLayout in [ThemeRegistry](../../src/components/ThemeRegistry.tsx), so the MUI theme reaches every component while the client boundary stays at that one provider. GeneralLayout then supplies navigation, footer, background, and cookie consent for all pages.
 
 ## Root Layout
 
 **Metadata Configuration:** The layout exports a metadata object with SEO tags, OpenGraph, Twitter Cards, and PWA manifest path. Keywords are imported from [src/data/keywords.ts](../../src/data/keywords.ts).
 
-**Viewport Setup:** Defines theme color (#131518), responsive scaling, and device width settings for mobile browsers.
+**Viewport Setup:** Defines theme color (#131518), an initial scale of 1 at device width, and `colorScheme: 'dark'`, which tells the browser to render form controls and scrollbars in their dark variants.
+
+**Structured Data:** The layout serializes three JSON-LD blocks into a `<script type='application/ld+json'>` in the body: a `Person` entry carrying the profile links, employer, and alma mater; an `FAQPage` entry answering questions about projects, contact, and employment status; and a `WebPage` entry naming the CSS selectors a voice assistant should read aloud. Search engines read these; nothing in the application does.
 
 **GeneralLayout:** Wraps children with [GeneralLayout](../../src/layouts/GeneralLayout.tsx) which provides navigation, footer, stars background, and cookie consent.
 
@@ -73,11 +79,11 @@ Implementation: [src/app/page.tsx](../../src/app/page.tsx)
 
 ## Error Handling
 
-**Error Boundary** ([src/app/error.tsx](../../src/app/error.tsx)) - Catches errors in route segments and displays fallback UI with a "Go Home" button.
+**Error Boundary** ([src/app/error.tsx](../../src/app/error.tsx)) - Catches errors in route segments and displays fallback UI with a "Go Home" button. It writes the error to the browser console and shows `error.message`, falling back to "Unknown error." when the message is empty.
 
-**Global Error** ([src/app/global-error.tsx](../../src/app/global-error.tsx)) - Catches errors in root layout, including its own `<html>` and `<body>` tags since layout errors prevent normal rendering.
+**Global Error** ([src/app/global-error.tsx](../../src/app/global-error.tsx)) - Catches errors in root layout, including its own `<html>` and `<body>` tags since layout errors prevent normal rendering. It reports the error to Sentry with `Sentry.captureException`.
 
-Both error boundaries are client components that accept an `error` prop.
+The two differ in where the error goes: only the global boundary reports to Sentry, because a failure in the root layout is the one the application cannot otherwise surface. Both are client components that accept an `error` prop, and both render the same "Go Home" link, which reloads the page instead of navigating when the reader is already at `/`.
 
 ## Loading & 404
 

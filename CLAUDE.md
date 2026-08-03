@@ -23,17 +23,18 @@ This repo is worked on by **both** GitHub Copilot and Claude Code. Keep these au
 
 - `npm run dev` - dev server at localhost:3000
 - `npm run validate` - full quality gate (prettier, eslint, tsc, jest, cypress, build, markdownlint)
-- Individual gates: `npm run prettier:check`, `npm run eslint:check`, `npm run tsc`, `npm run test:jest`, `npm run test:cypress:e2e`, `npm run build`, `npm run lint:markdown:check`
+- Individual gates, none of which write: `npm run prettier:check`, `npm run eslint:check`, `npm run tsc`, `npm run test:jest`, `npm run test:cypress:e2e`, `npm run build`, `npm run lint:markdown:check`
 - Run a **single** Jest test:
     - one file: `npx jest src/components/banner/Banner.test.tsx`
     - one case by name: `npx jest -t 'partial test name'`
     - (path aliases resolve in tests via `moduleNameMapper` in [`jest.config.js`](jest.config.js))
-- Install with `npm ci`. CI runs on **Node 24.x** ([`.github/workflows/code-qa.yaml`](.github/workflows/code-qa.yaml)); there are no pre-commit hooks, so `npm run validate` is the manual equivalent.
+- Install with `npm ci`. CI runs on **Node 24.x** ([`.github/workflows/code-qa.yaml`](.github/workflows/code-qa.yaml)); there are no pre-commit hooks, so `npm run validate` is what covers the same ground by hand.
 
 ## Validation
 
 **Every change to logic, tests, configuration, or documentation ends with the quality gates run and green.** This is not optional and not deferrable.
 
+- **`validate` writes and CI does not.** Three of its gates run the fixing variants (`prettier`, `eslint`, `lint:markdown`): each repairs whatever its autofix reaches and exits non-zero on what is left, such as a markdown file that does not open with a top-level heading. The other four (`tsc`, `test:jest`, `test:cypress:e2e`, `build`) only report. The workflows run the reading variants (`prettier:check`, `eslint:check`, `lint:markdown:check`) and modify nothing, so commit what `validate` rewrote or CI fails on the rule that rewrite settled.
 - Confirm the **actual exit code** (`echo "EXIT: $?"`) after each gate. The output is long and failures surface at the end, so scrolling it is not a check.
 - A single gate is never a substitute for the full set. Running `npm run test:jest` alone skips type checking, linting, the build, and markdown linting.
 - The skill publishability check is deliberately **not** a gate: `npm run validate` must work with no agent tooling present. Run it with `make -f .claude/Makefile check-skills`, and hand any semantic divergence between a published audit's two halves to the `prompt-skill-sync` subagent, which no script can decide.

@@ -12,7 +12,13 @@ interface GlobalErrorProps {
 	error: Error;
 }
 
-/** Renders an error page. */
+/**
+ * Renders the fallback page for an error thrown by the root layout.
+ *
+ * Next.js mounts this in place of the whole document, so it supplies its own `<html>` and `<body>`
+ * rather than inheriting the layout's. Reports the error to Sentry, which is the only record of it:
+ * a root layout failure leaves no working page to surface it from.
+ */
 function GlobalError({ error }: GlobalErrorProps): ReactElement {
 	const pathname = usePathname();
 

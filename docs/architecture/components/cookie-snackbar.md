@@ -139,31 +139,15 @@ Test file: [`src/components/cookie-snackbar/CookieSnackbar.test.tsx`](../../../s
 
 **Test Coverage:**
 
-- Component renders on client
-- Snackbar opens when cookie not present
-- Snackbar closes when cookie exists
-- Close button sets cookie and hides snackbar
-- SSR safety (no crash on server)
+- The snackbar renders when no consent cookie is set
+- The snackbar does not render when the consent cookie is already set
+- Clicking the close button sets the cookie and hides the snackbar
+- The close button carries its accessibility attributes
+- The cookie is set only on an explicit close-button click
 
 ## Integration
 
-The component is rendered in [`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx):
-
-```tsx
-export default function GeneralLayout({ children }) {
-	return (
-		<div id='content'>
-			<Navbar />
-			<main>
-				{children}
-				<StarsBackground />
-				<CookieSnackbar />
-			</main>
-			<Footer />
-		</div>
-	);
-}
-```
+[`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx) renders CookieSnackbar inside its `<main>` element, alongside the page children and the StarsBackground. Mounting it in the layout rather than on a page means the consent notice appears on every route without each page having to include it. See [Layouts](../layouts.md) for the surrounding structure.
 
 ## Customization
 

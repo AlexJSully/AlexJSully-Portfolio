@@ -26,7 +26,7 @@ The chain is `&&`, so a failure at position 5 means `build` and `lint:markdown` 
 
 If `test:cypress:e2e` fails, quote the actual error. Treat it as an environment limit only when the Cypress **binary fails to launch**, an Electron or window-server error raised before any spec runs, since Cypress needs a GUI session a headless agent shell may not have. A failing assertion inside a spec is a real failure. Either way, report which gates actually ran (see [`code-qa.yaml`](../../.github/workflows/code-qa.yaml) for what CI covers).
 
-Two ordering notes. `npm run prettier` and `npm run eslint` both write; run Prettier again after any ESLint fix, because the `curly` fix inserts braces inline where Prettier would break the statement across lines. Finish with `npm run prettier:check`, which is what CI runs.
+Three of the gates write. `npm run prettier`, `npm run eslint`, and `npm run lint:markdown` each apply every fix their tool can apply and fail only on what is left, so exit code 0 can still leave a dirty tree. Report the files they rewrote. Run Prettier again after any ESLint fix, because the `curly` fix inserts braces inline where Prettier would break the statement across lines, then finish with `npm run prettier:check`, which is what CI runs.
 
 `npm run test:jest` carries `--passWithNoTests`, so exit code 0 alone does not prove tests ran. Report the test count.
 
