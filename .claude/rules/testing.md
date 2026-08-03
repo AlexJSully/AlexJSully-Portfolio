@@ -1,11 +1,11 @@
 ---
 paths:
-    - "**/*.test.ts"
-    - "**/*.test.tsx"
-    - "cypress/**/*.ts"
-    - "jest/**/*.ts"
-    - "jest.config.js"
-    - "cypress.config.ts"
+    - '**/*.test.ts'
+    - '**/*.test.tsx'
+    - 'cypress/**/*.ts'
+    - 'jest/**/*.ts'
+    - 'jest.config.js'
+    - 'cypress.config.ts'
 ---
 
 # Testing
@@ -20,13 +20,13 @@ This file carries only this repository's instances of the skill's rules.
 
 The permitted boundaries are closed. Each is here because the real thing cannot run in jsdom.
 
-| Boundary | What that means here |
-| --- | --- |
-| A third-party SDK that reaches the network | `firebase/app`, `firebase/analytics`, and `firebase/performance`, mocked in [`firebase.test.ts`](../../src/configs/firebase.test.ts) because the wrapper under test sits directly on them |
-| This repository's own wrapper around such an SDK, when testing a consumer of it | [`@configs/firebase`](../../src/configs/firebase.ts) from a component test, so rendering does not fire live analytics |
-| Framework context the test renderer cannot supply | `next/navigation` |
-| The clock | `jest.useFakeTimers()`, which replaces the environment rather than your code |
-| Browser APIs jsdom omits | `navigator` and similar |
+| Boundary                                                                        | What that means here                                                                                                                                                                      |
+| ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A third-party SDK that reaches the network                                      | `firebase/app`, `firebase/analytics`, and `firebase/performance`, mocked in [`firebase.test.ts`](../../src/configs/firebase.test.ts) because the wrapper under test sits directly on them |
+| This repository's own wrapper around such an SDK, when testing a consumer of it | [`@configs/firebase`](../../src/configs/firebase.ts) from a component test, so rendering does not fire live analytics                                                                     |
+| Framework context the test renderer cannot supply                               | `next/navigation`                                                                                                                                                                         |
+| The clock                                                                       | `jest.useFakeTimers()`, which replaces the environment rather than your code                                                                                                              |
+| Browser APIs jsdom omits                                                        | `navigator` and similar                                                                                                                                                                   |
 
 Anything outside that table needs a one-line comment above the mock naming which boundary it crosses.
 

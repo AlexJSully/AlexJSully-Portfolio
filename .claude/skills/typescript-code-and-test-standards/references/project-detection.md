@@ -102,10 +102,10 @@ These are the project speaking directly, so they outrank every inference and eve
 
 Worked cases:
 
-- *The formatter says spaces, `.editorconfig` says tabs, for a `.ts` file.* The formatter wins; the `.editorconfig` entry is dead for that glob.
-- *The linter has `curly` off, and this skill wants braces.* The linter wins. Do not flag an unbraced block.
-- *A rules file mandates relative imports, and `tsconfig.json` declares aliases.* The rules file wins. Aliases existing is not an instruction to use them.
-- *Nothing declares a quote style and no formatter is installed.* Match the neighbouring files, and change nothing that already exists.
+- _The formatter says spaces, `.editorconfig` says tabs, for a `.ts` file._ The formatter wins; the `.editorconfig` entry is dead for that glob.
+- _The linter has `curly` off, and this skill wants braces._ The linter wins. Do not flag an unbraced block.
+- _A rules file mandates relative imports, and `tsconfig.json` declares aliases._ The rules file wins. Aliases existing is not an instruction to use them.
+- _Nothing declares a quote style and no formatter is installed._ Match the neighbouring files, and change nothing that already exists.
 
 ## When nothing answers the question
 

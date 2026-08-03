@@ -1,9 +1,9 @@
 ---
 name: sync-audit-prompts
-description: Reconciles the mirrored prompt and skill pairs so their bodies match byte for byte. Use after editing any file under .github/prompts/ or .claude/skills/audit-*/, or when npm run validate reports the pairs out of sync.
+description: Reconciles the mirrored prompt and skill pairs so their bodies match byte for byte. Use after editing any file under .github/prompts/ or .claude/skills/audit-*/, or when make -f .claude/Makefile sync-prompts reports the pairs out of sync.
 argument-hint: '[to-skill | to-prompt; omit to check only]'
 disable-model-invocation: true
-allowed-tools: Bash(node .claude/scripts/check-prompt-skill-sync.mjs*) Read Grep Glob
+allowed-tools: Bash(make -f .claude/Makefile sync-prompts*) Read Grep Glob
 ---
 
 # Sync audit prompts
@@ -15,7 +15,7 @@ Manual only, because propagating in the wrong direction overwrites the edit you 
 ## Check first
 
 ```bash
-node .claude/scripts/check-prompt-skill-sync.mjs
+make -f .claude/Makefile sync-prompts
 ```
 
 Exit 0 means every pair matches; report that and stop.

@@ -49,14 +49,14 @@ Ask one question about the module you are about to mock: **if this module's body
 
 Each is here because the real thing cannot run in a test environment, not because mocking it is convenient.
 
-| Boundary | Why it qualifies |
-| --- | --- |
-| A third-party SDK that reaches the network | The call leaves the process. Running it makes the test slow, non-deterministic, and dependent on someone else's uptime. |
-| The project's own thin wrapper around such an SDK, when testing a consumer of it | Its whole job is to reach the outside world, so it carries no logic of its own to lose. |
-| Framework context the test renderer cannot supply | Routing, navigation, and request context that only exist inside the framework's own runtime. |
-| The clock | Fake timers replace the environment rather than your code, which is why they are not the same kind of substitution. |
-| Platform APIs the test environment omits | Browser or runtime APIs the test environment does not implement. |
-| A module with an unavoidable side effect at import time | Analytics initialization, telemetry registration, or a network call that fires on load. |
+| Boundary                                                                         | Why it qualifies                                                                                                        |
+| -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| A third-party SDK that reaches the network                                       | The call leaves the process. Running it makes the test slow, non-deterministic, and dependent on someone else's uptime. |
+| The project's own thin wrapper around such an SDK, when testing a consumer of it | Its whole job is to reach the outside world, so it carries no logic of its own to lose.                                 |
+| Framework context the test renderer cannot supply                                | Routing, navigation, and request context that only exist inside the framework's own runtime.                            |
+| The clock                                                                        | Fake timers replace the environment rather than your code, which is why they are not the same kind of substitution.     |
+| Platform APIs the test environment omits                                         | Browser or runtime APIs the test environment does not implement.                                                        |
+| A module with an unavoidable side effect at import time                          | Analytics initialization, telemetry registration, or a network call that fires on load.                                 |
 
 **The wrapper exception is narrow.** A wrapper qualifies only because it does nothing but reach outside. The moment it validates, transforms, retries, caches, or branches, it holds logic and rung one applies again.
 

@@ -1,17 +1,17 @@
 ---
 paths:
-    - ".github/prompts/*.prompt.md"
-    - ".claude/skills/audit-*/SKILL.md"
+    - '.github/prompts/*.prompt.md'
+    - '.claude/skills/audit-*/SKILL.md'
 ---
 
 # Prompt and skill mirroring
 
 Each audit prompt ships twice, and the two copies carry a **byte-identical body below the frontmatter**:
 
-| Prompt, for GitHub Copilot | Skill, for Claude Code and other agents |
-| --- | --- |
-| [`audit-docs.prompt.md`](../../.github/prompts/audit-docs.prompt.md) | [`audit-docs/SKILL.md`](../skills/audit-docs/SKILL.md) |
-| [`audit-pr.prompt.md`](../../.github/prompts/audit-pr.prompt.md) | [`audit-pr/SKILL.md`](../skills/audit-pr/SKILL.md) |
+| Prompt, for GitHub Copilot                                                 | Skill, for Claude Code and other agents                      |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| [`audit-docs.prompt.md`](../../.github/prompts/audit-docs.prompt.md)       | [`audit-docs/SKILL.md`](../skills/audit-docs/SKILL.md)       |
+| [`audit-pr.prompt.md`](../../.github/prompts/audit-pr.prompt.md)           | [`audit-pr/SKILL.md`](../skills/audit-pr/SKILL.md)           |
 | [`audit-quality.prompt.md`](../../.github/prompts/audit-quality.prompt.md) | [`audit-quality/SKILL.md`](../skills/audit-quality/SKILL.md) |
 
 Only the frontmatter differs: the prompt carries Copilot's keys (`description`, `name`, `argument-hint`, `agent`), the skill carries the Agent Skills keys (`name`, `description`, `argument-hint`).
@@ -23,12 +23,14 @@ Only the frontmatter differs: the prompt carries Copilot's keys (`description`, 
 Run the propagation in the direction you edited, then confirm:
 
 ```bash
-node .claude/scripts/check-prompt-skill-sync.mjs --fix=to-skill   # you edited the prompt
-node .claude/scripts/check-prompt-skill-sync.mjs --fix=to-prompt  # you edited the skill
-node .claude/scripts/check-prompt-skill-sync.mjs                  # confirm, exits 0 when in sync
+make -f .claude/Makefile sync-prompts-to-skill    # you edited the prompt
+make -f .claude/Makefile sync-prompts-to-prompt   # you edited the skill
+make -f .claude/Makefile sync-prompts             # confirm, exits 0 when in sync
 ```
 
-The direction is never inferred, because guessing it would overwrite the side you just edited. `npm run validate` runs the check and fails while any pair differs.
+The direction is never inferred, because guessing it would overwrite the side you just edited.
+
+The check is deliberately **not** part of `npm run validate`. The repository must build, test, and lint with no agent tooling present, so nothing in the main gate may invoke anything under `.claude/`. The `Makefile` is the entry point instead, and it degrades to a no-op when the tooling is absent.
 
 ## The shared body must stay self-contained
 

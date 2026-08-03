@@ -198,11 +198,8 @@ dist/**/*.js.map
 # nx cache
 .nx/cache
 
-# Claude Code agent tooling
-.claude/**
-!.claude/skills/
-!.claude/skills/audit-*/
-!.claude/skills/audit-*/SKILL.md
+# Vendored upstream, kept byte-identical to anthropics/skills so drift stays detectable.
+.claude/skills/skill-creator/
 
 # Python
 .mypy_cache

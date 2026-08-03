@@ -8,8 +8,7 @@
 // `--fix=to-skill` copies each prompt body onto its skill, keeping the
 // skill's own frontmatter. `--fix=to-prompt` does the reverse. The direction
 // is never inferred, because guessing it would overwrite the edited side.
-
-import { readdirSync, readFileSync, writeFileSync, existsSync } from 'fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'fs';
 import { dirname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -111,8 +110,8 @@ for (const { name, promptPath, skillPath } of found) {
 if (diverged > 0) {
 	console.error(
 		`\n${diverged} pair(s) out of sync. Edit one side, then run one of:\n` +
-			'  node .claude/scripts/check-prompt-skill-sync.mjs --fix=to-skill\n' +
-			'  node .claude/scripts/check-prompt-skill-sync.mjs --fix=to-prompt',
+			'  make -f .claude/Makefile sync-prompts-to-skill\n' +
+			'  make -f .claude/Makefile sync-prompts-to-prompt',
 	);
 	process.exit(1);
 }

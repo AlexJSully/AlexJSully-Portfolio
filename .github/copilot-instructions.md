@@ -26,6 +26,10 @@ npm run build             # Production build
 
 **Always run `npm run validate` before committing**, and frequently while making changes. This is the quality gate CI runs.
 
+**Never make the repository depend on AI agent files.** If `.claude/` and `.github/prompts/` were deleted, everything must still build, test, and lint. No `package.json` script, config, workflow, or page under `docs/` may reference or invoke anything in them. The dependency runs one way: agent tooling may name a project command, never the reverse. The only exception is an ignore or exclude glob, which is inert when the path is absent. Agent tooling that needs running gets a target in `.claude/Makefile`, which is deleted along with the tooling it drives.
+
+**Documentation and comments describe the current state, in every file type.** A comment, document, or config header states what the code does now. Never narrate the past ("replaces", "used to", "formerly", "for the first time", "unlike the old") and never name a file, flag, or tool that no longer exists: git carries that history, and a reader cannot check a claim against something that is gone. The future belongs nowhere but a `TODO`. Rationale worth keeping goes in a decision record of its own under `docs/`, created when the first one is needed, rather than scattered through the files it explains.
+
 ### Testing Requirements
 
 - **One test file per source file**, colocated and same-named: `Banner.tsx` gives `Banner.test.tsx` (see `src/components/banner/Banner.test.tsx`). No orphan tests, no test file named after a function, no second test file for one source.
@@ -157,7 +161,7 @@ Not adopted: `snake_case` filenames (kebab-case directories with PascalCase comp
 
 ### Comments & JSDoc
 
-- **Comments describe the code as it stands.** Never narrate a change, fix, or prior state ("now uses", "previously", "no longer", "restored"); git history carries that. Never argue that the code is correct or safe, which documents the edit rather than the code. Delete commented-out code. A comment contradicting the code is corrected, not deleted
+- **Comments describe the code as it stands.** Never narrate a change, fix, or prior state ("now uses", "previously", "no longer", "restored", "replaces", "used to", "formerly", "for the first time"), and never name a file, flag, or tool that no longer exists; git history carries that. Never argue that the code is correct or safe, which documents the edit rather than the code. Delete commented-out code. A comment contradicting the code is corrected, not deleted
 - **Every exported symbol carries a `/** */` block, without exception**, as do the members of an exported structure (interface properties, object keys, enum values). Write for a reader meeting it for the first time; where nothing beyond a restatement is true, restate. Being obvious is not a defect on a public surface, being absent is
 - A private helper gets a block when its name and signature do not carry it; a binding inside a function body does not, and a comment there that restates the next line is noise
 - **In a block you write, do not put types in JSDoc.** TypeScript ignores `@param {string}`, `@returns {number}`, `@type`, and `@typedef` in `.ts`/`.tsx`, so they drift from the signature. Skip `@implements`, `@enum`, `@private`, and `@override` beside the keyword, and add `@param`/`@returns` where they say more than the name and type do

@@ -48,7 +48,7 @@ Execute all three phases in order.
 - **Do not restate what the language's own syntax declares**, such as a type, a visibility modifier, or an override marker. This governs what you write in a **new** documentation comment and never licenses removing an existing one.
 - **Correct an existing documentation tag; do not strip or delete it.** A parameter, return, throws, or example entry was written deliberately. Read enough surrounding code to judge it, then fix what is factually wrong and leave what is right, including parts a convention would omit in new code. Removing a tag, or a piece of one, because it looks redundant is restyling someone else's work, not auditing it. Delete a whole tag only when it is wrong and uncorrectable, such as one documenting a parameter the signature no longer has. Phase 2's "default to correcting, not deleting" governs in-code documentation too.
 - **Internal elements** are documented where the logic is complex or carries a gotcha or edge case. Delete an internal comment only when it restates the line beneath it, such as `// Increment counter` above a counter increment (delete the comment, keep the code).
-- **Comments describe the code as it stands.** Never narrate a change, a fix, or a prior state ("now uses", "previously", "no longer", "restored"): version control carries that, and the comment outlives the change that prompted it. Never argue that the code is correct or safe, which documents the edit rather than the code. Delete commented-out code rather than leaving it in place.
+- **Comments describe the code as it stands.** Never narrate a change, a fix, or a prior state ("now uses", "previously", "no longer", "restored", "replaces", "used to", "formerly", "for the first time", "unlike the old"), and never name a file, flag, or tool that no longer exists: version control carries that, and the comment outlives the change that prompted it. Never argue that the code is correct or safe, which documents the edit rather than the code. Delete commented-out code rather than leaving it in place.
 - **Form:** a documentation comment is a complete sentence, capitalized and punctuated; a short trailing comment may be a fragment. Wrap long comment lines to the width the file already uses, letting an unbreakable URL exceed it. Use the documentation format's own list syntax for enumerations, since indented plain text collapses into one run-on sentence when rendered. Never box a comment in asterisks or other decorative characters. Documentation precedes an annotation or decorator and never sits between it and the declaration.
 - **Contracts worth stating:** any cleanup the caller owns (a handle to close, a listener to remove, a subscription to cancel), the error values or exception types a caller can branch on, and a deprecation marker naming its replacement. A deprecation without migration directions is incomplete; add one only where it is provable under Rule 2.
 - **File-level headers:** where the language provides one, it states the file's contents, uses, or dependencies. Notes aimed at maintainers rather than consumers go with the implementation instead.
@@ -88,9 +88,9 @@ Every statement must be grounded in code you have **opened and read in full duri
 - **Objective is not flat.** Banning subjective adjectives does not mandate robotic prose. Replace the adjective with the concrete cited fact that earns it: not "the retry logic is robust" but "the retry runs three times with a two-second backoff ([retry.ts](../src/retry.ts) lines 12-19)." (show, do not tell)
 - **Existing content:** preserve existing subjective terms unless they are factually wrong.
 
-### Rule 4: No placeholders or TODOs
+### Rule 4: Current state only
 
-No empty sections, stubs, or "add details here" comments. If the code does not exist, the documentation should not either.
+Documentation and comments describe the code as it is now. Never narrate the past ("replaces", "used to", "formerly", "for the first time", "unlike the old") and never name a file, flag, symbol, or tool that no longer exists: version control already carries that history, and a reader cannot check a claim against something that is gone. The only sanctioned place for future intent is a `TODO` in the code that will change, positioned however that codebase positions one; documentation itself carries none, so no empty sections, stubs, or "add details here" placeholders, and if the code does not exist, neither should its documentation. Rationale worth keeping goes in its own decision record, not scattered through the files it explains.
 
 ### Rule 5: Mermaid diagram and image accessibility (zero tolerance)
 
@@ -193,6 +193,6 @@ Then confirm:
 - New or changed prose reads as a careful human wrote it: leads with the point, no signposting or banned AI tells, one canonical term per concept, no ambiguous `it`/`this`/`these`.
 - Architecture flows include only significant steps (§4); every diagram has `accTitle` and `accDescr`, and every image has real alt text.
 - No em-dashes (`—`) or en-dashes (`–`) anywhere you wrote; new or changed prose uses Canadian English.
-- Every public symbol you touched carries a documentation comment written from its implementation, not from its name, and no comment narrates a change, argues the code is safe, or sits commented out.
+- Every public symbol you touched carries a documentation comment written from its implementation, not from its name, and no comment narrates a change, names something that no longer exists, argues the code is safe, or sits commented out.
 - Rendered output was checked, not only the source: diagrams parse, nested lists and tables render, and documentation comments display the intended text.
 - Phase 3 ran and its result is reported.

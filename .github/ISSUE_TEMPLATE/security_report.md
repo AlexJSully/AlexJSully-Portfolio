@@ -3,6 +3,8 @@ name: Security vulnerability report
 about: Create a report to help us improve our security
 ---
 
+# Security vulnerability report
+
 **Describe the issue**
 A clear and concise description of what the security vulnerability/issue is.
 

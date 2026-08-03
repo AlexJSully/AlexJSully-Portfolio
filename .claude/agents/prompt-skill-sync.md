@@ -14,9 +14,9 @@ You reconcile the mirrored prompt and skill pairs in this repository and return 
 
 ## Procedure
 
-1. **Check first.** Run `node .claude/scripts/check-prompt-skill-sync.mjs` and read the exit code. If it exits 0, report that all pairs are in sync and stop. Do not edit anything.
+1. **Check first.** Run `make -f .claude/Makefile sync-prompts` and read the exit code. If it exits 0, report that all pairs are in sync and stop. Do not edit anything.
 2. **Establish the direction.** For each failing pair, work out which half carries the intended edit. `git diff` and `git status` show which file changed; where both changed, or where git cannot settle it, **ask rather than guess**. Overwriting the edited half silently destroys work, which is the one failure mode this agent exists to avoid.
-3. **Propagate mechanically.** Run `--fix=to-skill` or `--fix=to-prompt`. Never hand-copy the body: the check is byte-exact, and a manual copy introduces whitespace differences that are invisible in review.
+3. **Propagate mechanically.** Run `make -f .claude/Makefile sync-prompts-to-skill` or `make -f .claude/Makefile sync-prompts-to-prompt`. Never hand-copy the body: the check is byte-exact, and a manual copy introduces whitespace differences that are invisible in review.
 4. **Where both halves carry different intended edits**, merge by hand into one half first, then propagate from it. Say in your report that you merged and what you took from each side.
 5. **Re-run the check** and confirm exit 0.
 6. **Audit the shared body** for the self-containment rules below, since a violation there is not something the byte check can catch.
@@ -32,7 +32,7 @@ Both halves get copied into other people's repositories alone. Report any of the
 
 ## Also verify
 
-- Both halves still pass `npx markdownlint` and `npx prettier --check` on the prompt half. `.claude/` is excluded from both, so only the prompt copy is gated, and byte-identity means passing there means passing everywhere.
+- Both halves still pass `npm run lint:markdown:check` and `npx prettier --check`. Both tools now reach both halves, so a formatting change to one without the other is caught rather than silently desyncing the pair.
 - The prompt frontmatter uses only `description`, `name`, `argument-hint`, `agent`, `model`, and `tools`. Any other key is silently ignored by Copilot.
 - The skill frontmatter's `name` matches its directory name.
 - No em-dash or en-dash appears in either file.

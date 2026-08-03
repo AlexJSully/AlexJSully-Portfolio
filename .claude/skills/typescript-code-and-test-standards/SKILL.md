@@ -34,16 +34,16 @@ This skill owns comments, documentation blocks, readability judgement, the test 
 
 Read the project before writing anything. Never assume a convention this skill happens to prefer.
 
-| Signal | Read it from | It decides |
-| --- | --- | --- |
-| Formatting | `.prettierrc*`, `prettier.config.*`, a `prettier` key in `package.json`, `biome.json`, `dprint.json` | Tabs or spaces, width, quotes, semicolons, trailing commas, import order |
-| Lint rules | `eslint.config.*`, `.eslintrc*`, `biome.json` | Which style rules are enforced and which are off |
-| Type strictness | `tsconfig.json`, `jsconfig.json` | `strict`, `isolatedModules`, `paths` aliases, whether JavaScript is type-checked |
-| Import style | `compilerOptions.paths`, and what neighbouring files actually import | Aliases against relative paths |
-| Commands | `package.json` scripts, `Makefile`, `justfile`, `pyproject.toml` | How to format, lint, type check, test |
-| Test runner | `jest.config.*`, `vitest.config.*`, `cypress.config.*`, `playwright.config.*`, a `jest` key in `package.json` | Test file naming, location, environment, path mapping |
-| Editor defaults | `.editorconfig` | Indentation and line endings for files no formatter covers |
-| Project rules | `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.claude/rules/*.md`, `.cursor/rules/*` | Everything, see the precedence below |
+| Signal          | Read it from                                                                                                  | It decides                                                                       |
+| --------------- | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Formatting      | `.prettierrc*`, `prettier.config.*`, a `prettier` key in `package.json`, `biome.json`, `dprint.json`          | Tabs or spaces, width, quotes, semicolons, trailing commas, import order         |
+| Lint rules      | `eslint.config.*`, `.eslintrc*`, `biome.json`                                                                 | Which style rules are enforced and which are off                                 |
+| Type strictness | `tsconfig.json`, `jsconfig.json`                                                                              | `strict`, `isolatedModules`, `paths` aliases, whether JavaScript is type-checked |
+| Import style    | `compilerOptions.paths`, and what neighbouring files actually import                                          | Aliases against relative paths                                                   |
+| Commands        | `package.json` scripts, `Makefile`, `justfile`, `pyproject.toml`                                              | How to format, lint, type check, test                                            |
+| Test runner     | `jest.config.*`, `vitest.config.*`, `cypress.config.*`, `playwright.config.*`, a `jest` key in `package.json` | Test file naming, location, environment, path mapping                            |
+| Editor defaults | `.editorconfig`                                                                                               | Indentation and line endings for files no formatter covers                       |
+| Project rules   | `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.claude/rules/*.md`, `.cursor/rules/*`          | Everything, see the precedence below                                             |
 
 Full detail, including how to read a flat against a legacy lint config, is in [project-detection.md](references/project-detection.md).
 

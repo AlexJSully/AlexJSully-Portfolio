@@ -42,12 +42,12 @@ None of them audits your whole repository by default, which matters on a large c
 Only relevant if you keep both halves. Edit one, then propagate:
 
 ```bash
-node .claude/scripts/check-prompt-skill-sync.mjs --fix=to-skill    # you edited the prompt
-node .claude/scripts/check-prompt-skill-sync.mjs --fix=to-prompt   # you edited the skill
-node .claude/scripts/check-prompt-skill-sync.mjs                   # confirm, exits 0 when in sync
+make -f .claude/Makefile sync-prompts-to-skill    # you edited the prompt
+make -f .claude/Makefile sync-prompts-to-prompt   # you edited the skill
+make -f .claude/Makefile sync-prompts             # confirm, exits 0 when in sync
 ```
 
-The direction is never inferred, because guessing it would overwrite the side you just edited. In this repository the check runs as part of `npm run validate`.
+The direction is never inferred, because guessing it would overwrite the side you just edited. In this repository the check is run on demand rather than as part of the build, so that the project still builds and lints with no agent tooling present.
 
 ## Whether a run applies changes
 
