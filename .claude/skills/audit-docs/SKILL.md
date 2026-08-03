@@ -38,14 +38,27 @@ Open one of these when the run needs its detail. Nothing here is loaded until yo
 - [`evidence-and-citation.md`](references/evidence-and-citation.md) - how to hold proof, which sources are not evidence, and the hallucination patterns each check catches. Read before Phase 2 or 3 on an unfamiliar codebase.
 - [`voice-and-ai-tells.md`](references/voice-and-ai-tells.md) - the tell catalogue with a corrected rewrite for each. Read while writing or revising prose.
 - [`diagram-and-image-accessibility.md`](references/diagram-and-image-accessibility.md) - worked `accTitle` and `accDescr` examples, and how to choose a diagram type. Read before adding or editing a diagram.
-- [`claim-verifier.md`](agents/claim-verifier.md) - a subagent that tries to disprove one claim against the source. Use it on any claim you are not certain of.
 - [`audit-report.template.md`](assets/audit-report.template.md) - the report shape for the end of the run.
+
+## Bundled subagents, and when to dispatch one
+
+Five subagents ship with this skill. **The default is to dispatch none of them.** Each one is for work the main run cannot afford to do itself, and the scope rule below bounds what any of them receives: on a pull request they see the changed set, not the tree. A small pull request should reach for nothing here.
+
+| Subagent                                           | Dispatch when                                                                   | Skip when                          |
+| -------------------------------------------------- | ------------------------------------------------------------------------------- | ---------------------------------- |
+| [`coverage-mapper`](agents/coverage-mapper.md)     | scope is the whole documentation set, or the change adds or removes a component | scope is a single named document   |
+| [`curation-reviewer`](agents/curation-reviewer.md) | a document was substantially rewritten, or is consumer-facing                   | only a factual correction was made |
+| [`diagram-reviewer`](agents/diagram-reviewer.md)   | a document contains a diagram, or describes a flow of five or more steps        | neither is true                    |
+| [`surface-auditor`](agents/surface-auditor.md)     | the change touches a public surface                                             | the change is documentation-only   |
+| [`claim-verifier`](agents/claim-verifier.md)       | a claim you cannot ground from a file already open                              | the proof is already in hand       |
+
+Each returns findings rather than edits, so the decision to act on any of them stays with this run.
 
 ---
 
 ## 1. Execution Flow (Sequential)
 
-Execute all three phases in order.
+**Resolve scope in this order, stopping at the first rule that applies, and never widen it:** an explicit instruction naming paths or an area; the active pull request; uncommitted changes; the component or system the surrounding task concerns; and only then the whole documentation set. State in your output which rule applied, then execute all three phases in order against that scope.
 
 ### Phase 1: PR sync
 
@@ -55,6 +68,7 @@ Execute all three phases in order.
 
 ### Phase 2: general audit
 
+- **Inventory before you correct.** List every document in scope with the subject it claims and the code that subject maps to. The three actions below are undecidable without that list: duplication is visible only across documents, a removed feature only where a document's subject is absent from the code, and a missing document only as code with no entry. Report how many documents you opened, and name anything in scope you did not, so that "already accurate" cannot be confused with "not looked at".
 - Audit all of `docs/` against the current #codebase. **Correct** pre-existing content that contradicts the code, preserving accurate content's phrasing and style.
 - **Delete** pre-existing content only if it is massively duplicated, describes removed features, or fundamentally cannot be corrected. Default to correcting, not deleting. Your own generated content may be edited or removed freely when wrong.
 - **Create new files** only when needed: check the existing structure first and reuse a home when one fits; for a genuinely new directory apply the **Diátaxis** framework (Tutorials, How-To Guides, Reference, Explanation); create for new components/systems, external API guides, or missing structures.
@@ -64,7 +78,7 @@ Execute all three phases in order.
 
 **Mandatory.** Execute regardless of Phase 1 and 2 results.
 
-- **Scope:** every `.md` file outside `docs/`, plus documentation comments, inline comments, and file-level headers across the target.
+- **Scope:** every `.md` file outside `docs/`, plus documentation comments, inline comments, and file-level headers across the code the scope rule above resolved to.
 - **Actions:** scan for documentation and comments; read the current implementation of each documented element; verify it against actual code behaviour; correct or remove anything inaccurate or outdated; document every public symbol that lacks it; remove bloat, keeping "why" explanations, non-obvious "what" descriptions, and essential "how" for complex algorithms. Removing bloat means deleting comments that restate the code, never comments that explain a non-obvious internal.
 - **Always document the public surface.** Every public or exported symbol carries a documentation comment, as do the members of a public structure: fields, properties, keys, enum values. Write for a reader meeting the symbol for the first time, assuming they can infer nothing from its name. Reach for what the declaration cannot express, such as why it exists, a constraint, an invariant, or a caller obligation. Where no such explanation exists, a plain restatement of what the symbol does is correct: being obvious is not a defect on a public surface, being absent is. **Rule 2 still governs, and it comes first.** Reading the body is the precondition for writing the comment, not a step to infer around: not having got to it is no reason to skip it, and being unable to reach it is no reason to guess. Where you have not read the body, leave the symbol as it is and name it in your output. A public symbol left undocumented and reported is a compliant result; a comment written from the symbol's name is a defect, and it is the defect this rule exists to prevent.
 - **Do not restate what the language's own syntax declares**, such as a type, a visibility modifier, or an override marker. This governs what you write in a **new** documentation comment and never licenses removing an existing one.
@@ -165,7 +179,7 @@ Write as a careful human technical writer: formal and neutral, never robotic. Th
     - ✅ "[`/design`](../design/index.md)"
 - **Link text names the destination.** Never "here", "link", "this", or a bare URL: write the sentence first, then wrap the phrase that names what it points at.
 - Weave links into prose; use a footer `Implementation:` only when inline is unnatural. Do not link the same file twice in adjacent sentences.
-- Verify every path resolves from the doc's own location. If a referenced file does not exist, correct or remove the statement.
+- Verify every path resolves from the doc's own location, and every anchor against the current heading text it points at, since a renamed heading breaks a link that still looks correct. If a referenced file, or a heading an anchor names, does not exist, correct or remove the statement.
 
 ### Code snippets
 

@@ -27,7 +27,7 @@ Run one, not all three.
 
 None of them audits your whole repository by default, which matters on a large codebase or a monorepo.
 
-`audit-docs` and `audit-quality` resolve scope in order, stopping at the first rule that applies: an explicit instruction, the active pull request, uncommitted changes, the component the surrounding task concerns, and only then the whole repository. Both state which rule applied in their output.
+`audit-docs` and `audit-quality` resolve scope in order, stopping at the first rule that applies: an explicit instruction, the active pull request, uncommitted changes, the component or system the surrounding task concerns, and only then everything. That last rung differs by what each one edits: the whole documentation set for `audit-docs`, the whole repository for `audit-quality`. Both state which rule applied in their output.
 
 `audit-pr` stops at the branch's own commits and has no whole-repository rung at all: with no change to review it reports nothing rather than widening.
 
@@ -35,14 +35,39 @@ None of them audits your whole repository by default, which matters on a large c
 
 **As a single prompt file.** Copy the `.prompt.md` into `.github/prompts/` and invoke it with `/audit-pr` in chat. Use this path when repository policy prevents installing anything else, since it is one file with no dependencies.
 
-**As a skill, by package manager.** Both installers place the directory wherever your agent reads it:
+**As a skill, by package manager.** Every prompt above also ships as a skill, and an installer places the directory wherever your agent reads it. Name the one you want:
 
 ```bash
+npx skills add AlexJSully/AlexJSully-Portfolio --skill audit-docs
 npx skills add AlexJSully/AlexJSully-Portfolio --skill audit-pr
+npx skills add AlexJSully/AlexJSully-Portfolio --skill audit-quality
+
+# Dropping `--skill` offers them interactively instead
+npx skills add AlexJSully/AlexJSully-Portfolio
+
+# Adding `--all` takes every one
+npx skills add AlexJSully/AlexJSully-Portfolio --all
+```
+
+Dropping `--skill` offers them interactively instead, and `--all` takes every one. The GitHub CLI does the same job:
+
+```bash
 gh skill install AlexJSully/AlexJSully-Portfolio --skill audit-pr --agent claude
 ```
 
 `npx skills` (Vercel Labs) and `gh skill` (GitHub CLI 2.90.0 or later, in preview) both target Claude Code, Copilot, Cursor, Codex, and Gemini. `gh skill` additionally pins to a tag or commit with `--pin`.
+
+### Other skills in the same repository
+
+One more is published from the same place and has no prompt half, because it is not an audit you run:
+
+```bash
+npx skills add AlexJSully/AlexJSully-Portfolio --skill typescript-code-and-test-standards
+```
+
+`typescript-code-and-test-standards` loads while you write rather than after, carrying the TypeScript and JavaScript rules a formatter and a linter cannot check: comment discipline, documentation on every exported symbol, tests shipping alongside logic changes, and a mocking policy whose default is not to mock. It reads the host project's own Prettier, ESLint, and test-runner configuration instead of imposing one, and activates on `.ts`, `.tsx`, `.js`, `.jsx`, `.mjs`, `.cjs`, `.mts`, and `.cts`. It pairs with `audit-quality` rather than overlapping it: one applies as the code is written, the other audits it once it exists.
+
+Two further skills live in that directory carrying `metadata.internal`, so no installer offers them and `--all` skips them. They drive this repository's own tooling and would do nothing in yours.
 
 **As a skill, by hand.** Copy the directory into `.claude/skills/`, `.github/skills/`, or `.agents/skills/`, whichever your agent reads. Invoke it with `/audit-pr`, or let the agent pick it up from its `description`. Either way this is the fuller half: it brings its bundled `references/`, `agents/`, and `assets/` with it.
 

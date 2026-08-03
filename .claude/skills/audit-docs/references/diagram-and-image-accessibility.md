@@ -113,7 +113,7 @@ In HTML, it is the `alt` attribute, and the same bar applies:
 Two further checks:
 
 - **Text inside an image is unreachable.** Configuration, log output, terminal sessions, and error messages belong in a code block, where they can be copied, searched, and read aloud. A screenshot of text fails every reader using a screen reader and most readers using search.
-- **Use an image only where showing is easier than describing.** A rendered interface, a physical layout, or a third-party console the reader must recognize qualifies. A structure that Mermaid can draw belongs in Mermaid, which stays diffable and carries its own accessibility fields. An image carrying no meaning is deleted rather than described, which is why every image that stays carries alt text saying what it shows. Empty `alt` is the correct markup for a decorative image, and needing it is the signal that the image should not be there.
+- **Use an image only where showing is easier than describing.** A rendered interface, a physical layout, or a third-party console the reader must recognize qualifies. A structure that Mermaid can draw belongs in Mermaid, which stays diffable and carries its own accessibility fields. An image carrying no meaning is deleted rather than described, which is why every image that stays carries alt text saying what it shows. An image with an empty `alt` is therefore a finding rather than a compliant state: report it, and resolve it by removing the image, since reaching for empty `alt` is the signal that the image was carrying nothing. The rule admits no exception for a decorative image, because a decorative image does not belong in this documentation at all.
 
 ## Choosing the Mermaid diagram type
 
