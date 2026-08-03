@@ -219,19 +219,7 @@ import Navbar from '@components/navbar/Navbar';
 
 ## Integration with Layout
 
-The Navbar is rendered in the [`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx):
-
-```tsx
-export default function GeneralLayout({ children }) {
-	return (
-		<div id='content'>
-			<Navbar />
-			<main>{children}</main>
-			<Footer />
-		</div>
-	);
-}
-```
+[`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx) renders the Navbar as the first child of its root `<div id='content'>`, ahead of the `<main>` element and the footer. That root element is also the Home button's scroll target, so the button returns the reader to the top of the whole layout rather than to the top of the page content. See [Layouts](../layouts.md) for the surrounding structure.
 
 ## Scroll Target IDs
 

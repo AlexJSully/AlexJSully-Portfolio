@@ -1,0 +1,11 @@
+// Agent-tooling carve-out. Merges with the root `.markdownlint-cli2.jsonc` rather than
+// replacing it, so every other rule still applies here.
+//
+// MD041 wants a top-level heading first. These files open with YAML frontmatter or a
+// role statement instead, which is the format their loaders expect, so the rule does
+// not apply to them. It stays on everywhere else in the repository.
+{
+	"config": {
+		"MD041": false,
+	},
+}

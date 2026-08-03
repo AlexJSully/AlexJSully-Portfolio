@@ -18,13 +18,17 @@ This is a **Next.js portfolio website** using the **App Router** (not Pages Rout
 
 ```bash
 npm run dev               # Start dev server at localhost:3000
-npm run validate          # Full CI check: prettier → eslint → tsc → jest → cypress → build → markdown
+npm run validate          # Full check: prettier → eslint → tsc → jest → cypress → build → markdown
 npm run test:jest         # Unit tests only
 npm run test:cypress:e2e  # E2E tests headless
 npm run build             # Production build
 ```
 
-**Always run `npm run validate` before committing**, and frequently while making changes. This is the quality gate CI runs.
+**Always run `npm run validate` before committing**, and frequently while making changes. It runs the fixing variants (`prettier`, `eslint`, `lint:markdown`): it repairs whatever an autofix can repair and exits non-zero on the rest, so commit what it rewrote. CI runs the reading variants (`prettier:check`, `eslint:check`, `lint:markdown:check`) and modifies nothing, so a fix left unstaged fails the build.
+
+**Never make the repository depend on AI agent files.** If `.claude/` and `.github/prompts/` were deleted, everything must still build, test, and lint. No `package.json` script, config, workflow, or page under `docs/` may reference or invoke anything in them. The dependency runs one way: agent tooling may name a project command, never the reverse. The only exception is an ignore or exclude glob, which is inert when the path is absent. Agent tooling that needs running gets a target in `.claude/Makefile`, which is deleted along with the tooling it drives.
+
+**Documentation and comments describe the current state, in every file type.** A comment, document, or config header states what the code does now. Never narrate the past ("replaces", "used to", "formerly", "for the first time", "unlike the old") and never name a file, flag, or tool that no longer exists: git carries that history, and a reader cannot check a claim against something that is gone. The future belongs nowhere but a `TODO`. Rationale worth keeping goes in a decision record of its own under `docs/`, created when the first one is needed, rather than scattered through the files it explains.
 
 ### Testing Requirements
 
@@ -136,7 +140,7 @@ The module also exports `ANIMATIONS` and `MAX_STARS`.
 - Run `npm run tsc` to check types (no emit)
 - Do **not** "fix" an existing `any` by swapping it to `unknown` or adding an `eslint-disable`. Replace it with a concrete type, and respect an `any` that is intentional.
 
-Follow the [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) except where this file or the framework overrides it. The deltas that matter (fuller digest in [`google-ts-style`](../.claude/skills/google-ts-style/SKILL.md)):
+Follow the [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) except where this file or the framework overrides it. The deltas that matter (fuller digest in [`google-typescript-style-digest.md`](../.claude/skills/typescript-code-and-test-standards/references/google-typescript-style-digest.md)):
 
 - **Naming**: `UpperCamelCase` types and components, `lowerCamelCase` values, `CONSTANT_CASE` module-level constants and enum values. Acronyms are words: `loadHttpUrl`, not `loadHTTPURL`
 - **Types**: `interface` for object shapes, not a `type` alias of an object literal; optional properties (`href?: string`) over `href: string | undefined`, with nullability added at the use site; `T[]` for simple element types and `Array<T>` for complex ones; never `String`, `Number`, or `Boolean` as types
@@ -145,7 +149,7 @@ Follow the [Google TypeScript Style Guide](https://google.github.io/styleguide/t
 - **Control flow**: `===` and `!==` always, except `== null` when both `null` and `undefined` should match. Prefer `for...of`, never unfiltered `for...in`
 - **Errors**: throw only `Error` or a subclass, always via `new Error(...)`. An empty `catch` needs a comment saying why
 
-Not adopted: `snake_case` filenames (kebab-case directories with PascalCase components here), the ban on `_` identifier prefixes (unused arguments require it), and mandatory return-type annotations.
+Not adopted: the ban on default exports (this repository uses them for the module kinds listed above), `snake_case` filenames (kebab-case directories with PascalCase components here), the ban on `_` identifier prefixes (unused arguments require it), and mandatory return-type annotations.
 
 ### Readability
 
@@ -157,7 +161,7 @@ Not adopted: `snake_case` filenames (kebab-case directories with PascalCase comp
 
 ### Comments & JSDoc
 
-- **Comments describe the code as it stands.** Never narrate a change, fix, or prior state ("now uses", "previously", "no longer", "restored"); git history carries that. Never argue that the code is correct or safe, which documents the edit rather than the code. Delete commented-out code. A comment contradicting the code is corrected, not deleted
+- **Comments describe the code as it stands.** Never narrate a change, fix, or prior state ("now uses", "previously", "no longer", "restored", "replaces", "used to", "formerly", "for the first time"), and never name a file, flag, or tool that no longer exists; git history carries that. Never argue that the code is correct or safe, which documents the edit rather than the code. Delete commented-out code. A comment contradicting the code is corrected, not deleted
 - **Every exported symbol carries a `/** */` block, without exception**, as do the members of an exported structure (interface properties, object keys, enum values). Write for a reader meeting it for the first time; where nothing beyond a restatement is true, restate. Being obvious is not a defect on a public surface, being absent is
 - A private helper gets a block when its name and signature do not carry it; a binding inside a function body does not, and a comment there that restates the next line is noise
 - **In a block you write, do not put types in JSDoc.** TypeScript ignores `@param {string}`, `@returns {number}`, `@type`, and `@typedef` in `.ts`/`.tsx`, so they drift from the signature. Skip `@implements`, `@enum`, `@private`, and `@override` beside the keyword, and add `@param`/`@returns` where they say more than the name and type do
@@ -233,10 +237,10 @@ logAnalyticsEvent('event_name', { params });
 
 Architecture docs in `docs/architecture/`:
 
-- `index.md`: System overview
-- Component-specific docs for Avatar, Projects, Publications, etc.
+- [`index.md`](../docs/architecture/index.md): system overview
+- [`components/index.md`](../docs/architecture/components/index.md): per-component docs for Avatar, Projects, Publications, and the rest
 
-When writing or editing any Markdown, the canonical spec is [`audit-docs.prompt.md`](prompts/audit-docs.prompt.md). The always-apply subset:
+When writing or editing any Markdown, the full rules are in [`audit-docs.prompt.md`](prompts/audit-docs.prompt.md), and the `audit-docs` skill carries the same rules with worked examples beside them. The always-apply subset:
 
 - **Zero hallucination**: document only what the code provably does. Know the file that proves a claim before writing it
 - **No em-dashes or en-dashes**: replace each with a comma, parenthesis, colon, separate sentence, or a spaced hyphen, including existing ones in any file you edit

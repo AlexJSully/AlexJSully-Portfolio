@@ -38,6 +38,7 @@ If you're maintaining or extending this codebase:
 - [Images & Icons](./architecture/images.md)
 - [Layouts](./architecture/layouts.md)
 - [PWA & Service Workers](./architecture/pwa.md)
+- [Service Worker Implementation](./architecture/service-worker.md)
 - [Configs](./architecture/configs.md)
 - [Utils](./architecture/utils.md)
 - [Detailed Components](./architecture/components/index.md)

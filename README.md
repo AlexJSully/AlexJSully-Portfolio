@@ -43,7 +43,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. All contributions are wel
 
 ## License
 
-[GPL-3.0](LICENSE)
+[MIT](LICENSE)
+
+If this code helps your work, a citation is appreciated. [CITATION.cff](CITATION.cff) carries the metadata.
 
 ## Authors
 

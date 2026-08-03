@@ -54,31 +54,7 @@ Stars twinkle using CSS animations applied through the `sx` prop. Each star rece
 
 - **animation:** `twinkle` with a random duration (`Math.random() * 5` seconds) and `ease-in-out` timing, set to `infinite`
 
-The `twinkle` keyframe animation should be defined in global styles:
-
-```scss
-@keyframes twinkle {
-	0%,
-	100% {
-		opacity: 0.5;
-	}
-	10%,
-	90% {
-		opacity: 0.7;
-	}
-	20%,
-	80% {
-		opacity: 0.8;
-	}
-	30%,
-	70% {
-		opacity: 0.9;
-	}
-	50% {
-		opacity: 1;
-	}
-}
-```
+The `twinkle` keyframes live in [globals.scss](../../../src/styles/globals.scss), which also defines the `shootAway` keyframes the shooting-star handler applies. `twinkle` steps opacity from 0.5 at both ends up to 1 at the midpoint, so a star fades in and out rather than blinking. Because the component names both animations as strings, renaming either keyframe in the stylesheet silently stops the effect.
 
 ### 4. Shooting Stars
 
@@ -103,27 +79,12 @@ const handleStarAnimation = (e: React.MouseEvent<HTMLElement> | { target: HTMLEl
 
 **Automatic Shooting Stars:**
 
-If there are more than 15 unused stars, the component automatically triggers random shooting star animations:
+`handleForceStarAnimation()` in [StarsBackground.tsx](../../../src/components/Stars/StarsBackground.tsx) drives the unattended loop. It collects every star that has not already been shot, by filtering the `data-star-used` attribute the hover handler stamps, then branches on how many are left:
 
-```typescript
-const handleForceStarAnimation = () => {
-	const allStars = Array.from(document.querySelectorAll('[data-testid="star"]')).filter(
-		(star) => star.getAttribute('data-star-used') !== 'true',
-	);
+- **Above `THRESHOLDS.MIN_STARS_FOR_ANIMATION`** (15): it shoots one star chosen at random, then schedules itself again after a random 1.5 to 6.5 seconds. It clears the previous timeout handle before storing the new one, so the recursion does not leak a timer per iteration.
+- **At or below the threshold**: it calls `createStars(false)` instead, discarding the spent field and generating a fresh one. The `false` argument skips the block that re-arms the loop, so the automatic shooting stops there and does not resume until the component remounts.
 
-	if (!isEmpty(allStars) && allStars.length > 15) {
-		const randomStar = allStars[Math.floor(Math.random() * allStars.length)] as HTMLElement;
-		if (randomStar) {
-			handleStarAnimation({ target: randomStar });
-		}
-
-		const randomTime = Math.random() * 5 + 1.5;
-		forceAnimationTimeoutRef.current = setTimeout(() => {
-			handleForceStarAnimation();
-		}, randomTime * 1000);
-	}
-};
-```
+The pool has to stay larger than the threshold for the random pick to keep finding unused stars without repeating. Once it does not, the field is replaced but the unattended loop ends: the new stars twinkle, and hovering one still makes it shoot, but nothing shoots on its own again.
 
 ## Rendering Flow
 
@@ -185,23 +146,7 @@ useEffect(() => {
 
 ## Integration
 
-The component is rendered in [`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx):
-
-```tsx
-export default function GeneralLayout({ children }) {
-	return (
-		<div id='content'>
-			<Navbar />
-			<main>
-				{children}
-				<StarsBackground />
-				<CookieSnackbar />
-			</main>
-			<Footer />
-		</div>
-	);
-}
-```
+[`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx) renders StarsBackground inside its `<main>` element, as a sibling of the page children and the CookieSnackbar. Placement there rather than at the layout root keeps the starfield inside the flex item that grows to fill the viewport; its own `position: fixed` then takes it out of flow, so it paints behind the content regardless of where the page is scrolled. See [Layouts](../layouts.md) for the surrounding structure.
 
 ## Testing
 
@@ -209,12 +154,12 @@ Test file: [`src/components/Stars/StarsBackground.test.tsx`](../../../src/compon
 
 **Test Coverage:**
 
-- Component renders
 - Stars are created on mount
-- Star count is within range (10 to maxStars/2, maxStars capped at 600)
-- Stars have proper data-testid
-- Accessibility attributes present
-- Performance with large star counts
+- Accessibility attributes are present on the sky container
+- Hovering a star logs the `stars-triggered` analytics event
+- A star is reachable by keyboard tab focus
+- The component renders with a minimal star count
+- The component renders with a large star count
 
 ## Customization
 
@@ -226,8 +171,9 @@ To customize the background:
 4. **Shooting Star Speed:** Adjust `Math.random() * 4 + 1` in `handleStarAnimation`
 5. **Background Color:** Inherited from global `body` background (`#131518`)
 6. **Star Color:** Modify `background: '#ffffff50'` in `starStyles`
-7. **Auto-trigger Threshold:** Adjust the `allStars.length > 15` check in `handleForceStarAnimation`
-8. **Initial Trigger Delay:** Adjust the hardcoded `1000` in the `setTimeout(() => { handleForceStarAnimation(); }, 1000)` call in `createStars()` (around line 148)
+7. **Auto-trigger Threshold:** Change `THRESHOLDS.MIN_STARS_FOR_ANIMATION` in [src/constants/index.ts](../../../src/constants/index.ts) to control how small the unused pool may get before the field regenerates
+8. **Initial Trigger Delay:** Change `DELAYS.STAR_ANIMATION_INITIAL` in [src/constants/index.ts](../../../src/constants/index.ts) to control the pause between the first render and the first forced shooting star
+9. **Star Cap:** Change `MAX_STARS` in [src/constants/index.ts](../../../src/constants/index.ts) to raise or lower the 600-star ceiling the width-derived count is clamped to
 
 ## Visual Effect
 

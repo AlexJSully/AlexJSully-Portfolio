@@ -14,7 +14,7 @@ Configs manage environment variables, service integrations, and global settings 
     - `firebase.test.ts`: Test configuration for Firebase
 - **Related config files:**
     - `.env`: Environment variables (API keys, secrets)
-    - [`next.config.js`](../../next.config.js): Next.js build/runtime config
+    - [`next.config.js`](../../next.config.js): Next.js build and runtime config, covered under [Next.js configuration](#nextjs-configuration) below
     - [`sentry.client.config.ts`](../../sentry.client.config.ts), [`sentry.server.config.ts`](../../sentry.server.config.ts), [`sentry.edge.config.ts`](../../sentry.edge.config.ts): Sentry error tracking
     - [`src/instrumentation.ts`](../../src/instrumentation.ts), [`src/instrumentation-client.ts`](../../src/instrumentation-client.ts): Next.js Instrumentation hooks for Sentry
 
@@ -53,6 +53,16 @@ Sentry is initialized via three `sentry.*.config.ts` files at the project root a
 - [`src/instrumentation-client.ts`](../../src/instrumentation-client.ts) - Exports `onRouterTransitionStart = Sentry.captureRouterTransitionStart` for client-side router transition tracking
 
 All `Sentry.*` integrations are imported directly from `@sentry/nextjs`.
+
+### Next.js configuration
+
+[`next.config.js`](../../next.config.js) carries three concerns beyond the framework defaults.
+
+**Security headers.** The `/` route is served with `X-Content-Type-Options: nosniff`, `X-XSS-Protection: 1; mode=block`, `X-Frame-Options: DENY`, a one-year `Strict-Transport-Security` with `includeSubDomains` and `preload`, `Referrer-Policy: same-origin`, and a `Permissions-Policy` that grants fullscreen, picture-in-picture, spatial tracking, gamepad, HID, idle detection, and window management. The `/sw.js` route gets its own set, described in [Service Worker Implementation](./service-worker.md).
+
+**Image handling.** `disableStaticImages` is on, because SVGs are compiled by `@svgr/webpack` through the `turbopack.rules` entry and no other image type is imported statically. Turning it off would restore Next's ambient `*.svg` declaration, which conflicts with the one in [`types/svg.d.ts`](../../types/svg.d.ts). Remote images are allowed only from `alexjsully.me`, with a 1800-second minimum cache lifetime.
+
+**Sentry wrapping.** The exported config is the bare `nextConfig` when `NEXT_PUBLIC_ENVIRONMENT` equals `development`, and `withSentryConfig(nextConfig, ...)` otherwise. Source maps upload to the organization named by `NEXT_PUBLIC_SENTRY_ORG` under the fixed project `personal-portfolio`, with Vercel cron monitors instrumented automatically.
 
 ## Integration & Relationships
 

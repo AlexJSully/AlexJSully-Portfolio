@@ -36,66 +36,37 @@ flowchart LR
     D --> L[YouTube Video]
 ```
 
-```ts
-// Example project object (see src/data/projects.ts)
-const example = {
-	id: 'my-project',
-	name: 'My Project',
-	title: 'Lead Developer',
-	employer: 'Example Co',
-	employerURL: 'https://example.com',
-	url: 'https://example.com/my-project',
-	urls: [{ text: 'GitHub', tooltip: 'Source', icon: /* Svg icon */ () => null, url: 'https://github.com/example' }],
-	color: '#047a6b',
-	dates: { startDate: '2023-01', endDate: '2023-12' },
-	showcase: true,
-	objectFit: 'contain',
-	youtubeURL: 'https://www.youtube.com/embed/VIDEO_ID?mute=1',
-};
-```
+### Showing all projects
+
+Every project is rendered into the grid, but a card whose `showcase` is not `true` is laid out with `display: 'none'` until the reader presses "View More Projects". The heading tracks the same state, reading "Featured Projects" or "All Projects". Toggling also scrolls the grid back into view, but only when the grid title has left the viewport, so pressing the button while the heading is already on screen does not move the page.
+
+## Adding a project
+
+Add an object to the `projects` array in [projects.ts](../../../src/data/projects.ts). The `Projects` interface in that same file is the authority on the shape; each field carries its own documentation comment there. Six fields are required:
+
+- `name`, the display name on the card
+- `id`, unique, and reused as the thumbnail directory name
+- `title`, the role or subtitle shown beneath the name
+- `url`, where the card links
+- `urls`, the array of buttons, each with `text`, `tooltip`, `icon`, and `url`
+- `color`, a hex string the card tints its background and border with
+
+The rest are optional: `description`, `employer` and `employerURL` (supply `employerURL` whenever `employer` is set, since the employer renders as a link), `publication`, `type`, `dates`, `showcase`, `objectFit` (defaults to `cover`), and `youtubeURL`.
+
+Supply `youtubeURL` as an embed URL to give the card a hover video. Autoplay is not part of the stored value: [ProjectsGrid](../../../src/components/projects/ProjectsGrid.tsx) appends `&autoplay=1` at render time, and only when [`isNetworkFast()`](../../../src/util/isNetworkFast.ts) reports a fast connection.
+
+### Adding Thumbnail Images
+
+The card builds its image path from the project ID, as `/images/projects/{id}/thumbnail.webp`, so the directory name and the file name are both fixed by the code rather than configurable:
+
+1. **Create a new directory** under the projects image directory, named exactly the project's `id`.
+2. **Add the thumbnail image** to that directory, named `thumbnail.webp`.
+
+A mismatched directory name produces a card with a broken image and no error, since nothing validates the path at build time.
 
 ## Related Docs
 
 - [Component Overview](./index.md)
+- [Data Architecture](../data.md) - The `Projects` interface and how data reaches components
+- [Images & Icons](../images.md) - Thumbnail conventions and the icon system
 - [System Architecture](../index.md)
-
-```json
-{
-	"name": "Project Name",
-	"id": "project-id", // unique identifier for the project (associated with the image file name or publication)
-	"description": "Project description", // optional
-	"employer": "Employer Name", // optional
-	"employerURL": "https://employer-website.com", // required if employer is provided
-	"title": "Job Title",
-	"publication": "https://publication-url.com", // optional
-	"type": "Employment", // or 'Personal Project', 'School (MSc)', etc.
-	"url": "https://project-url.com", // required
-	"urls": [
-		// this is used to create a series of buttons with links
-		{
-			"text": "Link Text",
-			"tooltip": "Tooltip description",
-			"icon": "IconComponent", // this is a JSX component
-			"url": "https://link-url.com"
-		}
-	],
-	"color": "#colorCode",
-	"dates": {
-		"startDate": "YYYY-MM",
-		"endDate": "YYYY-MM" // or current if ongoing
-	},
-	"showcase": true, // or false
-	"objectFit": "contain", // optional, cover is used if nothing is provided
-	"youtubeURL": "https://www.youtube.com/embed/{videoID}?mute=1&cc_load_policy=1&controls=1" // optional: displays a YouTube video to play in the card on hover. Autoplay is appended dynamically based on network speed
-}
-```
-
-### Adding Thumbnail Images
-
-To add a thumbnail image for a new project, place the image in the appropriate directory:
-
-1. **Navigate to the images directory**: Go to the `public/images/projects` directory.
-2. **Create a new directory**: Create a new directory with the project ID (e.g., `new-project`).
-3. **Add the thumbnail image**: Place the thumbnail image in the new directory and name it `thumbnail.webp`. Recommended to use `.webp` format for better performance.
-
-By following these steps, you can successfully add new projects to the projects grid.

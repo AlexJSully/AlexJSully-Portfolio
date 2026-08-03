@@ -8,11 +8,12 @@ Implementation: [cypress.config.ts](../../cypress.config.ts), [jest.config.js](.
 
 ## Testing Setup
 
-The testing setup in this codebase uses Cypress for end-to-end (E2E) testing. The configuration for Cypress is located in [cypress.config.ts](../../cypress.config.ts).
+Two runners cover different layers. Jest exercises individual components and functions from test files colocated beside their source, and Cypress drives the running site end to end. They compile under separate TypeScript programs, which is why [`npm run tsc`](../../package.json) type-checks the root `tsconfig.json` and `cypress/tsconfig.json` in sequence.
 
 ### Key Elements
 
-- **Cypress Configuration**: The Cypress configuration file defines the settings and options for running tests.
+- **Jest Configuration**: [jest.config.js](../../jest.config.js) wraps Next.js's own Jest transform, sets the `jsdom` environment, mirrors the `tsconfig.json` path aliases through `moduleNameMapper`, and loads [jest/setup.ts](../../jest/setup.ts) after the environment is ready. It ignores `cypress/`, so the two suites never collide.
+- **Cypress Configuration**: [cypress.config.ts](../../cypress.config.ts) sets `includeShadowDom` so commands reach into shadow roots, and enables `experimentalRunAllSpecs` to run every spec in one pass. No `baseUrl` is configured, so specs pass an absolute URL to `cy.visit()`.
 - **Test Files**: End-to-end test specs are located in [cypress/e2e/landing.cy.ts](../../cypress/e2e/landing.cy.ts) and related files in the same directory.
 - **Support Files**: Cypress support files are located in [cypress/support/e2e.ts](../../cypress/support/e2e.ts) and [cypress/support/commands.ts](../../cypress/support/commands.ts).
 
@@ -86,15 +87,17 @@ To run all tests, linting, type checking, and build, use the following command:
 npm run validate
 ```
 
-This command runs the following checks in order:
+This command runs the following checks in order, stopping at the first one that exits non-zero:
 
-1. **Prettier**: Ensures code formatting is consistent.
-2. **ESLint**: Checks for code quality and potential issues.
+1. **Prettier**: Rewrites formatting in place with `prettier --write ./`.
+2. **ESLint**: Repairs what is autofixable with `eslint --fix ./` and reports the rest.
 3. **TypeScript**: Ensures type safety by running `npm run tsc` (root `tsconfig.json` and `cypress/tsconfig.json`).
 4. **Jest**: Runs unit tests.
 5. **Cypress**: Runs end-to-end tests.
 6. **Build**: Ensures the project builds successfully with `next build`.
-7. **Markdown Lint**: Validates markdown files.
+7. **Markdown Lint**: Rewrites markdown in place with `markdownlint-cli2 --fix`, against the rules in [`.markdownlint-cli2.jsonc`](../../.markdownlint-cli2.jsonc).
+
+Because steps 1, 2, and 7 write, a run that reaches exit code 0 can still leave the working tree dirty: each applies every fix its tool can apply and fails only on what is left, such as an ESLint rule with no automatic fix or a markdown file that does not open with a top-level heading. Commit whatever those three rewrote. The workflows described below re-check the same rules without writing, so a fix left unstaged fails CI on the rule the local run already settled.
 
 ### Cypress Test Example
 
@@ -115,16 +118,18 @@ describe('Landing Page', () => {
 
 ## Continuous Integration
 
-This repository uses a CI workflow defined in [code-qa.yaml](../../.github/workflows/code-qa.yaml) to ensure code quality. The workflow runs the following checks on every push and pull request to the `main` branch:
+This repository uses a CI workflow defined in [code-qa.yaml](../../.github/workflows/code-qa.yaml) to ensure code quality. It runs on Node 24.x, on every push and pull request to `main` whose changed files match its `paths` filter: anything under `public/` or `src/`, any `.json`, `.js`, `.ts`, `.tsx`, `.jsx`, `.css`, `.scss`, or `.html` file, or the workflow itself. A pull request touching only Markdown therefore skips it entirely. The checks are:
 
-- **Prettier**: Ensures code formatting is consistent.
-- **ESLint**: Checks for code quality and potential issues.
+- **Prettier**: Ensures code formatting is consistent, via `npm run prettier:check`.
+- **ESLint**: Checks for code quality and potential issues, via `npm run eslint:check`.
 - **TypeScript**: Ensures type safety.
 - **Jest**: Runs unit tests.
 - **Cypress**: Runs end-to-end tests.
 - **Build**: Ensures the project builds successfully.
 
-Markdown files are linted by a separate [markdown-lint.yaml](../../.github/workflows/markdown-lint.yaml) workflow.
+Markdown is linted by a separate [markdown-lint.yaml](../../.github/workflows/markdown-lint.yaml) workflow, which runs `npm run lint:markdown:check` when a `.md` or `.MD` file, a `.markdownlint-cli2.jsonc`, or the workflow itself changes. Splitting the two means editing prose does not spend a full build, and editing code does not wait on markdown.
+
+No workflow calls `npm run validate`, and none of the steps above writes to a checked-out file. A violation that `npm run validate` would have repaired locally therefore fails CI instead, which is why the local run belongs before the commit rather than after the push.
 
 ## Contributing
 

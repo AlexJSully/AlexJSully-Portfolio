@@ -13,6 +13,16 @@
 				]
 			},
 			{
+				"matcher": "Write|Edit|MultiEdit",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "node --disable-warning=ExperimentalWarning --experimental-strip-types \"$CLAUDE_PROJECT_DIR/.claude/hooks/prompt-skill-sync.mts\"",
+						"statusMessage": "Checking prompt and skill mirroring"
+					}
+				]
+			},
+			{
 				"matcher": "Write|Edit|MultiEdit|Bash",
 				"hooks": [
 					{

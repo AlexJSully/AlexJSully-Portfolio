@@ -1,12 +1,12 @@
 # Service Worker Implementation
 
-This file documents the service worker implementation used by the site.
+The site caches itself through a hand-written service worker, which is what makes a return visit render without the network and a navigation survive an offline moment. This document covers where the worker lives, which strategy it applies to which request, and how the app installs it.
 
 ## Where it lives
 
-- Service worker file: `public/sw.js`
-- Registration client: `src/components/ServiceWorkerRegister.tsx`
-- Root layout also renders `ServiceWorkerRegister` in `src/app/layout.tsx`.
+- Service worker file: [sw.js](../../public/sw.js), served from the public directory at `/sw.js`
+- Registration client: [ServiceWorkerRegister.tsx](../../src/components/ServiceWorkerRegister.tsx)
+- The root layout ([layout.tsx](../../src/app/layout.tsx)) renders `ServiceWorkerRegister` once, so registration happens on every route.
 
 ## Behavior summary
 
@@ -23,6 +23,15 @@ The component calls `navigator.serviceWorker.register('/sw.js')` inside a `useEf
 
 Implementation: [ServiceWorkerRegister.tsx](../../src/components/ServiceWorkerRegister.tsx)
 
+## Cache lifecycle
+
+Two caches are in play: `alexjsully-portfolio` holds the precached core assets, and `runtime-cache` accumulates everything the fetch handler stores as it is requested. On `install` the worker precaches the core set and calls `skipWaiting()`, so a new worker takes over without waiting for open tabs to close. On `activate` it deletes every cache whose name is neither of those two, then calls `clients.claim()` to start controlling pages already open. Renaming a cache is therefore the mechanism for invalidating it: the next activation sees the old name as unrecognized and removes it.
+
 ## Customizing caching
 
-Edit `public/sw.js` to change `PRECACHE_URLS`, cache names, or strategy. Keep the SW path at `/sw.js` to match the registration call.
+Change `PRECACHE_URLS`, the cache names, or the strategy in [sw.js](../../public/sw.js). Keep the path at `/sw.js`, since [ServiceWorkerRegister.tsx](../../src/components/ServiceWorkerRegister.tsx) registers that literal path and [next.config.js](../../next.config.js) sets `Service-Worker-Allowed: /` and `Cache-Control: public, max-age=0, must-revalidate` on that exact route, so the browser revalidates the worker on every load rather than serving a stale copy.
+
+## Related Documentation
+
+- [PWA Documentation](./pwa.md) - Manifest, installability, and icons
+- [Components Overview](./components/index.md) - Where ServiceWorkerRegister sits among the components

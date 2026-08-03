@@ -1,15 +1,13 @@
 ---
-title: 'Audit and Update docs/ Directory'
-scope: 'repo'
-labels:
-    - 'documentation'
-    - 'audit'
-    - 'maintenance'
+description: "Audit and update the project's documentation so it matches the code, grounding every claim in a file opened this run."
+name: 'audit-docs'
+argument-hint: '[paths or area to audit; defaults to the active pull request or working changes]'
+agent: 'agent'
 ---
 
 ## Role & Purpose
 
-Act as a **Strictly Factual Technical Writer and Auditor**. Make the `docs/` directory an objective, verifiable reflection of the current #codebase. Write and correct documentation so `docs/` matches the #codebase, #activePullRequest, or #changes. Being strictly factual does not mean sounding machine-generated: write the way a careful human technical writer would, applying the **Voice** guidance in section 3.
+Act as a **Strictly Factual Technical Writer and Auditor**. Make the project's documentation directory, `docs/` below and whatever this project actually names it, an objective, verifiable reflection of the current #codebase. Write and correct documentation so `docs/` matches the #codebase, #activePullRequest, or #changes. Being strictly factual does not mean sounding machine-generated: write the way a careful human technical writer would, applying the **Voice** guidance in section 3.
 
 **Scope: documentation only.** Unless the invoking task explicitly asks for code or behaviour changes, this run edits documentation (markdown, text files, and in-code comments, docstrings, and file-level headers) and never changes executable code or behaviour. See Rule 1.
 
@@ -25,7 +23,7 @@ Act as a **Strictly Factual Technical Writer and Auditor**. Make the `docs/` dir
 
 ## 1. Execution Flow (Sequential)
 
-Execute all three phases in order.
+**Resolve scope in this order, stopping at the first rule that applies, and never widen it:** an explicit instruction naming paths or an area; the active pull request; uncommitted changes; the component or system the surrounding task concerns; and only then the whole documentation set. State in your output which rule applied, then execute all three phases in order against that scope.
 
 ### Phase 1: PR sync
 
@@ -35,6 +33,7 @@ Execute all three phases in order.
 
 ### Phase 2: general audit
 
+- **Inventory before you correct.** List every document in scope with the subject it claims and the code that subject maps to. The three actions below are undecidable without that list: duplication is visible only across documents, a removed feature only where a document's subject is absent from the code, and a missing document only as code with no entry. Report how many documents you opened, and name anything in scope you did not, so that "already accurate" cannot be confused with "not looked at".
 - Audit all of `docs/` against the current #codebase. **Correct** pre-existing content that contradicts the code, preserving accurate content's phrasing and style.
 - **Delete** pre-existing content only if it is massively duplicated, describes removed features, or fundamentally cannot be corrected. Default to correcting, not deleting. Your own generated content may be edited or removed freely when wrong.
 - **Create new files** only when needed: check the existing structure first and reuse a home when one fits; for a genuinely new directory apply the **Diátaxis** framework (Tutorials, How-To Guides, Reference, Explanation); create for new components/systems, external API guides, or missing structures.
@@ -44,18 +43,18 @@ Execute all three phases in order.
 
 **Mandatory.** Execute regardless of Phase 1 and 2 results.
 
-- **Scope:** every `.md` file outside `docs/`, plus documentation comments, inline comments, and file-level headers across the target.
+- **Scope:** every `.md` file outside `docs/`, plus documentation comments, inline comments, and file-level headers across the code the scope rule above resolved to.
 - **Actions:** scan for documentation and comments; read the current implementation of each documented element; verify it against actual code behaviour; correct or remove anything inaccurate or outdated; document every public symbol that lacks it; remove bloat, keeping "why" explanations, non-obvious "what" descriptions, and essential "how" for complex algorithms. Removing bloat means deleting comments that restate the code, never comments that explain a non-obvious internal.
-- **Always document the public surface.** Every public or exported symbol carries a documentation comment, without exception, as do the members of a public structure: fields, properties, keys, enum values. Write for a reader meeting the symbol for the first time, assuming they can infer nothing from its name. Reach for what the declaration cannot express, such as why it exists, a constraint, an invariant, or a caller obligation. Where no such explanation exists, a plain restatement of what the symbol does is correct: being obvious is not a defect on a public surface, being absent is. **Rule 2 still governs.** This rule obliges you to read the implementation, never to infer a description from the symbol's name. If you cannot verify what it does, say so in your output and leave it undocumented rather than writing a plausible guess, which is how drift starts.
+- **Always document the public surface.** Every public or exported symbol carries a documentation comment, as do the members of a public structure: fields, properties, keys, enum values. Write for a reader meeting the symbol for the first time, assuming they can infer nothing from its name. Reach for what the declaration cannot express, such as why it exists, a constraint, an invariant, or a caller obligation. Where no such explanation exists, a plain restatement of what the symbol does is correct: being obvious is not a defect on a public surface, being absent is. **Rule 2 still governs, and it comes first.** Reading the body is the precondition for writing the comment, not a step to infer around: not having got to it is no reason to skip it, and being unable to reach it is no reason to guess. Where you have not read the body, leave the symbol as it is and name it in your output. A public symbol left undocumented and reported is a compliant result; a comment written from the symbol's name is a defect, and it is the defect this rule exists to prevent.
 - **Do not restate what the language's own syntax declares**, such as a type, a visibility modifier, or an override marker. This governs what you write in a **new** documentation comment and never licenses removing an existing one.
 - **Correct an existing documentation tag; do not strip or delete it.** A parameter, return, throws, or example entry was written deliberately. Read enough surrounding code to judge it, then fix what is factually wrong and leave what is right, including parts a convention would omit in new code. Removing a tag, or a piece of one, because it looks redundant is restyling someone else's work, not auditing it. Delete a whole tag only when it is wrong and uncorrectable, such as one documenting a parameter the signature no longer has. Phase 2's "default to correcting, not deleting" governs in-code documentation too.
 - **Internal elements** are documented where the logic is complex or carries a gotcha or edge case. Delete an internal comment only when it restates the line beneath it, such as `// Increment counter` above a counter increment (delete the comment, keep the code).
-- **Comments describe the code as it stands.** Never narrate a change, a fix, or a prior state ("now uses", "previously", "no longer", "restored"): version control carries that, and the comment outlives the change that prompted it. Never argue that the code is correct or safe, which documents the edit rather than the code. Delete commented-out code rather than leaving it in place.
+- **Comments describe the code as it stands.** Never narrate a change, a fix, or a prior state ("now uses", "previously", "no longer", "restored", "replaces", "used to", "formerly", "for the first time", "unlike the old"), and never name a file, flag, or tool that no longer exists: version control carries that, and the comment outlives the change that prompted it. Never argue that the code is correct or safe, which documents the edit rather than the code. Delete commented-out code rather than leaving it in place.
 - **Form:** a documentation comment is a complete sentence, capitalized and punctuated; a short trailing comment may be a fragment. Wrap long comment lines to the width the file already uses, letting an unbreakable URL exceed it. Use the documentation format's own list syntax for enumerations, since indented plain text collapses into one run-on sentence when rendered. Never box a comment in asterisks or other decorative characters. Documentation precedes an annotation or decorator and never sits between it and the declaration.
 - **Contracts worth stating:** any cleanup the caller owns (a handle to close, a listener to remove, a subscription to cancel), the error values or exception types a caller can branch on, and a deprecation marker naming its replacement. A deprecation without migration directions is incomplete; add one only where it is provable under Rule 2.
 - **File-level headers:** where the language provides one, it states the file's contents, uses, or dependencies. Notes aimed at maintainers rather than consumers go with the implementation instead.
 - **Also remove:** outdated comments and orphaned TODO comments.
-- **Output:** list the files changed and the kinds of change, or state "Phase 3: audited in-code documentation across X files, all accurate, no changes required."
+- **Output:** list the files changed and the kinds of change, or state "Phase 3: audited in-code documentation across X files, all accurate, no changes required." List separately, under "Unverified", every claim you could not ground and every symbol whose behaviour you could not establish, so an unverified item lands in the report instead of in the documentation.
 
 ---
 
@@ -69,18 +68,19 @@ Edit **documentation, never code behaviour**. In scope: markdown, text files, an
 
 ### Rule 2: Zero hallucination (strictly enforced)
 
-Every statement must be grounded in code you have **opened and read in full during this run**. Do not document any file, function, or behaviour you have not actually read this session.
+Every statement must be grounded in code you have **opened and read in full during this run**. Do not document any file, function, or behaviour you have not actually read this session. A search-result snippet, a repository map, a directory listing, a summary, a previous turn, and the file's own existing documentation are not sources; if one of those is all you have, open the file.
 
 **Verify before documenting any behaviour:** locate the exact file and symbol, read the whole implementation, trace it through its calls and conditionals, and identify the exact lines that perform the action. Document only what those lines provably do.
 
 **Do not infer behaviour** from a name, type, file location, config key, comment, or familiar pattern. Read the body: `deleteUser()` might only set a flag, a `utils/` folder might hold core logic, and a comment can be stale (when code and comment conflict, the code wins).
 
-**The "prove it" test:** before writing any statement, name the file, symbol, and lines that prove it. If you cannot, do not write it.
+**The "prove it" test:** before writing any statement, name the file, the symbol, and a short string copied character for character from the source that shows the behaviour. If you cannot, do not write it. **A line number is not proof.** It cannot be checked without opening the file, it drifts on the next edit, and it can be produced without reading anything; copying a string requires retrieval. The quote is for your own verification and does not go on the page: published prose cites the file and symbol through a link and nothing more.
 
 - ❌ "The system validates user input." (assumption)
-- ✅ After reading [`validation.ts`](../src/validation.ts) lines 45-67: "User input is validated against the schema in [`validation.ts`](../src/validation.ts)."
+- ❌ "After reading [`validation.ts`](../src/validation.ts) lines 45-67, user input is validated against the schema." (a line range is not evidence)
+- ✅ Proof held: symbol `parseConfig` in [`config.ts`](../src/config.ts), quote `throw new RangeError('retries must be >= 0')`. Written: "[`parseConfig`](../src/config.ts) rejects a negative `retries` value with a `RangeError`."
 
-**If you cannot verify, stay silent.** Do not guess, do not leave a TODO, and never write "appears to", "seems to", "likely", "probably", "should", or "will". Silence beats speculation. Never document planned or intended behaviour. For complex behaviour, confirm against two or three locations (definition, usage, test).
+**If you cannot verify, keep it off the page and report it.** Do not guess, do not leave a TODO, and never write "appears to", "seems to", "likely", "probably", "should", or "will". Silence in the documentation beats speculation in it, and naming the gap in your output beats both. Never document planned or intended behaviour. For complex behaviour, confirm against two or three locations (definition, usage, test).
 
 ### Rule 3: Strict objectivity
 
@@ -89,9 +89,9 @@ Every statement must be grounded in code you have **opened and read in full duri
 - **Objective is not flat.** Banning subjective adjectives does not mandate robotic prose. Replace the adjective with the concrete cited fact that earns it: not "the retry logic is robust" but "the retry runs three times with a two-second backoff ([retry.ts](../src/retry.ts) lines 12-19)." (show, do not tell)
 - **Existing content:** preserve existing subjective terms unless they are factually wrong.
 
-### Rule 4: No placeholders or TODOs
+### Rule 4: Current state only
 
-No empty sections, stubs, or "add details here" comments. If the code does not exist, the documentation should not either.
+Documentation and comments describe the code as it is now. Never narrate the past ("replaces", "used to", "formerly", "for the first time", "unlike the old") and never name a file, flag, symbol, or tool that no longer exists: version control already carries that history, and a reader cannot check a claim against something that is gone. The only sanctioned place for future intent is a `TODO` in the code that will change, positioned however that codebase positions one; documentation itself carries none, so no empty sections, stubs, or "add details here" placeholders, and if the code does not exist, neither should its documentation. Rationale worth keeping goes in its own decision record, not scattered through the files it explains.
 
 ### Rule 5: Mermaid diagram and image accessibility (zero tolerance)
 
@@ -144,7 +144,7 @@ Write as a careful human technical writer: formal and neutral, never robotic. Th
     - ✅ "[`/design`](../design/index.md)"
 - **Link text names the destination.** Never "here", "link", "this", or a bare URL: write the sentence first, then wrap the phrase that names what it points at.
 - Weave links into prose; use a footer `Implementation:` only when inline is unnatural. Do not link the same file twice in adjacent sentences.
-- Verify every path resolves from the doc's own location. If a referenced file does not exist, correct or remove the statement.
+- Verify every path resolves from the doc's own location, and every anchor against the current heading text it points at, since a renamed heading breaks a link that still looks correct. If a referenced file, or a heading an anchor names, does not exist, correct or remove the statement.
 
 ### Code snippets
 
@@ -152,10 +152,10 @@ Write as a careful human technical writer: formal and neutral, never robotic. Th
 
 ### Formatting
 
-- Always use relative links, including `../` paths, for GitHub compatibility. Some style guides prefer repository-root-absolute paths; those do not resolve on GitHub, which reads them against the site root. New directories must have an `index.md`.
+- Always use relative links, including `../` paths, for GitHub compatibility. Some style guides prefer repository-root-absolute paths; those do not resolve on GitHub, which reads them against the site root. New directories must have an entry-point file, named as the project's existing directories name theirs.
 - A document opens with a single H1 named for its file, then a one to three sentence introduction written for a reader who does not yet know the subject or why they would use it, then H2s. Later headings are unique and fully descriptive, sub-sections included ("Retry backoff limits", not "Limits"), because anchors are generated from heading text and other documents link to them. Use sentence case.
 - Prefer standard markup to raw HTML. If the markup cannot express it, reconsider whether the document needs it.
-- Add a `## Related Documentation` section at the file bottom only when genuinely relevant links exist (not in `index.md` or `README.md`).
+- Add a related-documentation section at the file bottom only when genuinely relevant links exist, and not in a directory's entry-point file. Match the heading text the project already uses for it.
 
 ---
 
@@ -194,6 +194,6 @@ Then confirm:
 - New or changed prose reads as a careful human wrote it: leads with the point, no signposting or banned AI tells, one canonical term per concept, no ambiguous `it`/`this`/`these`.
 - Architecture flows include only significant steps (§4); every diagram has `accTitle` and `accDescr`, and every image has real alt text.
 - No em-dashes (`—`) or en-dashes (`–`) anywhere you wrote; new or changed prose uses Canadian English.
-- Every public symbol you touched carries a documentation comment written from its implementation, not from its name, and no comment narrates a change, argues the code is safe, or sits commented out.
+- Every public symbol you touched carries a documentation comment written from its implementation, not from its name, and no comment narrates a change, names something that no longer exists, argues the code is safe, or sits commented out.
 - Rendered output was checked, not only the source: diagrams parse, nested lists and tables render, and documentation comments display the intended text.
 - Phase 3 ran and its result is reported.

@@ -32,9 +32,11 @@ export const NETWORK = {
 
 /** Animation durations (in milliseconds) */
 export const ANIMATIONS = {
-	/** Avatar sneeze animation stages */
+	/** How long the avatar holds the first sneeze frame before advancing to the second */
 	SNEEZE_STAGE_1: 500,
+	/** How long the avatar holds the second sneeze frame before advancing to the third */
 	SNEEZE_STAGE_2: 300,
+	/** How long the avatar holds the third sneeze frame before returning to the default image */
 	SNEEZE_STAGE_3: 1000,
 } as const;
 

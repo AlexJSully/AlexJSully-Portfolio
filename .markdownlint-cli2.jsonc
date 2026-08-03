@@ -1,0 +1,21 @@
+// markdownlint-cli2 configuration for the whole repository, including dot-directories.
+//
+// A directory that needs a rule turned off carries its own nested `.markdownlint-cli2.jsonc`,
+// which merges with this one rather than replacing it. The carve-out therefore sits beside the
+// directory it exempts, and disappears along with it.
+{
+	// Reuse `.gitignore` for node_modules, build output, caches, and coverage rather than
+	// maintaining a second exclude list that has to be kept in step with it.
+	"gitignore": true,
+
+	// Both cases, because the glob is case-sensitive on Linux CI and two files at the root
+	// are named `.MD`. Without the second pattern they are silently never linted.
+	"globs": ["**/*.md", "**/*.MD"],
+
+	"config": {
+		"MD007": false,
+		"MD010": false,
+		"MD013": false,
+		"MD060": false,
+	},
+}

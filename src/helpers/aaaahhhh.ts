@@ -64,7 +64,14 @@ export function convertAAAAHH(aaaaahhhh: string): string {
 	return newAAAAHHHH;
 }
 
-/** Transforms all text elements on the page to AAAAHHHH format. */
+/**
+ * Transforms all text elements on the page to AAAAHHHH format.
+ *
+ * Rewrites only the direct `#text` children of each element, so nested markup is reached through
+ * its own entry in the tag list rather than through its parent. Also removes `#description-Carousel`
+ * and unhides `#no-motion-description`, each behind a presence check, so a page without them is
+ * transformed the same way.
+ */
 export function textAAAAHHHH(): void {
 	const docs = [
 		...document.getElementsByTagName('span'),
@@ -101,7 +108,12 @@ export function textAAAAHHHH(): void {
 	}
 }
 
-/** Transforms entire page into AAAAHHHH format by calling image and text transformations. */
+/**
+ * Transforms entire page into AAAAHHHH format by calling image and text transformations.
+ *
+ * Mutates the live document and cannot be undone short of a reload, and touches `document` directly,
+ * so it runs only on the client.
+ */
 export function aaaahhhh(): void {
 	imageAAAAHHHH();
 	textAAAAHHHH();

@@ -73,7 +73,6 @@ export default function NotFound(): ReactElement {
 				href='/'
 				onClick={() => {
 					if (pathname === '/' && typeof window !== 'undefined') {
-						// Reload the page
 						window.location.reload();
 					}
 				}}

@@ -14,7 +14,6 @@
 // Run via `node --experimental-strip-types` (no build step, no dependencies).
 // Type-stripping-safe TypeScript only: type annotations / interfaces, no enums,
 // namespaces, or parameter properties.
-
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'fs';
 import { tmpdir } from 'os';
 import { isAbsolute, join, relative } from 'path';
@@ -95,23 +94,34 @@ function clearState(sessionId: string): void {
 /**
  * Whether editing this file should require validation.
  *
- * Markdown counts because `lint:markdown` is one of the gates. The agent-tooling tree is
- * excluded: `.claude/` is ignored by Prettier, ESLint, and markdownlint alike, so no gate
- * can fail because of it.
+ * Markdown counts because `lint:markdown` is one of the gates. Most of the agent-tooling tree
+ * is excluded even so: ESLint skips everything under `.claude`, while Prettier and markdownlint
+ * do reach most of it, and the exclusion accepts that gap rather than marking the session dirty
+ * on every edit to a rule or skill file.
+ *
+ * Markdown under `.claude/skills/` is the exception. `lint:markdown` reaches every file there,
+ * so an unlinted addition would otherwise land locally and surface only as a CI failure.
+ * The skill publishability check itself is not a gate; it runs on demand via
+ * `make -f .claude/Makefile check-skills`.
  */
 function requiresValidation(filePath: string, cwd: string): boolean {
 	if (!filePath) return false;
 
 	const rel = isAbsolute(filePath) ? relative(cwd, filePath) : filePath;
 
-	if (rel.startsWith('..') || rel.startsWith('.claude/') || rel.includes('/.claude/')) return false;
+	if (rel.startsWith('..')) return false;
+
+	if (/^\.claude\/skills\/.+\.md$/.test(rel)) return true;
+
+	if (rel.startsWith('.claude/') || rel.includes('/.claude/')) return false;
 
 	if (rel.startsWith('src/') || rel.startsWith('cypress/') || rel.startsWith('jest/')) return true;
 
 	if (rel.endsWith('.md')) return true;
 
-	// Root-level configuration: `package.json`, `eslint.config.js`, `next.config.js`, and so on.
-	return !rel.includes('/') && /\.(ts|tsx|js|mjs|cjs|json)$/.test(rel);
+	// Root-level configuration: `package.json`, `eslint.config.js`, `.markdownlint-cli2.jsonc`,
+	// and so on.
+	return !rel.includes('/') && /\.(ts|tsx|mts|cts|js|mjs|cjs|json|jsonc|ya?ml)$/.test(rel);
 }
 
 /** Records gates run by a shell command, or marks the session dirty after an edit. */
@@ -172,15 +182,16 @@ function handleStop(payload: HookPayload, sessionId: string): void {
 	}
 
 	// `stop_hook_active` means this hook already blocked this turn. Releasing keeps a gate
-	// that cannot be satisfied (Cypress will not launch on macOS here) from looping.
+	// that cannot be satisfied in the current environment from looping.
 	if (payload.stop_hook_active) process.exit(0);
 
 	process.stderr.write(
 		`This session changed code, tests, config, or docs, and ${missing.length} of ${GATES.length} ` +
 			`quality gates have not been run: ${missing.join(', ')}. Run \`npm run validate\` and confirm ` +
 			'it reaches exit code 0 before finishing. The chain is `&&`, so if it stops partway, the gates ' +
-			'after the failure did not run: finish them individually (`npm run prettier`, `npm run eslint`, ' +
-			'`npm run tsc`, `npm run test:jest`, `npm run build`, `npm run lint:markdown`) rather than ' +
+			'after the failure did not run: finish them individually (`npm run prettier`, ' +
+			'`npm run eslint`, `npm run tsc`, `npm run test:jest`, `npm run build`, ' +
+			'`npm run lint:markdown`) rather than ' +
 			'treating them as passed.',
 	);
 	process.exit(2);

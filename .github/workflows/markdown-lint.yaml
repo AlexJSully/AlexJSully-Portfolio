@@ -5,15 +5,17 @@ on:
         branches: [main]
         paths:
             - '**/*.md'
-            - '.markdownlint.json'
-            - '.markdownlintignore'
+            - '**/*.MD'
+            - '.markdownlint-cli2.jsonc'
+            - '**/.markdownlint-cli2.jsonc'
             - '.github/workflows/markdown-lint.yaml'
     pull_request:
         branches: [main]
         paths:
             - '**/*.md'
-            - '.markdownlint.json'
-            - '.markdownlintignore'
+            - '**/*.MD'
+            - '.markdownlint-cli2.jsonc'
+            - '**/.markdownlint-cli2.jsonc'
             - '.github/workflows/markdown-lint.yaml'
 
 permissions:
@@ -22,15 +24,19 @@ jobs:
     lint-markdown:
         runs-on: ubuntu-latest
 
+        strategy:
+            matrix:
+                node-version: [24.x]
+
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v5
+              uses: actions/checkout@v7
             - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v5
+              uses: actions/setup-node@v7
               with:
                   node-version: ${{ matrix.node-version }}
             - name: Cache Node.js modules
-              uses: actions/cache@v4
+              uses: actions/cache@v6
               with:
                   path: ~/.npm
                   key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -39,4 +45,4 @@ jobs:
             - name: Run installs
               run: npm ci
             - name: Run markdownlint on Markdown files
-              run: npm run lint:markdown
+              run: npm run lint:markdown:check

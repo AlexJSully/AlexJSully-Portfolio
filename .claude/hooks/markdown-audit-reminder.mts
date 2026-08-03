@@ -8,7 +8,6 @@
 //
 // Type-stripping-safe TypeScript only: type annotations / interfaces, no enums,
 // namespaces, or parameter properties.
-
 import { readFileSync } from 'fs';
 
 interface ToolInput {
@@ -22,7 +21,7 @@ interface HookPayload {
 
 const REMINDER =
 	'This edit changed a Markdown file. Follow `.claude/rules/docs-authoring.md` ' +
-	'(canonical spec: `.github/prompts/audit-docs.prompt.md`): document only what the ' +
+	'(full rules: `.github/prompts/audit-docs.prompt.md`): document only what the ' +
 	'code provably does (no speculation), no subjective adjectives but not robotic prose ' +
 	'(lead with the point; show facts rather than assert them), reference files as ' +
 	'clickable markdown links to files (never bare names or directories), keep snippets ' +

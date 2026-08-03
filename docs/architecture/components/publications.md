@@ -12,7 +12,8 @@ The publications list is displayed using the `Publications` component located in
 
 - **Styling**: The component uses inline styles to manage the appearance of publication metadata.
 - **List Layout**: The publications are displayed in a responsive list layout using Material-UI's `Stack` and `Typography` components.
-- **Publication Cards**: Each publication is displayed as a card with a title, authors, metadata, and an abstract. Data is imported from `src/data/publications.ts`.
+- **Publication Cards**: Each publication is displayed as a card with a title, the authors joined by commas, a metadata line joining DOI, journal, and date with a pipe separator, and the abstract. Data is imported from [publications.ts](../../../src/data/publications.ts).
+- **Truncated Abstracts**: The card shows the first 550 characters of the abstract followed by an ellipsis, unconditionally. A shorter abstract still receives the ellipsis, so the card is not a faithful reproduction of the source text; the DOI link is.
 - **Clickable Cards**: Each card is wrapped in a Next.js `Link` to `https://doi.org/<doi>` that opens in a new tab (`target='_blank'`, `rel='noopener noreferrer'`); clicking the card is what triggers the `logAnalyticsEvent` call.
 
 ### Flowchart
