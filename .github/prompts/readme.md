@@ -1,131 +1,60 @@
-# Prompts Directory
+# Prompts directory
 
-This directory contains AI-powered prompt templates designed for **GitHub Copilot's coding agent** to automate code review, documentation auditing, and quality improvements. These prompts integrate seamlessly with Visual Studio Code (VSCode) and GitHub's pull request workflow.
+Reusable audit prompts for code review, documentation, and codebase quality. Each one ships **twice**, so it works whether or not you can install a directory into your repository:
 
-> [!CAUTION]
-> ⚠️ CRITICAL: AI Accuracy Warning
->
-> **These prompts execute AI-driven code analysis and documentation generation. AI makes mistakes and hallucinations.** It is of utmost importance that you **carefully review all changes and output** before merging any PR. Do not blindly trust the AI's work. Verify that all suggested changes are:
->
-> - Factually accurate against your codebase
-> - Aligned with your project standards
-> - Free of hallucinated function names, file paths, or logic
-> - Properly formatted and complete
-> - Well tested and validated
->
-> **Review everything the AI writes and generates.**
+| Prompt file, for GitHub Copilot                      | Skill, for Claude Code and other agents                                 |
+| ---------------------------------------------------- | ----------------------------------------------------------------------- |
+| [`audit-docs.prompt.md`](audit-docs.prompt.md)       | [`audit-docs/SKILL.md`](../../.claude/skills/audit-docs/SKILL.md)       |
+| [`audit-pr.prompt.md`](audit-pr.prompt.md)           | [`audit-pr/SKILL.md`](../../.claude/skills/audit-pr/SKILL.md)           |
+| [`audit-quality.prompt.md`](audit-quality.prompt.md) | [`audit-quality/SKILL.md`](../../.claude/skills/audit-quality/SKILL.md) |
 
----
-
-## Available Prompts
-
-### [`audit-docs.prompt.md`](./audit-docs.prompt.md)
-
-**Purpose:** Automatically audit and update your documentation directory to match the current codebase and any PR changes.
-
-**Key Features:**
-
-- **Phase 1 (PR Sync):** If a PR is active, updates documentation to reflect only the immediate changes introduced by that PR
-- **Phase 2 (General Audit):** Audits the entire documentation directory against the current codebase to find and fix:
-    - Outdated information
-    - Inaccuracies
-    - Fragmented or redundant files
-    - Missing documentation for new features
-
-**When to Use:**
-
-- After implementing new features (documentation lags behind code)
-- Before merging a PR (ensure docs match the PR changes)
-- During maintenance cycles (keep docs fresh and accurate)
-- When refactoring or restructuring code
-
-**Targeting other directories:**
-This prompt audits the `docs/` directory and the workspace (`#codebase`) referenced in its body. For a monorepo or a different layout, pass the relevant folders to GitHub Copilot Chat as context (for example `#file:docs`) or edit those references in [`audit-docs.prompt.md`](./audit-docs.prompt.md).
-
-**Platform Support:**
-
-- Works in GitHub's text view for documentation reading
-- Works natively in VSCode's documentation explorer
-- **(Recommended Enhancement):** Use the **[Workspace Wiki](https://marketplace.visualstudio.com/items?itemName=alexjsully.workspace-wiki)** VSCode extension to organize all your Markdown files into a unified file tree explorer within VSCode. This makes navigating and maintaining documentation effortless.
-
----
-
-### [`audit-pr.prompt.md`](./audit-pr.prompt.md)
-
-**Purpose:** Perform a thorough, opinionated code review of a pull request across 13 categories. Produces ready-to-post comments with severity triage and an overall summary for human review.
-
-**Key Features:**
-
-- **3-Step Review Process:**
-    - Step 1: PR Alignment Check (title, description, linked ticket, diff scope, breaking changes, PR size)
-    - Step 2: Categorized Code Review (13 categories — correctness, security, privacy, performance, testing, etc.)
-    - Step 3: Overall Summary (verdict, stats, top concerns, positive callouts)
-- **Severity Triage:** 🔴 Blocking, 🟡 Non-blocking, 🔵 Suggestions, ✅ Positive callouts
-- **Actionable Findings:** Every finding includes file path, line range, issue description, and suggested fix
-
-**When to Use:**
-
-- During pull request reviews (before merge)
-- As a second opinion on code changes
-- When you need detailed, ready-to-post review comments
-
----
-
-### [`audit-quality.prompt.md`](./audit-quality.prompt.md)
-
-**Purpose:** Perform a deep-dive audit of your codebase to identify architectural flaws, technical debt, and maintainability issues — then automatically implement improvements.
-
-**Key Features:**
-
-- **Breadth-First Audit:** Analyzes architecture, code health, security, privacy, performance, and 16 total categories
-- **Proactive Implementation:** Identifies issues and immediately implements fixes
-- **Incremental Validation:** Runs your project's validation command after each change
-- **Documentation Sync:** Updates documentation to reflect code changes
-
-**When to Use:**
-
-- As part of regular maintenance sprints
-- When tackling technical debt
-- Before major releases (ensure code quality baseline)
-
----
-
-## Prerequisites
-
-### Required
-
-- Active GitHub pull request (PR)
-- VSCode with [GitHub Copilot Chat](https://marketplace.visualstudio.com/items?itemName=github.copilot-chat) extension
-- Your project's dependencies installed locally
-
-### Recommended (But Not Required)
-
-- **[`copilot-instructions.md`](../copilot-instructions.md):** Project-specific AI instructions (style guide, conventions, tooling). Helps the AI understand your project standards.
-
----
-
-## Important Safety Notes
+**The body below the frontmatter is byte-identical between each pair.** Only the frontmatter differs: the prompt carries Copilot's keys, the skill carries the Agent Skills keys. Each file is self-contained, with no relative links and no reference to a sibling prompt, so a single copied file works on its own.
 
 > [!CAUTION]
-> ⚠️ AI Makes Mistakes
->
-> - **Hallucinations:** AI may invent function names, file paths, or code logic that don't exist
-> - **Inaccuracies:** AI may misinterpret complex code or miss edge cases
-> - **Formatting Issues:** Generated documentation or code may have subtle formatting problems
->
-> **Your Responsibility:**
->
-> - Always review the AI's changes before committing
-> - Check that code logic matches your intent
-> - Test the changes locally (ex [package.json](../../package.json)'s `npm run validate`)
-> - Run the full test suite to catch regressions
-> - Use git diff to review exactly what changed
->
-> **Do not blindly merge AI-generated changes.**
+> **AI makes mistakes and hallucinations.** These prompts drive AI-driven analysis and documentation generation, so review all output before merging. Verify that changes are factually accurate against your codebase, aligned with your standards, free of invented function names, file paths, or logic, and tested. Do not blindly merge AI-generated changes.
 
----
+## Picking one
 
-## Related Resources
+- **`audit-pr`** reviews a diff: what a change does, what it breaks, and whether it should merge. Eighteen categories entered selectively through a triage table, every finding quoting the changed line, and a refutation pass that deletes findings which do not survive scrutiny.
+- **`audit-quality`** audits code as it stands rather than a change. Thirteen categories, discovery before findings, and the same evidence and refutation discipline.
+- **`audit-docs`** owns documentation accuracy for both. Evidence is a file, a symbol, and a verbatim quote rather than a line number, and unverifiable claims go to an explicit "unverified" list instead of into the prose.
 
-- [VSCode GitHub Copilot Extension](https://marketplace.visualstudio.com/items?itemName=github.copilot-chat)
-- **[Workspace Wiki](https://marketplace.visualstudio.com/items?itemName=alexjsully.workspace-wiki)** — Organize and navigate Markdown documentation in VSCode
+Run one, not all three.
+
+## Scope defaults
+
+None of them audits your whole repository by default, which matters on a large codebase or a monorepo.
+
+`audit-docs` and `audit-quality` resolve scope in order, stopping at the first rule that applies: an explicit instruction, the active pull request, uncommitted changes, the component the surrounding task concerns, and only then the whole repository. Both state which rule applied in their output.
+
+`audit-pr` stops at the branch's own commits and has no whole-repository rung at all: with no change to review it reports nothing rather than widening.
+
+## Installing
+
+**As a Copilot prompt.** Copy the `.prompt.md` file into `.github/prompts/` in your repository and invoke it with `/audit-pr` in Copilot Chat. Use this path when repository policy prevents installing anything else, since it is a single file with no dependencies.
+
+**As a Claude Code skill.** Copy the skill directory into `.claude/skills/`. Invoke it with `/audit-pr`, or let the agent pick it up from its description.
+
+**With another agent.** The body is host-neutral. Every prompt carries a **context resolution** table mapping the references Copilot resolves automatically to the equivalent command any other agent should run. Which references appear depends on the prompt: all three list `#codebase` and `#changes`, `audit-docs` and `audit-pr` add `#activePullRequest`, `audit-docs` and `audit-quality` add `#file:path`, and `audit-pr` alone adds `#issue_fetch`.
+
+## Keeping the pair in sync
+
+Only relevant if you keep both halves. Edit one, then propagate:
+
+```bash
+node .claude/scripts/check-prompt-skill-sync.mjs --fix=to-skill    # you edited the prompt
+node .claude/scripts/check-prompt-skill-sync.mjs --fix=to-prompt   # you edited the skill
+node .claude/scripts/check-prompt-skill-sync.mjs                   # confirm, exits 0 when in sync
+```
+
+The direction is never inferred, because guessing it would overwrite the side you just edited. In this repository the check runs as part of `npm run validate`.
+
+## Whether a run applies changes
+
+**The prompts do not decide this.** The mode you invoke them in does: an agent mode with edits enabled applies changes, a plan or ask mode does not, and a permission prompt may sit between. `audit-pr` produces a review and never edits. `audit-docs` edits documentation only, never behaviour. `audit-quality` reports, and applies changes only where the invoking mode allows it.
+
+## Related resources
+
+- [Copilot prompt files](https://code.visualstudio.com/docs/copilot/customization/prompt-files) for the `.prompt.md` frontmatter schema
+- [Agent Skills specification](https://agentskills.io/specification) for the `SKILL.md` format
+- [Workspace Wiki](https://marketplace.visualstudio.com/items?itemName=alexjsully.workspace-wiki), a VS Code extension that organizes Markdown files into a unified tree

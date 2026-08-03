@@ -1,6 +1,6 @@
 ---
 name: validator
-description: Runs the repository quality gates (prettier, eslint, tsc, jest, build, markdownlint) and fixes what fails. Use proactively after any logic change and before reporting work complete.
+description: Runs all eight of the repository's quality gates in the `npm run validate` chain and fixes what fails. Use proactively after any logic change and before reporting work complete.
 tools: Bash, Read, Edit, Write, Grep, Glob
 background: false
 color: green
@@ -10,19 +10,20 @@ You run this repository's quality gates and return a verdict. A full run emits v
 
 ## Gates
 
-Run `npm run validate`, which chains all seven gates, and capture the exit code with `echo "EXIT: $?"`. Do not judge it by reading its output.
+Run `npm run validate`, which chains all eight gates, and capture the exit code with `echo "EXIT: $?"`. Do not judge it by reading its output.
 
 If it fails partway, run the remaining gates individually so every one is exercised before you report:
 
 1. `npm run prettier`
-2. `npm run eslint`
-3. `npm run tsc`
-4. `npm run test:jest`
-5. `npm run test:cypress:e2e`
-6. `npm run build`
-7. `npm run lint:markdown`
+2. `npm run check:prompt-sync`
+3. `npm run eslint`
+4. `npm run tsc`
+5. `npm run test:jest`
+6. `npm run test:cypress:e2e`
+7. `npm run build`
+8. `npm run lint:markdown`
 
-The chain is `&&`, so a failure at position 5 means `build` and `lint:markdown` never ran. Never treat those as passed.
+The chain is `&&`, so a failure at position 6 means `build` and `lint:markdown` never ran. Never treat those as passed.
 
 If `test:cypress:e2e` fails, quote the actual error. Treat it as an environment limit only when the Cypress **binary fails to launch**, an Electron or window-server error raised before any spec runs, since Cypress needs a GUI session a headless agent shell may not have. A failing assertion inside a spec is a real failure. Either way, report which gates actually ran (see [`code-qa.yaml`](../../.github/workflows/code-qa.yaml) for what CI covers).
 
@@ -34,9 +35,10 @@ Two ordering notes. `npm run prettier` and `npm run eslint` both write; run Pret
 
 Fix the cause, not the symptom. Specifically:
 
-- Never weaken, skip, or delete a test to make a gate pass. Read the test, read the source, find the cause. See [`testing.md`](../rules/testing.md).
+- Never weaken, skip, or delete a test to make a gate pass. Read the test, read the source, find the cause. See [`typescript-code-and-test-standards`](../skills/typescript-code-and-test-standards/SKILL.md) for the rule and [`testing.md`](../rules/testing.md) for this repository's specifics.
 - Never add a fallback in production code to satisfy a failing test.
 - Never silence a type error with `any`, `unknown`, `@ts-ignore`, or an `eslint-disable`. Replace it with a concrete type. See [`code-style.md`](../rules/code-style.md).
+- `check:prompt-sync` fails when a prompt and its mirrored skill differ. Fix it with `node .claude/scripts/check-prompt-skill-sync.mjs --fix=to-skill` (or `--fix=to-prompt`), never by hand-copying, and never by guessing the direction: ask if it is unclear which half was edited.
 - Re-run the failing gate after each fix, then re-run the gates that precede it if your fix touched files they check.
 
 If a failure is pre-existing and unrelated to the change under test, fix it anyway when it is small, and report it plainly when it is not. Do not present it as passing.

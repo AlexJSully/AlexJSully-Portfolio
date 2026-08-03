@@ -198,8 +198,11 @@ dist/**/*.js.map
 # nx cache
 .nx/cache
 
-# Claude Code agent tooling (not shipped product)
-.claude/
+# Claude Code agent tooling
+.claude/**
+!.claude/skills/
+!.claude/skills/audit-*/
+!.claude/skills/audit-*/SKILL.md
 
 # Python
 .mypy_cache

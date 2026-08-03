@@ -39,12 +39,14 @@ interface GateState {
 }
 
 /** Every gate `npm run validate` runs that can also run on a developer machine. */
-const GATES = ['prettier', 'eslint', 'tsc', 'jest', 'build', 'markdown'];
+const GATES = ['prettier', 'prompt-sync', 'eslint', 'tsc', 'jest', 'build', 'markdown'];
 
 /** Maps a shell command to the gates it runs. */
 const GATE_PATTERNS: [RegExp, string[]][] = [
 	[/npm run validate\b/, GATES],
 	[/npm run prettier\b/, ['prettier']],
+	[/npm run check:prompt-sync\b/, ['prompt-sync']],
+	[/check-prompt-skill-sync\.mjs/, ['prompt-sync']],
 	[/npm run eslint\b/, ['eslint']],
 	[/npm run tsc(?![:\w])/, ['tsc']],
 	[/npm run test:jest\b/, ['jest']],
@@ -54,8 +56,9 @@ const GATE_PATTERNS: [RegExp, string[]][] = [
 
 const REMINDER =
 	'This change requires validation. Before you finish, run the quality gates and confirm ' +
-	'each reaches exit code 0: `npm run prettier`, `npm run eslint`, `npm run tsc`, ' +
-	'`npm run test:jest`, `npm run build`, `npm run lint:markdown`. Check the actual exit ' +
+	'each reaches exit code 0: `npm run prettier`, `npm run check:prompt-sync`, ' +
+	'`npm run eslint`, `npm run tsc`, `npm run test:jest`, `npm run build`, ' +
+	'`npm run lint:markdown`. Check the actual exit ' +
 	'code rather than scrolling the output, and fix any failure rather than reporting around ' +
 	'it. Delegating the run to the `validator` subagent keeps the output out of this context.';
 
@@ -95,16 +98,25 @@ function clearState(sessionId: string): void {
 /**
  * Whether editing this file should require validation.
  *
- * Markdown counts because `lint:markdown` is one of the gates. The agent-tooling tree is
- * excluded: `.claude/` is ignored by Prettier, ESLint, and markdownlint alike, so no gate
- * can fail because of it.
+ * Markdown counts because `lint:markdown` is one of the gates. Most of the agent-tooling
+ * tree is excluded because ESLint and markdownlint both skip everything under `.claude`,
+ * so no gate can fail because of it.
+ *
+ * The mirrored `SKILL.md` files are the exception, and they are why this is not a blanket
+ * rule: `.prettierignore` re-includes them, and `check:prompt-sync` compares them against
+ * their prompt halves. Editing one can fail two gates, so it has to mark the session dirty
+ * the way editing the prompt half already does.
  */
 function requiresValidation(filePath: string, cwd: string): boolean {
 	if (!filePath) return false;
 
 	const rel = isAbsolute(filePath) ? relative(cwd, filePath) : filePath;
 
-	if (rel.startsWith('..') || rel.startsWith('.claude/') || rel.includes('/.claude/')) return false;
+	if (rel.startsWith('..')) return false;
+
+	if (/^\.claude\/skills\/audit-[^/]+\/SKILL\.md$/.test(rel)) return true;
+
+	if (rel.startsWith('.claude/') || rel.includes('/.claude/')) return false;
 
 	if (rel.startsWith('src/') || rel.startsWith('cypress/') || rel.startsWith('jest/')) return true;
 
@@ -172,15 +184,16 @@ function handleStop(payload: HookPayload, sessionId: string): void {
 	}
 
 	// `stop_hook_active` means this hook already blocked this turn. Releasing keeps a gate
-	// that cannot be satisfied (Cypress will not launch on macOS here) from looping.
+	// that cannot be satisfied in the current environment from looping.
 	if (payload.stop_hook_active) process.exit(0);
 
 	process.stderr.write(
 		`This session changed code, tests, config, or docs, and ${missing.length} of ${GATES.length} ` +
 			`quality gates have not been run: ${missing.join(', ')}. Run \`npm run validate\` and confirm ` +
 			'it reaches exit code 0 before finishing. The chain is `&&`, so if it stops partway, the gates ' +
-			'after the failure did not run: finish them individually (`npm run prettier`, `npm run eslint`, ' +
-			'`npm run tsc`, `npm run test:jest`, `npm run build`, `npm run lint:markdown`) rather than ' +
+			'after the failure did not run: finish them individually (`npm run prettier`, ' +
+			'`npm run check:prompt-sync`, `npm run eslint`, `npm run tsc`, `npm run test:jest`, ' +
+			'`npm run build`, `npm run lint:markdown`) rather than ' +
 			'treating them as passed.',
 	);
 	process.exit(2);

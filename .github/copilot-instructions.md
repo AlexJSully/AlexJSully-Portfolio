@@ -18,7 +18,7 @@ This is a **Next.js portfolio website** using the **App Router** (not Pages Rout
 
 ```bash
 npm run dev               # Start dev server at localhost:3000
-npm run validate          # Full CI check: prettier → eslint → tsc → jest → cypress → build → markdown
+npm run validate          # Full check: prettier → eslint → tsc → jest → cypress → build → markdown
 npm run test:jest         # Unit tests only
 npm run test:cypress:e2e  # E2E tests headless
 npm run build             # Production build
@@ -136,7 +136,7 @@ The module also exports `ANIMATIONS` and `MAX_STARS`.
 - Run `npm run tsc` to check types (no emit)
 - Do **not** "fix" an existing `any` by swapping it to `unknown` or adding an `eslint-disable`. Replace it with a concrete type, and respect an `any` that is intentional.
 
-Follow the [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) except where this file or the framework overrides it. The deltas that matter (fuller digest in [`google-ts-style`](../.claude/skills/google-ts-style/SKILL.md)):
+Follow the [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) except where this file or the framework overrides it. The deltas that matter (fuller digest in [`google-typescript-style-digest.md`](../.claude/skills/typescript-code-and-test-standards/references/google-typescript-style-digest.md)):
 
 - **Naming**: `UpperCamelCase` types and components, `lowerCamelCase` values, `CONSTANT_CASE` module-level constants and enum values. Acronyms are words: `loadHttpUrl`, not `loadHTTPURL`
 - **Types**: `interface` for object shapes, not a `type` alias of an object literal; optional properties (`href?: string`) over `href: string | undefined`, with nullability added at the use site; `T[]` for simple element types and `Array<T>` for complex ones; never `String`, `Number`, or `Boolean` as types
@@ -233,8 +233,8 @@ logAnalyticsEvent('event_name', { params });
 
 Architecture docs in `docs/architecture/`:
 
-- `index.md`: System overview
-- Component-specific docs for Avatar, Projects, Publications, etc.
+- [`index.md`](../docs/architecture/index.md): system overview
+- [`components/index.md`](../docs/architecture/components/index.md): per-component docs for Avatar, Projects, Publications, and the rest
 
 When writing or editing any Markdown, the canonical spec is [`audit-docs.prompt.md`](prompts/audit-docs.prompt.md). The always-apply subset:
 

@@ -1,8 +1,7 @@
 ---
-description: 'Review a pull request diff across triaged categories, quoting the changed line behind every finding.'
-name: 'audit-pr'
+name: audit-pr
+description: Review a pull request or working-branch diff across triaged categories and produce findings with the changed line quoted as evidence. Use when asked to review a pull request, audit a diff before merge, or give a second opinion on someone else's changes. Broader and slower than the built-in /code-review, which covers the working diff, and than /security-review, which covers security only. Body mirrors `.github/prompts/audit-pr.prompt.md` byte for byte.
 argument-hint: '[pull request number or branch; defaults to the active pull request]'
-agent: 'agent'
 ---
 
 # Audit pull request

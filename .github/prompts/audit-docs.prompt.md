@@ -1,10 +1,8 @@
 ---
-title: 'Audit and Update docs/ Directory'
-scope: 'repo'
-labels:
-    - 'documentation'
-    - 'audit'
-    - 'maintenance'
+description: 'Audit and update the docs/ directory so it matches the code, grounding every claim in a file opened this run.'
+name: 'audit-docs'
+argument-hint: '[paths or area to audit; defaults to the active pull request or working changes]'
+agent: 'agent'
 ---
 
 ## Role & Purpose
@@ -46,7 +44,7 @@ Execute all three phases in order.
 
 - **Scope:** every `.md` file outside `docs/`, plus documentation comments, inline comments, and file-level headers across the target.
 - **Actions:** scan for documentation and comments; read the current implementation of each documented element; verify it against actual code behaviour; correct or remove anything inaccurate or outdated; document every public symbol that lacks it; remove bloat, keeping "why" explanations, non-obvious "what" descriptions, and essential "how" for complex algorithms. Removing bloat means deleting comments that restate the code, never comments that explain a non-obvious internal.
-- **Always document the public surface.** Every public or exported symbol carries a documentation comment, without exception, as do the members of a public structure: fields, properties, keys, enum values. Write for a reader meeting the symbol for the first time, assuming they can infer nothing from its name. Reach for what the declaration cannot express, such as why it exists, a constraint, an invariant, or a caller obligation. Where no such explanation exists, a plain restatement of what the symbol does is correct: being obvious is not a defect on a public surface, being absent is. **Rule 2 still governs.** This rule obliges you to read the implementation, never to infer a description from the symbol's name. If you cannot verify what it does, say so in your output and leave it undocumented rather than writing a plausible guess, which is how drift starts.
+- **Always document the public surface.** Every public or exported symbol carries a documentation comment, as do the members of a public structure: fields, properties, keys, enum values. Write for a reader meeting the symbol for the first time, assuming they can infer nothing from its name. Reach for what the declaration cannot express, such as why it exists, a constraint, an invariant, or a caller obligation. Where no such explanation exists, a plain restatement of what the symbol does is correct: being obvious is not a defect on a public surface, being absent is. **Rule 2 still governs, and it comes first.** Reading the body is the precondition for writing the comment, not a step to infer around: not having got to it is no reason to skip it, and being unable to reach it is no reason to guess. Where you have not read the body, leave the symbol as it is and name it in your output. A public symbol left undocumented and reported is a compliant result; a comment written from the symbol's name is a defect, and it is the defect this rule exists to prevent.
 - **Do not restate what the language's own syntax declares**, such as a type, a visibility modifier, or an override marker. This governs what you write in a **new** documentation comment and never licenses removing an existing one.
 - **Correct an existing documentation tag; do not strip or delete it.** A parameter, return, throws, or example entry was written deliberately. Read enough surrounding code to judge it, then fix what is factually wrong and leave what is right, including parts a convention would omit in new code. Removing a tag, or a piece of one, because it looks redundant is restyling someone else's work, not auditing it. Delete a whole tag only when it is wrong and uncorrectable, such as one documenting a parameter the signature no longer has. Phase 2's "default to correcting, not deleting" governs in-code documentation too.
 - **Internal elements** are documented where the logic is complex or carries a gotcha or edge case. Delete an internal comment only when it restates the line beneath it, such as `// Increment counter` above a counter increment (delete the comment, keep the code).
@@ -55,7 +53,7 @@ Execute all three phases in order.
 - **Contracts worth stating:** any cleanup the caller owns (a handle to close, a listener to remove, a subscription to cancel), the error values or exception types a caller can branch on, and a deprecation marker naming its replacement. A deprecation without migration directions is incomplete; add one only where it is provable under Rule 2.
 - **File-level headers:** where the language provides one, it states the file's contents, uses, or dependencies. Notes aimed at maintainers rather than consumers go with the implementation instead.
 - **Also remove:** outdated comments and orphaned TODO comments.
-- **Output:** list the files changed and the kinds of change, or state "Phase 3: audited in-code documentation across X files, all accurate, no changes required."
+- **Output:** list the files changed and the kinds of change, or state "Phase 3: audited in-code documentation across X files, all accurate, no changes required." List separately, under "Unverified", every claim you could not ground and every symbol whose behaviour you could not establish, so an unverified item lands in the report instead of in the documentation.
 
 ---
 
@@ -69,18 +67,19 @@ Edit **documentation, never code behaviour**. In scope: markdown, text files, an
 
 ### Rule 2: Zero hallucination (strictly enforced)
 
-Every statement must be grounded in code you have **opened and read in full during this run**. Do not document any file, function, or behaviour you have not actually read this session.
+Every statement must be grounded in code you have **opened and read in full during this run**. Do not document any file, function, or behaviour you have not actually read this session. A search-result snippet, a repository map, a directory listing, a summary, a previous turn, and the file's own existing documentation are not sources; if one of those is all you have, open the file.
 
 **Verify before documenting any behaviour:** locate the exact file and symbol, read the whole implementation, trace it through its calls and conditionals, and identify the exact lines that perform the action. Document only what those lines provably do.
 
 **Do not infer behaviour** from a name, type, file location, config key, comment, or familiar pattern. Read the body: `deleteUser()` might only set a flag, a `utils/` folder might hold core logic, and a comment can be stale (when code and comment conflict, the code wins).
 
-**The "prove it" test:** before writing any statement, name the file, symbol, and lines that prove it. If you cannot, do not write it.
+**The "prove it" test:** before writing any statement, name the file, the symbol, and a short string copied character for character from the source that shows the behaviour. If you cannot, do not write it. **A line number is not proof.** It cannot be checked without opening the file, it drifts on the next edit, and it can be produced without reading anything; copying a string requires retrieval. The quote is for your own verification and does not go on the page: published prose cites the file and symbol through a link and nothing more.
 
 - ❌ "The system validates user input." (assumption)
-- ✅ After reading [`validation.ts`](../src/validation.ts) lines 45-67: "User input is validated against the schema in [`validation.ts`](../src/validation.ts)."
+- ❌ "After reading [`validation.ts`](../src/validation.ts) lines 45-67, user input is validated against the schema." (a line range is not evidence)
+- ✅ Proof held: symbol `parseConfig` in [`config.ts`](../src/config.ts), quote `throw new RangeError('retries must be >= 0')`. Written: "[`parseConfig`](../src/config.ts) rejects a negative `retries` value with a `RangeError`."
 
-**If you cannot verify, stay silent.** Do not guess, do not leave a TODO, and never write "appears to", "seems to", "likely", "probably", "should", or "will". Silence beats speculation. Never document planned or intended behaviour. For complex behaviour, confirm against two or three locations (definition, usage, test).
+**If you cannot verify, keep it off the page and report it.** Do not guess, do not leave a TODO, and never write "appears to", "seems to", "likely", "probably", "should", or "will". Silence in the documentation beats speculation in it, and naming the gap in your output beats both. Never document planned or intended behaviour. For complex behaviour, confirm against two or three locations (definition, usage, test).
 
 ### Rule 3: Strict objectivity
 
