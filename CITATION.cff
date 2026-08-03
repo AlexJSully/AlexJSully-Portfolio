@@ -30,7 +30,7 @@ keywords:
     - portfolio
     - science
     - web application
-license: GPL-3.0
+license: MIT
 commit: 7cf8efc05900735f6bda9d2d110749bc0b7de4f4
 version: 2.0.13
 date-released: '2025-10-19'

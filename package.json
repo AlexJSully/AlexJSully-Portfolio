@@ -9,6 +9,7 @@
 	],
 	"version": "2.0.13",
 	"private": true,
+	"license": "MIT",
 	"description": "Portfolio and showcase for Alexander Joo-Hyun Sullivan and related projects & experiences.",
 	"scripts": {
 		"audit:fix": "npm i && npm audit fix",
