@@ -21,10 +21,13 @@ const SKILL_DIR = join(REPO_ROOT, '.claude', 'skills');
  * Skills published for use outside this repository. Only these are held to the agnosticism
  * bar, because a skill written for this repository alone may name this repository's paths.
  *
- * Every other skill is either `installable`, meaning an installer can offer it and it must
- * therefore carry a licence, or `internal`, meaning `metadata.internal: true` hides it from
- * discovery. Naming the middle state is the point: a skill that is nothing in particular
- * drifts into being offered to strangers with no licence attached.
+ * Every other skill is either `installable`, meaning an installer offers it without holding it
+ * to that bar, or `internal`, meaning `metadata.internal: true` keeps it out of `npx skills`
+ * discovery. Naming the middle state is the point: a skill that is nothing in particular drifts
+ * into being offered to strangers with nobody having decided that it should be.
+ *
+ * The licence rules below apply to all three, because `gh skill` reads no visibility field and
+ * offers an internal skill as readily as a published one.
  */
 const PUBLISHED = ['audit-docs', 'audit-pr', 'typescript-code-and-test-standards'];
 
@@ -166,18 +169,22 @@ function checkSkill(name) {
 		}
 	}
 
-	// An internal skill is hidden from installers, so nobody receives it and the rules below
-	// about what a recipient gets do not apply.
-	if (isInternal(parts.frontmatter)) {
-		return;
-	}
-
+	// `metadata.internal` buys no exemption here. `gh skill` reads no visibility field, so it
+	// lists and installs every skill in this directory, and a copied directory is the whole of
+	// what its recipient gets.
 	if (!frontmatterValue(parts.frontmatter, 'license')) {
-		fail(label, 'an installer can offer this skill, so it needs a license key or metadata.internal');
+		fail(label, 'an installer can offer any skill here, so it needs a license key');
 	}
 
 	if (!existsSync(join(SKILL_DIR, name, 'LICENSE.txt'))) {
-		fail(label, 'an installer can offer this skill, so it needs a LICENSE.txt beside it');
+		fail(label, 'an installer can offer any skill here, so it needs a LICENSE.txt beside it');
+	}
+
+	// An internal skill names this repository's own prompt files on purpose, so the isolation
+	// rule below, which exists to keep a recipient from following a path they will not have,
+	// is the one thing it is exempt from.
+	if (isInternal(parts.frontmatter)) {
+		return;
 	}
 
 	for (const file of skillFiles(name)) {
