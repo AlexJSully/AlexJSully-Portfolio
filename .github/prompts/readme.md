@@ -43,19 +43,20 @@ With [`npx skills`](https://github.com/vercel-labs/skills), from Vercel Labs:
 npx skills add AlexJSully/AlexJSully-Portfolio                     # pick from a list
 npx skills add AlexJSully/AlexJSully-Portfolio --skill audit-docs  # or name one
 npx skills add AlexJSully/AlexJSully-Portfolio --all               # or take every one
-npx skills check                                                   # which have updates
-npx skills update                                                  # take them
+npx skills update                                                  # take later changes
 ```
 
-`list` and `remove` manage what you already have.
+It clones the repository and reads the default branch, so what you get is the current state of `main`. `list` and `remove` manage what you already have.
 
-With [`gh skill`](https://cli.github.com/manual/gh_skill), from the GitHub CLI, version 2.90.0 or later and in public preview:
+With [`gh skill`](https://cli.github.com/manual/gh_skill), from the GitHub CLI, in public preview. The skills sit in this repository's `.claude/skills/`, a hidden directory that `gh skill` skips unless told to include it, so every command below carries `--allow-hidden-dirs`. That flag puts the floor at version 2.91.0:
 
 ```bash
-gh skill install AlexJSully/AlexJSully-Portfolio --skill audit-pr
-gh skill install AlexJSully/AlexJSully-Portfolio --skill audit-pr --pin <tag-or-commit>
-gh skill update
+gh skill install AlexJSully/AlexJSully-Portfolio audit-pr --allow-hidden-dirs
+gh skill install AlexJSully/AlexJSully-Portfolio audit-pr --allow-hidden-dirs --pin <tag-or-commit>
+gh skill install AlexJSully/AlexJSully-Portfolio audit-pr --allow-hidden-dirs --force   # take later changes
 ```
+
+Three things differ from `npx skills`. The skill name is positional rather than a `--skill` value. Given no version, `gh skill` resolves the newest tagged release rather than the default branch, so `--pin`, which takes a tag or a commit SHA and not a branch name, is how to ask for something newer than the last release. And `gh skill update` accepts no `--allow-hidden-dirs` of its own; where it does not pick up a change, re-running `install --force` does. Expect a warning that skills in a hidden directory may be copies from another publisher: this repository is where these ones are written.
 
 Both target Claude Code, Copilot, Cursor, Codex, and Gemini CLI. `gh skill` installs for Copilot by default and reaches the others through `--agent`.
 
@@ -67,12 +68,12 @@ One more is published from the same place and has no prompt half, because it is 
 
 ```bash
 npx skills add AlexJSully/AlexJSully-Portfolio --skill typescript-code-and-test-standards
-gh skill install AlexJSully/AlexJSully-Portfolio --skill typescript-code-and-test-standards
+gh skill install AlexJSully/AlexJSully-Portfolio typescript-code-and-test-standards --allow-hidden-dirs
 ```
 
 `typescript-code-and-test-standards` loads while you write rather than after, carrying the TypeScript and JavaScript rules a formatter and a linter cannot check: comment discipline, documentation on every exported symbol, tests shipping alongside logic changes, and a mocking policy whose default is not to mock. It reads the host project's own Prettier, ESLint, and test-runner configuration instead of imposing one, and activates on `.ts`, `.tsx`, `.js`, `.jsx`, `.mjs`, `.cjs`, `.mts`, and `.cts`. It pairs with `audit-quality` rather than overlapping it: one applies as the code is written, the other audits it once it exists.
 
-Two further skills live in that directory carrying `metadata.internal`, so no installer offers them and `--all` skips them. They drive this repository's own tooling and would do nothing in yours.
+Two further skills live in that directory carrying `metadata.internal`. What that hides depends on the installer: `npx skills` reads the key and offers four skills, while `gh skill` reads no visibility field at all and lists all six, so `--all` there takes the other two as well. They drive this repository's own tooling and would do nothing in yours, though they carry the same MIT licence as the rest, so nothing arrives unlicensed.
 
 ## Keeping the two halves honest
 
