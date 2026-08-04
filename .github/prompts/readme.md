@@ -48,15 +48,15 @@ npx skills update                                                  # take later 
 
 It clones the repository and reads the default branch, so what you get is the current state of `main`. `list` and `remove` manage what you already have.
 
-With [`gh skill`](https://cli.github.com/manual/gh_skill), from the GitHub CLI, in public preview. The skills sit in this repository's `.claude/skills/`, a hidden directory that `gh skill` skips unless told to include it, so every command below carries `--allow-hidden-dirs`. That flag puts the floor at version 2.91.0:
+With [`gh skill`](https://cli.github.com/manual/gh_skill), from the GitHub CLI, in public preview. The skills sit in this repository's `.claude/skills/`, a hidden directory that `gh skill` skips unless told to include it, so every command below carries `--allow-hidden-dirs`. That flag puts the floor at version 2.91.0. Given no version, `gh skill` resolves the newest tagged release rather than the default branch, and a release carries only the skills present at its tag, so `--pin` is what reaches any other commit:
 
 ```bash
-gh skill install AlexJSully/AlexJSully-Portfolio audit-pr --allow-hidden-dirs
-gh skill install AlexJSully/AlexJSully-Portfolio audit-pr --allow-hidden-dirs --pin <tag-or-commit>
-gh skill install AlexJSully/AlexJSully-Portfolio audit-pr --allow-hidden-dirs --force   # take later changes
+gh skill install AlexJSully/AlexJSully-Portfolio audit-pr --allow-hidden-dirs                        # newest release
+gh skill install AlexJSully/AlexJSully-Portfolio audit-pr --allow-hidden-dirs --pin <tag-or-commit>  # a chosen ref
+gh skill install AlexJSully/AlexJSully-Portfolio audit-pr --allow-hidden-dirs --force                # overwrite what is installed
 ```
 
-Three things differ from `npx skills`. The skill name is positional rather than a `--skill` value. Given no version, `gh skill` resolves the newest tagged release rather than the default branch, so `--pin`, which takes a tag or a commit SHA and not a branch name, is how to ask for something newer than the last release. And `gh skill update` accepts no `--allow-hidden-dirs` of its own; where it does not pick up a change, re-running `install --force` does. Expect a warning that skills in a hidden directory may be copies from another publisher: this repository is where these ones are written.
+Three things differ from `npx skills`. The skill name is positional rather than a `--skill` value. `--pin` takes a git tag or a commit SHA, which is how to ask for a ref the newest release predates. And `gh skill update` accepts no `--allow-hidden-dirs` of its own; where it does not pick up a change, re-running `install --force` does. Expect a warning that skills in a hidden directory may be copies from another publisher: this repository is where these ones are written.
 
 Both target Claude Code, Copilot, Cursor, Codex, and Gemini CLI. `gh skill` installs for Copilot by default and reaches the others through `--agent`.
 
@@ -83,7 +83,7 @@ Only relevant if you keep both. Since they are no longer identical, a diff canno
 make -f .claude/Makefile check-skills   # the mechanical rules, exits 0 when they hold
 ```
 
-That decides what a machine can: the frontmatter against the [Agent Skills specification](https://agentskills.io/specification), a licence on every published skill, every bundled path resolving, and each half naming nothing it will not ship with.
+That decides what a machine can: the frontmatter against the [Agent Skills specification](https://agentskills.io/specification), a licence on every skill, every bundled path resolving, and each half naming nothing it will not ship with.
 
 Whether both halves still aim at the same outcome is a judgement, so it goes to a subagent that reads both, inventories the hard rules in each, and classifies every difference as bundled depth, a host fallback, or a real divergence. The failure worth catching is a rule that exists in the skill and not the prompt, which is a silent downgrade for everyone holding the prompt, and which passes the mechanical check cleanly.
 

@@ -50,7 +50,7 @@ Whichever half someone takes is the only thing they get. Four rules follow.
 
 An illustrative link, such as `[config.py](../src/config.py)` inside an example teaching the citation format, is not a real link and is allowed. The test is whether the target exists here: if it does, the author linked to something real and it will break.
 
-`make -f .claude/Makefile check-skills` enforces every rule in this section, plus the specification itself: `name` matching the directory, `description` within its character limit, a body under 500 lines, a licence on every published skill, and every bundled path resolving. It is deliberately **not** part of `npm run validate`, because the repository must build, test, and lint with no agent tooling present.
+`make -f .claude/Makefile check-skills` enforces every rule in this section, plus the specification itself: `name` matching the directory, `description` within its character limit, a body under 500 lines, a licence on every skill, and every bundled path resolving. It is deliberately **not** part of `npm run validate`, because the repository must build, test, and lint with no agent tooling present.
 
 ## The three states
 
@@ -62,7 +62,7 @@ Every skill is in exactly one, and [`check-skill-publishability.mjs`](../scripts
 
 **Every skill carries a licence**, meaning both a `license` frontmatter key and a `LICENSE.txt` in the directory, because a copied directory is the whole of what the recipient gets. Nothing is exempt, internal skills included.
 
-There is no `public` marker, because public is the absence of `internal`, and the Agent Skills specification defines no visibility field at all. `metadata` is its designated free-form map, and `internal` is the one key an installer actually reads, which is why the state does not survive every installer. `gh skill` reads none of it: `gh skill install <owner>/<repo> --allow-hidden-dirs` lists all six skills here and installs any of them by name. Repository visibility is the only lever there, and the licence on every skill is what keeps that harmless. That flag is also what makes the skills visible at all, since `gh skill` skips `.claude/` as a hidden directory; `npx skills` clones the repository and reads `.claude/skills/` without one.
+There is no `public` marker, because public is the absence of `internal`, and the Agent Skills specification defines no visibility field at all. `metadata` is its designated free-form map, and `internal` is the one key an installer actually reads, which is why the state does not survive every installer. `gh skill` reads none of it: `gh skill install <owner>/<repo> <skill> --allow-hidden-dirs` installs any of the six here by name, and the same command without the name lists all six. Repository visibility is the only lever there, and the licence on every skill is what keeps that harmless. That flag is also what makes the skills visible at all, since `gh skill` skips `.claude/` as a hidden directory; `npx skills` clones the repository and reads `.claude/skills/` without one.
 
 **Nothing is vendored into this repository.** A third-party skill is fetched when wanted with `npx skills add <owner>/<repo> --skill <name>`, rather than copied in and then maintained.
 
