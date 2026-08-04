@@ -6,6 +6,36 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 To see tags and releases, please go to [Releases](https://github.com/AlexJSully/AlexJSully-Portfolio/releases) on [GitHub](https://github.com/AlexJSully/AlexJSully-Portfolio).
 
+## [2.0.14] - 2026-08-03
+
+Licence:
+
+- Switched from GPL-3.0 to MIT
+
+Feature:
+
+- Added an ultra-wide `xxl` breakpoint that gives the projects grid more columns at 2560px and above
+
+UI/UX:
+
+- Updated the Bluesky link to the current handle
+
+AI tooling:
+
+- Added `typescript-code-and-test-standards`, a skill carrying the TypeScript and JavaScript rules a formatter and a linter cannot check
+- Published `audit-docs`, `audit-pr` and `audit-quality` as installable Agent Skills, each paired with a Copilot prompt file
+- Published every skill under MIT so it can be installed into another repository
+
+Documentation:
+
+- Fixed the documentation failing to deploy to GitHub Pages
+- Rewrote the architecture and usage documentation to match the code
+
+Bug fix:
+
+- Fixed a runtime error caused by a deprecated Sentry package
+- Fixed the web manifest returning 404
+
 ## [2.0.13] - 2025-10-19
 
 Feature:
