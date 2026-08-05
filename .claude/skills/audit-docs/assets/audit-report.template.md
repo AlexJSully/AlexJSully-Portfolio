@@ -52,7 +52,7 @@ Sources that could not be resolved this run: [name each one and what you used in
 
 **Status:** [changed / audited in-code documentation across [count] files, all accurate, no changes required]
 
-- `[file]`: [kind of change, such as documented a public symbol, corrected a parameter entry that named a removed argument, removed a comment that restated its line, removed an orphaned TODO].
+- `[file]`: [kind of change, such as documented a public symbol, corrected a parameter entry that named a removed argument, removed a comment that restated its line, removed an orphaned TODO, kept one copy of a repeated comment on the declaration of `[symbol]` and removed [count] copies above usage sites].
 - `[file]`: [kind of change].
 
 Public symbols left as they stand because their implementation was not read: [`Cache::evict` in `[file]`, `settle_invoice` in `[file]`, or write "none"].
@@ -67,7 +67,7 @@ Public symbols left as they stand because their implementation was not read: [`C
 | `[path]` | [documented [count] previously undocumented public symbols]    |
 | `[path]` | [created, [tutorial / how-to guide / reference / explanation]] |
 
-Kinds to choose from: corrected a factual statement, documented a public symbol, corrected an existing documentation tag, removed an outdated or restating comment, removed a duplicated section, created, deleted.
+Kinds to choose from: corrected a factual statement, documented a public symbol, corrected an existing documentation tag, removed an outdated or restating comment, removed a comment repeated above a usage site, removed a duplicated section, created, deleted.
 
 (One row per file, not one per edit. If no file changed, replace the table with "No files changed.")
 
