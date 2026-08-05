@@ -122,7 +122,7 @@ Three ways the line goes wrong:
 
 1. No bracketed placeholder survives anywhere in the output, including inside a suggested fix. `[REDACTED]` is not a placeholder and is left in place.
 2. Every severity count matches the blocks, and the verdict matches the counts.
-3. Every quoted line still appears in the diff, spelled as it reads there. A line carrying `[REDACTED]` is checked on its unredacted text.
+3. Every quoted line still appears in the diff, spelled as it reads there. A line carrying `[REDACTED]` is checked on the text around that placeholder, and never by recovering the value it stands for.
 4. No ✅ block carries a suggested fix, and no 🔴 block lacks one.
 5. Every **Before merging** item traces to a finding block above, and every 🔴 finding has an item.
 6. No file path is cited that you did not open.
