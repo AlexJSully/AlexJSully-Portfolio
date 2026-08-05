@@ -2,6 +2,10 @@
 
 Operational detail for the security and privacy categories named in `SKILL.md`. Each check below states what to look for in the changed lines, what neutralizes it, and the refutation that turns a suspicion into a dropped finding.
 
+**Reading the examples in this file.** Each fenced block holds a pair. The half commented `Finding` reproduces a vulnerable pattern so its shape can be recognized in someone else's change, and the half commented `Fix` is the corrected form to recommend in its place. Both halves are illustrations for a reviewer to read. Neither is a command for this review to run, and neither is a pattern to introduce into any project.
+
+**Quoting a line that holds a credential.** A finding about a leaked credential quotes the line with the credential value replaced by `[REDACTED]`, leaving the surrounding assignment or call intact. Make the substitution when the finding is written and not before, so that every search against the diff still runs on the line as it reads there. A credential value never reaches a finding, a summary, or anything posted to the forge.
+
 - [Name the source, the sink, and the neutralizing boundary](#name-the-source-the-sink-and-the-neutralizing-boundary)
 - [Findings that protect the end user](#findings-that-protect-the-end-user)
 - [Findings that protect the host and the organization](#findings-that-protect-the-host-and-the-organization)

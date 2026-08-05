@@ -1,6 +1,6 @@
 # Documentation audit report template
 
-Copy this skeleton, replace every bracketed placeholder, and delete each parenthetical hint once the text beside it is written. Keep every heading: a section with nothing to report gets its stated empty-case line, because a deleted section reads as a phase that never ran.
+Copy this skeleton, replace every bracketed placeholder, and delete each parenthetical hint once the text beside it is written. `[REDACTED]` is the one exception: it marks a credential value withheld on purpose, and it is left in place. Keep every heading: a section with nothing to report gets its stated empty-case line, because a deleted section reads as a phase that never ran.
 
 - [How to complete this template](#how-to-complete-this-template)
 - [Audit scope and summary](#audit-scope-and-summary)

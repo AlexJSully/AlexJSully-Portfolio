@@ -2,6 +2,8 @@
 
 A cost finding names the metered dimension the change moves, quotes the changed line, and states why the project pays for that dimension at all. Unbounded spend is judged first and apart from metered increase, because the two fail differently: one grows without a ceiling while the system is already degraded, the other raises a bill in proportion to traffic.
 
+**Reading the examples in this file.** Each fenced block reproduces the pattern the surrounding prose discusses, whether that is a defect or the form that corrects one. They are illustrations for a reviewer to read, not commands for this review to run.
+
 - [Establishing which billing dimensions this project has](#establishing-which-billing-dimensions-this-project-has)
 - [Recursive triggers and whether a write re-enters its own filter](#recursive-triggers-and-whether-a-write-re-enters-its-own-filter)
 - [Ceilings on retry, fan-out, and self-retriggering workflows](#ceilings-on-retry-fan-out-and-self-retriggering-workflows)

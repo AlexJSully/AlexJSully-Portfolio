@@ -39,7 +39,7 @@ A diagram is a set of claims drawn as a picture, so each node and each edge is c
 - **A missing branch the code takes.** The diagram draws one outcome where the code also returns early, raises, or falls through to a second.
 - **An ordering the code does not follow**, where the diagram places one message or step ahead of another that runs first.
 
-Quote verbatim. A paraphrase, a reflowed line, and a line number each prove nothing, since any of the three can be produced without opening the file. Where the diagram draws something the code never does, quote the code standing in the position the drawn behaviour would occupy, such as the handler that returns before the call the arrow asserts.
+Quote verbatim. A paraphrase, a reflowed line, and a line number each prove nothing, since any of the three can be produced without opening the file. Where the diagram draws something the code never does, quote the code standing in the position the drawn behaviour would occupy, such as the handler that returns before the call the arrow asserts. Where a quoted line holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, replace that value with `[REDACTED]` when the finding is written; a redacted quote still carries the finding.
 
 A flowchart node reads `Retry with backoff`, and the supplied source contains:
 
@@ -87,7 +87,7 @@ Apply the significance filter before reporting one. A step belongs in a diagram 
 DOCUMENT: <path>
 DIAGRAM <n>: <type> at <heading or nearest anchor>
   ACCESSIBILITY: PASS | FINDING - <the field, and what is absent or placeholder>
-  ACCURACY: PASS | FINDING | UNVERIFIED - <element>, quote `<verbatim string>`, <what the code does>
+  ACCURACY: PASS | FINDING | UNVERIFIED - <element>, quote `<verbatim string, with any credential value replaced by [REDACTED]>`, <what the code does>
   READABILITY: PASS | FINDING - <check that failed, the count or label measured, the type that carries it>
   OBSERVATION: <optional, left for a human to weigh, carrying no verdict>
 

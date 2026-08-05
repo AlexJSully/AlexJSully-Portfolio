@@ -28,6 +28,8 @@ Keep the quote to one line or the fragment carrying the operative token. A ten-l
 
 The quote is a private verification token, not published text. The page cites the file and symbol through a single markdown link and states the behaviour in your own words: no pasted source, no line range, no commit hash, no "as of" qualifier. A reader follows the link to the file as it stands today, whereas pasted source and line ranges go stale on the next edit, silently and without a signal to anyone.
 
+One value is withheld even from the note. Where the proving string holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, record the string with that value replaced by `[REDACTED]`, leaving the surrounding assignment or call intact. The recheck at output time then runs on the text around the placeholder, which is what the note exists to make possible. Never reconstruct the value a placeholder stands for. A credential value belongs in neither the note nor the page.
+
 ```text
 Note kept (never published):
   file:   src/config/loader.rb

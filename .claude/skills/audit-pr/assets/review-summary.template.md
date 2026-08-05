@@ -1,6 +1,6 @@
 # Review summary template
 
-Copy the blocks below into the review output and replace every bracketed placeholder. One finding block per finding, in severity order, then one closing summary at the end of the run.
+Copy the blocks below into the review output and replace every bracketed placeholder. `[REDACTED]` is the one exception: it marks a credential value withheld on purpose, and it is left in place. One finding block per finding, in severity order, then one closing summary at the end of the run.
 
 - [Per-finding block](#per-finding-block)
 - [Worked finding examples](#worked-finding-examples)
@@ -25,7 +25,7 @@ Copy the blocks below into the review output and replace every bracketed placeho
 
 Filling rules that decide whether the block is usable:
 
-- **Changed line** is copied, not retyped: keep the indentation, the spelling, and any trailing comma. Quote one line; where the defect needs two, quote both and no more. If you cannot produce the quote, the finding does not ship.
+- **Changed line** is copied, not retyped: keep the indentation, the spelling, and any trailing comma. Quote one line; where the defect needs two, quote both and no more. If you cannot produce the quote, the finding does not ship. Where the line holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, write `[REDACTED]` in place of that value and keep the rest of the line as it reads. Make the substitution here and nowhere earlier, because the checks below search the diff for the line as it stands. A redacted quote is a quote, so the finding still ships.
 - **Issue** answers three questions in order and stops. A sentence that only restates the quoted line adds nothing.
 - **Suggested fix** is deleted, along with its blank line, for a question and for every ✅ positive. A fix you could not verify is labelled `(unverified: [what would confirm it])`.
 - One defect per block. Where the same defect repeats across files, write one block and list the other paths at the end of **Issue** rather than repeating the block.
@@ -120,9 +120,9 @@ Three ways the line goes wrong:
 
 ## Checks to run before the summary ships
 
-1. No bracketed placeholder survives anywhere in the output, including inside a suggested fix.
+1. No bracketed placeholder survives anywhere in the output, including inside a suggested fix. `[REDACTED]` is not a placeholder and is left in place.
 2. Every severity count matches the blocks, and the verdict matches the counts.
-3. Every quoted line still appears in the diff, spelled as quoted.
+3. Every quoted line still appears in the diff, spelled as it reads there. A line carrying `[REDACTED]` is checked on the text around that placeholder, and never by recovering the value it stands for.
 4. No ✅ block carries a suggested fix, and no 🔴 block lacks one.
 5. Every **Before merging** item traces to a finding block above, and every 🔴 finding has an item.
 6. No file path is cited that you did not open.

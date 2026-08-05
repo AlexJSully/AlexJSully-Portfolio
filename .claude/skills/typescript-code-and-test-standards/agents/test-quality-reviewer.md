@@ -84,7 +84,7 @@ For each finding:
 ```text
 SEVERITY  file:symbol-or-test-title
   What: one sentence naming the defect.
-  Evidence: the exact line or mock, quoted.
+  Evidence: the exact line or mock, quoted, with any credential value replaced by [REDACTED].
   Why: what breaks, or what stops being tested.
   Fix: the concrete change, or the ladder rung to try instead.
 ```
@@ -95,7 +95,7 @@ Where you find nothing, say so in one line. Do not invent findings to fill the r
 
 ## Guidelines
 
-- **Quote the actual line.** A finding you cannot quote is dropped, not softened.
+- **Quote the actual line.** A finding you cannot quote is dropped, not softened. Where the line holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, quote it with that value replaced by `[REDACTED]`: a redacted quote is a quote, so the finding still ships, and the substitution is made when the finding is written rather than when the file is searched. A test fixture is the usual place a credential value turns up.
 - **Read the mocked module before judging the mock.** A guess about whether it holds logic is worthless here, and it is the one thing this pass exists to establish.
 - **Respect a deliberate decision.** A mock with a clear boundary comment, a grandfathered test title, or a convention the project's own rules file mandates is not a finding.
 - **Do not report what the linter reports.** Formatting, unused variables, and import order are not yours.

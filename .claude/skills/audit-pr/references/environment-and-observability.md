@@ -2,6 +2,8 @@
 
 Both lenses ask what happens to this code once it leaves the machine it was written on. Parity covers behaviour that changes between a developer machine, a hermetic or ephemeral container, and each deployed environment. Observability covers whether someone can diagnose a failure in a deployed environment without reproducing it locally.
 
+**Reading the examples in this file.** Each fenced block holds a pair, the defect first and the corrected form second, with a comment above each half stating which of the two it is. Both halves are illustrations for a reviewer to read, not commands for this review to run.
+
 - [Reading a diff for parity risk](#reading-a-diff-for-parity-risk)
 - [Configuration, hosts, paths, and flags](#configuration-hosts-paths-and-flags)
 - [Clock, locale, and randomness](#clock-locale-and-randomness)

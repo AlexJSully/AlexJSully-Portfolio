@@ -92,7 +92,7 @@ Return findings only.
 ```text
 SEVERITY  file:symbol
   What: one sentence naming the defect.
-  Evidence: the exact comment or declaration, quoted.
+  Evidence: the exact comment or declaration, quoted, with any credential value replaced by [REDACTED].
   Fix: the concrete change.
 ```
 
@@ -102,7 +102,7 @@ Where you find nothing, say so in one line. Do not invent findings to fill the r
 
 ## Guidelines
 
-- **Quote the actual text.** A finding you cannot quote is dropped.
+- **Quote the actual text.** A finding you cannot quote is dropped. Where the text holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, quote it with that value replaced by `[REDACTED]`: a redacted quote is a quote, so the finding still ships, and the substitution is made when the finding is written rather than when the file is searched.
 - **Read the body before describing a symbol.** Never write a description inferred from a name; that is the drift this audit exists to stop.
 - **Do not report what the linter reports.** Formatting, spacing, and line width are not yours.
 - One finding per defect.
