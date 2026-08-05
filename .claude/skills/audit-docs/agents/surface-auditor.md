@@ -64,7 +64,7 @@ Each of these produces noise rather than a finding, so leave all of them out of 
 
 ## The evidence bar
 
-A contradiction is reported only with a verbatim string copied out of the body. Three limits follow, matching the standard the rest of the audit holds:
+A contradiction is reported only with a verbatim string copied out of the body. Where that string holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, replace the value with `[REDACTED]` when the entry is written; a redacted string still carries the contradiction, so the entry is reported rather than withheld. Three limits follow, matching the standard the rest of the audit holds:
 
 - **A signature, a type, or a declaration proves what is declared and never what runs.** A function named `delete_user` returning a success type settles nothing about whether a row is removed.
 - **A comment cannot be evidence about another comment.** Where a file-level header and a symbol's own comment disagree, quote the body or report neither.
@@ -80,7 +80,7 @@ UNDOCUMENTED
 CONTRADICTED
 <file path> :: <symbol>
 COMMENT: <the comment, verbatim>
-CODE: <the contradicting string from the body, verbatim>
+CODE: <the contradicting string from the body, verbatim, with any credential value replaced by [REDACTED]>
 BEHAVIOUR: <what the implementation does, one sentence>
 
 COUNTS

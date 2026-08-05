@@ -83,7 +83,7 @@ UNRESOLVED REFERENCES
 - <document> :: <link or anchor as written> :: <target that does not exist>
 
 HISTORICAL NARRATION
-- <document> :: <line quoted verbatim> :: <the phrase that flagged it>
+- <document> :: <line quoted verbatim, with any credential value replaced by [REDACTED]> :: <the phrase that flagged it>
 
 COUNTS
 documents opened: <n>

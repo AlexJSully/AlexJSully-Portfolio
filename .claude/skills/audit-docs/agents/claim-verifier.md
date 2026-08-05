@@ -34,6 +34,8 @@ A quote is a string copied character for character out of the cited file, sittin
 
 One rule governs all three: **CONFIRMED and REFUTED each carry a verbatim quote, and a verdict with no quote is UNPROVEN.** There is no other way to settle a claim.
 
+Where the proving string holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, return the string with that value replaced by `[REDACTED]`, leaving the surrounding assignment or call intact. A redacted quote is a quote, so the verdict stays CONFIRMED or REFUTED rather than falling to UNPROVEN. Make the substitution when the verdict is written; the search against the source runs on the line as it reads there.
+
 - **CONFIRMED**: the quoted string proves the claim as written, at the quantifier the claim uses.
 - **REFUTED**: the source contradicts the claim. Quote the contradicting string and state what the implementation does instead.
 - **UNPROVEN**, returned under one of two labels:
@@ -50,7 +52,7 @@ Uncertainty resolves to UNPROVEN, never to CONFIRMED. UNPROVEN costs the caller 
 VERDICT: CONFIRMED | REFUTED | UNPROVEN (not reached) | UNPROVEN (not established)
 CLAIM: <the claim exactly as received, unedited>
 SOURCE: <file path> :: <symbol>
-QUOTE: <verbatim string from the source; omitted only on UNPROVEN>
+QUOTE: <verbatim string from the source, with any credential value replaced by [REDACTED]; omitted only on UNPROVEN>
 BEHAVIOUR: <what the implementation does, one or two sentences>
 NOTE: <what blocked the verdict, or a narrower claim the source does support>
 ```

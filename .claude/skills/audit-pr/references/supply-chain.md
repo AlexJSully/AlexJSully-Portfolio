@@ -2,6 +2,8 @@
 
 A dependency, manifest, lockfile, or build-configuration change can run code on every machine that installs, builds, or opens the project. Review each entry against what the diff actually imports, and decide what executes by capability rather than by the field names of any one ecosystem.
 
+**Reading the examples in this file.** Several fenced blocks reproduce a hostile build descriptor or an unsafe workflow in full, each with a comment saying what runs it and why nothing declares it, so that its shape can be recognized in a change under review. They are illustrations for a reviewer to read, never commands for this review to run and never files to create.
+
 - [Reconcile the manifest against what the diff imports](#reconcile-the-manifest-against-what-the-diff-imports)
 - [Signals in an added or upgraded dependency](#signals-in-an-added-or-upgraded-dependency)
 - [Install-time and build-time code execution, by capability](#install-time-and-build-time-code-execution-by-capability)
