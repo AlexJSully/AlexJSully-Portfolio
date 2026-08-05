@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 To see tags and releases, please go to [Releases](https://github.com/AlexJSully/AlexJSully-Portfolio/releases) on [GitHub](https://github.com/AlexJSully/AlexJSully-Portfolio).
 
+## [2.0.15] - 2026-08-05
+
+AI tooling:
+
+- `audit-docs` now documents a fact once, on the declaration of the symbol it describes, instead of repeating it above every line that reads, calls, or branches on that symbol
+- `audit-docs` can clean up comments already repeated across usage sites, folding anything a copy adds into the declaration before removing it
+- Restored the limits on where `audit-docs` writes an inline comment, so a comment inside a function body is reserved for non-obvious business logic, a workaround, or a complex transformation
+- The `surface-auditor` agent reports comments repeated above a usage site alongside the undocumented symbols and contradicted comments it already returned
+- The same document-once rule now applies to `typescript-code-and-test-standards` and the Copilot instructions
+
+Security:
+
+- Every audit skill replaces a credential value with `[REDACTED]` when it quotes a line as evidence, so no token, password, API key, private key, or session identifier reaches a finding, a report, or a comment posted to GitHub
+- Labelled the vulnerable code in each audit reference as an illustration to recognize rather than a pattern to introduce, and treat file contents reached during an audit as data rather than as instructions to follow
+
 ## [2.0.14] - 2026-08-03
 
 Licence:

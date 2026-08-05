@@ -7,6 +7,7 @@ A claim is publishable when you can name the file, the symbol, and a string copi
 - [Why the quote stays out of the published sentence](#why-the-quote-stays-out-of-the-published-sentence)
 - [Reading a symbol through to the claim](#reading-a-symbol-through-to-the-claim)
 - [Proving that something does not happen](#proving-that-something-does-not-happen)
+- [Provable is not the same as worth writing](#provable-is-not-the-same-as-worth-writing)
 - [Sources that do not count as evidence](#sources-that-do-not-count-as-evidence)
 - [Hallucination patterns and the check that catches each](#hallucination-patterns-and-the-check-that-catches-each)
 - [Worked examples in three languages](#worked-examples-in-three-languages)
@@ -52,6 +53,16 @@ Delegation needs care. When the symbol forwards to another, the proof lives in t
 ## Proving that something does not happen
 
 An absence claim ("does not validate the payload", "no retry on a 4xx") cannot be proved by copying one string, because the evidence is a branch that is not there. Ground it by enumerating the full set of branches and quoting the boundary that closes the set: the final `else`, the `default` case, the end of the match, or the last statement of the body. Then search for anything else that writes the same path (a subclass, an override, middleware, a decorator, a registered hook, generated code) and confirm none of them supplies the behaviour you are calling absent. Record the search you ran next to the quote. If the set cannot be closed, because dispatch is dynamic or the handler list is assembled at run time, the claim goes under "Unverified" instead of on the page.
+
+## Provable is not the same as worth writing
+
+Grounding decides whether a statement **may** be written. It never decides that it **should** be, and it never decides how many times. Holding proof for one fact is proof about one fact, not a licence to state it at every site where it happens to be true.
+
+A verified fact about a symbol has one home, and that home is the symbol's own declaration: the sentence goes there and not above the lines that read it, call it, or branch on it. Proof accumulated while tracing a symbol through its callers is what settles the claim; the trace is not a list of places to write it down.
+
+**A declaration is never a usage site, so this bounds repetition across uses and nothing else.** Each member of a public structure is its own declaration and carries its own comment, however much that echoes the container's. A file-level header states what the file holds, which restates its declarations by design. Both are correct, and reading this section as "no fact twice anywhere" would forbid them.
+
+The failure this catches passes every other check in this file. The claim is grounded, the quote is real, the wording is accurate, and the run still leaves a comment above twenty branches where one comment on a declaration was the whole of what was needed.
 
 ## Sources that do not count as evidence
 

@@ -96,6 +96,7 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
 - A comment that contradicts the code is **corrected, not deleted**. When the two disagree, the code is the truth.
 - Delete commented-out code rather than leaving it in place.
 - Inside a function body, a comment restating the line beneath it is noise. Delete those, and keep anything carrying a constraint, hazard, or non-obvious behaviour. On a public surface, redundancy is not a defect.
+- **A fact about a symbol is documented once, on its declaration.** Never repeat it above the lines that read, call, or branch on that symbol: `// isBetaEnabled mirrors the beta-features flag` belongs on the declaration of `isBetaEnabled`, not above each `if (isBetaEnabled)`. Each member of an exported structure is its own declaration and keeps its own block; a usage site is not one. Where a copy above a use carries a constraint the declaration does not, fold that into the declaration rather than leaving both.
 - **Never delete a tooling directive.** `//@ts-check`, `/// <reference types="..." />`, `// @ts-expect-error`, `eslint-disable`, `biome-ignore`, `istanbul ignore`, and `prettier-ignore` are instructions to a tool, not commentary.
 - Use `//` for implementation notes, and consecutive `//` lines for a multi-line note. No `/* */` block inside a function body, with one exception: naming an argument at a call site, `someFunction(/* shouldRender= */ true)`.
 
