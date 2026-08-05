@@ -31,6 +31,6 @@ keywords:
     - science
     - web application
 license: MIT
-commit: c012863ff024e47d7be9189ec842dcff73698e4a
-version: 2.0.14
-date-released: '2026-08-03'
+commit: 4b81d442bda21b5f10cf7315cfc24d79f22c3011
+version: 2.0.15
+date-released: '2026-08-05'
