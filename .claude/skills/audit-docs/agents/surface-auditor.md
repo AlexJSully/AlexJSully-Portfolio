@@ -67,7 +67,7 @@ if (isBetaEnabled === undefined) {
 
 SYMBOL: `isBetaEnabled`. COMMENT: `isBetaEnabled mirrors the beta-features flag.` The line beneath reads `isBetaEnabled` rather than declaring it, so the sentence belongs on the declaration and this copy is an entry.
 
-**A copy that says more than the declaration is not a repetition.** Where two comments about one symbol differ, and one carries a constraint, a hazard, or a caller obligation the declaration does not, report it under `DIFFERS` instead, quoting both. The caller keeps that copy or folds what it adds into the declaration, and neither outcome is a plain deletion. Uncertainty about whether two comments say the same thing resolves to `DIFFERS`, never to `REPEATED`: the caller loses one entry to judge by hand, where a wrong `REPEATED` sends the caller at a comment carrying something real.
+**A copy that says more than the declaration is reported separately, not merged into the first list.** Where two comments about one symbol differ, and one carries a constraint, a hazard, or a caller obligation the declaration does not, report it under `DIFFERS`, quoting both and naming what the copy adds. The caller folds that addition into the declaration and then removes the copy, so naming the addition precisely is what the entry is for. Uncertainty about whether two comments say the same thing resolves to `DIFFERS`, never to `REPEATED`: an entry the caller settles by hand costs one judgement, where a wrong `REPEATED` points the caller at a comment carrying something real.
 
 ## What the agent does not report
 
@@ -82,7 +82,7 @@ Each of these produces noise rather than a finding, so leave all of them out of 
 
 ## The evidence bar
 
-A contradiction is reported only with a verbatim string copied out of the body. Where that string holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, replace the value with `[REDACTED]` when the entry is written; a redacted string still carries the contradiction, so the entry is reported rather than withheld. Three limits follow, matching the standard the rest of the audit holds:
+A contradiction is reported only with a verbatim string copied out of the body. **Every verbatim string this agent returns, in any of the lists, follows one rule:** where it holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, replace the value with `[REDACTED]` when the entry is written; a redacted string still carries the finding, so the entry is reported rather than withheld. Three limits follow, matching the standard the rest of the audit holds:
 
 - **A signature, a type, or a declaration proves what is declared and never what runs.** A function named `delete_user` returning a success type settles nothing about whether a row is removed.
 - **A comment cannot be evidence about another comment.** Where a file-level header and a symbol's own comment disagree, quote the body or report neither.
@@ -109,8 +109,8 @@ USES: <path>, <path>
 
 DIFFERS
 <file path> :: <symbol the comment is about>
-COMMENT: <the comment above the usage site, verbatim>
-DECLARATION COMMENT: <the comment on the declaration, verbatim, or "none">
+COMMENT: <the comment above the usage site, verbatim, with any credential value replaced by [REDACTED]>
+DECLARATION COMMENT: <the comment on the declaration, verbatim, with any credential value replaced by [REDACTED], or "none">
 ADDS: <what the copy carries that the declaration does not, one sentence>
 
 COUNTS
