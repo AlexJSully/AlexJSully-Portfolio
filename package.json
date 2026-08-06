@@ -46,7 +46,7 @@
 		"react": "^19.2.8",
 		"react-dom": "^19.2.8",
 		"sharp": "^0.35.3",
-		"webpack": "^5.108.4"
+		"webpack": "^5.109.0"
 	},
 	"devDependencies": {
 		"@sentry/core": "^10.67.0",
@@ -73,7 +73,7 @@
 		"jest-transform-stub": "^2.0.0",
 		"markdownlint-cli2": "^0.23.1",
 		"prettier": "^3.9.6",
-		"sass": "^1.101.3",
+		"sass": "^1.101.6",
 		"start-server-and-test": "^3.0.11",
 		"typescript": "^6.0.3"
 	},

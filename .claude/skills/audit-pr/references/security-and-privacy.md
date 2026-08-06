@@ -2,7 +2,7 @@
 
 Operational detail for the security and privacy categories named in `SKILL.md`. Each check below states what to look for in the changed lines, what neutralizes it, and the refutation that turns a suspicion into a dropped finding.
 
-**Reading the examples in this file.** Each fenced block holds a pair. The half commented `Finding` reproduces a vulnerable pattern so its shape can be recognized in someone else's change, and the half commented `Fix` is the corrected form to recommend in its place. Both halves are illustrations for a reviewer to read. Neither is a command for this review to run, and neither is a pattern to introduce into any project.
+**Reading the examples in this file.** Each fenced block holds a pair written as a shape rather than as working code, in no particular language. The half labelled `Finding` names the vulnerable pattern so its form can be recognized in someone else's change, and the half labelled `Fix` names the corrected form to recommend in its place. Angle brackets mark the untrusted value as it moves. Nothing in these blocks runs, nothing in them is a command for this review to carry out, and nothing in them is a pattern to introduce into any project.
 
 **Quoting a line that holds a credential.** A finding about a leaked credential quotes the line with the credential value replaced by `[REDACTED]`, leaving the surrounding assignment or call intact. Make the substitution when the finding is written and not before, so that every search against the diff still runs on the line as it reads there. A credential value never reaches a finding, a summary, or anything posted to the forge.
 
@@ -33,16 +33,14 @@ Refute before reporting: an auto-escaping template neutralizes markup unless the
 
 Server-side request forgery is the one most often reached through a helper: the check is a request whose **host** comes from caller data, not merely its path. A fixed base with an interpolated path segment is not this finding.
 
-```go
-// Finding: the host comes from request data, so the server fetches any address the caller names.
-resp, err := http.Get(req.FormValue("target"))
+```text
+Finding   fetch( <host read from a request field> )
+          The caller names the address, so the server reaches wherever it points.
 
-// Fix: resolve the caller value against a fixed set of full URLs, and never build the host from it.
-endpoint, ok := allowedEndpoints[req.FormValue("target")]
-if !ok {
-	return errUnknownEndpoint
-}
-resp, err := http.Get(endpoint)
+Fix       endpoint <- lookup( allowed endpoints, <request field> )
+          stop with an error when the lookup misses
+          fetch( endpoint )
+          A full URL from a fixed set. The host is never built from caller data.
 ```
 
 The rest of this direction, each with its trigger in the diff: command injection, where a value reaches a shell string rather than an argument array; path traversal, where a joined path is not compared against the resolved parent directory after normalization, which is what catches `..` and symbolic links together; unsafe deserialization, where a format that can instantiate arbitrary types reads bytes the caller supplied; resource exhaustion, where a request body, an upload, a decompression ratio, a regular expression over caller input, a page size, or a recursion depth has no ceiling; privilege escalation, where a role or tenant identifier is read from the payload; over-scoped tokens, where a new credential is granted write or admin scope for a read; and log injection, where a value that can contain a newline reaches a line-oriented log sink and lets a caller forge log entries.
@@ -91,14 +89,13 @@ Enter this table when the diff builds a prompt, calls a model, reads a model res
 
 **This is a named finding whenever it appears.** A model response is untrusted input with a persuasive tone; treat it exactly as a request body. The fix depends on the sink: an allowlist lookup for an identifier or a path segment, a parameterized statement for a query, an argument array for a command, and a host allowlist for a URL. Escaping is not a substitute for any of the four.
 
-```python
-# Finding: the model chose the file name and the shell parses it.
-subprocess.run(f"convert {model_choice} out.png", shell=True)
+```text
+Finding   spawn( "convert " + <name chosen by the model> + " out.png", parsed by a shell )
+          The model picked the name and a shell interprets whatever it picked.
 
-# Fix: map the model choice onto a value the allowlist already holds, then pass an argument array.
-if model_choice not in known_inputs:
-    raise ValueError("unknown input")
-subprocess.run(["convert", known_inputs[model_choice], "out.png"])
+Fix       stop with an error when <name chosen by the model> is absent from the allowlist
+          spawn( ["convert", allowlist[<name chosen by the model>], "out.png"] )
+          An argument list, so no shell reads the value, and only allowlisted names arrive.
 ```
 
 ## Privacy from collection through to deletion
@@ -113,24 +110,24 @@ Follow the data, not the field name. For each personal or health value the diff 
 - **Telemetry defaults.** Collection that is on unless the person opts out, in a jurisdiction or a product surface that requires consent first.
 - **Source maps and stack traces.** A trace shown to a user leaks internal structure; a published source map leaks the same to anyone. Neither belongs in a response body.
 
-```ruby
-# Finding: the whole profile is collected and retained though only the age band is used.
-Analytics.record(user: user.attributes, event: "signup")
+```text
+Finding   analytics.record( user = <every attribute on the profile>, event = "signup" )
+          The whole profile is collected and retained where one derived field was needed.
 
-# Fix: derive the one field the feature reads and collect nothing else.
-Analytics.record(age_band: age_band_for(user.birth_date), event: "signup")
+Fix       analytics.record( ageBand = bandFor(<birth date>), event = "signup" )
+          The one field the feature reads, derived at collection. Nothing else is stored.
 ```
 
 ## Secrets that must never reach a log, and how they arrive there
 
 Never logged: passwords, tokens, API keys, session identifiers, encryption keys. The value rarely appears as a literal in the diff, so look for the four carriers instead: a structured logger handed a whole request, user, or configuration object; an exception message or a trace that quotes a URL with its query string; a cache key, a metric label, or a span attribute built from an identifier; and a third-party client that captures breadcrumbs, headers, or request bodies by default.
 
-```java
-// Finding: the whole request reaches the log and carries the authorization header.
-log.info("inbound request: {}", request);
+```text
+Finding   log( "inbound request", <the whole request object> )
+          Every header travels with it, the authorization header included.
 
-// Fix: log named fields, and strip line breaks from any caller-supplied value.
-log.info("inbound request path={} correlationId={}", stripLineBreaks(request.path()), correlationId);
+Fix       log( "inbound request", path = stripLineBreaks(<request path>), correlationId )
+          Named fields only, with line breaks stripped so a caller cannot forge a log entry.
 ```
 
 A redaction helper is only a defence for the fields it names. If the change adds a field to a logged object, check that the helper covers it.

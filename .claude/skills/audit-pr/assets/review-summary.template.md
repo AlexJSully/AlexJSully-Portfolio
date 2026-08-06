@@ -16,18 +16,18 @@ Copy the blocks below into the review output and replace every bracketed placeho
 
 **File:** `[path/to/file.ext]`
 **Category:** [category name, spelled as the triage table spells it]
-**Changed line:** `[the line as the diff shows it, character for character]`
+**Changed line:** `[the line as the diff shows it, with any credential value replaced by [REDACTED]]`
 
 **Issue:** [what is wrong]. [what can go wrong, and the input or state that triggers it]. [the rule, standard, or project convention it violates]
 
-**Suggested fix:** [corrected snippet or pseudocode, in the language of the file]
+**Suggested fix:** [the corrected code, in the language of the file]
 ```
 
 Filling rules that decide whether the block is usable:
 
-- **Changed line** is copied, not retyped: keep the indentation, the spelling, and any trailing comma. Quote one line; where the defect needs two, quote both and no more. If you cannot produce the quote, the finding does not ship. Where the line holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, write `[REDACTED]` in place of that value and keep the rest of the line as it reads. Make the substitution here and nowhere earlier, because the checks below search the diff for the line as it stands. A redacted quote is a quote, so the finding still ships.
-- **Issue** answers three questions in order and stops. A sentence that only restates the quoted line adds nothing.
-- **Suggested fix** is deleted, along with its blank line, for a question and for every ✅ positive. A fix you could not verify is labelled `(unverified: [what would confirm it])`.
+- **Changed line** is copied, not retyped: keep the indentation, the spelling, and any trailing comma. Quote one line; where the defect needs two, quote both and no more. Where the line holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, write `[REDACTED]` in place of that value and keep the rest of the line as it reads. Make the substitution here and nowhere earlier, because the checks below search the diff for the line as it stands. A redacted quote is a quote, so the finding still ships. If you cannot produce the quote at all, the finding does not ship.
+- **Issue** answers three questions in order and stops. A sentence that only restates the quoted line adds nothing, and every step of the chain it describes has to be one you can point at in the file.
+- **Suggested fix** carries code, not a description of code. Write the corrected form in the file's own language, complete enough to paste. Prose belongs here only where the finding is not about code, such as a process or a documentation gap. The field is deleted, along with its blank line, for a question and for every ✅ positive. A fix you could not verify keeps its code and is labelled `(unverified: [what would confirm it])`.
 - One defect per block. Where the same defect repeats across files, write one block and list the other paths at the end of **Issue** rather than repeating the block.
 - Pre-existing code that this change makes wrong is labelled `(pre-existing)` in the title.
 
@@ -123,6 +123,7 @@ Three ways the line goes wrong:
 1. No bracketed placeholder survives anywhere in the output, including inside a suggested fix. `[REDACTED]` is not a placeholder and is left in place.
 2. Every severity count matches the blocks, and the verdict matches the counts.
 3. Every quoted line still appears in the diff, spelled as it reads there. A line carrying `[REDACTED]` is checked on the text around that placeholder, and never by recovering the value it stands for.
-4. No ✅ block carries a suggested fix, and no 🔴 block lacks one.
-5. Every **Before merging** item traces to a finding block above, and every 🔴 finding has an item.
-6. No file path is cited that you did not open.
+4. No ✅ block carries a suggested fix, and no 🔴 block lacks one. Every fix on a code finding is code rather than a description of code.
+5. Every step of every **Issue** points at a line in the file, so no block explains the defect by a mechanism the code does not carry.
+6. Every **Before merging** item traces to a finding block above, and every 🔴 finding has an item.
+7. No file path is cited that you did not open.

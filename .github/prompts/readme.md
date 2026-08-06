@@ -60,7 +60,9 @@ Three things differ from `npx skills`. The skill name is positional rather than 
 
 Both target Claude Code, Copilot, Cursor, Codex, and Gemini CLI. `gh skill` installs for Copilot by default and reaches the others through `--agent`.
 
-**Resolving the `#` references.** Some hosts resolve `#codebase`, `#changes`, and the rest automatically; the ones that do not need a **context resolution** table, which maps each reference to the command to run instead. `audit-pr` and `audit-quality` carry that table in both halves. `audit-docs` carries it in the skill half only, since every host that reads a prompt file resolves those three itself. Which references appear varies: all three use `#codebase` and `#changes`, `audit-docs` and `audit-pr` add `#activePullRequest`, `audit-quality` adds `#file:path`, and `audit-pr` alone adds `#issue_fetch`.
+**Resolving the `#` references.** Some hosts resolve `#codebase`, `#changes`, and the rest automatically; the ones that do not need to be told what each stands for. `audit-pr` and `audit-quality` carry a **context resolution** table in both halves, mapping each reference to what it refers to and how to reach it without the host's help. `audit-docs` carries that table in the skill half and, in the prompt half, pairs each reference with its plain meaning where the reference is used, because that file is held to a length budget a table would not fit inside. Which references appear varies: all three use `#codebase` and `#changes`, `audit-docs` and `audit-pr` add `#activePullRequest`, `audit-quality` adds `#file:path`, and `audit-pr` alone adds `#issue_fetch`.
+
+Neither form names a host's tools. A skill installs onto every agent the list above names, so it describes a capability ("your file-search and file-read tools") rather than a product's tool names, which would be wrong everywhere except where they were written.
 
 ### Other skills in the same repository
 
