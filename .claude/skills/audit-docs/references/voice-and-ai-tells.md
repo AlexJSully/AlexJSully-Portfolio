@@ -72,6 +72,8 @@ Substitute the plain word, which carries the same meaning and does not pattern-m
 | `utilize`    | use                                       |
 | `facilitate` | name what it actually does                |
 
+**A substitution inside a Markdown table cell is where this catalogue does its damage.** The mapping above changes the length of a cell, and re-padding the row to match is what breaks the table. Leave the cell ragged. Every row keeps the same number of `|`-separated cells as the header and the delimiter row, a cell stays on one line with no newline or bullet list inserted into it, a literal `|` inside a cell is written `\|`, and no substitution is a reason to re-flow, re-wrap, or restructure the table around it. Prefer leaving a cell as its author wrote it over making a table you then have to repair, and count the cells in every row after any edit inside one.
+
 Do not run the table as a find-and-replace, because several entries are also ordinary technical terms and removing one would make the sentence wrong. A word stays when it names something that exists in the system: a test `harness` is a component, an OAuth `realm` is a protocol field, a library or module whose name happens to be one of these words keeps its name, and a word inside a quoted specification or error string stays as quoted. A word goes when it modifies something to make it sound larger than it is. The replacement for `seamless` is almost always a concrete negative fact, which is what makes the claim checkable.
 
 - Before: "The adapter leverages the connection pool to facilitate seamless failover across regions."
@@ -127,7 +129,9 @@ Put the conclusion in the first sentence of the paragraph, then the qualificatio
 
 ## Self-check for a paragraph you just wrote
 
-Run these over the paragraph before moving on. Every yes is an edit, not a note for later.
+Run these over a paragraph **you wrote or rewrote this run**, before moving on. Every yes is an edit to that paragraph, not a note for later, and not a licence to reach into prose the scope limit above puts out of bounds.
+
+**Two places these questions do not reach.** Accurate existing prose, which stays as its author wrote it. And the inside of a table cell, where the answer is to leave the cell alone: a cell is terse by design, so questions 1, 5, and 6 misfire on one, and editing it risks the table for a rhythm gain no reader gets.
 
 1. Does the opening sentence announce, preview, or wind up, instead of stating the point?
 2. Is a copula (`serves as`, `stands as`, `plays a role in`) standing in for a verb that names a behaviour?
