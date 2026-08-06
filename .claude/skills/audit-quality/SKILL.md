@@ -25,7 +25,7 @@ A few checks are worth running repository-wide even under a narrow scope, becaus
 
 ## Context resolution
 
-Some agents resolve the references below automatically. Any agent that does not resolves each one itself, using the equivalent listed here, before starting. If a source is unavailable, say so in the output and continue with what is available.
+Some agents resolve the references below automatically. Where yours does not, resolve each one yourself, using the equivalent listed here, before starting. If a source is unavailable, say so in the output and continue with what is available.
 
 | Reference    | What it refers to           | Resolve it yourself with             |
 | ------------ | --------------------------- | ------------------------------------ |
