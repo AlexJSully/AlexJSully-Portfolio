@@ -287,9 +287,10 @@ function checkPluginManifest(name) {
 }
 
 /**
- * Every file inside a skill that travels with it and could name a path: Markdown one level of
- * bundle directory deep, plus the plugin manifest. The manifest carries a `description`, so it
- * can name a prompt file exactly as a body can, and it ships in the copied directory either way.
+ * Every file inside a skill that travels with it and could name a path: top-level Markdown, every
+ * file one level deep in each bundle directory, plus the plugin manifest. The manifest carries a
+ * `description`, so it can name a prompt file exactly as a body can, and it ships in the copied
+ * directory either way.
  */
 function skillFiles(name) {
 	const root = join(SKILL_DIR, name);
