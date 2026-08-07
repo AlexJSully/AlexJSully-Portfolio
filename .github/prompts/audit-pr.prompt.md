@@ -221,7 +221,7 @@ Determine which regulations apply from the data the system holds, the people it 
 
 ## 6. Step 4: Refutation pass
 
-Before writing the summary, take each finding and try to disprove it. This step decides whether the review is accurate. Run it yourself: it needs the diff and the files you already hold, and handing it out costs more than it saves.
+Before writing the summary, take each finding and try to disprove it. This step decides whether the review is accurate. Run it yourself: it needs the diff and the files you already hold, and handing it out costs more than it saves. **Whether you run it yourself or hand it out, a verdict is a lead to verify, never a source to publish from:** this step deletes findings, so re-ground each verdict against the quoted line before dropping or keeping anything on it.
 
 For each finding, answer:
 

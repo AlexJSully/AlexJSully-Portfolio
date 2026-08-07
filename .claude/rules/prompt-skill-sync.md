@@ -17,7 +17,7 @@ Three audits ship twice, once as a skill directory and once as a single prompt f
 | [`audit-pr.prompt.md`](../../.github/prompts/audit-pr.prompt.md)           | [`audit-pr/`](../skills/audit-pr/SKILL.md)             |
 | [`audit-quality.prompt.md`](../../.github/prompts/audit-quality.prompt.md) | [`audit-quality/`](../skills/audit-quality/SKILL.md)   |
 
-Two audiences drive this. Someone whose employer allows a single file in the repository takes the prompt. Someone who can install a directory takes the skill, and gets the bundled `references/`, `agents/`, and `assets/` with it.
+Two audiences drive this. Someone whose employer allows a single file in the repository takes the prompt. Someone who can install a directory takes the skill, and gets the bundled `references/`, `agents/`, and `assets/` with it, subject to the caveat in [the plugin manifest section](#the-plugin-manifest-and-what-it-does-not-change) about which of those the specification actually covers.
 
 ## The contract: same objective, not same bytes
 
@@ -51,6 +51,27 @@ Whichever half someone takes is the only thing they get. Four rules follow.
 An illustrative link, such as `[config.py](../src/config.py)` inside an example teaching the citation format, is not a real link and is allowed. The test is whether the target exists here: if it does, the author linked to something real and it will break.
 
 `make -f .claude/Makefile check-skills` enforces every rule in this section, plus the specification itself: `name` matching the directory, `description` within its character limit, a body under 500 lines, a licence on every skill, and every bundled path resolving. It is deliberately **not** part of `npm run validate`, because the repository must build, test, and lint with no agent tooling present.
+
+## The plugin manifest, and what it does not change
+
+A skill directory containing `.claude-plugin/plugin.json` loads as a plugin named `<name>@skills-dir` on the next session, with no marketplace and no install step, and that is what turns the files in `agents/` into agents a run can delegate to. Without it they stay ordinary files, which is what each `SKILL.md` already treats as the default when it tells the run to open one and follow it: `agents/` is a host extension, not part of the Agent Skills specification, which defines `references/`, `assets/`, and `scripts/` and nothing else.
+
+**The manifest is an optimization, never a dependency.** Every bundled procedure is written to be run by opening its file, and each `SKILL.md` says so before it mentions delegating, because a skill that tells an agent to delegate to something the host never registered has no documented fallback: the call fails and the run improvises. An improvised prompt carries none of the scope bound or evidence bar written inside the procedure, which is the whole reason the file exists.
+
+Two consequences to know before editing either half:
+
+- **The delegation identifier is namespaced**, as `<skill>@skills-dir:<agent>`. A bare agent name never resolves. Write neither form into a published skill: naming the file and letting the run resolve the identifier is what keeps the instruction true on a host that spells it differently.
+- **Nothing documents whether `agents/` or `.claude-plugin/` survive `npx skills add` or `gh skill install`**, since neither is in the specification. Test an install rather than assuming, and treat opening the file as the path that has to work.
+
+[`check-skill-publishability.mjs`](../scripts/check-skill-publishability.mjs) validates a manifest where one exists: that it parses, that its `name` matches the directory, that it carries a `version`, and that any path in an `agents` key resolves. It does not require one.
+
+## A published skill stays reachable by name
+
+**A published skill carries neither `user-invocable: false` nor `paths:`.** An adopter installs the directory and has the name on it and nothing else, so a key narrowing who may reach the skill, or when it activates, takes away the only handle they have. `user-invocable: false` hides it from the `/` menu outright. `paths:` is documented as limiting "when this skill is activated", and a skill carrying it did not answer to its own name here, though the documentation does not describe what happens when the command is typed while no matching file is open.
+
+Where a project wants a skill to load automatically on certain files, the path glob belongs on a rules file, which is where [`code-style.md`](code-style.md) carries one. That mechanism stays inside the project and leaves the skill reachable everywhere.
+
+An installable or internal skill may use both keys freely, and [`check-skill-publishability.mjs`](../scripts/check-skill-publishability.mjs) enforces this only against the `PUBLISHED` list. Nothing in the specification defines either key, so this is a policy of this repository rather than a rule of the format.
 
 ## The three states
 

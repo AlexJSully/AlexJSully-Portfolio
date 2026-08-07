@@ -5,15 +5,6 @@ license: MIT
 metadata:
     version: '1.0.0'
     origin: 'https://github.com/AlexJSully/AlexJSully-Portfolio'
-paths:
-    - '**/*.ts'
-    - '**/*.tsx'
-    - '**/*.js'
-    - '**/*.jsx'
-    - '**/*.mjs'
-    - '**/*.cjs'
-    - '**/*.mts'
-    - '**/*.cts'
 ---
 
 # TypeScript code and test standards
@@ -79,7 +70,7 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
     - Commented-out code, and any deleted tooling directive.
     - A logic change with no test, or a test weakened, skipped, or deleted.
     - **Every new mock.** Require the change to name the boundary it crosses in one line. If it cannot, the finding is an unjustified mock.
-4. Spawn the bundled subagents when the diff runs past a few files. See **Subagents** below.
+4. Run the bundled procedures when the diff runs past a few files. See **Bundled procedures** below.
 
 ### Fixing a failing test
 
@@ -175,12 +166,16 @@ When the project's configuration, its rules files, and the surrounding code all 
 
 A project that consistently applies a different variant of one of those rules has a preference, not a defect. Follow the project.
 
-## Subagents
+## Bundled procedures
 
-Two subagent instruction files ship with this skill. Each is self-contained: a spawned subagent inherits none of this context, so the file restates every rule it enforces. Both report findings and edit nothing.
+Two procedure files ship with this skill. Each is self-contained, restating every rule it enforces so that it can be followed without any of this context. Both report findings and edit nothing.
 
 - [test-quality-reviewer.md](agents/test-quality-reviewer.md), for a test-quality pass weighted to over-mocking. Judging whether a mocked module holds logic means opening that module, its imports, and the subject under test, which is a lot of reading for a short answer.
 - [comment-and-jsdoc-auditor.md](agents/comment-and-jsdoc-auditor.md), for a comment and documentation pass. Enumerating every export in a file set means reading whole files to produce a short list.
+
+**Open the file and follow it yourself.** That works wherever this skill is installed and cannot fail. Where your host registers these files as agents you can delegate to, handing one off keeps that reading out of the main context, which is why both exist at all. Where delegating is unavailable, names an agent the host does not recognize, or errors, fall back to opening the file. **Never improvise instructions from a file's name or from its one-line summary above:** what each file is worth is the rules it restates, and a paraphrase carries none of them.
+
+**A returned finding is a lead to verify, never a source to publish from.** It names a file and a symbol to open, and a judgement about a mock or a missing test is made against the code rather than against a summary of it.
 
 There is deliberately no style reviewer: the project's own linter and compiler report that more reliably and at no token cost.
 
