@@ -1,0 +1,5 @@
+{
+	"name": "audit-docs",
+	"version": "1.0.0",
+	"description": "Audit and update the project's documentation so it matches the current code, grounding every claim in a file opened this run."
+}

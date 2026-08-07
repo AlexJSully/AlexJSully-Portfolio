@@ -9,7 +9,11 @@ This agent walks the documentation in scope and the code that documentation desc
 
 ## Input the agent receives
 
-The caller supplies the scope it already resolved: a set of documents, or a whole documentation tree, plus the code area that documentation describes. Nothing else. The agent does not receive the purpose of the audit, the report being drafted, or a list of suspected problems, and it does not ask for them. It does not widen what it was handed, not to a neighbouring directory and not to a document that a document in scope links to. Where the scope is a pull request, the map covers the documents touching the changed code and stops there, never the tree those documents sit in.
+The caller supplies the scope it already resolved, as **two explicit lists of paths**: the documents to walk, and the code those documents describe. Nothing else.
+
+**A name is not a scope.** A topic, a subsystem, a feature, or a layer describes what the caller wants; turning one into files means running a search, and a search returns what matches the string rather than what the caller selected. Those two sets come apart at every place in the tree that reuses the word, and the difference is code nobody chose, which this pass would then map, judge, and report as though it had been. A caller handed the word `cache` may mean one module and get four. The caller's own scope rule may well begin from an area, and resolving that area into paths is the caller's work, not this pass's. Where what arrives is a name rather than paths, return the empty map with that stated in the counts, and let the caller resolve it.
+
+The agent does not receive the purpose of the audit, the report being drafted, or a list of suspected problems, and it does not ask for them. It does not widen what it was handed, not to a neighbouring directory and not to a document that a document in scope links to. Where the scope is a pull request, the map covers the documents touching the changed code and stops there, never the tree those documents sit in.
 
 ## Walk each document once
 

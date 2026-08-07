@@ -41,8 +41,10 @@ Open one of these when a category the triage table activated needs its detail. N
 - [`supply-chain.md`](references/supply-chain.md) - category 15, including install-time execution judged by capability rather than by field name.
 - [`environment-and-observability.md`](references/environment-and-observability.md) - categories 13 and 14, plus the flakiness causes they share.
 - [`cost-and-billing.md`](references/cost-and-billing.md) - category 17, unbounded spend first, then the billing dimension each finding moves.
-- [`finding-refuter.md`](agents/finding-refuter.md) - a subagent running section 6's refutation pass over one finding. **The default is not to dispatch it:** this run performs section 6 itself, which is faster and holds the context the pass needs. Reach for it only when the finding count makes that impractical, and never as a routine step per finding.
+- [`finding-refuter.md`](agents/finding-refuter.md) - section 6's refutation pass over one finding, self-contained so that it can be followed on its own. **The default is not to run it separately:** this run performs section 6 itself, which is faster and holds the context the pass needs. Reach for it only when the finding count makes that impractical, and never as a routine step per finding.
 - [`review-summary.template.md`](assets/review-summary.template.md) - the finding block and summary shapes for section 7.
+
+`finding-refuter.md` is the one file above that carries work rather than detail, so it has a second question: how to run it. **Open it and follow it yourself**, which works wherever this skill is installed. Where your host registers the file as an agent you can delegate to, handing it off keeps the reading out of this context. Where delegating is unavailable, names an agent the host does not recognize, or errors, open the file rather than improvising the pass from its name, since what the pass is worth is the six questions written inside it. **A returned verdict is a lead to verify, never a source to publish from:** section 6 deletes findings, so re-ground a verdict against the quoted line before dropping or keeping anything on it.
 
 ## 1. Scope and evidence rules
 

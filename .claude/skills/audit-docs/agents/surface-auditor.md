@@ -9,7 +9,11 @@ This agent walks the code the caller's scope resolved to one time and returns th
 
 ## Input the agent receives
 
-One field arrives: the code area the caller's scope resolved to, as paths or as an area name. Nothing else. The agent does not widen that scope, does not follow an import out of it, and does not read the documentation tree, which belongs to a different pass. It does not ask for the change set, the report in progress, or the reason the scope was drawn where it was. A path inside the scope that cannot be opened is carried into the counts as unread rather than dropped.
+One field arrives: **an explicit list of paths**, the code the caller's scope resolved to. Nothing else.
+
+**A name is not a scope.** A topic, a subsystem, a feature, or a layer describes what the caller wants; turning one into files means running a search, and a search returns what matches the string rather than what the caller selected. Where the two come apart, the difference is code nobody chose, and every undocumented symbol and every comment in it would be reported as though it had been. The caller's own scope rule may well begin from an area, and resolving that area into paths is the caller's work, not this pass's. Where what arrives is a name rather than paths, return the empty lists with that stated in the counts, and let the caller resolve it.
+
+The agent does not widen the list it was given, does not follow an import out of it, and does not read the documentation tree, which belongs to a different pass. It does not ask for the change set, the report in progress, or the reason the scope was drawn where it was. A path inside the scope that cannot be opened is carried into the counts as unread rather than dropped.
 
 ## List one: undocumented public surface
 
@@ -57,6 +61,8 @@ COMMENT: `Now uses the shared pool instead of opening a connection per call.` CO
 A comment can be accurate and still be in the wrong place. Report every comment that names a symbol, sits above a line that uses that symbol, and states what the symbol's own declaration states or would state. One fact belongs on one declaration, so each copy above a read, a call, or a branch is an entry here.
 
 Both halves of the test are mechanical, and both are required. The comment names a symbol, and the line beneath it uses that same symbol. A comment above a line that does not reference the symbol it discusses is a different comment and is never reported.
+
+**The declaration bounds the entry, and this list is the one most likely to reach past the scope.** A symbol is used far from where it is declared, so following a usage site to its declaration is exactly how a pass drifts into code nobody asked it to touch. Report a copy under `REPEATED` only where the declaration sits inside the paths handed in **and** its body was opened this run. Where the declaration lies outside those paths, or inside them but unopened, the copy is not an entry: the comparison that would justify removing it was never made. It goes under `UNRESOLVED` with the declaration's path named, which lets the caller widen the scope deliberately rather than inherit a deletion nobody could check.
 
 ```javascript
 // isBetaEnabled mirrors the beta-features flag.
@@ -113,6 +119,12 @@ COMMENT: <the comment above the usage site, verbatim, with any credential value 
 DECLARATION COMMENT: <the comment on the declaration, verbatim, with any credential value replaced by [REDACTED], or "none">
 ADDS: <what the copy carries that the declaration does not, one sentence>
 
+UNRESOLVED
+<file path> :: <symbol the comment is about>
+COMMENT: <the comment above the usage site, verbatim, with any credential value replaced by [REDACTED]>
+DECLARATION: <file path of the declaration>
+BLOCKED BY: <outside the paths handed in / inside them and not opened>
+
 COUNTS
 Files in scope: <n>
 Files read: <n>
@@ -121,6 +133,7 @@ Undocumented symbols: <n>
 Contradicted comments: <n>
 Repeated comments: <n>
 Differing copies: <n>
+Unresolved copies: <n>
 ```
 
 Every list may be empty. An empty set reported with the counts beside it is a result; the same set reported without them is indistinguishable from a run that opened nothing.

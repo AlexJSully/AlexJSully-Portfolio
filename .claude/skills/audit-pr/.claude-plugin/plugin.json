@@ -1,0 +1,5 @@
+{
+	"name": "audit-pr",
+	"version": "1.0.0",
+	"description": "Review a pull request or working-branch diff across eighteen triaged categories and produce findings evidenced by the changed line."
+}

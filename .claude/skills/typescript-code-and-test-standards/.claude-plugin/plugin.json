@@ -1,0 +1,5 @@
+{
+	"name": "typescript-code-and-test-standards",
+	"version": "1.0.0",
+	"description": "TypeScript and JavaScript standards that formatters and linters cannot catch, covering comment discipline, JSDoc, the test mandate, and the mocking policy."
+}

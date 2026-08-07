@@ -37,8 +37,23 @@ const MAX_BODY_LINES = 500;
 /** The spec caps `description` at 1024 characters, because it loads at startup. */
 const MAX_DESCRIPTION = 1024;
 
-/** Directories a skill may bundle, per the Agent Skills specification. */
+/**
+ * Directories a skill may bundle. The specification defines `references/`, `assets/`, and
+ * `scripts/`; `agents/` is a host extension, read only where a plugin manifest turns the
+ * directory into a plugin, and inert everywhere else.
+ */
 const BUNDLE_DIRS = ['references', 'agents', 'assets', 'scripts'];
+
+/**
+ * The manifest that makes a skill directory load as a plugin, so the files in `agents/` register
+ * as agents a run can delegate to instead of sitting there as unread text.
+ *
+ * It is optional, and a skill without one is not at fault: every bundled procedure is written to
+ * be followed by opening its file, which needs no manifest and no host support. What this path
+ * is checked for is the failure that hides, namely a manifest whose name disagrees with the
+ * directory, which registers the plugin under a name nothing refers to.
+ */
+const PLUGIN_MANIFEST = join('.claude-plugin', 'plugin.json');
 
 const failures = [];
 
@@ -180,6 +195,9 @@ function checkSkill(name) {
 		fail(label, 'an installer can offer any skill here, so it needs a LICENSE.txt beside it');
 	}
 
+	checkPluginManifest(name);
+	checkInvocable(name, parts.frontmatter);
+
 	// An internal skill names this repository's own prompt files on purpose, so the isolation
 	// rule below, which exists to keep a recipient from following a path they will not have,
 	// is the one thing it is exempt from.
@@ -196,7 +214,84 @@ function checkSkill(name) {
 	}
 }
 
-/** Every Markdown file inside a skill, one level of bundle directory deep. */
+/**
+ * Checks that a published skill can still be invoked by name.
+ *
+ * This is a policy of this repository rather than a rule of the specification, which defines
+ * neither key. A published skill is one an adopter installs holding nothing but the directory
+ * and the name on it, so a key that narrows when it activates, or who may reach it, takes away
+ * the only handle that adopter has. An installable or internal skill is free to use both.
+ *
+ * @param {string} name Directory name of the skill under `.claude/skills/`.
+ * @param {string} frontmatter The skill's frontmatter block.
+ */
+function checkInvocable(name, frontmatter) {
+	if (!PUBLISHED.includes(name)) {
+		return;
+	}
+
+	const label = `.claude/skills/${name}/SKILL.md`;
+
+	if (/^user-invocable:[ \t]*(false|no|off|0)\s*$/im.test(frontmatter)) {
+		fail(label, 'a published skill may not set `user-invocable: false`, which hides it from the / menu');
+	}
+
+	if (/^paths:/m.test(frontmatter)) {
+		fail(
+			label,
+			'a published skill may not carry `paths:`, which limits when it activates; path-scope a rules file instead',
+		);
+	}
+}
+
+/**
+ * Checks a skill's plugin manifest, where it has one. A skill without one is skipped silently.
+ *
+ * @param {string} name Directory name of the skill under `.claude/skills/`.
+ */
+function checkPluginManifest(name) {
+	const manifestPath = join(SKILL_DIR, name, PLUGIN_MANIFEST);
+	const label = `.claude/skills/${name}/${PLUGIN_MANIFEST}`;
+
+	if (!existsSync(manifestPath)) {
+		return;
+	}
+
+	let manifest;
+
+	try {
+		manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+	} catch (error) {
+		fail(label, `does not parse as JSON: ${error.message}`);
+
+		return;
+	}
+
+	if (manifest.name !== name) {
+		fail(label, `name "${manifest.name}" does not match the directory name "${name}"`);
+	}
+
+	if (!manifest.version) {
+		fail(label, 'no version, which a host uses to tell one loaded copy from another');
+	}
+
+	// A manifest may point `agents` at somewhere other than the default directory. Either way the
+	// paths it names travel with the skill, so a broken one breaks in the recipient's copy.
+	const declaredAgents = manifest.agents ? [manifest.agents].flat() : [];
+
+	for (const target of declaredAgents) {
+		if (!existsSync(join(SKILL_DIR, name, target))) {
+			fail(label, `declares agent "${target}", which does not exist in the skill directory`);
+		}
+	}
+}
+
+/**
+ * Every file inside a skill that travels with it and could name a path: top-level Markdown, every
+ * file one level deep in each bundle directory, plus the plugin manifest. The manifest carries a
+ * `description`, so it can name a prompt file exactly as a body can, and it ships in the copied
+ * directory either way.
+ */
 function skillFiles(name) {
 	const root = join(SKILL_DIR, name);
 	const files = readdirSync(root).filter((file) => file.endsWith('.md'));
@@ -207,6 +302,10 @@ function skillFiles(name) {
 		}
 
 		files.push(...readdirSync(join(root, dir)).map((file) => `${dir}/${file}`));
+	}
+
+	if (existsSync(join(root, PLUGIN_MANIFEST))) {
+		files.push(PLUGIN_MANIFEST);
 	}
 
 	return files;
