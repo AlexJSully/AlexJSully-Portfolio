@@ -1,6 +1,6 @@
 ---
 name: typescript-code-and-test-standards
-description: "TypeScript and JavaScript standards that formatters and linters cannot catch: comment discipline, JSDoc on every exported symbol, logic changes shipping with tests, one colocated test per source file, and a mocking policy whose default is not to mock. Detects the project's own Prettier, ESLint, TypeScript, and test-runner configuration rather than imposing one. Use when writing or reviewing a .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, or .cts file, when adding or repairing a Jest, Vitest, Mocha, or Cypress test, when a failing test tempts a mock or a skip, and when writing or auditing JSDoc or code comments. Includes a Google TypeScript Style Guide digest for questions a project leaves open."
+description: "TypeScript and JavaScript standards that formatters and linters cannot catch: comment discipline, JSDoc on every exported symbol, logic changes shipping with tests, one colocated test per source file, a mocking policy whose default is not to mock, and module structure measured rather than sensed, covering file length, interface size, directory shape, and repeated logic. Detects the project's own Prettier, ESLint, TypeScript, and test-runner configuration rather than imposing one. Use when writing or reviewing a .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, or .cts file, when adding or repairing a Jest, Vitest, Mocha, or Cypress test, when a failing test tempts a mock or a skip, when writing or auditing JSDoc or code comments, and whenever a file, interface, or directory is growing or a block of logic appears more than once, even when SOLID, DRY, coupling, or splitting a module are never named. Includes a Google TypeScript Style Guide digest for questions a project leaves open."
 license: MIT
 metadata:
     version: '1.0.0'
@@ -19,7 +19,7 @@ The host project's own tooling owns everything it can check, and this skill neve
 - The **linter** owns unused variables, equality operators, brace enforcement, and rule-level style.
 - The **compiler** owns types and strictness.
 
-This skill owns comments, documentation blocks, readability judgement, the test mandate, and mocking. It reports and follows configuration. **It never creates or edits a configuration file to make a project match itself.**
+This skill owns comments, documentation blocks, readability judgement, structure, the test mandate, and mocking. Structure belongs here because no tool checks it: a formatter will lay out a two-thousand-line file and a linter will pass a twenty-member interface, so file length, interface size, directory shape, and repeated logic reach a reader only if someone counts them. It reports and follows configuration. **It never creates or edits a configuration file to make a project match itself.**
 
 ## Step 1: Detect the project
 
@@ -64,7 +64,8 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
 1. Detect the project.
 2. **Run the project's own format, lint, and type check commands first.** Never report by eye something a tool reports by exit code, and never report a finding the project's configuration has already turned off.
 3. Then review only what tools cannot see, in this order:
-    - A comment that narrates a change, or argues the code is correct or safe.
+    - **The four structural counts**, taken first because they need no judgement and the rest of the review reads differently once you have them. See **Structure** below.
+    - A comment that narrates a change, explains why something was removed, or argues the code is correct or safe.
     - A missing or wrong documentation block on an exported symbol.
     - An existing documentation tag stripped or reworded. Deleting an accurate tag is itself a defect, not tidying.
     - Commented-out code, and any deleted tooling directive.
@@ -83,6 +84,7 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
 ## Comments
 
 - **Comments describe the code as it stands.** Never narrate a change, a fix, or a prior state ("now uses", "changed to", "previously", "no longer", "restored"). Version control carries that, and the comment outlives the change that prompted it.
+- **Name the line the comment describes**, which is the test a phrase list cannot replace. Point at the code beneath the comment that it is about; a comment you cannot attach to a line is not a comment about this code. It catches the case the list above misses, a comment explaining an **absence**: why something was removed, why an approach was not taken, what an earlier version did. Nothing in the file corresponds to it, because its subject is a decision, and the reader who wants that decision is reading the commit or the pull request where the diff proving it lives. _Bad:_ `// Removed the retry wrapper here since the SDK retries internally.` _Good:_ nothing, with that sentence in the commit message.
 - **Never argue that the code is correct or safe.** A note defending a decision documents the edit rather than the code. Say what something does or why it exists; do not justify that it works.
 - A comment that contradicts the code is **corrected, not deleted**. When the two disagree, the code is the truth.
 - Delete commented-out code rather than leaving it in place.
@@ -114,6 +116,21 @@ Prefer the readable form wherever it costs nothing at runtime, and only where th
 - No blank lines between `switch` cases.
 - Separate groups that do different work with a blank line: setup, action, assertion; or fetch, transform, render.
 - Where the project's formatter runs after its linter's autofix, run the formatter again afterwards. A brace-inserting fix and a line-breaking formatter disagree, and the formatter's check is what CI runs.
+
+## Structure
+
+**Count before judging.** Structure is the one thing here that a reader misses by reading well: nothing inside a two-thousand-line file says it is long, and nothing in a twenty-member interface says most callers use four. Four counts, each cheap, taken on any file you write or review:
+
+- **Lines in the file.** Compare against the neighbouring files of the same kind, which is the comparison that survives a project whose conventions differ from yours.
+- **Members in each exported interface, type, or class**, alongside how many a caller actually uses. Open two callers and count. An interface whose typical caller touches four of twenty members is the interface-segregation case, and the count is what shows it rather than an opinion about cohesion.
+- **Files in the directory**, and whether the project's other directories at that level are grouped into subdirectories. A flat directory beside grouped siblings is the finding; a flat directory in a flat project is the convention.
+- **Occurrences of a repeated block.** Two may be coincidence; three is a pattern, named with all three paths.
+
+**A count is a trigger to look, never a finding.** What makes it one is the count plus the concrete split: which members go into which type, which files into which subdirectory, what the shared unit would hold. Where the outlier test finds nothing because every sibling is equally large, fall back to a file past 600 lines, a type past 15 members, a directory past 20 files with no subdirectory, or a block repeated three times. Those numbers are the point where a reader stops holding the unit in their head at once, and they are approximate on purpose.
+
+TypeScript gives the split its own tools, so a proposal can be concrete without being a rewrite. An oversized interface separates into the interfaces each caller group actually needs, composed with `extends` or an intersection where a caller genuinely wants both, and `Pick<T, K>` narrows a parameter to the members a function reads without touching the declaration. A module carrying two reasons to change separates along that seam rather than by line count. A barrel file re-exporting a flat directory hides the shape rather than fixing it, and it costs tree shaking.
+
+**Duplication is reported; unifying it is a judgement.** Copies that would change for different reasons are not duplication, and merging them couples two things that only look alike. Say where the copies are and let the person decide, because an abstraction with a single caller costs more than the repetition it removed.
 
 ## Tests
 

@@ -41,6 +41,25 @@ const value = cache.get(key);
 
 The bad version becomes a lie the first time someone adds a second cache, and it was never useful to a reader who did not know what the code used to do.
 
+## Comments that explain an absence
+
+The banned openers catch a comment that announces it is about a change. They miss the more common one, which reads as ordinary rationale and is really a note about something that is not there.
+
+The test is mechanical: **name the line the comment describes.** Point at the code beneath it that the comment is about. Where no line corresponds, the comment is about a decision rather than about this code, and a decision belongs in the commit message, where the diff that proves it lives.
+
+```ts
+// Bad: explains something the file does not contain
+// Removed the manual retry loop here because the SDK already retries with backoff.
+const response = await client.send(request);
+
+// Good: nothing here, and that sentence in the commit message
+const response = await client.send(request);
+```
+
+A reader of the bad version cannot check it. There is no retry loop to compare against, no way to tell whether the claim about the SDK is still true, and nothing to do with the information. Six months on, the comment survives a change to the SDK that the sentence no longer describes.
+
+Two comments pass this test and are not findings. A note about a deliberate omission the code depends on, such as why a field must stay out of a payload, describes a real constraint on the line beneath it. A file-level header describes the file rather than any single line.
+
 ## Comments that argue the code is safe
 
 Never write a comment defending a decision or asserting that the code works. That documents the edit rather than the code, and it is usually written in response to a review comment rather than to a reader's need.
