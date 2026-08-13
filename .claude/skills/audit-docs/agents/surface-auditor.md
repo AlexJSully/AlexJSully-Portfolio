@@ -31,7 +31,8 @@ For each one, quote the comment, quote the code that contradicts it, and say in 
 - a documented return value the function does not produce;
 - a documented error or exception it never raises;
 - a stated constraint the body does not enforce;
-- a comment narrating a change or a prior state rather than describing the code, flagged by "now uses", "previously", "no longer", "restored", "replaces", "used to", and "formerly".
+- a comment narrating a change or a prior state rather than describing the code, flagged by "now uses", "previously", "no longer", "restored", "replaces", "used to", and "formerly";
+- a comment describing something the file does not contain, found by a test rather than by a phrase.
 
 A documented exception the body never raises:
 
@@ -55,6 +56,15 @@ fn fetch(&self, id: u64) -> Row {
 ```
 
 COMMENT: `Now uses the shared pool instead of opening a connection per call.` CODE: `self.pool.acquire().query(id)`. The sentence describes an edit rather than the code, and a reader cannot check "instead of" against anything still present.
+
+A comment describing something the file does not contain, which the phrase list above does not catch:
+
+```java
+// Removed the manual retry loop here because the client already retries with backoff.
+Response response = client.send(request);
+```
+
+COMMENT: `Removed the manual retry loop here because the client already retries with backoff.` CODE: `Response response = client.send(request);`. **The test is to name the line the comment describes**, and here no line does: there is no retry loop in the file, so the sentence is about a decision rather than about this code. Run this test on every comment, since the sub-class above it catches only the comments that announce themselves with a banned phrase, and record the entry under `CONTRADICTED` with the absent thing named in the `BEHAVIOUR` line. Two comments pass the test and are never entries: a note about a deliberate omission the code depends on, such as why a field stays out of a payload, describes a constraint on the line beneath it; and a file-level header describes the file rather than any one line.
 
 ## List three: comments repeated above a usage site
 

@@ -17,7 +17,7 @@ This repo is worked on by **both** GitHub Copilot and Claude Code. Keep these au
 
 ### Documentation and comments describe the current state
 
-**This applies to every file type, not only markdown**, because a path-scoped rule can only cover the extensions someone thought to list. A comment, document, or config header states what the code does now. Never narrate the past ("replaces", "used to", "formerly", "for the first time", "unlike the old") and never name a file, flag, or tool that no longer exists: git carries that history, and a reader cannot check a claim against something that is gone. The future belongs nowhere but a `TODO`. Rationale worth keeping goes in a decision record of its own under [`docs/`](docs/index.md), created when the first one is needed, rather than scattered through the files it explains.
+**This applies to every file type, not only markdown**, because a path-scoped rule can only cover the extensions someone thought to list. A comment, document, or config header states what the code does now. Never narrate the past ("replaces", "used to", "formerly", "for the first time", "unlike the old") and never name a file, flag, or tool that no longer exists: git carries that history, and a reader cannot check a claim against something that is gone. The future belongs nowhere but a `TODO`. A phrase list is not the check, because the commonest offender announces nothing: name the line a comment describes, and delete it where no line corresponds, which is what a comment explaining why something was removed always looks like. Rationale worth keeping goes in a decision record of its own under [`docs/`](docs/index.md), created when the first one is needed, rather than scattered through the files it explains.
 
 ## Commands
 
