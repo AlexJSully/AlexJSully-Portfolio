@@ -19,7 +19,7 @@ Everything below is what those tools cannot check.
 - A comment that contradicts the code is **corrected, not deleted**. The code is the truth.
 - Delete commented-out code.
 - Inside a function body, a comment restating the line beneath it is noise. On a public surface, redundancy is not a defect.
-- **Never delete a tooling directive**: `//@ts-check`, `/// <reference types="..." />`, `// @ts-expect-error`, `eslint-disable`, `biome-ignore`, `istanbul ignore`, `prettier-ignore`, bundler magic comments, framework directives such as `'use client'`, and license headers.
+- **Never delete a tooling directive**: `//@ts-check`, `/// <reference types="..." />`, `// @ts-expect-error`, `eslint-disable`, `biome-ignore`, `istanbul ignore`, `prettier-ignore`, bundler magic comments, framework directives such as `'use client'`, and license headers. **Moving one is not deleting it**: where the same directive repeats across files and the tool reads that setting from its own configuration, setting the key once and removing the copies relocates the instruction, and the number removed goes in the change. What this forbids is stripping a directive during work that had no reason to touch it.
 - Use `//` for implementation notes. No block comment inside a function body, except to name an argument at a call site: `someFunction(/* shouldRender= */ true)`.
 
 ## Documentation blocks
