@@ -111,4 +111,8 @@ Worked cases:
 
 Match the surrounding code, and if the surrounding code is inconsistent, match the newest file that looks deliberate. Say in your output that the project declares no convention for it, so the choice is visible rather than silently invented.
 
-**Never create or edit a configuration file to make the project match this skill.** Adding a `.prettierrc`, enabling a lint rule, or tightening `tsconfig.json` is a project decision with consequences across every file, and it is not yours to make from inside an editing task. Note it as a recommendation instead.
+**Never create or edit a configuration file to make the project match this skill.** Adding a `.prettierrc`, enabling a lint rule, or tightening `tsconfig.json` because this skill prefers it changes every file the setting reaches, and a preference is not a reason to make that change. Note it as a recommendation instead.
+
+**A setting the task itself requires is a different question, and the configuration file is the answer to it.** Where the work needs a value the tool reads from configuration, and the alternative is declaring that value in each file the change touches, set it once at the level the tool defines it: a test environment, a path alias, a compiler target, a lint override for one glob. **Repeating a project-level key per file is the defect, not the cautious choice.** Search for the key rather than for the per-file directive's own name, since the two are rarely the same word, and a key you did not find is not a key that does not exist.
+
+Two obligations ride along. Read what the key is set to now, and say what the new value does to the files already governed by it, leaving declared the ones that need the old value. And leave a convention the project wrote down where it is, because this covers a value the task needs and never a preference of this skill.

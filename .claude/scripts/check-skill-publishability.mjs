@@ -38,6 +38,26 @@ const MAX_BODY_LINES = 500;
 const MAX_DESCRIPTION = 1024;
 
 /**
+ * A prompt is one file a reader scrolls in a chat pane, with no `references/` to move detail into,
+ * so its budget is the whole of what it can say. `audit-docs` is held tighter than the other two
+ * because its subject is narrower. Growth past a budget is a signal to condense, not to raise it:
+ * restatements of one rule across sections, and worked examples following the rule they
+ * illustrate, are what a prompt loses first, and never a rule, a checklist item, or a category.
+ *
+ * The budget counts characters because a line here is a paragraph. Markdown lint rule `MD013` is
+ * off repository-wide and Prettier leaves prose unwrapped, so one line in these files runs to
+ * seventeen hundred characters. Counting lines charges a document for its blank lines and its
+ * headings, and lets it pay by deleting them: the same eighteen sections cost 36 lines as `###`
+ * headings and nothing at all inline, while the text is identical either way. Characters do not
+ * move when a document is reformatted, so only cutting what a prompt says brings the number down.
+ *
+ * `wc -c` is the hand-check. It counts bytes where this counts UTF-16 code units, so it reads a
+ * dozen or so high on a file carrying emoji, which is far inside the headroom each budget leaves.
+ */
+const MAX_PROMPT_CHARS = 52_000;
+const MAX_PROMPT_CHARS_BY_FILE = { 'audit-docs.prompt.md': 36_000 };
+
+/**
  * Directories a skill may bundle. The specification defines `references/`, `assets/`, and
  * `scripts/`; `agents/` is a host extension, read only where a plugin manifest turns the
  * directory into a plugin, and inert everywhere else.
@@ -314,7 +334,16 @@ function skillFiles(name) {
 /** Checks that a prompt still works as the only file someone holds. */
 function checkPrompt(file) {
 	const label = `.github/prompts/${file}`;
-	const parts = split(readFileSync(join(PROMPT_DIR, file), 'utf8'));
+	const text = readFileSync(join(PROMPT_DIR, file), 'utf8');
+	const parts = split(text);
+
+	// Counted over the whole file rather than the body, because frontmatter is what a reader
+	// scrolls past too.
+	const budget = MAX_PROMPT_CHARS_BY_FILE[file] ?? MAX_PROMPT_CHARS;
+
+	if (text.length > budget) {
+		fail(label, `is ${text.length} characters against a budget of ${budget}; condense rather than raising it`);
+	}
 
 	if (!parts) {
 		fail(label, 'no frontmatter block');

@@ -31,6 +31,15 @@ Export style follows the kind of module. Components, layouts, App Router route f
 - Components are **Server Components by default**; add `'use client'` only when the component needs hooks, event handlers, or browser APIs.
 - Every component has a colocated `.test.tsx` (see [`Banner.test.tsx`](../../src/components/banner/Banner.test.tsx)).
 
+## Structure and reuse
+
+The counts, thresholds, and carve-outs behind these live in the skill. What follows is how they land here.
+
+- **A component gets a directory, not a loose file.** Every one lives in its own kebab-case directory under `src/components/` with a PascalCase file and a colocated test, as [`navbar/Navbar.tsx`](../../src/components/navbar/Navbar.tsx) does. Six of the seven directories spell the name that way, and [`Stars/`](../../src/components/Stars/StarsBackground.tsx) is the single PascalCase exception rather than a second convention: match the six. Related files are grouped into a subdirectory rather than left flat beside unrelated ones, and entries sharing a name prefix are the group to propose.
+- **Count the files sitting directly in a directory**, whatever subdirectories sit beside them: one subdirectory does not make the loose files next to it grouped. [`src/components/ServiceWorkerRegister.tsx`](../../src/components/ServiceWorkerRegister.tsx) and the two `ThemeRegistry` files sit directly in `src/components/` beside seven component directories, so the count there is three rather than ten.
+- **A setting the tooling reads from configuration is set once, never per file.** [`jest.config.js`](../../jest.config.js) already sets `testEnvironment: 'jsdom'` for every test, so no test file carries a `@jest-environment` docblock. Path aliases are declared in [`tsconfig.json`](../../tsconfig.json) and mirrored in [`jest.config.js`](../../jest.config.js) rather than re-declared per import. Where the same directive would go into three or more files, **search for the key rather than for the directive's own spelling**, since the two are rarely the same word, and hoist the majority while leaving the minority declared. Moving a directive into the key the tool reads is not deleting it.
+- **Reuse before writing.** Check this repository's own [`helpers`](../../src/helpers/ascii.ts) and [`util`](../../src/util/cookieConsent.ts) modules, then [`package.json`](../../package.json), then the platform, before hand-writing behaviour that has a name outside this repository. Where nothing present provides it, say so rather than adding a dependency. Never hand-roll anything that signs, verifies, hashes a credential, or settles an authorization outcome.
+
 ## TypeScript
 
 - Strict mode is on; types must be explicit (no implicit `any`).

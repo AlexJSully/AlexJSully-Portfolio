@@ -1,6 +1,6 @@
 ---
 name: typescript-code-and-test-standards
-description: "TypeScript and JavaScript standards that formatters and linters cannot catch: comment discipline, JSDoc on every exported symbol, logic changes shipping with tests, one colocated test per source file, a mocking policy whose default is not to mock, and module structure measured rather than sensed, covering file length, interface size, directory shape, and repeated logic. Detects the project's own Prettier, ESLint, TypeScript, and test-runner configuration rather than imposing one. Use when writing or reviewing a .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, or .cts file, when adding or repairing a Jest, Vitest, Mocha, or Cypress test, when a failing test tempts a mock or a skip, when writing or auditing JSDoc or code comments, and whenever a file, interface, or directory is growing or a block of logic appears more than once, even when SOLID, DRY, coupling, or splitting a module are never named. Includes a Google TypeScript Style Guide digest for questions a project leaves open."
+description: "TypeScript and JavaScript standards that formatters and linters cannot catch: comment discipline, JSDoc on every exported symbol, logic changes shipping with tests, one colocated test per source file, a mocking policy whose default is not to mock, reuse of what a dependency or the standard library provides, and module structure measured rather than sensed, covering file length, interface size, directory shape, repeated logic, and a setting repeated per file instead of configured once. Detects the project's own Prettier, ESLint, TypeScript, and test-runner configuration rather than imposing one. Use when writing or reviewing a .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, or .cts file, when adding or repairing a Jest, Vitest, Mocha, or Cypress test, when a failing test tempts a mock or a skip, when a behaviour is about to be hand-written, and whenever a file, interface, or directory is growing or a block of logic appears more than once, even when SOLID, DRY, coupling, or splitting a module are never named."
 license: MIT
 metadata:
     version: '1.0.0'
@@ -19,7 +19,7 @@ The host project's own tooling owns everything it can check, and this skill neve
 - The **linter** owns unused variables, equality operators, brace enforcement, and rule-level style.
 - The **compiler** owns types and strictness.
 
-This skill owns comments, documentation blocks, readability judgement, structure, the test mandate, and mocking. Structure belongs here because no tool checks it: a formatter will lay out a two-thousand-line file and a linter will pass a twenty-member interface, so file length, interface size, directory shape, and repeated logic reach a reader only if someone counts them. It reports and follows configuration. **It never creates or edits a configuration file to make a project match itself.**
+This skill owns comments, documentation blocks, readability judgement, structure, the test mandate, and mocking. Structure belongs here because no tool checks it: a formatter will lay out a two-thousand-line file and a linter will pass a twenty-member interface, so file length, interface size, directory shape, and repeated logic reach a reader only if someone counts them. It reports and follows configuration. **It never creates or edits a configuration file to make a project match itself**, which is not the same as setting a value the change itself requires at the level the tool reads it.
 
 ## Step 1: Detect the project
 
@@ -53,22 +53,24 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
 ### Writing new code
 
 1. Detect the project if you have not already.
-2. Write to the detected formatting and let the formatter own layout. Do not hand-align anything a formatter will rewrite.
-3. Give every exported symbol a documentation block before moving on, including the members of exported structures. See **Documentation blocks** below.
-4. Reread every comment you wrote and delete any that narrates the change rather than describing the code.
-5. If the change is logic, a bug fix, or a feature, its test lands in the same change. If it is a pure rename, move, or refactor, add no test and weaken none.
-6. Run the detected format, lint, type check, and test commands, and confirm the exit codes. Reading the output is not confirming the exit code.
+2. Before writing a function whose behaviour has a name outside this project, run the three-source lookup in **Reuse** below. It is cheaper before the code exists than after.
+3. Write to the detected formatting and let the formatter own layout. Do not hand-align anything a formatter will rewrite.
+4. Give every exported symbol a documentation block before moving on, including the members of exported structures. See **Documentation blocks** below.
+5. Reread every comment you wrote and delete any that narrates the change rather than describing the code.
+6. If the change is logic, a bug fix, or a feature, its test lands in the same change. If it is a pure rename, move, or refactor, add no test and weaken none.
+7. Run the detected format, lint, type check, and test commands, and confirm the exit codes. Reading the output is not confirming the exit code.
 
 ### Reviewing code or a diff
 
 1. Detect the project.
 2. **Run the project's own format, lint, and type check commands first.** Never report by eye something a tool reports by exit code, and never report a finding the project's configuration has already turned off.
 3. Then review only what tools cannot see, in this order:
-    - **The four structural counts**, taken first because they need no judgement and the rest of the review reads differently once you have them. See **Structure** below.
+    - **The five structural counts**, taken first because they need no judgement and the rest of the review reads differently once you have them. See **Structure** below.
+    - A block implementing behaviour that has a name outside this project, where the project's own modules, its manifest, or the standard library already provide it. See **Reuse** below.
     - A comment that narrates a change, explains why something was removed, or argues the code is correct or safe.
     - A missing or wrong documentation block on an exported symbol.
     - An existing documentation tag stripped or reworded. Deleting an accurate tag is itself a defect, not tidying.
-    - Commented-out code, and any deleted tooling directive.
+    - Commented-out code, and any deleted tooling directive. A directive removed because its setting moved to the configuration the tool reads is not this finding.
     - A logic change with no test, or a test weakened, skipped, or deleted.
     - **Every new mock.** Require the change to name the boundary it crosses in one line. If it cannot, the finding is an unjustified mock.
 4. Run the bundled procedures when the diff runs past a few files. See **Bundled procedures** below.
@@ -90,7 +92,7 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
 - Delete commented-out code rather than leaving it in place.
 - Inside a function body, a comment restating the line beneath it is noise. Delete those, and keep anything carrying a constraint, hazard, or non-obvious behaviour. On a public surface, redundancy is not a defect.
 - **A fact about a symbol is documented once, on its declaration.** Never repeat it above the lines that read, call, or branch on that symbol: `// isBetaEnabled mirrors the beta-features flag` belongs on the declaration of `isBetaEnabled`, not above each `if (isBetaEnabled)`. Each member of an exported structure is its own declaration and keeps its own block; a usage site is not one. Where a copy above a use carries a constraint the declaration does not, fold that into the declaration rather than leaving both.
-- **Never delete a tooling directive.** `//@ts-check`, `/// <reference types="..." />`, `// @ts-expect-error`, `eslint-disable`, `biome-ignore`, `istanbul ignore`, and `prettier-ignore` are instructions to a tool, not commentary.
+- **Never delete a tooling directive.** `//@ts-check`, `/// <reference types="..." />`, `// @ts-expect-error`, `eslint-disable`, `biome-ignore`, `istanbul ignore`, and `prettier-ignore` are instructions to a tool, not commentary. **Moving one is not deleting it.** Where the same directive repeats across files and the tool reads that same setting from its own configuration, setting the key once and removing the copies relocates the instruction rather than discarding it, and the number of copies removed goes in the change. What this rule forbids is stripping a directive during work that had no reason to touch it.
 - Use `//` for implementation notes, and consecutive `//` lines for a multi-line note. No `/* */` block inside a function body, with one exception: naming an argument at a call site, `someFunction(/* shouldRender= */ true)`.
 
 ## Documentation blocks
@@ -119,18 +121,41 @@ Prefer the readable form wherever it costs nothing at runtime, and only where th
 
 ## Structure
 
-**Count before judging.** Structure is the one thing here that a reader misses by reading well: nothing inside a two-thousand-line file says it is long, and nothing in a twenty-member interface says most callers use four. Four counts, each cheap, taken on any file you write or review:
+**Count before judging.** Structure is the one thing here that a reader misses by reading well: nothing inside a two-thousand-line file says it is long, and nothing in a twenty-member interface says most callers use four. Five counts, each cheap, taken on any file you write or review:
 
-- **Lines in the file.** Compare against the neighbouring files of the same kind, which is the comparison that survives a project whose conventions differ from yours.
+- **Lines in the file.** Compare against the neighbouring files of the same kind, which is the comparison that survives a project whose conventions differ from yours. Where several of them sit in one directory, record the longest and the shortest beside the individual numbers: a screen-level composite standing next to a one-expression primitive is two altitudes held as peers, and the two numbers with their two paths are what shows it.
 - **Members in each exported interface, type, or class**, alongside how many a caller actually uses. Open two callers and count. An interface whose typical caller touches four of twenty members is the interface-segregation case, and the count is what shows it rather than an opinion about cohesion.
-- **Files in the directory**, and whether the project's other directories at that level are grouped into subdirectories. A flat directory beside grouped siblings is the finding; a flat directory in a flat project is the convention.
+- **Files sitting directly in the directory**, counted whatever subdirectories sit beside them, and whether the project's other directories at that level group their own files. A directory holding one subdirectory and two dozen loose files is not grouped: it holds one group and two dozen ungrouped files. A flat directory beside grouped siblings is the finding; a flat directory in a flat project is the convention.
 - **Occurrences of a repeated block.** Two may be coincidence; three is a pattern, named with all three paths.
+- **Files repeating one declaration**, meaning a setting, directive, suppression, or bootstrap import written into each file rather than into the configuration the tool reads. Count the files and name the key. **Look for the key, not for the directive's own spelling**, since the two are rarely the same word: a per-file test environment docblock against the runner's environment key, a per-file suppression comment against the linter's per-glob ignore map, a per-file build constraint against the build configuration's default.
 
-**A count is a trigger to look, never a finding.** What makes it one is the count plus the concrete split: which members go into which type, which files into which subdirectory, what the shared unit would hold. Where the outlier test finds nothing because every sibling is equally large, fall back to a file past 600 lines, a type past 15 members, a directory past 20 files with no subdirectory, or a block repeated three times. Those numbers are the point where a reader stops holding the unit in their head at once, and they are approximate on purpose.
+**A count is a trigger to look, never a finding.** What makes it one is the count plus the concrete split: which members go into which type, which files into which subdirectory, what the shared unit would hold, which key carries the declaration. Where the outlier test finds nothing because every sibling is equally large, fall back to a file past 600 lines, a type past 15 members, more than 20 files sitting directly in a directory, a block repeated three times, or one declaration repeated in three files. Those numbers are the point where a reader stops holding the unit in their head at once, and they are approximate on purpose.
+
+**Name the subdirectory from what the listing already shows.** Entries sharing a name prefix are the group, and four of twenty-four sharing one names both the group and the directory it should become. That signal costs nothing beyond the listing already taken, and a directory whose files are re-exported through a single barrel produces none, which is what keeps it off code that is already factored. Grouping by kind, by feature, by layer, and colocating a unit with its own tests are each a scheme, and a project applying one consistently has a convention: **what is measured is whether any grouping covers the files counted, never which scheme a project ought to adopt.**
+
+**A repeated declaration is fixed by hoisting the majority and leaving the minority declared.** Count the majority over every file the setting governs rather than over the files in front of you, since a default taken from the files you happen to be reading can be the wrong value for the rest, and say what the new default does to the files already governed by it. Two conditions retire this count without a finding: values that differ file by file with no majority, so no default would carry them, and a tool that defines no project-level key for the setting. The second is a sentence to write rather than a count to drop, naming the key you looked for and the configuration file you read, because a key you did not find is not a key that does not exist.
 
 TypeScript gives the split its own tools, so a proposal can be concrete without being a rewrite. An oversized interface separates into the interfaces each caller group actually needs, composed with `extends` or an intersection where a caller genuinely wants both, and `Pick<T, K>` narrows a parameter to the members a function reads without touching the declaration. A module carrying two reasons to change separates along that seam rather than by line count. A barrel file re-exporting a flat directory hides the shape rather than fixing it, and it costs tree shaking.
 
 **Duplication is reported; unifying it is a judgement.** Copies that would change for different reasons are not duplication, and merging them couples two things that only look alike. Say where the copies are and let the person decide, because an abstraction with a single caller costs more than the repetition it removed.
+
+## Reuse
+
+**Behaviour with a name outside this project is looked up before it is written.** Parsing or emitting a wire format, ordering version ranges, hashing, signing, verifying a token, scheduling retries with backoff, normalizing a path or a URL: each is specified somewhere, and a hand-written copy is a second implementation that the next fix to the first one will not reach. Check three sources in order, and say which you read:
+
+1. **The project's own modules.** A helper doing this under a different name is the common case, and the structural counts above are where it surfaces.
+2. **`package.json` and the lockfile.** A package the project already declares is the answer wherever it covers the case. A package present only transitively is not: importing it depends on another package's resolution, which is free to change.
+3. **The standard library and the runtime platform**, read against the project's stated target rather than the newest runtime. `URL`, `URLSearchParams`, `Intl`, `structuredClone`, `AbortController`, and `crypto.subtle` each retire hand-written code where the target supports them.
+
+**The third rung is reached by searching, not by failing to find.** Name the manifest you opened and the query you ran before concluding that nothing present provides the behaviour. **Read the imports at the top of the file you are in**, because a block hand-rolling half of what the file already imports is the shape this misses most often: the library verifies the signature, and the checks below it are written by hand.
+
+**The tell is vocabulary.** Code spelling a specification's own field names is implementing that specification, whatever the enclosing function is called. Renaming those fields implements it too, so read what each value means rather than matching names against a list.
+
+**This matters most where the code decides something.** Anything that signs, verifies, encrypts, hashes a credential, or settles an authorization outcome cannot be shown correct by reading it, and its failures are silent. There, a hand-written version is wrong even when nothing in it looks wrong.
+
+**Where nothing present provides it, write that down and stop.** Adding a dependency is a supply-chain decision with a cost of its own and it belongs to the project, so this is never resolved by installing something.
+
+**Three cases are not this.** A test building a value by hand to exercise a rejection path, since constructing the malformed input is the point of the test and routing it through the library under test deletes the case. A shim standing in for a platform feature the project's stated target lacks. And a project whose own subject is the behaviour.
 
 ## Tests
 
