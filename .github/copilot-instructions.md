@@ -127,10 +127,9 @@ The module also exports `ANIMATIONS` and `MAX_STARS`.
 
 **One rule set for every file**, JavaScript and TypeScript alike, parsed by `@typescript-eslint/parser`:
 
-- Tabs for indentation (indent: ['error', 'tab']) and required semicolons
-- Console logs allowed (`no-console: off`)
+- Console logs are allowed
 - Unused vars are an error, with `_`-prefixed names ignored (e.g. `_unusedParam`)
-- `curly` and `padding-line-between-statements` enforce the readability rules below
+- `curly` enforces the braced-block rule below
 
 ### TypeScript
 

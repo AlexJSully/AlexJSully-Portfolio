@@ -1,4 +1,3 @@
-const globals = require('globals');
 const tsParser = require('@typescript-eslint/parser');
 
 module.exports = [
@@ -26,9 +25,6 @@ module.exports = [
 			parser: tsParser,
 			ecmaVersion: 'latest',
 			sourceType: 'module',
-			globals: {
-				...globals.browser,
-			},
 			parserOptions: {
 				ecmaFeatures: {
 					modules: true,
@@ -36,32 +32,9 @@ module.exports = [
 				},
 			},
 		},
-		settings: {
-			react: {
-				version: 'detect',
-			},
-		},
 		rules: {
-			'class-methods-use-this': 'off',
-			'consistent-return': 'off',
 			curly: ['error', 'multi-line'],
-			indent: ['error', 'tab'],
-			'no-console': 'off',
-			'no-continue': 'off',
-			'no-html-link-for-pages': 'off',
-			'no-param-reassign': 'off',
-			'no-restricted-syntax': 'off',
 			'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
-			'padding-line-between-statements': [
-				'error',
-				{ blankLine: 'always', prev: '*', next: ['return', 'continue', 'throw'] },
-				// `break` is excluded above: it cannot be told apart from a `switch` break,
-				// and switches take no blank lines.
-				{ blankLine: 'any', prev: '*', next: ['case', 'default', 'break'] },
-				{ blankLine: 'any', prev: ['case', 'default'], next: '*' },
-			],
-			radix: 'off',
-			semi: ['error', 'always'],
 		},
 	},
 ];

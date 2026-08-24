@@ -1,7 +1,7 @@
 {
 	"arrowParens": "always",
 	"endOfLine": "auto",
-	"importOrder": ["^components/(.*)$", "^[./]"],
+	"importOrder": ["^[./]"],
 	"importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
 	"importOrderSeparation": false,
 	"importOrderSortSpecifiers": true,
