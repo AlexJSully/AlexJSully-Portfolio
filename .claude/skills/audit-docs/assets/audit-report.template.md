@@ -45,8 +45,17 @@ Sources that could not be resolved this run: [name each one and what you used in
 - Corrected `[document]`: [the statement that contradicted the code] replaced with [the statement the code supports], from `[symbol]` in `[file]`.
 - Deleted [section] from `[document]`: [describes a removed feature / duplicated in `[document]` / cannot be corrected].
 - Created `[new document]`: [why no existing document was a home for it], filed as [tutorial / how-to guide / reference / explanation].
+- Oriented `[document]`: [the acronym, term of art, prerequisite, or missing statement of subject that stopped a first-time reader] introduced at [where].
 
-(Deletion needs one of the three listed reasons. Anything else is a correction. A created file needs the structure check stated first: which existing homes were considered and why each did not fit.)
+**Both readers, one line per document opened:**
+
+| Document | Newcomer                                                                   | Experienced reader                                                                              |
+| -------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `[path]` | [served, or the first place a reader who has not seen this codebase stops] | [served, or the paragraph they could get faster from the source, and what it would have to add] |
+
+**Entry path:** [present, naming the document that takes a first-time reader through one task end to end / absent, and what a first-time reader has to read instead].
+
+(Deletion needs one of the three listed reasons. Anything else is a correction. A created file needs the structure check stated first: which existing homes were considered and why each did not fit. The entry path is reported whether or not it was written, and it is written only where the invoking task asked for it.)
 
 ## Phase 3 result: in-code documentation audit
 
@@ -67,7 +76,7 @@ Public symbols left as they stand because their implementation was not read: [`C
 | `[path]` | [documented [count] previously undocumented public symbols]    |
 | `[path]` | [created, [tutorial / how-to guide / reference / explanation]] |
 
-Kinds to choose from: corrected a factual statement, documented a public symbol, corrected an existing documentation tag, removed an outdated or restating comment, removed a comment repeated above a usage site, removed a duplicated section, created, deleted.
+Kinds to choose from: corrected a factual statement, documented a public symbol, corrected an existing documentation tag, removed an outdated or restating comment, removed a comment repeated above a usage site, removed a duplicated section, introduced a term on first use, added orientation for a first-time reader, created, deleted.
 
 (One row per file, not one per edit. If no file changed, replace the table with "No files changed.")
 

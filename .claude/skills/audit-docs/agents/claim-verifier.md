@@ -42,6 +42,8 @@ Where the proving string holds a credential value, such as a token, a password, 
     - **not reached**: the file is absent, the symbol is not in it, the body sits behind a boundary you cannot open (generated, compiled, vendored, remote), or you did not open it.
     - **not established**: you read the whole body and no string either proves or contradicts the claim, the outcome is fixed by a value supplied elsewhere, or the claim as worded cannot be falsified.
 
+**A claim naming more than one file is verified against each of them, not returned unproven for spanning them.** An orientation sentence rests on several files, so read the symbol in every file the caller named and settle each part separately: CONFIRMED where every part carries its own quote, REFUTED where any part is contradicted, UNPROVEN naming the part left uncovered. Being unfalsifiable against one symbol is not the disqualifier here; an uncovered part is.
+
 Uncertainty resolves to UNPROVEN, never to CONFIRMED. UNPROVEN costs the caller one claim; a CONFIRMED without proof puts an unchecked statement into published documentation.
 
 **Refuting a claim about something absent.** A claim that the code does something its body never does has no contradicting string to quote. Quote the code occupying the position where the claimed behaviour would have to sit: the catch block whose only statement is a return, the branch that falls through, the handler that returns before the claimed call. That quote carries REFUTED. When nothing occupies that position at all, the verdict is UNPROVEN (not established).

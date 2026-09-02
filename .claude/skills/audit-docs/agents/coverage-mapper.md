@@ -17,12 +17,13 @@ The agent does not receive the purpose of the audit, the report being drafted, o
 
 ## Walk each document once
 
-For every document in scope, open it and record four things.
+For every document in scope, open it and record five things.
 
 1. **Path**, exactly as it sits on disk.
 2. **Subject claimed**, taken from the H1 and the opening paragraph, in one clause, as the document states it rather than as the agent would restate it.
 3. **Code the subject maps to**: the file, module, or symbol the subject names, located in the code area and opened far enough to confirm the subject exists there. A search hit is not a mapping.
-4. **Status**, exactly one, from the closed list below.
+4. **Type**, exactly one of tutorial, how-to guide, reference, or explanation, decided by what the document's reader needs rather than by its subject: content informing action serves the acquisition of skill as a tutorial and its application as a how-to guide, and content informing cognition serves acquisition as an explanation and application as a reference. A document that is plainly navigation and nothing else is recorded as `navigation`.
+5. **Status**, exactly one, from the closed list below.
 
 A document the walk did not open is never given a status. It goes in the count of documents in scope not opened, listed by path, so that a short map cannot be read as a clean one.
 
@@ -63,12 +64,20 @@ Compiled during the walk and returned alongside the per-document map.
 
 ## Worked map
 
-| Document                         | Subject claimed                    | Code                 | Status                                                                     |
-| -------------------------------- | ---------------------------------- | -------------------- | -------------------------------------------------------------------------- |
-| `docs/guide/queue-consumers.md`  | how a worker drains the job queue  | `worker/consumer.go` | covered                                                                    |
-| `docs/reference/cache-warmer.md` | a background cache warmer          | none                 | orphaned                                                                   |
-| `docs/guide/installation.md`     | installing and running the service | `scripts/install.sh` | duplicated (`README.md`, the same eight steps)                             |
-| `docs/reference/http-errors.md`  | the error codes the API returns    | `lib/http/errors.rb` | contradicted (`docs/guide/clients.md` gives 404 where the code raises 410) |
+| Document                         | Subject claimed                    | Code                 | Type         | Status                                                                     |
+| -------------------------------- | ---------------------------------- | -------------------- | ------------ | -------------------------------------------------------------------------- |
+| `docs/guide/queue-consumers.md`  | how a worker drains the job queue  | `worker/consumer.go` | how-to guide | covered                                                                    |
+| `docs/reference/cache-warmer.md` | a background cache warmer          | none                 | reference    | orphaned                                                                   |
+| `docs/guide/installation.md`     | installing and running the service | `scripts/install.sh` | how-to guide | duplicated (`README.md`, the same eight steps)                             |
+| `docs/reference/http-errors.md`  | the error codes the API returns    | `lib/http/errors.rb` | reference    | contradicted (`docs/guide/clients.md` gives 404 where the code raises 410) |
+
+No row carries `tutorial`, and that is the finding the type column exists to surface: this set documents every subject it has and still gives a first-time reader nowhere to start.
+
+## The entry path
+
+A set can be complete, accurate, and have no way in. Report the entry path as `present`, naming the document, only where one document takes a first-time reader through one task end to end and says what a finished run looks like. A link hub listing the other documents is `absent`, and so is an installation checklist that stops at the last command without saying what the reader should then see.
+
+This is a report and never a licence to write the missing document. The caller decides that, under a rule this agent does not carry.
 
 ## Output format returned
 
@@ -76,8 +85,8 @@ Compiled during the walk and returned alongside the per-document map.
 SCOPE: <the scope as received>
 
 DOCUMENTS
-| path | subject claimed | code | status | detail |
-| ---- | --------------- | ---- | ------ | ------ |
+| path | subject claimed | code | type | status | detail |
+| ---- | --------------- | ---- | ---- | ------ | ------ |
 | <one row per document opened; detail names the other document, the point of disagreement, or the unmapped label> |
 
 UNDOCUMENTED
@@ -89,9 +98,13 @@ UNRESOLVED REFERENCES
 HISTORICAL NARRATION
 - <document> :: <line quoted verbatim, with any credential value replaced by [REDACTED]> :: <the phrase that flagged it>
 
+ENTRY PATH
+<present, naming the document, or absent> :: <one clause on what a first-time reader would have to read instead>
+
 COUNTS
 documents opened: <n>
 documents in scope not opened: <n>, listed by path
+types: <n> tutorial, <n> how-to guide, <n> reference, <n> explanation, <n> navigation
 ```
 
 ## Closing rule

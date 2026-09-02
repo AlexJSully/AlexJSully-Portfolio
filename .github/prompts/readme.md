@@ -19,7 +19,7 @@ Take whichever suits your constraints. Each half works alone: a prompt names not
 
 - **`audit-pr`** reviews a diff: what a change does, what it breaks, and whether it should merge. Eighteen categories entered selectively through a triage table, every finding quoting the changed line, and a refutation pass that deletes findings which do not survive scrutiny.
 - **`audit-quality`** audits code as it stands rather than a change. Thirteen categories, discovery before findings, and the same evidence and refutation discipline.
-- **`audit-docs`** owns documentation accuracy for both. Evidence is a file, a symbol, and a verbatim quote rather than a line number, and unverifiable claims go to an explicit "unverified" list instead of into the prose.
+- **`audit-docs`** owns documentation accuracy for both. Evidence is a file, a symbol, and a verbatim quote rather than a line number, and unverifiable claims go to an explicit "unverified" list instead of into the prose. It holds every page to two readers, a newcomer meeting the system for the first time and someone who already works in it, and reports which of the two a document fails.
 
 Run one, not all three.
 

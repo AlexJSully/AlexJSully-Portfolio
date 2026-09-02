@@ -13,9 +13,9 @@ One document, and the code that document describes. Nothing else. The agent does
 
 ## The two readers, and how each one fails
 
-`SKILL.md` requires every document to serve internal developers maintaining the architecture and external developers consuming the interface. Those two readers do not fail in the same way, so one read tests for both.
+`SKILL.md` requires every document to serve two readers: a newcomer meeting the system for the first time, and an experienced reader who already works in it. They do not fail in the same way, so one read tests for both.
 
-### The deep technical reader
+### The experienced reader
 
 This reader fails when the document restates what the code already says and adds nothing that cannot be read faster from the source: no constraint, no invariant, no reason, no boundary.
 
@@ -45,7 +45,7 @@ Four terms carry the meaning of the first version and none of them is introduced
 
 ## The test applied to each reader
 
-**Deep technical reader**: could this reader get this faster from the source? Where the answer is yes, the paragraph is not earning its place, and the finding names what it would have to add to earn it.
+**Experienced reader**: could this reader get this faster from the source? Where the answer is yes, the paragraph is not earning its place, and the finding names what it would have to add to earn it.
 
 Answer it with the cited symbol open. Calling a paragraph a restatement without reading what it restates is an inference from a name, which is the move the grounding rule exists to stop, and where the source could not be opened the paragraph goes on the borderline list rather than among the findings.
 
@@ -63,7 +63,7 @@ A paragraph is not earning its place when it is one of these five. Nothing outsi
 - An enumeration padded to look complete, where an entry was added for symmetry rather than because the code carries it.
 - Historical narration, which the current-state rule already governs and which a reader cannot check against something that is gone.
 
-The first entry and the deep technical reader's test are one defect seen from two angles, so a restating paragraph is named once, on the list, and the maintainer verdict states the pattern rather than repeating the paragraph. The two questions come apart on the other reader: a newcomer blocker is context the document never supplies, so that verdict can read FAILED while every paragraph present is earning its place.
+The first entry and the experienced reader's test are one defect seen from two angles, so a restating paragraph is named once, on the list, and that reader's verdict states the pattern rather than repeating the paragraph. The two questions come apart on the other reader: a newcomer blocker is context the document never supplies, so that verdict can read FAILED while every paragraph present is earning its place.
 
 **The counterweight, and it is half of this question.** Connective prose that carries the logic is not bloat. Cutting it produces a choppy document that costs the reader more than the words saved, because the reasoning it held moves back into the reader's head. The target is concise, not terse, and a paragraph carrying a why or a how stays even where it runs longer than the paragraphs around it.
 
@@ -75,8 +75,8 @@ A decision record exists to preserve past intent, so a superseded option, an aba
 
 ```text
 DOCUMENT: <path>
-MAINTAINER (deep technical): SERVED | FAILED - <the specific blocker>
-CONSUMER (newcomer): SERVED | FAILED - <the specific blocker>
+EXPERIENCED READER: SERVED | FAILED - <the specific blocker>
+NEWCOMER: SERVED | FAILED - <the specific blocker>
 NOT EARNING ITS PLACE:
 - <heading, then the paragraph's opening words> - <which of the five> - <what it would have to add>
 BORDERLINE, LEFT ALONE:

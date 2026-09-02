@@ -248,6 +248,8 @@ Architecture docs in `docs/architecture/`:
 
 When writing or editing any Markdown, the full rules are in [`audit-docs.prompt.md`](prompts/audit-docs.prompt.md), and the `audit-docs` skill carries the same rules with worked examples beside them. The always-apply subset:
 
+- **Two readers**: every document serves a newcomer meeting the system for the first time and someone who already works in it. Orientation first (what the subject is, why a reader would reach for it, what they must already know), then the depth in full. A page only its author can follow is not finished
+- **Introduce every acronym and term of art on first use** per document, in a parenthesis or a link to the document defining it, and spell a concept one way across `docs/`; expanding an acronym is not introducing it
 - **Zero hallucination**: document only what the code provably does. Know the file that proves a claim before writing it
 - **No em-dashes or en-dashes**: replace each with a comma, parenthesis, colon, separate sentence, or a spaced hyphen, including existing ones in any file you edit
 - **Canadian English** for prose you write or change (colour, behaviour, standardize), never for code identifiers, config keys, or package names
