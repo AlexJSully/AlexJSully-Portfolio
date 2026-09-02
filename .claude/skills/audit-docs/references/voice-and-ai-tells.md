@@ -24,7 +24,9 @@ Apply this catalogue to sentences you write, and to sentences you rewrite for a 
 Delete the announcement and open with the content. The grammatical subject gives the tell away: it is the document (this section, this guide, the table below, we) rather than the system being described. A heading already performs the announcement, and the same construction reappears mid-document as "as mentioned above", which orients the reader inside the page instead of inside the software.
 
 - Before: "This section covers the retry configuration and explains how it applies to outbound requests."
-- After: "Outbound requests retry three times, with the count read from `MAX_ATTEMPTS` once at startup."
+- After: "An outbound request that fails is retried rather than surfaced to the caller. It retries three times, with the count read from `MAX_ATTEMPTS` once at startup."
+
+The repair deletes the announcement, not the orientation. The subject moves from the document to the system, and the first clause still says what the thing is, because a reader who does not already know what a retry configuration is cannot enter on the mechanism sentence alone.
 
 ## Puffery copulas that assert significance
 
@@ -109,7 +111,7 @@ def set_timeout(seconds: int) -> None:
 func (w *Writer) Close() error
 ```
 
-Procedure: cover the prose and read only the declaration. Anything you can still answer needs no sentence. Anything you cannot answer, and can prove from the body you read this run, is the sentence to write.
+Procedure: cover the prose and read only the declaration. Anything you can still answer needs no sentence. Anything you cannot answer, and can prove from the body you read this run, is the sentence to write. **Apply it with the same two exceptions the rule above carries**, since a procedure stated without them is stricter than the rule it implements: a reader who cannot open the source, and a reader who has not yet been told what the subject is, are both owed the plain statement of what the thing does.
 
 ## Show, do not tell: the cited fact that earns the adjective
 
@@ -138,7 +140,7 @@ Run these over a paragraph **you wrote or rewrote this run**, before moving on. 
 3. Is there an adjective you cannot replace with a number, a limit, an error type, or a case you read this run?
 4. Are there two or more sentence-initial connectives, or two in consecutive sentences?
 5. Does a group of three come from the rhythm rather than from a count in the source?
-6. Would a reader holding only the declaration learn nothing new here?
+6. Would a reader holding only the declaration learn nothing new here? A yes is an edit only where that reader can open the declaration and already knows what the subject is; an opening sentence and consumer-facing reference material both answer yes by design.
 7. Does a hedge survive anywhere, including a `should` that reads as a caller obligation?
-8. Is this paragraph a summary of the paragraphs above it?
+8. Is this paragraph a summary of the paragraphs above it? An opening that orients a first-time reader is not one, since it summarizes nothing above it.
 9. Did you change a sentence that was already accurate? Restore it.

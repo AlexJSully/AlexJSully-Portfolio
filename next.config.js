@@ -4,6 +4,7 @@ const { withSentryConfig } = require('@sentry/nextjs');
 const isDevelopment = process.env.NEXT_PUBLIC_ENVIRONMENT === 'development';
 
 const nextConfig = {
+	agentRules: false,
 	images: {
 		// SVGs are handled by @svgr/webpack (see turbopack.rules) and no other
 		// image types are statically imported, so disable Next's static image
