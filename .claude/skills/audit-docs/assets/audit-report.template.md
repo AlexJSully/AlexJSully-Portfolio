@@ -44,6 +44,7 @@ Sources that could not be resolved this run: [name each one and what you used in
 
 - Corrected `[document]`: [the statement that contradicted the code] replaced with [the statement the code supports], from `[symbol]` in `[file]`.
 - Deleted [section] from `[document]`: [describes a removed feature / duplicated in `[document]` / cannot be corrected].
+- Split `[document]` into `[overview document]` and `[depth document]`: [it mixed a brief overview with deep reference/how-to/explanation content], filed by [the sibling or precedent that decided each directory].
 - Created `[new document]`: [why no existing document was a home for it], filed as [tutorial / how-to guide / reference / explanation].
 - Oriented `[document]`: [the acronym, term of art, prerequisite, or missing statement of subject that stopped a first-time reader] introduced at [where].
 
@@ -55,13 +56,15 @@ Sources that could not be resolved this run: [name each one and what you used in
 
 **Entry path:** [present, naming the document that takes a first-time reader through one task end to end / absent, and what a first-time reader has to read instead].
 
-(Deletion needs one of the three listed reasons. Anything else is a correction. A created file needs the structure check stated first: which existing homes were considered and why each did not fit. The entry path is reported whether or not it was written, and it is written only where the invoking task asked for it.)
+**Length:** [documents found mixing a brief overview with deep depth, and whether each was split, or write "none found"].
+
+(Deletion needs one of the three listed reasons. Anything else is a correction. A split needs the same directory-type-precedent reasoning a created file needs. A created file needs the structure check stated first: which existing homes were considered and why each did not fit. The entry path is reported whether or not it was written, and it is written only where the invoking task asked for it.)
 
 ## Phase 3 result: in-code documentation audit
 
 **Status:** [changed / audited in-code documentation across [count] files, all accurate, no changes required]
 
-- `[file]`: [kind of change, such as documented a public symbol, corrected a parameter entry that named a removed argument, removed a comment that restated its line, removed an orphaned TODO, kept one copy of a repeated comment on the declaration of `[symbol]` and removed [count] copies above usage sites].
+- `[file]`: [kind of change, such as documented a public symbol, corrected a parameter entry that named a removed argument, removed a comment that restated its line, removed an orphaned TODO, kept one copy of a repeated comment on the declaration of `[symbol]` and removed [count] copies above usage sites, compressed a disproportionately long comment on `[symbol]` to its non-obvious fact].
 - `[file]`: [kind of change].
 
 Public symbols left as they stand because their implementation was not read: [`Cache::evict` in `[file]`, `settle_invoice` in `[file]`, or write "none"].
@@ -76,7 +79,7 @@ Public symbols left as they stand because their implementation was not read: [`C
 | `[path]` | [documented [count] previously undocumented public symbols]    |
 | `[path]` | [created, [tutorial / how-to guide / reference / explanation]] |
 
-Kinds to choose from: corrected a factual statement, documented a public symbol, corrected an existing documentation tag, removed an outdated or restating comment, removed a comment repeated above a usage site, removed a duplicated section, introduced a term on first use, added orientation for a first-time reader, created, deleted.
+Kinds to choose from: corrected a factual statement, documented a public symbol, corrected an existing documentation tag, removed an outdated or restating comment, removed a comment repeated above a usage site, compressed a disproportionately long comment, removed a duplicated section, introduced a term on first use, added orientation for a first-time reader, split into an overview and a dedicated page, created, deleted.
 
 (One row per file, not one per edit. If no file changed, replace the table with "No files changed.")
 

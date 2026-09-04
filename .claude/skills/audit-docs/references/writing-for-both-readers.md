@@ -11,6 +11,7 @@ Every page has two readers: someone meeting the system for the first time, and s
 - The worked example
 - Choosing the type, and what the type assumes
 - Serving the experienced reader on the same page
+- Document length as a whole
 - The read-it-cold procedure
 - What none of this licenses
 
@@ -124,6 +125,38 @@ The first version restates a signature the reader can open in less time than the
 The repair for this failure is what the paragraph fails to add, not deletion by default. Delete only where nothing can be added, and where the source was opened this run to establish that.
 
 **One case resolves the other way, and a long reference page is where it appears.** Where the same fact is transcribed twice inside one document, the second copy adds nothing the first does not, so the repair is to remove the copy rather than to deepen both. Adding to each is how a page that already restates its source ends up longer for it. This is the duplication the deletion rule covers, judged within a document rather than across the set.
+
+## Document length as a whole
+
+Every repair so far is judged one paragraph at a time: does this sentence add a boundary, does this opening name the subject. None of them asks the question a reader who converts a page to a different format actually feels: is the whole thing longer than it needed to be. A document can pass every per-paragraph check and still be an essay nobody finishes, because each paragraph individually earned a place that, added up, produced more than the subject required.
+
+Judge the finished document as a reader would meet it: read it top to bottom in one pass, then ask whether a careful human, asked to write the same brief by hand, would have produced something shorter. If the answer is yes, the excess is usually one of three things: the same point made once too often across different sections, background that belongs on the page it was copied from rather than repeated here, or depth that serves a narrower audience than the page's opening promised.
+
+Before, an operations page for a caching layer that opens with a two-paragraph orientation, then spends six sections walking through every configuration key, every failure mode, every historical incident, and a full worked example, all under one heading:
+
+> ## Cache operations
+>
+> The cache sits in front of the directory service... [orientation, two paragraphs]
+>
+> ### Configuration
+>
+> [twelve keys, each with a paragraph of prose repeating what a table would show in one row]
+>
+> ### Failure modes
+>
+> [nine scenarios, several restating the same negative-caching behaviour already covered under Configuration]
+>
+> ### Incident history
+>
+> [three past outages narrated in detail]
+>
+> ### Worked example
+>
+> [a full walkthrough repeating claims already made under Configuration and Failure modes]
+
+After, split by Diátaxis type rather than lengthened in place: an index page stays under 'Cache operations' with the two-paragraph orientation and a table of configuration keys (a reference belongs in a table, not restated prose per key), then links out to a dedicated failure-modes reference and a dedicated how-to for the worked example. The incident history, which is decision-record material rather than documentation of current behaviour, moves to a decision record under `docs/` (Rule 4) or is cut if none exists yet. Each destination page is shorter than the section it replaced, because it no longer restates claims a sibling page already carries, and the reader who wants only the configuration table never has to scroll past nine failure scenarios to find it.
+
+This is the same directory-type-precedent logic Phase 2 already uses to place a new file: decide the split by matching each resulting page to a directory whose existing documents are the same type, rather than leaving overview and depth layered on one page because splitting them is more work than adding another section.
 
 ## The read-it-cold procedure
 
