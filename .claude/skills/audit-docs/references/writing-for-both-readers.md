@@ -17,7 +17,7 @@ Every page has two readers: someone meeting the system for the first time, and s
 
 ## The ordering principle, which is how one page serves two readers
 
-Do not split the page, and do not write two of them. Order it: orientation first, depth after, and both in full.
+Do not split the page between the two readers, and do not write two of them, one per reader. Order it: orientation first, depth after, and both in full. A page that splits because it has grown too long as a whole is a different repair, covered in [Document length as a whole](#document-length-as-a-whole); it is not licence to give each reader a separate page here.
 
 The newcomer reads the top and stops when they have what they came for. The experienced reader skims the top in three seconds and reads the rest. Neither is served by a page that averages the two, which is the shape that produces prose too vague for the expert and too dense for the newcomer at the same time.
 

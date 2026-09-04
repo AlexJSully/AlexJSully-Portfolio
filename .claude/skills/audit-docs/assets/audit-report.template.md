@@ -56,7 +56,7 @@ Sources that could not be resolved this run: [name each one and what you used in
 
 **Entry path:** [present, naming the document that takes a first-time reader through one task end to end / absent, and what a first-time reader has to read instead].
 
-**Length:** [documents found mixing a brief overview with deep depth, and whether each was split, or write "none found"].
+**Length:** [documents found mixing a brief overview with deep reference, how-to, or explanation content, and whether each was split, or write "none found"].
 
 (Deletion needs one of the three listed reasons. Anything else is a correction. A split needs the same directory-type-precedent reasoning a created file needs. A created file needs the structure check stated first: which existing homes were considered and why each did not fit. The entry path is reported whether or not it was written, and it is written only where the invoking task asked for it.)
 

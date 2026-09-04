@@ -208,6 +208,6 @@ Then confirm:
 - Every document you created sits in a directory whose existing documents are the same Diátaxis type, or in a new directory created for that type, and your output names the directory and what decided it.
 - No comment you wrote or kept describes something the file does not contain, and every comment you deleted on that ground was one you could not attach to a line.
 - No comment, existing or new, runs longer than what it documents: an accurate but disproportionate comment was compressed to its non-obvious content, not left because it was not wrong.
-- Every document read this run is no longer, as a whole, than a careful human would have written for the same brief (Rule 6); a page mixing overview and deep depth was split rather than left layered.
+- Every document read this run is no longer, as a whole, than a careful human would have written for the same brief (Rule 6); a page mixing overview and deep reference, how-to, or explanation content was split rather than left layered.
 - A passage that stayed long after Rule 6 was weighed for a complementary diagram, table, snippet, or image, and one was added where it fit.
 - Phase 3 ran and its result is reported.
