@@ -80,7 +80,7 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
     **The code itself.**
 
     - `any`, `as`, `!`, `@ts-ignore`, `{}`, and an object literal asserted where it could be annotated. See **The style digest** below, whose type-system and assertion rules are read on every review rather than kept for a tie.
-    - A language-level defect: `for...in` over an array, an array-spread of a non-iterable, `parseInt` without a radix, `NaN` compared with `===`, a `switch` case falling through, a floating promise, an `async` callback handed to `forEach`. Same section.
+    - A language-level defect: `for...in` over an array, an array-spread of a non-iterable, `parseInt` without a radix, `NaN` compared with `===`, a `switch` case falling through, an unhandled promise, or an `async` callback handed to `forEach` when the caller needs to await its completion. Same section.
     - A function body whose length, nesting, or widest expression runs past what a reader holds at once. See **Structure** below.
     - A binding whose name does not say what it holds, and a long condition a named predicate or type guard would explain. See **Readability and naming** below.
     - A body running as one block, with no blank line between the groups doing different work. The formatter will not insert one. Same section.

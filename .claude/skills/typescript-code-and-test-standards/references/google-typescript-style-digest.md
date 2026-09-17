@@ -78,7 +78,7 @@ Split by what a violation is, because the two halves are read at different times
 - No `eval`, `with`, `debugger` in production, builtin prototype modification, or the `Array()` and `Object()` constructors. `Array(3)` builds three empty slots rather than an element.
 - Do not set non-numeric properties on an array; use a `Map` or an object.
 - `sort()` compares by string by default, so sorting numbers without a comparator puts 10 before 9.
-- **A mishandled promise fails silently, which is what puts these here rather than among the preferences.** A promise neither awaited, returned, nor given a rejection handler, whose rejection surfaces as an unhandled rejection far from its cause. An `async` callback handed to a non-awaiting iterator, `forEach` being the common one, which starts the work and moves on without it. `map` producing promises with no `Promise.all` around them.
+- **A mishandled promise fails silently, which is what puts these here rather than among the preferences.** Flag a promise whose rejection is neither handled nor propagated, because the rejection surfaces as an unhandled rejection far from its cause. Flag an `async` callback handed to a non-awaiting iterator, `forEach` being the common one, when the caller needs to await the work it starts. Flag `map` producing promises without awaiting or returning an aggregate such as `Promise.all`.
 
 ### Preferences
 
