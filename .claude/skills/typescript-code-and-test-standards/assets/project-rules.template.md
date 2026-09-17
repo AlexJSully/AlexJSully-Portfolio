@@ -32,7 +32,7 @@ Record your strictness posture and anything a contributor gets wrong repeatedly,
 
 ## Style guide carve-outs
 
-Record every rule from the skill's Google TypeScript Style Guide digest that your project deliberately does not follow, and why. The four most commonly overridden are default exports, file naming, underscore prefixes on intentionally unused bindings, and mandatory return-type annotations.
+Record every naming, type-system, or style rule the skill carries that your project deliberately does not follow, and why. Its style digest is where most of them are written down, and the naming and readability rules sit in the skill body beside them. The four most commonly overridden are default exports, file naming, underscore prefixes on intentionally unused bindings, and mandatory return-type annotations.
 
 ## Mock boundaries in this project
 

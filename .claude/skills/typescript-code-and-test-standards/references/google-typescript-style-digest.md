@@ -1,8 +1,14 @@
 # Google TypeScript Style Guide digest
 
-Digest of the [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html), limited to rules a formatter and linter do not already enforce. Consult it when the host project's configuration, its rules files, and the surrounding code all leave a question open.
+Digest of the [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html), limited to rules a formatter and linter do not already enforce. It is read two ways.
+
+**Type system**, **Assertions and suppressions**, **Errors**, and the **Defects** half of **Language features** are read on every review. Each decides whether code is wrong, provable from the language or the runtime without knowing what the program is for, so none of them waits for a question to be open.
+
+The rest settles a question the host project's configuration, its rules files, and the surrounding code all leave open.
 
 Anything the project's formatter settles (quotes, semicolons, line width, blank lines at block edges, import order, trailing commas) is out of scope: run the formatter, do not hand-adjust.
+
+**What a formatter settles is narrower than it looks.** It collapses runs of blank lines and strips them at a block's edges, and it never inserts a separating one, so a body written without blank lines stays without them. It does not narrow an over-wide expression either: an unbraced single-statement `if` is printed as written however far past the print width it runs. Both of those judgements are the reader's, not the formatter's.
 
 **A project that consistently applies a different variant of a rule below has a preference, not a defect.** Follow the project. Several of these rules are commonly and deliberately overridden, and each such rule says so where it applies.
 
@@ -12,7 +18,7 @@ Anything the project's formatter settles (quotes, semicolons, line width, blank 
 - Type system
 - Assertions and suppressions
 - Imports and exports
-- Language features
+- Language features (defects, then preferences)
 - Errors
 - Comments and documentation
 - Rules frameworks commonly override
@@ -23,7 +29,6 @@ Anything the project's formatter settles (quotes, semicolons, line width, blank 
 - `lowerCamelCase` for variables, parameters, functions, methods, properties, and module aliases.
 - `CONSTANT_CASE` for module-level constants and enum values that are genuinely immutable, not for every `const`.
 - Treat acronyms as words: `loadHttpUrl`, not `loadHTTPURL`.
-- Names must be clear to a new reader. Do not abbreviate by deleting letters. Variables in scope for ten lines or fewer may use short names.
 - A local alias of an existing symbol keeps the original's naming format.
 
 ## Type system
@@ -60,18 +65,30 @@ Anything the project's formatter settles (quotes, semicolons, line width, blank 
 
 ## Language features
 
-- `const` by default, `let` when reassignment is needed, never `var`. One variable per declaration.
+Split by what a violation is, because the two halves are read at different times. A **defect** is provable from the language or the runtime without knowing what the program is for, and is read on every review. A **preference** is read only where the project has left the question open.
+
+### Defects
+
+- Never `var`. Its function scoping makes a binding captured inside a loop hold the loop's final value in every closure.
 - `===` and `!==` always, except `== null` when both `null` and `undefined` should match.
-- Braced blocks for control flow.
 - Every `switch` has a `default`, placed last, and non-empty groups do not fall through.
-- Prefer `for...of`. Never unfiltered `for...in`; use `Object.keys()` or an own-property check.
-- Spread objects into objects and arrays into arrays only; never spread a primitive, `null`, or `undefined`.
-- Prefer function declarations for named functions; use arrow functions rather than function expressions. Use a concise arrow body only when the return value is used.
-- Classes should not hold properties initialized to arrow functions, which obscures `this`.
-- Convert types with `String()`, `Boolean()`, `Number()`, template literals, or `!!`, never with `new`. Do not use unary `+` for string to number. Check for `NaN` explicitly. Reserve `parseInt` for non-decimal bases.
-- Do not write an explicit boolean coercion where the context already coerces, such as an `if` or `while` condition. Enum values are the exception: compare them explicitly.
-- No `const enum`. No `eval`, `with`, `debugger` in production, builtin prototype modification, `Array()` or `Object()` constructors, `require()` imports in a module file, or `namespace Foo {}`.
+- Prefer `for...of`. Never unfiltered `for...in`, which walks inherited enumerable keys and hands back an array's indices as strings; use `Object.keys()` or an own-property check.
+- Never array-spread a non-iterable. `[...null]`, `[...undefined]`, and `[...42]` throw at runtime. Object spread is total, so `{...null}` evaluates to `{}` rather than throwing, which is why only the array form sits here.
+- Convert types with `String()`, `Boolean()`, `Number()`, template literals, or `!!`, never with `new`. Do not use unary `+` for string to number. Check for `NaN` explicitly, since it compares unequal to everything including itself. Reserve `parseInt` for non-decimal bases, and give it a radix wherever it appears.
+- No `eval`, `with`, `debugger` in production, builtin prototype modification, or the `Array()` and `Object()` constructors. `Array(3)` builds three empty slots rather than an element.
 - Do not set non-numeric properties on an array; use a `Map` or an object.
+- `sort()` compares by string by default, so sorting numbers without a comparator puts 10 before 9.
+- **A mishandled promise fails silently, which is what puts these here rather than among the preferences.** A promise neither awaited nor returned, whose rejection surfaces as an unhandled rejection far from its cause. An `async` callback handed to a non-awaiting iterator, `forEach` being the common one, which starts the work and moves on without it. `map` producing promises with no `Promise.all` around them.
+
+### Preferences
+
+- `const` by default, `let` when reassignment is needed. One variable per declaration.
+- Braced blocks for control flow.
+- Prefer function declarations for named functions; use arrow functions rather than function expressions. Use a concise arrow body only when the return value is used.
+- Do not write an explicit boolean coercion where the context already coerces, such as an `if` or `while` condition. Enum values are the exception: compare them explicitly.
+- Spread objects into objects and arrays into arrays only.
+- Classes should not hold properties initialized to arrow functions, which obscures `this`.
+- No `const enum`, no `require()` imports in a module file, and no `namespace Foo {}`.
 
 ## Errors
 
