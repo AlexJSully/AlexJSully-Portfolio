@@ -55,6 +55,9 @@ Confirm the host project's own exemption list before applying this one. A projec
 - **Never type-assert an already-typed value.** Checking that a `string` is a string tests the compiler, and the compiler already ran.
 - **Never build a one-row table.** A table with one row is a loop that runs once, which is a plain test case written indirectly.
 - **Never add a fallback in production code to make a test pass.** A `?? defaultValue` inserted to satisfy an assertion moves a defect from the test into production.
+- **Never leave a test that would still pass if the behaviour it names were broken.** Break the behaviour in your head and ask which assertion fails. If none does, the test names something it does not check, and it will keep passing through the regression it was written to catch.
+- **Never write cases that cannot fail independently of one another.** Several cases breaking together lock in one behaviour, not several. The extra names cost a reader time and buy no coverage, and they make a single regression look like a suite-wide collapse.
+- **Never build setup disproportionate to what the assertion reads.** A forty-line fixture feeding a test that asserts one field states thirty-nine facts the test does not check, and every one of them is a way the test breaks for a reason unrelated to its subject.
 
 ## The question every test answers
 
@@ -99,6 +102,8 @@ Rows that differ in the assertion body rather than the data belong in separate c
 Put shared setup in the runner's before-each hook, and clear mock state there too. State that leaks between cases makes the order of the file load-bearing, which is a flakiness source that only shows up under a randomized or parallel run.
 
 Prefer building a fresh subject per case over sharing one across the file.
+
+**Size the setup to the assertion.** A fixture is read as a claim about what the case needs, so a field the assertion never reaches is noise that later breaks the case for an unrelated reason. Build the smallest value the behaviour requires, and where several cases genuinely need different parts of one large object, that is a sign they belong in separate suites rather than behind one shared hook.
 
 ## Time, timers, and other flakiness sources
 

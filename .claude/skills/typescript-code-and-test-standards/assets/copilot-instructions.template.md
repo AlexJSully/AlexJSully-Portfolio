@@ -8,7 +8,9 @@ Copy this file to `.github/instructions/typescript-standards.instructions.md` in
 
 ## Precedence
 
-This project's formatter owns indentation, quotes, semicolons, width, trailing commas, and import order. Its linter owns unused variables, equality, and brace enforcement. Its compiler owns types. Never report a violation of a rule the project's configuration has turned off, and never change a configuration file to match these rules.
+This project's formatter owns indentation, quotes, semicolons, width, trailing commas, and import order. Its linter owns unused variables, equality, and brace enforcement, for every rule it has turned on. Its compiler owns types. Never report a violation of a rule the project's configuration has turned off, and never change a configuration file to match these rules.
+
+**A rule configured off is a decision. A rule never configured is silence, and silence cedes nothing.** A linter running a handful of rules has taken no position on the rest, so its quiet is not a reason to drop a finding below.
 
 Everything below is what those tools cannot check.
 
@@ -33,18 +35,21 @@ Everything below is what those tools cannot check.
 - **No Markdown link syntax.** `[text](url)` is Markdown's, and `[name](#anchor)` renders as dead text in a hover tooltip. Use `{@link SymbolName}`, `@see https://example.com`, or `{@link https://example.com Display text}`.
 - The block precedes a decorator and never sits between the decorator and the declaration.
 
-## Readability
+## Readability and naming
 
-- Braced blocks except for a single-line early exit (`if (!data) return;`, `break`, `continue`, `throw`).
+- Braced blocks except for a **short** single-line early exit (`if (!data) return;`, `break`, `continue`, `throw`). Length is what makes that exit readable, not the fact that it exits early: a long condition returning a long expression takes braces, and the condition is extracted to a named predicate. A formatter prints an unbraced single-statement `if` as written however far past the print width it runs.
 - A blank line before `return`, `break`, `continue`, and `throw` when not first in the block.
 - No blank lines between `switch` cases.
-- Separate groups doing different work with a blank line: setup, action, assertion.
+- Separate groups doing different work with a blank line: setup, action, assertion. **A body with no blank line anywhere is the finding.** A formatter collapses and strips blank lines and never inserts one, so a file written as a single block stays one block, correctly indented and unreadable.
+- **A name is clear to a reader meeting it for the first time.** Do not abbreviate by deleting letters. A short name belongs to an established idiom in a tight scope, a loop index or a caught error; a run of unrelated single letters (`a`, `b`, `c`) is an absent name, not a short one.
+- A function body whose length, nesting depth, or widest expression runs past what a reader holds at once is a finding, backstopped at 50 lines, three levels, and a condition of more than about three logical operators or wider than the project's own print width. A long condition is usually type narrowing, so extract it to a named predicate, or to a type guard (`function isFoo(x: unknown): x is Foo`) where the caller needs the narrowing. A deeply nested body flattens by early return, and a nested chain of `typeof`/`in`/truthiness checks wants a discriminated union.
 
 ## Tests
 
 - **Logic changes, bug fixes, and new features land with their tests in the same change.** Pure refactors need no new tests, but no existing test may be skipped, deleted, or weakened. A diff that weakens a test is a behaviour change, not a refactor.
 - **One test file per source file**, colocated and same-named. No orphan test file, no test file named after a function that lives elsewhere, no second test file for one source.
 - **Never**: skip, gut, or delete a failing test; use `.skip`; write a no-op assertion or one that restates the implementation; type-assert an already-typed value; build a one-row table-driven test; or add a fallback in production code to make a test pass.
+- **Never** leave a test that would still pass if the behaviour it names were broken, write cases that cannot fail independently of one another, or build setup disproportionate to what the assertion reads.
 - Every test answers one question: what behaviour does this lock in that a real future change could break? The review form is sharper: **would this test fail if the behaviour it names were broken?**
 - Name the subject in the suite and the behaviour in the case, as a third-person verb phrase. New titles do not start with "should".
 - Table-driven tests name every field; no positional rows. Rows that differ in the assertion body belong in separate cases.

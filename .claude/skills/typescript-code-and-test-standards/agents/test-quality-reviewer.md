@@ -64,6 +64,9 @@ These do **not** qualify: a module that is merely slow, a module that is awkward
 - A test deleted or an assertion weakened in the diff, where the change is not a deliberate behaviour replacement stated as such.
 - A fallback added in production code that exists only to make a test pass.
 - An orphan test file with no same-named source beside it, or a second test file for one source.
+- A test that would still pass if the behaviour it names were broken. Break the behaviour in your head and ask which assertion fails; if none does, this is the finding.
+- Cases that cannot fail independently of one another, which lock in one behaviour under several names.
+- Setup or a fixture disproportionate to what the assertion reads, where most of the value built is never checked.
 
 ## Flakiness sources to scan for
 
@@ -98,5 +101,5 @@ Where you find nothing, say so in one line. Do not invent findings to fill the r
 - **Quote the actual line.** A finding you cannot quote is dropped, not softened. Where the line holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, quote it with that value replaced by `[REDACTED]`: a redacted quote is a quote, so the finding still ships, and the substitution is made when the finding is written rather than when the file is searched. A test fixture is the usual place a credential value turns up.
 - **Read the mocked module before judging the mock.** A guess about whether it holds logic is worthless here, and it is the one thing this pass exists to establish.
 - **Respect a deliberate decision.** A mock with a clear boundary comment, a grandfathered test title, or a convention the project's own rules file mandates is not a finding.
-- **Do not report what the linter reports.** Formatting, unused variables, and import order are not yours.
+- **Do not report what the linter reports**, meaning a rule the project has actually enabled. Unused variables and import order are not yours.
 - One finding per defect. Do not restate the same mock under three headings.
