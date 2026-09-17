@@ -23,7 +23,7 @@ The host project's own tooling owns everything it is **configured** to check, an
 
 This skill owns comments, documentation blocks, readability judgement, naming, structure, the test mandate, and mocking. Structure belongs here because no tool checks it: a formatter will lay out a two-thousand-line file and a linter will pass a twenty-member interface, so file length, interface size, directory shape, and repeated logic reach a reader only if someone counts them. It reports and follows configuration. **It never creates or edits a configuration file to make a project match itself**, which is not the same as setting a value the change itself requires at the level the tool reads it.
 
-**What makes a finding this skill's**, and the test that keeps it from drifting into a review it cannot do: you can show the code is wrong by pointing at the language, the runtime's documented behaviour, or the type system, **without knowing what the program is for**. A `for...in` over an array, a spread of a primitive, a `parseInt` with no radix, an `as` that lies: each is provable from TypeScript or JavaScript alone. A wrong threshold, a wrong business rule, a wrong status code: each needs the intended behaviour to prove it, and this skill does not have that. So every finding names the language fact behind it, and one that would read identically against a file in another language has been written at the wrong altitude.
+**What makes a finding this skill's**, and the test that keeps it from drifting into a review it cannot do: you can show the code is wrong by pointing at the language, the runtime's documented behaviour, or the type system, **without knowing what the program is for**. A `for...in` over an array, an array-spread of a non-iterable, a `parseInt` with no radix, an `as` that lies: each is provable from TypeScript or JavaScript alone. A wrong threshold, a wrong business rule, a wrong status code: each needs the intended behaviour to prove it, and this skill does not have that. So every finding names the language fact behind it, and one that would read identically against a file in another language has been written at the wrong altitude.
 
 ## Step 1: Detect the project
 
@@ -80,11 +80,11 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
     **The code itself.**
 
     - `any`, `as`, `!`, `@ts-ignore`, `{}`, and an object literal asserted where it could be annotated. See **The style digest** below, whose type-system and assertion rules are read on every review rather than kept for a tie.
-    - A language-level defect: `for...in` over an array, a spread of a primitive, `parseInt` without a radix, `NaN` compared with `===`, a `switch` case falling through, a floating promise, an `async` callback handed to `forEach`. Same section.
+    - A language-level defect: `for...in` over an array, an array-spread of a non-iterable, `parseInt` without a radix, `NaN` compared with `===`, a `switch` case falling through, a floating promise, an `async` callback handed to `forEach`. Same section.
     - A function body whose length, nesting, or widest expression runs past what a reader holds at once. See **Structure** below.
     - A binding whose name does not say what it holds, and a long condition a named predicate or type guard would explain. See **Readability and naming** below.
     - A body running as one block, with no blank line between the groups doing different work. The formatter will not insert one. Same section.
-    - A construct spelled differently from how the rest of the codebase spells the same thing: a built-in module specifier, `import type` against a value import, an alias against a relative path.
+    - A construct spelled differently from how the rest of the codebase spells the same thing: a built-in module specifier (`node:fs` against `fs`, whichever of the two the codebase already uses), `import type` against a value import, an alias against a relative path.
 
     **Comments and documentation.**
 

@@ -74,11 +74,11 @@ Split by what a violation is, because the two halves are read at different times
 - Every `switch` has a `default`, placed last, and non-empty groups do not fall through.
 - Prefer `for...of`. Never unfiltered `for...in`, which walks inherited enumerable keys and hands back an array's indices as strings; use `Object.keys()` or an own-property check.
 - Never array-spread a non-iterable. `[...null]`, `[...undefined]`, and `[...42]` throw at runtime. Object spread is total, so `{...null}` evaluates to `{}` rather than throwing, which is why only the array form sits here.
-- Convert types with `String()`, `Boolean()`, `Number()`, template literals, or `!!`, never with `new`. Do not use unary `+` for string to number. Check for `NaN` explicitly, since it compares unequal to everything including itself. Reserve `parseInt` for non-decimal bases, and give it a radix wherever it appears.
+- Convert types with `String()`, `Boolean()`, `Number()`, template literals, or `!!`, never with `new`. Do not use unary `+` for string to number. Check for `NaN` explicitly, since it compares unequal to everything including itself. Use `Number()` for a complete conversion and `parseInt` only to read a non-decimal base or a leading numeric substring, always with a radix.
 - No `eval`, `with`, `debugger` in production, builtin prototype modification, or the `Array()` and `Object()` constructors. `Array(3)` builds three empty slots rather than an element.
 - Do not set non-numeric properties on an array; use a `Map` or an object.
 - `sort()` compares by string by default, so sorting numbers without a comparator puts 10 before 9.
-- **A mishandled promise fails silently, which is what puts these here rather than among the preferences.** A promise neither awaited nor returned, whose rejection surfaces as an unhandled rejection far from its cause. An `async` callback handed to a non-awaiting iterator, `forEach` being the common one, which starts the work and moves on without it. `map` producing promises with no `Promise.all` around them.
+- **A mishandled promise fails silently, which is what puts these here rather than among the preferences.** A promise neither awaited, returned, nor given a rejection handler, whose rejection surfaces as an unhandled rejection far from its cause. An `async` callback handed to a non-awaiting iterator, `forEach` being the common one, which starts the work and moves on without it. `map` producing promises with no `Promise.all` around them.
 
 ### Preferences
 
