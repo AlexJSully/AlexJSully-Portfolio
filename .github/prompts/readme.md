@@ -60,6 +60,25 @@ Three things differ from `npx skills`. The skill name is positional rather than 
 
 Both target Claude Code, Copilot, Cursor, Codex, and Gemini CLI. `gh skill` installs for Copilot by default and reaches the others through `--agent`.
 
+**As an agent plugin.** An agent plugin is an installable bundle of agent customizations, here one skill and the subagents it ships with, which VS Code lists under **Agent Plugins** in the Extensions view and Claude Code installs with `claude plugin install`. This repository is a plugin marketplace, meaning a repository whose manifest lists plugins a host can install: [`marketplace.json`](../../.claude-plugin/marketplace.json) offers `audit-docs`, `audit-pr`, `audit-quality`, and `typescript-code-and-test-standards` as one plugin each. A host lists them only once you have added the marketplace, because the only one VS Code knows by default, as of version 1.139, is `github/awesome-copilot`.
+
+In VS Code 1.112 or later, run **Chat: Install Plugin from Source** and enter `AlexJSully/AlexJSully-Portfolio`, or from 1.113 [add the marketplace](https://vscode.dev/redirect?url=vscode%3A%2F%2Fchat-plugin%2Fadd-marketplace%3Fref%3DQWxleEpTdWxseS9BbGV4SlN1bGx5LVBvcnRmb2xpbw%253D%253D) in one click. Then search `@agentPlugins` in the Extensions view, install a plugin, and run its skill as `/audit-docs`. A list you set by hand replaces the default rather than adding to it, so keep the default entry:
+
+```json
+"chat.plugins.marketplaces": ["github/awesome-copilot#marketplace", "AlexJSully/AlexJSully-Portfolio"]
+```
+
+VS Code reads the catalogue from the `main` branch and caches it for eight hours, which **Chat: Refresh Plugin Marketplaces** clears. The first install clones the whole repository, about 31 MB, and with extension auto-update on, VS Code pulls it about once a day after that.
+
+In Claude Code 2.1.142 or later, the first version that loads a plugin's root `SKILL.md`, `--sparse` limits the checkout to the two directories the plugins read rather than the whole site:
+
+```bash
+claude plugin marketplace add AlexJSully/AlexJSully-Portfolio --sparse .claude-plugin .claude/skills
+claude plugin install audit-docs@alexjsully-skills
+```
+
+The installed skill runs as `/audit-docs:audit-docs`. Each plugin is versioned by the commit it was installed from, so any later commit to `main` counts as an update: `claude plugin marketplace update alexjsully-skills` fetches it, and `claude plugin update audit-docs@alexjsully-skills` installs it.
+
 **Resolving the `#` references.** Some hosts resolve `#codebase`, `#changes`, and the rest automatically; the ones that do not need to be told what each stands for. `audit-pr` and `audit-quality` carry a **context resolution** table in both halves, mapping each reference to what it refers to and how to reach it without the host's help. `audit-docs` carries that table in the skill half and, in the prompt half, pairs each reference with its plain meaning where the reference is used, because that file is held to a length budget a table would not fit inside. Which references appear varies: all three use `#codebase` and `#changes`, `audit-docs` and `audit-pr` add `#activePullRequest`, `audit-quality` adds `#file:path`, and `audit-pr` alone adds `#issue_fetch`.
 
 Neither form names a host's tools. A skill installs onto every agent the list above names, so it describes a capability ("your file-search and file-read tools") rather than a product's tool names, which would be wrong everywhere except where they were written.

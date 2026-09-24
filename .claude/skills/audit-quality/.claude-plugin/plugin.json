@@ -1,0 +1,4 @@
+{
+	"name": "audit-quality",
+	"description": "Audit code for architecture, security, privacy, testing, dependency, supply chain, and cost issues, reporting findings with file and symbol evidence."
+}

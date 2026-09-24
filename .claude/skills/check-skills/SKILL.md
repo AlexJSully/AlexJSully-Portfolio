@@ -1,6 +1,6 @@
 ---
 name: check-skills
-description: Validates every skill against the Agent Skills specification and checks that each published audit's prompt half and skill half still work alone, then delegates any semantic divergence to the prompt-skill-sync subagent. Use after editing any file under .github/prompts/ or .claude/skills/.
+description: Validates every skill against the Agent Skills specification and checks that each published audit's prompt half and skill half still work alone, then delegates any semantic divergence to the prompt-skill-sync subagent. Use after editing any file under .github/prompts/, .claude/skills/, or .claude-plugin/.
 argument-hint: '[skill name to focus on; omit to check everything]'
 license: MIT
 metadata:
@@ -19,7 +19,7 @@ Three audits ship twice: `.github/prompts/<name>.prompt.md` for an agent that re
 make -f .claude/Makefile check-skills
 ```
 
-It decides everything a machine can: `name` matching the directory, `description` within its character limit, a body under 500 lines, a licence on every skill, every bundled path resolving, no skill naming a prompt, and no prompt naming a file that will not travel with it.
+It decides everything a machine can: `name` matching the directory, `description` within its character limit, a body under 500 lines, a licence on every skill, every bundled path resolving, no skill naming a prompt, no prompt naming a file that will not travel with it, and the plugin marketplace listing every skill that is not internal, each entry matching that skill's `.claude-plugin/plugin.json` and no manifest carrying a `version`.
 
 Exit 0 means the mechanical rules hold. It does **not** mean the two halves still agree.
 

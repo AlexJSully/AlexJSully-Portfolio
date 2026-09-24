@@ -3,6 +3,7 @@
 # Run from the repository root:
 #
 #   make -f .claude/Makefile check-skills
+#   make -f .claude/Makefile test-scripts
 #
 # This lives here rather than at the repository root because it contains nothing but
 # agent tooling, and the root is the product. Nothing in `npm run validate` or in a
@@ -10,10 +11,13 @@
 
 CHECK := .claude/scripts/check-skill-publishability.mjs
 
-.PHONY: help check-skills
+.PHONY: help check-skills test-scripts
 
 help: ## List the available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-24s %s\n", $$1, $$2}'
 
-check-skills: ## Validate every skill against the Agent Skills spec, and each published half against the isolation rules
+check-skills: ## Validate every skill against the Agent Skills spec, each published half against the isolation rules, and the plugin marketplace
 	@node $(CHECK)
+
+test-scripts: ## Run the tests for the scripts in .claude/scripts/
+	@node --test '.claude/scripts/*.test.mjs'
