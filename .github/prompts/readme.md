@@ -62,7 +62,7 @@ Both target Claude Code, Copilot, Cursor, Codex, and Gemini CLI. `gh skill` inst
 
 **As an agent plugin.** An agent plugin is an installable bundle of agent customizations, here one skill and the subagents it ships with, which VS Code lists under **Agent Plugins** in the Extensions view and Claude Code installs with `claude plugin install`. This repository is a plugin marketplace, meaning a repository whose manifest lists plugins a host can install: [`marketplace.json`](../../.claude-plugin/marketplace.json) offers `audit-docs`, `audit-pr`, `audit-quality`, and `typescript-code-and-test-standards` as one plugin each. A host lists them only once you have added the marketplace, because the only one VS Code knows by default, as of version 1.139, is `github/awesome-copilot`.
 
-In VS Code, [add the marketplace](https://vscode.dev/redirect?url=vscode%3A%2F%2Fchat-plugin%2Fadd-marketplace%3Fref%3DQWxleEpTdWxseS9BbGV4SlN1bGx5LVBvcnRmb2xpbw%253D%253D), or run **Chat: Install Plugin from Source** and enter `AlexJSully/AlexJSully-Portfolio`. Then search `@agentPlugins` in the Extensions view, install a plugin, and run its skill as `/audit-docs`. A list you set by hand replaces the default rather than adding to it, so keep the default entry:
+In VS Code 1.112 or later, run **Chat: Install Plugin from Source** and enter `AlexJSully/AlexJSully-Portfolio`, or from 1.113 [add the marketplace](https://vscode.dev/redirect?url=vscode%3A%2F%2Fchat-plugin%2Fadd-marketplace%3Fref%3DQWxleEpTdWxseS9BbGV4SlN1bGx5LVBvcnRmb2xpbw%253D%253D) in one click. Then search `@agentPlugins` in the Extensions view, install a plugin, and run its skill as `/audit-docs`. A list you set by hand replaces the default rather than adding to it, so keep the default entry:
 
 ```json
 "chat.plugins.marketplaces": ["github/awesome-copilot#marketplace", "AlexJSully/AlexJSully-Portfolio"]
@@ -70,7 +70,7 @@ In VS Code, [add the marketplace](https://vscode.dev/redirect?url=vscode%3A%2F%2
 
 VS Code reads the catalogue from the `main` branch and caches it for eight hours, which **Chat: Refresh Plugin Marketplaces** clears. The first install clones the whole repository, about 31 MB, and with extension auto-update on, VS Code pulls it about once a day after that.
 
-In Claude Code, `--sparse` checks out only the two directories the plugins read, rather than the whole site:
+In Claude Code 2.1.142 or later, the first version that loads a plugin's root `SKILL.md`, `--sparse` limits the checkout to the two directories the plugins read rather than the whole site:
 
 ```bash
 claude plugin marketplace add AlexJSully/AlexJSully-Portfolio --sparse .claude-plugin .claude/skills

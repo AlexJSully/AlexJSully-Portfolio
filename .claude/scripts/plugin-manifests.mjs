@@ -4,8 +4,8 @@
 // These rules follow what VS Code, Claude Code, the Copilot CLI, and `npx skills` read, not the
 // Agent Skills specification, so they change when one of those hosts does.
 // `check-skill-publishability.mjs` runs them and reports the result.
-import { existsSync, readFileSync } from 'fs';
-import { dirname, join, resolve } from 'path';
+import { existsSync, readFileSync, realpathSync } from 'fs';
+import { dirname, isAbsolute, join, relative, resolve, sep } from 'path';
 import { fileURLToPath } from 'url';
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -147,17 +147,57 @@ function checkPluginManifest(name, fail) {
 		fail(label, 'sets a version, which pins Claude Code marketplace installs until someone bumps it');
 	}
 
-	// A manifest may point `agents` at somewhere other than the default directory. Either way the
-	// paths it names travel with the skill, so a broken one breaks in the recipient's copy.
-	const declaredAgents = manifest.agents ? [manifest.agents].flat() : [];
-
-	for (const target of declaredAgents) {
-		if (!existsSync(join(SKILL_DIR, name, target))) {
-			fail(label, `declares agent "${target}", which does not exist in the skill directory`);
-		}
+	if (Object.hasOwn(manifest, 'agents')) {
+		checkAgentPaths(name, manifest.agents, label, fail);
 	}
 
 	return manifest;
+}
+
+/**
+ * Checks the paths a manifest's `agents` key points at, in place of the default `agents/` folder.
+ *
+ * An install copies the skill directory and nothing beside it, so a path reaching outside that
+ * directory resolves here and breaks in every recipient's copy. Claude Code also requires each
+ * path to start with `./`.
+ *
+ * @param {string} name Directory name of the skill under `.claude/skills/`.
+ * @param {unknown} agents The manifest's `agents` value, which should be a path or a list of paths.
+ * @param {string} label Repository-relative path of the manifest, for reporting.
+ * @param {(file: string, message: string) => void} fail Records one failure.
+ */
+function checkAgentPaths(name, agents, label, fail) {
+	const skillRoot = join(SKILL_DIR, name);
+
+	for (const target of [agents].flat()) {
+		if (typeof target !== 'string' || !target.startsWith('./')) {
+			fail(label, `declares agent ${JSON.stringify(target)}; each entry must be a path starting with "./"`);
+
+			continue;
+		}
+
+		const resolved = resolve(skillRoot, target);
+
+		if (!existsSync(resolved)) {
+			fail(label, `declares agent "${target}", which does not exist in the skill directory`);
+		} else if (!isInside(realpathSync(resolved), realpathSync(skillRoot))) {
+			fail(label, `declares agent "${target}", which is outside the skill directory, so no install copies it`);
+		}
+	}
+}
+
+/**
+ * Whether `path` is `root` or sits beneath it. Both are compared as given, so pass real paths to
+ * rule out a symbolic link leading out of `root`.
+ *
+ * @param {string} path Absolute path to test.
+ * @param {string} root Absolute path of the directory it must stay within.
+ * @returns {boolean} True when `path` does not leave `root`.
+ */
+function isInside(path, root) {
+	const fromRoot = relative(root, path);
+
+	return fromRoot === '' || (fromRoot !== '..' && !fromRoot.startsWith(`..${sep}`) && !isAbsolute(fromRoot));
 }
 
 /**
