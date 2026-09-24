@@ -13,15 +13,16 @@ paths:
     - '**/.markdownlint-cli2.jsonc'
     - '.github/workflows/**'
     - 'docs/**'
+    - '.claude-plugin/marketplace.json'
 ---
 
 # The repository never depends on agentic files
 
-**If `.claude/` and `.github/prompts/` were deleted tomorrow, every command, build, test, and lint must still work.** The portfolio is the product; the agent tooling is scaffolding around it. Scaffolding may lean on the building, never the reverse.
+**If `.claude/`, `.claude-plugin/`, and `.github/prompts/` were deleted tomorrow, every command, build, test, and lint must still work.** The portfolio is the product; the agent tooling is scaffolding around it. Scaffolding may lean on the building, never the reverse.
 
 ## The rule
 
-No `package.json` script, configuration file, workflow, build step, test, or page under [`docs/`](../../docs/index.md) may reference, invoke, import, or require anything under `.claude/` or `.github/prompts/`.
+No `package.json` script, configuration file, workflow, build step, test, or page under [`docs/`](../../docs/index.md) may reference, invoke, import, or require anything under `.claude/`, `.claude-plugin/`, or `.github/prompts/`.
 
 That includes indirect reliance: a script that shells out to a file there, a config that imports one, a test that reads one, and a documented procedure that tells a reader to run one.
 
@@ -42,16 +43,18 @@ That includes indirect reliance: a script that shells out to a file there, a con
 
 Rule of thumb for a new rule file, hook, or script: it lives under `.claude/`, nothing outside `.claude/` learns its name, and if a human needs to run it, it gets a target in `.claude/Makefile`.
 
+The one piece of agent tooling outside `.claude/` and `.github/prompts/` is the plugin marketplace, [`.claude-plugin/marketplace.json`](../../.claude-plugin/marketplace.json), which sits there because VS Code looks for a marketplace only at the repository root. It names the skill directories under `.claude/skills/`, which is agent tooling naming agent tooling, and nothing in the build reads it. Prettier formats it like any other JSON file, and a formatter finding nothing to format is a no-op.
+
 ## How to check
 
 ```bash
-grep -rn '\.claude/\|\.github/prompts/' package.json docs/ README.md CONTRIBUTING.md \
+grep -rn '\.claude/\|\.claude-plugin/\|\.github/prompts/' package.json docs/ README.md CONTRIBUTING.md \
   *.config.* tsconfig.json .github/workflows/
 ```
 
 Every hit must be an ignore glob. Anything else is a violation. Note that `.claude/Makefile` is not a hit, because the search covers only non-agentic files.
 
-The real proof is the delete simulation: move `.claude/` and `.github/prompts/` aside, run `npm run validate` end to end, and confirm exit 0. Restore afterwards.
+The real proof is the delete simulation: move `.claude/`, `.claude-plugin/`, and `.github/prompts/` aside, run `npm run validate` end to end, and confirm exit 0. Restore afterwards.
 
 ## Why this is written down
 

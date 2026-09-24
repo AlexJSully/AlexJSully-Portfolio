@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Checks that every skill under `.claude/skills/` is valid against the Agent Skills
-// specification, and that each half of a published pair still works when it is the only
-// thing someone has.
+// specification, that each half of a published pair still works when it is the only
+// thing someone has, and, through `plugin-manifests.mjs`, that every skill an installer may
+// offer is also installable as an agent plugin.
 //
 // The two halves of a pair carry the same objective, not the same bytes: a skill may bundle
 // `references/`, `agents/`, and `assets/` that a single prompt file cannot. Whether they still
@@ -12,6 +13,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'fs';
 import { dirname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
+import { MARKETPLACE_MANIFEST, PLUGIN_MANIFEST, SHADOWING_MARKETPLACES, checkPlugins } from './plugin-manifests.mjs';
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const PROMPT_DIR = join(REPO_ROOT, '.github', 'prompts');
@@ -59,23 +61,15 @@ const MAX_PROMPT_CHARS_BY_FILE = { 'audit-docs.prompt.md': 36_000 };
 
 /**
  * Directories a skill may bundle. The specification defines `references/`, `assets/`, and
- * `scripts/`; `agents/` is a host extension, read only where a plugin manifest turns the
- * directory into a plugin, and inert everywhere else.
+ * `scripts/`; `agents/` is a host extension, read only where a host loads the directory as a
+ * plugin, and inert everywhere else.
  */
 const BUNDLE_DIRS = ['references', 'agents', 'assets', 'scripts'];
 
-/**
- * The manifest that makes a skill directory load as a plugin, so the files in `agents/` register
- * as agents a run can delegate to instead of sitting there as unread text.
- *
- * It is optional, and a skill without one is not at fault: every bundled procedure is written to
- * be followed by opening its file, which needs no manifest and no host support. What this path
- * is checked for is the failure that hides, namely a manifest whose name disagrees with the
- * directory, which registers the plugin under a name nothing refers to.
- */
-const PLUGIN_MANIFEST = join('.claude-plugin', 'plugin.json');
-
 const failures = [];
+
+/** Each skill's state, worked out once, because the checks and the report each ask for it. */
+const states = new Map();
 
 /** Records one failure against a file. */
 function fail(file, message) {
@@ -215,7 +209,6 @@ function checkSkill(name) {
 		fail(label, 'an installer can offer any skill here, so it needs a LICENSE.txt beside it');
 	}
 
-	checkPluginManifest(name);
 	checkInvocable(name, parts.frontmatter);
 
 	// An internal skill names this repository's own prompt files on purpose, so the isolation
@@ -261,48 +254,6 @@ function checkInvocable(name, frontmatter) {
 			label,
 			'a published skill may not carry `paths:`, which limits when it activates; path-scope a rules file instead',
 		);
-	}
-}
-
-/**
- * Checks a skill's plugin manifest, where it has one. A skill without one is skipped silently.
- *
- * @param {string} name Directory name of the skill under `.claude/skills/`.
- */
-function checkPluginManifest(name) {
-	const manifestPath = join(SKILL_DIR, name, PLUGIN_MANIFEST);
-	const label = `.claude/skills/${name}/${PLUGIN_MANIFEST}`;
-
-	if (!existsSync(manifestPath)) {
-		return;
-	}
-
-	let manifest;
-
-	try {
-		manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
-	} catch (error) {
-		fail(label, `does not parse as JSON: ${error.message}`);
-
-		return;
-	}
-
-	if (manifest.name !== name) {
-		fail(label, `name "${manifest.name}" does not match the directory name "${name}"`);
-	}
-
-	if (!manifest.version) {
-		fail(label, 'no version, which a host uses to tell one loaded copy from another');
-	}
-
-	// A manifest may point `agents` at somewhere other than the default directory. Either way the
-	// paths it names travel with the skill, so a broken one breaks in the recipient's copy.
-	const declaredAgents = manifest.agents ? [manifest.agents].flat() : [];
-
-	for (const target of declaredAgents) {
-		if (!existsSync(join(SKILL_DIR, name, target))) {
-			fail(label, `declares agent "${target}", which does not exist in the skill directory`);
-		}
 	}
 }
 
@@ -389,22 +340,33 @@ if (skills.length === 0 && prompts.length === 0) {
 skills.forEach(checkSkill);
 prompts.forEach(checkPrompt);
 
-/** Which of the three states a skill is in, for the report. */
-function state(name) {
-	const text = readFileSync(join(SKILL_DIR, name, 'SKILL.md'), 'utf8');
-	const parts = split(text);
+// Only an internal skill is withheld from the marketplace. Every other one is already offered by
+// `npx skills`, so leaving it out there would make the two catalogues disagree without anyone
+// deciding they should.
+const offered = skills.filter((name) => existsSync(join(SKILL_DIR, name, 'SKILL.md')) && state(name) !== 'internal');
 
-	if (parts && isInternal(parts.frontmatter)) {
-		return 'internal';
+failures.push(...checkPlugins(skills, offered));
+
+/** Which of the three states a skill is in. */
+function state(name) {
+	if (!states.has(name)) {
+		const parts = split(readFileSync(join(SKILL_DIR, name, 'SKILL.md'), 'utf8'));
+		const internal = parts && isInternal(parts.frontmatter);
+
+		states.set(name, internal ? 'internal' : PUBLISHED.includes(name) ? 'published' : 'installable');
 	}
 
-	return PUBLISHED.includes(name) ? 'published' : 'installable';
+	return states.get(name);
 }
 
 for (const name of skills) {
 	if (!failures.some((entry) => entry.file.includes(`/skills/${name}/`))) {
 		console.log(`ok   ${name.padEnd(36)} ${state(name)}`);
 	}
+}
+
+if (!failures.some((entry) => [MARKETPLACE_MANIFEST, ...SHADOWING_MARKETPLACES].includes(entry.file))) {
+	console.log(`ok   ${MARKETPLACE_MANIFEST.padEnd(36)} marketplace`);
 }
 
 if (failures.length > 0) {
@@ -414,10 +376,7 @@ if (failures.length > 0) {
 		console.error(`FAIL ${file}: ${message}`);
 	}
 
-	console.error(
-		`\n${failures.length} problem(s). Each half is downloaded on its own, so a prompt may name ` +
-			'nothing beside it and a skill may name nothing outside itself.',
-	);
+	console.error(`\n${failures.length} problem(s).`);
 	process.exit(1);
 }
 

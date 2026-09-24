@@ -5,6 +5,8 @@ paths:
     - '.claude/skills/*/references/*.md'
     - '.claude/skills/*/agents/*.md'
     - '.claude/skills/*/assets/*.md'
+    - '.claude/skills/*/.claude-plugin/plugin.json'
+    - '.claude-plugin/marketplace.json'
 ---
 
 # Published skills and their prompt halves
@@ -56,16 +58,19 @@ An illustrative link, such as `[config.py](../src/config.py)` inside an example 
 
 ## The plugin manifest, and what it does not change
 
-A skill directory containing `.claude-plugin/plugin.json` loads as a plugin named `<name>@skills-dir` on the next session, with no marketplace and no install step, and that is what turns the files in `agents/` into agents a run can delegate to. Without it they stay ordinary files, which is what each `SKILL.md` already treats as the default when it tells the run to open one and follow it: `agents/` is a host extension, not part of the Agent Skills specification, which defines `references/`, `assets/`, and `scripts/` and nothing else.
+A skill directory is a plugin root in two ways. In the repository holding it, a `.claude-plugin/plugin.json` inside it makes Claude Code load it as `<name>@skills-dir` on the next session, with no marketplace and no install step, and that manifest is what turns the files in `agents/` into agents a run can delegate to. Everywhere else, the marketplace at [`.claude-plugin/marketplace.json`](../../.claude-plugin/marketplace.json) lists it with a `source` of `./.claude/skills/<name>`, and VS Code and Claude Code install the directory as a plugin whose root `SKILL.md` is its one skill and whose `agents/` they find by default, manifest or not. Without either route the files in `agents/` stay ordinary files, which is what each `SKILL.md` already treats as the default when it tells the run to open one and follow it: `agents/` is a host extension, not part of the Agent Skills specification, which defines `references/`, `assets/`, and `scripts/` and nothing else.
 
 **The manifest is an optimization, never a dependency.** Every bundled procedure is written to be run by opening its file, and each `SKILL.md` says so before it mentions delegating, because a skill that tells an agent to delegate to something the host never registered has no documented fallback: the call fails and the run improvises. An improvised prompt carries none of the scope bound or evidence bar written inside the procedure, which is the whole reason the file exists.
 
-Two consequences to know before editing either half:
+Consequences to know before editing a skill, its manifest, or the marketplace:
 
-- **The delegation identifier is namespaced**, as `<skill>@skills-dir:<agent>`. A bare agent name never resolves. Write neither form into a published skill: naming the file and letting the run resolve the identifier is what keeps the instruction true on a host that spells it differently.
-- **Nothing documents whether `agents/` or `.claude-plugin/` survive `npx skills add` or `gh skill install`**, since neither is in the specification. Test an install rather than assuming, and treat opening the file as the path that has to work.
+- **The delegation identifier differs by route.** It is `<skill>@skills-dir:<agent>` in place and `<skill>:<agent>` after a Claude Code marketplace install. Write neither into a published skill: naming the file and letting the run resolve the identifier is what keeps the instruction true on every host.
+- **The skill's manifest and `agents/` travel with every install.** `npx skills` copies every file except `metadata.json` and the `.git`, `__pycache__`, and `__pypackages__` directories, and `gh skill` copies every file in the tree, so a recipient's copy carries `.claude-plugin/` and loads as `<name>@skills-dir` in their repository too.
+- **No manifest carries a `version`.** Claude Code keys a marketplace install on it, so a fixed value freezes every recipient on the copy they first installed. Left out, the version is the commit the plugin came from, and a push to `main` reaches marketplace installs the way it reaches `npx skills`. VS Code ignores the field and pulls the repository instead.
+- **A marketplace entry carries only `name`, `source`, and `description`.** VS Code reads `name`, `description`, `version`, and `source` from an entry and drops the rest, so a component declared there would exist in Claude Code alone, and `npx skills` skips any path without the leading `./`. The entry repeats the manifest's `description` because that is the copy VS Code shows. For the same reason the marketplace sets no `metadata.pluginRoot`, which VS Code applies to `./` sources and Claude Code does not.
+- **One manifest per skill, one marketplace per repository.** VS Code reads `.plugin/plugin.json`, or a root `plugin.json` declaring the Agent Plugins `$schema`, ahead of `.claude-plugin/plugin.json`, and that format finds skills only under `skills/`, which would leave the directory's own `SKILL.md` unloaded. The Copilot CLI reads `.plugin/plugin.json`, any root `plugin.json`, and `.github/plugin/plugin.json` first. For marketplaces, VS Code and the Copilot CLI try `marketplace.json`, `.plugin/marketplace.json`, and `.github/plugin/marketplace.json` before `.claude-plugin/marketplace.json`, and the first one found is the whole catalogue.
 
-[`check-skill-publishability.mjs`](../scripts/check-skill-publishability.mjs) validates a manifest where one exists: that it parses, that its `name` matches the directory, that it carries a `version`, and that any path in an `agents` key resolves. It does not require one.
+[`plugin-manifests.mjs`](../scripts/plugin-manifests.mjs), which `make -f .claude/Makefile check-skills` runs, holds every manifest to these rules: it parses, its `name` matches the directory, it sets no `version`, no competing manifest sits beside it, and any path in an `agents` key resolves. It requires the marketplace to list every skill that is not internal and nothing else, each entry carrying exactly the three keys above, with a `description` equal to its manifest's. That comparison is why a listed skill needs a manifest even though the marketplace route does not.
 
 ## A published skill stays reachable by name
 
@@ -81,7 +86,7 @@ Every skill is in exactly one, and [`check-skill-publishability.mjs`](../scripts
 
 - **Published**, listed in that script's `PUBLISHED` array: used outside this repository, so **codebase-agnostic** (no path, script name, framework, or convention from here) and **language-agnostic**, except `typescript-code-and-test-standards`, whose subject is the language. Where an example needs a language, vary it across examples so no single one reads as required.
 - **Installable**: an installer can offer it, but it is not held to the agnosticism bar.
-- **Internal**: carries `metadata: internal: true`, which hides it from `npx skills` discovery and from installation unless `INSTALL_INTERNAL_SKILLS=1` is set.
+- **Internal**: carries `metadata: internal: true`, which hides it from `npx skills` discovery and from installation unless `INSTALL_INTERNAL_SKILLS=1` is set, and keeps it out of the plugin marketplace, which offers every published and installable skill.
 
 **Every skill carries a licence**, meaning both a `license` frontmatter key and a `LICENSE.txt` in the directory, because a copied directory is the whole of what the recipient gets. Nothing is exempt, internal skills included.
 

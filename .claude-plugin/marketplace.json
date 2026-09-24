@@ -1,0 +1,30 @@
+{
+	"name": "alexjsully-skills",
+	"owner": {
+		"name": "Alexander Sullivan",
+		"url": "https://github.com/AlexJSully"
+	},
+	"description": "Audit and coding-standards skills for documentation, pull requests, code quality, and TypeScript.",
+	"plugins": [
+		{
+			"name": "audit-docs",
+			"source": "./.claude/skills/audit-docs",
+			"description": "Audit and update the project's documentation so it matches the current code, grounding every claim in a file opened this run."
+		},
+		{
+			"name": "audit-pr",
+			"source": "./.claude/skills/audit-pr",
+			"description": "Review a pull request or working-branch diff across eighteen triaged categories and produce findings evidenced by the changed line."
+		},
+		{
+			"name": "audit-quality",
+			"source": "./.claude/skills/audit-quality",
+			"description": "Audit code for architecture, security, privacy, testing, dependency, supply chain, and cost issues, reporting findings with file and symbol evidence."
+		},
+		{
+			"name": "typescript-code-and-test-standards",
+			"source": "./.claude/skills/typescript-code-and-test-standards",
+			"description": "TypeScript and JavaScript standards that formatters and linters cannot catch, covering comment discipline, JSDoc, the test mandate, and the mocking policy."
+		}
+	]
+}

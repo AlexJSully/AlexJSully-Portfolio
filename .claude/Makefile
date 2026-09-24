@@ -15,5 +15,5 @@ CHECK := .claude/scripts/check-skill-publishability.mjs
 help: ## List the available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-24s %s\n", $$1, $$2}'
 
-check-skills: ## Validate every skill against the Agent Skills spec, and each published half against the isolation rules
+check-skills: ## Validate every skill against the Agent Skills spec, each published half against the isolation rules, and the plugin marketplace
 	@node $(CHECK)
