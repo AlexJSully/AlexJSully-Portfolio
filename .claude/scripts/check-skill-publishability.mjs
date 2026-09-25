@@ -10,26 +10,22 @@
 // What is left here is what a machine can decide.
 //
 // Run with no arguments. Reports every failure, then exits 1 if there were any.
-import { existsSync, readFileSync, readdirSync, statSync } from 'fs';
-import { dirname, join, resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { existsSync, readFileSync, readdirSync } from 'fs';
+import { join, resolve } from 'path';
 import { MARKETPLACE_MANIFEST, PLUGIN_MANIFEST, SHADOWING_MARKETPLACES, checkPlugins } from './plugin-manifests.mjs';
 
-const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
+const REPO_ROOT = resolve(import.meta.dirname, '..', '..');
 const PROMPT_DIR = join(REPO_ROOT, '.github', 'prompts');
 const SKILL_DIR = join(REPO_ROOT, '.claude', 'skills');
 
 /**
  * Skills published for use outside this repository. Only these are held to the agnosticism
- * bar, because a skill written for this repository alone may name this repository's paths.
+ * bar, because a skill written for this repository alone may name this repository's paths. Here,
+ * membership reports a skill as `published` and subjects it to {@link checkInvocable}.
  *
  * Every other skill is either `installable`, meaning an installer offers it without holding it
  * to that bar, or `internal`, meaning `metadata.internal: true` keeps it out of `npx skills`
- * discovery. Naming the middle state is the point: a skill that is nothing in particular drifts
- * into being offered to strangers with nobody having decided that it should be.
- *
- * The licence rules below apply to all three, because `gh skill` reads no visibility field and
- * offers an internal skill as readily as a published one.
+ * discovery.
  */
 const PUBLISHED = ['audit-docs', 'audit-pr', 'typescript-code-and-test-standards'];
 
@@ -40,23 +36,13 @@ const MAX_BODY_LINES = 500;
 const MAX_DESCRIPTION = 1024;
 
 /**
- * A prompt is one file a reader scrolls in a chat pane, with no `references/` to move detail into,
- * so its budget is the whole of what it can say. `audit-docs` is held tighter than the other two
- * because its subject is narrower. Growth past a budget is a signal to condense, not to raise it:
- * restatements of one rule across sections, and worked examples following the rule they
- * illustrate, are what a prompt loses first, and never a rule, a checklist item, or a category.
- *
- * The budget counts characters because a line here is a paragraph. Markdown lint rule `MD013` is
- * off repository-wide and Prettier leaves prose unwrapped, so one line in these files runs to
- * seventeen hundred characters. Counting lines charges a document for its blank lines and its
- * headings, and lets it pay by deleting them: the same eighteen sections cost 36 lines as `###`
- * headings and nothing at all inline, while the text is identical either way. Characters do not
- * move when a document is reformatted, so only cutting what a prompt says brings the number down.
- *
- * `wc -c` is the hand-check. It counts bytes where this counts UTF-16 code units, so it reads a
- * dozen or so high on a file carrying emoji, which is far inside the headroom each budget leaves.
+ * The character budget for one prompt file, which a reader scrolls whole with no `references/` to
+ * move detail into. Characters rather than lines, because a line in these files is a paragraph.
+ * `wc -c` counts bytes rather than UTF-16 code units, so it reads slightly high on non-ASCII text.
  */
 const MAX_PROMPT_CHARS = 52_000;
+
+/** Budgets overriding {@link MAX_PROMPT_CHARS}; `audit-docs` is held tighter because its subject is narrower. */
 const MAX_PROMPT_CHARS_BY_FILE = { 'audit-docs.prompt.md': 36_000 };
 
 /**
@@ -98,19 +84,16 @@ function frontmatterValue(frontmatter, key) {
 	return match[1].trim().replace(/^['"]|['"]$/g, '');
 }
 
-/** Whether a nested `metadata: internal: true` is set, which hides the skill from installers. */
+/** Returns whether a nested `metadata: internal: true` is set, which keeps the skill out of `npx skills` discovery. */
 function isInternal(frontmatter) {
 	return /^metadata:\s*$[\s\S]*?^\s+internal:[ \t]*true\s*$/m.test(frontmatter);
 }
 
 /**
- * Frontmatter keys whose value is an unquoted plain scalar containing a colon followed by a
- * space, which YAML forbids.
- *
- * This is checked rather than parsed because the script carries no dependencies, and it is
- * checked at all because a regex reader like the one above happily returns a value that a
- * real YAML parser refuses to produce. A skill whose frontmatter does not parse cannot be
- * loaded by a host that uses a parser, and nothing else here would notice.
+ * Returns the frontmatter keys whose value is an unquoted plain scalar containing a colon followed
+ * by a space, which YAML forbids. Matched by pattern rather than parsed, since the script has no
+ * dependencies: {@link frontmatterValue} accepts such a value, but a host with a YAML parser cannot
+ * load the skill.
  */
 function unparseableScalars(frontmatter) {
 	return frontmatter
@@ -121,7 +104,7 @@ function unparseableScalars(frontmatter) {
 }
 
 /**
- * Every bundled file a Markdown body points at, whether as a link or as a code span.
+ * Returns every bundled file a Markdown body points at, whether as a link or as a code span.
  *
  * Only bundle directories count. These bodies also carry illustrative links such as
  * `../src/config.py`, which demonstrate the citation format rather than pointing at anything,
@@ -141,7 +124,27 @@ function referencedPaths(body) {
 	return [...found].filter(Boolean);
 }
 
-/** Checks one skill directory against the specification, and against isolation when published. */
+/** Returns which of the three states a skill is in, reading its SKILL.md only the first time. */
+function state(name) {
+	if (!states.has(name)) {
+		states.set(name, readState(name));
+	}
+
+	return states.get(name);
+}
+
+/** Reads a skill's state from its frontmatter and the `PUBLISHED` list. */
+function readState(name) {
+	const parts = split(readFileSync(join(SKILL_DIR, name, 'SKILL.md'), 'utf8'));
+
+	if (parts && isInternal(parts.frontmatter)) {
+		return 'internal';
+	}
+
+	return PUBLISHED.includes(name) ? 'published' : 'installable';
+}
+
+/** Checks one skill directory against the specification, the licence and invocability policies, and, unless it is internal, isolation. */
 function checkSkill(name) {
 	const skillPath = join(SKILL_DIR, name, 'SKILL.md');
 	const label = `.claude/skills/${name}/SKILL.md`;
@@ -152,8 +155,7 @@ function checkSkill(name) {
 		return;
 	}
 
-	const text = readFileSync(skillPath, 'utf8');
-	const parts = split(text);
+	const parts = split(readFileSync(skillPath, 'utf8'));
 
 	if (!parts) {
 		fail(label, 'no frontmatter block');
@@ -161,8 +163,24 @@ function checkSkill(name) {
 		return;
 	}
 
-	const declared = frontmatterValue(parts.frontmatter, 'name');
-	const description = frontmatterValue(parts.frontmatter, 'description');
+	checkFrontmatter(name, parts.frontmatter, label);
+	checkBody(name, parts.body, label);
+	checkLicence(name, parts.frontmatter, label);
+	checkInvocable(name, parts.frontmatter);
+	checkIsolation(name, parts.frontmatter);
+}
+
+/**
+ * Checks the frontmatter keys the specification constrains: a `name` matching the directory in the
+ * allowed format and length, a `description` within its limit, and every value parsing as YAML.
+ *
+ * @param {string} name Directory name of the skill under `.claude/skills/`.
+ * @param {string} frontmatter The skill's frontmatter block.
+ * @param {string} label Repository-relative path of the skill's SKILL.md, for reporting.
+ */
+function checkFrontmatter(name, frontmatter, label) {
+	const declared = frontmatterValue(frontmatter, 'name');
+	const description = frontmatterValue(frontmatter, 'description');
 
 	if (declared !== name) {
 		fail(label, `frontmatter name "${declared}" does not match the directory name "${name}"`);
@@ -182,39 +200,66 @@ function checkSkill(name) {
 		fail(label, `description is ${description.length} characters, over the ${MAX_DESCRIPTION} allowed`);
 	}
 
-	const bodyLines = parts.body.split('\n').length;
+	for (const key of unparseableScalars(frontmatter)) {
+		fail(label, `\`${key}\` is an unquoted scalar containing ": ", so the frontmatter does not parse as YAML`);
+	}
+}
+
+/**
+ * Checks the body of a SKILL.md: its length against the specification's cap, and every bundled file
+ * it points at resolving inside the skill directory.
+ *
+ * @param {string} name Directory name of the skill under `.claude/skills/`.
+ * @param {string} body The Markdown beneath the frontmatter.
+ * @param {string} label Repository-relative path of the skill's SKILL.md, for reporting.
+ */
+function checkBody(name, body, label) {
+	// A trailing newline ends the last line rather than starting another.
+	const bodyLines = body.replace(/\n$/, '').split('\n').length;
 
 	if (bodyLines > MAX_BODY_LINES) {
 		fail(label, `body is ${bodyLines} lines, over ${MAX_BODY_LINES}; move detail into references/`);
 	}
 
-	for (const key of unparseableScalars(parts.frontmatter)) {
-		fail(label, `\`${key}\` is an unquoted scalar containing ": ", so the frontmatter does not parse as YAML`);
-	}
-
-	for (const target of referencedPaths(parts.body)) {
+	for (const target of referencedPaths(body)) {
 		if (!existsSync(join(SKILL_DIR, name, target))) {
 			fail(label, `references "${target}", which does not exist in the skill directory`);
 		}
 	}
+}
 
+/**
+ * Checks that a skill carries its licence twice over: a `license` key in its frontmatter and a
+ * `LICENSE.txt` beside it.
+ *
+ * @param {string} name Directory name of the skill under `.claude/skills/`.
+ * @param {string} frontmatter The skill's frontmatter block.
+ * @param {string} label Repository-relative path of the skill's SKILL.md, for reporting.
+ */
+function checkLicence(name, frontmatter, label) {
 	// `metadata.internal` buys no exemption here. `gh skill` reads no visibility field, so it
 	// lists and installs every skill in this directory, and a copied directory is the whole of
 	// what its recipient gets.
-	if (!frontmatterValue(parts.frontmatter, 'license')) {
+	if (!frontmatterValue(frontmatter, 'license')) {
 		fail(label, 'an installer can offer any skill here, so it needs a license key');
 	}
 
 	if (!existsSync(join(SKILL_DIR, name, 'LICENSE.txt'))) {
 		fail(label, 'an installer can offer any skill here, so it needs a LICENSE.txt beside it');
 	}
+}
 
-	checkInvocable(name, parts.frontmatter);
-
-	// An internal skill names this repository's own prompt files on purpose, so the isolation
-	// rule below, which exists to keep a recipient from following a path they will not have,
-	// is the one thing it is exempt from.
-	if (isInternal(parts.frontmatter)) {
+/**
+ * Checks that no file travelling with a skill names a prompt file, which a recipient of the copied
+ * directory will not have.
+ *
+ * @param {string} name Directory name of the skill under `.claude/skills/`.
+ * @param {string} frontmatter The skill's frontmatter block.
+ */
+function checkIsolation(name, frontmatter) {
+	// An internal skill names this repository's own prompt files on purpose, so it is exempt from
+	// this rule.
+	if (isInternal(frontmatter)) {
 		return;
 	}
 
@@ -258,7 +303,7 @@ function checkInvocable(name, frontmatter) {
 }
 
 /**
- * Every file inside a skill that travels with it and could name a path: top-level Markdown, every
+ * Returns every file inside a skill that travels with it and could name a path: top-level Markdown, every
  * file one level deep in each bundle directory, plus the plugin manifest. The manifest carries a
  * `description`, so it can name a prompt file exactly as a body can, and it ships in the copied
  * directory either way.
@@ -272,7 +317,9 @@ function skillFiles(name) {
 			continue;
 		}
 
-		files.push(...readdirSync(join(root, dir)).map((file) => `${dir}/${file}`));
+		const entries = readdirSync(join(root, dir), { withFileTypes: true });
+
+		files.push(...entries.filter((entry) => entry.isFile()).map((entry) => `${dir}/${entry.name}`));
 	}
 
 	if (existsSync(join(root, PLUGIN_MANIFEST))) {
@@ -282,7 +329,7 @@ function skillFiles(name) {
 	return files;
 }
 
-/** Checks that a prompt still works as the only file someone holds. */
+/** Checks a prompt against its character budget, and that it still works as the only file someone holds. */
 function checkPrompt(file) {
 	const label = `.github/prompts/${file}`;
 	const text = readFileSync(join(PROMPT_DIR, file), 'utf8');
@@ -326,8 +373,50 @@ function checkPrompt(file) {
 	}
 }
 
+/**
+ * Prints an `ok` line for every skill and for the marketplace where nothing failed, then either every
+ * failure, exiting 1, or the totals by state.
+ *
+ * @param {string[]} skills Directory names under `.claude/skills/`.
+ * @param {string[]} prompts File names under `.github/prompts/`.
+ */
+function report(skills, prompts) {
+	for (const name of skills) {
+		if (!failures.some((entry) => entry.file.includes(`/skills/${name}/`))) {
+			console.log(`ok   ${name.padEnd(36)} ${state(name)}`);
+		}
+	}
+
+	if (!failures.some((entry) => [MARKETPLACE_MANIFEST, ...SHADOWING_MARKETPLACES].includes(entry.file))) {
+		console.log(`ok   ${MARKETPLACE_MANIFEST.padEnd(36)} marketplace`);
+	}
+
+	if (failures.length > 0) {
+		console.error('');
+
+		for (const { file, message } of failures) {
+			console.error(`FAIL ${file}: ${message}`);
+		}
+
+		console.error(`\n${failures.length} problem(s).`);
+		process.exit(1);
+	}
+
+	const byState = Object.groupBy(skills, state);
+	const published = byState.published?.length ?? 0;
+	const installable = byState.installable?.length ?? 0;
+	const internal = byState.internal?.length ?? 0;
+
+	console.log(
+		`\nChecked ${skills.length} skill(s) and ${prompts.length} prompt(s): ` +
+			`${published} published, ${installable} installable, ${internal} internal.`,
+	);
+}
+
 const skills = existsSync(SKILL_DIR)
-	? readdirSync(SKILL_DIR).filter((entry) => statSync(join(SKILL_DIR, entry)).isDirectory())
+	? readdirSync(SKILL_DIR, { withFileTypes: true })
+			.filter((entry) => entry.isDirectory())
+			.map((entry) => entry.name)
 	: [];
 
 const prompts = existsSync(PROMPT_DIR) ? readdirSync(PROMPT_DIR).filter((file) => file.endsWith('.prompt.md')) : [];
@@ -347,42 +436,4 @@ const offered = skills.filter((name) => existsSync(join(SKILL_DIR, name, 'SKILL.
 
 failures.push(...checkPlugins(skills, offered));
 
-/** Which of the three states a skill is in. */
-function state(name) {
-	if (!states.has(name)) {
-		const parts = split(readFileSync(join(SKILL_DIR, name, 'SKILL.md'), 'utf8'));
-		const internal = parts && isInternal(parts.frontmatter);
-
-		states.set(name, internal ? 'internal' : PUBLISHED.includes(name) ? 'published' : 'installable');
-	}
-
-	return states.get(name);
-}
-
-for (const name of skills) {
-	if (!failures.some((entry) => entry.file.includes(`/skills/${name}/`))) {
-		console.log(`ok   ${name.padEnd(36)} ${state(name)}`);
-	}
-}
-
-if (!failures.some((entry) => [MARKETPLACE_MANIFEST, ...SHADOWING_MARKETPLACES].includes(entry.file))) {
-	console.log(`ok   ${MARKETPLACE_MANIFEST.padEnd(36)} marketplace`);
-}
-
-if (failures.length > 0) {
-	console.error('');
-
-	for (const { file, message } of failures) {
-		console.error(`FAIL ${file}: ${message}`);
-	}
-
-	console.error(`\n${failures.length} problem(s).`);
-	process.exit(1);
-}
-
-const counts = skills.reduce((tally, name) => ({ ...tally, [state(name)]: (tally[state(name)] ?? 0) + 1 }), {});
-
-console.log(
-	`\nChecked ${skills.length} skill(s) and ${prompts.length} prompt(s): ` +
-		`${counts.published ?? 0} published, ${counts.installable ?? 0} installable, ${counts.internal ?? 0} internal.`,
-);
+report(skills, prompts);

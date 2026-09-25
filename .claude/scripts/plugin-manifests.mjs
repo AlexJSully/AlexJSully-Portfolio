@@ -4,11 +4,10 @@
 // These rules follow what VS Code, Claude Code, the Copilot CLI, and `npx skills` read, not the
 // Agent Skills specification, so they change when one of those hosts does.
 // `check-skill-publishability.mjs` runs them and reports the result.
-import { existsSync, readFileSync, realpathSync } from 'fs';
-import { dirname, isAbsolute, join, relative, resolve, sep } from 'path';
-import { fileURLToPath } from 'url';
+import { existsSync, readFileSync, readdirSync, realpathSync } from 'fs';
+import { isAbsolute, join, relative, resolve, sep } from 'path';
 
-const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
+const REPO_ROOT = resolve(import.meta.dirname, '..', '..');
 const SKILL_DIR = join(REPO_ROOT, '.claude', 'skills');
 
 /**
@@ -16,9 +15,6 @@ const SKILL_DIR = join(REPO_ROOT, '.claude', 'skills');
  * files in `agents/` register as agents a run can delegate to instead of sitting there as unread
  * text. A marketplace install needs no manifest to find `agents/`, but every skill the marketplace
  * lists carries one, because its `description` is what the entry is checked against.
- *
- * Every bundled procedure is still written to be followed by opening its file, which needs no
- * manifest and no host support.
  */
 export const PLUGIN_MANIFEST = join('.claude-plugin', 'plugin.json');
 
@@ -33,6 +29,12 @@ const COMPETING_PLUGIN_MANIFESTS = [
 	join('.plugin', 'plugin.json'),
 	join('.github', 'plugin', 'plugin.json'),
 ];
+
+/**
+ * The file VS Code renders as a plugin's page, read from the plugin root under exactly this name.
+ * It has no fallback to `SKILL.md` or to the description, so a plugin without one shows an empty page.
+ */
+const PLUGIN_README = 'README.md';
 
 /**
  * The catalogue that offers each skill as a plugin. It sits at the repository root because VS Code
@@ -187,8 +189,8 @@ function checkAgentPaths(name, agents, label, fail) {
 }
 
 /**
- * Whether `path` is `root` or sits beneath it. Both are compared as given, so pass real paths to
- * rule out a symbolic link leading out of `root`.
+ * Returns whether `path` is `root` or sits beneath it. Both are compared as given, so pass real
+ * paths to rule out a symbolic link leading out of `root`.
  *
  * @param {string} path Absolute path to test.
  * @param {string} root Absolute path of the directory it must stay within.
@@ -196,19 +198,14 @@ function checkAgentPaths(name, agents, label, fail) {
  */
 function isInside(path, root) {
 	const fromRoot = relative(root, path);
+	const leavesRoot = fromRoot === '..' || fromRoot.startsWith(`..${sep}`) || isAbsolute(fromRoot);
 
-	return fromRoot === '' || (fromRoot !== '..' && !fromRoot.startsWith(`..${sep}`) && !isAbsolute(fromRoot));
+	return !leavesRoot;
 }
 
 /**
  * Checks that the marketplace offers exactly the skills an installer may offer, each as a plugin
  * rooted at its own skill directory.
- *
- * A plugin rooted there is read the same way by every host: VS Code and Claude Code load the root
- * `SKILL.md` as its one skill, and `npx skills` still finds the directory through its ordinary
- * `.claude/skills/` scan. What the entry may say is narrow because the readers disagree about the
- * rest. `npx skills` skips a path that does not start with `./`, and VS Code shows the entry's
- * `description` rather than the manifest's, so the two copies are held equal.
  *
  * @param {string[]} offered The skills an installer may offer.
  * @param {Map<string, Record<string, unknown> | null | undefined>} manifests Each skill's manifest,
@@ -271,6 +268,12 @@ function checkMarketplace(offered, manifests, fail) {
 /**
  * Checks one marketplace entry against the skill directory it names.
  *
+ * A plugin rooted there is read the same way by every host: VS Code and Claude Code load the root
+ * `SKILL.md` as its one skill, and `npx skills` still finds the directory through its ordinary
+ * `.claude/skills/` scan. What the entry may say is narrow because the readers disagree about the
+ * rest. `npx skills` skips a path that does not start with `./`, and VS Code shows the entry's
+ * `description` rather than the manifest's, so the two copies are held equal.
+ *
  * @param {Record<string, unknown>} entry One element of the marketplace's `plugins` array.
  * @param {string[]} offered Skills an installer may offer, which are the only names allowed.
  * @param {Map<string, Record<string, unknown> | null | undefined>} manifests Each skill's manifest.
@@ -297,8 +300,16 @@ function checkMarketplaceEntry(entry, offered, manifests, fail) {
 		);
 	}
 
-	if (typeof entry.description !== 'string' || !entry.description) {
+	const hasDescription = typeof entry.description === 'string' && entry.description !== '';
+
+	if (!hasDescription) {
 		fail(label, `"${name}" has no description, which is the text VS Code lists it by`);
+	}
+
+	// Matched against the listing rather than tested with `existsSync`, because a case-insensitive
+	// file system also finds `readme.md`, which GitHub does not serve under the name VS Code requests.
+	if (!readdirSync(join(SKILL_DIR, name)).includes(PLUGIN_README)) {
+		fail(label, `"${name}" has no ${PLUGIN_README}, so its VS Code plugin page is empty`);
 	}
 
 	const manifest = manifests.get(name);
@@ -310,7 +321,7 @@ function checkMarketplaceEntry(entry, offered, manifests, fail) {
 	}
 
 	// `checkPluginManifest` has already reported a manifest that could not be read.
-	if (manifest && entry.description !== manifest.description) {
+	if (manifest && hasDescription && entry.description !== manifest.description) {
 		fail(label, `"${name}" description differs from its ${PLUGIN_MANIFEST}; VS Code shows the entry's copy`);
 	}
 }

@@ -1,12 +1,13 @@
 ---
 paths:
-    - '.github/prompts/*.prompt.md'
+    - '.claude-plugin/marketplace.json'
+    - '.claude/skills/*/.claude-plugin/plugin.json'
+    - '.claude/skills/*/README.md'
     - '.claude/skills/*/SKILL.md'
-    - '.claude/skills/*/references/*.md'
     - '.claude/skills/*/agents/*.md'
     - '.claude/skills/*/assets/*.md'
-    - '.claude/skills/*/.claude-plugin/plugin.json'
-    - '.claude-plugin/marketplace.json'
+    - '.claude/skills/*/references/*.md'
+    - '.github/prompts/*.prompt.md'
 ---
 
 # Published skills and their prompt halves
@@ -68,9 +69,10 @@ Consequences to know before editing a skill, its manifest, or the marketplace:
 - **The skill's manifest and `agents/` travel with every install.** `npx skills` copies every file except `metadata.json` and the `.git`, `__pycache__`, and `__pypackages__` directories, and `gh skill` copies every file in the tree, so a recipient's copy carries `.claude-plugin/` and loads as `<name>@skills-dir` in their repository too.
 - **No manifest carries a `version`.** Claude Code keys a marketplace install on it, so a fixed value freezes every recipient on the copy they first installed. Left out, the version is the commit the plugin came from, and a push to `main` reaches marketplace installs the way it reaches `npx skills`. VS Code ignores the field and pulls the repository instead.
 - **A marketplace entry carries only `name`, `source`, and `description`.** VS Code reads `name`, `description`, `version`, and `source` from an entry and drops the rest, so a component declared there would exist in Claude Code alone, and `npx skills` skips any path without the leading `./`. The entry repeats the manifest's `description` because that is the copy VS Code shows. For the same reason the marketplace sets no `metadata.pluginRoot`, which VS Code applies to `./` sources and Claude Code does not.
+- **Every listed skill carries a `README.md`, and it travels too.** VS Code renders `<source>/README.md` as the plugin's page, under exactly that name and with no fallback to `SKILL.md`, so a skill without one shows an empty page. Every installer copies it with the skill, so it names nothing outside the skill directory, links nothing relative (VS Code renders it with no base address), and invokes the skill by name rather than by one host's command form.
 - **One manifest per skill, one marketplace per repository.** VS Code reads `.plugin/plugin.json`, or a root `plugin.json` declaring the Agent Plugins `$schema`, ahead of `.claude-plugin/plugin.json`, and that format finds skills only under `skills/`, which would leave the directory's own `SKILL.md` unloaded. The Copilot CLI reads `.plugin/plugin.json`, any root `plugin.json`, and `.github/plugin/plugin.json` first. For marketplaces, VS Code and the Copilot CLI try `marketplace.json`, `.plugin/marketplace.json`, and `.github/plugin/marketplace.json` before `.claude-plugin/marketplace.json`, and the first one found is the whole catalogue.
 
-[`plugin-manifests.mjs`](../scripts/plugin-manifests.mjs), which `make -f .claude/Makefile check-skills` runs, holds every manifest to these rules: it parses, its `name` matches the directory, it sets no `version`, no competing manifest sits beside it, and every path in an `agents` key starts with `./`, stays inside the skill directory, and resolves. It requires the marketplace to list every skill that is not internal and nothing else, each entry carrying exactly the three keys above, with a `description` equal to its manifest's. That comparison is why a listed skill needs a manifest even though the marketplace route does not. [`plugin-manifests.test.mjs`](../scripts/plugin-manifests.test.mjs) covers each of these rules, and `make -f .claude/Makefile test-scripts` runs it.
+[`plugin-manifests.mjs`](../scripts/plugin-manifests.mjs), which `make -f .claude/Makefile check-skills` runs, holds every manifest to these rules: it parses, its `name` matches the directory, it sets no `version`, no competing manifest sits beside it, and every path in an `agents` key starts with `./`, stays inside the skill directory, and resolves. It requires the marketplace to list every skill that is not internal and nothing else, each entry carrying exactly the three keys above, with a `description` equal to its manifest's and a `README.md` beside the skill. That comparison is why a listed skill needs a manifest even though the marketplace route does not. [`plugin-manifests.test.mjs`](../scripts/plugin-manifests.test.mjs) covers each of these rules, and `make -f .claude/Makefile test-scripts` runs it.
 
 ## A published skill stays reachable by name
 

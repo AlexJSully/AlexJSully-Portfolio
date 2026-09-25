@@ -1,91 +1,31 @@
-// Tests for the plugin rules in `plugin-manifests.mjs`, run through the checker that reports them.
-//
-// Each case builds a small repository in a temporary directory, copies both scripts into it, and
-// runs the checker there as its own process, so the rules are exercised against real files exactly
-// as `make -f .claude/Makefile check-skills` runs them. Run with `make -f .claude/Makefile test-scripts`.
+// Tests for the plugin rules in `plugin-manifests.mjs`, run through the checker that reports them
+// against a fixture repository from `fixture-repository.mjs`. Run with
+// `make -f .claude/Makefile test-scripts`.
 import assert from 'assert/strict';
-import { spawnSync } from 'child_process';
-import { copyFileSync, mkdirSync, mkdtempSync, rmSync, unlinkSync, writeFileSync } from 'fs';
+import { renameSync, symlinkSync, unlinkSync } from 'fs';
 // `node:test` has no unprefixed name, unlike the other built-in modules imported here.
 import { afterEach, beforeEach, describe, it } from 'node:test';
-import { tmpdir } from 'os';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+import { join } from 'path';
+import {
+	ALPHA_DESCRIPTION,
+	ALPHA_MANIFEST,
+	ALPHA_README,
+	MARKETPLACE,
+	createFixtureRepository,
+	marketplace,
+} from './fixture-repository.mjs';
 
-const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
-const ALPHA_DESCRIPTION = 'Alpha plugin.';
-const ALPHA_MANIFEST = '.claude/skills/alpha/.claude-plugin/plugin.json';
-const MARKETPLACE = '.claude-plugin/marketplace.json';
+let fixture;
 
-let root;
+beforeEach(() => {
+	fixture = createFixtureRepository();
+});
 
-/** Writes `contents` to `path` under the fixture repository, creating its directory. */
-function write(path, contents) {
-	mkdirSync(dirname(join(root, path)), { recursive: true });
-	writeFileSync(join(root, path), typeof contents === 'string' ? contents : JSON.stringify(contents));
-}
-
-/**
- * Builds a repository holding one installable skill, `alpha`, with a manifest and one agent, and
- * one internal skill, `beta`, with neither, plus a marketplace listing `alpha` alone.
- */
-function buildRepository() {
-	root = mkdtempSync(join(tmpdir(), 'plugin-manifests-'));
-
-	for (const script of ['check-skill-publishability.mjs', 'plugin-manifests.mjs']) {
-		mkdirSync(join(root, '.claude/scripts'), { recursive: true });
-		copyFileSync(join(SCRIPT_DIR, script), join(root, '.claude/scripts', script));
-	}
-
-	write(
-		'.claude/skills/alpha/SKILL.md',
-		'---\nname: alpha\ndescription: Alpha skill.\nlicense: MIT\n---\n\n# Alpha\n',
-	);
-	write('.claude/skills/alpha/LICENSE.txt', 'MIT');
-	write('.claude/skills/alpha/agents/helper.md', '# Helper\n');
-	write(ALPHA_MANIFEST, { name: 'alpha', description: ALPHA_DESCRIPTION });
-	write(
-		'.claude/skills/beta/SKILL.md',
-		'---\nname: beta\ndescription: Beta skill.\nlicense: MIT\nmetadata:\n    internal: true\n---\n\n# Beta\n',
-	);
-	write('.claude/skills/beta/LICENSE.txt', 'MIT');
-	write(MARKETPLACE, marketplace());
-}
-
-/** The marketplace the fixture starts from, with any top-level keys in `overrides` applied. */
-function marketplace(overrides = {}) {
-	return {
-		name: 'fixture',
-		owner: { name: 'Fixture' },
-		plugins: [{ name: 'alpha', source: './.claude/skills/alpha', description: ALPHA_DESCRIPTION }],
-		...overrides,
-	};
-}
-
-/** Runs the checker against the fixture and returns its exit status and everything it printed. */
-function check() {
-	const result = spawnSync(process.execPath, [join(root, '.claude/scripts/check-skill-publishability.mjs')], {
-		encoding: 'utf8',
-	});
-
-	return { status: result.status, output: `${result.stdout}${result.stderr}` };
-}
-
-/** Asserts that the checker exits 1 and prints a failure containing `message` exactly once. */
-function assertFailsOnce(message) {
-	const { status, output } = check();
-
-	assert.equal(status, 1, output);
-	assert.equal(output.split(message).length - 1, 1, output);
-}
-
-beforeEach(buildRepository);
-
-afterEach(() => rmSync(root, { recursive: true, force: true }));
+afterEach(() => fixture.remove());
 
 describe('plugin manifest checks', () => {
 	it('passes a skill whose manifest and marketplace entry agree', () => {
-		const { status, output } = check();
+		const { status, output } = fixture.check();
 
 		assert.equal(status, 0, output);
 		assert.match(output, /ok {3}\.claude-plugin\/marketplace\.json/);
@@ -112,38 +52,52 @@ describe('plugin manifest checks', () => {
 		},
 	]) {
 		it(`reports a manifest carrying ${label}`, () => {
-			write(ALPHA_MANIFEST, { name: 'alpha', description: ALPHA_DESCRIPTION, ...manifest });
+			fixture.write(ALPHA_MANIFEST, { name: 'alpha', description: ALPHA_DESCRIPTION, ...manifest });
 
-			assertFailsOnce(message);
+			fixture.assertFailsOnce(message);
 		});
 	}
 
+	it('reports an agents path whose symbolic link leads out of the skill', () => {
+		symlinkSync(
+			join(fixture.root, '.claude/skills/beta'),
+			join(fixture.root, '.claude/skills/alpha/agents/escape'),
+		);
+		fixture.write(ALPHA_MANIFEST, { name: 'alpha', description: ALPHA_DESCRIPTION, agents: './agents/escape' });
+
+		fixture.assertFailsOnce('outside the skill');
+	});
+
 	it('accepts an agents path pointing at a directory inside the skill', () => {
-		write(ALPHA_MANIFEST, { name: 'alpha', description: ALPHA_DESCRIPTION, agents: './agents' });
+		fixture.write(ALPHA_MANIFEST, { name: 'alpha', description: ALPHA_DESCRIPTION, agents: './agents' });
 
-		assert.equal(check().status, 0);
+		assert.equal(fixture.check().status, 0);
 	});
 
-	it('reports a second manifest that a host reads first', () => {
-		write('.claude/skills/alpha/plugin.json', { name: 'alpha' });
+	for (const competing of ['plugin.json', '.plugin/plugin.json', '.github/plugin/plugin.json']) {
+		it(`reports a second manifest at ${competing}, which a host reads first`, () => {
+			fixture.write(`.claude/skills/alpha/${competing}`, { name: 'alpha' });
 
-		assertFailsOnce('a host reads this ahead of');
-	});
+			fixture.assertFailsOnce('a host reads this ahead of');
+		});
+	}
 
 	for (const { label, contents, message } of [
 		{ label: 'does not parse', contents: '{', message: 'does not parse as JSON' },
 		{ label: 'is not an object', contents: 'null', message: 'is not a JSON object' },
 	]) {
-		it(`reports a manifest that ${label} without stopping the run`, () => {
-			write(ALPHA_MANIFEST, contents);
+		it(`reports a manifest that ${label}, and goes on to check the marketplace`, () => {
+			fixture.write(ALPHA_MANIFEST, contents);
+			fixture.write(MARKETPLACE, marketplace({ metadata: { pluginRoot: './plugins' } }));
 
-			assertFailsOnce(message);
+			fixture.assertFailsOnce(message, 'sets `metadata.pluginRoot`');
 		});
 	}
 });
 
 describe('plugin marketplace checks', () => {
 	for (const { label, overrides, message } of [
+		{ label: 'no name', overrides: { name: undefined }, message: 'needs a `name` and an `owner.name`' },
 		{ label: 'no owner', overrides: { owner: undefined }, message: 'needs a `name` and an `owner.name`' },
 		{
 			label: 'a plugin root',
@@ -154,9 +108,9 @@ describe('plugin marketplace checks', () => {
 		{ label: 'no entry for an offered skill', overrides: { plugins: [] }, message: 'does not list "alpha"' },
 	]) {
 		it(`reports a marketplace with ${label}`, () => {
-			write(MARKETPLACE, marketplace(overrides));
+			fixture.write(MARKETPLACE, marketplace(overrides));
 
-			assertFailsOnce(message);
+			fixture.assertFailsOnce(message);
 		});
 	}
 
@@ -177,44 +131,61 @@ describe('plugin marketplace checks', () => {
 		it(`reports an entry with ${label}`, () => {
 			const alpha = { name: 'alpha', source: './.claude/skills/alpha', description: ALPHA_DESCRIPTION, ...entry };
 
-			write(MARKETPLACE, marketplace({ plugins: [alpha] }));
+			fixture.write(MARKETPLACE, marketplace({ plugins: [alpha] }));
 
-			assertFailsOnce(message);
+			fixture.assertFailsOnce(message);
 		});
 	}
 
 	it('reports an entry for an internal skill', () => {
 		const beta = { name: 'beta', source: './.claude/skills/beta', description: 'Beta plugin.' };
 
-		write(MARKETPLACE, marketplace({ plugins: [...marketplace().plugins, beta] }));
+		fixture.write(MARKETPLACE, marketplace({ plugins: [...marketplace().plugins, beta] }));
 
-		assertFailsOnce('lists "beta", which is not a skill an installer may offer');
+		fixture.assertFailsOnce('lists "beta", which is not a skill an installer may offer');
 	});
 
 	it('reports a repeated entry once, and its other failures once', () => {
 		const wrong = { name: 'alpha', source: './alpha', description: ALPHA_DESCRIPTION };
 
-		write(MARKETPLACE, marketplace({ plugins: [wrong, wrong] }));
+		fixture.write(MARKETPLACE, marketplace({ plugins: [wrong, wrong] }));
 
-		assertFailsOnce('lists "alpha" more than once');
-		assertFailsOnce('must have source');
+		fixture.assertFailsOnce('lists "alpha" more than once', 'must have source');
+	});
+
+	it('reports a listed skill with no README.md', () => {
+		unlinkSync(join(fixture.root, ALPHA_README));
+
+		fixture.assertFailsOnce('has no README.md');
+	});
+
+	// Only a case-insensitive file system, such as macOS's default, tells this case apart from an
+	// `existsSync` check; on a case-sensitive one both approaches report the renamed file.
+	it('reports a README whose name differs from README.md only in case', () => {
+		renameSync(join(fixture.root, ALPHA_README), join(fixture.root, '.claude/skills/alpha/readme.md'));
+
+		fixture.assertFailsOnce('has no README.md');
 	});
 
 	it('reports a listed skill that has no manifest to compare against', () => {
-		unlinkSync(join(root, ALPHA_MANIFEST));
+		unlinkSync(join(fixture.root, ALPHA_MANIFEST));
 
-		assertFailsOnce('has no .claude-plugin/plugin.json');
+		fixture.assertFailsOnce('has no .claude-plugin/plugin.json');
 	});
 
-	it('reports a marketplace file that hosts read before this one', () => {
-		write('.github/plugin/marketplace.json', { plugins: [] });
+	for (const shadowing of ['marketplace.json', '.plugin/marketplace.json', '.github/plugin/marketplace.json']) {
+		it(`reports a marketplace file at ${shadowing}, which hosts read first, and prints no ok line`, () => {
+			fixture.write(shadowing, { plugins: [] });
 
-		assertFailsOnce('so it hides that catalogue');
-	});
+			const output = fixture.assertFailsOnce('so it hides that catalogue');
+
+			assert.doesNotMatch(output, /ok {3}\.claude-plugin\/marketplace\.json/);
+		});
+	}
 
 	it('reports a missing marketplace', () => {
-		unlinkSync(join(root, MARKETPLACE));
+		unlinkSync(join(fixture.root, MARKETPLACE));
 
-		assertFailsOnce('missing, so no skill is installable');
+		fixture.assertFailsOnce('missing, so no skill is installable');
 	});
 });
