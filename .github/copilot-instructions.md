@@ -257,4 +257,4 @@ When writing or editing any Markdown, the full rules are in [`audit-docs.prompt.
 - **No em-dashes or en-dashes**: replace each with a comma, parenthesis, colon, separate sentence, or a spaced hyphen, including existing ones in any file you edit
 - **Canadian English** for prose you write or change (colour, behaviour, standardize), never for code identifiers, config keys, or package names
 - **No subjective adjectives** (important, robust, seamless). State the fact that would earn the adjective
-- Every file reference is a clickable Markdown link to a **file**, never a bare filename or a directory, and every Mermaid diagram carries both `accTitle` and `accDescr`
+- Every file reference is a clickable Markdown link to a **file**, never a bare filename or a directory, and every Mermaid diagram carries both `accTitle` and `accDescr`. The exception is a skill's `README.md`, which names a file beside it in a code span, because the plugin page VS Code opens from its Agent Plugins view strips a relative link's target
