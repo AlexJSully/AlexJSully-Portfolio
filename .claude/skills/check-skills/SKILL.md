@@ -19,7 +19,7 @@ Three audits ship twice: `.github/prompts/<name>.prompt.md` for an agent that re
 make -f .claude/Makefile check-skills
 ```
 
-It decides everything a machine can: `name` matching the directory, `description` within its character limit, a body under 500 lines, a licence on every skill, every bundled path resolving, no skill naming a prompt, no prompt naming a file that will not travel with it, and the plugin marketplace listing every skill that is not internal, each entry matching that skill's `.claude-plugin/plugin.json`, each listed skill carrying a `README.md`, and no manifest carrying a `version`.
+It decides everything a machine can: `name` matching the directory, `description` within its character limit, a body under 500 lines, a licence on every skill, every bundled path resolving inside the skill directory, no skill naming a prompt, no prompt naming a file that will not travel with it, and the plugin marketplace listing every skill that is not internal, each entry matching that skill's `.claude-plugin/plugin.json`, each listed skill carrying a `README.md`, and no manifest carrying a `version`.
 
 Exit 0 means the mechanical rules hold. It does **not** mean the two halves still agree.
 

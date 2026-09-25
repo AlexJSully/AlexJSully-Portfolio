@@ -1,7 +1,7 @@
 // Tests for the skill and prompt rules in `check-skill-publishability.mjs`, run against a fixture
 // repository from `fixture-repository.mjs`. Run with `make -f .claude/Makefile test-scripts`.
 import assert from 'assert/strict';
-import { unlinkSync } from 'fs';
+import { mkdirSync, symlinkSync, unlinkSync, writeFileSync } from 'fs';
 // `node:test` has no unprefixed name, unlike the other built-in modules imported here.
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import { join } from 'path';
@@ -103,6 +103,16 @@ describe('skill checks', () => {
 			contents: skillFile(ALPHA_FIELDS, 'Open `references/gone.md`.\n'),
 			message: 'references "references/gone.md"',
 		},
+		{
+			label: 'a link climbing out of the skill to a file that exists',
+			contents: skillFile(ALPHA_FIELDS, '[beta](agents/../../beta/SKILL.md)\n'),
+			message: 'references "agents/../../beta/SKILL.md", which resolves outside the skill directory',
+		},
+		{
+			label: 'a code span climbing out of the skill to a file that exists',
+			contents: skillFile(ALPHA_FIELDS, 'Compare `agents/../../beta/SKILL.md`.\n'),
+			message: 'references "agents/../../beta/SKILL.md", which resolves outside the skill directory',
+		},
 	]) {
 		it(`reports a SKILL.md with ${label}`, () => {
 			fixture.write(ALPHA_SKILL, contents);
@@ -158,6 +168,40 @@ describe('skill checks', () => {
 		fixture.addInternalSkill('a'.repeat(64));
 
 		assert.equal(fixture.check().status, 0);
+	});
+
+	it('reports a link to a bundled symbolic link that leads out of the skill', () => {
+		fixture.write('shared/guide.md', '# Guide\n');
+		symlinkSync(join(fixture.root, 'shared/guide.md'), join(fixture.root, '.claude/skills/alpha/agents/guide.md'));
+		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, '[guide](agents/guide.md)\n'));
+
+		fixture.assertFailsOnce('references "agents/guide.md", which resolves outside the skill directory');
+	});
+
+	it('checks a skill directory reached through a symbolic link', () => {
+		fixture.write('shared/gamma/SKILL.md', skillFile({ ...BETA_FIELDS, name: 'gamma' }));
+		fixture.write('shared/gamma/LICENSE.txt', 'MIT');
+		symlinkSync(join(fixture.root, 'shared/gamma'), join(fixture.root, '.claude/skills/gamma'));
+
+		const { status, output } = fixture.check();
+
+		assert.equal(status, 0, output);
+		assert.match(output, /ok {3}gamma +internal/);
+	});
+
+	it('reports a skill directory whose SKILL.md is a directory', () => {
+		mkdirSync(join(fixture.root, '.claude/skills/empty/SKILL.md'), { recursive: true });
+
+		fixture.assertFailsOnce('.claude/skills/empty/SKILL.md: no SKILL.md');
+	});
+
+	it('reports a skill whose LICENSE.txt is a directory', () => {
+		const licence = join(fixture.root, '.claude/skills/alpha/LICENSE.txt');
+
+		unlinkSync(licence);
+		mkdirSync(licence);
+
+		fixture.assertFailsOnce('so it needs a LICENSE.txt beside it');
 	});
 
 	it('reports a skill directory with no SKILL.md', () => {
@@ -218,6 +262,43 @@ describe('skill checks', () => {
 
 		assert.equal(fixture.check().status, 0);
 	});
+
+	it('reports a bundled symbolic link whose target names a prompt file', () => {
+		fixture.write('shared/linked.md', 'See `alpha.prompt.md`.\n');
+		symlinkSync(
+			join(fixture.root, 'shared/linked.md'),
+			join(fixture.root, '.claude/skills/alpha/agents/linked.md'),
+		);
+
+		fixture.assertFailsOnce('agents/linked.md: names a prompt file');
+	});
+
+	for (const { label, create } of [
+		{
+			label: 'a directory named like Markdown at the top of a skill',
+			create: (at) => mkdirSync(at('.claude/skills/alpha/notes.md')),
+		},
+		{
+			label: 'a symbolic link to nothing at the top of a skill',
+			create: (at) => symlinkSync(at('gone.md'), at('.claude/skills/alpha/notes.md')),
+		},
+		{
+			label: 'a file where a bundle directory belongs',
+			create: (at) => writeFileSync(at('.claude/skills/alpha/assets'), 'x'),
+		},
+		{
+			label: 'a directory named like a prompt file',
+			create: (at) => mkdirSync(at('.github/prompts/alpha.prompt.md'), { recursive: true }),
+		},
+	]) {
+		it(`skips ${label}`, () => {
+			create((path) => join(fixture.root, path));
+
+			const { status, output } = fixture.check();
+
+			assert.equal(status, 0, output);
+		});
+	}
 
 	it('skips a directory nested in a bundle directory', () => {
 		fixture.write('.claude/skills/alpha/references/nested/deep.md', '# Deep\n');

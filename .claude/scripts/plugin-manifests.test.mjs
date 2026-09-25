@@ -2,7 +2,7 @@
 // against a fixture repository from `fixture-repository.mjs`. Run with
 // `make -f .claude/Makefile test-scripts`.
 import assert from 'assert/strict';
-import { renameSync, symlinkSync, unlinkSync } from 'fs';
+import { mkdirSync, renameSync, symlinkSync, unlinkSync } from 'fs';
 // `node:test` has no unprefixed name, unlike the other built-in modules imported here.
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import { join } from 'path';
@@ -152,6 +152,31 @@ describe('plugin marketplace checks', () => {
 
 		fixture.assertFailsOnce('lists "alpha" more than once', 'must have source');
 	});
+
+	for (const { label, replace } of [
+		{ label: 'a directory', replace: (readme) => mkdirSync(readme) },
+		{
+			label: 'a symbolic link to a file inside the skill',
+			replace: (readme) => symlinkSync(join(fixture.root, '.claude/skills/alpha/SKILL.md'), readme),
+		},
+		{
+			label: 'a symbolic link to a file outside the skill',
+			replace: (readme) => symlinkSync(join(fixture.root, '.claude/skills/beta/SKILL.md'), readme),
+		},
+		{
+			label: 'a symbolic link to nothing',
+			replace: (readme) => symlinkSync(join(fixture.root, 'gone.md'), readme),
+		},
+	]) {
+		it(`reports a README.md that is ${label}`, () => {
+			const readme = join(fixture.root, ALPHA_README);
+
+			unlinkSync(readme);
+			replace(readme);
+
+			fixture.assertFailsOnce('has no README.md that is a regular file');
+		});
+	}
 
 	it('reports a listed skill with no README.md', () => {
 		unlinkSync(join(fixture.root, ALPHA_README));

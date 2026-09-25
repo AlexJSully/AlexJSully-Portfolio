@@ -5,7 +5,8 @@
 // Agent Skills specification, so they change when one of those hosts does.
 // `check-skill-publishability.mjs` runs them and reports the result.
 import { existsSync, readFileSync, readdirSync, realpathSync } from 'fs';
-import { isAbsolute, join, relative, resolve, sep } from 'path';
+import { join, resolve } from 'path';
+import { isInside } from './file-system.mjs';
 
 const REPO_ROOT = resolve(import.meta.dirname, '..', '..');
 const SKILL_DIR = join(REPO_ROOT, '.claude', 'skills');
@@ -189,21 +190,6 @@ function checkAgentPaths(name, agents, label, fail) {
 }
 
 /**
- * Returns whether `path` is `root` or sits beneath it. Both are compared as given, so pass real
- * paths to rule out a symbolic link leading out of `root`.
- *
- * @param {string} path Absolute path to test.
- * @param {string} root Absolute path of the directory it must stay within.
- * @returns {boolean} True when `path` does not leave `root`.
- */
-function isInside(path, root) {
-	const fromRoot = relative(root, path);
-	const leavesRoot = fromRoot === '..' || fromRoot.startsWith(`..${sep}`) || isAbsolute(fromRoot);
-
-	return !leavesRoot;
-}
-
-/**
  * Checks that the marketplace offers exactly the skills an installer may offer, each as a plugin
  * rooted at its own skill directory.
  *
@@ -266,6 +252,25 @@ function checkMarketplace(offered, manifests, fail) {
 }
 
 /**
+ * Returns whether a skill directory holds a {@link PLUGIN_README} that is a regular file, under
+ * exactly that name.
+ *
+ * The name is matched against the listing rather than tested with `existsSync`, because a
+ * case-insensitive file system also finds `readme.md`, which GitHub does not serve under the name
+ * VS Code requests. The entry is not followed if it is a symbolic link: GitHub serves a link as the
+ * text of the path it points to, which VS Code can show before install and which `gh skill`
+ * installs in the file's place.
+ *
+ * @param {string} name Directory name of the skill under `.claude/skills/`.
+ * @returns {boolean} True when the README is a regular file.
+ */
+function hasRegularReadme(name) {
+	const entries = readdirSync(join(SKILL_DIR, name), { withFileTypes: true });
+
+	return entries.find((entry) => entry.name === PLUGIN_README)?.isFile() ?? false;
+}
+
+/**
  * Checks one marketplace entry against the skill directory it names.
  *
  * A plugin rooted there is read the same way by every host: VS Code and Claude Code load the root
@@ -306,10 +311,8 @@ function checkMarketplaceEntry(entry, offered, manifests, fail) {
 		fail(label, `"${name}" has no description, which is the text VS Code lists it by`);
 	}
 
-	// Matched against the listing rather than tested with `existsSync`, because a case-insensitive
-	// file system also finds `readme.md`, which GitHub does not serve under the name VS Code requests.
-	if (!readdirSync(join(SKILL_DIR, name)).includes(PLUGIN_README)) {
-		fail(label, `"${name}" has no ${PLUGIN_README}, so its VS Code plugin page is empty`);
+	if (!hasRegularReadme(name)) {
+		fail(label, `"${name}" has no ${PLUGIN_README} that is a regular file, so its VS Code plugin page is empty`);
 	}
 
 	const manifest = manifests.get(name);

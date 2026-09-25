@@ -9,7 +9,7 @@ import { tmpdir } from 'os';
 import { dirname, join } from 'path';
 
 /** The scripts copied into every fixture, the first being the entry point the checker runs from. */
-const SCRIPTS = ['check-skill-publishability.mjs', 'plugin-manifests.mjs'];
+const SCRIPTS = ['check-skill-publishability.mjs', 'plugin-manifests.mjs', 'file-system.mjs'];
 
 /** The `metadata` value that marks a skill internal, nesting `internal: true` beneath the key. */
 const INTERNAL_METADATA = '\n    internal: true';

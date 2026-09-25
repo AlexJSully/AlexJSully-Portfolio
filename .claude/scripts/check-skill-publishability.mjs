@@ -10,8 +10,9 @@
 // What is left here is what a machine can decide.
 //
 // Run with no arguments. Reports every failure, then exits 1 if there were any.
-import { existsSync, readFileSync, readdirSync } from 'fs';
+import { existsSync, readFileSync, readdirSync, realpathSync } from 'fs';
 import { join, resolve } from 'path';
+import { isDirectory, isFile, isInside } from './file-system.mjs';
 import { MARKETPLACE_MANIFEST, PLUGIN_MANIFEST, SHADOWING_MARKETPLACES, checkPlugins } from './plugin-manifests.mjs';
 
 const REPO_ROOT = resolve(import.meta.dirname, '..', '..');
@@ -149,7 +150,7 @@ function checkSkill(name) {
 	const skillPath = join(SKILL_DIR, name, 'SKILL.md');
 	const label = `.claude/skills/${name}/SKILL.md`;
 
-	if (!existsSync(skillPath)) {
+	if (!isFile(skillPath)) {
 		fail(label, 'no SKILL.md');
 
 		return;
@@ -221,9 +222,15 @@ function checkBody(name, body, label) {
 		fail(label, `body is ${bodyLines} lines, over ${MAX_BODY_LINES}; move detail into references/`);
 	}
 
+	const skillRoot = join(SKILL_DIR, name);
+
 	for (const target of referencedPaths(body)) {
-		if (!existsSync(join(SKILL_DIR, name, target))) {
+		const resolved = resolve(skillRoot, target);
+
+		if (!existsSync(resolved)) {
 			fail(label, `references "${target}", which does not exist in the skill directory`);
+		} else if (!isInside(realpathSync(resolved), realpathSync(skillRoot))) {
+			fail(label, `references "${target}", which resolves outside the skill directory, so no install copies it`);
 		}
 	}
 }
@@ -244,7 +251,7 @@ function checkLicence(name, frontmatter, label) {
 		fail(label, 'an installer can offer any skill here, so it needs a license key');
 	}
 
-	if (!existsSync(join(SKILL_DIR, name, 'LICENSE.txt'))) {
+	if (!isFile(join(SKILL_DIR, name, 'LICENSE.txt'))) {
 		fail(label, 'an installer can offer any skill here, so it needs a LICENSE.txt beside it');
 	}
 }
@@ -307,22 +314,25 @@ function checkInvocable(name, frontmatter) {
  * file one level deep in each bundle directory, plus the plugin manifest. The manifest carries a
  * `description`, so it can name a prompt file exactly as a body can, and it ships in the copied
  * directory either way.
+ *
+ * A symbolic link is followed, so a linked file is scanned as the file it resolves to, and an entry
+ * that is not a file, such as a directory or a link to nothing, is skipped.
  */
 function skillFiles(name) {
 	const root = join(SKILL_DIR, name);
-	const files = readdirSync(root).filter((file) => file.endsWith('.md'));
+	const files = readdirSync(root).filter((file) => file.endsWith('.md') && isFile(join(root, file)));
 
 	for (const dir of BUNDLE_DIRS) {
-		if (!existsSync(join(root, dir))) {
+		if (!isDirectory(join(root, dir))) {
 			continue;
 		}
 
-		const entries = readdirSync(join(root, dir), { withFileTypes: true });
+		const bundled = readdirSync(join(root, dir)).filter((file) => isFile(join(root, dir, file)));
 
-		files.push(...entries.filter((entry) => entry.isFile()).map((entry) => `${dir}/${entry.name}`));
+		files.push(...bundled.map((file) => `${dir}/${file}`));
 	}
 
-	if (existsSync(join(root, PLUGIN_MANIFEST))) {
+	if (isFile(join(root, PLUGIN_MANIFEST))) {
 		files.push(PLUGIN_MANIFEST);
 	}
 
@@ -413,13 +423,13 @@ function report(skills, prompts) {
 	);
 }
 
-const skills = existsSync(SKILL_DIR)
-	? readdirSync(SKILL_DIR, { withFileTypes: true })
-			.filter((entry) => entry.isDirectory())
-			.map((entry) => entry.name)
+const skills = isDirectory(SKILL_DIR)
+	? readdirSync(SKILL_DIR).filter((entry) => isDirectory(join(SKILL_DIR, entry)))
 	: [];
 
-const prompts = existsSync(PROMPT_DIR) ? readdirSync(PROMPT_DIR).filter((file) => file.endsWith('.prompt.md')) : [];
+const prompts = isDirectory(PROMPT_DIR)
+	? readdirSync(PROMPT_DIR).filter((file) => file.endsWith('.prompt.md') && isFile(join(PROMPT_DIR, file)))
+	: [];
 
 if (skills.length === 0 && prompts.length === 0) {
 	console.log('No skills or prompts found. Nothing to check.');
@@ -432,7 +442,7 @@ prompts.forEach(checkPrompt);
 // Only an internal skill is withheld from the marketplace. Every other one is already offered by
 // `npx skills`, so leaving it out there would make the two catalogues disagree without anyone
 // deciding they should.
-const offered = skills.filter((name) => existsSync(join(SKILL_DIR, name, 'SKILL.md')) && state(name) !== 'internal');
+const offered = skills.filter((name) => isFile(join(SKILL_DIR, name, 'SKILL.md')) && state(name) !== 'internal');
 
 failures.push(...checkPlugins(skills, offered));
 
