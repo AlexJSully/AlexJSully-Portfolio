@@ -44,7 +44,7 @@ Sources that could not be resolved this run: [name each one and what you used in
 
 - Corrected `[document]`: [the statement that contradicted the code] replaced with [the statement the code supports], from `[symbol]` in `[file]`.
 - Deleted [section] from `[document]`: [describes a removed feature / duplicated in `[document]` / cannot be corrected].
-- Split `[document]` into `[overview document]` and `[depth document]`: [it mixed a brief overview with deep reference/how-to/explanation content], filed by [the sibling or precedent that decided each directory].
+- Split `[document]`, kept at its path as the overview, adding `[depth document]`: [it mixed a brief overview with deep reference/how-to/explanation content], filed by [the sibling or precedent that decided the depth document's directory].
 - Created `[new document]`: [why no existing document was a home for it], filed as [tutorial / how-to guide / reference / explanation].
 - Oriented `[document]`: [the acronym, term of art, prerequisite, or missing statement of subject that stopped a first-time reader] introduced at [where].
 

@@ -49,7 +49,7 @@ const MAX_PROMPT_CHARS_BY_FILE = { 'audit-docs.prompt.md': 36_000 };
 /**
  * Directories a skill may bundle. The specification defines `references/`, `assets/`, and
  * `scripts/`; `agents/` is a host extension, read only where a host loads the directory as a
- * plugin, and inert everywhere else.
+ * plugin, or by Codex for its `agents/openai.yaml` metadata file, and inert everywhere else.
  */
 const BUNDLE_DIRS = ['references', 'agents', 'assets', 'scripts'];
 

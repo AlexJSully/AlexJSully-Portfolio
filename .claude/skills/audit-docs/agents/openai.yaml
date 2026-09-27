@@ -1,0 +1,3 @@
+# Read by Codex alone: the skill loads when invoked by name as $audit-docs, never on a description match.
+policy:
+    allow_implicit_invocation: false

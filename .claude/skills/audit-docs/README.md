@@ -12,7 +12,7 @@ Audits a project's documentation against its code and corrects what has drifted,
 
 ## Usage
 
-Invoke the skill by name, for example `/audit-docs`, optionally followed by the paths or area to audit. Without one, it works from the active pull request, then uncommitted changes, then the component the surrounding task concerns, and only then the whole documentation set.
+Invoke the skill by name, for example `/audit-docs`, optionally followed by the paths or area to audit. Without one, it works from the active pull request, then uncommitted changes, then the files the surrounding task named or edited, and only then the whole documentation set. It edits only files inside that scope: a file it opens to check a claim stays untouched, and on a pull request the in-code pass covers the changed files plus files they reference directly, never another package or workspace.
 
 - `/audit-docs`
 - `/audit-docs docs/api`

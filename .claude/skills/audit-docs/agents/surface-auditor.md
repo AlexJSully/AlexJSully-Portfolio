@@ -21,7 +21,7 @@ Report every public or exported symbol that carries no documentation comment, an
 
 **Public means whatever the language in front of you means by it.** Read the project's own spelling rather than assuming one. The forms differ: an `export` or `pub` keyword; a `public` access modifier; a capitalized identifier at package level; a name listed in a module's exported-names collection; a name that merely lacks a leading underscore; a symbol re-exported through an entry-point file while its defining file is internal. Where a language offers no marker at all, treat what the entry-point file re-exports as the surface.
 
-State the rule `SKILL.md` already carries and do not soften it: on a public surface, being obvious is not a defect and being absent is. A symbol whose behaviour is plain from its name still lands in this list, because the comment is written for a reader meeting it for the first time.
+State the rule `SKILL.md` already carries and do not soften it: on a public surface, being obvious is not a defect and being absent is. A symbol whose behaviour is plain from its name still lands in this list, because the comment is written for a reader meeting it for the first time. That comment is one sentence by default, so an entry here asks the caller for a sentence, not a paragraph.
 
 ## List two: comments the implementation contradicts
 
