@@ -92,11 +92,11 @@ SYMBOL: `isBetaEnabled`. COMMENT: `isBetaEnabled mirrors the beta-features flag.
 
 A comment can be true, non-repeated, and still carry sentences its reader does not need. This list covers **every** comment in the paths handed in: inline comments, documentation comments on declarations, and file, module, or package comments. Report a comment here when it holds at least one sentence of these three kinds:
 
-- a sentence restating the declaration or the code beneath it, such as a signature retold in prose or a straightforward conditional, loop, or assignment walked through step by step;
+- a sentence restating the declaration or the code beneath it, such as a signature retold in prose or a straightforward conditional, loop, or assignment walked through step by step, other than the one sentence a public symbol's documentation comment gives to what the symbol does, which is required even where it restates the name or body;
 - a sentence listing or re-describing members that carry their own comments, which is how a package or type comment turns into a tour of the interface: each member's own comment, and the reference the language generates from them, already carry it;
 - a sentence narrating alternatives considered or reasoning walked through, where the code needs only the conclusion.
 
-Report the comment's own sentences in two verbatim sets: `KEEP`, the sentences carrying something the code does not show, and `CUT`, each sentence of the three kinds above beside the code string or member comment it restates. A sentence explaining a non-obvious internal is always `KEEP`. Never write replacement text: a reworded or merged sentence is a new claim, and the caller writes any new wording from code it opens itself. A comment that is also wrong goes under `CONTRADICTED` as well, and the caller corrects it before cutting.
+Report the comment's own sentences in two verbatim sets: `KEEP`, the sentences carrying something the code does not show, and `CUT`, each sentence of the three kinds above beside the code string or member comment it restates. The one sentence a public symbol's documentation comment gives to what the symbol does, and a sentence explaining a non-obvious internal, are always `KEEP`. Never write replacement text: a reworded or merged sentence is a new claim, and the caller writes any new wording from code it opens itself. A comment that is also wrong goes under `CONTRADICTED` as well, and the caller corrects it before cutting.
 
 ```python
 # We need to check if the user is eligible for the discount.

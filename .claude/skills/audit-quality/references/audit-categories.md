@@ -1,6 +1,6 @@
 # Audit categories
 
-The thirteen categories a codebase is audited against, each with what to look for. `SKILL.md` carries the two lenses read alongside every category, the execution order, and the rules every finding follows. Where a category below says "above", or cites a section or Rule 1 or Rule 2, it means `SKILL.md`: section 2 holds the hard rules, section 4 the two lenses, and section 5 the refutation pass.
+This file holds the thirteen categories a codebase is audited against, each with what to look for. [`SKILL.md`](../SKILL.md) carries the two lenses read alongside every category, the execution order, and the rules every finding follows. Where a category below says "above", or cites a section or Rule 1 or Rule 2, it means [`SKILL.md`](../SKILL.md): section 2 holds the hard rules, section 4 the two lenses, and section 5 the refutation pass.
 
 - [1. Architecture and design](#1-architecture-and-design)
 - [2. Correctness and code health](#2-correctness-and-code-health)

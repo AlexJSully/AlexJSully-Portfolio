@@ -91,7 +91,7 @@ Treat a hedge as an accuracy failure first and a voice failure second. `appears 
 
 ## Prose that restates the code instead of adding to it
 
-Cut any sentence a reader could reconstruct from the declaration. Prose earns its place by carrying what a signature cannot: why the thing exists, what the caller owes it, what happens at the boundary, and what a value means at its limits. The exception is consumer-facing reference material, whose readers cannot open the source, so stating what the function does is the entire job.
+Cut any sentence a reader could reconstruct from the declaration. Prose earns its place by carrying what a signature cannot: why the thing exists, what the caller owes it, what happens at the boundary, and what a value means at its limits. The exception is consumer-facing reference material, whose readers cannot open the source, so stating what the function does is the entire job, and a public symbol's documentation comment, whose one sentence saying what the symbol does stays even where it restates the name: the pairs below show how to write that sentence, not a reason to cut it.
 
 ```python
 # Restates the signature:
@@ -148,7 +148,7 @@ Cut to its first sentence, since every sentence after it restates a member's own
 package auth
 ```
 
-Procedure: cover the prose and read only the declaration. Anything you can still answer needs no sentence. Anything you cannot answer, and can prove from the body you read this run, is the sentence to write. **Apply it with the same two exceptions the rule above carries**, since a procedure stated without them is stricter than the rule it implements: a reader who cannot open the source, and a reader who has not yet been told what the subject is, are both owed the plain statement of what the thing does.
+Procedure: cover the prose and read only the declaration. Anything you can still answer needs no sentence. Anything you cannot answer, and can prove from the body you read this run, is the sentence to write. **Apply it with the same exceptions the rule above carries**, since a procedure stated without them is stricter than the rule it implements: a reader who cannot open the source, and a reader who has not yet been told what the subject is, are both owed the plain statement of what the thing does, and so is every public symbol's documentation comment.
 
 ## Show, do not tell: the cited fact that earns the adjective
 

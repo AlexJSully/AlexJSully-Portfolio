@@ -339,12 +339,12 @@ function checkInvocable(name, frontmatter) {
 
 /**
  * Returns every file inside a skill that travels with it and could name a path: top-level Markdown, every
- * file one level deep in each bundle directory, plus the plugin manifest. The manifest carries a
+ * file at any depth in each bundle directory, plus the plugin manifest. The manifest carries a
  * `description`, so it can name a prompt file exactly as a body can, and it ships in the copied
  * directory either way.
  *
  * A symbolic link is followed, so a linked file is scanned as the file it resolves to, and an entry
- * that is not a file, such as a directory or a link to nothing, is skipped.
+ * that is neither a file nor a directory, such as a link to nothing, is skipped.
  */
 function skillFiles(name) {
 	const root = join(SKILL_DIR, name);
@@ -355,9 +355,7 @@ function skillFiles(name) {
 			continue;
 		}
 
-		const bundled = readdirSync(join(root, dir)).filter((file) => isFile(join(root, dir, file)));
-
-		files.push(...bundled.map((file) => `${dir}/${file}`));
+		files.push(...filesBeneath(join(root, dir)).map((file) => `${dir}/${file}`));
 	}
 
 	if (isFile(join(root, PLUGIN_MANIFEST))) {
@@ -365,6 +363,33 @@ function skillFiles(name) {
 	}
 
 	return files;
+}
+
+/**
+ * Returns every file beneath `dir`, as paths relative to it. A directory reached a second time, which
+ * is where a symbolic link back up the tree leads, is not walked again.
+ *
+ * @param {string} dir Directory to walk.
+ * @param {Set<string>} walked Real paths of the directories already walked.
+ */
+function filesBeneath(dir, walked = new Set()) {
+	const real = realpathSync(dir);
+
+	if (walked.has(real)) {
+		return [];
+	}
+
+	walked.add(real);
+
+	return readdirSync(dir).flatMap((entry) => {
+		const path = join(dir, entry);
+
+		if (isFile(path)) {
+			return [entry];
+		}
+
+		return isDirectory(path) ? filesBeneath(path, walked).map((file) => `${entry}/${file}`) : [];
+	});
 }
 
 /** Checks a prompt against its character budget, and that it still works as the only file someone holds. */

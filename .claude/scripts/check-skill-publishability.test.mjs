@@ -311,8 +311,17 @@ describe('skill checks', () => {
 		});
 	}
 
-	it('skips a directory nested in a bundle directory', () => {
+	it('accepts a file nested in a bundle directory', () => {
 		fixture.write('.claude/skills/alpha/references/nested/deep.md', '# Deep\n');
+
+		const { status, output } = fixture.check();
+
+		assert.equal(status, 0, output);
+	});
+
+	it('walks a directory linked back up the tree once', () => {
+		fixture.write('.claude/skills/alpha/references/nested/deep.md', '# Deep\n');
+		symlinkSync('..', join(fixture.root, '.claude/skills/alpha/references/nested/loop'));
 
 		const { status, output } = fixture.check();
 
@@ -352,6 +361,12 @@ describe('skill checks', () => {
 		fixture.write('.claude/skills/alpha/references/detail.md', 'x'.repeat(39_001));
 
 		fixture.assertFailsOnce('references/detail.md: is 39001 bytes against a budget of 39000');
+	});
+
+	it('holds a Markdown file nested in a bundle directory to the same budget', () => {
+		fixture.write('.claude/skills/alpha/references/nested/deep.md', 'x'.repeat(39_001));
+
+		fixture.assertFailsOnce('references/nested/deep.md: is 39001 bytes against a budget of 39000');
 	});
 
 	for (const { label, fields, message } of [

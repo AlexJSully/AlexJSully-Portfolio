@@ -63,9 +63,9 @@ Before, across four documents in one set:
 
 > the retry envelope ... the retry wrapper ... `RetryEnvelope` ... the backoff wrapper
 
-After: one of them, chosen once and used everywhere in the documents this run edits, with the code identifier written as the code spells it and the prose term matching it.
+After: one of them, chosen once and used everywhere in the documents this run edits in full, with the code identifier written as the code spells it and the prose term matching it.
 
-Check this across the documents this run edits rather than within one, and report a divergent spelling in any other document rather than changing it. A single document is usually self-consistent; the divergence appears between documents written months apart.
+Check this across the documents this run edits in full rather than within one, and report a divergent spelling in any other document rather than changing it. A single document is usually self-consistent; the divergence appears between documents written months apart.
 
 ## The worked example
 
@@ -156,7 +156,7 @@ A page whose excess is a second complete document type, such as a full how-to li
 
 ## The read-it-cold procedure
 
-Run this before publishing, once per document this run edits.
+Run this before publishing, once per document this run edits in full.
 
 1. Read the document from the top, in order, allowing yourself nothing you learned from the code this run.
 2. Stop at the first place a reader without that knowledge cannot continue: an acronym never introduced, a term used before it is defined, a prerequisite never stated, a system named without being identified, or an opening that never says what the subject is.

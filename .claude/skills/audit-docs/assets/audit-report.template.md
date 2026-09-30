@@ -52,7 +52,7 @@ Sources that could not be resolved this run: [name each one and what you used in
 - Created `[new document]`: [why no existing document was a home for it], filed as [tutorial / how-to guide / reference / explanation].
 - Oriented `[document]`: [the acronym, term of art, prerequisite, or missing statement of subject that stopped a first-time reader] introduced at [where].
 
-**Both readers, one line per document you edited:**
+**Both readers, one line per document you edited in full:**
 
 | Document | Newcomer                                                                   | Experienced reader                                                                              |
 | -------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
@@ -60,7 +60,7 @@ Sources that could not be resolved this run: [name each one and what you used in
 
 **Entry path:** [present, naming the document that takes a first-time reader through one task end to end / absent, and what a first-time reader has to read instead].
 
-**Length:** [passages repeated within a document you edited, and whether each was removed or proposed for removal, or write "none found"].
+**Length:** [passages repeated within a document you edited in full, and whether each was removed or proposed for removal, or write "none found"].
 
 (Deletion needs one of the four listed reasons. Anything else is a correction. A file is split, merged, moved, renamed, or deleted only where the request asked or the user approved it when asked; otherwise it is proposed above. A created file needs the structure check stated first: which existing homes were considered and why each did not fit. The entry path is reported whether or not it was written, and it is written only where the invoking task asked for it.)
 

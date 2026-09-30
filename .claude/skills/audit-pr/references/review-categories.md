@@ -1,6 +1,6 @@
 # Review categories
 
-The eighteen categories a pull request is reviewed against, each with what to look for. `SKILL.md` carries the two lenses read alongside every category, the triage that decides which categories apply, and the rules every finding follows. Where a category below says "above", or cites section 5 or section 6, it means `SKILL.md`: section 5 holds the two lenses, and section 6 the refutation pass.
+This file holds the eighteen categories a pull request is reviewed against, each with what to look for. [`SKILL.md`](../SKILL.md) carries the two lenses read alongside every category, the triage that decides which categories apply, and the rules every finding follows. Where a category below says "above", or cites section 5 or section 6, it means [`SKILL.md`](../SKILL.md): section 5 holds the two lenses, and section 6 the refutation pass.
 
 - [1. Correctness and logic](#1-correctness-and-logic)
 - [2. Security](#2-security)

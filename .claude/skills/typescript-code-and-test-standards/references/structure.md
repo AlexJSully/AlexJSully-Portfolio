@@ -1,6 +1,6 @@
 # Structure: acting on a count
 
-What to do once one of the seven structural counts in `SKILL.md` passes its threshold: how to name a subdirectory, how to fix a declaration repeated per file, how TypeScript's own tools shape a split, and why duplication is reported rather than unified.
+This file says what to do once one of the seven structural counts in [`SKILL.md`](../SKILL.md) passes its threshold: how to name a subdirectory, how to fix a declaration repeated per file, how TypeScript's own tools shape a split, and why duplication is reported rather than unified.
 
 **Name the subdirectory from what the listing already shows.** Entries sharing a name prefix are the group, and four of twenty-four sharing one names both the group and the directory it should become. That signal costs nothing beyond the listing already taken, and a directory whose files are re-exported through a single barrel produces none, which is what keeps it off code that is already factored. Grouping by kind, by feature, by layer, and colocating a unit with its own tests are each a scheme, and a project applying one consistently has a convention: **what is measured is whether any grouping covers the files counted, never which scheme a project ought to adopt.**
 
