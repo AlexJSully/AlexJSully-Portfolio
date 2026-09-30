@@ -1,6 +1,7 @@
 ---
 name: diagram-reviewer
-description: Reviews every diagram in one document for accessibility fields, accuracy against the code it depicts, and readability, and separately reports where prose describes something a diagram would carry, returning findings rather than edits; invoke it once per document under audit.
+description: Returns findings on the diagrams in one document (accessibility fields, accuracy against the code, readability) and on where its prose describes something a diagram would carry. A step of the audit-docs skill, run when that skill's procedure table calls for it.
+tools: Read, Grep, Glob
 ---
 
 # Diagram reviewer

@@ -27,7 +27,7 @@ Run one, not all three.
 
 None of them audits your whole repository by default, which matters on a large codebase or a monorepo.
 
-`audit-docs` and `audit-quality` resolve scope in order, stopping at the first rule that applies: an explicit instruction, the active pull request, uncommitted changes, the component or system the surrounding task concerns, and only then everything. That last rung differs by what each one edits: the whole documentation set for `audit-docs`, the whole repository for `audit-quality`. Both state which rule applied in their output.
+`audit-docs` and `audit-quality` resolve scope in order, stopping at the first rule that applies: an explicit instruction, the active pull request, uncommitted changes, the component or system the surrounding task concerns (for `audit-docs`, the files that task created or changed), and only then everything. That last rung differs by what each one edits: the whole documentation set for `audit-docs`, the whole repository for `audit-quality`. Both state which rule applied in their output.
 
 `audit-pr` stops at the branch's own commits and has no whole-repository rung at all: with no change to review it reports nothing rather than widening.
 

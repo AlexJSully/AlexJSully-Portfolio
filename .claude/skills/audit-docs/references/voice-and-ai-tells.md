@@ -2,18 +2,19 @@
 
 A formal, neutral register is correct for technical documentation. Prose reads as machine-generated because of a small set of recurring constructions layered on that register, not because of the formality, so the work is to cut the constructions and keep the register.
 
-- [Scope limit: only prose you add or change](#scope-limit-only-prose-you-add-or-change)
-- [Signposting previews that announce content instead of giving it](#signposting-previews-that-announce-content-instead-of-giving-it)
-- [Puffery copulas that assert significance](#puffery-copulas-that-assert-significance)
-- [The rule-of-three triad as a default rhythm](#the-rule-of-three-triad-as-a-default-rhythm)
-- [Filler transitions at high frequency](#filler-transitions-at-high-frequency)
-- [Formulaic conclusions and manufactured tension](#formulaic-conclusions-and-manufactured-tension)
-- [Padded vocabulary, its replacements, and the words that stay](#padded-vocabulary-its-replacements-and-the-words-that-stay)
-- [Hedging that dodges commitment](#hedging-that-dodges-commitment)
-- [Prose that restates the code instead of adding to it](#prose-that-restates-the-code-instead-of-adding-to-it)
-- [Show, do not tell: the cited fact that earns the adjective](#show-do-not-tell-the-cited-fact-that-earns-the-adjective)
-- [Leading with the point and letting sentence length follow content](#leading-with-the-point-and-letting-sentence-length-follow-content)
-- [Self-check for a paragraph you just wrote](#self-check-for-a-paragraph-you-just-wrote)
+- [Voice and AI tells](#voice-and-ai-tells)
+    - [Scope limit: only prose you add or change](#scope-limit-only-prose-you-add-or-change)
+    - [Signposting previews that announce content instead of giving it](#signposting-previews-that-announce-content-instead-of-giving-it)
+    - [Puffery copulas that assert significance](#puffery-copulas-that-assert-significance)
+    - [The rule-of-three triad as a default rhythm](#the-rule-of-three-triad-as-a-default-rhythm)
+    - [Filler transitions at high frequency](#filler-transitions-at-high-frequency)
+    - [Formulaic conclusions and manufactured tension](#formulaic-conclusions-and-manufactured-tension)
+    - [Padded vocabulary, its replacements, and the words that stay](#padded-vocabulary-its-replacements-and-the-words-that-stay)
+    - [Hedging that dodges commitment](#hedging-that-dodges-commitment)
+    - [Prose that restates the code instead of adding to it](#prose-that-restates-the-code-instead-of-adding-to-it)
+    - [Show, do not tell: the cited fact that earns the adjective](#show-do-not-tell-the-cited-fact-that-earns-the-adjective)
+    - [Leading with the point and letting sentence length follow content](#leading-with-the-point-and-letting-sentence-length-follow-content)
+    - [Self-check for a paragraph you just wrote](#self-check-for-a-paragraph-you-just-wrote)
 
 ## Scope limit: only prose you add or change
 
@@ -108,7 +109,43 @@ def set_timeout(seconds: int) -> None:
 // Restates: Close closes the writer.
 // Adds: Close flushes buffered rows before releasing the file handle, and
 // a write after Close returns ErrClosed rather than panicking.
-func (w *Writer) Close() error
+func (w *Writer) Close() error {
+	flushErr := w.flush()
+	w.closed = true
+	if err := w.file.Close(); err != nil {
+		return err
+	}
+
+	return flushErr
+}
+
+func (w *Writer) Write(row []string) error {
+	if w.closed {
+		return ErrClosed
+	}
+
+	return w.buffer(row)
+}
+```
+
+Each sentence of the second comment rests on a line of a body, on every path through it: `w.flush()` runs before `w.file.Close()` whether or not it fails, `w.closed` is set before either can return, and `Write` opens with `if w.closed { return ErrClosed }`. A sentence with no such line behind it is not written, however likely it sounds.
+
+A package or file comment fails the same test in its own way: it re-describes members that already carry their own comments, and turns into a tour of the interface.
+
+```go
+// Package auth issues and verifies signed session tokens for the API.
+// NewIssuer creates an Issuer from a signing key. Issue signs a token for a
+// user ID, and Verify checks a token's signature and expiry, returning
+// ErrExpired or ErrInvalid. Middleware rejects a request without a valid
+// bearer token.
+package auth
+```
+
+Cut to its first sentence, since every sentence after it restates a member's own comment and the generated reference already lists those members:
+
+```go
+// Package auth issues and verifies signed session tokens for the API.
+package auth
 ```
 
 Procedure: cover the prose and read only the declaration. Anything you can still answer needs no sentence. Anything you cannot answer, and can prove from the body you read this run, is the sentence to write. **Apply it with the same two exceptions the rule above carries**, since a procedure stated without them is stricter than the rule it implements: a reader who cannot open the source, and a reader who has not yet been told what the subject is, are both owed the plain statement of what the thing does.

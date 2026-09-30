@@ -20,13 +20,15 @@ Everything below is what those tools cannot check.
 - **Never argue that the code is correct or safe.** A note defending a decision documents the edit rather than the code.
 - A comment that contradicts the code is **corrected, not deleted**. The code is the truth.
 - Delete commented-out code.
-- Inside a function body, a comment restating the line beneath it is noise. On a public surface, redundancy is not a defect.
+- Inside a function body, a comment restating the line beneath it is noise. On a public surface, one sentence saying what a symbol does is not a defect even where its name says so too.
 - **Never delete a tooling directive**: `//@ts-check`, `/// <reference types="..." />`, `// @ts-expect-error`, `eslint-disable`, `biome-ignore`, `istanbul ignore`, `prettier-ignore`, bundler magic comments, framework directives such as `'use client'`, and license headers. **Moving one is not deleting it**: where the same directive repeats across files and the tool reads that setting from its own configuration, setting the key once and removing the copies relocates the instruction, and the number removed goes in the change. What this forbids is stripping a directive during work that had no reason to touch it.
 - Use `//` for implementation notes. No block comment inside a function body, except to name an argument at a call site: `someFunction(/* shouldRender= */ true)`.
 
 ## Documentation blocks
 
-- **Every exported symbol carries one**, and so do the members of an exported structure: interface properties, object keys, enum values. Write for a reader meeting it for the first time. Reach for what the signature cannot express (why it exists, a constraint, an invariant, a caller obligation); where nothing better exists, a plain restatement is correct. Being obvious is not a defect on a public surface; being absent is.
+- **Every exported symbol carries one**, and so do the members of an exported structure: interface properties, object keys, enum values. Keep it short: one sentence saying what the symbol does, and a second only for an error, a constraint, or a caller obligation the body or a test proves. Being obvious is not a defect on a public surface; being absent is.
+- **A file-level block is one sentence saying what the module is for**, and never lists or re-describes exports that carry their own blocks.
+- **Cut a verbose block by whole sentences, and grow an accurate one only by folding in a constraint from a copy above a use.** Delete each sentence that restates the signature or the code, re-describes members, or narrates reasoning; keep every other sentence word for word. Tags follow the rule on existing tags.
 - **Write it from the implementation, never from the symbol's name.** If the body cannot be read, leave the symbol undocumented and say so. A block invented from a name is how drift starts.
 - **Types depend on whether the file is type-checked.** In a file the compiler checks, omit `@param {string}`, `@returns {number}`, `@type`, and `@typedef`: the compiler carries the type and the annotation drifts. In a plain JavaScript file where the documentation block **is** the type system, those annotations are load-bearing and stay. Check `tsconfig.json`, `jsconfig.json`, and any `//@ts-check` directive first.
 - **Leave existing tags alone unless they are factually wrong.** Do not strip a `{type}` annotation, reword accurate prose, delete a tag for looking redundant, or reorder tags. Delete one only when it is wrong and uncorrectable, such as documenting a parameter the signature no longer has.
