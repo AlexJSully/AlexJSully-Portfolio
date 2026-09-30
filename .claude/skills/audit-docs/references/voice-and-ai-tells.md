@@ -91,10 +91,10 @@ Treat a hedge as an accuracy failure first and a voice failure second. `appears 
 
 ## Prose that restates the code instead of adding to it
 
-Cut any sentence a reader could reconstruct from the declaration. Prose earns its place by carrying what a signature cannot: why the thing exists, what the caller owes it, what happens at the boundary, and what a value means at its limits. The exception is consumer-facing reference material, whose readers cannot open the source, so stating what the function does is the entire job, and a public symbol's documentation comment, whose one sentence saying what the symbol does stays even where it restates the name: the pairs below show how to write that sentence, not a reason to cut it.
+Cut any sentence a reader could reconstruct from the declaration, except the one-sentence floor on a public symbol's documentation comment. That sentence stays as written even when it restates the name, code, or syntax. The pairs below distinguish that existing floor from additional documentation to write only when the body proves it.
 
 ```python
-# Restates the signature:
+# The floor, kept as written:
 def set_timeout(seconds: int) -> None:
     """Sets the timeout to the given number of seconds."""
 
@@ -106,9 +106,9 @@ def set_timeout(seconds: int) -> None:
 ```
 
 ```go
-// Restates: Close closes the writer.
-// Adds: Close flushes buffered rows before releasing the file handle, and
-// a write after Close returns ErrClosed rather than panicking.
+// Floor, kept as written: Close closes the writer.
+// Written new: Close flushes buffered rows before releasing the file handle,
+// and a write after Close returns ErrClosed rather than panicking.
 func (w *Writer) Close() error {
 	flushErr := w.flush()
 	w.closed = true

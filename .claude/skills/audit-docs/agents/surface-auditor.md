@@ -75,7 +75,7 @@ A comment can be accurate and still be in the wrong place. Report every comment 
 
 Both halves of the test are mechanical, and both are required. The comment names a symbol, and the line beneath it uses that same symbol. A comment above a line that does not reference the symbol it discusses is a different comment and is never reported.
 
-**The declaration bounds the entry, and this list is the one most likely to reach past the scope.** A symbol is used far from where it is declared, so following a usage site to its declaration is exactly how a pass drifts into code nobody asked it to touch. Report a copy under `REPEATED` only where the declaration sits inside the paths handed in **and** its body was opened this run. Where the declaration lies outside those paths, or inside them but unopened, the copy is not an entry: the comparison that would justify removing it was never made. It goes under `UNRESOLVED` with the declaration's path named, which lets the caller widen the scope deliberately rather than inherit a deletion nobody could check.
+**A declaration, including an export or re-export statement, is not a use.** Report a copy under `REPEATED` only where the declaration sits inside the paths handed in **and** its body was opened this run. Where the declaration lies outside those paths, or inside them but unopened, report the copy as `UNRESOLVED` with the declaration's path.
 
 ```javascript
 // isBetaEnabled mirrors the beta-features flag.
@@ -90,13 +90,13 @@ SYMBOL: `isBetaEnabled`. COMMENT: `isBetaEnabled mirrors the beta-features flag.
 
 ## List four: sentences a comment does not need
 
-A comment can be true, non-repeated, and still carry sentences its reader does not need. This list covers **every** comment in the paths handed in: inline comments, documentation comments on declarations, and file, module, or package comments. Report a comment here when it holds at least one sentence of these three kinds:
+A comment can be true, non-repeated, and still carry sentences its reader does not need. This list covers **every** comment in the paths handed in: inline comments, documentation comments on declarations, and file, module, or package comments. A public or exported symbol, a public structure member, or a package or module always keeps at least one sentence: keep the sentence saying what it does, or the first sentence when unclear. Correct a wrong or absent-content claim from the body, never delete that comment; if the body was not read, keep and report it. Report a comment here when it holds at least one sentence of these three kinds:
 
-- a sentence restating the declaration or the code beneath it, such as a signature retold in prose or a straightforward conditional, loop, or assignment walked through step by step, other than the one sentence a public symbol's documentation comment gives to what the symbol does, which is required even where it restates the name or body;
+- a sentence restating the declaration or the code beneath it, such as a signature retold in prose or a straightforward conditional, loop, or assignment walked through step by step, except for the public floor sentence, which is always kept even where it restates the name, code, or syntax;
 - a sentence listing or re-describing members that carry their own comments, which is how a package or type comment turns into a tour of the interface: each member's own comment, and the reference the language generates from them, already carry it;
 - a sentence narrating alternatives considered or reasoning walked through, where the code needs only the conclusion.
 
-Report the comment's own sentences in two verbatim sets: `KEEP`, the sentences carrying something the code does not show, and `CUT`, each sentence of the three kinds above beside the code string or member comment it restates. The one sentence a public symbol's documentation comment gives to what the symbol does, and a sentence explaining a non-obvious internal, are always `KEEP`. Never write replacement text: a reworded or merged sentence is a new claim, and the caller writes any new wording from code it opens itself. A comment that is also wrong goes under `CONTRADICTED` as well, and the caller corrects it before cutting.
+Report the comment's own sentences in two verbatim sets: `KEEP`, the sentences carrying something the code does not show, and `CUT`, each sentence of the three kinds above beside the code string or member comment it restates. For a public or exported symbol, public structure member, or package or module, `KEEP` is never empty: keep its summary sentence, or the first sentence if unclear. A wrong comment in this group is corrected from the body, never deleted; an unread body means keep and report it. A sentence explaining non-obvious internal logic is also always `KEEP`. Never write replacement text: the caller writes any new wording from code it opens itself. A wrong comment also goes under `CONTRADICTED`, and the caller corrects it before cutting.
 
 ```python
 # We need to check if the user is eligible for the discount.
@@ -144,7 +144,7 @@ Each of these produces noise rather than a finding, so leave each one out of the
 - a comment that is merely terse, or plain, or worded differently from how a convention would word it: every list;
 - an internal helper whose name and signature already carry what it does: `UNDOCUMENTED`;
 - a missing comment on a binding inside a function body: `UNDOCUMENTED`;
-- a comment sitting on a declaration: `REPEATED`, since a declaration is never a use, each member of a public structure carries its own comment, and a file-level header says what the file or package is for. The same comment is still read for `CONTRADICTED` and `VERBOSE`;
+- a comment sitting on a declaration: `REPEATED`, since a declaration, including an export or re-export statement, is not a use. A member's comment and a file-level header are still read for `CONTRADICTED` and `VERBOSE`;
 - a type annotation restated in prose: `CONTRADICTED`, since it is a style question and not a contradiction, though under `VERBOSE` it is a restating sentence;
 - anything the agent could not open: every list, since it is reported as unread in the counts and never as a finding.
 
@@ -189,7 +189,7 @@ BLOCKED BY: <outside the paths handed in / inside them and not opened>
 
 VERBOSE
 <file path> :: <symbol, or the line the comment sits above>
-KEEP: <each sentence carrying what the code does not show, verbatim, with any credential value replaced by [REDACTED]>
+KEEP: <each sentence carrying what the code does not show, verbatim, with any credential value replaced by [REDACTED]; never empty for a public symbol, public structure member, package, or module, where its summary sentence or, if unclear, first sentence goes here>
 CUT: <each sentence to delete, verbatim> :: <the code string or member comment it restates, verbatim, or the reasoning it narrates>
 
 COUNTS
