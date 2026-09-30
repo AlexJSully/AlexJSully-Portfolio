@@ -11,6 +11,7 @@ The comment and documentation rules at full length, with worked before-and-after
 - Comments that restate the line beneath them
 - Tooling directives are not comments
 - Documentation blocks: what carries one
+- Keeping a block short
 - Types in a documentation block
 - Leaving existing tags alone
 - Tags worth adding
@@ -112,18 +113,67 @@ A bundler magic comment in particular looks like commentary and is load-bearing.
 
 ## Documentation blocks: what carries one
 
-**Every exported symbol, without exception**, and every member of an exported structure: interface properties, object keys, enum values, and class members that are part of the public surface.
+**Every exported symbol**, and every member of an exported structure: interface properties, object keys, enum values, and class members that are part of the public surface.
 
 A private helper carries one when its behaviour is not evident from its name and signature. A binding declared inside a function body does not: the name and type already carry it.
 
-Write for a reader meeting the symbol for the first time who can infer nothing from its name. Reach for what the signature cannot express:
+Write the block from the body, never from the name. It is one sentence saying what the symbol does, and a second only for something the signature cannot express that the body or a test proves:
 
-- Why it exists, where that is not obvious
 - A constraint on the input beyond its type
-- An invariant it maintains
+- An error it throws, and the condition
 - An obligation on the caller, such as cleanup, ordering, or a resource to release
 
-Where none of those exist, a plain restatement of what the symbol does is correct. **Being obvious is not a defect on a public surface; being absent is.**
+A block you write stops there. Where none of those exist, the one sentence restating what the symbol does is correct. **Being obvious is not a defect on a public surface; being absent is.** A reason or an invariant goes in only where the code proves it; one you would have to guess stays out.
+
+## Keeping a block short
+
+A block turns into an essay in two ways, and the repair for both is to delete whole sentences while keeping every other sentence word for word. Rewording a kept sentence makes it a new claim. An accurate block gains no prose sentence except a constraint folded in from a copy above a use, and a tag follows the rule on existing tags.
+
+The first is a block retelling its own signature and body:
+
+```typescript
+/**
+ * Loads the profile for a user.
+ *
+ * This function takes a user ID string and returns a promise that resolves to a
+ * Profile. It first looks in the cache, then calls the API on a miss. Profiles
+ * stay cached for the life of the process, so an update made elsewhere is not
+ * seen until restart.
+ *
+ * @throws {NotFoundError} When no user has that ID.
+ */
+export async function loadProfile(id: string): Promise<Profile> {
+```
+
+Cut to the sentences a caller cannot get from the signature, the caching consequence among them, with the tag untouched:
+
+```typescript
+/**
+ * Loads the profile for a user.
+ *
+ * Profiles stay cached for the life of the process, so an update made elsewhere
+ * is not seen until restart.
+ *
+ * @throws {NotFoundError} When no user has that ID.
+ */
+export async function loadProfile(id: string): Promise<Profile> {
+```
+
+The second is a file-level block touring the exports, each of which already carries its own block:
+
+```typescript
+/**
+ * @file Manages user sessions for the API. Exports createSession, which opens a
+ * session for a user ID; endSession, which closes one; and isExpired, which
+ * compares a session's expiry with the clock.
+ */
+```
+
+Cut to what the module is for:
+
+```typescript
+/** @file Manages user sessions for the API. */
+```
 
 ## Types in a documentation block
 

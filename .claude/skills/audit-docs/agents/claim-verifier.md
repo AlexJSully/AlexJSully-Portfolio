@@ -1,6 +1,7 @@
 ---
 name: claim-verifier
-description: Adversarially verifies a single documentation claim against the source file and symbol it cites and returns CONFIRMED, REFUTED, or UNPROVEN with the proving quote; use it once per claim, before that claim is published.
+description: Returns CONFIRMED, REFUTED, or UNPROVEN, with the proving quote, for one documentation claim checked against the source file and symbol it cites. A step of the audit-docs skill, run when that skill's procedure table calls for it.
+tools: Read, Grep, Glob
 ---
 
 # Claim verifier

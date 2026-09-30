@@ -60,7 +60,7 @@ Grounding decides whether a statement **may** be written. It never decides that 
 
 A verified fact about a symbol has one home, and that home is the symbol's own declaration: the sentence goes there and not above the lines that read it, call it, or branch on it. Proof accumulated while tracing a symbol through its callers is what settles the claim; the trace is not a list of places to write it down.
 
-**A declaration is never a usage site, so this bounds repetition across uses and nothing else.** Each member of a public structure is its own declaration and carries its own comment, however much that echoes the container's. A file-level header states what the file holds, which restates its declarations by design. Both are correct, and reading this section as "no fact twice anywhere" would forbid them.
+**A declaration is never a usage site, so this bounds repetition across uses and nothing else.** Each member of a public structure is its own declaration and carries its own comment, however much that echoes the container's. A file-level header says what the file or package is for, and leaves each member's behaviour to that member's own comment. Both are correct, and reading this section as "no fact twice anywhere" would forbid them.
 
 The failure this catches passes every other check in this file. The claim is grounded, the quote is real, the wording is accurate, and the run still leaves a comment above twenty branches where one comment on a declaration was the whole of what was needed.
 

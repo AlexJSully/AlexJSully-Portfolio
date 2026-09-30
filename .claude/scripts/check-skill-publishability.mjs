@@ -10,7 +10,7 @@
 // What is left here is what a machine can decide.
 //
 // Run with no arguments. Reports every failure, then exits 1 if there were any.
-import { existsSync, readFileSync, readdirSync, realpathSync } from 'fs';
+import { existsSync, readFileSync, readdirSync, realpathSync, statSync } from 'fs';
 import { join, resolve } from 'path';
 import { isDirectory, isFile, isInside } from './file-system.mjs';
 import { MARKETPLACE_MANIFEST, PLUGIN_MANIFEST, SHADOWING_MARKETPLACES, checkPlugins } from './plugin-manifests.mjs';
@@ -45,6 +45,14 @@ const MAX_PROMPT_CHARS = 52_000;
 
 /** Budgets overriding {@link MAX_PROMPT_CHARS}; `audit-docs` is held tighter because its subject is narrower. */
 const MAX_PROMPT_CHARS_BY_FILE = { 'audit-docs.prompt.md': 36_000 };
+
+/**
+ * The byte budget for every Markdown file in a skill: its SKILL.md and each file it bundles. Codex
+ * returns at most 40,000 bytes of one file read, keeping the head and the tail and dropping the
+ * middle, so a longer file silently loses whatever rules sit there. The budget sits 1,000 bytes under
+ * that limit, leaving room for the framing a read adds around the file.
+ */
+const MAX_SKILL_FILE_BYTES = 39_000;
 
 /**
  * Directories a skill may bundle. The specification defines `references/`, `assets/`, and
@@ -145,7 +153,7 @@ function readState(name) {
 	return PUBLISHED.includes(name) ? 'published' : 'installable';
 }
 
-/** Checks one skill directory against the specification, the licence and invocability policies, and, unless it is internal, isolation. */
+/** Checks one skill directory against the specification, its byte budget, the licence and invocability policies, and, unless it is internal, isolation. */
 function checkSkill(name) {
 	const skillPath = join(SKILL_DIR, name, 'SKILL.md');
 	const label = `.claude/skills/${name}/SKILL.md`;
@@ -158,6 +166,8 @@ function checkSkill(name) {
 
 	const parts = split(readFileSync(skillPath, 'utf8'));
 
+	checkSizes(name);
+
 	if (!parts) {
 		fail(label, 'no frontmatter block');
 
@@ -169,6 +179,24 @@ function checkSkill(name) {
 	checkLicence(name, parts.frontmatter, label);
 	checkInvocable(name, parts.frontmatter);
 	checkIsolation(name, parts.frontmatter);
+}
+
+/**
+ * Checks every Markdown file in a skill against {@link MAX_SKILL_FILE_BYTES}, measured on disk.
+ *
+ * @param {string} name Directory name of the skill under `.claude/skills/`.
+ */
+function checkSizes(name) {
+	for (const file of skillFiles(name).filter((path) => path.endsWith('.md'))) {
+		const bytes = statSync(join(SKILL_DIR, name, file)).size;
+
+		if (bytes > MAX_SKILL_FILE_BYTES) {
+			fail(
+				`.claude/skills/${name}/${file}`,
+				`is ${bytes} bytes against a budget of ${MAX_SKILL_FILE_BYTES}; move detail into another bundled file rather than raising it`,
+			);
+		}
+	}
 }
 
 /**
@@ -311,12 +339,12 @@ function checkInvocable(name, frontmatter) {
 
 /**
  * Returns every file inside a skill that travels with it and could name a path: top-level Markdown, every
- * file one level deep in each bundle directory, plus the plugin manifest. The manifest carries a
+ * file at any depth in each bundle directory, plus the plugin manifest. The manifest carries a
  * `description`, so it can name a prompt file exactly as a body can, and it ships in the copied
  * directory either way.
  *
  * A symbolic link is followed, so a linked file is scanned as the file it resolves to, and an entry
- * that is not a file, such as a directory or a link to nothing, is skipped.
+ * that is neither a file nor a directory, such as a link to nothing, is skipped.
  */
 function skillFiles(name) {
 	const root = join(SKILL_DIR, name);
@@ -327,9 +355,7 @@ function skillFiles(name) {
 			continue;
 		}
 
-		const bundled = readdirSync(join(root, dir)).filter((file) => isFile(join(root, dir, file)));
-
-		files.push(...bundled.map((file) => `${dir}/${file}`));
+		files.push(...filesBeneath(join(root, dir)).map((file) => `${dir}/${file}`));
 	}
 
 	if (isFile(join(root, PLUGIN_MANIFEST))) {
@@ -337,6 +363,33 @@ function skillFiles(name) {
 	}
 
 	return files;
+}
+
+/**
+ * Returns every file beneath `dir`, as paths relative to it. A directory reached a second time, which
+ * is where a symbolic link back up the tree leads, is not walked again.
+ *
+ * @param {string} dir Directory to walk.
+ * @param {Set<string>} walked Real paths of the directories already walked.
+ */
+function filesBeneath(dir, walked = new Set()) {
+	const real = realpathSync(dir);
+
+	if (walked.has(real)) {
+		return [];
+	}
+
+	walked.add(real);
+
+	return readdirSync(dir).flatMap((entry) => {
+		const path = join(dir, entry);
+
+		if (isFile(path)) {
+			return [entry];
+		}
+
+		return isDirectory(path) ? filesBeneath(path, walked).map((file) => `${entry}/${file}`) : [];
+	});
 }
 
 /** Checks a prompt against its character budget, and that it still works as the only file someone holds. */

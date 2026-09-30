@@ -27,6 +27,17 @@ function promptOfLength(length) {
 	return promptFile('x'.repeat(length - promptFile('').length));
 }
 
+/**
+ * Returns the text of a passing SKILL.md for the skill `name`, padded with `unit` to at least `bytes` bytes.
+ * `extra` adds frontmatter keys before the padding is measured.
+ */
+function skillOfBytes(name, bytes, unit = 'x', extra = {}) {
+	const fields = { ...ALPHA_FIELDS, name, description: `${name} skill.`, ...extra };
+	const head = skillFile(fields, '');
+
+	return head + unit.repeat(Math.ceil((bytes - Buffer.byteLength(head)) / Buffer.byteLength(unit)));
+}
+
 let fixture;
 
 beforeEach(() => {
@@ -300,12 +311,62 @@ describe('skill checks', () => {
 		});
 	}
 
-	it('skips a directory nested in a bundle directory', () => {
+	it('accepts a file nested in a bundle directory', () => {
 		fixture.write('.claude/skills/alpha/references/nested/deep.md', '# Deep\n');
 
 		const { status, output } = fixture.check();
 
 		assert.equal(status, 0, output);
+	});
+
+	it('walks a directory linked back up the tree once', () => {
+		fixture.write('.claude/skills/alpha/references/nested/deep.md', '# Deep\n');
+		symlinkSync('..', join(fixture.root, '.claude/skills/alpha/references/nested/loop'));
+
+		const { status, output } = fixture.check();
+
+		assert.equal(status, 0, output);
+	});
+
+	it('accepts a SKILL.md at exactly its budget of 39000 bytes', () => {
+		fixture.write(ALPHA_SKILL, skillOfBytes('alpha', 39_000));
+
+		const { status, output } = fixture.check();
+
+		assert.equal(status, 0, output);
+	});
+
+	it('reports a SKILL.md one byte over its budget of 39000', () => {
+		fixture.write(ALPHA_SKILL, skillOfBytes('alpha', 39_001));
+
+		fixture.assertFailsOnce('is 39001 bytes against a budget of 39000');
+	});
+
+	it('counts the budget in bytes, so text under 39000 characters can still exceed it', () => {
+		const text = skillOfBytes('alpha', 39_002, 'é');
+
+		assert.ok(text.length < 39_000);
+		fixture.write(ALPHA_SKILL, text);
+
+		fixture.assertFailsOnce('against a budget of 39000');
+	});
+
+	it('holds an internal skill to the same budget', () => {
+		fixture.write('.claude/skills/beta/SKILL.md', skillOfBytes('beta', 39_001, 'x', BETA_FIELDS));
+
+		fixture.assertFailsOnce('is 39001 bytes against a budget of 39000');
+	});
+
+	it('holds a bundled reference to the same budget', () => {
+		fixture.write('.claude/skills/alpha/references/detail.md', 'x'.repeat(39_001));
+
+		fixture.assertFailsOnce('references/detail.md: is 39001 bytes against a budget of 39000');
+	});
+
+	it('holds a Markdown file nested in a bundle directory to the same budget', () => {
+		fixture.write('.claude/skills/alpha/references/nested/deep.md', 'x'.repeat(39_001));
+
+		fixture.assertFailsOnce('references/nested/deep.md: is 39001 bytes against a budget of 39000');
 	});
 
 	for (const { label, fields, message } of [

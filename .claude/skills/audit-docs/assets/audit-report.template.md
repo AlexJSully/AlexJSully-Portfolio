@@ -9,6 +9,7 @@ Copy this skeleton, replace every bracketed placeholder, and delete each parenth
 - [Phase 3 result: in-code documentation audit](#phase-3-result-in-code-documentation-audit)
 - [Files changed and kind of change](#files-changed-and-kind-of-change)
 - [Unverified claims and symbols](#unverified-claims-and-symbols)
+- [Observed outside scope, not changed](#observed-outside-scope-not-changed)
 - [Code problems observed, not changed](#code-problems-observed-not-changed)
 - [Checks before returning this report](#checks-before-returning-this-report)
 
@@ -27,6 +28,8 @@ Copy this skeleton, replace every bracketed placeholder, and delete each parenth
 
 (Name the scope as it resolved, not as it was requested: if the request said "the active pull request" and none existed, say the scope fell back to the working changes and name them.)
 
+Requested change: [the specific change the request asked for, and whether it was made; if not, why. Write "none, this was an audit" when the request asked for no specific change].
+
 Sources that could not be resolved this run: [name each one and what you used instead, or write "none"].
 
 ## Phase 1 result: pull request sync
@@ -43,12 +46,13 @@ Sources that could not be resolved this run: [name each one and what you used in
 **Status:** [changed / already accurate]
 
 - Corrected `[document]`: [the statement that contradicted the code] replaced with [the statement the code supports], from `[symbol]` in `[file]`.
-- Deleted [section] from `[document]`: [describes a removed feature / duplicated in `[document]` / cannot be corrected].
-- Split `[document]` into `[overview document]` and `[depth document]`: [it mixed a brief overview with deep reference/how-to/explanation content], filed by [the sibling or precedent that decided each directory].
+- Deleted [section] from `[document]`: [repeats a point the page already makes / duplicated in `[document]` / describes a removed feature / cannot be corrected].
+- Proposed, not performed: [split / move / rename / delete] of `[document]`, because [reason], with [which sections go where, or the new path]. Asked the user: [yes, and they declined / no, the host could not ask].
+- Performed on the user's approval: [split / merge / move / rename / delete / new directory] of `[document]`, asked because [reason].
 - Created `[new document]`: [why no existing document was a home for it], filed as [tutorial / how-to guide / reference / explanation].
 - Oriented `[document]`: [the acronym, term of art, prerequisite, or missing statement of subject that stopped a first-time reader] introduced at [where].
 
-**Both readers, one line per document opened:**
+**Both readers, one line per document you edited in full:**
 
 | Document | Newcomer                                                                   | Experienced reader                                                                              |
 | -------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
@@ -56,20 +60,22 @@ Sources that could not be resolved this run: [name each one and what you used in
 
 **Entry path:** [present, naming the document that takes a first-time reader through one task end to end / absent, and what a first-time reader has to read instead].
 
-**Length:** [documents found mixing a brief overview with deep reference, how-to, or explanation content, and whether each was split, or write "none found"].
+**Length:** [passages repeated within a document you edited in full, and whether each was removed or proposed for removal, or write "none found"].
 
-(Deletion needs one of the three listed reasons. Anything else is a correction. A split needs the same directory-type-precedent reasoning a created file needs. A created file needs the structure check stated first: which existing homes were considered and why each did not fit. The entry path is reported whether or not it was written, and it is written only where the invoking task asked for it.)
+(Deletion needs one of the four listed reasons. Anything else is a correction. A file is split, merged, moved, renamed, or deleted only where the request asked or the user approved it when asked; otherwise it is proposed above. A created file needs the structure check stated first: which existing homes were considered and why each did not fit. The entry path is reported whether or not it was written, and it is written only where the invoking task asked for it.)
 
 ## Phase 3 result: in-code documentation audit
 
 **Status:** [changed / audited in-code documentation across [count] files, all accurate, no changes required]
 
-- `[file]`: [kind of change, such as documented a public symbol, corrected a parameter entry that named a removed argument, removed a comment that restated its line, removed an orphaned TODO, kept one copy of a repeated comment on the declaration of `[symbol]` and removed [count] copies above usage sites, compressed a disproportionately long comment on `[symbol]` to its non-obvious fact].
+- `[file]`: [kind of change, such as documented a public symbol, corrected a parameter entry that named a removed argument, removed a comment that restated its line, removed an orphaned TODO, kept one copy of a repeated comment on the declaration of `[symbol]` and removed [count] copies above usage sites, cut sentences restating the code or re-describing members from the comment on `[symbol]`, keeping the rest word for word].
 - `[file]`: [kind of change].
 
 Public symbols left as they stand because their implementation was not read: [`Cache::evict` in `[file]`, `settle_invoice` in `[file]`, or write "none"].
 
-(Every symbol listed on that last line also gets an entry under Unverified. Leaving a public symbol undocumented and reporting it is a result; writing its comment from its name is not.)
+Undocumented public symbols outside the change, listed rather than documented: [`Pool::resize` in `[file]`, or write "none"].
+
+(Every symbol left as it stands because its implementation was not read also gets an entry under Unverified. Leaving a public symbol undocumented and reporting it is a result; writing its comment from its name is not.)
 
 ## Files changed and kind of change
 
@@ -79,7 +85,7 @@ Public symbols left as they stand because their implementation was not read: [`C
 | `[path]` | [documented [count] previously undocumented public symbols]    |
 | `[path]` | [created, [tutorial / how-to guide / reference / explanation]] |
 
-Kinds to choose from: corrected a factual statement, documented a public symbol, corrected an existing documentation tag, removed an outdated or restating comment, removed a comment repeated above a usage site, compressed a disproportionately long comment, removed a duplicated section, introduced a term on first use, added orientation for a first-time reader, split into an overview and a dedicated page, created, deleted.
+Kinds to choose from: made the change the request asked for, corrected a factual statement, documented a public symbol, corrected an existing documentation tag, removed an outdated or restating comment, removed a comment repeated above a usage site, cut sentences from a comment, removed a duplicated section, introduced a term on first use, added orientation for a first-time reader, created, and, only where the request asked or the user approved it, renamed, moved, split, merged, or deleted.
 
 (One row per file, not one per edit. If no file changed, replace the table with "No files changed.")
 
@@ -92,6 +98,14 @@ An entry here is a result rather than a failure: the alternative is a sentence i
 - Reference: `[path or anchor]` cited by `[document]` does not resolve. Action taken: [statement corrected / statement removed / left in place, needs a decision from a maintainer].
 
 (Write "Nothing unverified" only when that is true. Do not move an item into the documentation to empty this list.)
+
+## Observed outside scope, not changed
+
+A document or file this run opened but was not allowed to edit stays as it was found, and anything noticed in it is reported here instead.
+
+- `[path]`: [the finding, such as a stale term, a newcomer blocker, or a sentence the change did not make false]. Why it was out of scope: [opened for context / outside the files the request or diff named].
+
+(Write "None observed" if there are none.)
 
 ## Code problems observed, not changed
 
@@ -107,7 +121,8 @@ This run edits documentation, so a code defect is reported here and left alone. 
 (Delete this section from the finished report.)
 
 - Every phase carries a status line, including a phase whose answer is that the documentation was already accurate.
-- Every symbol reported as left undocumented in Phase 3 also appears under Unverified.
+- Every symbol reported in Phase 3 as left as it stands because its implementation was not read also appears under Unverified.
+- Every file changed is inside the scope, and none was renamed, moved, split, or deleted unless the request asked for it or the user approved it.
 - Every file named in a phase result appears in the files changed table, and every row of that table is a file that was edited.
 - The file count in the summary matches the number of rows in the table.
 - No hedge ("appears to", "seems to", "likely", "probably") survives anywhere in the report.

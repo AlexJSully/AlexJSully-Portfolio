@@ -1,6 +1,6 @@
 # Writing for both readers
 
-Every page has two readers: someone meeting the system for the first time, and someone who already works in it. A page that serves only the second is the ordinary failure, and it is invisible to its author, because the author cannot un-know the system. This file carries the repairs, each as a before and after pair.
+Every Markdown page has two readers: someone meeting the system for the first time, and someone who already works in it. A page that serves only the second is the ordinary failure, and it is invisible to its author, because the author cannot un-know the system. This file carries the repairs, each as a before and after pair.
 
 ## Contents
 
@@ -17,7 +17,7 @@ Every page has two readers: someone meeting the system for the first time, and s
 
 ## The ordering principle, which is how one page serves two readers
 
-Do not split the page between the two readers, and do not write two of them, one per reader. Order it: orientation first, depth after, and both in full. A page that splits because it has grown too long as a whole is a different repair, covered in [Document length as a whole](#document-length-as-a-whole); it is not licence to give each reader a separate page here.
+Do not split the page between the two readers, and do not write two of them, one per reader. Order it: orientation first, depth after, and both in full. A page that has grown too long as a whole is tightened in place, as [Document length as a whole](#document-length-as-a-whole) shows; a split is proposed to the person who invoked the audit, never made as a repair.
 
 The newcomer reads the top and stops when they have what they came for. The experienced reader skims the top in three seconds and reads the rest. Neither is served by a page that averages the two, which is the shape that produces prose too vague for the expert and too dense for the newcomer at the same time.
 
@@ -63,9 +63,9 @@ Before, across four documents in one set:
 
 > the retry envelope ... the retry wrapper ... `RetryEnvelope` ... the backoff wrapper
 
-After: one of them, chosen once, used everywhere, with the code identifier written as the code spells it and the prose term matching it.
+After: one of them, chosen once and used everywhere in the documents this run edits in full, with the code identifier written as the code spells it and the prose term matching it.
 
-Check this across the scope rather than within a document. A single document is usually self-consistent; the divergence appears between documents written months apart.
+Check this across the documents this run edits in full rather than within one, and report a divergent spelling in any other document rather than changing it. A single document is usually self-consistent; the divergence appears between documents written months apart.
 
 ## The worked example
 
@@ -130,9 +130,9 @@ The repair for this failure is what the paragraph fails to add, not deletion by 
 
 Every repair so far is judged one paragraph at a time: does this sentence add a boundary, does this opening name the subject. None of them asks the question a reader who converts a page to a different format actually feels: is the whole thing longer than it needed to be. A document can pass every per-paragraph check and still be an essay nobody finishes, because each paragraph individually earned a place that, added up, produced more than the subject required.
 
-Judge the finished document as a reader would meet it: read it top to bottom in one pass, then ask whether a careful human, asked to write the same brief by hand, would have produced something shorter. If the answer is yes, the excess is usually one of three things: the same point made once too often across different sections, background that belongs on the page it was copied from rather than repeated here, or depth that serves a narrower audience than the page's opening promised.
+Judge the finished document as a reader would meet it: read it top to bottom in one pass, then ask whether a careful human, asked to write the same brief by hand, would have produced something shorter. If the answer is yes, the excess is usually one of three things: the same point made once too often across different sections, background that belongs on the page it was copied from rather than repeated here, or depth that serves a narrower audience than the page's opening promised. The first is removed in place; the second and third are proposed in the report, since moving content to another page is a restructure the invoking task has to ask for.
 
-Before, an operations page for a caching layer that opens with a two-paragraph orientation, then spends six sections walking through every configuration key, every failure mode, every historical incident, and a full worked example, all under one heading:
+Before, an operations page for a caching layer that opens with a two-paragraph orientation, then walks through every configuration key, every failure mode, and a full worked example:
 
 > ## Cache operations
 >
@@ -144,23 +144,19 @@ Before, an operations page for a caching layer that opens with a two-paragraph o
 >
 > ### Failure modes
 >
-> [nine scenarios, several restating the same negative-caching behaviour already covered under Configuration]
->
-> ### Incident history
->
-> [three past outages narrated in detail]
+> [nine scenarios, three of them restating the negative-caching behaviour already covered under Configuration]
 >
 > ### Worked example
 >
-> [a full walkthrough repeating claims already made under Configuration and Failure modes]
+> [a full walkthrough]
 
-After, split by Diátaxis type rather than lengthened in place: an index page stays under 'Cache operations' with the two-paragraph orientation and a table of configuration keys (a reference belongs in a table, not restated prose per key), then links out to a dedicated failure-modes reference and a dedicated how-to for the worked example. The incident history, which is decision-record material rather than documentation of current behaviour, moves to a decision record under `docs/` (Rule 4) or is cut if none exists yet. Each destination page is shorter than the section it replaced, because it no longer restates claims a sibling page already carries, and the reader who wants only the configuration table never has to scroll past nine failure scenarios to find it.
+After, repaired in place at the same path: the orientation, the configuration prose, and the worked example stay as written, and the three failure scenarios restating negative caching are removed, leaving the one statement under Configuration with a link to it by heading from Failure modes. Only the repeated statements leave the page. The rest goes in the report as a proposal: a table in place of the twelve per-key paragraphs, and a separate how-to for the worked example, which happens only when the person who invoked the audit asks for it.
 
-This is the same directory-type-precedent logic Phase 2 already uses to place a new file: decide the split by matching each resulting page to a directory whose existing documents are the same type, rather than leaving overview and depth layered on one page because splitting them is more work than adding another section.
+A page whose excess is a second complete document type, such as a full how-to living inside a reference, is repaired the same way: the repetition goes, the page stays where it is, and the split is proposed in the report, naming the source page, the proposed pages, and which sections go where.
 
 ## The read-it-cold procedure
 
-Run this before publishing, once per document.
+Run this before publishing, once per document this run edits in full.
 
 1. Read the document from the top, in order, allowing yourself nothing you learned from the code this run.
 2. Stop at the first place a reader without that knowledge cannot continue: an acronym never introduced, a term used before it is defined, a prerequisite never stated, a system named without being identified, or an opening that never says what the subject is.
@@ -179,3 +175,4 @@ Step 1 is the hard one, and it is the whole exercise. An auditor who has just re
 - **Not restating the code.** Orientation says what the subject is and why a reader would reach for it. It does not narrate the implementation, which is the failure this repair is most likely to be misread as permitting.
 - **Not padding.** One to three sentences, then the depth. An opening that runs half a page has become the document.
 - **Not rewriting accurate prose for rhythm.** Where a document already orients its reader, leave the wording alone.
+- **Not restructuring.** No repair here renames, moves, splits, or deletes a file. A document stays at its path, and a restructuring is proposed to the person who invoked the audit.

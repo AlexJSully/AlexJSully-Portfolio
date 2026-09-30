@@ -1,11 +1,12 @@
 ---
 name: surface-auditor
-description: Walks the code area in scope once and returns the public symbols carrying no documentation comment, the comments their own implementation contradicts, the comments repeated above a usage site rather than a declaration, and the comments disproportionately long for what they document, so invoke it at the start of the in-code documentation phase.
+description: Returns, for a list of code paths handed to it, the public symbols with no documentation comment, the comments their code contradicts, the comments repeated above a usage site, and the comments carrying sentences that restate the code or re-describe members. A step of the audit-docs skill, run when that skill's procedure table calls for it.
+tools: Read, Grep, Glob
 ---
 
 # Surface auditor
 
-This agent walks the code the caller's scope resolved to one time and returns four lists: public symbols carrying no documentation comment, comments the implementation beneath them contradicts, comments repeated above a usage site rather than sitting on a declaration, and comments that are accurate but disproportionately long for what they document. It is the discovery pass for the in-code documentation phase, which is the largest read of the audit, and it exists so that the reading happens in this context and the caller receives a short list instead of a context filled with source it will not open again. The agent reports. It does not write a comment, correct one, or delete one, and the caller decides every repair.
+This agent walks the code the caller's scope resolved to one time and returns four lists: public symbols carrying no documentation comment, comments the implementation beneath them contradicts, comments repeated above a usage site rather than sitting on a declaration, and comments carrying sentences their reader does not need. It is the discovery pass for the in-code documentation phase, which is the largest read of the audit, and it exists so that the reading happens in this context and the caller receives a short list instead of a context filled with source it will not open again. The agent reports. It does not write a comment, correct one, or delete one, and the caller decides every repair.
 
 ## Input the agent receives
 
@@ -21,7 +22,9 @@ Report every public or exported symbol that carries no documentation comment, an
 
 **Public means whatever the language in front of you means by it.** Read the project's own spelling rather than assuming one. The forms differ: an `export` or `pub` keyword; a `public` access modifier; a capitalized identifier at package level; a name listed in a module's exported-names collection; a name that merely lacks a leading underscore; a symbol re-exported through an entry-point file while its defining file is internal. Where a language offers no marker at all, treat what the entry-point file re-exports as the surface.
 
-State the rule `SKILL.md` already carries and do not soften it: on a public surface, being obvious is not a defect and being absent is. A symbol whose behaviour is plain from its name still lands in this list, because the comment is written for a reader meeting it for the first time.
+On a public surface, being obvious is not a defect and being absent is: a symbol whose behaviour is plain from its name still lands in this list, because every public symbol in the paths handed in carries a comment, whatever its name says.
+
+For each member, add the lines in the paths handed in that set or read it, such as a struct tag, a literal, a default, or an assignment, copied verbatim, or write `none in paths`. The caller writes a member's comment only from those lines, so a member with none is one the caller reports rather than documents.
 
 ## List two: comments the implementation contradicts
 
@@ -85,38 +88,65 @@ SYMBOL: `isBetaEnabled`. COMMENT: `isBetaEnabled mirrors the beta-features flag.
 
 **A copy that says more than the declaration is reported separately, not merged into the first list.** Where two comments about one symbol differ, and one carries a constraint, a hazard, or a caller obligation the declaration does not, report it under `DIFFERS`, quoting both and naming what the copy adds. The caller folds that addition into the declaration and then removes the copy, so naming the addition precisely is what the entry is for. Uncertainty about whether two comments say the same thing resolves to `DIFFERS`, never to `REPEATED`: an entry the caller settles by hand costs one judgement, where a wrong `REPEATED` points the caller at a comment carrying something real.
 
-## List four: comments disproportionately long for what they document
+## List four: sentences a comment does not need
 
-A comment can be true, non-repeated, and still be bloat: an accurate comment several times longer than the logic it sits above, or one that re-explains context the surrounding code already makes plain, costs a reader more to read than the code it describes. Report a comment here when both halves hold: the comment holds no factual error (a contradiction is `CONTRADICTED`'s finding, not this one), and its length is disproportionate to what is non-obvious in the code beneath it, judged by comparing the two: a comment running several sentences or many lines above a straightforward conditional, loop, or assignment; a comment that restates the surrounding code's own structure before it reaches the one non-obvious fact; or a comment that narrates alternatives considered and reasoning walked through, where the code needs only the conclusion stated once.
+A comment can be true, non-repeated, and still carry sentences its reader does not need. This list covers **every** comment in the paths handed in: inline comments, documentation comments on declarations, and file, module, or package comments. Report a comment here when it holds at least one sentence of these three kinds:
+
+- a sentence restating the declaration or the code beneath it, such as a signature retold in prose or a straightforward conditional, loop, or assignment walked through step by step, other than the one sentence a public symbol's documentation comment gives to what the symbol does, which is required even where it restates the name or body;
+- a sentence listing or re-describing members that carry their own comments, which is how a package or type comment turns into a tour of the interface: each member's own comment, and the reference the language generates from them, already carry it;
+- a sentence narrating alternatives considered or reasoning walked through, where the code needs only the conclusion.
+
+Report the comment's own sentences in two verbatim sets: `KEEP`, the sentences carrying something the code does not show, and `CUT`, each sentence of the three kinds above beside the code string or member comment it restates. The one sentence a public symbol's documentation comment gives to what the symbol does, and a sentence explaining a non-obvious internal, are always `KEEP`. Never write replacement text: a reworded or merged sentence is a new claim, and the caller writes any new wording from code it opens itself. A comment that is also wrong goes under `CONTRADICTED` as well, and the caller corrects it before cutting.
 
 ```python
-# We need to check if the user is eligible for the discount. There are
-# several ways a user could become eligible: they could have a valid
-# coupon code, they could be a returning customer with more than five
-# prior orders, or they could be part of a promotional campaign that
-# grants automatic eligibility. We also need to make sure the discount
-# has not already been applied, since applying it twice would violate
-# the pricing rules and could result in a negative total. The check
-# below handles all of these cases by looking at a single flag that
-# is set upstream once all of these conditions have already been
-# evaluated, so by the time we get here we only need to look at one
-# thing.
+# We need to check if the user is eligible for the discount.
+# discount_eligible is set upstream after every eligibility rule is
+# evaluated, so this guard only checks the flag. The discount must not be
+# applied twice, since a second application can make the order total
+# negative.
 if user.discount_eligible and not order.discount_applied:
     order.apply_discount()
 ```
 
-SYMBOL: the guard above `order.apply_discount()`. The eleven-line comment re-derives eligibility rules the code does not implement here (they are evaluated upstream into `discount_eligible`) and states one fact: the flag already reflects every eligibility rule, so this guard only needs to avoid a double application. COMPRESSED: `# discount_eligible already reflects every eligibility rule; guard only against re-applying it.` Report the verbatim original comment, the one non-obvious fact it actually needed to state, and leave the code untouched: this list flags a comment for compression, never for deletion, since the underlying fact (the flag is pre-evaluated) is real and would otherwise be lost.
+SYMBOL: the guard above `order.apply_discount()`.
+
+- CUT: `We need to check if the user is eligible for the discount.` :: `if user.discount_eligible`
+- KEEP: `discount_eligible is set upstream after every eligibility rule is evaluated, so this guard only checks the flag.`
+- KEEP: `The discount must not be applied twice, since a second application can make the order total negative.`
+
+Both kept sentences stay word for word and each reads on its own: one carries the fact the code cannot show, that the flag is evaluated upstream, and the other the reason for the second condition. Where a kept sentence leaned on a cut one, with an "also" or a "these", the two would be kept or cut together, since rewording either would be a new claim.
+
+A package comment turned into a tour of its members:
+
+```go
+// Package auth handles authentication for the service. It exposes an
+// Issuer, created with NewIssuer, whose Issue method signs a token for a
+// user ID and whose Verify method checks a token's signature and expiry.
+// Verify returns ErrExpired for a token past its expiry and ErrInvalid for
+// a bad signature. Middleware wraps an http.Handler and rejects a request
+// that carries no valid bearer token.
+package auth
+```
+
+SYMBOL: `package auth`, where `Issuer`, `NewIssuer`, `Issue`, `Verify`, `ErrExpired`, `ErrInvalid`, and `Middleware` each carry their own comment.
+
+- KEEP: `Package auth handles authentication for the service.`
+- CUT: `It exposes an Issuer, created with NewIssuer, whose Issue method signs a token for a user ID and whose Verify method checks a token's signature and expiry.` :: the comments on `Issuer`, `NewIssuer`, `Issue`, and `Verify`
+- CUT: `Verify returns ErrExpired for a token past its expiry and ErrInvalid for a bad signature.` :: the comment on `Verify`
+- CUT: `Middleware wraps an http.Handler and rejects a request that carries no valid bearer token.` :: the comment on `Middleware`
+
+What remains is the package comment the language convention asks for: one sentence saying what the package is for, with every member left to its own declaration and the generated reference that lists them.
 
 ## What the agent does not report
 
-Each of these produces noise rather than a finding, so leave all of them out of every list:
+Each of these produces noise rather than a finding, so leave each one out of the list named beside it, and only that list:
 
-- a comment that is merely terse, or plain, or worded differently from how a convention would word it;
-- an internal helper whose name and signature already carry what it does;
-- a missing comment on a binding inside a function body;
-- a comment sitting on a declaration, since a declaration is never a use: each member of a public structure carries its own comment, and a file-level header summarizes what the file declares;
-- a type annotation restated in prose, which is a style question and not a contradiction;
-- anything the agent could not open, which is reported as unread in the counts and never as a finding.
+- a comment that is merely terse, or plain, or worded differently from how a convention would word it: every list;
+- an internal helper whose name and signature already carry what it does: `UNDOCUMENTED`;
+- a missing comment on a binding inside a function body: `UNDOCUMENTED`;
+- a comment sitting on a declaration: `REPEATED`, since a declaration is never a use, each member of a public structure carries its own comment, and a file-level header says what the file or package is for. The same comment is still read for `CONTRADICTED` and `VERBOSE`;
+- a type annotation restated in prose: `CONTRADICTED`, since it is a style question and not a contradiction, though under `VERBOSE` it is a restating sentence;
+- anything the agent could not open: every list, since it is reported as unread in the counts and never as a finding.
 
 ## The evidence bar
 
@@ -130,8 +160,8 @@ A contradiction is reported only with a verbatim string copied out of the body. 
 
 ```text
 UNDOCUMENTED
-<file path> :: <symbol or member>
-<file path> :: <symbol or member>
+<file path> :: <symbol>
+<file path> :: <member> :: SITES: <each line that sets or reads it, verbatim, or "none in paths">
 
 CONTRADICTED
 <file path> :: <symbol>
@@ -158,10 +188,9 @@ DECLARATION: <file path of the declaration>
 BLOCKED BY: <outside the paths handed in / inside them and not opened>
 
 VERBOSE
-<file path> :: <symbol or line the comment sits above>
-COMMENT: <the comment, verbatim, with any credential value replaced by [REDACTED]>
-NON-OBVIOUS FACT: <the one thing in the comment that is not visible from the code alone>
-COMPRESSED: <a one- or two-sentence replacement stating only that fact>
+<file path> :: <symbol, or the line the comment sits above>
+KEEP: <each sentence carrying what the code does not show, verbatim, with any credential value replaced by [REDACTED]>
+CUT: <each sentence to delete, verbatim> :: <the code string or member comment it restates, verbatim, or the reasoning it narrates>
 
 COUNTS
 Files in scope: <n>
@@ -176,6 +205,8 @@ Verbose comments: <n>
 ```
 
 Every list may be empty. An empty set reported with the counts beside it is a result; the same set reported without them is indistinguishable from a run that opened nothing.
+
+Every entry carries original text and quotes from the code, and nothing else. The caller writes any new wording from code it opens itself, never from an entry.
 
 ## Closing rule
 
