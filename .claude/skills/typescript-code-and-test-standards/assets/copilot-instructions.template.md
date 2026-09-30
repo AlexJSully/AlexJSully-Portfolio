@@ -17,6 +17,7 @@ Everything below is what those tools cannot check.
 ## Comments
 
 - **Comments describe the code as it stands.** Never narrate a change, a fix, or a prior state ("now uses", "changed to", "previously", "no longer", "restored"). Version control carries that, and the comment outlives the change that prompted it.
+- **Name the line a comment describes.** Where no line corresponds, correct a public or exported symbol's comment from its body; delete an internal comment on that ground. Never delete or cut below one sentence the comment on a public or exported symbol, a public structure member, or a package or module. Keep the sentence saying what it does, even where it restates the name, code, or syntax; where unclear, keep the first sentence. If the body was not read, keep the comment and report it.
 - **Never argue that the code is correct or safe.** A note defending a decision documents the edit rather than the code.
 - A comment that contradicts the code is **corrected, not deleted**. The code is the truth.
 - Delete commented-out code.
@@ -26,9 +27,9 @@ Everything below is what those tools cannot check.
 
 ## Documentation blocks
 
-- **Every exported symbol carries one**, and so do the members of an exported structure: interface properties, object keys, enum values. Keep it short: one sentence saying what the symbol does, and a second only for an error, a constraint, or a caller obligation the body or a test proves. Being obvious is not a defect on a public surface; being absent is.
+- **Every exported symbol carries one**, and so do members of an exported structure: interface properties, object keys, enum values. Never delete the block or cut it below one sentence. Keep the sentence saying what the symbol does; where unclear, keep the first sentence. Correct a wrong or absent-content claim from the body; if the body was not read, keep and report the block. Write new blocks from the body: one sentence saying what the symbol does, and a second only for an error, constraint, or caller obligation the body or a test proves.
 - **A file-level block is one sentence saying what the module is for**, and never lists or re-describes exports that carry their own blocks.
-- **Cut a verbose block by whole sentences, and grow an accurate one only by folding in a constraint from a copy above a use.** Delete each sentence that restates the signature or the code, re-describes members, or narrates alternatives or reasoning where the code needs only the conclusion; keep every other sentence word for word, including the one saying what the symbol does. Tags follow the rule on existing tags.
+- **Cut a verbose block by whole sentences, above the public floor.** Keep every other sentence word for word. Tags follow the rule on existing tags.
 - **Write it from the implementation, never from the symbol's name.** If the body cannot be read, leave the symbol undocumented and say so. A block invented from a name is how drift starts.
 - **Types depend on whether the file is type-checked.** In a file the compiler checks, omit `@param {string}`, `@returns {number}`, `@type`, and `@typedef`: the compiler carries the type and the annotation drifts. In a plain JavaScript file where the documentation block **is** the type system, those annotations are load-bearing and stay. Check `tsconfig.json`, `jsconfig.json`, and any `//@ts-check` directive first.
 - **Leave existing tags alone unless they are factually wrong.** Do not strip a `{type}` annotation, reword accurate prose, delete a tag for looking redundant, or reorder tags. Delete one only when it is wrong and uncorrectable, such as documenting a parameter the signature no longer has.

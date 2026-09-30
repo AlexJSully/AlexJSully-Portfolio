@@ -84,7 +84,7 @@ Say what something does, or why it exists. Do not justify that it works.
 
 **When a comment contradicts the code, the code is the truth and the comment is corrected.** Deleting it loses whatever the comment was reaching for, and the mismatch is often the most interesting thing in the file: it usually means either the comment described an intent the code abandoned, or the code drifted from a constraint that still holds.
 
-Delete a comment only when it restates the line beneath it, or when it is commented-out code.
+Delete an internal comment only when it restates the line beneath it or is commented-out code. Never delete or cut below one sentence a public or exported symbol's comment, a public structure member's comment, or a package or module comment. Keep the sentence saying what it does, even if it restates the name, code, or syntax; where unclear, keep the first sentence. Correct a wrong or absent-content claim from the body. If the body was not read, keep the comment and report it.
 
 ## Comments that restate the line beneath them
 

@@ -54,6 +54,8 @@ Delegation needs care. When the symbol forwards to another, the proof lives in t
 
 An absence claim ("does not validate the payload", "no retry on a 4xx") cannot be proved by copying one string, because the evidence is a branch that is not there. Ground it by enumerating the full set of branches and quoting the boundary that closes the set: the final `else`, the `default` case, the end of the match, or the last statement of the body. Then search for anything else that writes the same path (a subclass, an override, middleware, a decorator, a registered hook, generated code) and confirm none of them supplies the behaviour you are calling absent. Record the search you ran next to the quote. If the set cannot be closed, because dispatch is dynamic or the handler list is assembled at run time, the claim goes under "Unverified" instead of on the page.
 
+A comment with no corresponding line also makes an absence claim. Prove the absence across its full scope before treating the comment as false; on a public or exported symbol, correct it from the body rather than deleting it.
+
 ## Provable is not the same as worth writing
 
 Grounding decides whether a statement **may** be written. It never decides that it **should** be, and it never decides how many times. Holding proof for one fact is proof about one fact, not a licence to state it at every site where it happens to be true.
