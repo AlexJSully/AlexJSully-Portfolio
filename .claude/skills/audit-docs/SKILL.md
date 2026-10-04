@@ -69,7 +69,7 @@ Every statement must be grounded in code you have **opened and read in full duri
 
 ### Rule 4: Current state only
 
-Documentation and comments describe the code as it is now. Never narrate a change, a fix, or a prior state ("now uses", "previously", "no longer", "restored", "replaces", "used to", "formerly", "for the first time", "unlike the old"), never argue that the code is correct or safe, and never name a file, flag, symbol, or tool that no longer exists: version control already carries that history. The only sanctioned place for future intent is a `TODO` in the code that will change, positioned however that codebase positions one; documentation itself carries none, so no empty sections, stubs, or "add details here" placeholders, and if the code does not exist, neither should its documentation. Rationale worth keeping goes in its own decision record, not scattered through the files it explains.
+Documentation and comments describe the code as it is now. Never narrate a change, a fix, or a prior state ("now uses", "previously", "no longer", "restored", "replaces", "used to", "formerly", "for the first time", "unlike the old"), never argue that the code is correct or safe, and never name a file, flag, symbol, or tool that no longer exists: version control already carries that history. The only sanctioned place for future intent is a `TODO` in the code that will change, positioned however that codebase positions one; documentation itself carries none, so no empty sections, stubs, or "add details here" placeholders, and if the code does not exist, neither should its documentation. Only architectural or cross-cutting decisions get decision records; why a piece of code is written as it is stays in a comment beside it.
 
 ### Rule 5: Mermaid diagram and image accessibility (zero tolerance)
 
@@ -126,7 +126,7 @@ Phase 3 runs on every audit, whatever Phases 1 and 2 found, over the code files 
 3. **Verbose:** a fact worth keeping sits inside padding (restated parameters, a tour of the body, filler, hedging). Cut the padding sentences; the summary and every reason, constraint, edge case, or warning stay. This never removes a whole comment.
 4. Otherwise it stays as written.
 
-**The closed delete list.** Beyond test 2, delete only commented-out code, a comment about code that no longer exists with nothing to correct it towards, and change narration ("now uses", "previously") stating no current fact; narration that does state one is rewritten to it. A TODO stays unless its work is visibly done. Removing a comment because it is private, the function is short, or you would not have written it is a defect. **When unsure, keep it and report it.**
+**The closed delete list.** Beyond test 2, delete only commented-out code, a comment about code that no longer exists with nothing to correct it towards, change narration ("now uses", "previously") stating no current fact, and, under the guard below, a use-site copy of what the declaration's comment says; narration that does state one is rewritten to it. A TODO stays unless its work is visibly done. Removing a comment because it is private, the function is short, or you would not have written it is a defect. **When unsure, keep it and report it.**
 
 **Trim only inside the requested scope.** Tests 2 and 3 apply only to what the request resolved to: on a pull request, the files and code the diff touched; on a directory or component, everything in it; on a function, only that function. Elsewhere only test 1 applies.
 
