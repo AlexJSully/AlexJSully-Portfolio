@@ -46,18 +46,19 @@ The bad version becomes a lie the first time someone adds a second cache, and it
 
 The banned openers catch a comment that announces it is about a change. They miss the more common one, which reads as ordinary rationale and is really a note about something that is not there.
 
-The test is mechanical: **name the line the comment describes.** Point at the code beneath it that the comment is about. Where no line corresponds, the comment is about a decision rather than about this code, and a decision belongs in the commit message, where the diff that proves it lives.
+The test is mechanical: **name the code the comment describes**, whether a line, a block, the function it sits on, or the file. A comment giving the reason the code beneath it is written as it is names that code and passes. Where no code corresponds, the comment is about a decision rather than about this code. Correct it to the current fact it carries; a sentence about the decision itself belongs in the commit message, where the diff that proves it lives.
 
 ```ts
 // Bad: explains something the file does not contain
 // Removed the manual retry loop here because the SDK already retries with backoff.
 const response = await client.send(request);
 
-// Good: nothing here, and that sentence in the commit message
+// Good: the current fact the comment was carrying
+// The SDK retries with backoff, so this call is not wrapped.
 const response = await client.send(request);
 ```
 
-A reader of the bad version cannot check it. There is no retry loop to compare against, no way to tell whether the claim about the SDK is still true, and nothing to do with the information. Six months on, the comment survives a change to the SDK that the sentence no longer describes.
+A reader of the bad version cannot check it: there is no retry loop to compare against. The good version keeps the fact the bad one carried, that the SDK retries, as a constraint on the line beneath it, which a reader can check against the SDK. Delete such a comment only when no current fact remains in it.
 
 Two comments pass this test and are not findings. A note about a deliberate omission the code depends on, such as why a field must stay out of a payload, describes a real constraint on the line beneath it. A file-level header describes the file rather than any single line.
 
@@ -84,7 +85,7 @@ Say what something does, or why it exists. Do not justify that it works.
 
 **When a comment contradicts the code, the code is the truth and the comment is corrected.** Deleting it loses whatever the comment was reaching for, and the mismatch is often the most interesting thing in the file: it usually means either the comment described an intent the code abandoned, or the code drifted from a constraint that still holds.
 
-Delete an internal comment only when it restates the line beneath it or is commented-out code. Never delete or cut below one sentence a public or exported symbol's comment, a public structure member's comment, or a package or module comment. Keep the sentence saying what it does, even if it restates the name, code, or syntax; where unclear, keep the first sentence. Correct a wrong or absent-content claim from the body. If the body was not read, keep the comment and report it.
+**An existing comment is kept by default, public and private alike.** Delete one only when it is commented-out code, every sentence restates the name, signature, or line beneath it, it describes code that no longer exists with no current fact to correct it towards, or it narrates a change stating no current fact. Being private, short, or not a comment you would have written is never a reason. A verbose comment is tightened by whole sentences, keeping its summary and every reason, constraint, edge case, or warning; it is never removed whole. Trim only inside the code you were asked to work on; elsewhere, only correct drift. Never delete or cut below one sentence a public or exported symbol's comment, a public structure member's comment, or a package or module comment. Keep the sentence saying what it does, even if it restates the name, code, or syntax; where unclear, keep the first sentence. Correct a wrong or absent-content claim from the body. If the body was not read, keep the comment and report it.
 
 ## Comments that restate the line beneath them
 
@@ -115,7 +116,7 @@ A bundler magic comment in particular looks like commentary and is load-bearing.
 
 **Every exported symbol**, and every member of an exported structure: interface properties, object keys, enum values, and class members that are part of the public surface.
 
-A private helper carries one when its behaviour is not evident from its name and signature. A binding declared inside a function body does not: the name and type already carry it.
+A private helper gets a new one only when its behaviour is not evident from its name and signature: non-obvious logic, a reason, or a constraint. A binding declared inside a function body gets no new one: the name and type already carry it. These criteria govern writing a block; an existing block on a private helper is kept, corrected, or tightened under the rules above, never removed for being private.
 
 Write the block from the body, never from the name. It is one sentence saying what the symbol does, and a second only for something the signature cannot express that the body or a test proves:
 

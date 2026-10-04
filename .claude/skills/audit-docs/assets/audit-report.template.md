@@ -85,7 +85,7 @@ Undocumented public symbols outside the change, listed rather than documented: [
 | `[path]` | [documented [count] previously undocumented public symbols]    |
 | `[path]` | [created, [tutorial / how-to guide / reference / explanation]] |
 
-Kinds to choose from: made the change the request asked for, corrected a factual statement, documented a public symbol, retained a public documentation comment at its one-sentence floor, corrected an existing documentation tag, removed an outdated or restating internal comment, removed a comment repeated above a usage site, cut sentences from a comment, removed a duplicated section, introduced a term on first use, added orientation for a first-time reader, created, and, only where the request asked or the user approved it, renamed, moved, split, merged, or deleted.
+Kinds to choose from: made the change the request asked for, corrected a factual statement, documented a public symbol, retained a public documentation comment at its one-sentence floor, corrected an existing documentation tag, corrected a drifted comment, removed a comment on the closed delete list (commented-out code, restating its code with nothing more, about code that no longer exists, change narration with no current fact), removed a comment repeated above a usage site, cut sentences from a comment, removed a duplicated section, introduced a term on first use, added orientation for a first-time reader, created, and, only where the request asked or the user approved it, renamed, moved, split, merged, or deleted.
 
 (One row per file, not one per edit. If no file changed, replace the table with "No files changed.")
 
@@ -123,6 +123,7 @@ This run edits documentation, so a code defect is reported here and left alone. 
 - Every phase carries a status line, including a phase whose answer is that the documentation was already accurate.
 - Every symbol reported in Phase 3 as left as it stands because its implementation was not read also appears under Unverified.
 - No documentation comment on a public or exported symbol, public structure member, package, or module was deleted or cut below one sentence.
+- Every comment removed, public or private, documentation or inline, is on the closed delete list; every other comment was kept, corrected, or tightened by whole sentences inside the requested scope.
 - Every file changed is inside the scope, and none was renamed, moved, split, or deleted unless the request asked for it or the user approved it.
 - Every file named in a phase result appears in the files changed table, and every row of that table is a file that was edited.
 - The file count in the summary matches the number of rows in the table.
