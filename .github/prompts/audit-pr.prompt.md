@@ -174,7 +174,7 @@ Dead code, naming clarity, function complexity, magic numbers, and formatting co
 
 **Test logic that reached production code:** a test-environment branch, an export that exists only so a test can reach it, a mock or sample value on a production path, a flag that disables behaviour under test.
 
-**Tells of generated code**, which are review targets rather than accusations: an abstraction with one caller, a generic parameter with one instantiation, a helper duplicating one already in the repository under a different name, an API call that is plausible but absent from the library's surface, error handling that catches and logs without changing the outcome, and a comment that narrates the change ("now uses X", "updated to handle Y") or explains an absence ("removed X because", "we no longer need Y") instead of describing the code. The test that catches the second without a phrase list: point at the line the comment describes. A comment you cannot attach to a line beneath it is about a decision rather than about this code, and the reader who wants that decision is looking at the pull request.
+**Tells of generated code**, which are review targets rather than accusations: an abstraction with one caller, a generic parameter with one instantiation, a helper duplicating one already in the repository under a different name, an API call that is plausible but absent from the library's surface, error handling that catches and logs without changing the outcome, and a comment that narrates the change ("now uses X", "updated to handle Y") or explains an absence ("removed X because", "we no longer need Y") instead of describing the code. The test that catches the second without a phrase list: name the code the comment describes, whether a line, a block, a function, or the file. A comment giving the reason the code is written as it is passes, since the reason belongs to that code; one that names no code at all is about a decision, and the reader who wants that decision is looking at the pull request.
 
 ### 6. Architecture and design
 
@@ -217,7 +217,7 @@ Algorithmic complexity, N+1 queries, missing caching, oversized payloads, synchr
 
 ### 9. Documentation and comments
 
-Public surfaces documented, existing comments still accurate after the change, why-comments for non-obvious logic, the pull request description updated, and external documentation still accurate. Flag specific drift as a finding. Correcting the documentation itself is separate work and is not part of this review. A deprecation names its replacement. A tunable value is documented by the name a consumer changes it by.
+Public surfaces documented, existing comments still accurate after the change, why-comments for non-obvious logic, the pull request description updated, and external documentation still accurate. Flag specific drift as a finding, and recommend correcting a drifted comment towards the code rather than deleting it. Correcting the documentation itself is separate work and is not part of this review. A deprecation names its replacement. A tunable value is documented by the name a consumer changes it by.
 
 ### 10. Standards and style
 

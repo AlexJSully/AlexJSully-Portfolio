@@ -67,7 +67,7 @@ A comment describing something the file does not contain, which the phrase list 
 Response response = client.send(request);
 ```
 
-COMMENT: `Removed the manual retry loop here because the client already retries with backoff.` CODE: `Response response = client.send(request);`. **The test is to name the line the comment describes**, and here no line does: there is no retry loop in the file, so the sentence is about a decision rather than about this code. Run this test on every comment, since the sub-class above it catches only the comments that announce themselves with a banned phrase, and record the entry under `CONTRADICTED` with the absent thing named in the `BEHAVIOUR` line. Two comments pass the test and are never entries: a note about a deliberate omission the code depends on, such as why a field stays out of a payload, describes a constraint on the line beneath it; and a file-level header describes the file rather than any one line.
+COMMENT: `Removed the manual retry loop here because the client already retries with backoff.` CODE: `Response response = client.send(request);`. **The test is to name the code the comment describes**: a line, a block, the function or declaration it sits on, or the file. Here the subject is a retry loop the file does not contain, so the sentence is about a decision rather than about this code. Where a current fact remains, the caller keeps it by rewriting the comment: report it under `CONTRADICTED` with the absent thing named in the `BEHAVIOUR` line. Where no current fact remains, the closed delete list permits deletion. Run this test on every comment, since the sub-class above it catches only the comments that announce themselves with a banned phrase. These pass the test and are never entries: a comment explaining why the code beneath it is written the way it is, which describes that code; a note about a deliberate omission the code depends on, such as why a field stays out of a payload; and a file-level header, which describes the file.
 
 ## List three: comments repeated above a usage site
 
@@ -94,9 +94,9 @@ A comment can be true, non-repeated, and still carry sentences its reader does n
 
 - a sentence restating the declaration or the code beneath it, such as a signature retold in prose or a straightforward conditional, loop, or assignment walked through step by step, except for the public floor sentence, which is always kept even where it restates the name, code, or syntax;
 - a sentence listing or re-describing members that carry their own comments, which is how a package or type comment turns into a tour of the interface: each member's own comment, and the reference the language generates from them, already carry it;
-- a sentence narrating alternatives considered or reasoning walked through, where the code needs only the conclusion.
+- a sentence that only narrates alternatives or steps already captured by a later sentence, without stating a reason, constraint, edge case, or warning.
 
-Report the comment's own sentences in two verbatim sets: `KEEP`, the sentences carrying something the code does not show, and `CUT`, each sentence of the three kinds above beside the code string or member comment it restates. For a public or exported symbol, public structure member, or package or module, `KEEP` is never empty: keep its summary sentence, or the first sentence if unclear. A wrong comment in this group is corrected from the body, never deleted; an unread body means keep and report it. A sentence explaining non-obvious internal logic is also always `KEEP`. Never write replacement text: the caller writes any new wording from code it opens itself. A wrong comment also goes under `CONTRADICTED`, and the caller corrects it before cutting.
+Report the comment's own sentences in two verbatim sets: `KEEP`, the sentences carrying something the code does not show, and `CUT`, each sentence of the three kinds above beside the code string or member comment it restates. **`KEEP` is never empty for any comment reported here, public or private, documentation or inline**: keep its summary sentence, or the first sentence if unclear. This list tightens a comment and never removes one; a comment whose every sentence restates the line beneath it, with nothing kept, is outside this list and the caller judges it. A sentence giving a reason, a constraint, an edge case, a warning, or an explanation of non-obvious logic is always `KEEP`, since that is the conclusion the code cannot show. A wrong comment is corrected from the body, never deleted; an unread body means keep and report it. Never write replacement text: the caller writes any new wording from code it opens itself. A wrong comment also goes under `CONTRADICTED`, and the caller corrects it before cutting.
 
 ```python
 # We need to check if the user is eligible for the discount.
@@ -142,7 +142,7 @@ What remains is the package comment the language convention asks for: one senten
 Each of these produces noise rather than a finding, so leave each one out of the list named beside it, and only that list:
 
 - a comment that is merely terse, or plain, or worded differently from how a convention would word it: every list;
-- an internal helper whose name and signature already carry what it does: `UNDOCUMENTED`;
+- an internal helper whose name and signature already carry what it does: `UNDOCUMENTED`, since a missing private comment is not a defect. An existing comment on such a helper is still read for `CONTRADICTED` and `VERBOSE`, and its being private is never itself an entry;
 - a missing comment on a binding inside a function body: `UNDOCUMENTED`;
 - a comment sitting on a declaration: `REPEATED`, since a declaration, including an export or re-export statement, is not a use. A member's comment and a file-level header are still read for `CONTRADICTED` and `VERBOSE`;
 - a type annotation restated in prose: `CONTRADICTED`, since it is a style question and not a contradiction, though under `VERBOSE` it is a restating sentence;
@@ -189,8 +189,8 @@ BLOCKED BY: <outside the paths handed in / inside them and not opened>
 
 VERBOSE
 <file path> :: <symbol, or the line the comment sits above>
-KEEP: <each sentence carrying what the code does not show, verbatim, with any credential value replaced by [REDACTED]; never empty for a public symbol, public structure member, package, or module, where its summary sentence or, if unclear, first sentence goes here>
-CUT: <each sentence to delete, verbatim> :: <the code string or member comment it restates, verbatim, or the reasoning it narrates>
+KEEP: <each sentence carrying what the code does not show, verbatim, with any credential value replaced by [REDACTED]; never empty, with the summary sentence or, if unclear, the first sentence always here>
+CUT: <each sentence to delete, verbatim> :: <the code string or member comment it restates, or the later sentence that already states the same conclusion>
 
 COUNTS
 Files in scope: <n>
