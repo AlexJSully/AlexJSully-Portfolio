@@ -66,7 +66,7 @@ A paragraph is not earning its place when it is one of these five. Nothing outsi
 
 The first entry and the experienced reader's test are one defect seen from two angles, so a restating paragraph is named once, on the list, and that reader's verdict states the pattern rather than repeating the paragraph. The two questions come apart on the other reader: a newcomer blocker is context the document never supplies, so that verdict can read FAILED while every paragraph present is earning its place.
 
-**The counterweight, and it is half of this question.** Connective prose that carries the logic is not bloat. Cutting it produces a choppy document that costs the reader more than the words saved, because the reasoning it held moves back into the reader's head. The target is concise, not terse, and a paragraph carrying a why or a how stays even where it runs longer than the paragraphs around it.
+**The counterweight, and it is half of this question.** Connective prose that carries the logic is not bloat. Cutting it produces a choppy document that costs the reader more than the words saved, because the reasoning it held moves back into the reader's head. The target is concise, not terse, and a paragraph carrying a why or a how stays even where it runs longer than the paragraphs around it. A list, table, or code block is not bloat because prose could say the same: never report one for conversion to prose, and report a code block only where it transcribes an implementation a link serves as well.
 
 ## The decision-record carve-out
 
