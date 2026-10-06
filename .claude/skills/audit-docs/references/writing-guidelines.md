@@ -22,6 +22,8 @@ Write as a careful human technical writer: formal and neutral, never robotic. Th
 
 ## Brevity & style
 
+These rules govern what you write. An existing list, table, heading, or code block keeps its form under the readability rule in [`SKILL.md`](../SKILL.md); a run never turns a list into prose.
+
 - Use prose to carry reasoning (the _why_ and _how_); reserve bullets and numbered lists for genuine enumerations (steps, options, fields, parameters). Do not force explanation into parallel bullet fragments, and do not de-list a real list: enumerations stay lists, scannable for people and easy to retrieve. No walls of text. **Concise, not choppy:** no line-by-line narration, but keep the connective prose that carries logic. Lead each paragraph and section with its point, then give the detail.
 - **Tables only for uniform data scanned quickly**, meaning many parallel items with distinct attributes. If columns repeat across rows, cells sit empty, or a cell holds a sentence of prose, use a list with sub-headings instead.
 
@@ -50,7 +52,8 @@ Write as a careful human technical writer: formal and neutral, never robotic. Th
 
 ## Code snippets
 
-- Do not inline full definitions or class bodies; link to the file. Exceptions, 3-10 lines maximum: a specific usage example or how-to, a single critical configuration line, or logic that text alone cannot convey.
+- In what you write, link to the file rather than inline a full definition or class body. The exceptions are a usage example or how-to, a configuration line, a data sample, and logic that text alone cannot convey, each as short as the point allows.
+- **An existing block is judged in its page's context, never by a line count.** An example, command, configuration entry, data sample, or short excerpt of logic stays, corrected against the code and trimmed only where a shorter form still works. A block that only transcribes an implementation a link serves as well is replaced by that link, and the sentence it supported stays. A block that illustrates the sentence beside it is not that sentence repeated.
 - **An example a reader copies and adapts is a usage example and belongs inside that allowance.** Write it in the language and file format the reader will actually edit, and label the fence with that language: a block labelled as one format and written in another does not run, and the reader who pastes it learns that after the error rather than before.
 
 ## Formatting

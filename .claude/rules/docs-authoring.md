@@ -39,7 +39,8 @@ When creating or editing any markdown file, follow the discipline below. These a
 
 - Every file reference is a **clickable markdown link to a file**, never a bare filename and never a link to a directory. Link to a file inside the directory (e.g. its `index.md`/`README.md`) instead. A generic reference, where no particular file is meant, is a code span rather than a link: "update your `README.md`".
 - Use relative links (GitHub-compatible) and verify the path resolves from the doc's own location.
-- Don't paste full definitions/class bodies; link to the file. Inline snippets only for a short usage example, a critical config line, or logic that text can't convey (3-10 lines max).
+- Don't paste full definitions/class bodies; link to the file. Inline snippets only for a usage example, a config line, a data sample, or logic that text can't convey, each as short as the point allows.
+- **Readability first: correct content, never form.** Docs are for people. An existing list, numbered list, table, heading, or code block keeps its form; never turn a list into prose, and never remove a code block as a repeat of the sentence it illustrates. Judge an existing code block in its page's context, not by a line count: an example, command, config entry, data sample, or short logic excerpt stays (corrected against the code, trimmed only where a shorter form still works), and only a block transcribing an implementation a link serves as well is replaced by that link.
 
 ## Mermaid
 

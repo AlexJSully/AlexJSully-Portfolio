@@ -124,7 +124,7 @@ The first version restates a signature the reader can open in less time than the
 
 The repair for this failure is what the paragraph fails to add, not deletion by default. Delete only where nothing can be added, and where the source was opened this run to establish that.
 
-**One case resolves the other way, and a long reference page is where it appears.** Where the same fact is transcribed twice inside one document, the second copy adds nothing the first does not, so the repair is to remove the copy rather than to deepen both. Adding to each is how a page that already restates its source ends up longer for it. This is the duplication the deletion rule covers, judged within a document rather than across the set.
+**One case resolves the other way, and a long reference page is where it appears.** Where the same fact is transcribed twice inside one document, the second copy adds nothing the first does not, so the repair is to remove the copy rather than to deepen both. Adding to each is how a page that already restates its source ends up longer for it. This is the duplication the deletion rule covers, judged within a document rather than across the set. A code block illustrating its sentence is not a second copy, and a list is not a copy of the prose around it.
 
 ## Document length as a whole
 
