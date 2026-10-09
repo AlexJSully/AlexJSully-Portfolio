@@ -11,6 +11,16 @@ describe('PillButton', () => {
 		expect(screen.getByText('Accept all')).toHaveStyle({ fontSize });
 	});
 
+	it('renders a contained button, filled with the primary colour when no sx sets one', () => {
+		render(<PillButton>Accept all</PillButton>);
+
+		const button = screen.getByRole('button', { name: 'Accept all' });
+
+		// MUI fills each variant through its own custom property, which jsdom leaves unresolved.
+		expect(button).toHaveStyle({ backgroundColor: 'var(--variant-containedBg)' });
+		expect(getComputedStyle(button).getPropertyValue('--variant-containedBg')).toBe('#1976d2');
+	});
+
 	it('forwards props such as onClick, aria-label, and sx', () => {
 		const onClick = jest.fn();
 		render(

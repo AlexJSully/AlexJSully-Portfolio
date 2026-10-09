@@ -47,7 +47,15 @@ describe('buildPolicyMarkdown', () => {
 	});
 
 	it('leaves out the consent switches, which have no text form', () => {
-		// A block left in as an empty string would join into a run of blank lines.
+		const index = blocks.findIndex((block) => block.type === 'consentControls');
+		const before = blocks[index - 1];
+		const after = blocks[index + 1];
+		if (before?.type !== 'paragraph' || after?.type !== 'paragraph') {
+			throw new Error('Expected the consent switches to sit between two paragraphs in the policy data');
+		}
+
+		// Any text the switches rendered, even an empty string, would sit between their neighbours.
+		expect(markdown).toContain(`${before.text}\n\n${after.text}`);
 		expect(markdown).not.toMatch(/\n{3,}/);
 	});
 });

@@ -37,11 +37,16 @@ describe('ConsentControls', () => {
 		});
 	});
 
-	it('pushes extra actions to the end of the row', () => {
+	it('places extra actions in the row with "Save choices", pushed to its end', () => {
 		render(<ConsentControls actions={<button type='button'>Close without changes</button>} />);
 
-		const close = screen.getByRole('button', { name: 'Close without changes' });
-		expect(close.parentElement).toHaveStyle({ marginInlineStart: 'auto' });
+		const actionsWrapper = screen.getByRole('button', { name: 'Close without changes' }).parentElement;
+		// jsdom does no layout, so the shared row is asserted as one row-direction flex container holding both.
+		const row = actionsWrapper?.parentElement;
+
+		expect(row).toContainElement(screen.getByRole('button', { name: 'Save choices' }));
+		expect(row).toHaveStyle({ flexDirection: 'row' });
+		expect(actionsWrapper).toHaveStyle({ marginInlineStart: 'auto' });
 	});
 
 	it('saves the switches, confirms it, and reports back', () => {

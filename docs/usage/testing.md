@@ -101,7 +101,7 @@ Because steps 1, 2, and 7 write, a run that reaches exit code 0 can still leave 
 
 ### Cypress Test Example
 
-Here is an example of a Cypress test located in [cypress/e2e/landing.cy.ts](../../cypress/e2e/landing.cy.ts). It stubs every third-party host, then checks that nothing optional is stored or sent before the visitor chooses. `waitForHydratedIdle()`, defined in the same spec, waits for hydration and one idle period first, so each assertion that something did not happen runs after the client has had its chance to do it:
+Here is an example of a Cypress test located in [cypress/e2e/landing.cy.ts](../../cypress/e2e/landing.cy.ts). It stubs the third-party hosts matched by `TRACKERS`, then checks that before the visitor chooses, no `_ga` analytics cookie is set, no service worker is registered, and no request reaches a stubbed host. `waitForHydratedIdle()`, defined in the same spec, waits for hydration and one idle period first, so each assertion that something did not happen runs after the client has had its chance to do it:
 
 ```ts
 describe('Landing Page', () => {

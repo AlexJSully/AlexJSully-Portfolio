@@ -52,7 +52,7 @@ describe('isNetworkFast', () => {
 		expect(isNetworkFast()).toBe(false);
 	});
 
-	it.each(['slow-2g', '2g', '3g'] as const)('should return false for slow network types (%s)', (effectiveType) => {
+	it.each(['slow-2g', '2g', '3g'] as const)('returns false on a %s connection', (effectiveType) => {
 		const mockNavigator: MockNavigator = {
 			...originalNavigator,
 			connection: {
