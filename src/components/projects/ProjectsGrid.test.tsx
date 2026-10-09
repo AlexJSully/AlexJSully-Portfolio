@@ -1,7 +1,6 @@
 import ThemeRegistry from '@components/ThemeRegistry';
 import { DELAYS } from '@constants/index';
 import projects from '@data/projects';
-import theme from '@styles/theme';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { ACCEPT_ALL, ESSENTIAL_ONLY, saveConsent } from '@util/consent/consentStore';
 import ProjectsGrid from './ProjectsGrid';
@@ -11,8 +10,19 @@ jest.mock('@configs/firebase', () => ({
 	logAnalyticsEvent: jest.fn(),
 }));
 
+const showcaseProject = projects.find((candidate) => candidate.showcase);
+const hiddenProject = projects.find((candidate) => !candidate.showcase);
+
+if (!showcaseProject || !hiddenProject) {
+	throw new Error('ProjectsGrid tests need one showcase project and one project behind View More.');
+}
+
 describe('ProjectsGrid', () => {
 	const mockLogAnalyticsEvent = jest.requireMock('@configs/firebase').logAnalyticsEvent;
+
+	/** The card link for a project, including one hidden behind View More. */
+	const cardLink = (name: string): HTMLElement =>
+		screen.getByRole('link', { name: `Project: ${name}`, hidden: true });
 
 	beforeEach(() => {
 		jest.clearAllMocks();
@@ -26,54 +36,58 @@ describe('ProjectsGrid', () => {
 		expect(title).toBeInTheDocument();
 	});
 
-	it('renders at least one project card', () => {
-		const projectCards = screen.getAllByTestId(/project-.*-grid/);
-
-		expect(projectCards.length).toBeGreaterThan(0);
+	it('shows showcase projects and hides the rest until View More is clicked', () => {
+		expect(cardLink(showcaseProject.name)).toBeVisible();
+		expect(cardLink(hiddenProject.name)).not.toBeVisible();
 	});
 
-	it('logs analytics on project hover and click', () => {
-		const projectCards = screen.getAllByTestId(/project-.*-grid/);
+	it('logs analytics when a project card is hovered', () => {
+		fireEvent.mouseEnter(cardLink(showcaseProject.name));
 
-		fireEvent.mouseEnter(projectCards[0]);
-		fireEvent.mouseLeave(projectCards[0]);
+		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith(`project-${showcaseProject.id}`, {
+			name: `project-${showcaseProject.id}`,
+			type: 'hover',
+		});
+	});
 
-		const projectLinks = screen.getAllByRole('link', { name: /Project:/i });
+	it('logs analytics when a project card is clicked', () => {
+		fireEvent.click(cardLink(showcaseProject.name));
 
-		fireEvent.click(projectLinks[0]);
-
-		expect(mockLogAnalyticsEvent).toHaveBeenCalled();
+		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith(`project-${showcaseProject.id}`, {
+			name: `project-${showcaseProject.id}`,
+			type: 'click',
+		});
 	});
 
 	it('toggles view more/less projects', () => {
-		const toggleButton = screen.getByRole('button', { name: /view more projects/i });
+		fireEvent.click(screen.getByRole('button', { name: /view more projects/i }));
 
-		expect(toggleButton).toBeInTheDocument();
+		expect(cardLink(hiddenProject.name)).toBeVisible();
+		expect(screen.getByRole('heading', { name: /all projects/i })).toBeInTheDocument();
 
-		fireEvent.click(toggleButton);
+		fireEvent.click(screen.getByRole('button', { name: /show less projects/i }));
 
-		expect(screen.getByRole('button', { name: /show less projects/i })).toBeInTheDocument();
-	});
-
-	it('has accessible links and thumbnails for all projects', () => {
-		const projectLinks = screen.getAllByRole('link', { name: /Project:/i });
-
-		expect(projectLinks.length).toBeGreaterThan(0);
-
-		const thumbnails = screen.getAllByRole('img', { name: /thumbnail image for/i });
-
-		expect(thumbnails.length).toBeGreaterThan(0);
+		expect(cardLink(hiddenProject.name)).not.toBeVisible();
+		expect(screen.getByRole('heading', { name: /featured projects/i })).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /view more projects/i })).toBeInTheDocument();
 	});
 });
 
 describe('ProjectsGrid video previews', () => {
 	const project = projects.find((candidate) => candidate.youtubeURL && candidate.showcase);
 
+	if (!project?.youtubeURL) {
+		throw new Error('ProjectsGrid video preview tests need a showcase project with a YouTube URL.');
+	}
+
+	const { name, youtubeURL } = project;
+
 	beforeEach(() => {
 		jest.useFakeTimers();
 	});
 
 	afterEach(() => {
+		Reflect.deleteProperty(navigator, 'connection');
 		jest.runOnlyPendingTimers();
 		jest.useRealTimers();
 	});
@@ -81,7 +95,7 @@ describe('ProjectsGrid video previews', () => {
 	/** Hovers the project card long enough for its preview to load. */
 	function hoverProject() {
 		render(<ProjectsGrid />);
-		fireEvent.mouseEnter(screen.getByTestId(`project-${project?.id}-grid`));
+		fireEvent.mouseEnter(screen.getByRole('link', { name: `Project: ${name}` }));
 		act(() => {
 			jest.advanceTimersByTime(DELAYS.PROJECT_HOVER_VIDEO);
 		});
@@ -92,10 +106,17 @@ describe('ProjectsGrid video previews', () => {
 
 		hoverProject();
 
-		expect(screen.getByTestId(`project-${project?.id}-video`)).toHaveAttribute(
-			'src',
-			expect.stringContaining('https://www.youtube-nocookie.com/embed/'),
-		);
+		expect(screen.getByLabelText(`YouTube video for ${name}`)).toHaveAttribute('src', `${youtubeURL}&autoplay=1`);
+	});
+
+	it('loads the YouTube preview without autoplay while the visitor is saving data', () => {
+		// navigator.connection is a browser API jsdom omits.
+		Object.defineProperty(navigator, 'connection', { configurable: true, value: { saveData: true } });
+		saveConsent(ACCEPT_ALL);
+
+		hoverProject();
+
+		expect(screen.getByLabelText(`YouTube video for ${name}`)).toHaveAttribute('src', youtubeURL);
 	});
 
 	it('keeps the thumbnail on hover while Embedded videos is refused', () => {
@@ -103,7 +124,8 @@ describe('ProjectsGrid video previews', () => {
 
 		hoverProject();
 
-		expect(screen.queryByTestId(`project-${project?.id}-video`)).not.toBeInTheDocument();
+		expect(screen.queryByLabelText(`YouTube video for ${name}`)).not.toBeInTheDocument();
+		expect(screen.getByRole('img', { name: `Thumbnail image for ${name}` })).toBeInTheDocument();
 	});
 });
 
@@ -140,17 +162,18 @@ describe('ProjectsGrid responsive columns', () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
 
-		render(
+		const { container } = render(
 			<ThemeRegistry>
 				<ProjectsGrid />
 			</ThemeRegistry>,
 		);
 
-		rules = collectRules();
-	});
-
-	it('renders a 12 column grid container', () => {
-		expect(rules.some((rule) => rule.includes(`--Grid-parent-columns: ${gridColumns}`))).toBe(true);
+		// Earlier renders leave their rules in the document, and Emotion's shared cache never reinserts a rule it has
+		// inserted, so only rules for a class this render carries are read.
+		const classNames = new Set(
+			Array.from(container.querySelectorAll('[class]')).flatMap((node) => [...node.classList]),
+		);
+		rules = collectRules().filter((rule) => [...classNames].some((className) => rule.includes(`.${className}`)));
 	});
 
 	it.each([
@@ -159,14 +182,10 @@ describe('ProjectsGrid responsive columns', () => {
 		{ breakpoint: 'lg', expectedColumns: 3, minWidth: '1200px' },
 		{ breakpoint: 'xl', expectedColumns: 4, minWidth: '1536px' },
 		{ breakpoint: 'xxl', expectedColumns: 6, minWidth: '2560px' },
-	] as const)(
-		'renders $expectedColumns columns from $minWidth ($breakpoint)',
-		({ breakpoint, expectedColumns, minWidth }) => {
-			// A card spans `gridColumns / expectedColumns` slots, so 6 columns is a size of 2 out of 12.
-			expect(sizeAt(rules, minWidth)).toEqual([gridColumns / expectedColumns]);
-			expect(theme.breakpoints.up(breakpoint)).toBe(`@media (min-width:${minWidth})`);
-		},
-	);
+	] as const)('renders $expectedColumns columns from $minWidth ($breakpoint)', ({ expectedColumns, minWidth }) => {
+		// A card spans `gridColumns / expectedColumns` slots, so 6 columns is a size of 2 out of 12.
+		expect(sizeAt(rules, minWidth)).toEqual([gridColumns / expectedColumns]);
+	});
 
 	it('widens both max-width caps on ultra-wide screens', () => {
 		const ultraWide = rules.filter((rule) => rule.includes('min-width:2560px'));

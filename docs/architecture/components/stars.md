@@ -125,7 +125,7 @@ The component uses proper ARIA attributes for screen readers:
 3. **GPU Acceleration:** CSS animations use GPU when possible
 4. **Single Generation:** Stars generated once on mount, not on every render
 5. **Dynamic Count:** Star count based on viewport width for responsive performance
-6. **Memory Cleanup:** Clears timeout on unmount to prevent memory leaks
+6. **Memory Cleanup:** Every forced-animation timeout, including the first one `createStars()` schedules, is held in `forceAnimationTimeoutRef`, which the effect clears on unmount
 7. **Fade Effect:** Uses MUI Fade component for smooth appearance
 8. **Analytics Throttling:** First hover tracked, subsequent hovers don't spam analytics
 
@@ -154,12 +154,10 @@ Test file: [`src/components/Stars/StarsBackground.test.tsx`](../../../src/compon
 
 **Test Coverage:**
 
-- Stars are created on mount
-- Accessibility attributes are present on the sky container
-- Hovering a star logs the `stars-triggered` analytics event
-- A star is reachable by keyboard tab focus
-- The component renders with a minimal star count
-- The component renders with a large star count
+- Stars render inside the `role='img'` container named "Starry background", whose `sky` ID the aaaahhhh helper looks up
+- The star count follows the viewport width up to the `MAX_STARS` cap, with `Math.random` held fixed
+- Hovering stars logs the `stars-triggered` analytics event once, however many are hovered
+- Unmounting before the first forced shooting star leaves no pending timer
 
 ## Customization
 

@@ -40,7 +40,7 @@ Record the exact modules your tests are allowed to mock and what boundary each o
 
 ## Test file exemptions
 
-Record which files in your project do not need a colocated test, and state explicitly which categories are **not** exempt.
+Record which files in your project get no colocated test, and state explicitly which categories are **not** exempt.
 
 ## Test patterns
 

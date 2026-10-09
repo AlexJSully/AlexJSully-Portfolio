@@ -16,7 +16,8 @@ export default function StarsBackground(): ReactElement | null {
 
 	const [stars, setStars] = useState<ReactElement[] | null>(null);
 	const [fade, setFade] = useState(false);
-	const [starsTriggered, setStarsTriggered] = useState(false);
+	// A ref, because each star's hover handler is created once on mount and would otherwise read that render's value forever.
+	const starsTriggeredRef = useRef(false);
 
 	// Held so the pending timeout can be cleared on unmount.
 	const forceAnimationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -104,8 +105,8 @@ export default function StarsBackground(): ReactElement | null {
 					component='div'
 					data-testid='star'
 					onMouseEnter={(e) => {
-						if (!starsTriggered) {
-							setStarsTriggered(true);
+						if (!starsTriggeredRef.current) {
+							starsTriggeredRef.current = true;
 							logAnalyticsEvent('stars-triggered', {
 								name: 'stars-triggered',
 								type: 'hover',
@@ -123,7 +124,7 @@ export default function StarsBackground(): ReactElement | null {
 		setFade(true);
 
 		if (triggerAnimation) {
-			setTimeout(() => {
+			forceAnimationTimeoutRef.current = setTimeout(() => {
 				handleForceStarAnimation();
 			}, DELAYS.STAR_ANIMATION_INITIAL);
 		}

@@ -200,13 +200,9 @@ Test file: [`src/components/navbar/Navbar.test.tsx`](../../../src/components/nav
 
 **Test Coverage:**
 
-- Component renders
-- Navigation links present
-- Click handlers fire
-- Analytics events logged
-- ARIA labels for accessibility
-- Keyboard navigation (Enter/Space) on links
-- Navigation when not on the homepage
+- The navigation links render with their accessible names
+- On the homepage, each link logs its analytics event and smooth-scrolls to its section
+- Off the homepage, a link logs its analytics event without scrolling
 
 ## Usage Example
 

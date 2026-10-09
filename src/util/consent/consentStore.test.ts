@@ -1,12 +1,4 @@
-import {
-	ACCEPT_ALL,
-	CONSENT_COOKIE,
-	CONSENT_MAX_AGE_DAYS,
-	ESSENTIAL_ONLY,
-	readConsent,
-	saveConsent,
-	subscribeConsent,
-} from './consentStore';
+import { ACCEPT_ALL, CONSENT_COOKIE, ESSENTIAL_ONLY, readConsent, saveConsent, subscribeConsent } from './consentStore';
 
 /**
  * Writes a raw consent cookie value, as a browser would hold it.
@@ -31,6 +23,7 @@ describe('consentStore', () => {
 		setSignal('doNotTrack', null);
 		Reflect.deleteProperty(globalThis, 'BroadcastChannel');
 		jest.restoreAllMocks();
+		jest.useRealTimers();
 	});
 
 	it('reports an undecided visitor as null', () => {
@@ -38,10 +31,10 @@ describe('consentStore', () => {
 	});
 
 	it.each([
-		['Accept all', ACCEPT_ALL],
-		['Essential only', ESSENTIAL_ONLY],
-		['a custom choice', { analytics: true, media: false, offline: true, linkIcons: false }],
-	])('reads back %s after saving it', (_label, choices) => {
+		{ label: 'Accept all', choices: ACCEPT_ALL },
+		{ label: 'Essential only', choices: ESSENTIAL_ONLY },
+		{ label: 'a custom choice', choices: { analytics: true, media: false, offline: true, linkIcons: false } },
+	])('reads back $label after saving it', ({ choices }) => {
 		saveConsent(choices);
 
 		expect(readConsent()).toEqual(choices);
@@ -54,30 +47,30 @@ describe('consentStore', () => {
 	});
 
 	it.each([
-		['the legacy notice-dismissal value', 'true'],
-		['an earlier consent version', 'v1.a1.m1.o1.t1700000000'],
-		['a malformed value', 'v1.a1.m1'],
-	])('asks again for %s', (_label, raw) => {
+		{ label: 'the legacy notice-dismissal value', raw: 'true' },
+		{ label: 'an earlier consent version', raw: 'v1.a1.m1.o1.l1.t1700000000' },
+		{ label: 'a malformed value', raw: 'v1.a1.m1' },
+	])('asks again for $label', ({ raw }) => {
 		setRawCookie(raw);
 
 		expect(readConsent()).toBeNull();
 	});
 
 	it('stores the choice with a timestamp for the 6-month consent period', () => {
+		jest.useFakeTimers({ now: new Date('2026-01-01T00:00:00Z') });
 		const setter = jest.spyOn(Document.prototype, 'cookie', 'set');
 
 		saveConsent(ESSENTIAL_ONLY);
 
-		expect(setter).toHaveBeenCalledWith(expect.stringMatching(/^cookie-consent=v2\.a0\.m0\.o0\.l0\.t\d+;/));
 		expect(setter).toHaveBeenCalledWith(
-			expect.stringContaining(`max-age=${CONSENT_MAX_AGE_DAYS * 24 * 60 * 60}; path=/; SameSite=Lax`),
+			'cookie-consent=v2.a0.m0.o0.l0.t1767225600; max-age=15552000; path=/; SameSite=Lax',
 		);
 	});
 
 	describe.each([
-		['Global Privacy Control', 'globalPrivacyControl', true],
-		['Do Not Track', 'doNotTrack', '1'],
-	] as const)('with %s sent', (_label, key, value) => {
+		{ label: 'Global Privacy Control', key: 'globalPrivacyControl', value: true },
+		{ label: 'Do Not Track', key: 'doNotTrack', value: '1' },
+	] as const)('with $label sent', ({ key, value }) => {
 		beforeEach(() => {
 			setSignal(key, value);
 		});

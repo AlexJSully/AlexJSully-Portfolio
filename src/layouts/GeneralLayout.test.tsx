@@ -1,15 +1,26 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import GeneralLayout from './GeneralLayout';
 
 describe('GeneralLayout', () => {
+	beforeEach(() => {
+		jest.useFakeTimers();
+	});
+
+	afterEach(() => {
+		act(() => {
+			jest.runOnlyPendingTimers();
+		});
+		jest.useRealTimers();
+	});
+
 	it('renders children and all layout components', () => {
 		render(
 			<GeneralLayout>
-				<div data-testid='child-content'>Hello</div>
+				<div>Hello</div>
 			</GeneralLayout>,
 		);
 
-		expect(screen.getByTestId('child-content')).toBeInTheDocument();
+		expect(screen.getByText('Hello')).toBeInTheDocument();
 		expect(screen.getByRole('banner')).toBeInTheDocument(); // Navbar
 		expect(screen.getByLabelText('Footer')).toBeInTheDocument();
 		expect(screen.getByLabelText('Starry background')).toBeInTheDocument();

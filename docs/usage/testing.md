@@ -101,7 +101,7 @@ Because steps 1, 2, and 7 write, a run that reaches exit code 0 can still leave 
 
 ### Cypress Test Example
 
-Here is an example of a Cypress test located in [cypress/e2e/landing.cy.ts](../../cypress/e2e/landing.cy.ts):
+Here is an example of a Cypress test located in [cypress/e2e/landing.cy.ts](../../cypress/e2e/landing.cy.ts). It stubs every third-party host, then checks that nothing optional is stored or sent before the visitor chooses. `waitForHydratedIdle()`, defined in the same spec, waits for hydration and one idle period first, so each assertion that something did not happen runs after the client has had its chance to do it:
 
 ```ts
 describe('Landing Page', () => {
@@ -109,9 +109,19 @@ describe('Landing Page', () => {
 		cy.a11yCheck();
 	});
 
-	it('should render page', () => {
+	it('asks for consent before storing or sending anything optional', () => {
+		cy.intercept(TRACKERS, { statusCode: 204 }).as('tracker');
 		cy.visit('http://localhost:3000');
-		cy.get('[data-testid="profile_pic"]').should('exist');
+
+		cy.get('section[aria-label="Your privacy choices"]').should('be.visible');
+		waitForHydratedIdle();
+		cy.getCookies().should((cookies) => {
+			expect(cookies.map((cookie) => cookie.name).filter((name) => name.startsWith('_ga'))).to.be.empty;
+		});
+		cy.window()
+			.then((win) => win.navigator.serviceWorker.getRegistrations())
+			.should('have.length', 0);
+		cy.get('@tracker.all').should('have.length', 0);
 	});
 });
 ```

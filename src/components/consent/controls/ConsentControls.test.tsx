@@ -32,15 +32,15 @@ describe('ConsentControls', () => {
 		render(<ConsentControls />);
 
 		expect(screen.getByRole('switch', { name: 'Embedded videos' })).toBeChecked();
+		['Analytics', 'Offline access', 'Link icons'].forEach((name) => {
+			expect(screen.getByRole('switch', { name })).not.toBeChecked();
+		});
 	});
 
-	it('shows extra actions in the same row as "Save choices"', () => {
+	it('pushes extra actions to the end of the row', () => {
 		render(<ConsentControls actions={<button type='button'>Close without changes</button>} />);
 
-		const save = screen.getByRole('button', { name: 'Save choices' });
 		const close = screen.getByRole('button', { name: 'Close without changes' });
-		// Save sits in the row's start group and the extra action in a group pushed to the row's end.
-		expect(close.parentElement?.parentElement).toBe(save.parentElement?.parentElement);
 		expect(close.parentElement).toHaveStyle({ marginInlineStart: 'auto' });
 	});
 

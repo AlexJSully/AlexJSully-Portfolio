@@ -155,17 +155,10 @@ describe('plugin marketplace checks', () => {
 
 	for (const { label, replace } of [
 		{ label: 'a directory', replace: (readme) => mkdirSync(readme) },
+		// The check reads only the entry's own type, never a link's target, so one link stands for every target.
 		{
 			label: 'a symbolic link to a file inside the skill',
 			replace: (readme) => symlinkSync(join(fixture.root, '.claude/skills/alpha/SKILL.md'), readme),
-		},
-		{
-			label: 'a symbolic link to a file outside the skill',
-			replace: (readme) => symlinkSync(join(fixture.root, '.claude/skills/beta/SKILL.md'), readme),
-		},
-		{
-			label: 'a symbolic link to nothing',
-			replace: (readme) => symlinkSync(join(fixture.root, 'gone.md'), readme),
 		},
 	]) {
 		it(`reports a README.md that is ${label}`, () => {

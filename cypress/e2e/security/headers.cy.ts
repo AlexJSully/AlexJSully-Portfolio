@@ -10,64 +10,46 @@ describe('Security headers', () => {
 	it('should not reflect forwarded-host headers back in the response', () => {
 		const sensitiveHeaders = {
 			'X-Forwarded-Host': 'evil.com',
-			'X-Forwarded-Proto': 'http',
+			'X-Forwarded-Proto': 'evil-proto',
 			'X-Real-IP': '127.0.0.1',
 			'X-Forwarded-For': '192.168.1.1, evil.com',
 			Host: 'attacker.site',
 		};
 
 		Object.entries(sensitiveHeaders).forEach(([headerName, headerValue]) => {
+			// `/about` redirects, so the response carries a Location for each forged header to leak into.
 			cy.request({
-				url: 'http://localhost:3000',
+				url: 'http://localhost:3000/about',
 				headers: {
 					[headerName]: headerValue,
 				},
+				followRedirect: false,
 				failOnStatusCode: false,
 			}).then((response) => {
-				const responseHeaderValues = Object.values(response.headers).join(' ');
-
-				expect(responseHeaderValues).to.not.include(headerValue);
-
-				if (response.status >= 300 && response.status < 400) {
-					const location = response.headers.location;
-					if (location) {
-						expect(location).to.not.include('evil.com');
-						expect(location).to.not.include('attacker.site');
-					}
-				}
+				expect(response.status).to.equal(307);
+				expect(response.headers.location).to.equal('/');
+				expect(Object.values(response.headers).join(' ')).to.not.include(headerValue);
 			});
 		});
 	});
 
 	it('should not redirect to an off-origin destination', () => {
-		const maliciousRedirects = [
-			'http://evil.com',
-			'https://attacker.site/steal-data',
-			'ftp://internal-server.local',
-			'file:///etc/passwd',
-			'gopher://localhost:25',
-		];
+		const forgedHosts = { Host: 'attacker.site', 'X-Forwarded-Host': 'evil.com' };
 
-		maliciousRedirects.forEach((redirectUrl) => {
+		for (const { source, destination } of [
+			{ source: '/about', destination: '/' },
+			{ source: '/privacy', destination: '/#privacy' },
+		]) {
 			cy.request({
-				url: `http://localhost:3000?redirect=${encodeURIComponent(redirectUrl)}`,
+				url: `http://localhost:3000${source}`,
+				headers: forgedHosts,
 				followRedirect: false,
 				failOnStatusCode: false,
 			}).then((response) => {
-				if (response.status >= 300 && response.status < 400) {
-					const location = response.headers.location;
-					if (location) {
-						expect(location).to.not.include('evil.com');
-						expect(location).to.not.include('attacker.site');
-						expect(location).to.not.match(/^(ftp|file|gopher):/);
-
-						if (typeof location === 'string' && location.startsWith('http')) {
-							expect(location).to.match(/^https?:\/\/localhost(:\d+)?/);
-						}
-					}
-				}
+				expect(response.status).to.equal(307);
+				expect(response.headers.location).to.equal(destination);
 			});
-		});
+		}
 	});
 
 	it('should not leak internal paths from rewritten request headers', () => {

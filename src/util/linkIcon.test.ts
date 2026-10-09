@@ -14,7 +14,7 @@ describe('linkIcon', () => {
 	it('draws the generated globe for another site until Link icons is allowed', () => {
 		expect(linkIconFor('https://www.github.com/AlexJSully', ORIGIN, false)).toEqual({
 			kind: 'glyph',
-			hue: hueFor('github.com'),
+			hue: 41,
 		});
 	});
 
@@ -37,18 +37,20 @@ describe('linkIcon', () => {
 	});
 
 	it('draws the globe for a malformed href rather than throwing', () => {
-		expect(linkIconFor('http://[', ORIGIN, true)).toEqual({ kind: 'glyph', hue: hueFor('') });
+		expect(linkIconFor('http://[', ORIGIN, true)).toEqual({ kind: 'glyph', hue: 61 });
 	});
 
 	it('normalises the hostname by case and a leading www', () => {
 		expect(normaliseHostname('WWW.Example.ORG')).toBe('example.org');
 	});
 
-	it('gives each hostname a stable hue, distinct for anagrams', () => {
-		expect(hueFor('doi.org')).toBe(hueFor('doi.org'));
-		expect(hueFor('doi.org')).not.toBe(hueFor('oid.org'));
-		expect(hueFor('doi.org')).toBeGreaterThanOrEqual(0);
-		expect(hueFor('doi.org')).toBeLessThan(360);
+	it.each([
+		{ label: 'a hostname', hostname: 'doi.org', hue: 175 },
+		{ label: 'its anagram, distinctly', hostname: 'oid.org', hue: 315 },
+		{ label: 'a hostname whose hash goes negative', hostname: 'linkedin.com', hue: 344 },
+		{ label: 'an empty hostname', hostname: '', hue: 61 },
+	])('gives $label a stable hue of $hue', ({ hostname, hue }) => {
+		expect(hueFor(hostname)).toBe(hue);
 	});
 
 	it('encodes the globe as an SVG data URI tinted by the hue', () => {

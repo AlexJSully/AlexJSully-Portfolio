@@ -39,20 +39,25 @@ describe('buildLlmsTxt', () => {
 	});
 
 	it('gives each "When to use" link specific guidance', () => {
+		expect(sections['When to use'].length).toBeGreaterThan(0);
 		sections['When to use'].forEach((item) => {
 			expect(item).toMatch(/^- \[[^\]]+\]\([^)]+\): Use when .{40,}/);
 		});
 	});
 
 	it('holds only "[name](url)" list items in every H2 section', () => {
-		Object.values(sections)
-			.flat()
-			.forEach((item) => {
-				expect(item).toMatch(/^- \[[^\]]+\]\([^)]+\)(: .+)?$/);
-			});
+		const items = Object.values(sections).flat();
+
+		expect(items.length).toBeGreaterThan(0);
+		items.forEach((item) => {
+			expect(item).toMatch(/^- \[[^\]]+\]\([^)]+\)(: .+)?$/);
+		});
 	});
 
 	it('lists every project, publication, and social account', () => {
+		expect(projects.length).toBeGreaterThan(0);
+		expect(publications.length).toBeGreaterThan(0);
+		expect(socials.length).toBeGreaterThan(0);
 		projects.forEach((project) => {
 			expect(sections.Projects).toContainEqual(expect.stringContaining(`[${project.name}](${project.url})`));
 		});
@@ -67,11 +72,21 @@ describe('buildLlmsTxt', () => {
 	});
 
 	it('names every showcased project in the "When to use" guidance', () => {
-		projects
-			.filter((project) => project.showcase)
-			.forEach((project) => {
-				expect(sections['When to use'].join('\n')).toContain(project.name);
-			});
+		const showcased = projects.filter((project) => project.showcase);
+
+		expect(showcased.length).toBeGreaterThan(0);
+		showcased.forEach((project) => {
+			expect(sections['When to use'].join('\n')).toContain(project.name);
+		});
+	});
+
+	it('leaves a project that is not showcased out of the "When to use" guidance', () => {
+		const hidden = projects.find((project) => !project.showcase);
+		if (hidden === undefined) {
+			throw new Error('@data/projects has no project with showcase false, so the showcase filter is untested');
+		}
+
+		expect(sections['When to use'].join('\n')).not.toContain(hidden.name);
 	});
 
 	it('closes with an Optional section', () => {

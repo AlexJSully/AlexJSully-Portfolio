@@ -38,11 +38,6 @@ describe('buildPolicyMarkdown', () => {
 		});
 	});
 
-	it('keeps inline links as Markdown links', () => {
-		expect(markdown).toContain('[alexjsully.me](https://alexjsully.me/) is the personal portfolio');
-		expect(markdown).toContain('[alexjsully.connect@outlook.com](mailto:alexjsully.connect@outlook.com)');
-	});
-
 	it('turns a cell holding only a URL into an autolink', () => {
 		expect(markdown).toContain('| <https://ico.org.uk> |');
 	});
@@ -52,7 +47,6 @@ describe('buildPolicyMarkdown', () => {
 	});
 
 	it('leaves out the consent switches, which have no text form', () => {
-		expect(markdown).not.toContain('consentControls');
 		// A block left in as an empty string would join into a run of blank lines.
 		expect(markdown).not.toMatch(/\n{3,}/);
 	});

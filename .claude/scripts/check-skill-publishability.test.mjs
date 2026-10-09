@@ -311,14 +311,6 @@ describe('skill checks', () => {
 		});
 	}
 
-	it('accepts a file nested in a bundle directory', () => {
-		fixture.write('.claude/skills/alpha/references/nested/deep.md', '# Deep\n');
-
-		const { status, output } = fixture.check();
-
-		assert.equal(status, 0, output);
-	});
-
 	it('walks a directory linked back up the tree once', () => {
 		fixture.write('.claude/skills/alpha/references/nested/deep.md', '# Deep\n');
 		symlinkSync('..', join(fixture.root, '.claude/skills/alpha/references/nested/loop'));

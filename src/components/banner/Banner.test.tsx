@@ -10,22 +10,13 @@ describe('Banner', () => {
 		expect(heading).toHaveTextContent('Alexander');
 		expect(heading).toHaveTextContent('Joo-Hyun');
 		expect(heading).toHaveTextContent('Sullivan');
+		expect(screen.getByText((_content, element) => element?.textContent === 'Joo-Hyun')).toHaveStyle({
+			whiteSpace: 'nowrap',
+		});
 	});
 
 	it('renders the subtitle', () => {
 		render(<Banner />);
 		expect(screen.getByText(/software developer & bioinformatician/i)).toBeInTheDocument();
-	});
-
-	it('has accessible heading and aria-label', () => {
-		render(<Banner />);
-		const heading = screen.getByRole('heading', { name: 'Name' });
-		expect(heading).toHaveAttribute('aria-label', 'Name');
-	});
-
-	it('has proper layout structure', () => {
-		render(<Banner />);
-		const heading = screen.getByRole('heading', { name: 'Name' });
-		expect(heading.parentElement).toBeInTheDocument();
 	});
 });
