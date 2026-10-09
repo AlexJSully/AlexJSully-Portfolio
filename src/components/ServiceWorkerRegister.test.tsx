@@ -104,6 +104,26 @@ describe('ServiceWorkerRegister', () => {
 		expect(register).toHaveBeenCalledTimes(1);
 	});
 
+	it('does not retry a registration that fails after unmounting', async () => {
+		const warn = silenceConsole('warn', 'Service Worker registration failed, retrying');
+		let rejectRegistration: (_reason: Error) => void = () => {};
+		register.mockReturnValue(
+			new Promise((_resolve, reject) => {
+				rejectRegistration = reject;
+			}),
+		);
+
+		const { unmount } = render(<ServiceWorkerRegister />);
+		unmount();
+		rejectRegistration(failure);
+		// Settles the rejection first, so a retry it schedules would fall inside the next advance.
+		await advance(0);
+		await advance(1000);
+
+		expect(register).toHaveBeenCalledTimes(1);
+		expect(warn).not.toHaveBeenCalled();
+	});
+
 	it('renders nothing and registers nothing where the browser has no service worker support', () => {
 		Reflect.deleteProperty(navigator, 'serviceWorker');
 

@@ -82,9 +82,9 @@ const handleStarAnimation = (e: React.MouseEvent<HTMLElement> | { target: HTMLEl
 `handleForceStarAnimation()` in [StarsBackground.tsx](../../../src/components/Stars/StarsBackground.tsx) drives the unattended loop. It collects every star that has not already been shot, by filtering the `data-star-used` attribute the hover handler stamps, then branches on how many are left:
 
 - **Above `THRESHOLDS.MIN_STARS_FOR_ANIMATION`** (15): it shoots one star chosen at random, then schedules itself again after a random 1.5 to 6.5 seconds. It clears the previous timeout handle before storing the new one, so the recursion does not leak a timer per iteration.
-- **At or below the threshold**: it calls `createStars(false)` instead, discarding the spent field and generating a fresh one. The `false` argument skips the block that re-arms the loop, so the automatic shooting stops there and does not resume until the component remounts.
+- **At or below the threshold**: it calls `createStars()` instead, discarding the spent field and generating a fresh one, which schedules the next forced shot after `DELAYS.STAR_ANIMATION_INITIAL` as on first mount.
 
-The pool has to stay larger than the threshold for the random pick to keep finding unused stars without repeating. Once it does not, the field is replaced but the unattended loop ends: the new stars twinkle, and hovering one still makes it shoot, but nothing shoots on its own again.
+The pool has to stay larger than the threshold for the random pick to keep finding unused stars without repeating, so the field is replaced and the loop carries on with it. Each generation keys its stars afresh (`star-<generation>-<index>`), so React mounts new elements rather than reusing the spent ones, whose `data-star-used` attribute and inline `shootAway` style are set outside React. A new field whose own count is at or below the threshold, possible only near the 10-star floor, is replaced again one initial delay later.
 
 ## Rendering Flow
 
@@ -157,6 +157,7 @@ Test file: [`src/components/Stars/StarsBackground.test.tsx`](../../../src/compon
 - Stars render inside the `role='img'` container named "Starry background", whose `sky` ID the aaaahhhh helper looks up
 - The star count follows the viewport width up to the `MAX_STARS` cap, with `Math.random` held fixed
 - Hovering stars logs the `stars-triggered` analytics event once, however many are hovered
+- Once every star is spent, the field regenerates with fresh stars and the forced shooting resumes
 - Unmounting before the first forced shooting star leaves no pending timer
 
 ## Customization

@@ -17,7 +17,8 @@ This document describes the internal architecture, relationships, and usage of m
 - [PolicyDialogGate](../../../src/components/policy/gate/PolicyDialogGate.tsx): Loads the policy dialog's code once the page is idle and mounts the dialog the first time it is opened
 - [LinkIcon](../../../src/components/link-icon/LinkIcon.tsx): The mark beside a phrase link: this site's icon for a same-site link, the linked site's icon once Link icons is allowed, a generated globe otherwise. `mailto:` links and the [PanelLink](../../../src/components/panel-link/PanelLink.tsx)s that open a dialog carry none
 - [PanelLink](../../../src/components/panel-link/PanelLink.tsx): A link that opens a panel, such as the policy dialog, without changing the URL
-- [PillButton](../../../src/components/pill-button/PillButton.tsx): The site's pill-shaped contained button, whose fill alone changes on hover, used by the footer, the consent banner, and the error and not-found pages
+- [PillButton](../../../src/components/pill-button/PillButton.tsx): The site's pill-shaped contained button, whose fill alone changes on hover, used by the footer, the consent banner, and GoHomeLink
+- [GoHomeLink](../../../src/components/go-home-link/GoHomeLink.tsx): The error and not-found pages' link home, which reloads the page instead when the reader is already at `/`
 - [ServiceWorkerRegister](../service-worker.md): PWA service worker registration
 - [ThemeRegistry](#themeregistry): Client boundary supplying the MUI theme to every component below it
 

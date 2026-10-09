@@ -34,7 +34,7 @@ describe('ascii', () => {
 			originalConsoleLog.mockRestore();
 		});
 
-		it('should debounce consoleLogLogo calls', () => {
+		it('logs once, a full delay after the last of several rapid calls', () => {
 			for (let i = 0; i < 10; i++) {
 				debounceConsoleLogLogo();
 			}

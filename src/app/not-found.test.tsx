@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { usePathname } from 'next/navigation';
 import NotFound from './not-found';
 
@@ -7,62 +7,19 @@ jest.mock('next/navigation', () => ({
 	usePathname: jest.fn(),
 }));
 
-/** The console error jsdom raises for `window.location.reload()`, a navigation it does not implement. */
-const reloadReport = expect.objectContaining({ message: expect.stringContaining('Not implemented: navigation') });
-
-/** Whether a console error call is jsdom's report of a reload. */
-function isReloadReport([first]: unknown[]): boolean {
-	return (
-		typeof first === 'object' &&
-		first !== null &&
-		String(Reflect.get(first, 'message')).includes('Not implemented: navigation')
-	);
-}
-
 describe('NotFound', () => {
 	const mockUsePathname = usePathname as jest.MockedFunction<typeof usePathname>;
-	let consoleError: jest.SpiedFunction<typeof console.error>;
 
 	beforeEach(() => {
 		jest.clearAllMocks();
-
-		// jsdom makes `window.location` and its `reload` non-configurable, so the console report is how a reload shows.
-		const originalError = console.error;
-		consoleError = jest.spyOn(console, 'error').mockImplementation((...args: unknown[]) => {
-			if (!isReloadReport(args)) {
-				originalError(...args);
-			}
-		});
-	});
-
-	afterEach(() => {
-		jest.restoreAllMocks();
 	});
 
 	it('renders 404 page and navigation', () => {
 		mockUsePathname.mockReturnValue('/some-path');
 		render(<NotFound />);
 
-		expect(screen.getByRole('heading', { name: /page not found/i })).toBeInTheDocument();
-		expect(screen.getByRole('link', { name: /go home/i })).toBeInTheDocument();
+		expect(screen.getByRole('heading', { name: /page not found/i })).toHaveTextContent('404');
+		expect(screen.getByRole('link', { name: /go home/i })).toHaveAttribute('href', '/');
 		expect(screen.getByText('/some-path')).toBeInTheDocument();
-	});
-
-	it('reloads the page when Go home is clicked on the home page', () => {
-		mockUsePathname.mockReturnValue('/');
-		render(<NotFound />);
-
-		fireEvent.click(screen.getByRole('link', { name: 'Go home' }));
-
-		expect(consoleError).toHaveBeenCalledWith(reloadReport);
-	});
-
-	it('does not reload when Go home is clicked on any other path', () => {
-		mockUsePathname.mockReturnValue('/some-path');
-		render(<NotFound />);
-
-		fireEvent.click(screen.getByRole('link', { name: 'Go home' }));
-
-		expect(consoleError).not.toHaveBeenCalledWith(reloadReport);
 	});
 });

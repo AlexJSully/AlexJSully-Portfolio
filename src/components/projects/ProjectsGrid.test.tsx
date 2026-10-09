@@ -176,6 +176,10 @@ describe('ProjectsGrid responsive columns', () => {
 		rules = collectRules().filter((rule) => [...classNames].some((className) => rule.includes(`.${className}`)));
 	});
 
+	it('renders a 12 column grid container', () => {
+		expect(rules.some((rule) => rule.includes(`--Grid-parent-columns: ${gridColumns}`))).toBe(true);
+	});
+
 	it.each([
 		{ breakpoint: 'sm', expectedColumns: 2, minWidth: '600px' },
 		{ breakpoint: 'md', expectedColumns: 3, minWidth: '900px' },

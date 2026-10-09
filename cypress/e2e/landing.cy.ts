@@ -3,13 +3,15 @@ const TRACKERS =
 	/google-analytics\.com|googletagmanager\.com|firebase(installations|logging)?\.googleapis\.com|vercel-scripts\.com|_vercel\/speed-insights|youtube|icons\.duckduckgo\.com|sentry\.io/;
 
 /**
- * Waits for hydration, then for one idle period, so an assertion that something did not happen runs after the client
- * has had its chance to do it.
+ * Waits for hydration, then for one idle period or 2 seconds, whichever comes first, so an assertion that something
+ * did not happen runs after the client has had its chance to do it.
  */
 function waitForHydratedIdle(): void {
 	// Stars render only after mount, so their presence marks a hydrated page.
 	cy.get('[data-testid="star"]').should('exist');
-	cy.window().then((win) => new Cypress.Promise<void>((resolve) => win.requestIdleCallback(() => resolve())));
+	cy.window().then(
+		(win) => new Cypress.Promise<void>((resolve) => win.requestIdleCallback(() => resolve(), { timeout: 2000 })),
+	);
 }
 
 describe('Landing Page', () => {

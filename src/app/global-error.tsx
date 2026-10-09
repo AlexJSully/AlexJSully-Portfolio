@@ -1,11 +1,9 @@
 'use client';
 
-import PillButton, { accentFillSx } from '@components/pill-button/PillButton';
+import GoHomeLink from '@components/go-home-link/GoHomeLink';
 import { captureError } from '@configs/sentry';
 import { Stack, Typography } from '@mui/material';
 import NextError from 'next/error';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { ReactElement, memo, useEffect } from 'react';
 
 interface GlobalErrorProps {
@@ -22,8 +20,6 @@ interface GlobalErrorProps {
  * visitor has allowed Analytics, through `captureError` in `src/configs/sentry.ts`.
  */
 function GlobalError({ error }: GlobalErrorProps): ReactElement {
-	const pathname = usePathname();
-
 	useEffect(() => {
 		void captureError(error);
 	}, [error]);
@@ -69,23 +65,7 @@ function GlobalError({ error }: GlobalErrorProps): ReactElement {
 						<NextError statusCode={undefined as any} />
 					</Typography>
 
-					<Link
-						aria-label='Go home'
-						href='/'
-						onClick={() => {
-							if (pathname === '/' && typeof window !== 'undefined') {
-								window.location.reload();
-							}
-						}}
-						prefetch
-						style={{
-							cursor: 'pointer',
-						}}
-					>
-						<PillButton aria-label='Go home button' sx={accentFillSx}>
-							Go Home
-						</PillButton>
-					</Link>
+					<GoHomeLink>Go Home</GoHomeLink>
 				</Stack>
 			</body>
 		</html>

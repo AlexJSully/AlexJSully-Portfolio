@@ -68,7 +68,8 @@ export default function Avatar() {
 	};
 
 	/** Debounce the sneeze animation */
-	const debounceSneeze = debounce(handleTriggerSneeze, DELAYS.AVATAR_SNEEZE_DEBOUNCE);
+	// Created once: a fresh debounce per render would let each sneeze frame's re-render cancel a hover still pending.
+	const [debounceSneeze] = useState(() => debounce(handleTriggerSneeze, DELAYS.AVATAR_SNEEZE_DEBOUNCE));
 
 	// Cleanup debounce on unmount
 	useEffect(() => {

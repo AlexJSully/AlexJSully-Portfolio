@@ -41,7 +41,7 @@ describe('Navbar', () => {
 		Element.prototype.scrollIntoView = originalScrollIntoView;
 	});
 
-	it('should render navbar with all navigation links', () => {
+	it('renders the navigation links with their accessible names', () => {
 		mockUsePathname.mockReturnValue('/');
 		renderWithTargets();
 

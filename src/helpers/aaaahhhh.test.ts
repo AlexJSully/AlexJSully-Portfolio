@@ -21,7 +21,7 @@ describe('aaaahhhh', () => {
 	});
 
 	describe('textAAAAHHHH', () => {
-		it('should convert text nodes and remove carousel/enable no-motion', () => {
+		it('converts direct text, removes the carousel, and reveals the no-motion description', () => {
 			document.body.innerHTML = `
 				<span id="span">hello</span>
 				<h1>HELLO</h1>
@@ -49,7 +49,7 @@ describe('aaaahhhh', () => {
 			expect(document.getElementById('paragraph')?.textContent).toBe('aaahh inner');
 		});
 
-		it('should not throw if elements are missing', () => {
+		it('converts text when the carousel and no-motion elements are absent', () => {
 			document.body.innerHTML = '<span id="span">hello</span>';
 
 			expect(() => textAAAAHHHH()).not.toThrow();
@@ -70,18 +70,18 @@ describe('aaaahhhh', () => {
 			imageAAAAHHHH();
 		});
 
-		it('should replace background images in divs with style attribute', () => {
+		it('replaces the background image of a styled div', () => {
 			expect(document.getElementById('background')?.style.backgroundImage).toBe(`url("${aaaahhhhImage}")`);
 		});
 
-		it('should replace src attribute in img elements', () => {
+		it('replaces the src and srcset of each image', () => {
 			const image = screen.getByRole('img', { name: 'old' });
 
 			expect(image).toHaveAttribute('src', aaaahhhhImage);
 			expect(image).toHaveAttribute('srcset', aaaahhhhImage);
 		});
 
-		it('should replace background image of sky element', () => {
+		it('covers the sky element with the image, unrepeated', () => {
 			const sky = document.getElementById('sky');
 
 			expect(sky?.style.backgroundImage).toBe(`url("${aaaahhhhImage}")`);
@@ -89,7 +89,7 @@ describe('aaaahhhh', () => {
 			expect(sky?.style.backgroundSize).toBe('cover');
 		});
 
-		it('should handle elements without background images or src', () => {
+		it('leaves a div with no background image and an image with no source untouched', () => {
 			const image = screen.getByRole('img', { name: 'no source' });
 
 			expect(document.getElementById('no-background')?.style.backgroundImage).toBe('');

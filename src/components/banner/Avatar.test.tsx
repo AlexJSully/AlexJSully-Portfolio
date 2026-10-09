@@ -19,16 +19,23 @@ function advance(ms: number): void {
 	});
 }
 
-/** Hovers the avatar the given number of times, letting the debounce settle after each hover so every one counts. */
-function hover(times: number): void {
+/**
+ * Hovers or clicks the avatar the given number of times, letting the debounce settle after each one so every one
+ * counts.
+ */
+function hover(times: number, event: 'mouseEnter' | 'click' = 'mouseEnter'): void {
 	for (let i = 0; i < times; i += 1) {
-		fireEvent.mouseEnter(getAvatar());
+		fireEvent[event](getAvatar());
 		advance(DELAYS.AVATAR_SNEEZE_DEBOUNCE);
 	}
 }
 
+/** How long one sneeze takes to step through its frames and back to the default image. */
+const sneezeDuration = ANIMATIONS.SNEEZE_STAGE_1 + ANIMATIONS.SNEEZE_STAGE_2 + ANIMATIONS.SNEEZE_STAGE_3;
+
 describe('Avatar', () => {
 	const mockLogAnalyticsEvent = jest.requireMock('@configs/firebase').logAnalyticsEvent;
+	const originalTitle = document.title;
 
 	beforeEach(() => {
 		jest.clearAllMocks();
@@ -40,6 +47,8 @@ describe('Avatar', () => {
 			jest.runOnlyPendingTimers();
 		});
 		jest.useRealTimers();
+		// The aaaahhhh easter egg retitles the whole document.
+		document.title = originalTitle;
 	});
 
 	it('renders the drawn profile picture by default', () => {
@@ -47,6 +56,7 @@ describe('Avatar', () => {
 
 		// next/image rewrites the src through its loader, so assert on the underlying image path
 		expect(getAvatar()).toHaveAttribute('src', expect.stringContaining('profile_pic_drawn.webp'));
+		expect(getAvatar()).toHaveAttribute('alt', 'Alexander Sullivan head drawn and stylized');
 	});
 
 	it('steps through the sneeze frames and back once hovered enough times', () => {
@@ -85,14 +95,14 @@ describe('Avatar', () => {
 		expect(getAvatar()).toHaveAttribute('src', expect.stringContaining('profile_pic_drawn.webp'));
 	});
 
-	it('logs a sneeze to analytics on the hover that triggers it', () => {
+	it.each(['mouseEnter', 'click'] as const)('logs a sneeze to analytics on the %s that triggers it', (event) => {
 		render(<Avatar />);
 
-		hover(THRESHOLDS.SNEEZE_TRIGGER_INTERVAL - 1);
+		hover(THRESHOLDS.SNEEZE_TRIGGER_INTERVAL - 1, event);
 
 		expect(mockLogAnalyticsEvent).not.toHaveBeenCalled();
 
-		hover(1);
+		hover(1, event);
 
 		expect(mockLogAnalyticsEvent).toHaveBeenCalledTimes(1);
 		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('trigger_sneeze', {
@@ -101,8 +111,22 @@ describe('Avatar', () => {
 		});
 	});
 
+	it('counts a hover made while a sneeze frame is about to change', () => {
+		render(<Avatar />);
+		hover(THRESHOLDS.SNEEZE_TRIGGER_INTERVAL);
+		// Hovers half a debounce before the first frame changes, so the re-render lands while the hover is still pending.
+		advance(ANIMATIONS.SNEEZE_STAGE_1 - DELAYS.AVATAR_SNEEZE_DEBOUNCE / 2);
+
+		fireEvent.mouseEnter(getAvatar());
+		// Ends inside the debounce wait, so `act` commits the frame's re-render before the hover would settle.
+		advance(DELAYS.AVATAR_SNEEZE_DEBOUNCE / 2);
+		advance(sneezeDuration);
+		hover(THRESHOLDS.SNEEZE_TRIGGER_INTERVAL - 1);
+
+		expect(mockLogAnalyticsEvent).toHaveBeenCalledTimes(2);
+	});
+
 	it('turns the page into the aaaahhhh easter egg once it has sneezed enough times', () => {
-		const sneezeDuration = ANIMATIONS.SNEEZE_STAGE_1 + ANIMATIONS.SNEEZE_STAGE_2 + ANIMATIONS.SNEEZE_STAGE_3;
 		render(<Avatar />);
 
 		for (let sneeze = 1; sneeze < THRESHOLDS.AAAAHHHH_TRIGGER_COUNT; sneeze += 1) {

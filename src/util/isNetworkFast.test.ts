@@ -22,7 +22,7 @@ describe('isNetworkFast', () => {
 		global.navigator = originalNavigator;
 	});
 
-	it('should return true if navigator.connection is not available', () => {
+	it('returns true when the browser has no navigator.connection', () => {
 		const mockNavigator: MockNavigator = {};
 		Object.defineProperty(global, 'navigator', {
 			value: mockNavigator,

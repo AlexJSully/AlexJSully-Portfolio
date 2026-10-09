@@ -2,11 +2,7 @@ import structuredData from '@data/structuredData';
 import { render, screen } from '@testing-library/react';
 import RootLayout from './layout';
 
-// This repository's wrappers around the Firebase and Sentry SDKs, so rendering does not start live analytics.
-jest.mock('@configs/firebase', () => ({ init: jest.fn(), logAnalyticsEvent: jest.fn() }));
-jest.mock('@configs/sentry', () => ({ startErrorReporting: jest.fn() }));
-
-// A third-party SDK that reports to Vercel over the network.
+// A third-party SDK that ships only as an ES module, which Jest's CommonJS runtime cannot load.
 jest.mock('@vercel/speed-insights/next', () => ({ SpeedInsights: () => null }));
 
 /** Whether a console error call is React's warning that the rendered `<html>` sits inside the test container. */

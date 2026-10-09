@@ -1,4 +1,4 @@
-import { MAX_STARS } from '@constants/index';
+import { DELAYS, MAX_STARS } from '@constants/index';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import StarsBackground from './StarsBackground';
 
@@ -57,6 +57,28 @@ describe('StarsBackground', () => {
 		expect(background).toContainElement(screen.getAllByTestId('star')[0]);
 		// imageAAAAHHHH in @helpers/aaaahhhh finds the background by this id.
 		expect(background).toHaveAttribute('id', 'sky');
+	});
+
+	it('regenerates a fresh field and resumes shooting once every star is spent', () => {
+		jest.replaceProperty(window, 'innerWidth', 100);
+		render(<StarsBackground />);
+		const shooting = (): HTMLElement[] =>
+			screen.getAllByTestId('star').filter((star) => star.style.animation.startsWith('shootAway'));
+
+		screen.getAllByTestId('star').forEach((star) => fireEvent.mouseEnter(star));
+		// With Math.random at 0.5, each shot lasts 3 s before marking its star spent, and the forced shot first scheduled
+		// at 1 s next runs at 5 s, finding every star spent.
+		act(() => {
+			jest.advanceTimersByTime(5000);
+		});
+
+		expect(shooting()).toHaveLength(0);
+
+		act(() => {
+			jest.advanceTimersByTime(DELAYS.STAR_ANIMATION_INITIAL);
+		});
+
+		expect(shooting()).toHaveLength(1);
 	});
 
 	it('leaves no pending timers when unmounted before the initial star animation', () => {

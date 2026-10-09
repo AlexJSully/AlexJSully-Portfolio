@@ -3,11 +3,6 @@ import { debounceConsoleLogLogo } from '@helpers/ascii';
 import { act, render, screen } from '@testing-library/react';
 import Home from './page';
 
-// This repository's wrapper around the Firebase SDK, so interacting with the page does not log live analytics.
-jest.mock('@configs/firebase', () => ({
-	logAnalyticsEvent: jest.fn(),
-}));
-
 /** Whether a console log call is the ASCII logo the home page prints. */
 function isLogo([message]: unknown[]): boolean {
 	return typeof message === 'string' && message.includes('Welcome to my portfolio!');

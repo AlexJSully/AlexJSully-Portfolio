@@ -1,9 +1,7 @@
 'use client';
 
-import PillButton, { accentFillSx } from '@components/pill-button/PillButton';
+import GoHomeLink from '@components/go-home-link/GoHomeLink';
 import { Stack, Typography } from '@mui/material';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { ReactElement, memo, useEffect } from 'react';
 
 interface ErrorProps {
@@ -19,8 +17,6 @@ interface ErrorProps {
  * when the thrown value carries none.
  */
 function Error({ error }: Readonly<ErrorProps>): ReactElement {
-	const pathname = usePathname();
-
 	useEffect(() => {
 		console.error(error);
 	}, [error]);
@@ -64,23 +60,7 @@ function Error({ error }: Readonly<ErrorProps>): ReactElement {
 				Error: {error.message || 'Unknown error.'}
 			</Typography>
 
-			<Link
-				aria-label='Go home'
-				href='/'
-				onClick={() => {
-					if (pathname === '/' && typeof window !== 'undefined') {
-						window.location.reload();
-					}
-				}}
-				prefetch
-				style={{
-					cursor: 'pointer',
-				}}
-			>
-				<PillButton aria-label='Go home button' sx={accentFillSx}>
-					Go Home
-				</PillButton>
-			</Link>
+			<GoHomeLink>Go Home</GoHomeLink>
 		</Stack>
 	);
 }
