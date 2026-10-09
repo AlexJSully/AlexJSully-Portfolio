@@ -15,6 +15,8 @@ The projects grid is displayed using the `ProjectsGrid` component located in [Pr
 - **Project Cards:** Thumbnail, name, title, employer, resource links. The component imports the project data from `src/data/projects.ts`.
 - **Analytics:** The component calls `logAnalyticsEvent` for user interactions (e.g., clicking a project link or viewing details).
 - **Network-Aware:** Uses `isNetworkFast()` utility to conditionally enable video autoplay.
+- **Consent-Gated Video:** The hover video renders only when the visitor has allowed Embedded videos (`consent?.media`); see [Consent](../consent.md).
+- **Employer Link Icon:** The employer link carries a [`LinkIcon`](../../../src/components/link-icon/LinkIcon.tsx).
 - **Hover Delay:** Uses `DELAYS.PROJECT_HOVER_VIDEO` (1000ms) before showing videos on hover.
 - **Memory Management:** Cleans up timeout on component unmount to prevent memory leaks.
 
@@ -53,7 +55,7 @@ Add an object to the `projects` array in [projects.ts](../../../src/data/project
 
 The rest are optional: `description`, `employer` and `employerURL` (supply `employerURL` whenever `employer` is set, since the employer renders as a link), `publication`, `type`, `dates`, `showcase`, `objectFit` (defaults to `cover`), and `youtubeURL`.
 
-Supply `youtubeURL` as an embed URL to give the card a hover video. Autoplay is not part of the stored value: [ProjectsGrid](../../../src/components/projects/ProjectsGrid.tsx) appends `&autoplay=1` at render time, and only when [`isNetworkFast()`](../../../src/util/isNetworkFast.ts) reports a fast connection.
+Supply `youtubeURL` as an embed URL to give the card a hover video, which plays only once the visitor allows Embedded videos. Autoplay is not part of the stored value: [ProjectsGrid](../../../src/components/projects/ProjectsGrid.tsx) appends `&autoplay=1` at render time, and only when [`isNetworkFast()`](../../../src/util/isNetworkFast.ts) reports a fast connection.
 
 ### Adding Thumbnail Images
 

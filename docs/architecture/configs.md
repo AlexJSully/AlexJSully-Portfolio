@@ -12,6 +12,7 @@ Configs manage environment variables, service integrations, and global settings 
 - **Example files:**
     - `firebase.ts`: Firebase configuration and initialization
     - `firebase.test.ts`: Test configuration for Firebase
+    - `sentry.ts`: Browser Sentry loading and error reporting, gated on consent
 - **Related config files:**
     - `.env`: Environment variables (API keys, secrets)
     - [`next.config.js`](../../next.config.js): Next.js build and runtime config, covered under [Next.js configuration](#nextjs-configuration) below

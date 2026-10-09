@@ -9,8 +9,8 @@ The portfolio is a server-rendered Next.js application with client-side interact
 - **Projects:** Interactive grid showing employment history and personal projects with video previews
 - **Publications:** Academic publications with DOIs and abstracts
 - **Profile:** Animated avatar with Easter egg interactions
-- **Analytics:** User interaction tracking via Firebase
-- **PWA Support:** Installable web app with offline capabilities
+- **Analytics:** User interaction tracking via Firebase, once the visitor allows Analytics
+- **PWA Support:** Installable web app with offline capabilities, once the visitor allows Offline access
 
 ## For External Users
 
@@ -55,8 +55,10 @@ If you're maintaining or extending this codebase:
 
 - **Network-Aware Loading:** Adapts video autoplay based on connection speed
 - **Easter Egg:** Hidden interaction triggered by avatar hover
-- **Progressive Web App:** Installable with offline support via service worker
-- **Analytics Tracking:** Firebase integration for user behavior insights
+- **Progressive Web App:** Installable, with offline support via service worker once the visitor allows Offline access
+- **Consent:** Optional analytics, video previews, offline access, and link icons stay off until the visitor chooses
+- **Agent Readiness:** The home page is also served as Markdown, with an `llms.txt` index
+- **Analytics Tracking:** Firebase integration for user behavior insights, once the visitor allows Analytics
 - **Accessibility:** ARIA labels, semantic HTML, and keyboard navigation
 
 ## Contributing & Code of Conduct

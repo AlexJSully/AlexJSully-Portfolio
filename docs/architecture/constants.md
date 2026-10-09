@@ -62,6 +62,18 @@ A standalone value (600) capping the number of stars [StarsBackground](../../src
 
 Implementation: [src/constants/index.ts](../../src/constants/index.ts)
 
+## Routes
+
+[`src/constants/routes.ts`](../../src/constants/routes.ts) holds the site's paths, named once for [`proxy.ts`](../../src/proxy.ts) and the Markdown builders:
+
+- `ROUTES` - the home page (`/`), its Markdown form (`/index.md`), `/llms.txt`, and `/sitemap.xml`
+- `MAIN_CONTENT_ID` - the ID of the `<main>` element, which receives focus when a closing overlay has nowhere better to return it
+- `SECTION_IDS` - the home page fragments a redirect or link targets: `contact`, `privacy` (opens the policy dialog), and `cookie-settings` (reopens the consent banner)
+- `POLICY_HREF` and `POLICY_PATHS` - the link that opens the policy dialog and the conventional paths that redirect to it
+- `REDIRECTS` and `REWRITES` - the tables the proxy answers before negotiating a representation; see [Agent Readiness](./agent-readiness.md)
+
+Implementation: [src/constants/routes.ts](../../src/constants/routes.ts)
+
 ## Related Documentation
 
 - [Utils Documentation](./utils.md) - Utility functions that use these constants

@@ -14,6 +14,8 @@ The social media links are displayed using the `Footer` component located in [Fo
 
 - **Grid Layout**: The social media links are displayed in a responsive grid layout using Material-UI's `Grid` and `Tooltip` components.
 - **Social Media Icons**: Each social media link is displayed as an icon button with a tooltip.
+- **Contact Buttons**: "Email me" (to `profile.email`) and "Resume" (to `profile.resumePath`) are [`PillButton`](../../../src/components/pill-button/PillButton.tsx)s, with values from [profile.ts](../../../src/data/profile.ts). The footer's root element carries the `contact` ID that `/contact` redirects to.
+- **Policy Links**: Two [`PanelLink`](../../../src/components/panel-link/PanelLink.tsx)s at the end of the footer open the privacy and cookie policy dialog and reopen the consent banner's switches ("Cookie settings"); see [Consent Banner](./consent-banner.md).
 
 ### Flowchart
 
