@@ -8,9 +8,9 @@ AlexJSully's Portfolio is a Next.js portfolio application that uses server-side 
 - **Language:** TypeScript (strict mode)
 - **UI Library:** Material-UI (MUI) with Emotion for styling
 - **Testing:** Jest (unit), Cypress (E2E with accessibility testing)
-- **Error Tracking:** Sentry for client and server errors
-- **Analytics:** Firebase Analytics and Performance Monitoring
-- **PWA:** Service worker for offline support and app installation
+- **Error Tracking:** Sentry for server and edge errors, and for browser errors once Analytics is allowed
+- **Analytics:** Firebase Analytics and Performance Monitoring, once Analytics is allowed
+- **PWA:** Service worker for offline support, once Offline access is allowed, and app installation
 
 ## Architectural Patterns
 
@@ -31,28 +31,30 @@ The application follows this request lifecycle:
 ```mermaid
 flowchart TD
     accTitle: System Request Lifecycle
-    accDescr: Request flow showing how a browser request is processed by Next.js server, rendered using static data, and hydrated on client with service worker and Firebase initialization
-    Browser[User Browser] -->|HTTP Request| NextJS[Next.js Server]
+    accDescr: Request flow showing how a browser request passes through the proxy to the Next.js server, is rendered using static data, and is hydrated on the client, where the service worker and Firebase start only once the visitor allows them
+    Browser[User Browser] -->|HTTP Request| Proxy["Proxy: redirects, rewrites, Accept negotiation"]
+    Proxy --> NextJS[Next.js Server]
     NextJS -->|SSR| Layout[Render Root Layout]
     Layout -->|Nest| Page[Render Page]
     Page -->|Renders| Components[React Components]
     Components -->|Import| Data[Static Data Files]
     Components -->|HTML| Browser
     Browser -->|Client Hydration| ClientInit[Initialize Client Features]
-    ClientInit -->|Register| SW[Service Worker]
-    ClientInit -->|Initialize| Firebase[Firebase SDK]
+    ClientInit -->|Reads| Consent[Consent choices]
+    Consent -->|Offline access allowed| SW[Service Worker]
+    Consent -->|Analytics allowed| Firebase[Firebase SDK]
     Firebase -->|Track| Analytics[User Events]
 ```
 
 **Request Flow:**
 
-1. Browser requests page from Next.js server
+1. Browser requests page; [src/proxy.ts](../../src/proxy.ts) redirects or rewrites known paths and picks the HTML or Markdown representation (see [Agent Readiness](./agent-readiness.md)), and the Next.js server handles the rest
 2. Server renders root layout with metadata (SEO, OpenGraph, PWA manifest)
 3. Child components (e.g. ProjectsGrid, Publications) import static data from [src/data/](../../src/data/projects.ts); the root layout imports SEO keywords
 4. Components receive type-safe data and render to HTML
 5. Browser receives HTML and hydrates React components
-6. Client initializes service worker and Firebase analytics
-7. User interactions trigger analytics events
+6. [ConsentedServices](../../src/components/consent/services/ConsentedServices.tsx) starts Firebase analytics once the visitor allows Analytics and registers the service worker once they allow Offline access (see [Consent](./consent.md))
+7. With Analytics allowed, user interactions trigger analytics events
 
 **Key Behaviors:**
 
@@ -66,7 +68,7 @@ Implementation: [src/app/page.tsx](../../src/app/page.tsx), [src/layouts/General
 
 **Components** ([src/components/](../../src/components/banner/Banner.tsx)) contain UI logic and rendering. See [Component Documentation](./components/index.md).
 
-**Constants** ([src/constants/index.ts](../../src/constants/index.ts)) centralize timing, thresholds, and configuration values. See [Constants Documentation](./constants.md).
+**Constants** ([src/constants/index.ts](../../src/constants/index.ts), [src/constants/routes.ts](../../src/constants/routes.ts)) centralize timing, thresholds, configuration values, and site paths. See [Constants Documentation](./constants.md).
 
 **Data** ([src/data/](../../src/data/projects.ts)) stores typed project, publication, and metadata. See [Data Architecture](./data.md).
 
@@ -74,9 +76,11 @@ Implementation: [src/app/page.tsx](../../src/app/page.tsx), [src/layouts/General
 
 **Utils** ([src/util/](../../src/util/isNetworkFast.ts)) contain network checks and other utilities. See [Utils Documentation](./utils.md).
 
-**Configs** ([src/configs/](../../src/configs/firebase.ts)) manage Firebase and environment setup. See [Configs Documentation](./configs.md).
+**Configs** ([src/configs/](../../src/configs/firebase.ts)) manage Firebase, browser Sentry, and environment setup. See [Configs Documentation](./configs.md).
 
 ## Related Docs
 
 - [Usage Guides](../usage/index.md)
 - [Component Documentation](./components/index.md)
+- [Agent Readiness](./agent-readiness.md)
+- [Consent](./consent.md)

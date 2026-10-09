@@ -1,10 +1,32 @@
 'use client';
 
+import PanelLink from '@components/panel-link/PanelLink';
+import PillButton, { accentFillSx } from '@components/pill-button/PillButton';
 import { logAnalyticsEvent } from '@configs/firebase';
+import { SECTION_IDS } from '@constants/routes';
+import { POLICY_TITLE } from '@data/policy';
+import profile from '@data/profile';
 import socials from '@data/socials';
 import { GitHubIcon } from '@images/icons';
-import { Button, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Button, Grid, IconButton, Stack, type SxProps, type Theme, Tooltip, Typography } from '@mui/material';
+import { colors, focusRing } from '@styles/tokens';
 import Link from 'next/link';
+
+/** Small muted text style shared by the footer's policy and cookie-settings links. */
+const quietLinkSx: SxProps<Theme> = {
+	// Positioned so it paints above the fixed starfield, which otherwise intercepts the click, as MUI buttons already do.
+	position: 'relative',
+	color: colors.textMuted,
+	fontSize: '0.875rem',
+	// Vertical padding gives the small text a taller tap target without moving it.
+	paddingBlock: 1.5,
+	textDecoration: 'none',
+	'&:hover': {
+		color: colors.text,
+		textDecoration: 'underline',
+	},
+	'&:focus-visible': focusRing,
+};
 
 /** Renders the footer. */
 export default function Footer() {
@@ -12,6 +34,7 @@ export default function Footer() {
 		<Stack
 			aria-label='Footer'
 			direction='column'
+			id={SECTION_IDS.contact}
 			spacing={2}
 			sx={{
 				alignItems: 'center',
@@ -34,14 +57,14 @@ export default function Footer() {
 			<Stack direction='row' spacing={2}>
 				<Link
 					aria-label='Email me mailto'
-					href='mailto:alexjsully.connect@outlook.com'
+					href={`mailto:${profile.email}`}
 					prefetch
 					style={{
 						textDecoration: 'none',
 						color: 'inherit',
 					}}
 				>
-					<Button
+					<PillButton
 						aria-label='Email me'
 						onClick={() => {
 							logAnalyticsEvent(`footer-email`, {
@@ -49,36 +72,15 @@ export default function Footer() {
 								type: 'click',
 							});
 						}}
-						sx={{
-							backgroundColor: '#001ca8',
-							borderRadius: '32px',
-							border: '3px solid #001ca8',
-							fontSize: '0.5rem',
-							lineHeight: '2rem',
-							transition: 'all 1s ease',
-							'&:hover': {
-								backgroundColor: '#0041b9',
-								borderRadius: '5%',
-								border: '3px solid #0041b9',
-								transition: 'all 0.25s ease',
-							},
-						}}
-						variant='contained'
+						sx={accentFillSx}
 					>
-						<Typography
-							sx={{
-								color: 'inherit',
-								textDecoration: 'none',
-							}}
-						>
-							Email me
-						</Typography>
-					</Button>
+						Email me
+					</PillButton>
 				</Link>
 
 				<Link
 					aria-label='Resume download'
-					href='/resume/Resume.pdf'
+					href={profile.resumePath}
 					prefetch
 					rel='noopener noreferrer'
 					style={{
@@ -87,7 +89,7 @@ export default function Footer() {
 					}}
 					target='_blank'
 				>
-					<Button
+					<PillButton
 						aria-label='Resume'
 						color='secondary'
 						onClick={() => {
@@ -96,27 +98,9 @@ export default function Footer() {
 								type: 'click',
 							});
 						}}
-						sx={{
-							borderRadius: '32px',
-							fontSize: '0.5rem',
-							lineHeight: '2rem',
-							transition: 'all 1s ease',
-							'&:hover': {
-								borderRadius: '5%',
-								transition: 'all 0.25s ease',
-							},
-						}}
-						variant='contained'
 					>
-						<Typography
-							sx={{
-								color: 'inherit',
-								textDecoration: 'none',
-							}}
-						>
-							Resume
-						</Typography>
-					</Button>
+						Resume
+					</PillButton>
 				</Link>
 			</Stack>
 
@@ -209,7 +193,7 @@ export default function Footer() {
 				Open-source on{' '}
 				<Link
 					aria-label='GitHub repository'
-					href='https://github.com/AlexJSully/AlexJSully-Portfolio'
+					href={profile.sourceRepository}
 					onClick={() => {
 						logAnalyticsEvent(`footer-open-source`, {
 							name: 'footer-open-source',
@@ -253,6 +237,19 @@ export default function Footer() {
 					</Button>
 				</Link>
 			</Typography>
+
+			<Stack
+				direction='row'
+				sx={{ alignItems: 'center', columnGap: 3, flexWrap: 'wrap', justifyContent: 'center', rowGap: 1 }}
+			>
+				<PanelLink aria-haspopup='dialog' panel={SECTION_IDS.policy} sx={quietLinkSx}>
+					{POLICY_TITLE}
+				</PanelLink>
+
+				<PanelLink panel={SECTION_IDS.cookieSettings} sx={quietLinkSx}>
+					Cookie settings
+				</PanelLink>
+			</Stack>
 		</Stack>
 	);
 }

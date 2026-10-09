@@ -1,9 +1,11 @@
 'use client';
 
+import LinkIcon from '@components/link-icon/LinkIcon';
 import { logAnalyticsEvent } from '@configs/firebase';
 import { DELAYS } from '@constants/index';
 import projects from '@data/projects';
 import { Button, Card, CardMedia, Grid, Stack, Tooltip, Typography } from '@mui/material';
+import { useConsent } from '@util/consent/useConsent';
 import { isNetworkFast } from '@util/isNetworkFast';
 import Link from 'next/link';
 import { ReactElement, useEffect, useRef, useState } from 'react';
@@ -16,6 +18,8 @@ export default function ProjectsGrid(): ReactElement {
 	const [hoveredProject, setHoveredProject] = useState<string | null>(null);
 	/** The hover timeout reference */
 	const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
+	/** The visitor's consent; video previews play only with Embedded videos allowed. */
+	const consent = useConsent();
 
 	const handleMouseEnter = (projectId: string) => {
 		hoverTimeout.current = setTimeout(() => {
@@ -154,7 +158,7 @@ export default function ProjectsGrid(): ReactElement {
 										},
 									}}
 								>
-									{hoveredProject === project.id && project.youtubeURL ? (
+									{hoveredProject === project.id && project.youtubeURL && consent?.media ? (
 										<CardMedia
 											allow='autoplay; encrypted-media'
 											aria-label={`YouTube video for ${project.name}`}
@@ -226,6 +230,7 @@ export default function ProjectsGrid(): ReactElement {
 												textDecoration: 'none',
 											}}
 										>
+											<LinkIcon href={project.employerURL || '/'} />
 											{project.employer}
 										</Link>
 									</>

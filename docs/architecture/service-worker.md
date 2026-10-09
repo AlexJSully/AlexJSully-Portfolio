@@ -6,7 +6,7 @@ The site caches itself through a hand-written service worker, which is what make
 
 - Service worker file: [sw.js](../../public/sw.js), served from the public directory at `/sw.js`
 - Registration client: [ServiceWorkerRegister.tsx](../../src/components/ServiceWorkerRegister.tsx)
-- The root layout ([layout.tsx](../../src/app/layout.tsx)) renders `ServiceWorkerRegister` once, so registration happens on every route.
+- [ConsentedServices](../../src/components/consent/services/ConsentedServices.tsx), rendered once by the root layout ([layout.tsx](../../src/app/layout.tsx)), renders `ServiceWorkerRegister` only once the visitor allows Offline access, and otherwise unregisters any worker and deletes its caches. See [Consent](./consent.md).
 
 ## Behavior summary
 
@@ -17,7 +17,7 @@ The site caches itself through a hand-written service worker, which is what make
 
 ## How the app registers the service worker
 
-The app registers the SW from [src/components/ServiceWorkerRegister.tsx](../../src/components/ServiceWorkerRegister.tsx), a client component included in the root layout.
+The app registers the SW from [src/components/ServiceWorkerRegister.tsx](../../src/components/ServiceWorkerRegister.tsx), a client component that [ConsentedServices](../../src/components/consent/services/ConsentedServices.tsx) mounts once the visitor allows Offline access.
 
 The component calls `navigator.serviceWorker.register('/sw.js')` inside a `useEffect`. On failure it retries up to `MAX_SW_RETRIES` (3) times with linear backoff starting at `INITIAL_RETRY_DELAY` (1000 ms), clearing any pending retry on unmount.
 

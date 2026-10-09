@@ -1,5 +1,5 @@
 //@ts-check
-const { withSentryConfig } = require('@sentry/nextjs');
+const { withSentryConfig } = require('@sentry/nextjs/config');
 
 const isDevelopment = process.env.NEXT_PUBLIC_ENVIRONMENT === 'development';
 
@@ -22,7 +22,7 @@ const nextConfig = {
 	async headers() {
 		return [
 			{
-				source: '/',
+				source: '/:path*',
 				headers: [
 					{
 						key: 'X-Content-Type-Options',
@@ -88,12 +88,6 @@ const sentryWebpackPluginOptions = {
 
 	// For all available options, see:
 	// https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-	// Enables automatic instrumentation of Vercel Cron Monitors.
-	// See the following for more information:
-	// https://docs.sentry.io/product/crons/
-	// https://vercel.com/docs/cron-jobs
-	automaticVercelMonitors: true,
 };
 
 module.exports = isDevelopment ? nextConfig : withSentryConfig(nextConfig, sentryWebpackPluginOptions);

@@ -103,7 +103,7 @@ const projects: Projects[] = [
 			endDate: 'current',
 		},
 		showcase: true,
-		youtubeURL: 'https://www.youtube.com/embed/zoPr6tYh5wA?mute=1&cc_load_policy=1&controls=1',
+		youtubeURL: 'https://www.youtube-nocookie.com/embed/zoPr6tYh5wA?mute=1&cc_load_policy=1&controls=1',
 	},
 	{
 		name: 'Workspace Wiki',
@@ -158,6 +158,12 @@ const projects: Projects[] = [
 				icon: VerilyIcon,
 				url: 'https://workbench.verily.com/',
 			},
+			{
+				text: 'GitHub',
+				tooltip: 'Example Verily Workbench devcontainers',
+				icon: GitHubIcon,
+				url: 'https://github.com/verily-src/workbench-app-devcontainers',
+			},
 		],
 		color: '#047a6b',
 		dates: {
@@ -165,7 +171,7 @@ const projects: Projects[] = [
 			endDate: 'current',
 		},
 		showcase: true,
-		youtubeURL: 'https://www.youtube.com/embed/x4uIs3s6P_I?mute=1&cc_load_policy=1&controls=1',
+		youtubeURL: 'https://www.youtube-nocookie.com/embed/x4uIs3s6P_I?mute=1&cc_load_policy=1&controls=1',
 	},
 	{
 		name: 'FHIRPath Go',
@@ -198,7 +204,7 @@ const projects: Projects[] = [
 		},
 		showcase: true,
 		objectFit: 'contain',
-		youtubeURL: 'https://www.youtube.com/embed/jCyQ-g-6pv0?mute=1&cc_load_policy=1&controls=1',
+		youtubeURL: 'https://www.youtube-nocookie.com/embed/jCyQ-g-6pv0?mute=1&cc_load_policy=1&controls=1',
 	},
 	{
 		name: 'Masterpiece X',
@@ -229,7 +235,7 @@ const projects: Projects[] = [
 			endDate: '2023-12',
 		},
 		showcase: true,
-		youtubeURL: 'https://www.youtube.com/embed/O1TlGOmSQ4M?mute=1&cc_load_policy=1&controls=1',
+		youtubeURL: 'https://www.youtube-nocookie.com/embed/O1TlGOmSQ4M?mute=1&cc_load_policy=1&controls=1',
 	},
 	{
 		name: 'Impact Depth',

@@ -48,6 +48,10 @@ export default function Navbar() {
 							aria-label='Home button'
 							sx={{
 								color: 'white',
+								// A faint dark hover tint, since the dark palette's default is a light tint.
+								'&:hover': {
+									backgroundColor: 'rgba(0, 0, 0, 0.04)',
+								},
 							}}
 						>
 							<HomeRoundedIcon />

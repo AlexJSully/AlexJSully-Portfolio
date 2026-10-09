@@ -1,7 +1,8 @@
 'use client';
 
-import { Button, Stack, Typography } from '@mui/material';
-import * as Sentry from '@sentry/nextjs';
+import PillButton, { accentFillSx } from '@components/pill-button/PillButton';
+import { captureError } from '@configs/sentry';
+import { Stack, Typography } from '@mui/material';
 import NextError from 'next/error';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -17,13 +18,14 @@ interface GlobalErrorProps {
  *
  * Next.js mounts this in place of the whole document, so it supplies its own `<html>` and `<body>`
  * rather than inheriting the layout's. Reports the error to Sentry, which is the only record of it:
- * a root layout failure leaves no working page to surface it from.
+ * a root layout failure leaves no working page to surface it from. The report is sent only when the
+ * visitor has allowed Analytics, through `captureError` in `src/configs/sentry.ts`.
  */
 function GlobalError({ error }: GlobalErrorProps): ReactElement {
 	const pathname = usePathname();
 
 	useEffect(() => {
-		Sentry.captureException(error);
+		void captureError(error);
 	}, [error]);
 
 	return (
@@ -80,34 +82,9 @@ function GlobalError({ error }: GlobalErrorProps): ReactElement {
 							cursor: 'pointer',
 						}}
 					>
-						<Button
-							aria-label='Go home button'
-							sx={{
-								backgroundColor: '#001ca8',
-								border: '3px solid #001ca8',
-								borderRadius: '32px',
-								fontSize: '0.5rem',
-								lineHeight: '2rem',
-								transition: 'all 1s ease',
-								'&:hover': {
-									backgroundColor: '#0041b9',
-									border: '3px solid #0041b9',
-									borderRadius: '5%',
-									transition: 'all 0.25s ease',
-								},
-							}}
-							variant='contained'
-						>
-							<Typography
-								sx={{
-									color: 'inherit',
-									textDecoration: 'none',
-									textTransform: 'none',
-								}}
-							>
-								Go Home
-							</Typography>
-						</Button>
+						<PillButton aria-label='Go home button' sx={accentFillSx}>
+							Go Home
+						</PillButton>
 					</Link>
 				</Stack>
 			</body>

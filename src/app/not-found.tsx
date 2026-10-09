@@ -1,6 +1,7 @@
 'use client';
 
-import { Box, Button, Stack, Typography } from '@mui/material';
+import PillButton, { accentFillSx } from '@components/pill-button/PillButton';
+import { Box, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactElement } from 'react';
@@ -81,34 +82,9 @@ export default function NotFound(): ReactElement {
 					cursor: 'pointer',
 				}}
 			>
-				<Button
-					aria-label='Go home button'
-					sx={{
-						backgroundColor: '#001ca8',
-						border: '3px solid #001ca8',
-						borderRadius: '32px',
-						fontSize: '0.5rem',
-						lineHeight: '2rem',
-						transition: 'all 1s ease',
-						'&:hover': {
-							backgroundColor: '#0041b9',
-							border: '3px solid #0041b9',
-							borderRadius: '5%',
-							transition: 'all 0.25s ease',
-						},
-					}}
-					variant='contained'
-				>
-					<Typography
-						sx={{
-							color: 'inherit',
-							textDecoration: 'none',
-							textTransform: 'none',
-						}}
-					>
-						Go back home!
-					</Typography>
-				</Button>
+				<PillButton aria-label='Go home button' sx={accentFillSx}>
+					Go back home!
+				</PillButton>
 			</Link>
 		</Stack>
 	);

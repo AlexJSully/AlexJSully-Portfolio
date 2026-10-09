@@ -3,7 +3,6 @@
 import Banner from '@components/banner/Banner';
 import ProjectsGrid from '@components/projects/ProjectsGrid';
 import Publications from '@components/publications/Publications';
-import { init } from '@configs/firebase';
 import { debounceConsoleLogLogo } from '@helpers/ascii';
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
@@ -11,8 +10,6 @@ import { useEffect } from 'react';
 /** Renders the home page. */
 export default function Home() {
 	useEffect(() => {
-		init();
-
 		debounceConsoleLogLogo();
 	}, []);
 

@@ -19,24 +19,26 @@ Layouts define the structure and composition of pages and sections, ensuring con
 
 The GeneralLayout component wraps all page content and provides a consistent structure:
 
-1. **Navbar:** Fixed navigation bar with site-wide links
-2. **Main Content Area:** The `<main>` element is a flex item of the root `<div id='content'>` (a `display: flex` column) that grows to fill the remaining vertical space (`flex: '1 0 auto'`); it holds the page-specific children, the **StarsBackground** (animated starfield), and the **CookieSnackbar** (cookie consent notification)
-3. **Footer:** Global footer with social links
+1. **ConsentBanner:** The consent choices, first in the document so keyboard and screen-reader users reach them before the page; it is fixed to the viewport, so its place in the document does not move it on screen
+2. **Navbar:** Fixed navigation bar with site-wide links
+3. **Main Content Area:** The `<main>` element is a flex item of the root `<div id='content'>` (a `display: flex` column) that grows to fill the remaining vertical space (`flex: '1 0 auto'`); it holds the page-specific children, the **StarsBackground** (animated starfield), and **PolicyDialogGate**, which loads the privacy and cookie policy dialog the first time it is opened. It carries `id='main-content'` (`MAIN_CONTENT_ID` in [`routes.ts`](../../src/constants/routes.ts)) so the consent banner can hand focus back to the page when it closes; the banner makes it focusable only while it holds focus
+4. **Footer:** Global footer with social links
 
 ### Component Hierarchy
 
 ```mermaid
 flowchart TD
     accTitle: GeneralLayout Component Composition
-    accDescr: The GeneralLayout root div is a flex column containing Navbar, a Main content area, and Footer. The Main content area is a flex item that holds the page children, StarsBackground, and CookieSnackbar together
+    accDescr: The GeneralLayout root div is a flex column containing ConsentBanner, Navbar, a Main content area, and Footer, in that order. The Main content area is a flex item that holds the page children, StarsBackground, and PolicyDialogGate together
     GeneralLayout["GeneralLayout<br/>(Root Div, Flex Column)"]
+    GeneralLayout -->|Contains| Consent["ConsentBanner"]
     GeneralLayout -->|Contains| Navbar
     GeneralLayout -->|Contains| Main["Main Content<br/>(Flex Item)"]
     GeneralLayout -->|Contains| Footer
 
     Main -->|Holds| PageContent["Page Content<br/>(Children)"]
     Main -->|Holds| Stars["StarsBackground"]
-    Main -->|Holds| Cookie["CookieSnackbar"]
+    Main -->|Holds| Policy["PolicyDialogGate"]
 ```
 
 ## Usage Example
@@ -52,7 +54,7 @@ export default function Page() {
 ## Relationships
 
 - **Used by:** [Root Layout](./app-directory.md) wraps pages with this component
-- **Contains:** [Navbar](./components/navbar.md), [Footer](./components/socials.md), [StarsBackground](./components/stars.md), [CookieSnackbar](./components/cookie-snackbar.md)
+- **Contains:** [Navbar](./components/navbar.md), [Footer](./components/socials.md), [StarsBackground](./components/stars.md), [ConsentBanner and PolicyDialog](./components/consent-banner.md)
 - **Styled with:** Material-UI and Emotion via `sx` prop
 
 ## Extending Layouts

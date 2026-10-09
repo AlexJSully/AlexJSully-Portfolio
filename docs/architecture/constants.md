@@ -40,9 +40,7 @@ Trigger thresholds for interactive features:
 
 Network performance thresholds for adaptive loading:
 
-- `SLOW_DOWNLINK_THRESHOLD` (1.5 Mbps) - Maximum speed considered slow
-- `FAST_RTT_THRESHOLD` (100ms) - Maximum round-trip time considered fast
-- `SLOW_NETWORK_TYPES` (['slow-2g', '2g', '3g']) - Network types always considered slow
+- `SLOW_NETWORK_TYPES` (['slow-2g', '2g', '3g']) - Network types considered slow
 
 **Usage:** Import in [isNetworkFast()](../../src/util/isNetworkFast.ts) to determine whether to autoplay videos.
 
@@ -63,6 +61,18 @@ A standalone value (600) capping the number of stars [StarsBackground](../../src
 **Usage:** Import to change the upper bound on rendered stars.
 
 Implementation: [src/constants/index.ts](../../src/constants/index.ts)
+
+## Routes
+
+[`src/constants/routes.ts`](../../src/constants/routes.ts) holds the site's paths, named once for [`proxy.ts`](../../src/proxy.ts) and the Markdown builders:
+
+- `ROUTES` - the home page (`/`), its Markdown form (`/index.md`), `/llms.txt`, and `/sitemap.xml`
+- `MAIN_CONTENT_ID` - the ID of the `<main>` element, which receives focus when a closing overlay has nowhere better to return it
+- `SECTION_IDS` - the home page fragments a redirect or link targets: `contact`, `privacy` (opens the policy dialog), and `cookie-settings` (reopens the consent banner)
+- `POLICY_HREF` and `POLICY_PATHS` - the link that opens the policy dialog and the conventional paths that redirect to it
+- `REDIRECTS` and `REWRITES` - the tables the proxy answers before negotiating a representation; see [Agent Readiness](./agent-readiness.md)
+
+Implementation: [src/constants/routes.ts](../../src/constants/routes.ts)
 
 ## Related Documentation
 

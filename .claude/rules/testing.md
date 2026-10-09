@@ -20,13 +20,13 @@ This file carries only this repository's instances of the skill's rules.
 
 The permitted boundaries are closed. Each is here because the real thing cannot run in jsdom.
 
-| Boundary                                                                        | What that means here                                                                                                                                                                      |
-| ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| A third-party SDK that reaches the network                                      | `firebase/app`, `firebase/analytics`, and `firebase/performance`, mocked in [`firebase.test.ts`](../../src/configs/firebase.test.ts) because the wrapper under test sits directly on them |
-| This repository's own wrapper around such an SDK, when testing a consumer of it | [`@configs/firebase`](../../src/configs/firebase.ts) from a component test, so rendering does not fire live analytics                                                                     |
-| Framework context the test renderer cannot supply                               | `next/navigation`                                                                                                                                                                         |
-| The clock                                                                       | `jest.useFakeTimers()`, which replaces the environment rather than your code                                                                                                              |
-| Browser APIs jsdom omits                                                        | `navigator` and similar                                                                                                                                                                   |
+| Boundary                                                                        | What that means here                                                                                                                                                                                                                                                                 |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| A third-party SDK that reaches the network                                      | `firebase/app`, `firebase/analytics`, and `firebase/performance`, mocked in [`firebase.test.ts`](../../src/configs/firebase.test.ts), and `@sentry/nextjs`, mocked in [`sentry.test.ts`](../../src/configs/sentry.test.ts), because each wrapper under test sits directly on its SDK |
+| This repository's own wrapper around such an SDK, when testing a consumer of it | [`@configs/firebase`](../../src/configs/firebase.ts) and [`@configs/sentry`](../../src/configs/sentry.ts) from a component test, so rendering does not fire live analytics or error reports                                                                                          |
+| Framework context the test renderer cannot supply                               | `next/navigation`                                                                                                                                                                                                                                                                    |
+| The clock                                                                       | `jest.useFakeTimers()`, which replaces the environment rather than your code                                                                                                                                                                                                         |
+| Browser APIs jsdom omits                                                        | `navigator` and similar                                                                                                                                                                                                                                                              |
 
 Anything outside that table needs a one-line comment above the mock naming which boundary it crosses.
 
@@ -42,6 +42,7 @@ Exempt from needing a colocated test: static data modules such as [`projects.ts`
 
 - `render` and `screen` from `@testing-library/react`. Use `fireEvent`; `@testing-library/user-event` is not a dependency.
 - Shared setup goes in `beforeEach(() => { jest.clearAllMocks(); render(<Subject />); })`.
+- [`jest/setup.ts`](../../jest/setup.ts) clears every cookie after each test, so a test never cleans up a consent choice itself.
 - Debounced or delayed behaviour uses `jest.useFakeTimers()` in `beforeEach` with `jest.runOnlyPendingTimers()` then `jest.useRealTimers()` in `afterEach`.
 - Assert accessibility through roles and accessible names (`screen.getByRole('button', { name: /view more projects/i })`), label text, and `aria-*` attributes. `jest-axe` is not installed; axe runs in Cypress.
 - Wrap the subject in [`ThemeRegistry`](../../src/components/ThemeRegistry.tsx) when the assertion depends on the theme, and render it bare when it does not.

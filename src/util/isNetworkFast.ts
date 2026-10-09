@@ -18,13 +18,10 @@ interface NavigatorWithConnection extends Navigator {
  * Uses the Network Information API to determine connection quality based on:
  * - Data saver mode (saveData flag indicates user preference for reduced data usage)
  * - Effective connection type (2g, 3g, 4g, slow-2g categorization)
- * - Downlink speed in Mbps (>= 1.5 Mbps considered fast for video/media)
- * - Round-trip time in milliseconds (<= 100ms considered fast for interactivity)
  *
- * Threshold rationale:
- * - 1.5 Mbps downlink: Sufficient for video playback and heavy asset loading
- * - 100ms RTT: Acceptable for interactive features and real-time responsiveness
- * - Slow network types (2g, slow-2g, 3g): Limited performance for heavy assets
+ * The raw `downlink` and `rtt` estimates are not compared against thresholds: browsers round them coarsely and they
+ * swing across any fixed cut-off between readings, while `effectiveType` is derived from the same measurements with
+ * smoothing and is the classification the API intends callers to use.
  *
  * @returns {boolean} True if the network connection is fast, false if slow or saving data.
  *                   Returns true if Network Information API is unavailable (optimistic assumption).
@@ -41,14 +38,10 @@ export function isNetworkFast(): boolean {
 			return false;
 		}
 
-		const slowType = connection.effectiveType
-			? (NETWORK.SLOW_NETWORK_TYPES as readonly string[]).includes(connection.effectiveType)
-			: false;
-		const slowDown =
-			connection.downlink !== undefined ? connection.downlink < NETWORK.SLOW_DOWNLINK_THRESHOLD : false;
-		const slowRTT = connection.rtt !== undefined ? connection.rtt > NETWORK.FAST_RTT_THRESHOLD : false;
-
-		return !(slowType || slowDown || slowRTT);
+		return !(
+			connection.effectiveType !== undefined &&
+			(NETWORK.SLOW_NETWORK_TYPES as readonly string[]).includes(connection.effectiveType)
+		);
 	}
 
 	// Assume a fast network where the API is unsupported, rather than degrading every asset.
