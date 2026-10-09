@@ -1,6 +1,6 @@
 /** Hosts of every third-party service the consent banner gates, stubbed so tests never send real analytics. */
 const TRACKERS =
-	/google-analytics\.com|googletagmanager\.com|firebase(installations|logging)?\.googleapis\.com|vercel-scripts\.com|_vercel\/speed-insights|youtube/;
+	/google-analytics\.com|googletagmanager\.com|firebase(installations|logging)?\.googleapis\.com|vercel-scripts\.com|_vercel\/speed-insights|youtube|icons\.duckduckgo\.com/;
 
 describe('Landing Page', () => {
 	afterEach(() => {

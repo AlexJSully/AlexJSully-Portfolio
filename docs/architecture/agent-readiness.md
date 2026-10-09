@@ -26,7 +26,7 @@ flowchart TD
 - **HTML wins by default.** A missing header, `*/*`, and every browser `Accept` string get HTML. Markdown wins only when `text/markdown` outweighs `text/html`, or ties with it while being named explicitly.
 - **Router requests are untouched.** Requests carrying the `RSC`, `Next-Router-Prefetch`, or `Next-Router-State-Tree` header, or an `_rsc` query parameter, pass straight through.
 - **The matcher skips files.** `_next/`, `api/`, and any path with a dot (`/llms.txt`, `/index.md`, `/sw.js`, images, the résumé) never reach the proxy.
-- **`Vary: Accept`** is set on the Markdown, Markdown 404, and 406 responses. The Next.js page render sets its own `Vary` on HTML, so the self-hosted HTML response does not list `Accept`.
+- **`Vary: Accept`** is set on the Markdown, Markdown 404, and 406 responses. The Next.js app page render calls `setHeader('Vary', ...)`, which replaces any `Vary` the proxy or [`next.config.js`](../../next.config.js) sets, so the HTML response does not list `Accept`. On Vercel the proxy runs before the edge cache and Markdown is a rewrite to `/index.md`, so that cache keeps the two representations apart.
 
 The Markdown is built by [`src/util/markdown/`](../../src/util/markdown/homeMarkdown.ts) from the same data modules the page renders, so the two representations cannot drift. It carries every project, including those behind "view more", full publication abstracts, contact details, and the privacy and cookie policy.
 

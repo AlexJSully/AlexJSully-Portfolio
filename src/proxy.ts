@@ -25,8 +25,10 @@ function isRouterRequest(request: NextRequest): boolean {
  *
  * Agents that prefer `text/markdown` receive the home page as Markdown, or a Markdown 404 for any other path.
  * Clients that accept neither type receive 406. Every Markdown and 406 response carries `Vary: Accept` so caches
- * keep the representations apart. HTML pass-throughs append it too, but the Next.js page render sets its own `Vary`
- * and replaces it, so the HTML a self-hosted server returns does not list `Accept`.
+ * keep the representations apart. HTML pass-throughs append it too, but the Next.js app page render calls
+ * `setHeader('Vary', ...)`, which replaces it as well as any `Vary` set in `next.config.js`, so the HTML response does
+ * not list `Accept`. On Vercel this proxy runs before the edge cache and Markdown is a rewrite to a different path, so
+ * that cache never serves one representation for the other.
  * @see https://acceptmarkdown.com/
  * @param request Incoming request
  * @returns A redirect, a rewrite, a direct response, or a pass-through to the app

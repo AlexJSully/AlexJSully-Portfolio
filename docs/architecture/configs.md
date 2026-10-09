@@ -15,7 +15,7 @@ Configs manage environment variables, service integrations, and global settings 
 - **Related config files:**
     - `.env`: Environment variables (API keys, secrets)
     - [`next.config.js`](../../next.config.js): Next.js build and runtime config, covered under [Next.js configuration](#nextjs-configuration) below
-    - [`sentry.client.config.ts`](../../sentry.client.config.ts), [`sentry.server.config.ts`](../../sentry.server.config.ts), [`sentry.edge.config.ts`](../../sentry.edge.config.ts): Sentry error tracking
+    - [`sentry.server.config.ts`](../../sentry.server.config.ts), [`sentry.edge.config.ts`](../../sentry.edge.config.ts): Sentry error tracking
     - [`src/instrumentation.ts`](../../src/instrumentation.ts), [`src/instrumentation-client.ts`](../../src/instrumentation-client.ts): Next.js Instrumentation hooks for Sentry
 
 ## Usage Examples
@@ -41,15 +41,14 @@ const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
 ### Sentry Configuration
 
-Sentry is initialized via three `sentry.*.config.ts` files at the project root and two Next.js Instrumentation hooks:
+Sentry is initialized on the server only, via two `sentry.*.config.ts` files at the project root and two Next.js Instrumentation hooks. Nothing initializes Sentry in the browser, so no error report or session data leaves a visitor's device; see [Consent](./consent.md).
 
-- [`sentry.client.config.ts`](../../sentry.client.config.ts) - Client-side initialization, including session replay and console error capture via `Sentry.captureConsoleIntegration`
 - [`sentry.server.config.ts`](../../sentry.server.config.ts) - Server-side initialization
 - [`sentry.edge.config.ts`](../../sentry.edge.config.ts) - Edge runtime initialization
 - [`src/instrumentation.ts`](../../src/instrumentation.ts) - Next.js `register()` hook that loads the server or edge Sentry config based on the `NEXT_RUNTIME` environment variable; also exports `onRequestError = Sentry.captureRequestError` for automatic request error capture
-- [`src/instrumentation-client.ts`](../../src/instrumentation-client.ts) - Exports `onRouterTransitionStart = Sentry.captureRouterTransitionStart` for client-side router transition tracking
+- [`src/instrumentation-client.ts`](../../src/instrumentation-client.ts) - Exports `onRouterTransitionStart = Sentry.captureRouterTransitionStart`; with no client initialization it records nothing
 
-All `Sentry.*` integrations are imported directly from `@sentry/nextjs`.
+All `Sentry.*` integrations are imported directly from `@sentry/nextjs`, and `withSentryConfig` from its `@sentry/nextjs/config` subpath.
 
 ### Next.js configuration
 
@@ -59,7 +58,7 @@ All `Sentry.*` integrations are imported directly from `@sentry/nextjs`.
 
 **Image handling.** `disableStaticImages` is on, because SVGs are compiled by `@svgr/webpack` through the `turbopack.rules` entry and no other image type is imported statically. Turning it off would restore Next's ambient `*.svg` declaration, which conflicts with the one in [`types/svg.d.ts`](../../types/svg.d.ts). Remote images are allowed only from `alexjsully.me`, with a 1800-second minimum cache lifetime.
 
-**Sentry wrapping.** The exported config is the bare `nextConfig` when `NEXT_PUBLIC_ENVIRONMENT` equals `development`, and `withSentryConfig(nextConfig, ...)` otherwise. Source maps upload to the organization named by `NEXT_PUBLIC_SENTRY_ORG` under the fixed project `personal-portfolio`, with Vercel cron monitors instrumented automatically.
+**Sentry wrapping.** The exported config is the bare `nextConfig` when `NEXT_PUBLIC_ENVIRONMENT` equals `development`, and `withSentryConfig(nextConfig, ...)` otherwise. Source maps upload to the organization named by `NEXT_PUBLIC_SENTRY_ORG` under the fixed project `personal-portfolio`.
 
 ## Integration & Relationships
 

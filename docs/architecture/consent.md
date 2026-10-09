@@ -4,7 +4,7 @@ Nothing optional runs, and nothing optional is stored on the visitor's device, u
 
 ## Purposes
 
-Each optional service belongs to one purpose, a flag in `ConsentChoices` in [`consentStore.ts`](../../src/util/consent/consentStore.ts). [`ConsentedServices`](../../src/components/consent/services/ConsentedServices.tsx), mounted once in the root layout, is the only place a purpose turns a service on.
+Each optional service belongs to one purpose, a flag in `ConsentChoices` in [`consentStore.ts`](../../src/util/consent/consentStore.ts). [`ConsentedServices`](../../src/components/consent/services/ConsentedServices.tsx), mounted once in the root layout, starts the services for Analytics and Offline access; the components that embed videos and draw link icons read their own purpose, as the table below names.
 
 | Purpose         | Flag        | What it starts                                                                                                                                                                                      |
 | --------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -27,7 +27,7 @@ A Global Privacy Control or Do Not Track signal is not treated as a choice. The 
 
 ## Withdrawing
 
-"Cookie settings" in the footer is a [`PanelLink`](../../src/components/panel-link/PanelLink.tsx) that reopens the banner with its switches without changing the URL. Its `href` to `/#cookie-settings` keeps it working before the page hydrates. The policy dialog carries the same switches. On every page load, not only when a choice changes, and once the browser is idle ([`runWhenIdle`](../../src/util/runWhenIdle.ts)), [`clearUnconsentedStorage`](../../src/util/consent/clearUnconsentedStorage.ts) removes what each refused purpose stored: Google Analytics cookies and Firebase's IndexedDB databases for Analytics, and every service worker registration and cache for Offline access. It runs on load because storage can predate the banner. Firebase cannot be stopped once started, so withdrawing Analytics reloads the page after clearing.
+"Cookie settings" in the footer is a [`PanelLink`](../../src/components/panel-link/PanelLink.tsx) that reopens the banner with its switches without changing the URL. Its `href` to `/#cookie-settings` keeps it working before the page hydrates. The policy dialog carries the same switches. On every page load, not only when a choice changes, and once the browser is idle ([`runWhenIdle`](../../src/util/runWhenIdle.ts)), [`clearUnconsentedStorage`](../../src/util/consent/clearUnconsentedStorage.ts) removes what each refused purpose stored: Google Analytics cookies and Firebase's IndexedDB databases for Analytics, and every service worker registration and cache for Offline access. It runs on load because storage can predate the banner. A newer choice cancels clearing still queued for an earlier one, so it never removes storage the visitor has since allowed. Firebase cannot be stopped once started, so withdrawing Analytics reloads the page after clearing.
 
 ## Related documentation
 

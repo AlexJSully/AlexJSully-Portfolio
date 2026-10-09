@@ -1,5 +1,5 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
-import { ESSENTIAL_ONLY, saveConsent } from '@util/consent/consentStore';
+import { ACCEPT_ALL, ESSENTIAL_ONLY, saveConsent } from '@util/consent/consentStore';
 import ConsentedServices from './ConsentedServices';
 
 // This repository's wrapper around the Firebase SDK, so rendering does not start live analytics.
@@ -40,6 +40,21 @@ describe('ConsentedServices', () => {
 		expect(mockInit).not.toHaveBeenCalled();
 		expect(register).not.toHaveBeenCalled();
 		expect(screen.queryByTestId('speed-insights')).not.toBeInTheDocument();
+	});
+
+	it('cancels clearing queued for an earlier choice, so it never removes what the visitor has since allowed', async () => {
+		render(<ConsentedServices />);
+
+		// Chosen before the browser runs the clearing queued while the visitor was undecided.
+		act(() => {
+			saveConsent(ACCEPT_ALL);
+		});
+
+		await waitFor(() => {
+			expect(register).toHaveBeenCalledWith('/sw.js');
+		});
+		await new Promise((resolve) => setTimeout(resolve, 20));
+		expect(unregister).not.toHaveBeenCalled();
 	});
 
 	it('starts Firebase and Speed Insights once Analytics is allowed', () => {

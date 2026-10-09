@@ -30,11 +30,14 @@ export default function PolicyDialogGate(): ReactElement | null {
 		setMounted(true);
 	}
 
-	useEffect(() => {
-		runWhenIdle(() => {
-			void loadPolicyDialog();
-		});
-	}, []);
+	useEffect(
+		() =>
+			runWhenIdle(() => {
+				// A failed preload is not an error: the dialog loads again when it is first opened.
+				loadPolicyDialog().catch(() => {});
+			}),
+		[],
+	);
 
 	return mounted ? <PolicyDialog /> : null;
 }

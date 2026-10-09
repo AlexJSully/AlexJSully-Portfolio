@@ -3,8 +3,11 @@ import type { ConsentChoices } from '@util/consent/consentStore';
 /** IndexedDB databases the Firebase SDKs create in the browser. */
 const FIREBASE_DATABASES = ['firebase-installations-database', 'firebase-heartbeat-database'];
 
-/** Prefix of the cookies Google Analytics sets, `_ga` and `_ga_<measurement id>`. */
-const ANALYTICS_COOKIE_PREFIX = '_ga';
+/** The cookie Google Analytics sets to distinguish visitors. */
+const ANALYTICS_COOKIE = '_ga';
+
+/** Prefix of the per-property session cookies Google Analytics sets, `_ga_<measurement id>`. */
+const ANALYTICS_SESSION_COOKIE_PREFIX = '_ga_';
 
 /**
  * Expires every Google Analytics cookie on this host and on its parent domain, where Analytics writes them by default.
@@ -15,7 +18,8 @@ function expireAnalyticsCookies(): void {
 
 	for (const pair of document.cookie.split(';')) {
 		const name = pair.trim().split('=')[0];
-		if (name.startsWith(ANALYTICS_COOKIE_PREFIX)) {
+		// Exact names, so an unrelated cookie such as `_garden` is left alone.
+		if (name === ANALYTICS_COOKIE || name.startsWith(ANALYTICS_SESSION_COOKIE_PREFIX)) {
 			domains.forEach((domain) => {
 				document.cookie = `${name}=; max-age=0; path=/${domain}`;
 			});
@@ -30,10 +34,19 @@ function expireAnalyticsCookies(): void {
  * idempotent: clearing storage that is already gone does nothing. YouTube's storage lives on YouTube's own domains and
  * cannot be cleared from this site.
  * @param choices The visitor's current choices; `null` while undecided, which counts as nothing granted
+ * @param signal Aborted once these choices are out of date, so no removal still pending deletes storage a newer
+ * choice allows
  * @returns A promise settling once the service worker and cache removals have finished; IndexedDB deletions are
  * started but not awaited, and run again on the next load if they have not completed
  */
-export async function clearUnconsentedStorage(choices: Readonly<ConsentChoices> | null): Promise<void> {
+export async function clearUnconsentedStorage(
+	choices: Readonly<ConsentChoices> | null,
+	signal?: AbortSignal,
+): Promise<void> {
+	if (signal?.aborted) {
+		return;
+	}
+
 	const removals: Promise<unknown>[] = [];
 
 	if (!choices?.analytics) {
@@ -49,12 +62,18 @@ export async function clearUnconsentedStorage(choices: Readonly<ConsentChoices> 
 				navigator.serviceWorker
 					.getRegistrations()
 					.then((registrations) =>
-						Promise.all(registrations.map((registration) => registration.unregister())),
+						signal?.aborted
+							? []
+							: Promise.all(registrations.map((registration) => registration.unregister())),
 					),
 			);
 		}
 		if (typeof caches !== 'undefined') {
-			removals.push(caches.keys().then((names) => Promise.all(names.map((name) => caches.delete(name)))));
+			removals.push(
+				caches
+					.keys()
+					.then((names) => (signal?.aborted ? [] : Promise.all(names.map((name) => caches.delete(name))))),
+			);
 		}
 	}
 

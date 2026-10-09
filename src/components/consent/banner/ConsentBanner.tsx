@@ -18,6 +18,11 @@ import { type FocusEvent, type KeyboardEvent, type ReactElement, useEffect, useR
  */
 const loadConsentControls = () => import('@components/consent/controls/ConsentControls');
 
+/** Starts fetching the switches early; a failed fetch is not an error, since they load again when shown. */
+const preloadConsentControls = () => {
+	loadConsentControls().catch(() => {});
+};
+
 /** The per-purpose switches, kept out of the banner's first download. */
 const ConsentControls = dynamic(loadConsentControls, { ssr: false });
 
@@ -244,8 +249,8 @@ export default function ConsentBanner(): ReactElement {
 									color='inherit'
 									onClick={() => setCustomizing(true)}
 									// Start fetching the switches as soon as the pointer or keyboard reaches the button.
-									onFocus={() => void loadConsentControls()}
-									onPointerEnter={() => void loadConsentControls()}
+									onFocus={preloadConsentControls}
+									onPointerEnter={preloadConsentControls}
 									sx={[
 										textButtonSx,
 										{ gridColumn: { xs: '1 / -1', sm: 'auto' }, justifySelf: { sm: 'end' } },

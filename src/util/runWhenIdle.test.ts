@@ -3,6 +3,7 @@ import { runWhenIdle } from './runWhenIdle';
 describe('runWhenIdle', () => {
 	afterEach(() => {
 		Reflect.deleteProperty(window, 'requestIdleCallback');
+		Reflect.deleteProperty(window, 'cancelIdleCallback');
 		jest.useRealTimers();
 	});
 
@@ -26,5 +27,26 @@ describe('runWhenIdle', () => {
 		jest.runAllTimers();
 
 		expect(callback).toHaveBeenCalledTimes(1);
+	});
+
+	it('cancels a pending idle callback', () => {
+		// requestIdleCallback and cancelIdleCallback are browser APIs jsdom omits.
+		const cancelIdleCallback = jest.fn();
+		Object.defineProperty(window, 'requestIdleCallback', { configurable: true, value: jest.fn(() => 7) });
+		Object.defineProperty(window, 'cancelIdleCallback', { configurable: true, value: cancelIdleCallback });
+
+		runWhenIdle(jest.fn())();
+
+		expect(cancelIdleCallback).toHaveBeenCalledWith(7);
+	});
+
+	it('cancels a pending timeout fallback', () => {
+		jest.useFakeTimers();
+		const callback = jest.fn();
+
+		runWhenIdle(callback)();
+		jest.runAllTimers();
+
+		expect(callback).not.toHaveBeenCalled();
 	});
 });

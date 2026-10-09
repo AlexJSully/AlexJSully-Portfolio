@@ -38,9 +38,10 @@ export function useLocationHash(): string {
 
 /**
  * Removes the fragment from the current URL without adding a history entry, so Back does not restore it, and notifies
- * {@link useLocationHash} subscribers, which `history.replaceState` alone would not.
+ * {@link useLocationHash} subscribers, which `history.replaceState` alone would not. The entry's state is kept, since
+ * the Next.js router stores its own data there.
  */
 export function clearLocationHash(): void {
-	window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+	window.history.replaceState(window.history.state, '', `${window.location.pathname}${window.location.search}`);
 	window.dispatchEvent(new HashChangeEvent('hashchange'));
 }

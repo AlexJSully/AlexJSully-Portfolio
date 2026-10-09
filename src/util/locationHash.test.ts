@@ -36,4 +36,13 @@ describe('locationHash', () => {
 		expect(result.current).toBe('');
 		expect(window.location.search).toBe('?q=1');
 	});
+
+	it('keeps the history entry state, which the router stores there', () => {
+		window.history.replaceState({ router: 'tree' }, '', '/#privacy');
+
+		clearLocationHash();
+
+		expect(window.history.state).toEqual({ router: 'tree' });
+		expect(window.location.hash).toBe('');
+	});
 });

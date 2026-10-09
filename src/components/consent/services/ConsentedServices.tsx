@@ -30,14 +30,21 @@ export default function ConsentedServices(): ReactElement | null {
 			analyticsStarted.current = true;
 		}
 
-		// Clearing can wait for the browser to be idle; it only removes storage nothing is using.
-		runWhenIdle(() => {
-			void clearUnconsentedStorage(consent).then(() => {
-				if (analyticsStarted.current && !consent?.analytics) {
+		// Clearing can wait for the browser to be idle; it only removes storage nothing is using. A newer choice cancels
+		// it, so clearing queued for an earlier choice never removes storage the visitor has since allowed.
+		const outdated = new AbortController();
+		const cancelIdle = runWhenIdle(() => {
+			void clearUnconsentedStorage(consent, outdated.signal).then(() => {
+				if (!outdated.signal.aborted && analyticsStarted.current && !consent?.analytics) {
 					window.location.reload();
 				}
 			});
 		});
+
+		return () => {
+			cancelIdle();
+			outdated.abort();
+		};
 	}, [consent]);
 
 	if (!consent) {
