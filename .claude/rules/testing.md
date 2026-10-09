@@ -34,9 +34,9 @@ Retrieve mock state with `jest.requireMock('@configs/firebase').logAnalyticsEven
 
 `next/image` is left unmocked, and is the pattern to follow. It rewrites `src` through its loader, so the test asserts with `expect.stringContaining('profile_pic_drawn.webp')` rather than mocking the component to get an exact path.
 
-## Test file exemptions
+## Modules that get no test file
 
-Exempt from needing a colocated test: static data modules such as [`projects.ts`](../../src/data/projects.ts), type-only modules, metadata route exports ([`manifest.ts`](../../src/app/manifest.ts), [`robots.ts`](../../src/app/robots.ts)), and instrumentation entry points. Components are **not** exempt.
+Static data modules (everything under [`src/data/`](../../src/data/projects.ts), such as `projects.ts` and `structuredData.ts`), type-only modules, metadata route exports ([`manifest.ts`](../../src/app/manifest.ts), [`robots.ts`](../../src/app/robots.ts)), and instrumentation entry points get **no** colocated test file. A test that only asserts a static data literal against itself adds no behaviour coverage; a test of a component or function that consumes a module may import its exported value as an expected value. Components are **not** in this list.
 
 ## House patterns
 

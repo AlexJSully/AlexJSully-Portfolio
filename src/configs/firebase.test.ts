@@ -35,13 +35,26 @@ function loadFirebase(): typeof import('./firebase') {
 
 describe('firebase config', () => {
 	const app = {};
+	const originalEnv = process.env;
 
 	beforeEach(() => {
 		jest.clearAllMocks();
+		process.env = {
+			...originalEnv,
+			NEXT_PUBLIC_FIREBASE_API_KEY: 'demo-api-key',
+			NEXT_PUBLIC_FIREBASE_ID: 'demo-project',
+			NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: '123456789',
+			NEXT_PUBLIC_FIREBASE_APP_ID: '1:123456789:web:abc',
+			NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: 'G-DEMO',
+		};
 		mockGetApps.mockReturnValue([]);
 		mockGetApp.mockReturnValue(app);
 		mockInitializeApp.mockReturnValue(app);
 		mockInitializeAnalytics.mockReturnValue('analytics');
+	});
+
+	afterEach(() => {
+		process.env = originalEnv;
 	});
 
 	it('logs nothing before Analytics has started', () => {
@@ -54,7 +67,18 @@ describe('firebase config', () => {
 		await loadFirebase().init();
 
 		expect(mockInitializeApp).toHaveBeenCalledTimes(1);
-		expect(mockInitializeAnalytics).toHaveBeenCalledWith(app, expect.any(Object));
+		expect(mockInitializeApp).toHaveBeenCalledWith({
+			apiKey: 'demo-api-key',
+			authDomain: 'demo-project.firebaseapp.com',
+			projectId: 'demo-project',
+			storageBucket: 'demo-project.appspot.com',
+			messagingSenderId: '123456789',
+			appId: '1:123456789:web:abc',
+			measurementId: 'G-DEMO',
+		});
+		expect(mockInitializeAnalytics).toHaveBeenCalledWith(app, {
+			config: { allow_google_signals: false, allow_ad_personalization_signals: false },
+		});
 		expect(mockGetPerformance).toHaveBeenCalledWith(app);
 	});
 
@@ -95,7 +119,9 @@ describe('firebase config', () => {
 		await loadFirebase().init();
 
 		expect(mockInitializeApp).not.toHaveBeenCalled();
-		expect(mockInitializeAnalytics).toHaveBeenCalledWith(app, expect.any(Object));
+		expect(mockInitializeAnalytics).toHaveBeenCalledWith(app, {
+			config: { allow_google_signals: false, allow_ad_personalization_signals: false },
+		});
 	});
 
 	it('logs events once Analytics is running, and ignores an empty name', async () => {

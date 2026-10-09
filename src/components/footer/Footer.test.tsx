@@ -27,28 +27,41 @@ describe('Footer', () => {
 	it('logs analytics when email button is clicked', () => {
 		fireEvent.click(screen.getByLabelText('Email me'));
 
-		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('footer-email', expect.any(Object));
+		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('footer-email', { name: 'footer-email', type: 'click' });
 	});
 
 	it('logs analytics when resume button is clicked', () => {
 		fireEvent.click(screen.getByLabelText('Resume'));
 
-		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('footer-resume', expect.any(Object));
+		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('footer-resume', { name: 'footer-resume', type: 'click' });
 	});
 
 	it('logs analytics when GitHub button is clicked', () => {
+		expect(screen.getByRole('link', { name: 'GitHub repository' })).toHaveAttribute(
+			'href',
+			profile.sourceRepository,
+		);
+
 		fireEvent.click(screen.getByLabelText('GitHub repository button'));
 
-		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('footer-open-source', expect.any(Object));
+		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('footer-open-source', {
+			name: 'footer-open-source',
+			type: 'click',
+		});
 	});
 
-	it('renders all social links and logs analytics on click', () => {
-		const socialButtons = screen.getAllByRole('button', { name: /link|github/i });
-		socialButtons.forEach((btn) => {
-			fireEvent.click(btn);
-		});
+	it.each([
+		{ social: 'LinkedIn', event: 'footer-linkedin' },
+		{ social: 'GitHub', event: 'footer-github' },
+		{ social: 'X', event: 'footer-x' },
+		{ social: 'Bluesky', event: 'footer-bluesky' },
+		{ social: 'Twitch', event: 'footer-twitch' },
+		{ social: 'Masterpiece X', event: 'footer-masterpiece x' },
+	])('logs "$event" when the $social social button is clicked', ({ social, event }) => {
+		fireEvent.click(screen.getByRole('button', { name: social }));
 
-		expect(mockLogAnalyticsEvent).toHaveBeenCalled();
+		expect(mockLogAnalyticsEvent).toHaveBeenCalledTimes(1);
+		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith(event, { name: event, type: 'click' });
 	});
 
 	it('is the #contact target that /contact redirects to', () => {
@@ -79,11 +92,5 @@ describe('Footer', () => {
 		fireEvent.click(link);
 
 		expect(result.current).toBe(true);
-	});
-
-	it('has accessible labels for all main actions', () => {
-		expect(screen.getByLabelText('Email me')).toBeInTheDocument();
-		expect(screen.getByLabelText('Resume')).toBeInTheDocument();
-		expect(screen.getByLabelText('GitHub repository')).toBeInTheDocument();
 	});
 });

@@ -2,14 +2,21 @@
 const TRACKERS =
 	/google-analytics\.com|googletagmanager\.com|firebase(installations|logging)?\.googleapis\.com|vercel-scripts\.com|_vercel\/speed-insights|youtube|icons\.duckduckgo\.com|sentry\.io/;
 
+/**
+ * Waits for hydration, then for one idle period or 2 seconds, whichever comes first, so an assertion that something
+ * did not happen runs after the client has had its chance to do it.
+ */
+function waitForHydratedIdle(): void {
+	// Stars render only after mount, so their presence marks a hydrated page.
+	cy.get('[data-testid="star"]').should('exist');
+	cy.window().then(
+		(win) => new Cypress.Promise<void>((resolve) => win.requestIdleCallback(() => resolve(), { timeout: 2000 })),
+	);
+}
+
 describe('Landing Page', () => {
 	afterEach(() => {
 		cy.a11yCheck();
-	});
-
-	it('should render page', () => {
-		cy.visit('http://localhost:3000');
-		cy.get('[data-testid="profile_pic"]').should('exist');
 	});
 
 	it('initialises without console errors or uncaught exceptions', () => {
@@ -28,6 +35,7 @@ describe('Landing Page', () => {
 
 		cy.visit('http://localhost:3000');
 		cy.get('[data-testid="profile_pic"]').should('exist');
+		waitForHydratedIdle();
 
 		cy.get('@consoleError').then((spy: unknown) => {
 			const calls = (spy as sinon.SinonSpy).getCalls();
@@ -51,6 +59,7 @@ describe('Landing Page', () => {
 		cy.visit('http://localhost:3000');
 
 		cy.get('section[aria-label="Your privacy choices"]').should('be.visible');
+		waitForHydratedIdle();
 		cy.getCookies().should((cookies) => {
 			expect(cookies.map((cookie) => cookie.name).filter((name) => name.startsWith('_ga'))).to.be.empty;
 		});
@@ -63,6 +72,7 @@ describe('Landing Page', () => {
 	it('remembers "Essential only" and reopens from Cookie settings', () => {
 		cy.intercept(TRACKERS, { statusCode: 204 }).as('tracker');
 		cy.visit('http://localhost:3000');
+		waitForHydratedIdle();
 
 		cy.contains('button', 'Essential only').click();
 		cy.get('section[aria-label="Your privacy choices"]').should('not.exist');
@@ -71,11 +81,11 @@ describe('Landing Page', () => {
 			.should('match', /^v2\.a0\.m0\.o0\.l0\.t\d+$/);
 
 		cy.reload();
+		// Clicking before hydration lets Cypress's scroll styling trip a hydration warning, so this also gates the click below.
+		waitForHydratedIdle();
 		cy.get('section[aria-label="Your privacy choices"]').should('not.exist');
 		cy.get('@tracker.all').should('have.length', 0);
 
-		// Stars render only after hydration; clicking earlier lets Cypress's scroll styling trip a hydration warning.
-		cy.get('[data-testid="star"]').should('exist');
 		// The page scrolls smoothly, so wait for the link to settle in the viewport before clicking it.
 		cy.contains('footer a', 'Cookie settings').scrollIntoView();
 		cy.contains('footer a', 'Cookie settings')
@@ -94,6 +104,7 @@ describe('Landing Page', () => {
 		cy.on('uncaught:exception', (error) => !error.message.includes('Unexpected end of JSON input'));
 		cy.intercept(TRACKERS, { statusCode: 204 }).as('tracker');
 		cy.visit('http://localhost:3000');
+		waitForHydratedIdle();
 		cy.get('@tracker.all').should('have.length', 0);
 
 		cy.contains('button', 'Accept all').click();

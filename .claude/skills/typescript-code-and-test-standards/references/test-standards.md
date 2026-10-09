@@ -34,7 +34,7 @@ Where a source file has grown enough to want two test files, the signal is about
 
 ## Exemptions and why each one is exempt
 
-Each of these is exempt because there is no behaviour to lock in, not because testing them is inconvenient:
+Each category gets no test file for the reason listed below. A test of code that consumes a module may still import its exported value as an expected value:
 
 - **Static data modules.** A module that exports a literal has no code path. A test asserting the literal equals itself fails only when someone edits the data deliberately.
 - **Type-only modules.** They emit nothing. The compiler already checks them.
@@ -44,7 +44,7 @@ Each of these is exempt because there is no behaviour to lock in, not because te
 
 **Components are not exempt.** They hold conditional rendering, event wiring, and prop handling, all of which are behaviour.
 
-Confirm the host project's own exemption list before applying this one. A project that tests its data modules has a reason.
+Confirm the host project's own list before applying this one.
 
 ## The prohibitions
 
@@ -54,6 +54,7 @@ Confirm the host project's own exemption list before applying this one. A projec
 - **Never assert the implementation back at itself.** A test that mirrors the code line for line fails only when the code changes shape, not when it breaks.
 - **Never type-assert an already-typed value.** Checking that a `string` is a string tests the compiler, and the compiler already ran.
 - **Never build a one-row table.** A table with one row is a loop that runs once, which is a plain test case written indirectly.
+- **Never write a test file for a module with no code path.** A test of static data asserts the literal equals itself and fails only when someone edits the data deliberately.
 - **Never add a fallback in production code to make a test pass.** A `?? defaultValue` inserted to satisfy an assertion moves a defect from the test into production.
 - **Never leave a test that would still pass if the behaviour it names were broken.** Break the behaviour in your head and ask which assertion fails. If none does, the test names something it does not check, and it will keep passing through the regression it was written to catch.
 - **Never write cases that cannot fail independently of one another.** Several cases breaking together lock in one behaviour, not several. The extra names cost a reader time and buy no coverage, and they make a single regression look like a suite-wide collapse.

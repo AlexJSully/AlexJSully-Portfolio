@@ -22,9 +22,17 @@ describe('isNetworkFast', () => {
 		global.navigator = originalNavigator;
 	});
 
-	it('should return true if navigator.connection is not available', () => {
-		const mockNavigator = { ...originalNavigator } as MockNavigator;
-		delete mockNavigator.connection;
+	it('returns true when the browser has no navigator.connection', () => {
+		const mockNavigator: MockNavigator = {};
+		Object.defineProperty(global, 'navigator', {
+			value: mockNavigator,
+			writable: true,
+		});
+		expect(isNetworkFast()).toBe(true);
+	});
+
+	it('returns true when navigator.connection is present but undefined', () => {
+		const mockNavigator: MockNavigator = { connection: undefined };
 		Object.defineProperty(global, 'navigator', {
 			value: mockNavigator,
 			writable: true,
@@ -44,12 +52,12 @@ describe('isNetworkFast', () => {
 		expect(isNetworkFast()).toBe(false);
 	});
 
-	it('should return false for slow network types', () => {
+	it.each(['slow-2g', '2g', '3g'] as const)('returns false on a %s connection', (effectiveType) => {
 		const mockNavigator: MockNavigator = {
 			...originalNavigator,
 			connection: {
 				saveData: false,
-				effectiveType: '2g',
+				effectiveType,
 				downlink: 10,
 				rtt: 10,
 			},
@@ -62,9 +70,9 @@ describe('isNetworkFast', () => {
 	});
 
 	it.each([
-		['a low downlink estimate', { downlink: 1.4, rtt: 50 }],
-		['a high round-trip estimate', { downlink: 10, rtt: 150 }],
-	])('autoplays on a 4g connection despite %s, which browsers round too coarsely to trust', (_label, estimates) => {
+		{ label: 'a low downlink estimate', estimates: { downlink: 1.4, rtt: 50 } },
+		{ label: 'a high round-trip estimate', estimates: { downlink: 10, rtt: 150 } },
+	])('autoplays on a 4g connection despite $label, which browsers round too coarsely to trust', ({ estimates }) => {
 		const mockNavigator: MockNavigator = {
 			...originalNavigator,
 			connection: { saveData: false, effectiveType: '4g', ...estimates },

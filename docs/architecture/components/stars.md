@@ -82,23 +82,40 @@ const handleStarAnimation = (e: React.MouseEvent<HTMLElement> | { target: HTMLEl
 `handleForceStarAnimation()` in [StarsBackground.tsx](../../../src/components/Stars/StarsBackground.tsx) drives the unattended loop. It collects every star that has not already been shot, by filtering the `data-star-used` attribute the hover handler stamps, then branches on how many are left:
 
 - **Above `THRESHOLDS.MIN_STARS_FOR_ANIMATION`** (15): it shoots one star chosen at random, then schedules itself again after a random 1.5 to 6.5 seconds. It clears the previous timeout handle before storing the new one, so the recursion does not leak a timer per iteration.
-- **At or below the threshold**: it calls `createStars(false)` instead, discarding the spent field and generating a fresh one. The `false` argument skips the block that re-arms the loop, so the automatic shooting stops there and does not resume until the component remounts.
+- **At or below the threshold**: it calls `createStars()` instead, discarding the spent field and generating a fresh one, which schedules the next forced shot after `DELAYS.STAR_ANIMATION_INITIAL` as on first mount.
 
-The pool has to stay larger than the threshold for the random pick to keep finding unused stars without repeating. Once it does not, the field is replaced but the unattended loop ends: the new stars twinkle, and hovering one still makes it shoot, but nothing shoots on its own again.
+The pool has to stay larger than the threshold for the random pick to keep finding unused stars without repeating, so the field is replaced and the loop carries on with it. Each generation keys its stars afresh (`star-<generation>-<index>`), so React mounts new elements rather than reusing the spent ones, whose `data-star-used` attribute and inline `shootAway` style are set outside React. Because the generated count starts at 10, a regenerated field can still contain 15 or fewer stars; each such field is replaced again after `DELAYS.STAR_ANIMATION_INITIAL`.
+
+```mermaid
+flowchart TD
+    accTitle: Automatic Shooting Star Regeneration Cycle
+    accDescr: Each forced-animation timeout checks the unused stars. More than 15 unused stars leads to shooting one random star and scheduling another check after 1.5 to 6.5 seconds. Fifteen or fewer unused stars leads to creating a fresh field and scheduling another check after the initial delay. Both paths return to the check, which continues until unmount.
+    Timeout[Forced animation timeout fires] --> Check{More than 15 unused stars?}
+    Check -->|Yes| Shoot[Shoot one random star]
+    Shoot --> RandomWait[Schedule another check after 1.5 to 6.5 seconds]
+    RandomWait --> Timeout
+    Check -->|No| Regenerate[Create a fresh star field]
+    Regenerate --> InitialWait[Schedule another check after the initial delay]
+    InitialWait --> Timeout
+```
 
 ## Rendering Flow
 
 ```mermaid
 sequenceDiagram
     accTitle: StarsBackground Mount and Rendering Sequence
-    accDescr: On mount, component calculates star count, generates star properties, updates state, renders elements, and applies CSS animations
+    accDescr {
+        Component mounts and asks State to calculate a count from the capped viewport width and generate star properties.
+        State returns the star array to Component. Component renders the star elements in DOM, DOM applies CSS animations,
+        and CSS animates the stars in DOM.
+    }
     participant Component
     participant State
     participant DOM
     participant CSS
 
     Component->>Component: Mount
-    Component->>State: Calculate star count (10 to maxStars/2)
+    Component->>State: Calculate 10 plus a random value below half the capped width
     Component->>State: Generate star properties
     State-->>Component: Update stars array
     Component->>DOM: Render star elements
@@ -125,7 +142,7 @@ The component uses proper ARIA attributes for screen readers:
 3. **GPU Acceleration:** CSS animations use GPU when possible
 4. **Single Generation:** Stars generated once on mount, not on every render
 5. **Dynamic Count:** Star count based on viewport width for responsive performance
-6. **Memory Cleanup:** Clears timeout on unmount to prevent memory leaks
+6. **Memory Cleanup:** Every forced-animation timeout, including the first one `createStars()` schedules, is held in `forceAnimationTimeoutRef`, which the effect clears on unmount
 7. **Fade Effect:** Uses MUI Fade component for smooth appearance
 8. **Analytics Throttling:** First hover tracked, subsequent hovers don't spam analytics
 
@@ -154,12 +171,11 @@ Test file: [`src/components/Stars/StarsBackground.test.tsx`](../../../src/compon
 
 **Test Coverage:**
 
-- Stars are created on mount
-- Accessibility attributes are present on the sky container
-- Hovering a star logs the `stars-triggered` analytics event
-- A star is reachable by keyboard tab focus
-- The component renders with a minimal star count
-- The component renders with a large star count
+- Stars render inside the `role='img'` container named "Starry background", whose `sky` ID the aaaahhhh helper looks up
+- The generated count uses the viewport width capped at `MAX_STARS`, with `Math.random` held fixed
+- Hovering stars logs the `stars-triggered` analytics event once, however many are hovered
+- Once every star is spent, the field regenerates with fresh stars and the forced shooting resumes
+- Unmounting before the first forced shooting star leaves no pending timer
 
 ## Customization
 
@@ -173,14 +189,17 @@ To customize the background:
 6. **Star Color:** Modify `background: '#ffffff50'` in `starStyles`
 7. **Auto-trigger Threshold:** Change `THRESHOLDS.MIN_STARS_FOR_ANIMATION` in [src/constants/index.ts](../../../src/constants/index.ts) to control how small the unused pool may get before the field regenerates
 8. **Initial Trigger Delay:** Change `DELAYS.STAR_ANIMATION_INITIAL` in [src/constants/index.ts](../../../src/constants/index.ts) to control the pause between the first render and the first forced shooting star
-9. **Star Cap:** Change `MAX_STARS` in [src/constants/index.ts](../../../src/constants/index.ts) to raise or lower the 600-star ceiling the width-derived count is clamped to
+9. **Star Cap:** Change `MAX_STARS` in [src/constants/index.ts](../../../src/constants/index.ts) to raise or lower the 600-pixel width cap used to generate the random star count
 
 ## Visual Effect
 
 ```mermaid
 stateDiagram-v2
     accTitle: Star Twinkle Animation Life Cycle
-    accDescr: Stars cycle through visible (opacity 1), fading, dim (opacity 0.5), brightening, then back to visible state
+    accDescr {
+        The cycle starts at Visible with opacity 1, moves to Fading for a random duration, then Dim with opacity 0.5,
+        then Brightening for a random duration, and returns to Visible. The cycle has no terminal state.
+    }
     [*] --> Visible: opacity 1
     Visible --> Fading: random duration
     Fading --> Dim: opacity 0.5

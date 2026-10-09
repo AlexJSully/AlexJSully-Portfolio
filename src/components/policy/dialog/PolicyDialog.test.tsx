@@ -11,7 +11,7 @@ describe('PolicyDialog', () => {
 		window.history.replaceState(null, '', '/');
 	});
 
-	it('opens from a link without changing the URL, and closes again', async () => {
+	it('opens from a link, and closes again', async () => {
 		render(<PolicyDialog />);
 
 		act(() => {
@@ -19,7 +19,6 @@ describe('PolicyDialog', () => {
 		});
 
 		expect(await screen.findByRole('dialog', { name: policy.title })).toBeInTheDocument();
-		expect(window.location.hash).toBe('');
 
 		fireEvent.click(screen.getByRole('button', { name: 'Close privacy and cookie policy' }));
 

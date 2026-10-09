@@ -41,12 +41,18 @@ describe('PanelLink', () => {
 		expect(screen.getByRole('link', { name: 'Policy' })).toHaveAttribute('aria-haspopup', 'dialog');
 	});
 
-	it('leaves a modified click to the browser, so it can open a new tab', () => {
+	it.each([
+		{ modifier: 'metaKey' },
+		{ modifier: 'ctrlKey' },
+		{ modifier: 'shiftKey' },
+		{ modifier: 'altKey' },
+	] as const)('leaves a $modifier click to the browser, so it can open a new tab', ({ modifier }) => {
 		const { result } = renderHook(() => usePanelOpen('privacy'));
 		render(<PanelLink panel='privacy'>Policy</PanelLink>);
 
-		fireEvent.click(screen.getByRole('link', { name: 'Policy' }), { metaKey: true });
+		const notPrevented = fireEvent.click(screen.getByRole('link', { name: 'Policy' }), { [modifier]: true });
 
+		expect(notPrevented).toBe(true);
 		expect(result.current).toBe(false);
 	});
 });

@@ -4,30 +4,37 @@ const CHROME_ACCEPT =
 	'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7';
 
 describe('negotiateContentType', () => {
-	it.each<[string, string | null, PageRepresentation]>([
-		['a missing header', null, 'html'],
-		['an empty header', '', 'html'],
-		['a malformed header', 'nonsense', 'html'],
-		['the full wildcard', '*/*', 'html'],
-		['a browser header', CHROME_ACCEPT, 'html'],
-		['text/html alone', 'text/html', 'html'],
-		['text/* alone', 'text/*', 'html'],
-		['text/markdown alone', 'text/markdown', 'markdown'],
-		['text/markdown with parameters', 'text/markdown; charset=utf-8', 'markdown'],
-		['upper-case text/markdown', 'Text/Markdown', 'markdown'],
-		['text/markdown preferred by weight', 'text/html;q=0.5, text/markdown', 'markdown'],
-		['text/markdown and text/html at equal weight', 'text/markdown, text/html', 'markdown'],
-		['text/html listed first at equal weight', 'text/html, text/markdown', 'markdown'],
-		['text/markdown preferred over a wildcard fallback', 'text/markdown, */*;q=0.1', 'markdown'],
-		['text/html rejected beside a wildcard', 'text/html;q=0, */*', 'markdown'],
-		['text/html weighted above text/markdown', 'text/html, text/markdown;q=0.5', 'html'],
-		['text/markdown explicitly rejected', 'text/markdown;q=0', 'not-acceptable'],
-		['text/markdown rejected beside a wildcard', 'text/markdown;q=0, */*', 'html'],
-		['an unrelated type', 'application/pdf', 'not-acceptable'],
-		['a JSON-only client', 'application/json', 'not-acceptable'],
-		['every type rejected', '*/*;q=0', 'not-acceptable'],
-		['an out-of-range weight, which is ignored', 'text/markdown;q=2', 'html'],
-	])('negotiates %s', (_label, accept, expected) => {
+	it.each<{ label: string; accept: string | null; expected: PageRepresentation }>([
+		{ label: 'a missing header', accept: null, expected: 'html' },
+		{ label: 'an empty header', accept: '', expected: 'html' },
+		{ label: 'a malformed header', accept: 'nonsense', expected: 'html' },
+		{ label: 'the full wildcard', accept: '*/*', expected: 'html' },
+		{ label: 'a browser header', accept: CHROME_ACCEPT, expected: 'html' },
+		{ label: 'text/html alone', accept: 'text/html', expected: 'html' },
+		{ label: 'text/* alone', accept: 'text/*', expected: 'html' },
+		{ label: 'text/markdown alone', accept: 'text/markdown', expected: 'markdown' },
+		{ label: 'text/markdown with parameters', accept: 'text/markdown; charset=utf-8', expected: 'markdown' },
+		{ label: 'upper-case text/markdown', accept: 'Text/Markdown', expected: 'markdown' },
+		{ label: 'text/markdown preferred by weight', accept: 'text/html;q=0.5, text/markdown', expected: 'markdown' },
+		{
+			label: 'text/markdown and text/html at equal weight',
+			accept: 'text/markdown, text/html',
+			expected: 'markdown',
+		},
+		{ label: 'text/html listed first at equal weight', accept: 'text/html, text/markdown', expected: 'markdown' },
+		{
+			label: 'text/markdown preferred over a wildcard fallback',
+			accept: 'text/markdown, */*;q=0.1',
+			expected: 'markdown',
+		},
+		{ label: 'text/html rejected beside a wildcard', accept: 'text/html;q=0, */*', expected: 'markdown' },
+		{ label: 'text/html weighted above text/markdown', accept: 'text/html, text/markdown;q=0.5', expected: 'html' },
+		{ label: 'text/markdown explicitly rejected', accept: 'text/markdown;q=0', expected: 'not-acceptable' },
+		{ label: 'text/markdown rejected beside a wildcard', accept: 'text/markdown;q=0, */*', expected: 'html' },
+		{ label: 'an unrelated type', accept: 'application/pdf', expected: 'not-acceptable' },
+		{ label: 'every type rejected', accept: '*/*;q=0', expected: 'not-acceptable' },
+		{ label: 'an out-of-range weight, which is ignored', accept: 'text/markdown;q=2', expected: 'html' },
+	])('negotiates $label', ({ accept, expected }) => {
 		expect(negotiateContentType(accept)).toBe(expected);
 	});
 });

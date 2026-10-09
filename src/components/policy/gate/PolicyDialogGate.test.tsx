@@ -9,19 +9,29 @@ describe('PolicyDialogGate', () => {
 		});
 	});
 
-	it('renders nothing until the policy is opened', () => {
+	it('renders nothing until the policy is opened, then loads and shows the dialog', async () => {
 		render(<PolicyDialogGate />);
 
 		expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-	});
-
-	it('loads and shows the dialog when the policy is opened', async () => {
-		render(<PolicyDialogGate />);
 
 		act(() => {
 			openPanel('privacy');
 		});
 
 		expect(await screen.findByRole('dialog', { name: 'Privacy & cookie policy' })).toBeInTheDocument();
+	});
+
+	it('keeps the dialog mounted when the policy closes, so its close transition can play', async () => {
+		render(<PolicyDialogGate />);
+		act(() => {
+			openPanel('privacy');
+		});
+		await screen.findByRole('dialog', { name: 'Privacy & cookie policy' });
+
+		act(() => {
+			closePanel('privacy');
+		});
+
+		expect(screen.getByRole('dialog', { hidden: true })).toBeInTheDocument();
 	});
 });

@@ -15,11 +15,21 @@ function request(path: string, init: { method?: string; headers?: Record<string,
 }
 
 describe('proxy', () => {
-	it.each(Object.entries(REDIRECTS))('redirects %s to %s on the same host', (source, destination) => {
-		const response = proxy(request(source, { headers: { accept: 'text/markdown' } }));
+	it.each(Object.entries(REDIRECTS).map(([source, destination]) => ({ source, destination })))(
+		'redirects $source to $destination on the same host',
+		({ source, destination }) => {
+			const response = proxy(request(source, { headers: { accept: 'text/markdown' } }));
 
-		expect(response.status).toBe(307);
-		expect(response.headers.get('location')).toBe(`https://alexjsully.me${destination}`);
+			expect(response.status).toBe(307);
+			expect(response.headers.get('location')).toBe(`https://alexjsully.me${destination}`);
+		},
+	);
+
+	it.each([
+		{ path: '/about', location: 'https://alexjsully.me/' },
+		{ path: '/contact', location: 'https://alexjsully.me/#contact' },
+	])('redirects $path to $location', ({ path, location }) => {
+		expect(proxy(request(path)).headers.get('location')).toBe(location);
 	});
 
 	it.each(['/privacy', '/policy', '/cookie', '/cookies', '/privacy-policy', '/cookie-policy'])(
@@ -33,11 +43,14 @@ describe('proxy', () => {
 		expect(proxy(request('/about', { headers: { accept: 'application/pdf' } })).status).toBe(307);
 	});
 
-	it.each(Object.entries(REWRITES))('serves %s as %s, whatever the Accept header', (source, destination) => {
-		const response = proxy(request(source, { headers: { accept: 'text/markdown' } }));
+	it.each([{ accept: 'text/markdown' }, { accept: 'text/html' }, { accept: 'application/pdf' }])(
+		'serves /llm.txt as /llms.txt when Accept is $accept',
+		({ accept }) => {
+			const response = proxy(request('/llm.txt', { headers: { accept } }));
 
-		expect(response.headers.get('x-middleware-rewrite')).toBe(`https://alexjsully.me${destination}`);
-	});
+			expect(response.headers.get('x-middleware-rewrite')).toBe('https://alexjsully.me/llms.txt');
+		},
+	);
 
 	it('rewrites a Markdown request for the home page to /index.md', () => {
 		const response = proxy(request('/', { headers: { accept: 'text/markdown' } }));
@@ -46,8 +59,8 @@ describe('proxy', () => {
 		expect(response.headers.get('vary')).toBe('Accept');
 	});
 
-	it.each(['GET', 'HEAD'])('negotiates %s requests', (method) => {
-		const response = proxy(request('/', { method, headers: { accept: 'text/markdown' } }));
+	it('negotiates HEAD requests', () => {
+		const response = proxy(request('/', { method: 'HEAD', headers: { accept: 'text/markdown' } }));
 
 		expect(response.headers.get('x-middleware-rewrite')).toBe('https://alexjsully.me/index.md');
 	});
@@ -76,13 +89,21 @@ describe('proxy', () => {
 		expect(response.headers.get('vary')).toBe('Accept');
 	});
 
-	it.each<[string, Parameters<typeof request>[1] & object, string]>([
-		['an RSC navigation', { headers: { accept: 'text/markdown', rsc: '1' } }, '/'],
-		['a router prefetch', { headers: { accept: 'text/markdown', 'next-router-prefetch': '1' } }, '/'],
-		['a router state request', { headers: { accept: 'text/markdown', 'next-router-state-tree': '[]' } }, '/'],
-		['an _rsc query', { headers: { accept: 'text/markdown' } }, '/?_rsc=abc'],
-		['a POST', { method: 'POST', headers: { accept: 'application/pdf' } }, '/'],
-	])('leaves %s untouched', (_label, init, path) => {
+	it.each<{ label: string; init: Parameters<typeof request>[1] & object; path: string }>([
+		{ label: 'an RSC navigation', init: { headers: { accept: 'text/markdown', rsc: '1' } }, path: '/' },
+		{
+			label: 'a router prefetch',
+			init: { headers: { accept: 'text/markdown', 'next-router-prefetch': '1' } },
+			path: '/',
+		},
+		{
+			label: 'a router state request',
+			init: { headers: { accept: 'text/markdown', 'next-router-state-tree': '[]' } },
+			path: '/',
+		},
+		{ label: 'an _rsc query', init: { headers: { accept: 'text/markdown' } }, path: '/?_rsc=abc' },
+		{ label: 'a POST', init: { method: 'POST', headers: { accept: 'application/pdf' } }, path: '/' },
+	])('leaves $label untouched', ({ init, path }) => {
 		const response = proxy(request(path, init));
 
 		expect(response.headers.get('x-middleware-next')).toBe('1');

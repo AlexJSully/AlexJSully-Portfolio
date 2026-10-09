@@ -55,4 +55,27 @@ describe('panelState', () => {
 		expect(result.current).toBe(false);
 		expect(window.location.hash).toBe('');
 	});
+
+	it('closes a panel opened on request', () => {
+		const { result } = renderHook(() => usePanelOpen('privacy'));
+
+		act(() => {
+			openPanel('privacy');
+		});
+		act(() => {
+			closePanel('privacy');
+		});
+
+		expect(result.current).toBe(false);
+	});
+
+	it("leaves another panel's fragment in the URL when closing", () => {
+		window.history.replaceState(null, '', '/#privacy');
+
+		act(() => {
+			closePanel('cookie-settings');
+		});
+
+		expect(window.location.hash).toBe('#privacy');
+	});
 });

@@ -1,14 +1,14 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { ACCEPT_ALL, ESSENTIAL_ONLY, saveConsent } from '@util/consent/consentStore';
 import { resetIconMisses } from '@util/linkIcon';
 import LinkIcon from './LinkIcon';
 
 /**
- * Finds the decorative mark, which has an empty alt text and so no accessible role.
+ * Finds the decorative mark, which has an empty alt text and so the presentation role.
  * @returns The image element
  */
-function mark(): HTMLImageElement {
-	return screen.getByTestId('mark').querySelector('img') as HTMLImageElement;
+function mark(): HTMLElement {
+	return within(screen.getByTestId('mark')).getByRole('presentation');
 }
 
 /**

@@ -87,12 +87,25 @@ describe('clearUnconsentedStorage', () => {
 		expect(deleteCache).not.toHaveBeenCalled();
 	});
 
-	it('clears only the purposes that are refused', async () => {
-		await clearUnconsentedStorage({ analytics: true, media: false, offline: false, linkIcons: false });
+	describe('clears only the purposes that are refused', () => {
+		it('keeps analytics storage while clearing refused offline storage', async () => {
+			await clearUnconsentedStorage({ analytics: true, media: false, offline: false, linkIcons: false });
 
-		expect(document.cookie).toContain('_ga=GA1.1.123');
-		expect(deleteDatabase).not.toHaveBeenCalled();
-		expect(unregister).toHaveBeenCalled();
-		expect(deleteCache).toHaveBeenCalledWith('runtime-cache');
+			expect(document.cookie).toContain('_ga=GA1.1.123');
+			expect(deleteDatabase).not.toHaveBeenCalled();
+			expect(unregister).toHaveBeenCalled();
+			expect(deleteCache).toHaveBeenCalledWith('runtime-cache');
+		});
+
+		it('keeps offline storage while clearing refused analytics storage', async () => {
+			await clearUnconsentedStorage({ analytics: false, media: false, offline: true, linkIcons: false });
+
+			expect(document.cookie).not.toContain('_ga=');
+			expect(document.cookie).not.toContain('_ga_ABC123');
+			expect(deleteDatabase).toHaveBeenCalledWith('firebase-installations-database');
+			expect(localStorage.getItem('@firebase/performance/config')).toBeNull();
+			expect(unregister).not.toHaveBeenCalled();
+			expect(deleteCache).not.toHaveBeenCalled();
+		});
 	});
 });

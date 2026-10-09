@@ -1,4 +1,5 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { DELAYS, MAX_STARS } from '@constants/index';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import StarsBackground from './StarsBackground';
 
 // Mock Firebase analytics so log calls can be asserted.
@@ -9,72 +10,82 @@ jest.mock('@configs/firebase', () => ({
 describe('StarsBackground', () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
-		Object.defineProperty(window, 'innerWidth', {
-			writable: true,
-			configurable: true,
-			value: 1024,
+		jest.useFakeTimers();
+		// Math.random is the non-deterministic input behind every star's count, size, and placement.
+		jest.spyOn(Math, 'random').mockReturnValue(0.5);
+	});
+
+	afterEach(() => {
+		act(() => {
+			jest.runOnlyPendingTimers();
 		});
-
-		render(<StarsBackground />);
+		jest.useRealTimers();
+		jest.restoreAllMocks();
 	});
 
-	it('logs analytics on star hover', async () => {
+	it('logs analytics once on the first star hover, however many stars are hovered', () => {
 		const mockLogAnalyticsEvent = jest.requireMock('@configs/firebase').logAnalyticsEvent;
-		const stars = await screen.findAllByTestId('star');
-
-		fireEvent.mouseEnter(stars[0]);
-		fireEvent.mouseLeave(stars[0]);
-
-		expect(mockLogAnalyticsEvent).toHaveBeenCalled();
-	});
-
-	it('is accessible via keyboard (tab focus on star)', async () => {
-		const stars = await screen.findAllByTestId('star');
-		const star = stars[0];
-
-		star.tabIndex = 0; // Make focusable for test
-		star.focus();
-
-		expect(star).toHaveFocus();
-	});
-
-	it('renders gracefully with minimal stars (edge case)', async () => {
-		Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 20 });
-
-		const background = await screen.findByRole('img', { name: /starry background/i });
-
-		expect(background).toBeInTheDocument();
-
-		const stars = screen.queryAllByTestId('star');
-
-		expect(stars.length).toBeGreaterThanOrEqual(0);
-	});
-
-	it('renders efficiently with a large number of stars (performance)', async () => {
-		Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 2000 });
-
-		const background = await screen.findByRole('img', { name: /starry background/i });
-
-		expect(background).toBeInTheDocument();
-
+		render(<StarsBackground />);
 		const stars = screen.getAllByTestId('star');
 
-		// Lower bound, actual count is random
-		expect(stars.length).toBeGreaterThanOrEqual(10);
-	});
+		fireEvent.mouseEnter(stars[0]);
+		fireEvent.mouseEnter(stars[1]);
 
-	it('should render stars background with proper accessibility attributes', async () => {
-		await waitFor(() => {
-			const background = screen.getByRole('img', { name: /starry background/i });
-			expect(background).toBeInTheDocument();
-			expect(background).toHaveAttribute('id', 'sky');
+		expect(mockLogAnalyticsEvent).toHaveBeenCalledTimes(1);
+		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('stars-triggered', {
+			name: 'stars-triggered',
+			type: 'hover',
 		});
 	});
 
-	it('should create stars on mount', async () => {
-		await waitFor(() => {
-			const stars = screen.getAllByTestId('star');
-			expect(stars.length).toBeGreaterThan(0);
+	it.each([
+		{ width: 100, expectedStars: 35 },
+		{ width: MAX_STARS + 400, expectedStars: 160 },
+	])('renders $expectedStars stars at a window width of $width', ({ width, expectedStars }) => {
+		jest.replaceProperty(window, 'innerWidth', width);
+
+		render(<StarsBackground />);
+
+		expect(screen.getAllByTestId('star')).toHaveLength(expectedStars);
+	});
+
+	it('renders its stars inside an image named as the starry background', () => {
+		render(<StarsBackground />);
+
+		const background = screen.getByRole('img', { name: /starry background/i });
+
+		expect(background).toContainElement(screen.getAllByTestId('star')[0]);
+		// imageAAAAHHHH in @helpers/aaaahhhh finds the background by this id.
+		expect(background).toHaveAttribute('id', 'sky');
+	});
+
+	it('regenerates a fresh field and resumes shooting once every star is spent', () => {
+		jest.replaceProperty(window, 'innerWidth', 100);
+		render(<StarsBackground />);
+		const shooting = (): HTMLElement[] =>
+			screen.getAllByTestId('star').filter((star) => star.style.animation.startsWith('shootAway'));
+
+		screen.getAllByTestId('star').forEach((star) => fireEvent.mouseEnter(star));
+		// With Math.random at 0.5, each shot lasts 3 s before marking its star spent, and the forced shot first scheduled
+		// at 1 s next runs at 5 s, finding every star spent.
+		act(() => {
+			jest.advanceTimersByTime(5000);
 		});
+
+		expect(shooting()).toHaveLength(0);
+
+		act(() => {
+			jest.advanceTimersByTime(DELAYS.STAR_ANIMATION_INITIAL);
+		});
+
+		expect(shooting()).toHaveLength(1);
+	});
+
+	it('leaves no pending timers when unmounted before the initial star animation', () => {
+		const { unmount } = render(<StarsBackground />);
+
+		unmount();
+
+		expect(jest.getTimerCount()).toBe(0);
 	});
 });

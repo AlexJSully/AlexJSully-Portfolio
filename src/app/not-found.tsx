@@ -1,8 +1,7 @@
 'use client';
 
-import PillButton, { accentFillSx } from '@components/pill-button/PillButton';
+import GoHomeLink from '@components/go-home-link/GoHomeLink';
 import { Box, Stack, Typography } from '@mui/material';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactElement } from 'react';
 
@@ -69,23 +68,7 @@ export default function NotFound(): ReactElement {
 				?! What is that?!
 			</Typography>
 
-			<Link
-				aria-label='Go home'
-				href='/'
-				onClick={() => {
-					if (pathname === '/' && typeof window !== 'undefined') {
-						window.location.reload();
-					}
-				}}
-				prefetch
-				style={{
-					cursor: 'pointer',
-				}}
-			>
-				<PillButton aria-label='Go home button' sx={accentFillSx}>
-					Go back home!
-				</PillButton>
-			</Link>
+			<GoHomeLink>Go back home!</GoHomeLink>
 		</Stack>
 	);
 }

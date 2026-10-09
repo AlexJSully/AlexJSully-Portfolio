@@ -55,7 +55,11 @@ describe('buildHomeMarkdown', () => {
 	});
 
 	it('includes the full privacy and cookie policy', () => {
-		expect(markdown).toContain(buildPolicyMarkdown());
+		const policyMarkdown = buildPolicyMarkdown();
+		const headingIndex = markdown.indexOf(`## ${policy.title}`);
+
+		expect(policyMarkdown).not.toBe('');
+		expect(markdown.startsWith(policyMarkdown, headingIndex)).toBe(true);
 	});
 
 	it('points agents at llms.txt', () => {

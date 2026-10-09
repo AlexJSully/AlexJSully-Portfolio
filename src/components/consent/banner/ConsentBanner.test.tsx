@@ -1,3 +1,4 @@
+import { colors } from '@styles/tokens';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { ACCEPT_ALL, ESSENTIAL_ONLY, readConsent, saveConsent } from '@util/consent/consentStore';
 import { closePanel, openPanel } from '@util/panelState';
@@ -22,23 +23,28 @@ describe('ConsentBanner', () => {
 	});
 
 	it.each([
-		['Accept all', ACCEPT_ALL],
-		['Essential only', ESSENTIAL_ONLY],
-	])('saves "%s" and closes', (name, expected) => {
+		{ button: 'Accept all', saved: ACCEPT_ALL },
+		{ button: 'Essential only', saved: ESSENTIAL_ONLY },
+	])('saves "$button" and closes', ({ button, saved }) => {
 		render(<ConsentBanner />);
 
-		fireEvent.click(screen.getByRole('button', { name }));
+		fireEvent.click(screen.getByRole('button', { name: button }));
 
-		expect(readConsent()).toEqual(expected);
+		expect(readConsent()).toEqual(saved);
 		expect(screen.queryByRole('region', REGION)).not.toBeInTheDocument();
 	});
 
 	it('styles "Essential only" and "Accept all" identically, favouring neither', () => {
 		render(<ConsentBanner />);
+		const essential = screen.getByRole('button', { name: 'Essential only' });
+		const accept = screen.getByRole('button', { name: 'Accept all' });
 
-		expect(screen.getByRole('button', { name: 'Essential only' }).className).toBe(
-			screen.getByRole('button', { name: 'Accept all' }).className,
-		);
+		expect(essential).toHaveStyle({ backgroundColor: colors.accent, borderColor: colors.accent });
+		['background-color', 'border-color', 'color'].forEach((property) => {
+			expect(getComputedStyle(accept).getPropertyValue(property)).toBe(
+				getComputedStyle(essential).getPropertyValue(property),
+			);
+		});
 	});
 
 	it('records nothing when Escape is pressed', () => {
@@ -56,6 +62,9 @@ describe('ConsentBanner', () => {
 		fireEvent.click(screen.getByRole('button', { name: 'Customize' }));
 
 		expect(await screen.findByRole('switch', { name: 'Analytics' })).toBeInTheDocument();
+		['Embedded videos', 'Offline access', 'Link icons'].forEach((name) => {
+			expect(screen.getByRole('switch', { name })).toBeInTheDocument();
+		});
 	});
 
 	it('stays hidden once the visitor has chosen', () => {
@@ -77,7 +86,7 @@ describe('ConsentBanner', () => {
 		expect(window.location.hash).toBe('');
 	});
 
-	it('reopens with the switches from the "Cookie settings" link without changing the URL', async () => {
+	it('reopens with the switches from the "Cookie settings" link', async () => {
 		saveConsent(ESSENTIAL_ONLY);
 		render(<ConsentBanner />);
 
@@ -86,18 +95,20 @@ describe('ConsentBanner', () => {
 		});
 
 		expect(await screen.findByRole('switch', { name: 'Analytics' })).toBeInTheDocument();
-		expect(window.location.hash).toBe('');
 	});
 
 	it('hides while the policy dialog is open from a link, staying mounted but inert', () => {
-		const { container } = render(<ConsentBanner />);
+		render(<ConsentBanner />);
 
 		act(() => {
 			openPanel('privacy');
 		});
 
 		expect(screen.queryByRole('region', REGION)).not.toBeInTheDocument();
-		expect(container.querySelector('section')).toHaveAttribute('inert');
+		// A hidden element has no computed accessible name, so the name is read from its attribute.
+		const region = screen.getByRole('region', { hidden: true });
+		expect(region).toHaveAttribute('aria-label', REGION.name);
+		expect(region).toHaveAttribute('inert');
 	});
 
 	it('announces a saved choice in a status region that outlives the banner', () => {

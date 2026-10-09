@@ -20,6 +20,9 @@ export default function ServiceWorkerRegister() {
 			return;
 		}
 
+		// Set on unmount so a registration still in flight neither logs nor schedules a retry when it settles.
+		let cancelled = false;
+
 		/**
 		 * Register the service worker with linear backoff retry logic
 		 * @param retriesLeft Number of retry attempts remaining
@@ -28,9 +31,17 @@ export default function ServiceWorkerRegister() {
 			navigator.serviceWorker
 				.register('/sw.js')
 				.then((registration) => {
+					if (cancelled) {
+						return;
+					}
+
 					console.log('Service Worker registered with scope:', registration.scope);
 				})
 				.catch((error) => {
+					if (cancelled) {
+						return;
+					}
+
 					if (retriesLeft > 0) {
 						const delayMs = INITIAL_RETRY_DELAY * (MAX_SW_RETRIES - retriesLeft + 1);
 						console.warn(
@@ -51,6 +62,8 @@ export default function ServiceWorkerRegister() {
 
 		// Cleanup: clear any pending retry timeout on unmount
 		return () => {
+			cancelled = true;
+
 			if (retryTimeoutRef.current) {
 				clearTimeout(retryTimeoutRef.current);
 			}

@@ -1,3 +1,4 @@
+import { screen } from '@testing-library/react';
 import { focusMainContent } from './focusMainContent';
 
 describe('focusMainContent', () => {
@@ -14,7 +15,7 @@ describe('focusMainContent', () => {
 		expect(main).toHaveFocus();
 		expect(main).toHaveAttribute('tabindex', '-1');
 
-		main.blur();
+		screen.getByRole('button', { name: 'Next' }).focus();
 		expect(main).not.toHaveAttribute('tabindex');
 	});
 

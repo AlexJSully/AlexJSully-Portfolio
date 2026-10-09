@@ -23,8 +23,15 @@ function loadSentry(): typeof import('./sentry') {
 }
 
 describe('sentry config', () => {
+	const originalEnv = process.env;
+
 	beforeEach(() => {
 		jest.clearAllMocks();
+		process.env = { ...originalEnv, NEXT_PUBLIC_SENTRY_DSN: 'https://public@o0.ingest.sentry.io/0' };
+	});
+
+	afterEach(() => {
+		process.env = originalEnv;
 	});
 
 	it('starts the browser SDK with the DSN and without user fields, cookies, or request bodies', async () => {
@@ -33,7 +40,7 @@ describe('sentry config', () => {
 		expect(mockInit).toHaveBeenCalledTimes(1);
 		expect(mockInit).toHaveBeenCalledWith(
 			expect.objectContaining({
-				dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+				dsn: 'https://public@o0.ingest.sentry.io/0',
 				dataCollection: { userInfo: false, cookies: false, httpBodies: [] },
 			}),
 		);

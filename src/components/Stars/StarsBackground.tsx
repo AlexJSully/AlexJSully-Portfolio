@@ -16,10 +16,14 @@ export default function StarsBackground(): ReactElement | null {
 
 	const [stars, setStars] = useState<ReactElement[] | null>(null);
 	const [fade, setFade] = useState(false);
-	const [starsTriggered, setStarsTriggered] = useState(false);
+	// A ref, because each star's hover handler is created once on mount and would otherwise read that render's value forever.
+	const starsTriggeredRef = useRef(false);
 
 	// Held so the pending timeout can be cleared on unmount.
 	const forceAnimationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+	// Part of each star's key, so a regenerated field mounts new nodes rather than reusing spent ones, whose
+	// `data-star-used` and inline `shootAway` styles are set outside React and would otherwise survive.
+	const generationRef = useRef(0);
 
 	const starStyles = {
 		background: `#ffffff50`,
@@ -70,13 +74,14 @@ export default function StarsBackground(): ReactElement | null {
 				handleForceStarAnimation();
 			}, randomTime * 1000);
 		} else {
-			// Regenerates the field once the usable pool is exhausted.
-			createStars(false);
+			// Regenerates the field once the usable pool is exhausted, which also restarts the forced shooting.
+			createStars();
 		}
 	};
 
-	const createStars = (triggerAnimation = true) => {
+	const createStars = () => {
 		setFade(false);
+		generationRef.current += 1;
 
 		const starsArray: ReactElement[] = [];
 
@@ -100,12 +105,12 @@ export default function StarsBackground(): ReactElement | null {
 
 			starsArray.push(
 				<Box
-					key={`star-${i}`}
+					key={`star-${generationRef.current}-${i}`}
 					component='div'
 					data-testid='star'
 					onMouseEnter={(e) => {
-						if (!starsTriggered) {
-							setStarsTriggered(true);
+						if (!starsTriggeredRef.current) {
+							starsTriggeredRef.current = true;
 							logAnalyticsEvent('stars-triggered', {
 								name: 'stars-triggered',
 								type: 'hover',
@@ -122,11 +127,9 @@ export default function StarsBackground(): ReactElement | null {
 		setStars(starsArray);
 		setFade(true);
 
-		if (triggerAnimation) {
-			setTimeout(() => {
-				handleForceStarAnimation();
-			}, DELAYS.STAR_ANIMATION_INITIAL);
-		}
+		forceAnimationTimeoutRef.current = setTimeout(() => {
+			handleForceStarAnimation();
+		}, DELAYS.STAR_ANIMATION_INITIAL);
 	};
 
 	useEffect(() => {

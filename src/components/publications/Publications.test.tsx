@@ -1,3 +1,4 @@
+import publications from '@data/publications';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Publications from './Publications';
 
@@ -19,16 +20,16 @@ describe('Publications', () => {
 		expect(screen.getByLabelText('Publications')).toBeInTheDocument();
 		expect(screen.getByText('Featured Publications')).toBeInTheDocument();
 
-		const publicationTitles = screen.getAllByRole('heading', { level: 2 });
-		expect(publicationTitles.length).toBeGreaterThan(0);
+		expect(screen.getAllByRole('article')).toHaveLength(publications.length);
 	});
 
 	it('logs analytics when a publication link is clicked', () => {
-		const links = screen.getAllByRole('link', { name: /view .+ on .+/i });
+		fireEvent.click(screen.getByRole('link', { name: /view 20 years of the bio-analytic/i }));
 
-		fireEvent.click(links[0]);
-
-		expect(mockLogAnalyticsEvent).toHaveBeenCalled();
+		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('publication-10.1093/nar/gkae920', {
+			name: 'publication-10.1093/nar/gkae920',
+			type: 'click',
+		});
 	});
 
 	it('links each DOI on its own, with a link icon, to the same DOI page as its card', () => {
@@ -60,11 +61,9 @@ describe('Publications', () => {
 	it('has accessible links for all publications', () => {
 		const links = screen.getAllByRole('link', { name: /view .+ on .+/i });
 
-		expect(links.length).toBeGreaterThan(0);
-
-		links.forEach((link) => {
-			expect(link).toHaveAttribute('href');
-			expect(link).toHaveAttribute('aria-label');
+		expect(links).toHaveLength(publications.length);
+		links.forEach((link, index) => {
+			expect(link).toHaveAttribute('href', `https://doi.org/${publications[index].doi}`);
 		});
 	});
 });

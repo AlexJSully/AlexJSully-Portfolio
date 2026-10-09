@@ -7,22 +7,19 @@ jest.mock('next/navigation', () => ({
 	usePathname: jest.fn(),
 }));
 
-const realLocation = window.location;
-
 describe('NotFound', () => {
-	afterEach(() => {
-		// @ts-expect-error: Overriding window.location for test cleanup
-		globalThis.window.location = realLocation;
+	const mockUsePathname = usePathname as jest.MockedFunction<typeof usePathname>;
+
+	beforeEach(() => {
 		jest.clearAllMocks();
 	});
 
 	it('renders 404 page and navigation', () => {
-		(usePathname as jest.Mock).mockReturnValue('/some-path');
+		mockUsePathname.mockReturnValue('/some-path');
 		render(<NotFound />);
 
-		expect(screen.getByRole('heading', { name: /page not found/i })).toBeInTheDocument();
-		expect(screen.getByText('404')).toBeInTheDocument();
-		expect(screen.getByRole('link', { name: /go home/i })).toBeInTheDocument();
+		expect(screen.getByRole('heading', { name: /page not found/i })).toHaveTextContent('404');
+		expect(screen.getByRole('link', { name: /go home/i })).toHaveAttribute('href', '/');
 		expect(screen.getByText('/some-path')).toBeInTheDocument();
 	});
 });

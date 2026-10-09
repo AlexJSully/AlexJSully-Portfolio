@@ -12,109 +12,75 @@ jest.mock('next/navigation', () => ({
 	usePathname: jest.fn(),
 }));
 
+/** Renders the navbar beside the page sections its links scroll to. */
+function renderWithTargets() {
+	render(
+		<>
+			<Navbar />
+			<div id='content' />
+			<div id='projects-grid' />
+			<div id='publications' />
+			<div id='socials' />
+		</>,
+	);
+}
+
 describe('Navbar', () => {
 	const mockUsePathname = usePathname as jest.MockedFunction<typeof usePathname>;
 	const mockLogAnalyticsEvent = jest.requireMock('@configs/firebase').logAnalyticsEvent;
+	const originalScrollIntoView = Element.prototype.scrollIntoView;
+	const scrollIntoView = jest.fn();
 
 	beforeEach(() => {
 		jest.clearAllMocks();
-		mockUsePathname.mockReturnValue('/');
-
-		const mockScrollIntoView = jest.fn();
-		jest.spyOn(document, 'getElementById').mockImplementation((id) => {
-			if (['content', 'projects-grid', 'publications', 'socials'].includes(id)) {
-				return { scrollIntoView: mockScrollIntoView } as any;
-			}
-
-			return null;
-		});
-
-		render(<Navbar />);
+		// scrollIntoView is a browser API jsdom omits
+		Element.prototype.scrollIntoView = scrollIntoView;
 	});
 
-	it('should render navbar with all navigation links', () => {
+	afterEach(() => {
+		Element.prototype.scrollIntoView = originalScrollIntoView;
+	});
+
+	it('renders the navigation links with their accessible names', () => {
+		mockUsePathname.mockReturnValue('/');
+		renderWithTargets();
+
 		expect(screen.getByRole('button', { name: /home button/i })).toBeInTheDocument();
 		expect(screen.getByText('Projects')).toBeInTheDocument();
 		expect(screen.getByText('Publications')).toBeInTheDocument();
 		expect(screen.getByAltText('Logo')).toBeInTheDocument();
 	});
 
-	it('should log analytics and scroll to content when home is clicked on homepage', () => {
-		mockUsePathname.mockReturnValue('/');
+	it.each([
+		{ label: 'Home', event: 'navbar_home', targetId: 'content' },
+		{ label: 'See projects', event: 'navbar_projects', targetId: 'projects-grid' },
+		{ label: 'See publications', event: 'navbar_publications', targetId: 'publications' },
+		{ label: 'See socials', event: 'navbar_socials', targetId: 'socials' },
+	])(
+		'logs $event and scrolls to #$targetId when "$label" is clicked on the homepage',
+		({ label, event, targetId }) => {
+			mockUsePathname.mockReturnValue('/');
+			renderWithTargets();
 
-		const homeLink = screen.getByLabelText('Home');
-		fireEvent.click(homeLink);
+			fireEvent.click(screen.getByRole('link', { name: label }));
 
-		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('navbar_home', {
-			name: 'navbar_home',
-			type: 'click',
-		});
-	});
+			expect(mockLogAnalyticsEvent).toHaveBeenCalledWith(event, { name: event, type: 'click' });
+			expect(scrollIntoView).toHaveBeenCalledTimes(1);
+			expect(scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' });
+			expect(scrollIntoView.mock.contexts[0]).toBe(document.getElementById(targetId));
+		},
+	);
 
-	it('should log analytics and scroll to projects when projects is clicked on homepage', () => {
-		mockUsePathname.mockReturnValue('/');
-
-		const projectsLink = screen.getByLabelText('See projects');
-		fireEvent.click(projectsLink);
-
-		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('navbar_projects', {
-			name: 'navbar_projects',
-			type: 'click',
-		});
-	});
-
-	it('should log analytics and scroll to publications when publications is clicked on homepage', () => {
-		mockUsePathname.mockReturnValue('/');
-
-		const publicationsLink = screen.getByLabelText('See publications');
-		fireEvent.click(publicationsLink);
-
-		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('navbar_publications', {
-			name: 'navbar_publications',
-			type: 'click',
-		});
-	});
-
-	it('should log analytics and scroll to socials when socials is clicked on homepage', () => {
-		mockUsePathname.mockReturnValue('/');
-
-		const socialsLink = screen.getByLabelText('See socials');
-		fireEvent.click(socialsLink);
-
-		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('navbar_socials', {
-			name: 'navbar_socials',
-			type: 'click',
-		});
-	});
-
-	it('should navigate normally when not on homepage', () => {
+	it('logs the click without scrolling when not on the homepage', () => {
 		mockUsePathname.mockReturnValue('/other-page');
+		renderWithTargets();
 
-		const homeLink = screen.getByLabelText('Home');
-		fireEvent.click(homeLink);
+		fireEvent.click(screen.getByRole('link', { name: 'Home' }));
 
 		expect(mockLogAnalyticsEvent).toHaveBeenCalledWith('navbar_home', {
 			name: 'navbar_home',
 			type: 'click',
 		});
-	});
-
-	it('should have proper ARIA labels for accessibility', () => {
-		expect(screen.getByLabelText('Home')).toBeInTheDocument();
-		expect(screen.getByLabelText('See projects')).toBeInTheDocument();
-		expect(screen.getByLabelText('See publications')).toBeInTheDocument();
-		expect(screen.getByLabelText('See socials')).toBeInTheDocument();
-		expect(screen.getByRole('button', { name: /home button/i })).toBeInTheDocument();
-	});
-
-	it('should handle keyboard navigation (Enter/Space) on links', () => {
-		const homeLink = screen.getByLabelText('Home');
-		homeLink.focus();
-
-		expect(document.activeElement).toBe(homeLink);
-
-		fireEvent.keyDown(homeLink, { key: 'Enter', code: 'Enter' });
-		fireEvent.keyDown(homeLink, { key: ' ', code: 'Space' });
-		expect(homeLink).toBeInTheDocument();
+		expect(scrollIntoView).not.toHaveBeenCalled();
 	});
 });

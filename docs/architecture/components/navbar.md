@@ -11,7 +11,10 @@ The Navbar component is a fixed-position navigation bar located in [`src/compone
 ```mermaid
 flowchart LR
     accTitle: Navbar Navigation Structure
-    accDescr: Navbar contains Home button and links for Projects, Publications, and Socials. Each item scrolls to its target section
+    accDescr {
+        Navbar contains Home Button, Projects Link, Publications Link, and Socials Link. Home Button scrolls to Page
+        Top, Projects Link to Projects Grid, Publications Link to Publications, and Socials Link to Footer / Socials.
+    }
     Navbar[Navbar] -->|Contains| Home[Home Button]
     Navbar -->|Contains| Projects[Projects Link]
     Navbar -->|Contains| Pubs[Publications Link]
@@ -140,7 +143,11 @@ if (pathname === '/') {
 ```mermaid
 sequenceDiagram
     accTitle: Navbar Navigation Interaction Sequence
-    accDescr: User clicks navbar items. Navbar logs events, checks pathname, then either smooth scrolls on home page or navigates to hash on other pages. Shows both Projects and Socials click flows
+    accDescr {
+        User clicks Projects, then Socials. For each click, Navbar logs an event to Analytics and checks pathname with
+        Router. On the home page, Navbar asks DOM for the matching section and DOM scrolls to it smoothly. On another
+        page, Navbar navigates Router to the matching home-page hash and Router scrolls DOM to that section.
+    }
     participant User
     participant Navbar
     participant Router
@@ -200,13 +207,9 @@ Test file: [`src/components/navbar/Navbar.test.tsx`](../../../src/components/nav
 
 **Test Coverage:**
 
-- Component renders
-- Navigation links present
-- Click handlers fire
-- Analytics events logged
-- ARIA labels for accessibility
-- Keyboard navigation (Enter/Space) on links
-- Navigation when not on the homepage
+- The navigation links render with their accessible names
+- On the homepage, each link logs its analytics event and smooth-scrolls to its section
+- Off the homepage, the Home link logs its analytics event without calling `scrollIntoView`
 
 ## Usage Example
 

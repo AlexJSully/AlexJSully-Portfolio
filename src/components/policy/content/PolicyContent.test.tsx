@@ -1,5 +1,5 @@
 import policy from '@data/policy';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import PolicyContent from './PolicyContent';
 
 describe('PolicyContent', () => {
@@ -38,7 +38,6 @@ describe('PolicyContent', () => {
 	it('links the contact email as mailto, opening in place rather than a new tab', () => {
 		const links = screen.getAllByRole('link', { name: 'alexjsully.connect@outlook.com' });
 
-		expect(links.length).toBeGreaterThan(0);
 		links.forEach((link) => {
 			expect(link).toHaveAttribute('href', 'mailto:alexjsully.connect@outlook.com');
 			expect(link).not.toHaveAttribute('target');
@@ -61,6 +60,11 @@ describe('PolicyContent', () => {
 	});
 
 	it('renders the consent switches where the policy places them', () => {
-		expect(screen.getByRole('switch', { name: 'Analytics' })).toBeInTheDocument();
+		const heading = screen.getByRole('heading', { level: 3, name: 'Your choices' });
+		// The section has no accessible name, so it has no role to query by.
+		const section = heading.closest('section');
+
+		expect(section).not.toBeNull();
+		expect(within(section as HTMLElement).getByRole('switch', { name: 'Analytics' })).toBeInTheDocument();
 	});
 });

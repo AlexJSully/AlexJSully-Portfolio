@@ -22,7 +22,13 @@ Two runners cover different layers. Jest exercises individual components and fun
 ```mermaid
 flowchart TD
     accTitle: Validation Pipeline Workflow
-    accDescr: npm run validate executes: Prettier formatting, ESLint code quality, TypeScript type checking, Jest unit tests, Cypress E2E tests, Next.js build, and Markdown linting. Each step can fail with specific fix commands
+    accDescr {
+        npm run validate runs Prettier, ESLint, TypeScript, Jest, Cypress, the Next.js build, and Markdown linting in
+        that order. A passing check leads to the next check, and a passing Markdown lint ends at All Checks Passed.
+        A failing check leads to its corresponding fix action and stops the pipeline: Prettier to npm run prettier,
+        ESLint to npm run eslint, TypeScript to fix type errors, Jest to fix unit tests, Cypress to fix end-to-end
+        tests, the build to fix build errors, or Markdown lint to fix Markdown issues. Each fix action is terminal.
+    }
     Validate[npm run validate] --> Prettier[Prettier Format]
     Prettier --> ESLint[ESLint Check]
     ESLint --> TSC[TypeScript Check]
@@ -101,7 +107,7 @@ Because steps 1, 2, and 7 write, a run that reaches exit code 0 can still leave 
 
 ### Cypress Test Example
 
-Here is an example of a Cypress test located in [cypress/e2e/landing.cy.ts](../../cypress/e2e/landing.cy.ts):
+Here is an example of a Cypress test located in [cypress/e2e/landing.cy.ts](../../cypress/e2e/landing.cy.ts). It stubs the third-party hosts matched by `TRACKERS`, then checks that before the visitor chooses, no `_ga` analytics cookie is set, no service worker is registered, and no request reaches a stubbed host. `waitForHydratedIdle()`, defined in the same spec, waits for hydration and then one idle period, capped at 2 seconds, so each assertion that something did not happen runs after the client has had its chance to do it:
 
 ```ts
 describe('Landing Page', () => {
@@ -109,9 +115,19 @@ describe('Landing Page', () => {
 		cy.a11yCheck();
 	});
 
-	it('should render page', () => {
+	it('asks for consent before storing or sending anything optional', () => {
+		cy.intercept(TRACKERS, { statusCode: 204 }).as('tracker');
 		cy.visit('http://localhost:3000');
-		cy.get('[data-testid="profile_pic"]').should('exist');
+
+		cy.get('section[aria-label="Your privacy choices"]').should('be.visible');
+		waitForHydratedIdle();
+		cy.getCookies().should((cookies) => {
+			expect(cookies.map((cookie) => cookie.name).filter((name) => name.startsWith('_ga'))).to.be.empty;
+		});
+		cy.window()
+			.then((win) => win.navigator.serviceWorker.getRegistrations())
+			.should('have.length', 0);
+		cy.get('@tracker.all').should('have.length', 0);
 	});
 });
 ```

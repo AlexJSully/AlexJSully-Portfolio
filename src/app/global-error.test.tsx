@@ -4,18 +4,24 @@ import GlobalError from './global-error';
 // This repository's wrapper around the Sentry SDK, so rendering does not send a live error report.
 jest.mock('@configs/sentry', () => ({ captureError: jest.fn() }));
 
-jest.mock('next/navigation', () => ({
-	...jest.requireActual('next/navigation'),
-	usePathname: jest.fn(() => '/'),
-}));
+/** Whether a console error call is React's warning that the rendered `<html>` sits inside the test container. */
+function isHtmlNestingWarning([format, element]: unknown[]): boolean {
+	return typeof format === 'string' && format.includes('cannot be a child of') && element === '<html>';
+}
 
 describe('GlobalError', () => {
 	const mockCaptureError = jest.requireMock('@configs/sentry').captureError;
 
 	beforeEach(() => {
 		jest.clearAllMocks();
+
 		// Rendering a whole document inside the test container makes React warn that <html> cannot sit in a <div>.
-		jest.spyOn(console, 'error').mockImplementation(() => {});
+		const originalError = console.error;
+		jest.spyOn(console, 'error').mockImplementation((...args: unknown[]) => {
+			if (!isHtmlNestingWarning(args)) {
+				originalError(...args);
+			}
+		});
 	});
 
 	afterEach(() => {

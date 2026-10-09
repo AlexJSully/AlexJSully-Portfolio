@@ -32,16 +32,21 @@ describe('ConsentControls', () => {
 		render(<ConsentControls />);
 
 		expect(screen.getByRole('switch', { name: 'Embedded videos' })).toBeChecked();
+		['Analytics', 'Offline access', 'Link icons'].forEach((name) => {
+			expect(screen.getByRole('switch', { name })).not.toBeChecked();
+		});
 	});
 
-	it('shows extra actions in the same row as "Save choices"', () => {
+	it('places extra actions in the row with "Save choices", pushed to its end', () => {
 		render(<ConsentControls actions={<button type='button'>Close without changes</button>} />);
 
-		const save = screen.getByRole('button', { name: 'Save choices' });
-		const close = screen.getByRole('button', { name: 'Close without changes' });
-		// Save sits in the row's start group and the extra action in a group pushed to the row's end.
-		expect(close.parentElement?.parentElement).toBe(save.parentElement?.parentElement);
-		expect(close.parentElement).toHaveStyle({ marginInlineStart: 'auto' });
+		const actionsWrapper = screen.getByRole('button', { name: 'Close without changes' }).parentElement;
+		// jsdom does no layout, so the shared row is asserted as one row-direction flex container holding both.
+		const row = actionsWrapper?.parentElement;
+
+		expect(row).toContainElement(screen.getByRole('button', { name: 'Save choices' }));
+		expect(row).toHaveStyle({ flexDirection: 'row' });
+		expect(actionsWrapper).toHaveStyle({ marginInlineStart: 'auto' });
 	});
 
 	it('saves the switches, confirms it, and reports back', () => {
