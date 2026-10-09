@@ -1,4 +1,3 @@
-import { NETWORK } from '@constants/index';
 import { isNetworkFast } from './isNetworkFast';
 
 interface MockConnection {
@@ -62,38 +61,19 @@ describe('isNetworkFast', () => {
 		expect(isNetworkFast()).toBe(false);
 	});
 
-	it('should return false for slow downlink', () => {
+	it.each([
+		['a low downlink estimate', { downlink: 1.4, rtt: 50 }],
+		['a high round-trip estimate', { downlink: 10, rtt: 150 }],
+	])('autoplays on a 4g connection despite %s, which browsers round too coarsely to trust', (_label, estimates) => {
 		const mockNavigator: MockNavigator = {
 			...originalNavigator,
-			connection: {
-				saveData: false,
-				effectiveType: '4g',
-				downlink: NETWORK.SLOW_DOWNLINK_THRESHOLD - 0.1,
-				rtt: 10,
-			},
+			connection: { saveData: false, effectiveType: '4g', ...estimates },
 		};
 		Object.defineProperty(global, 'navigator', {
 			value: mockNavigator,
 			writable: true,
 		});
-		expect(isNetworkFast()).toBe(false);
-	});
-
-	it('should return false for high RTT', () => {
-		const mockNavigator: MockNavigator = {
-			...originalNavigator,
-			connection: {
-				saveData: false,
-				effectiveType: '4g',
-				downlink: 10,
-				rtt: NETWORK.FAST_RTT_THRESHOLD + 50,
-			},
-		};
-		Object.defineProperty(global, 'navigator', {
-			value: mockNavigator,
-			writable: true,
-		});
-		expect(isNetworkFast()).toBe(false);
+		expect(isNetworkFast()).toBe(true);
 	});
 
 	it('should return true for fast network', () => {

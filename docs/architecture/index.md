@@ -80,3 +80,5 @@ Implementation: [src/app/page.tsx](../../src/app/page.tsx), [src/layouts/General
 
 - [Usage Guides](../usage/index.md)
 - [Component Documentation](./components/index.md)
+- [Agent Readiness](./agent-readiness.md)
+- [Consent](./consent.md)

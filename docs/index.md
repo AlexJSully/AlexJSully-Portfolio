@@ -32,6 +32,8 @@ If you're maintaining or extending this codebase:
 
 - [Architecture Overview](./architecture/index.md)
 - [App Directory (Next.js)](./architecture/app-directory.md)
+- [Agent Readiness](./architecture/agent-readiness.md)
+- [Consent](./architecture/consent.md)
 - [Constants](./architecture/constants.md)
 - [Data Architecture](./architecture/data.md)
 - [Helpers](./architecture/helpers.md)

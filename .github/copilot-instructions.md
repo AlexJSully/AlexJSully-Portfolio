@@ -44,7 +44,7 @@ npm run build             # Production build
 - **Table-driven**: use `it.each` when rows vary input and expected output across the same code path, and name every field. Rows that differ in the assertion body belong in separate `it()` blocks.
 - **House patterns**: `render`/`screen` from `@testing-library/react`; `fireEvent` (`@testing-library/user-event` is not a dependency); `beforeEach(() => { jest.clearAllMocks(); render(<X />); })`; fake timers via `jest.useFakeTimers()` with `jest.runOnlyPendingTimers()` in `afterEach`. Assert accessibility through roles and accessible names. `next/image` is not mocked, so assert its rewritten `src` with `expect.stringContaining`.
 - **Import carve-out**: the subject under test is imported relatively (`./Banner`) while collaborators use path aliases. This is the one exception to the alias rule below.
-- **Setup and E2E**: `jest/setup.ts` with the jsdom environment; Cypress specs in `cypress/e2e/`, every `describe` closing with `afterEach(() => { cy.a11yCheck(); })` (cypress-axe). No `baseUrl` is set, so specs call `cy.visit('http://localhost:3000')`.
+- **Setup and E2E**: `jest/setup.ts` with the jsdom environment, which clears every cookie after each test; Cypress specs in `cypress/e2e/`, every `describe` closing with `afterEach(() => { cy.a11yCheck(); })` (cypress-axe). No `baseUrl` is set, so specs call `cy.visit('http://localhost:3000')`.
 - `npm run test:jest` carries `--passWithNoTests`, so exit code 0 alone does not prove a test ran. Check the reported count.
 - **Coverage**: `npm run test:jest:coverage`. No threshold is configured, so it is a report rather than a gate.
 
@@ -109,7 +109,7 @@ Centralized constants in `src/constants/index.ts` with `as const` for type safet
 ```typescript
 DELAYS.PROJECT_HOVER_VIDEO; // 1000ms before video plays on hover
 THRESHOLDS.SNEEZE_TRIGGER_INTERVAL; // Easter egg triggers
-NETWORK.SLOW_DOWNLINK_THRESHOLD; // Network performance checks
+NETWORK.SLOW_NETWORK_TYPES; // Network performance checks
 ```
 
 The module also exports `ANIMATIONS` and `MAX_STARS`.
@@ -176,8 +176,8 @@ Not adopted: the ban on default exports (this repository uses them for the modul
 ### Structure & Reuse
 
 - **Count seven things on any file you write or review**, since no tool checks them, each with the threshold that backstops it: lines in the file (600), members of each exported type against how many a caller uses (15), files sitting **directly** in the directory (20, counted whatever subdirectories sit beside them, so one subdirectory does not make the loose files next to it grouped), occurrences of a repeated block (3, counting test cases too, where three differing only in a value are one table-driven case), files repeating one declaration (3), parameters a function branches on rather than operates on (more than one, and only on a utility, meaning one named for a single operation or exported for general use rather than one coordinating a sequence, which takes its modes legitimately), and the shape of each function body as three numbers together (lines, nesting depth, widest expression), which is the one unit the other six never reach inside. Name the principle a structural finding violates rather than describing it: single responsibility, control coupling for a branched-on parameter, common coupling for shared mutable module state, content coupling for reaching past an interface, stamp coupling for a whole record where a field would do, dependency inversion, interface segregation, or DRY. Those numbers apply where every sibling is equally large; the sharper test is being an outlier in this tree, stated against what it is measured on. A count triggers a look and is never a finding alone; what makes it one is the concrete split
-- **A component gets a directory, not a loose file**: kebab-case directory under `src/components/`, PascalCase file, colocated test, as `navbar/Navbar.tsx` does. Six of the seven spell it that way, and `Stars/` is the single PascalCase exception rather than a second convention: match the six. Related files are grouped into a subdirectory rather than left flat, and entries sharing a name prefix are the group to propose. Detect the scheme the tree uses; never impose a methodology
-- **A setting the tooling reads from configuration is set once, never per file.** `jest.config.js` already sets `testEnvironment: 'jsdom'` for every test, so no test file carries a `@jest-environment` docblock, and path aliases live in `tsconfig.json` mirrored into `jest.config.js` rather than re-declared per import. Where the same directive would go into three or more files, **search for the key, not for the directive's own spelling**, since the two are rarely the same word, then hoist the majority and leave the minority declared, counting the majority over every file the setting governs rather than over the files in front of you
+- **A component gets a directory, not a loose file**: kebab-case directory under `src/components/`, PascalCase file, colocated test, as `navbar/Navbar.tsx` does. Eight of the nine spell it that way, and `Stars/` is the single PascalCase exception rather than a second convention: match the eight. Related files are grouped into a subdirectory rather than left flat, and entries sharing a name prefix are the group to propose. Detect the scheme the tree uses; never impose a methodology
+- **A setting the tooling reads from configuration is set once, never per file.** `jest.config.js` already sets `testEnvironment: 'jsdom'` for every test, so only the minority that needs another environment carries a `@jest-environment` docblock (tests that build a fetch `Request` or `Response` run in `node`, because jsdom has neither), and path aliases live in `tsconfig.json` mirrored into `jest.config.js` rather than re-declared per import. Where the same directive would go into three or more files, **search for the key, not for the directive's own spelling**, since the two are rarely the same word, then hoist the majority and leave the minority declared, counting the majority over every file the setting governs rather than over the files in front of you
 - **Reuse before writing.** Before hand-writing behaviour that has a name outside this repository (a wire format, a version-ordering rule, a retry schedule, a cryptographic construction), check three sources in order and say which you read: this repository's own `helpers` and `util` modules, then `package.json` and the lockfile, which lists what is resolved where the manifest lists only what was asked for, then the standard library and the platform. Read what the modules a file already imports export before accepting a hand-written block beneath them, since hand-rolling half of what the file imports is the shape this misses most often. The tell is vocabulary: code spelling a specification's own field names is implementing that specification whatever the function is called. Where nothing present provides it, say so and stop rather than adding a dependency. **Never hand-roll anything that signs, verifies, encrypts, hashes a credential, or settles an authorization outcome.** A test building a value by hand to exercise a rejection path is not this finding
 
 ## Next.js App Router Specifics
@@ -203,7 +203,7 @@ export const metadata: Metadata = {
 
 ### Security Headers
 
-Security headers configured in `next.config.js` headers() function. The `/` route includes:
+Security headers configured in `next.config.js` headers() function. Every route includes:
 
 - X-Content-Type-Options: nosniff
 - X-XSS-Protection: 1; mode=block
@@ -228,18 +228,17 @@ The `/sw.js` route sets Content-Type, Cache-Control, and Service-Worker-Allowed 
 ### Service Worker
 
 - Lives in `public/sw.js` and served by Next.js from the public directory at `/sw.js`
-- Registration in `src/components/ServiceWorkerRegister.tsx`
+- Registration in `src/components/ServiceWorkerRegister.tsx`, mounted by `src/components/consent/services/ConsentedServices.tsx` only once the visitor allows Offline access
 - Used for PWA offline support
 
 ## Firebase & Analytics
 
-Initialize Firebase only client-side (see `src/configs/firebase.ts`):
+Firebase starts only after the visitor allows Analytics: `src/components/consent/services/ConsentedServices.tsx` is the one caller of `init()` from `src/configs/firebase.ts`. Never call `init()` elsewhere, and never load another tracker, embed, or device storage outside a consent purpose in `src/util/consent/consentStore.ts`. `init()` sets Google Consent Mode with every advertising signal denied and turns off Google signals; the site has no advertising purpose.
 
 ```typescript
-import { init, logAnalyticsEvent } from '@configs/firebase';
+import { logAnalyticsEvent } from '@configs/firebase';
 
-init(); // Call once on client mount
-logAnalyticsEvent('event_name', { params });
+logAnalyticsEvent('event_name', { params }); // Does nothing until Analytics is allowed
 ```
 
 ## Documentation

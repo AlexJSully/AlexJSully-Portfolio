@@ -40,9 +40,7 @@ Trigger thresholds for interactive features:
 
 Network performance thresholds for adaptive loading:
 
-- `SLOW_DOWNLINK_THRESHOLD` (1.5 Mbps) - Maximum speed considered slow
-- `FAST_RTT_THRESHOLD` (100ms) - Maximum round-trip time considered fast
-- `SLOW_NETWORK_TYPES` (['slow-2g', '2g', '3g']) - Network types always considered slow
+- `SLOW_NETWORK_TYPES` (['slow-2g', '2g', '3g']) - Network types considered slow
 
 **Usage:** Import in [isNetworkFast()](../../src/util/isNetworkFast.ts) to determine whether to autoplay videos.
 

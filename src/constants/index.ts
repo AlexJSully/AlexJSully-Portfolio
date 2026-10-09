@@ -22,10 +22,6 @@ export const THRESHOLDS = {
 
 /** Network performance thresholds */
 export const NETWORK = {
-	/** Downlink speeds below this value (Mbps) are considered slow */
-	SLOW_DOWNLINK_THRESHOLD: 1.5,
-	/** Maximum acceptable RTT (ms); values above this indicate a slow network */
-	FAST_RTT_THRESHOLD: 100,
 	/** Network types considered slow */
 	SLOW_NETWORK_TYPES: ['slow-2g', '2g', '3g'] as const,
 } as const;

@@ -1,3 +1,4 @@
+import profile from '@data/profile';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Footer from './Footer';
 
@@ -40,6 +41,28 @@ describe('Footer', () => {
 		});
 
 		expect(mockLogAnalyticsEvent).toHaveBeenCalled();
+	});
+
+	it('is the #contact target that /contact redirects to', () => {
+		expect(screen.getByLabelText('Footer')).toHaveAttribute('id', 'contact');
+	});
+
+	it('links the email and resume buttons to the profile', () => {
+		expect(screen.getByLabelText('Email me mailto')).toHaveAttribute('href', `mailto:${profile.email}`);
+		expect(screen.getByLabelText('Resume download')).toHaveAttribute('href', profile.resumePath);
+	});
+
+	it('links to the privacy and cookie policy dialog, opening it without changing the URL', () => {
+		const link = screen.getByRole('link', { name: 'Privacy & cookie policy' });
+		expect(link).toHaveAttribute('href', '/#privacy');
+
+		fireEvent.click(link);
+
+		expect(window.location.hash).toBe('');
+	});
+
+	it('reopens the consent settings from "Cookie settings"', () => {
+		expect(screen.getByRole('link', { name: 'Cookie settings' })).toHaveAttribute('href', '/#cookie-settings');
 	});
 
 	it('has accessible labels for all main actions', () => {

@@ -1,6 +1,9 @@
 import ThemeRegistry from '@components/ThemeRegistry';
+import { DELAYS } from '@constants/index';
+import projects from '@data/projects';
 import theme from '@styles/theme';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { ACCEPT_ALL, ESSENTIAL_ONLY, saveConsent } from '@util/consent/consentStore';
 import ProjectsGrid from './ProjectsGrid';
 
 // Mock Firebase analytics so log calls can be asserted.
@@ -60,6 +63,47 @@ describe('ProjectsGrid', () => {
 		const thumbnails = screen.getAllByRole('img', { name: /thumbnail image for/i });
 
 		expect(thumbnails.length).toBeGreaterThan(0);
+	});
+});
+
+describe('ProjectsGrid video previews', () => {
+	const project = projects.find((candidate) => candidate.youtubeURL && candidate.showcase);
+
+	beforeEach(() => {
+		jest.useFakeTimers();
+	});
+
+	afterEach(() => {
+		jest.runOnlyPendingTimers();
+		jest.useRealTimers();
+	});
+
+	/** Hovers the project card long enough for its preview to load. */
+	function hoverProject() {
+		render(<ProjectsGrid />);
+		fireEvent.mouseEnter(screen.getByTestId(`project-${project?.id}-grid`));
+		act(() => {
+			jest.advanceTimersByTime(DELAYS.PROJECT_HOVER_VIDEO);
+		});
+	}
+
+	it('plays the YouTube preview on hover once Embedded videos is allowed', () => {
+		saveConsent(ACCEPT_ALL);
+
+		hoverProject();
+
+		expect(screen.getByTestId(`project-${project?.id}-video`)).toHaveAttribute(
+			'src',
+			expect.stringContaining('https://www.youtube-nocookie.com/embed/'),
+		);
+	});
+
+	it('keeps the thumbnail on hover while Embedded videos is refused', () => {
+		saveConsent(ESSENTIAL_ONLY);
+
+		hoverProject();
+
+		expect(screen.queryByTestId(`project-${project?.id}-video`)).not.toBeInTheDocument();
 	});
 });
 

@@ -22,15 +22,12 @@ Configs manage environment variables, service integrations, and global settings 
 
 ### Firebase configuration and usage
 
-The runtime `src/configs/firebase.ts` exposes two named functions you should use from the app:
+The runtime `src/configs/firebase.ts` exposes two named functions. `init()` has one caller, [`ConsentedServices`](../../src/components/consent/services/ConsentedServices.tsx), which runs it only once the visitor allows Analytics (see [Consent](./consent.md)). Before Analytics starts, `init()` sets Google Consent Mode with analytics storage granted and `ad_storage`, `ad_user_data`, and `ad_personalization` denied, and it starts Analytics with `allow_google_signals` and `allow_ad_personalization_signals` set to `false`, so no advertising use can be switched on from the Google Analytics admin settings. The Firebase SDK is imported inside `init()` rather than at the top of the module, so a visitor who never allows Analytics never downloads it; repeated calls share the first call's work, and a failed load, such as one a content blocker stops, is retried by the next call. `logAnalyticsEvent()` does nothing until `init()` has finished.
 
 ```ts
-import { init, logAnalyticsEvent } from '@configs/firebase';
+import { logAnalyticsEvent } from '@configs/firebase';
 
-// Initialize Firebase (call once on app start)
-init();
-
-// Log analytics events anywhere in the app
+// Log analytics events anywhere in the app; does nothing until Analytics is allowed
 logAnalyticsEvent('my_event', { foo: 'bar' });
 ```
 
@@ -58,7 +55,7 @@ All `Sentry.*` integrations are imported directly from `@sentry/nextjs`.
 
 [`next.config.js`](../../next.config.js) carries three concerns beyond the framework defaults.
 
-**Security headers.** The `/` route is served with `X-Content-Type-Options: nosniff`, `X-XSS-Protection: 1; mode=block`, `X-Frame-Options: DENY`, a one-year `Strict-Transport-Security` with `includeSubDomains` and `preload`, `Referrer-Policy: same-origin`, and a `Permissions-Policy` that grants fullscreen, picture-in-picture, spatial tracking, gamepad, HID, idle detection, and window management. The `/sw.js` route gets its own set, described in [Service Worker Implementation](./service-worker.md).
+**Security headers.** Every route is served with `X-Content-Type-Options: nosniff`, `X-XSS-Protection: 1; mode=block`, `X-Frame-Options: DENY`, a one-year `Strict-Transport-Security` with `includeSubDomains` and `preload`, `Referrer-Policy: same-origin`, and a `Permissions-Policy` that grants fullscreen, picture-in-picture, spatial tracking, gamepad, HID, idle detection, and window management. The `/sw.js` route adds its own set, described in [Service Worker Implementation](./service-worker.md).
 
 **Image handling.** `disableStaticImages` is on, because SVGs are compiled by `@svgr/webpack` through the `turbopack.rules` entry and no other image type is imported statically. Turning it off would restore Next's ambient `*.svg` declaration, which conflicts with the one in [`types/svg.d.ts`](../../types/svg.d.ts). Remote images are allowed only from `alexjsully.me`, with a 1800-second minimum cache lifetime.
 

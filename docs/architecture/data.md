@@ -37,6 +37,12 @@ sequenceDiagram
 
 **Keywords** ([src/data/keywords.ts](../../src/data/keywords.ts)) - SEO keywords array used in page metadata for search engine optimization.
 
+**Profile** ([src/data/profile.ts](../../src/data/profile.ts)) - Name, description, contact email, country, résumé path, source repository, and the profiles that have no footer icon (ORCID, Google Scholar, Instagram, Threads), shared by the footer, the structured data, and the Markdown builders.
+
+**Policy** ([src/data/policy.ts](../../src/data/policy.ts)) - The privacy and cookie policy as sections of paragraphs, lists, and tables, rendered in the policy dialog and in the Markdown home page. It reads the consent cookie's name and lifetime from the consent store rather than restating them.
+
+**Structured data** ([src/data/structuredData.ts](../../src/data/structuredData.ts)) - The schema.org JSON-LD array the root layout renders. Its `sameAs` list is built from the socials and the profile's external profiles, so it cannot drift from the footer.
+
 ## How Components Use Data
 
 Components import data directly using TypeScript path aliases:

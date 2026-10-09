@@ -42,6 +42,7 @@ Exempt from needing a colocated test: static data modules such as [`projects.ts`
 
 - `render` and `screen` from `@testing-library/react`. Use `fireEvent`; `@testing-library/user-event` is not a dependency.
 - Shared setup goes in `beforeEach(() => { jest.clearAllMocks(); render(<Subject />); })`.
+- [`jest/setup.ts`](../../jest/setup.ts) clears every cookie after each test, so a test never cleans up a consent choice itself.
 - Debounced or delayed behaviour uses `jest.useFakeTimers()` in `beforeEach` with `jest.runOnlyPendingTimers()` then `jest.useRealTimers()` in `afterEach`.
 - Assert accessibility through roles and accessible names (`screen.getByRole('button', { name: /view more projects/i })`), label text, and `aria-*` attributes. `jest-axe` is not installed; axe runs in Cypress.
 - Wrap the subject in [`ThemeRegistry`](../../src/components/ThemeRegistry.tsx) when the assertion depends on the theme, and render it bare when it does not.

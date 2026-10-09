@@ -1,6 +1,7 @@
 'use client';
 
-import { Button, Stack, Typography } from '@mui/material';
+import PillButton, { accentFillSx } from '@components/pill-button/PillButton';
+import { Stack, Typography } from '@mui/material';
 import * as Sentry from '@sentry/nextjs';
 import NextError from 'next/error';
 import Link from 'next/link';
@@ -80,34 +81,9 @@ function GlobalError({ error }: GlobalErrorProps): ReactElement {
 							cursor: 'pointer',
 						}}
 					>
-						<Button
-							aria-label='Go home button'
-							sx={{
-								backgroundColor: '#001ca8',
-								border: '3px solid #001ca8',
-								borderRadius: '32px',
-								fontSize: '0.5rem',
-								lineHeight: '2rem',
-								transition: 'all 1s ease',
-								'&:hover': {
-									backgroundColor: '#0041b9',
-									border: '3px solid #0041b9',
-									borderRadius: '5%',
-									transition: 'all 0.25s ease',
-								},
-							}}
-							variant='contained'
-						>
-							<Typography
-								sx={{
-									color: 'inherit',
-									textDecoration: 'none',
-									textTransform: 'none',
-								}}
-							>
-								Go Home
-							</Typography>
-						</Button>
+						<PillButton aria-label='Go home button' sx={accentFillSx}>
+							Go Home
+						</PillButton>
 					</Link>
 				</Stack>
 			</body>

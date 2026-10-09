@@ -12,7 +12,12 @@ This document describes the internal architecture, relationships, and usage of m
 - [Publications](./publications.md): Lists publications with metadata
 - [Footer](./socials.md): Social media links, contact buttons, and attribution
 - [StarsBackground](./stars.md): Animated starfield background
-- [CookieSnackbar](./cookie-snackbar.md): Cookie consent notification
+- [ConsentBanner, ConsentControls, and PolicyDialog](./consent-banner.md): The consent choices, their switches, and the privacy and cookie policy dialog
+- [ConsentedServices](../consent.md): Starts each optional service once its purpose is allowed
+- [PolicyDialogGate](../../../src/components/policy/gate/PolicyDialogGate.tsx): Loads the policy dialog's code once the page is idle and mounts the dialog the first time it is opened
+- [LinkIcon](../../../src/components/link-icon/LinkIcon.tsx): The mark beside a phrase link: this site's icon for a same-site link, the linked site's icon once Link icons is allowed, a generated globe otherwise. `mailto:` links and the [PanelLink](../../../src/components/panel-link/PanelLink.tsx)s that open a dialog carry none
+- [PanelLink](../../../src/components/panel-link/PanelLink.tsx): A link that opens a panel, such as the policy dialog, without changing the URL
+- [PillButton](../../../src/components/pill-button/PillButton.tsx): The site's pill-shaped contained button, whose fill alone changes on hover, used by the footer, the consent banner, and the error and not-found pages
 - [ServiceWorkerRegister](../service-worker.md): PWA service worker registration
 - [ThemeRegistry](#themeregistry): Client boundary supplying the MUI theme to every component below it
 
@@ -21,11 +26,13 @@ This document describes the internal architecture, relationships, and usage of m
 ```mermaid
 flowchart TD
     accTitle: Page Component Composition Tree
-    accDescr: Root Layout has three children: ThemeRegistry, ServiceWorkerRegister, and SpeedInsights. ThemeRegistry wraps GeneralLayout, which wraps Navbar, Main Content, and Footer. Main Content contains Banner, ProjectsGrid, Publications, StarsBackground, and CookieSnackbar. Banner contains Avatar. ProjectsGrid and Publications generate cards. Footer contains social links
+    accDescr: Root Layout has two children: ThemeRegistry and ConsentedServices, which renders ServiceWorkerRegister and SpeedInsights once each is allowed. ThemeRegistry wraps GeneralLayout, which wraps ConsentBanner, Navbar, Main Content, and Footer. Main Content contains Banner, ProjectsGrid, Publications, PolicyDialogGate, and StarsBackground. PolicyDialogGate loads PolicyDialog. Banner contains Avatar. ProjectsGrid and Publications generate cards. Footer contains social links
     RootLayout[Root Layout] --> ThemeRegistry
     ThemeRegistry --> GeneralLayout
-    RootLayout --> ServiceWorkerRegister
-    RootLayout --> SpeedInsights
+    RootLayout --> ConsentedServices
+    ConsentedServices --> ServiceWorkerRegister
+    ConsentedServices --> SpeedInsights
+    GeneralLayout --> ConsentBanner
     GeneralLayout --> Navbar
     GeneralLayout --> Main[Main Content]
     GeneralLayout --> Footer
@@ -33,8 +40,9 @@ flowchart TD
     Main --> Banner
     Main --> ProjectsGrid
     Main --> Publications
+    Main --> PolicyDialogGate
     Main --> StarsBackground
-    Main --> CookieSnackbar
+    PolicyDialogGate --> PolicyDialog
 
     Banner --> Avatar
 
@@ -101,7 +109,7 @@ Lists publications with authors, abstracts, and metadata.
 **Features:**
 
 - Publication cards with metadata
-- Card links to the publication's DOI page
+- Card links to the publication's DOI page, with the DOI itself a separate icon link
 - Analytics tracking
 
 **See:** [Publications Documentation](./publications.md)
@@ -136,26 +144,19 @@ Animated starfield background with twinkling stars.
 
 **See:** [Stars Documentation](./stars.md)
 
-### CookieSnackbar
+### ConsentBanner
 
-**Location:** [`src/components/cookie-snackbar/CookieSnackbar.tsx`](../../../src/components/cookie-snackbar/CookieSnackbar.tsx)
+**Location:** [`src/components/consent/banner/ConsentBanner.tsx`](../../../src/components/consent/banner/ConsentBanner.tsx)
 
-Cookie consent notification with cookie-based persistence.
+Asks which optional purposes to allow, with equally weighted "Essential only" and "Accept all" buttons and a "Customize" view of per-purpose switches. "Cookie settings" in the footer reopens it.
 
-**Features:**
-
-- Cookie consent management
-- Cookie-based persistence (1 year)
-- MUI Snackbar integration
-- Privacy compliance
-
-**See:** [Cookie Snackbar Documentation](./cookie-snackbar.md)
+**See:** [Consent Banner Documentation](./consent-banner.md)
 
 ### ServiceWorkerRegister
 
 **Location:** [`src/components/ServiceWorkerRegister.tsx`](../../../src/components/ServiceWorkerRegister.tsx)
 
-Client component that registers the service worker for PWA functionality.
+Client component that registers the service worker for PWA functionality. [ConsentedServices](../../../src/components/consent/services/ConsentedServices.tsx) mounts it only once the visitor allows Offline access.
 
 **Features:**
 
@@ -171,11 +172,11 @@ Client component that registers the service worker for PWA functionality.
 
 Supplies the MUI theme from [`theme.ts`](../../../src/styles/theme.ts) to everything beneath it, by wrapping its children in MUI's `ThemeProvider`.
 
-It exists as a component of its own because `ThemeProvider` needs a client boundary. Taking `children` as a prop rather than importing the subtree means the components it wraps stay server-rendered: only the provider itself crosses into the client bundle. The theme it supplies adds one breakpoint, `xxl` at 2560px, past MUI's default `xl`, which is what lets [ProjectsGrid](../../../src/components/projects/ProjectsGrid.tsx) widen its card grid on ultra-wide displays.
+It exists as a component of its own because `ThemeProvider` needs a client boundary. Taking `children` as a prop rather than importing the subtree means the components it wraps stay server-rendered: only the provider itself crosses into the client bundle. The theme it supplies adds one breakpoint, `xxl` at 2560px, past MUI's default `xl`, which is what lets [ProjectsGrid](../../../src/components/projects/ProjectsGrid.tsx) widen its card grid on ultra-wide displays. It also sets the dark palette, the site's only appearance, from the colour tokens in [`tokens.ts`](../../../src/styles/tokens.ts), keeping primary and secondary at the blue and purple the buttons were designed with.
 
 ## Relationships & Composition
 
-[`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx) composes the site-wide components. Its root `<div id='content'>` is a flex column holding three children in order: the Navbar, a `<main>` element carrying `flex: '1 0 auto'` so it absorbs the leftover height, and a `<footer>` wrapping the Footer component. The page children, StarsBackground, and CookieSnackbar all sit inside that `<main>`. Full structure: [Layouts](../layouts.md).
+[`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx) composes the site-wide components. Its root `<div id='content'>` is a flex column holding four children in order: the ConsentBanner, the Navbar, a `<main>` element carrying `flex: '1 0 auto'` so it absorbs the leftover height, and a `<footer>` wrapping the Footer component. The page children, StarsBackground, and PolicyDialogGate sit inside that `<main>`. Full structure: [Layouts](../layouts.md).
 
 Data flow:
 

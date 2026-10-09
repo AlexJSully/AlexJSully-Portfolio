@@ -146,7 +146,7 @@ useEffect(() => {
 
 ## Integration
 
-[`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx) renders StarsBackground inside its `<main>` element, as a sibling of the page children and the CookieSnackbar. Placement there rather than at the layout root keeps the starfield inside the flex item that grows to fill the viewport; its own `position: fixed` then takes it out of flow, so it paints behind the content regardless of where the page is scrolled. See [Layouts](../layouts.md) for the surrounding structure.
+[`GeneralLayout`](../../../src/layouts/GeneralLayout.tsx) renders StarsBackground inside its `<main>` element, as a sibling of the page children and the ConsentBanner. Placement there rather than at the layout root keeps the starfield inside the flex item that grows to fill the viewport; its own `position: fixed` then takes it out of flow, so it paints behind the content regardless of where the page is scrolled. See [Layouts](../layouts.md) for the surrounding structure.
 
 ## Testing
 
