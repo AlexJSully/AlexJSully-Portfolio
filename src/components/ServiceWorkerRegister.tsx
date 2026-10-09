@@ -20,8 +20,7 @@ export default function ServiceWorkerRegister() {
 			return;
 		}
 
-		// Set on unmount, so a registration still in flight neither logs nor schedules a retry once it settles. One that
-		// resolves late is left to the consent clearing, since StrictMode's remount shares it with the next effect.
+		// Set on unmount so a registration still in flight neither logs nor schedules a retry when it settles.
 		let cancelled = false;
 
 		/**

@@ -22,7 +22,13 @@ Two runners cover different layers. Jest exercises individual components and fun
 ```mermaid
 flowchart TD
     accTitle: Validation Pipeline Workflow
-    accDescr: npm run validate executes: Prettier formatting, ESLint code quality, TypeScript type checking, Jest unit tests, Cypress E2E tests, Next.js build, and Markdown linting. Each step can fail with specific fix commands
+    accDescr {
+        npm run validate runs Prettier, ESLint, TypeScript, Jest, Cypress, the Next.js build, and Markdown linting in
+        that order. A passing check leads to the next check, and a passing Markdown lint ends at All Checks Passed.
+        A failing check leads to its corresponding fix action and stops the pipeline: Prettier to npm run prettier,
+        ESLint to npm run eslint, TypeScript to fix type errors, Jest to fix unit tests, Cypress to fix end-to-end
+        tests, the build to fix build errors, or Markdown lint to fix Markdown issues. Each fix action is terminal.
+    }
     Validate[npm run validate] --> Prettier[Prettier Format]
     Prettier --> ESLint[ESLint Check]
     ESLint --> TSC[TypeScript Check]

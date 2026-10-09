@@ -191,7 +191,7 @@ Prefer the readable form wherever it costs nothing at runtime, and wherever the 
 
 **One test file per source file**, colocated and same-named, following whatever suffix the project already uses. No orphan test file without a same-named source beside it, no test file named after a function that lives in another file, and no second test file for one source.
 
-These typically get no test file: static data modules, type-only modules, generated files, framework metadata or route manifest exports, and instrumentation entry points. A test of one asserts the literal equals itself; a test of code that consumes one may still import it as its expected value. Components are **not** in this list. Confirm the project's own list rather than assuming this one.
+These typically get no test file: static data modules, type-only modules, generated files, framework metadata or route manifest exports, and instrumentation entry points. A test that only asserts a static data literal against itself adds no behaviour coverage; a test of code that consumes a module may still import its exported value as an expected value. Components are **not** in this list. Confirm the project's own list rather than assuming this one.
 
 **Never:**
 

@@ -65,7 +65,7 @@ These do **not** qualify: a module that is merely slow, a module that is awkward
 - A test deleted or an assertion weakened in the diff, where the change is not a deliberate behaviour replacement stated as such.
 - A fallback added in production code that exists only to make a test pass.
 - An orphan test file with no same-named source beside it, or a second test file for one source.
-- A test file whose subject is a module with no code path: static data, type-only, generated, framework metadata, or an instrumentation entry point.
+- A test file whose subject is a module the host project's rules exempt, such as static data, type-only, generated, framework metadata, or an instrumentation entry point.
 - A test that would still pass if the behaviour it names were broken. Break the behaviour in your head and ask which assertion fails; if none does, this is the finding.
 - Cases that cannot fail independently of one another, which lock in one behaviour under several names.
 - Setup or a fixture disproportionate to what the assertion reads, where most of the value built is never checked.

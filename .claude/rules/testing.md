@@ -36,7 +36,7 @@ Retrieve mock state with `jest.requireMock('@configs/firebase').logAnalyticsEven
 
 ## Modules that get no test file
 
-Static data modules (everything under [`src/data/`](../../src/data/projects.ts), such as `projects.ts` and `structuredData.ts`), type-only modules, metadata route exports ([`manifest.ts`](../../src/app/manifest.ts), [`robots.ts`](../../src/app/robots.ts)), and instrumentation entry points get **no** colocated test file. Each has no code path, so a test of one only asserts the literal equals itself. A test of a component or function that consumes one may import it as the expected value. Components are **not** in this list.
+Static data modules (everything under [`src/data/`](../../src/data/projects.ts), such as `projects.ts` and `structuredData.ts`), type-only modules, metadata route exports ([`manifest.ts`](../../src/app/manifest.ts), [`robots.ts`](../../src/app/robots.ts)), and instrumentation entry points get **no** colocated test file. A test that only asserts a static data literal against itself adds no behaviour coverage; a test of a component or function that consumes a module may import its exported value as an expected value. Components are **not** in this list.
 
 ## House patterns
 

@@ -34,7 +34,7 @@ Where a source file has grown enough to want two test files, the signal is about
 
 ## Exemptions and why each one is exempt
 
-Each of these gets no test file, because there is no behaviour to lock in, not because testing them is inconvenient. A test of code that consumes one may still import it as its expected value:
+Each category gets no test file for the reason listed below. A test of code that consumes a module may still import its exported value as an expected value:
 
 - **Static data modules.** A module that exports a literal has no code path. A test asserting the literal equals itself fails only when someone edits the data deliberately.
 - **Type-only modules.** They emit nothing. The compiler already checks them.
