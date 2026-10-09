@@ -31,6 +31,7 @@ describe('ConsentedServices', () => {
 	afterEach(() => {
 		Reflect.deleteProperty(navigator, 'serviceWorker');
 		jest.restoreAllMocks();
+		jest.useRealTimers();
 	});
 
 	it('starts nothing for an undecided visitor, and removes a service worker registered earlier', async () => {
@@ -46,17 +47,19 @@ describe('ConsentedServices', () => {
 	});
 
 	it('cancels clearing queued for an earlier choice, so it never removes what the visitor has since allowed', async () => {
+		jest.useFakeTimers();
 		render(<ConsentedServices />);
 
 		// Chosen before the browser runs the clearing queued while the visitor was undecided.
 		act(() => {
 			saveConsent(ACCEPT_ALL);
 		});
-
-		await waitFor(() => {
-			expect(register).toHaveBeenCalledWith('/sw.js');
+		// Runs every idle callback still queued, then lets the service worker and cache promises settle.
+		await act(async () => {
+			jest.runOnlyPendingTimers();
 		});
-		await new Promise((resolve) => setTimeout(resolve, 20));
+
+		expect(register).toHaveBeenCalledWith('/sw.js');
 		expect(unregister).not.toHaveBeenCalled();
 	});
 

@@ -1,5 +1,6 @@
 /** @jest-environment node */
 import { REDIRECTS, REWRITES } from '@constants/routes';
+import { unstable_doesMiddlewareMatch } from 'next/experimental/testing/server';
 import { NextRequest } from 'next/server';
 import { config, proxy } from './proxy';
 
@@ -89,8 +90,12 @@ describe('proxy', () => {
 	});
 
 	describe('matcher', () => {
-		const matchers = config.matcher.map((pattern) => new RegExp(`^${pattern}$`));
-		const matches = (path: string) => matchers.some((matcher) => matcher.test(path));
+		/**
+		 * Applies the matcher the way Next.js does.
+		 * @param path Request path
+		 * @returns Whether the proxy runs for that path
+		 */
+		const matches = (path: string) => unstable_doesMiddlewareMatch({ config, url: `https://alexjsully.me${path}` });
 
 		it.each(['/', '/no-such-page', '/nested/path'])('runs on page path %s', (path) => {
 			expect(matches(path)).toBe(true);

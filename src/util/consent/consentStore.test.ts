@@ -29,6 +29,8 @@ describe('consentStore', () => {
 	afterEach(() => {
 		setSignal('globalPrivacyControl', undefined);
 		setSignal('doNotTrack', null);
+		Reflect.deleteProperty(globalThis, 'BroadcastChannel');
+		jest.restoreAllMocks();
 	});
 
 	it('reports an undecided visitor as null', () => {
@@ -70,18 +72,25 @@ describe('consentStore', () => {
 		expect(setter).toHaveBeenCalledWith(
 			expect.stringContaining(`max-age=${CONSENT_MAX_AGE_DAYS * 24 * 60 * 60}; path=/; SameSite=Lax`),
 		);
-		setter.mockRestore();
 	});
 
-	it.each([
-		['Global Privacy Control', 'globalPrivacyControl', true, 'gpc'],
-		['Do Not Track', 'doNotTrack', '1', 'dnt'],
-	] as const)('leaves a visitor sending %s undecided, so the banner still asks', (_label, key, value, marker) => {
-		setSignal(key, value);
-		// A changed raw value makes the store re-read the cookie.
-		setRawCookie(marker);
+	describe.each([
+		['Global Privacy Control', 'globalPrivacyControl', true],
+		['Do Not Track', 'doNotTrack', '1'],
+	] as const)('with %s sent', (_label, key, value) => {
+		beforeEach(() => {
+			setSignal(key, value);
+		});
 
-		expect(readConsent()).toBeNull();
+		it('leaves a visitor with no stored choice undecided, so the banner still asks', () => {
+			expect(readConsent()).toBeNull();
+		});
+
+		it('keeps a stored choice rather than overriding it', () => {
+			saveConsent(ACCEPT_ALL);
+
+			expect(readConsent()).toEqual(ACCEPT_ALL);
+		});
 	});
 
 	it('notifies subscribers on save until they unsubscribe', () => {
@@ -128,7 +137,5 @@ describe('consentStore', () => {
 		thisTab.saveConsent(ACCEPT_ALL);
 
 		expect(listener).toHaveBeenCalled();
-
-		Reflect.deleteProperty(globalThis, 'BroadcastChannel');
 	});
 });

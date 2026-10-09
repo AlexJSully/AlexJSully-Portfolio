@@ -35,7 +35,7 @@ const structuredData = [
 		gender: 'male',
 		address: {
 			'@type': 'PostalAddress',
-			addressCountry: 'Canada',
+			addressCountry: profile.addressCountry,
 		},
 		alumniOf: profile.alumniOf,
 		birthPlace: 'Canada',

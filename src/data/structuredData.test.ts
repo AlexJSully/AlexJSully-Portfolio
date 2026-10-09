@@ -14,8 +14,8 @@ function nodeOfType(type: string): Record<string, unknown> {
 }
 
 describe('structuredData', () => {
-	it('serialises to JSON for the layout script tag', () => {
-		expect(() => JSON.parse(JSON.stringify(structuredData))).not.toThrow();
+	it('serialises to JSON for the layout script tag without losing a value', () => {
+		expect(JSON.parse(JSON.stringify(structuredData))).toStrictEqual(structuredData);
 	});
 
 	it('describes the Person with a description, email, and contact point', () => {
@@ -36,8 +36,8 @@ describe('structuredData', () => {
 		);
 	});
 
-	it('gives the Organization a country-only postal address', () => {
-		expect(nodeOfType('Organization').address).toEqual({
+	it.each(['Person', 'Organization'])('gives the %s a country-only postal address from the profile', (type) => {
+		expect(nodeOfType(type).address).toEqual({
 			'@type': 'PostalAddress',
 			addressCountry: profile.addressCountry,
 		});

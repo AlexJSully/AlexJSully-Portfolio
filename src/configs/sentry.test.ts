@@ -1,10 +1,12 @@
 const mockInit = jest.fn();
+const mockCaptureException = jest.fn();
 const mockConsoleIntegration = { name: 'CaptureConsole' };
 const mockCaptureConsoleIntegration = jest.fn(() => mockConsoleIntegration);
 
 // The Sentry SDK sends reports over the network; this wrapper sits directly on it.
 jest.mock('@sentry/nextjs', () => ({
 	captureConsoleIntegration: mockCaptureConsoleIntegration,
+	captureException: mockCaptureException,
 	init: mockInit,
 }));
 
@@ -66,5 +68,21 @@ describe('sentry config', () => {
 		await sentry.startErrorReporting();
 
 		expect(mockInit).toHaveBeenCalledTimes(2);
+	});
+
+	it('reports nothing before error reporting has started', async () => {
+		await loadSentry().captureError(new Error('boom'));
+
+		expect(mockCaptureException).not.toHaveBeenCalled();
+	});
+
+	it('reports an error once error reporting has started', async () => {
+		const sentry = loadSentry();
+		const error = new Error('boom');
+
+		void sentry.startErrorReporting();
+		await sentry.captureError(error);
+
+		expect(mockCaptureException).toHaveBeenCalledWith(error);
 	});
 });

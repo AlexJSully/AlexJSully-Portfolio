@@ -6,6 +6,7 @@ import policy from '@data/policy';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { Dialog, DialogContent, DialogTitle, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { colors, focusRing } from '@styles/tokens';
+import { focusMainContent } from '@util/focusMainContent';
 import { closePanel, usePanelOpen } from '@util/panelState';
 import { type ReactElement, useId } from 'react';
 
@@ -13,6 +14,19 @@ import { type ReactElement, useId } from 'react';
 const LAST_UPDATED_TEXT = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long', timeZone: 'UTC' }).format(
 	new Date(`${policy.lastUpdated}T00:00:00Z`),
 );
+
+/**
+ * Moves focus to the main content once the dialog has closed, when the element that opened it is gone, as when a
+ * first-visit choice saved in the dialog removes the banner holding its opener. Focus is then still inside the closing
+ * dialog, or on the page body, rather than back on the opener.
+ * @param node The dialog's transition element, about to be removed
+ */
+function recoverLostFocus(node: HTMLElement): void {
+	const active = document.activeElement;
+	if (active === null || active === document.body || node.contains(active)) {
+		focusMainContent();
+	}
+}
 
 /** Renders the privacy and cookie policy in a dialog, opened by a `PanelLink` or by the `#privacy` fragment a redirect sets. */
 export default function PolicyDialog(): ReactElement {
@@ -32,6 +46,7 @@ export default function PolicyDialog(): ReactElement {
 			open={open}
 			scroll='paper'
 			slotProps={{
+				transition: { onExited: recoverLostFocus },
 				backdrop: { sx: { backdropFilter: 'blur(4px)', backgroundColor: 'rgba(19, 21, 24, 0.7)' } },
 				paper: {
 					sx: fullScreen

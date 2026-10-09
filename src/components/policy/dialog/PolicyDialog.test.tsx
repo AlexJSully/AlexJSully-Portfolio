@@ -65,4 +65,28 @@ describe('PolicyDialog', () => {
 		});
 		expect(window.location.hash).toBe('');
 	});
+
+	it('moves focus to the main content on close when the element that opened it has gone', async () => {
+		render(
+			<>
+				<main id='main-content' />
+				<PolicyDialog />
+			</>,
+		);
+		// An opener outside React, removed while the dialog is open, as a first-visit choice removes the banner's link.
+		const opener = document.createElement('button');
+		document.body.appendChild(opener);
+		opener.focus();
+
+		act(() => {
+			openPanel('privacy');
+		});
+		await screen.findByRole('dialog', { name: policy.title });
+		opener.remove();
+		fireEvent.click(screen.getByRole('button', { name: 'Close privacy and cookie policy' }));
+
+		await waitFor(() => {
+			expect(screen.getByRole('main')).toHaveFocus();
+		});
+	});
 });

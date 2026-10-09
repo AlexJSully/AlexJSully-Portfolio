@@ -9,7 +9,7 @@ describe('PanelLink', () => {
 		});
 	});
 
-	it('links to the panel fragment on the home page, for use without JavaScript', () => {
+	it('links to the panel fragment on the home page, for use before hydration and in a new tab', () => {
 		render(<PanelLink panel='privacy'>Policy</PanelLink>);
 
 		expect(screen.getByRole('link', { name: 'Policy' })).toHaveAttribute('href', '/#privacy');

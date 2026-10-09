@@ -1,5 +1,6 @@
 import profile from '@data/profile';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, renderHook, screen } from '@testing-library/react';
+import { closePanel, usePanelOpen } from '@util/panelState';
 import Footer from './Footer';
 
 // Mock Firebase analytics so log calls can be asserted.
@@ -14,6 +15,13 @@ describe('Footer', () => {
 		jest.clearAllMocks();
 
 		render(<Footer />);
+	});
+
+	afterEach(() => {
+		act(() => {
+			closePanel('privacy');
+			closePanel('cookie-settings');
+		});
 	});
 
 	it('logs analytics when email button is clicked', () => {
@@ -53,16 +61,24 @@ describe('Footer', () => {
 	});
 
 	it('links to the privacy and cookie policy dialog, opening it without changing the URL', () => {
+		const { result } = renderHook(() => usePanelOpen('privacy'));
 		const link = screen.getByRole('link', { name: 'Privacy & cookie policy' });
 		expect(link).toHaveAttribute('href', '/#privacy');
 
 		fireEvent.click(link);
 
+		expect(result.current).toBe(true);
 		expect(window.location.hash).toBe('');
 	});
 
 	it('reopens the consent settings from "Cookie settings"', () => {
-		expect(screen.getByRole('link', { name: 'Cookie settings' })).toHaveAttribute('href', '/#cookie-settings');
+		const { result } = renderHook(() => usePanelOpen('cookie-settings'));
+		const link = screen.getByRole('link', { name: 'Cookie settings' });
+		expect(link).toHaveAttribute('href', '/#cookie-settings');
+
+		fireEvent.click(link);
+
+		expect(result.current).toBe(true);
 	});
 
 	it('has accessible labels for all main actions', () => {

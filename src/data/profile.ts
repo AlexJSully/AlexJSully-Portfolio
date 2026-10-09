@@ -1,4 +1,4 @@
-/** Profile data describing the site owner, shared by the structured data, the Markdown representation, and the footer. */
+/** Profile data describing the site owner, read wherever the site names, links to, or describes its owner. */
 const profile = {
 	/** Full legal name. */
 	name: 'Alexander Joo-Hyun Sullivan',
@@ -8,7 +8,7 @@ const profile = {
 	url: 'https://alexjsully.me/',
 	/** One-line role summary. */
 	tagline: 'Software Developer & Bioinformatician',
-	/** Professional summary used as the structured-data description and the Markdown About section. */
+	/** Professional summary used in the structured data, the Markdown About section, and llms.txt. */
 	description:
 		'Alexander Joo-Hyun Sullivan is a Canadian software developer and bioinformatician at Verily, building patient-facing health apps, research data platforms, and open-source FHIR tooling. An MSc graduate of the University of Toronto, Alexander built open-source web tools for exploring plant genomics data at the Bio-Analytic Resource for Plant Biology.',
 	/** Public contact email address. */

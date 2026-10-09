@@ -45,7 +45,7 @@ Sentry reports errors from the server and edge runtimes for every request, and f
 
 - [`sentry.server.config.ts`](../../sentry.server.config.ts) - Server-side initialization
 - [`sentry.edge.config.ts`](../../sentry.edge.config.ts) - Edge runtime initialization
-- [`src/configs/sentry.ts`](../../src/configs/sentry.ts) - `startErrorReporting()` loads the browser SDK on demand and starts it once, reporting uncaught errors, unhandled rejections, and `console.error` calls. Performance tracing and session counting are left out, so it stores nothing on the device
+- [`src/configs/sentry.ts`](../../src/configs/sentry.ts) - `startErrorReporting()` loads the browser SDK on demand and starts it once, reporting uncaught errors, unhandled rejections, and `console.error` calls. Performance tracing and session counting are left out, so it stores nothing on the device. `captureError()` reports one error through that SDK, and does nothing until `startErrorReporting()` has run, so a visitor who has not allowed Analytics neither sends a report nor downloads the SDK
 - [`src/instrumentation.ts`](../../src/instrumentation.ts) - Next.js `register()` hook that loads the server or edge Sentry config based on the `NEXT_RUNTIME` environment variable; also exports `onRequestError = Sentry.captureRequestError` for automatic request error capture
 - [`src/instrumentation-client.ts`](../../src/instrumentation-client.ts) - Runs before the page hydrates and calls `startErrorReporting()` when the stored choice already allows Analytics; [`ConsentedServices`](../../src/components/consent/services/ConsentedServices.tsx) calls it for a choice made during the visit
 

@@ -18,7 +18,7 @@ interface PanelLinkProps {
 
 /**
  * Renders a link that opens a panel, such as the policy dialog, without changing the URL. Its `href` points at the
- * panel's fragment on the home page, so it still works before the page hydrates, without JavaScript, and in a new tab.
+ * panel's fragment on the home page, so it still works before the page hydrates and in a new tab.
  * It opens something on this page rather than going anywhere, so it carries no link icon.
  */
 export default function PanelLink({

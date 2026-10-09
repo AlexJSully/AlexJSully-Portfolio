@@ -1,8 +1,8 @@
 'use client';
 
 import PillButton, { accentFillSx } from '@components/pill-button/PillButton';
+import { captureError } from '@configs/sentry';
 import { Stack, Typography } from '@mui/material';
-import * as Sentry from '@sentry/nextjs';
 import NextError from 'next/error';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -18,13 +18,14 @@ interface GlobalErrorProps {
  *
  * Next.js mounts this in place of the whole document, so it supplies its own `<html>` and `<body>`
  * rather than inheriting the layout's. Reports the error to Sentry, which is the only record of it:
- * a root layout failure leaves no working page to surface it from.
+ * a root layout failure leaves no working page to surface it from. The report is sent only when the
+ * visitor has allowed Analytics, through `captureError` in `src/configs/sentry.ts`.
  */
 function GlobalError({ error }: GlobalErrorProps): ReactElement {
 	const pathname = usePathname();
 
 	useEffect(() => {
-		Sentry.captureException(error);
+		void captureError(error);
 	}, [error]);
 
 	return (

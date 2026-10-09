@@ -2,12 +2,13 @@
 
 import PanelLink from '@components/panel-link/PanelLink';
 import PillButton, { accentFillSx } from '@components/pill-button/PillButton';
-import { MAIN_CONTENT_ID, SECTION_IDS } from '@constants/routes';
+import { SECTION_IDS } from '@constants/routes';
 import { POLICY_TITLE } from '@data/policy';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { colors, focusRing, visuallyHiddenSx } from '@styles/tokens';
 import { ACCEPT_ALL, type ConsentChoices, ESSENTIAL_ONLY, saveConsent } from '@util/consent/consentStore';
 import { useConsent } from '@util/consent/useConsent';
+import { focusMainContent } from '@util/focusMainContent';
 import { closePanel, usePanelOpen } from '@util/panelState';
 import dynamic from 'next/dynamic';
 import { type FocusEvent, type KeyboardEvent, type ReactElement, useEffect, useRef, useState } from 'react';
@@ -40,21 +41,6 @@ const textButtonSx = {
 const choiceSx = {
 	minHeight: { xs: 44, sm: 'auto' },
 };
-
-/**
- * Moves focus to the main content, making it focusable only for as long as it holds focus, so the page keeps no
- * permanent `tabindex` that a click could land on.
- */
-function focusMainContent(): void {
-	const main = document.getElementById(MAIN_CONTENT_ID);
-	if (main === null) {
-		return;
-	}
-
-	main.setAttribute('tabindex', '-1');
-	main.addEventListener('blur', () => main.removeAttribute('tabindex'), { once: true });
-	main.focus();
-}
 
 /** Message announced once a choice is stored. */
 const SAVED_MESSAGE = 'Choices saved.';

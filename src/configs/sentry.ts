@@ -41,3 +41,23 @@ export function startErrorReporting(): Promise<void> {
 
 	return starting;
 }
+
+/**
+ * Reports an error to Sentry once {@link startErrorReporting} has been called, and does nothing otherwise, so a
+ * visitor who has not allowed Analytics sends nothing and downloads nothing.
+ * @param error The error to report
+ * @returns A promise settling once the report is handed to the SDK, or at once when reporting never started
+ */
+export async function captureError(error: unknown): Promise<void> {
+	if (starting === null) {
+		return;
+	}
+
+	await starting;
+	try {
+		const Sentry = await import('@sentry/nextjs');
+		Sentry.captureException(error);
+	} catch {
+		// The SDK failed to load, as when a content blocker stops it, so there is no client to report through.
+	}
+}

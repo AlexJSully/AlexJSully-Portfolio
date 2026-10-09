@@ -47,7 +47,13 @@ describe('buildPolicyMarkdown', () => {
 		expect(markdown).toContain('| <https://ico.org.uk> |');
 	});
 
+	it('escapes angle brackets in a cell, so a name such as _ga_<ID> is not read as an HTML tag', () => {
+		expect(markdown).toContain('| _ga_&lt;ID&gt; | Google Analytics |');
+	});
+
 	it('leaves out the consent switches, which have no text form', () => {
 		expect(markdown).not.toContain('consentControls');
+		// A block left in as an empty string would join into a run of blank lines.
+		expect(markdown).not.toMatch(/\n{3,}/);
 	});
 });

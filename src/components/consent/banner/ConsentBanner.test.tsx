@@ -44,7 +44,7 @@ describe('ConsentBanner', () => {
 	it('records nothing when Escape is pressed', () => {
 		render(<ConsentBanner />);
 
-		fireEvent.keyDown(document.body, { key: 'Escape' });
+		fireEvent.keyDown(screen.getByRole('region', REGION), { key: 'Escape' });
 
 		expect(readConsent()).toBeNull();
 		expect(screen.getByRole('region', REGION)).toBeInTheDocument();

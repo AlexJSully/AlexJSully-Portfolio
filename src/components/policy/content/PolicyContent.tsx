@@ -5,6 +5,7 @@ import LinkIcon from '@components/link-icon/LinkIcon';
 import policy, { INLINE_LINK, LINK_CELL, type PolicyBlock } from '@data/policy';
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, type Theme, Typography } from '@mui/material';
 import { colors, focusRing } from '@styles/tokens';
+import { normaliseHostname } from '@util/linkIcon';
 import type { ReactElement, ReactNode } from 'react';
 
 /**
@@ -44,7 +45,7 @@ function renderCell(cell: string): ReactElement | string {
 		return cell;
 	}
 
-	const label = cell.startsWith('https:') ? new URL(cell).hostname.replace(/^www\./, '') : cell;
+	const label = cell.startsWith('https:') ? normaliseHostname(new URL(cell).hostname) : cell;
 
 	return <Box sx={{ whiteSpace: 'nowrap' }}>{renderLink(cell, label)}</Box>;
 }

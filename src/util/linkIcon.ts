@@ -51,7 +51,7 @@ export function normaliseHostname(hostname: string): string {
 
 /**
  * Derives a stable hue from a hostname with FNV-1a, so a site's generated mark is the same colour everywhere and
- * anagrams of one another do not share a colour.
+ * anagrams of one another do not systematically share a colour.
  * @param value The hostname
  * @returns A hue in degrees
  */

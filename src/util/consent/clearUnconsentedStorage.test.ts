@@ -31,11 +31,12 @@ describe('clearUnconsentedStorage', () => {
 		document.cookie = '_ga_ABC123=GS1.1.456; path=/';
 		document.cookie = 'unrelated=keep; path=/';
 		document.cookie = '_garden=keep; path=/';
+		localStorage.setItem('@firebase/performance/config', '{}');
+		localStorage.setItem('@firebase/performance/configexpire', '0');
 	});
 
 	afterEach(() => {
-		document.cookie = 'unrelated=; max-age=0; path=/';
-		document.cookie = '_garden=; max-age=0; path=/';
+		localStorage.clear();
 	});
 
 	it('clears analytics and offline storage for an undecided visitor', async () => {
@@ -47,6 +48,8 @@ describe('clearUnconsentedStorage', () => {
 		expect(document.cookie).toContain('_garden=keep');
 		expect(deleteDatabase).toHaveBeenCalledWith('firebase-installations-database');
 		expect(deleteDatabase).toHaveBeenCalledWith('firebase-heartbeat-database');
+		expect(localStorage.getItem('@firebase/performance/config')).toBeNull();
+		expect(localStorage.getItem('@firebase/performance/configexpire')).toBeNull();
 		expect(unregister).toHaveBeenCalled();
 		expect(deleteCache).toHaveBeenCalledWith('runtime-cache');
 	});
@@ -56,6 +59,7 @@ describe('clearUnconsentedStorage', () => {
 
 		expect(document.cookie).toContain('_ga=GA1.1.123');
 		expect(deleteDatabase).not.toHaveBeenCalled();
+		expect(localStorage.getItem('@firebase/performance/config')).toBe('{}');
 		expect(unregister).not.toHaveBeenCalled();
 		expect(deleteCache).not.toHaveBeenCalled();
 	});
@@ -87,6 +91,8 @@ describe('clearUnconsentedStorage', () => {
 		await clearUnconsentedStorage({ analytics: true, media: false, offline: false, linkIcons: false });
 
 		expect(document.cookie).toContain('_ga=GA1.1.123');
+		expect(deleteDatabase).not.toHaveBeenCalled();
 		expect(unregister).toHaveBeenCalled();
+		expect(deleteCache).toHaveBeenCalledWith('runtime-cache');
 	});
 });

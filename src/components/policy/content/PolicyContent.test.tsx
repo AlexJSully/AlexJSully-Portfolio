@@ -17,7 +17,11 @@ describe('PolicyContent', () => {
 		const tables = policy.sections.flatMap((section) => section.blocks).filter((block) => block.type === 'table');
 
 		expect(screen.getAllByRole('table')).toHaveLength(tables.length);
-		expect(screen.getAllByRole('columnheader', { name: 'Kept for' })).toHaveLength(1);
+		new Set(tables.flatMap((table) => table.columns)).forEach((column) => {
+			const tablesWithColumn = tables.filter((table) => table.columns.includes(column)).length;
+
+			expect(screen.getAllByRole('columnheader', { name: column })).toHaveLength(tablesWithColumn);
+		});
 	});
 
 	it('names each scrollable table region after its section, and lets the keyboard reach it', () => {

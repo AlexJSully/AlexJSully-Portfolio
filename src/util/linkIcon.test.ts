@@ -36,6 +36,10 @@ describe('linkIcon', () => {
 		expect(linkIconFor(href, ORIGIN, true)).toBeNull();
 	});
 
+	it('draws the globe for a malformed href rather than throwing', () => {
+		expect(linkIconFor('http://[', ORIGIN, true)).toEqual({ kind: 'glyph', hue: hueFor('') });
+	});
+
 	it('normalises the hostname by case and a leading www', () => {
 		expect(normaliseHostname('WWW.Example.ORG')).toBe('example.org');
 	});

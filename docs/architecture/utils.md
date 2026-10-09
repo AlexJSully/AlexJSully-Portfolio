@@ -18,6 +18,7 @@ Utils provide general-purpose functions for network checks, cookie consent, and 
 - [`linkIcon.ts`](../../src/util/linkIcon.ts) - Chooses the mark for a link and builds the generated globe, so [`LinkIcon`](../../src/components/link-icon/LinkIcon.tsx) stays a thin renderer
 - [`panelState.ts`](../../src/util/panelState.ts) - Opens and closes panels such as the policy dialog, either on request without changing the URL or from a redirect's fragment
 - [`runWhenIdle.ts`](../../src/util/runWhenIdle.ts) - Runs work once the browser is idle, falling back to the next macrotask where `requestIdleCallback` is missing
+- [`focusMainContent.ts`](../../src/util/focusMainContent.ts) - Moves focus to the `<main>` element when a closing overlay has nowhere better to return it, used by the consent banner and the policy dialog
 - [`absoluteUrl.ts`](../../src/util/absoluteUrl.ts) - Resolves a site path against the canonical site URL from [`profile.ts`](../../src/data/profile.ts)
 - [`negotiateContentType.ts`](../../src/util/negotiateContentType.ts) - Chooses HTML, Markdown, or 406 from an `Accept` header
 - [`markdown/`](../../src/util/markdown/homeMarkdown.ts) - Builds the Markdown home page, the policy, the Markdown 404 body, and `llms.txt` from the data modules, and wraps Markdown in a response with the negotiation headers

@@ -1,4 +1,4 @@
-/** Site paths served by a route handler or a static file, named once for every builder and the proxy. */
+/** Site paths served by a page, a route handler, or a static file, named once for every builder and the proxy. */
 export const ROUTES = {
 	/** The single HTML page. */
 	home: '/',
@@ -13,7 +13,7 @@ export const ROUTES = {
 /** ID of the `<main>` element, which receives focus when a closing overlay has nowhere better to return it. */
 export const MAIN_CONTENT_ID = 'main-content';
 
-/** Element IDs on the home page that a redirect or a link targets by fragment. */
+/** Fragments on the home page that a redirect or a link targets: an element ID, or a panel the fragment opens. */
 export const SECTION_IDS = {
 	/** The footer's contact block. */
 	contact: 'contact',

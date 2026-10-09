@@ -3,6 +3,9 @@ import type { ConsentChoices } from '@util/consent/consentStore';
 /** IndexedDB databases the Firebase SDKs create in the browser. */
 const FIREBASE_DATABASES = ['firebase-installations-database', 'firebase-heartbeat-database'];
 
+/** `localStorage` keys Firebase Performance Monitoring writes its remote settings to. */
+const FIREBASE_LOCAL_STORAGE_KEYS = ['@firebase/performance/config', '@firebase/performance/configexpire'];
+
 /** The cookie Google Analytics sets to distinguish visitors. */
 const ANALYTICS_COOKIE = '_ga';
 
@@ -24,6 +27,15 @@ function expireAnalyticsCookies(): void {
 				document.cookie = `${name}=; max-age=0; path=/${domain}`;
 			});
 		}
+	}
+}
+
+/** Removes the Firebase Performance Monitoring settings from `localStorage`. */
+function removeFirebaseLocalStorage(): void {
+	try {
+		FIREBASE_LOCAL_STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
+	} catch {
+		// Reading `localStorage` throws where the browser blocks site storage, and then there is nothing to remove.
 	}
 }
 
@@ -51,6 +63,7 @@ export async function clearUnconsentedStorage(
 
 	if (!choices?.analytics) {
 		expireAnalyticsCookies();
+		removeFirebaseLocalStorage();
 		if (typeof indexedDB !== 'undefined') {
 			FIREBASE_DATABASES.forEach((name) => indexedDB.deleteDatabase(name));
 		}

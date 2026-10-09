@@ -22,7 +22,7 @@ declare module '@mui/material/styles' {
  * `createTheme` replaces `breakpoints.values` wholesale rather than merging it with the defaults.
  *
  * The palette is dark, the site's only appearance. Primary and secondary are pinned to MUI's light-mode
- * defaults, which the site's buttons were designed with; the dark-mode defaults are paler.
+ * defaults, which give the site's buttons their saturated fills; the dark-mode defaults are paler.
  */
 const theme = createTheme({
 	palette: {

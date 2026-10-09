@@ -101,13 +101,18 @@ export default function Publications() {
 
 							<Typography style={metaStyling}>{publication.authors.join(', ')}</Typography>
 
-							<Typography style={metaStyling} sx={{ position: 'relative', zIndex: 1 }}>
+							<Typography style={metaStyling}>
 								<Box
 									component='a'
 									href={href}
 									onClick={logClick}
 									rel='noopener noreferrer'
-									sx={{ color: colors.link, '&:focus-visible': focusRing }}
+									sx={{
+										color: colors.link,
+										position: 'relative',
+										zIndex: 1,
+										'&:focus-visible': focusRing,
+									}}
 									target='_blank'
 								>
 									<LinkIcon href={href} />

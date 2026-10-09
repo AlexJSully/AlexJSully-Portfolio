@@ -86,7 +86,7 @@ Implementation: [src/app/page.tsx](../../src/app/page.tsx)
 
 **Global Error** ([src/app/global-error.tsx](../../src/app/global-error.tsx)) - Catches errors in root layout, including its own `<html>` and `<body>` tags since layout errors prevent normal rendering. It reports the error to Sentry with `Sentry.captureException`.
 
-The two differ in where the error goes: only the global boundary reports to Sentry, because a failure in the root layout is the one the application cannot otherwise surface. Both are client components that accept an `error` prop, and both render the same "Go Home" link, which reloads the page instead of navigating when the reader is already at `/`.
+The two differ in where the error goes: only the global boundary reports to Sentry, because a failure in the root layout is the one the application cannot otherwise surface. It reports through `captureError()` in [src/configs/sentry.ts](../../src/configs/sentry.ts), so a report is sent only once the visitor has allowed Analytics. Both are client components that accept an `error` prop, and both render the same "Go Home" link, which reloads the page instead of navigating when the reader is already at `/`.
 
 ## 404
 

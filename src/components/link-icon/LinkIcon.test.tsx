@@ -61,6 +61,17 @@ describe('LinkIcon', () => {
 		expect(mark()).toHaveAttribute('src', 'https://icons.duckduckgo.com/ip3/github.com.ico');
 	});
 
+	it("switches an icon already on the page to the linked site's icon when Link icons is allowed", () => {
+		saveConsent(ESSENTIAL_ONLY);
+		renderMark('https://github.com/AlexJSully');
+
+		act(() => {
+			saveConsent(ACCEPT_ALL);
+		});
+
+		expect(mark()).toHaveAttribute('src', 'https://icons.duckduckgo.com/ip3/github.com.ico');
+	});
+
 	it('falls back to the globe when the proxy has no icon', () => {
 		saveConsent(ACCEPT_ALL);
 		renderMark('https://example.org/');

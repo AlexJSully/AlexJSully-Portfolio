@@ -6,7 +6,7 @@ import { colors } from '@styles/tokens';
 import {
 	type ConsentChoices,
 	ESSENTIAL_ONLY,
-	PURPOSE_CODES,
+	PURPOSE_KEYS,
 	readConsent,
 	saveConsent,
 } from '@util/consent/consentStore';
@@ -20,7 +20,7 @@ interface PurposeCopy {
 	description: string;
 }
 
-/** The copy for every optional purpose; keyed by purpose, so a purpose without a switch fails to compile. */
+/** The copy for every optional purpose; keyed by purpose, so a purpose without copy fails to compile. */
 const PURPOSE_COPY: Readonly<Record<keyof ConsentChoices, PurposeCopy>> = {
 	analytics: {
 		label: 'Analytics',
@@ -40,9 +40,6 @@ const PURPOSE_COPY: Readonly<Record<keyof ConsentChoices, PurposeCopy>> = {
 		description: 'Shows each linked site’s own icon, fetched through DuckDuckGo without cookies.',
 	},
 };
-
-/** The optional purposes, in the order the stored cookie lists them. */
-const PURPOSE_KEYS = Object.keys(PURPOSE_CODES) as (keyof ConsentChoices)[];
 
 interface ConsentControlsProps {
 	/** Called after the choices are saved. */
@@ -76,7 +73,7 @@ interface ControlRowProps {
 function ControlRow({ label, description, idPrefix, labelsInput, children }: Readonly<ControlRowProps>): ReactElement {
 	return (
 		<Box component='li' sx={{ alignItems: 'flex-start', display: 'flex', gap: 2, justifyContent: 'space-between' }}>
-			{/* A real <label>, so clicking the name or the description toggles the switch. */}
+			{/* A real <label> when the row has an input, so clicking its name or description toggles the switch. */}
 			<Box
 				component={labelsInput ? 'label' : 'div'}
 				htmlFor={labelsInput ? `${idPrefix}-input` : undefined}

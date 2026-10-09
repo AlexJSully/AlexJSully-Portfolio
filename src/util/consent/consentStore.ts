@@ -1,6 +1,8 @@
 /** Optional purposes a visitor can consent to; essential processing needs no consent and has no flag. */
 export interface ConsentChoices {
-	/** Google Firebase Analytics and Performance Monitoring, and Vercel Speed Insights. */
+	/**
+	 * Google Firebase Analytics and Performance Monitoring, Vercel Speed Insights, and Sentry's browser error reporting.
+	 */
 	analytics: boolean;
 	/** YouTube previews embedded in project cards. */
 	media: boolean;
@@ -31,7 +33,7 @@ export const PURPOSE_CODES: Readonly<Record<keyof ConsentChoices, string>> = {
 };
 
 /** The purposes, in cookie order. */
-const PURPOSE_KEYS = Object.keys(PURPOSE_CODES) as (keyof ConsentChoices)[];
+export const PURPOSE_KEYS = Object.keys(PURPOSE_CODES) as (keyof ConsentChoices)[];
 
 /**
  * Builds a choice with every purpose set to one value.
@@ -50,7 +52,7 @@ export const ACCEPT_ALL = allPurposes(true);
 
 /**
  * Serialised cookie value, such as `v2.a1.m0.o1.l0.t1791490457`: version, one flag per purpose, and the Unix time the
- * choice was made (GDPR Art 7(1) record).
+ * choice was made.
  */
 const COOKIE_PATTERN = new RegExp(
 	`^v(\\d+)\\.${PURPOSE_KEYS.map((key) => `${PURPOSE_CODES[key]}([01])`).join('\\.')}\\.t(\\d+)$`,

@@ -227,6 +227,13 @@ const policy: {
 							UNTIL_WITHDRAWN,
 						],
 						[
+							'@firebase/performance/config, @firebase/performance/configexpire (local storage)',
+							'Firebase',
+							'Performance Monitoring settings',
+							'Analytics',
+							UNTIL_WITHDRAWN,
+						],
+						[
 							'YouTube cookies and local storage, such as yt-remote-device-id',
 							'YouTube (Google)',
 							"Set by YouTube's player when a preview plays",
@@ -313,7 +320,7 @@ const policy: {
 			blocks: [
 				{
 					type: 'paragraph',
-					text: `You are welcome to email ${EMAIL_LINK} with any question about your information. Analytics data is anonymized and de-identified by the third parties. Withdrawing consent in "Cookie settings" stops further collection.`,
+					text: `You are welcome to email ${EMAIL_LINK} with any question about your information. Withdrawing consent in "Cookie settings" stops further collection.`,
 				},
 				{
 					type: 'paragraph',
