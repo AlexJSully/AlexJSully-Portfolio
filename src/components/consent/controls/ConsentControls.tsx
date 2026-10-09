@@ -25,7 +25,7 @@ const PURPOSE_COPY: Readonly<Record<keyof ConsentChoices, PurposeCopy>> = {
 	analytics: {
 		label: 'Analytics',
 		description:
-			'Google Firebase and Vercel Speed Insights measure visits and page speed. Never used for advertising.',
+			'Google Firebase and Vercel Speed Insights measure visits and page speed, and Sentry reports errors in your browser. Never used for advertising.',
 	},
 	media: {
 		label: 'Embedded videos',

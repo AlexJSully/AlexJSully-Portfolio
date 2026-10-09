@@ -2,8 +2,9 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { ACCEPT_ALL, ESSENTIAL_ONLY, saveConsent } from '@util/consent/consentStore';
 import ConsentedServices from './ConsentedServices';
 
-// This repository's wrapper around the Firebase SDK, so rendering does not start live analytics.
+// This repository's wrappers around the Firebase and Sentry SDKs, so rendering does not start live analytics.
 jest.mock('@configs/firebase', () => ({ init: jest.fn() }));
+jest.mock('@configs/sentry', () => ({ startErrorReporting: jest.fn() }));
 
 // A third-party SDK that reports to Vercel over the network.
 jest.mock('@vercel/speed-insights/next', () => ({
@@ -16,6 +17,7 @@ const unregister = jest.fn().mockResolvedValue(true);
 
 describe('ConsentedServices', () => {
 	const mockInit = jest.requireMock('@configs/firebase').init;
+	const mockStartErrorReporting = jest.requireMock('@configs/sentry').startErrorReporting;
 
 	beforeEach(() => {
 		jest.clearAllMocks();
@@ -38,6 +40,7 @@ describe('ConsentedServices', () => {
 			expect(unregister).toHaveBeenCalled();
 		});
 		expect(mockInit).not.toHaveBeenCalled();
+		expect(mockStartErrorReporting).not.toHaveBeenCalled();
 		expect(register).not.toHaveBeenCalled();
 		expect(screen.queryByTestId('speed-insights')).not.toBeInTheDocument();
 	});
@@ -57,12 +60,13 @@ describe('ConsentedServices', () => {
 		expect(unregister).not.toHaveBeenCalled();
 	});
 
-	it('starts Firebase and Speed Insights once Analytics is allowed', () => {
+	it('starts Firebase, Sentry error reporting, and Speed Insights once Analytics is allowed', () => {
 		saveConsent({ analytics: true, media: false, offline: false, linkIcons: false });
 
 		render(<ConsentedServices />);
 
 		expect(mockInit).toHaveBeenCalledTimes(1);
+		expect(mockStartErrorReporting).toHaveBeenCalledTimes(1);
 		expect(screen.getByTestId('speed-insights')).toBeInTheDocument();
 		expect(register).not.toHaveBeenCalled();
 	});
@@ -76,6 +80,7 @@ describe('ConsentedServices', () => {
 			expect(register).toHaveBeenCalledWith('/sw.js');
 		});
 		expect(mockInit).not.toHaveBeenCalled();
+		expect(mockStartErrorReporting).not.toHaveBeenCalled();
 	});
 
 	it('reloads the page when Analytics is withdrawn, since Firebase cannot be stopped', async () => {

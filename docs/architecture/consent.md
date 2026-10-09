@@ -4,16 +4,16 @@ Nothing optional runs, and nothing optional is stored on the visitor's device, u
 
 ## Purposes
 
-Each optional service belongs to one purpose, a flag in `ConsentChoices` in [`consentStore.ts`](../../src/util/consent/consentStore.ts). [`ConsentedServices`](../../src/components/consent/services/ConsentedServices.tsx), mounted once in the root layout, starts the services for Analytics and Offline access; the components that embed videos and draw link icons read their own purpose, as the table below names.
+Each optional service belongs to one purpose, a flag in `ConsentChoices` in [`consentStore.ts`](../../src/util/consent/consentStore.ts). [`ConsentedServices`](../../src/components/consent/services/ConsentedServices.tsx), mounted once in the root layout, starts the services for Analytics and Offline access, and [`instrumentation-client.ts`](../../src/instrumentation-client.ts) starts Sentry's browser error reporting before hydration when Analytics is already allowed; the components that embed videos and draw link icons read their own purpose, as the table below names.
 
-| Purpose         | Flag        | What it starts                                                                                                                                                                                      |
-| --------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Analytics       | `analytics` | `init()` in [`firebase.ts`](../../src/configs/firebase.ts) (Firebase Analytics and Performance Monitoring) and Vercel Speed Insights                                                                |
-| Embedded videos | `media`     | The YouTube preview a project card plays on hover in [`ProjectsGrid`](../../src/components/projects/ProjectsGrid.tsx), from `youtube-nocookie.com`                                                  |
-| Link icons      | `linkIcons` | The linked site's own icon beside each phrase link, through [`LinkIcon`](../../src/components/link-icon/LinkIcon.tsx), fetched from DuckDuckGo's icon proxy; refused, links carry a generated globe |
-| Offline access  | `offline`   | [`ServiceWorkerRegister`](../../src/components/ServiceWorkerRegister.tsx), which registers [`sw.js`](../../public/sw.js)                                                                            |
+| Purpose         | Flag        | What it starts                                                                                                                                                                                                                              |
+| --------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Analytics       | `analytics` | `init()` in [`firebase.ts`](../../src/configs/firebase.ts) (Firebase Analytics and Performance Monitoring), Vercel Speed Insights, and `startErrorReporting()` in [`sentry.ts`](../../src/configs/sentry.ts) (Sentry browser error reports) |
+| Embedded videos | `media`     | The YouTube preview a project card plays on hover in [`ProjectsGrid`](../../src/components/projects/ProjectsGrid.tsx), from `youtube-nocookie.com`                                                                                          |
+| Link icons      | `linkIcons` | The linked site's own icon beside each phrase link, through [`LinkIcon`](../../src/components/link-icon/LinkIcon.tsx), fetched from DuckDuckGo's icon proxy; refused, links carry a generated globe                                         |
+| Offline access  | `offline`   | [`ServiceWorkerRegister`](../../src/components/ServiceWorkerRegister.tsx), which registers [`sw.js`](../../public/sw.js)                                                                                                                    |
 
-Essential processing has no flag and needs no consent: Vercel's hosting logs and server-side Sentry error reports, which no browser setting can gate, and the consent cookie itself.
+Essential processing has no flag and needs no consent: Vercel's hosting logs and server-side Sentry error reports (browser error reports belong to Analytics), which no browser setting can gate, and the consent cookie itself.
 
 `init()` sets Google Consent Mode with analytics storage granted and every advertising signal denied, and turns off Google signals and ad-personalization signals in the tag configuration. The site has no advertising purpose, so no consent choice can turn those on. The Firebase SDK is fetched inside `init()`, so a visitor who never allows Analytics never downloads it.
 

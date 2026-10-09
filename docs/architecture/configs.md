@@ -41,14 +41,15 @@ const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
 ### Sentry Configuration
 
-Sentry is initialized on the server only, via two `sentry.*.config.ts` files at the project root and two Next.js Instrumentation hooks. Nothing initializes Sentry in the browser, so no error report or session data leaves a visitor's device; see [Consent](./consent.md).
+Sentry reports errors from the server and edge runtimes for every request, and from the browser only once the visitor allows Analytics (see [Consent](./consent.md)). All three share `SENTRY_DATA_COLLECTION` in [`sentry.ts`](../../src/configs/sentry.ts), which leaves out user fields, cookies, and request bodies.
 
 - [`sentry.server.config.ts`](../../sentry.server.config.ts) - Server-side initialization
 - [`sentry.edge.config.ts`](../../sentry.edge.config.ts) - Edge runtime initialization
+- [`src/configs/sentry.ts`](../../src/configs/sentry.ts) - `startErrorReporting()` loads the browser SDK on demand and starts it once, reporting uncaught errors, unhandled rejections, and `console.error` calls. Performance tracing and session counting are left out, so it stores nothing on the device
 - [`src/instrumentation.ts`](../../src/instrumentation.ts) - Next.js `register()` hook that loads the server or edge Sentry config based on the `NEXT_RUNTIME` environment variable; also exports `onRequestError = Sentry.captureRequestError` for automatic request error capture
-- [`src/instrumentation-client.ts`](../../src/instrumentation-client.ts) - Exports `onRouterTransitionStart = Sentry.captureRouterTransitionStart`; with no client initialization it records nothing
+- [`src/instrumentation-client.ts`](../../src/instrumentation-client.ts) - Runs before the page hydrates and calls `startErrorReporting()` when the stored choice already allows Analytics; [`ConsentedServices`](../../src/components/consent/services/ConsentedServices.tsx) calls it for a choice made during the visit
 
-All `Sentry.*` integrations are imported directly from `@sentry/nextjs`, and `withSentryConfig` from its `@sentry/nextjs/config` subpath.
+All `Sentry.*` integrations are imported from `@sentry/nextjs`, and `withSentryConfig` from its `@sentry/nextjs/config` subpath. `NEXT_PUBLIC_SENTRY_DSN` is inlined into the browser code at build time, so it must be set in the hosting environment before the build.
 
 ### Next.js configuration
 

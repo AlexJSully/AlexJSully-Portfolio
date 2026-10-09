@@ -40,7 +40,7 @@ describe('PolicyDialog', () => {
 		render(<PolicyDialog />);
 
 		expect(await screen.findByRole('dialog', { name: policy.title })).toBeInTheDocument();
-		expect(screen.getByText('October 8, 2026')).toHaveAttribute('datetime', policy.lastUpdated);
+		expect(screen.getByText('October 9, 2026')).toHaveAttribute('datetime', policy.lastUpdated);
 	});
 
 	it('opens when a link changes the fragment to #privacy', async () => {

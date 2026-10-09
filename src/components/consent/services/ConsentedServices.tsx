@@ -2,6 +2,7 @@
 
 import ServiceWorkerRegister from '@components/ServiceWorkerRegister';
 import { init } from '@configs/firebase';
+import { startErrorReporting } from '@configs/sentry';
 import { clearUnconsentedStorage } from '@util/consent/clearUnconsentedStorage';
 import { useConsent } from '@util/consent/useConsent';
 import { runWhenIdle } from '@util/runWhenIdle';
@@ -11,7 +12,7 @@ import { type ReactElement, useEffect, useRef } from 'react';
 /**
  * Starts each optional service only once the visitor allows its purpose, and clears what any refused purpose stored.
  *
- * Analytics starts Firebase and renders Vercel Speed Insights; Offline access registers the service worker. Clearing
+ * Analytics starts Firebase and Sentry's browser error reporting, and renders Vercel Speed Insights; Offline access registers the service worker. Clearing
  * runs on every load, not only on a change, because storage can predate the consent banner. Firebase cannot be stopped
  * once started, so withdrawing Analytics reloads the page after clearing.
  */
@@ -27,6 +28,7 @@ export default function ConsentedServices(): ReactElement | null {
 
 		if (consent?.analytics) {
 			void init();
+			void startErrorReporting();
 			analyticsStarted.current = true;
 		}
 

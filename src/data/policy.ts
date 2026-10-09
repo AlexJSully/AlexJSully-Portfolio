@@ -86,7 +86,7 @@ const policy: {
 	sections: PolicySection[];
 } = {
 	title: POLICY_TITLE,
-	lastUpdated: '2026-10-08',
+	lastUpdated: '2026-10-09',
 	sections: [
 		{
 			heading: 'Summary',
@@ -162,6 +162,12 @@ const policy: {
 							'A random device ID, pages viewed, clicks, device and browser, and city-level location (Google does not keep your IP address)',
 							'14 months',
 							'Google Firebase',
+						],
+						[
+							'Browser error reports: find and fix bugs in the page',
+							'Only if you allow Analytics: error details, the page, recent clicks and pages visited, and browser; no cookies or user details',
+							'Up to 90 days',
+							'Sentry',
 						],
 						[
 							'Performance: measure page speed',
@@ -265,7 +271,7 @@ const policy: {
 						[
 							'Functional Software, Inc. (Sentry)',
 							'Error reports',
-							'When a server error occurs, over an encrypted connection',
+							'When an error occurs on the server, or in your browser if you allow Analytics, over an encrypted connection',
 							'https://sentry.io/privacy/',
 						],
 						[
