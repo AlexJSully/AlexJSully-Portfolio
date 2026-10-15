@@ -1,10 +1,10 @@
 // Tests for the skill and prompt rules in `check-skill-publishability.mjs`, run against a fixture
 // repository from `fixture-repository.mjs`. Run with `make -f .claude/Makefile test-scripts`.
-import assert from 'assert/strict';
-import { mkdirSync, symlinkSync, unlinkSync, writeFileSync } from 'fs';
+import assert from 'node:assert/strict';
+import { mkdirSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 // `node:test` has no unprefixed name, unlike the other built-in modules imported here.
 import { afterEach, beforeEach, describe, it } from 'node:test';
-import { join } from 'path';
 import {
 	ALPHA_FIELDS,
 	ALPHA_MANIFEST,

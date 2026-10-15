@@ -8,7 +8,7 @@
 //
 // Type-stripping-safe TypeScript only: type annotations / interfaces, no enums,
 // namespaces, or parameter properties.
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs';
 
 interface ToolInput {
 	file_path?: string;

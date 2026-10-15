@@ -1,8 +1,8 @@
 // File-system predicates shared by the skill checks. `isFile` and `isDirectory` follow a symbolic
 // link to what it points at, because `npx skills` copies a linked file's contents in its place, so
 // a check reads what a recipient receives. `isInside` compares paths as given.
-import { statSync } from 'fs';
-import { isAbsolute, relative, sep } from 'path';
+import { statSync } from 'node:fs';
+import { isAbsolute, relative, sep } from 'node:path';
 
 /**
  * Returns whether `path` is a regular file once any symbolic link is followed. A missing path or a

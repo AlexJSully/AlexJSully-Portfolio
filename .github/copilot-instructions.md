@@ -62,7 +62,7 @@ import { DELAYS } from '@constants/index';
 import { isNetworkFast } from '@util/isNetworkFast';
 ```
 
-Also: import Node built-ins with the **bare specifier** (`import { readFileSync } from 'fs'`), never the `node:` prefix. Use `import type { Foo }` when a symbol is used only as a type, and `export type { Foo }` when re-exporting one (`isolatedModules` is on).
+Also: import Node built-ins with the **`node:` prefix** (`import { readFileSync } from 'node:fs'`, `require('node:util')`), never the bare specifier. A misspelled bare name is looked up in `node_modules`, where a typosquatted package would load, while a misspelled `node:` name fails to load; `node:test` and `node:sqlite` exist only under the prefix. No lint rule checks it, so review is what keeps it. Use `import type { Foo }` when a symbol is used only as a type, and `export type { Foo }` when re-exporting one (`isolatedModules` is on).
 
 Export style follows the kind of module. Components, layouts, App Router route files (`src/app/page.tsx`), the data modules (`src/data/projects.ts`), and `src/styles/theme.ts` default-export their subject. Configs, constants, helpers, utilities, instrumentation, and the SVG components in `src/images/icons.tsx` use named exports. One module can carry both: `src/app/layout.tsx` default-exports `RootLayout` beside named `metadata` and `viewport`. Never `export let`.
 

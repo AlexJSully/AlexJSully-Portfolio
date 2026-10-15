@@ -2,11 +2,11 @@
 // `plugin-manifests.mjs`. Both scripts are copied into a temporary directory beside a skills tree
 // that passes every rule, so a test changes one file and runs the checker there as its own process,
 // exactly as `make -f .claude/Makefile check-skills` runs it.
-import assert from 'assert/strict';
-import { spawnSync } from 'child_process';
-import { copyFileSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'fs';
-import { tmpdir } from 'os';
-import { dirname, join } from 'path';
+import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { copyFileSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { dirname, join } from 'node:path';
 
 /** The scripts copied into every fixture, the first being the entry point the checker runs from. */
 const SCRIPTS = ['check-skill-publishability.mjs', 'plugin-manifests.mjs', 'file-system.mjs'];

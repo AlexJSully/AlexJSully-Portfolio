@@ -17,7 +17,7 @@ This file carries only what is specific to this repository. The same rules are d
 - **Always use path aliases, never relative paths.** Aliases are defined in [`tsconfig.json`](../../tsconfig.json) and mirrored in [`jest.config.js`](../../jest.config.js):
   `@/`, `@components/`, `@configs/`, `@constants/`, `@data/`, `@helpers/`, `@images/`, `@layouts/`, `@styles/`, `@util/`.
 - Example: `import Avatar from '@components/banner/Avatar';` - not `'../banner/Avatar'`. Tests importing their own subject are the one exception; see [`testing.md`](testing.md).
-- Import Node built-in modules with the **bare specifier** (`import { readFileSync } from 'fs'`), never the `node:` prefix. Matches the existing convention, for example `require('util')` in [`jest/setup.ts`](../../jest/setup.ts).
+- Import Node built-in modules with the **`node:` prefix** (`import { readFileSync } from 'node:fs'`), never the bare specifier, in every position including `require('node:util')` in [`jest/setup.ts`](../../jest/setup.ts). A misspelled bare name is looked up in `node_modules`, where a typosquatted package would load, while a misspelled `node:` name fails to load; `node:test` and `node:sqlite` exist only under the prefix. No lint rule checks it, so review is what keeps it.
 - Use `import type { Foo }` when a symbol is used only as a type, and `export type { Foo }` when re-exporting one. [`tsconfig.json`](../../tsconfig.json) sets `isolatedModules`, which requires the latter.
 
 ## Exports

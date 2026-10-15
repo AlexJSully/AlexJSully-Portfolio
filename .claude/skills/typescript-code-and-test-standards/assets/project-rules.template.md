@@ -16,7 +16,7 @@ That imperative sentence is the point of this file. A path-scoped rule loads rel
 
 ## Imports
 
-Record whether your project uses path aliases or relative imports, and name every alias. Name the one documented exception if you have one, such as a test importing its own subject. State whether Node built-ins use the bare specifier or the `node:` prefix.
+Record whether your project uses path aliases or relative imports, and name every alias. Name the one documented exception if you have one, such as a test importing its own subject. Record that Node built-ins are imported with the `node:` prefix, which the skill expects, or the reason your project cannot use it, such as a runtime target that predates the prefix.
 
 ## Exports
 

@@ -10,8 +10,8 @@
 // What is left here is what a machine can decide.
 //
 // Run with no arguments. Reports every failure, then exits 1 if there were any.
-import { existsSync, readFileSync, readdirSync, realpathSync, statSync } from 'fs';
-import { join, resolve } from 'path';
+import { existsSync, readFileSync, readdirSync, realpathSync, statSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 import { isDirectory, isFile, isInside } from './file-system.mjs';
 import { MARKETPLACE_MANIFEST, PLUGIN_MANIFEST, SHADOWING_MARKETPLACES, checkPlugins } from './plugin-manifests.mjs';
 
