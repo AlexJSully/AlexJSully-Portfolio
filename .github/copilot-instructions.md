@@ -62,7 +62,7 @@ import { DELAYS } from '@constants/index';
 import { isNetworkFast } from '@util/isNetworkFast';
 ```
 
-Also: import Node built-ins with the **`node:` prefix** (`import { readFileSync } from 'node:fs'`, `require('node:util')`), never the bare specifier. A misspelled bare name is looked up in `node_modules`, where a typosquatted package would load, while a misspelled `node:` name fails to load; `node:test` and `node:sqlite` exist only under the prefix. Use `import type { Foo }` when a symbol is used only as a type, and `export type { Foo }` when re-exporting one (`isolatedModules` is on).
+Also: import Node built-ins with the **`node:` prefix** (`import { readFileSync } from 'node:fs'`, `require('node:util')`), never the bare specifier. A misspelled bare name is looked up in `node_modules`, where a typosquatted package would load, while a misspelled `node:` name fails to load; `node:test` and `node:sqlite` exist only under the prefix. No lint rule checks it, so review is what keeps it. Use `import type { Foo }` when a symbol is used only as a type, and `export type { Foo }` when re-exporting one (`isolatedModules` is on).
 
 Export style follows the kind of module. Components, layouts, App Router route files (`src/app/page.tsx`), the data modules (`src/data/projects.ts`), and `src/styles/theme.ts` default-export their subject. Configs, constants, helpers, utilities, instrumentation, and the SVG components in `src/images/icons.tsx` use named exports. One module can carry both: `src/app/layout.tsx` default-exports `RootLayout` beside named `metadata` and `viewport`. Never `export let`.
 
@@ -130,7 +130,6 @@ The module also exports `ANIMATIONS` and `MAX_STARS`.
 - Console logs are allowed
 - Unused vars are an error, with `_`-prefixed names ignored (e.g. `_unusedParam`)
 - `curly` is set to `multi-line`, so it enforces the braced-block rule below only for a body spanning lines; a long single-line early exit passes it, and the length judgement stays manual
-- `no-restricted-imports` rejects a bare Node built-in (`'fs'`) in an `import` or `export ... from`, listing every name in Node's `module.builtinModules`; it does not see `require()`, and `.claude/` is not linted, so the `node:` prefix there is kept by review
 
 ### TypeScript
 

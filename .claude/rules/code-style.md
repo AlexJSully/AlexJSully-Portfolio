@@ -17,7 +17,7 @@ This file carries only what is specific to this repository. The same rules are d
 - **Always use path aliases, never relative paths.** Aliases are defined in [`tsconfig.json`](../../tsconfig.json) and mirrored in [`jest.config.js`](../../jest.config.js):
   `@/`, `@components/`, `@configs/`, `@constants/`, `@data/`, `@helpers/`, `@images/`, `@layouts/`, `@styles/`, `@util/`.
 - Example: `import Avatar from '@components/banner/Avatar';` - not `'../banner/Avatar'`. Tests importing their own subject are the one exception; see [`testing.md`](testing.md).
-- Import Node built-in modules with the **`node:` prefix** (`import { readFileSync } from 'node:fs'`), never the bare specifier, in every position including `require('node:util')` in [`jest/setup.ts`](../../jest/setup.ts). A misspelled bare name is looked up in `node_modules`, where a typosquatted package would load, while a misspelled `node:` name fails to load; `node:test` and `node:sqlite` exist only under the prefix.
+- Import Node built-in modules with the **`node:` prefix** (`import { readFileSync } from 'node:fs'`), never the bare specifier, in every position including `require('node:util')` in [`jest/setup.ts`](../../jest/setup.ts). A misspelled bare name is looked up in `node_modules`, where a typosquatted package would load, while a misspelled `node:` name fails to load; `node:test` and `node:sqlite` exist only under the prefix. No lint rule checks it, so review is what keeps it.
 - Use `import type { Foo }` when a symbol is used only as a type, and `export type { Foo }` when re-exporting one. [`tsconfig.json`](../../tsconfig.json) sets `isolatedModules`, which requires the latter.
 
 ## Exports
@@ -59,5 +59,5 @@ Four rules from the [Google TypeScript Style Guide](https://google.github.io/sty
 ## Toolchain
 
 - Prettier owns formatting: tabs at width 4, semicolons, single quotes including JSX, `printWidth` 120, trailing commas everywhere, and import order via `@trivago/prettier-plugin-sort-imports`. Settings live in [`.prettierrc`](../../.prettierrc). Do not hand-adjust any of it.
-- ESLint applies **one rule set to every file**, JavaScript and TypeScript alike, parsed by `@typescript-eslint/parser` (see [`eslint.config.js`](../../eslint.config.js)). Its `no-restricted-imports` rule rejects a bare built-in in an `import` or `export ... from`, listing every name in Node's `module.builtinModules`. It does not see `require()`, and ESLint ignores `.claude/`, so the prefix there is kept by review.
+- ESLint applies **one rule set to every file**, JavaScript and TypeScript alike, parsed by `@typescript-eslint/parser` (see [`eslint.config.js`](../../eslint.config.js)).
 - `npm run validate` runs Prettier before ESLint, and the `curly` fix inserts braces inline. After any ESLint fix sweep, run `npm run prettier` again and finish with `npm run prettier:check`, which is what CI runs.
