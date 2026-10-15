@@ -117,10 +117,14 @@ A finding that names a principle and then asks for a refactor has given the read
 - **Control coupling.** One function per behaviour, and the flag disappears rather than moving. A small closed set of named modes is the narrower fix where the modes genuinely share a body.
 - **Stamp coupling.** Narrow the parameter to the fields the callee reads, which the type system usually expresses directly.
 - **Common coupling.** Pass the state in rather than reaching for it, so the unit's inputs appear in its signature.
-- **Content coupling.** Call the published interface, or ask its owner for the missing one; do not widen the interface to legitimize the reach.
+- **Content coupling.** Call the published interface, or ask its owner for the missing one; do not widen the interface to legitimize the reach. Where the unit reads another's data more than its own, move the logic to that data, and where it walks a chain of collaborators, ask the nearest one for the result.
 - **Dependency inversion.** The caller constructs and passes the dependency, and the unit names what it needs rather than how it is built.
 - **Interface segregation.** Separate into the interfaces each caller group actually uses, composed where a caller genuinely wants both.
-- **DRY.** Name what the shared unit holds and where each occurrence goes, and say plainly when the copies should stay copies because they change for different reasons.
+- **Open-closed.** Collect the branching into the one place a new case is added: a table keyed by the tag, one implementation per case behind a shared interface, or a closed set of variants the compiler checks for exhaustiveness. A new case then lands as one addition, and the compiler or a test names every site it reaches.
+- **Liskov substitution.** Where a subtype cannot honour the base contract, stop inheriting and compose the behaviour the two genuinely share, or narrow the base contract to what every subtype honours. A caller checking the concrete type is fixed with the subtype, never by adding another check.
+- **DRY.** Name what the shared unit holds and where each occurrence goes, and say plainly when the copies should stay copies because they change for different reasons. A rule written at every use of a raw value becomes one type that checks it once on construction, two lists that must change together become one list the other is derived from, and a literal a named constant already holds becomes that constant.
+- **Speculative generality.** Delete the extension point, parameter, option, or layer no caller uses; the change that first needs it adds it with the case that justifies it.
+- **Altitude.** Change the shared mechanism once so every caller gets the behaviour, rather than special-casing the one caller that hit the problem or adding a branch for it inside shared code.
 
 ```python
 # Defect: one exported name, three behaviours, two booleans at every call site.

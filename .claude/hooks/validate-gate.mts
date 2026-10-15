@@ -14,9 +14,9 @@
 // Run via `node --experimental-strip-types` (no build step, no dependencies).
 // Type-stripping-safe TypeScript only: type annotations / interfaces, no enums,
 // namespaces, or parameter properties.
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'fs';
-import { tmpdir } from 'os';
-import { isAbsolute, join, relative } from 'path';
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { isAbsolute, join, relative } from 'node:path';
 
 interface ToolInput {
 	file_path?: string;

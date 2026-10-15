@@ -2,10 +2,10 @@ import '@testing-library/jest-dom';
 
 // Polyfills for Node.js environment
 if (typeof global.TextEncoder === 'undefined') {
-	global.TextEncoder = require('util').TextEncoder;
+	global.TextEncoder = require('node:util').TextEncoder;
 }
 if (typeof global.TextDecoder === 'undefined') {
-	global.TextDecoder = require('util').TextDecoder;
+	global.TextDecoder = require('node:util').TextDecoder;
 }
 
 // Every test starts without cookies, so a consent choice saved by one test never leaks into the next.

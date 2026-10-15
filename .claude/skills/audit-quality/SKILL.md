@@ -40,7 +40,7 @@ Some agents resolve the references below automatically. Where yours does not, re
 3. **A finding you cannot quote at all is dropped**, not softened and not reworded as a question.
 4. **Refute before you publish.** Section 5 is not optional.
 5. **Respect intentional `any`** and its equivalents in other languages. Do not flag one unless you can name the concrete type that replaces it without breaking the build, and never launder one into a wider escape hatch to quiet a linter. Where a language offers a narrower spelling of the same idea, such as Go's `any` over `interface{}`, prefer it when the swap is safe.
-6. **Every finding carries a severity:** 🔴 blocking, 🟡 should fix, 🔵 suggestion, ✅ positive.
+6. **Every finding carries a severity:** 🔴 blocking, 🟡 should fix, 🔵 suggestion, ✅ positive. A unit that keeps one copy of its knowledge, keeps its interfaces narrow, or receives its dependencies rather than constructing them earns a ✅ finding naming that principle, held to the same evidence.
 7. **State uncertainty explicitly** rather than hedging a finding into vagueness.
 
 **A structural finding is evidenced by a count, and rule 3 does not drop it.** Where the defect is the shape of the code rather than any line of it, no string can prove it: nothing in a file says the directory holds forty files or the interface carries twenty members. The evidence unit there is the path, the number, and how the number was obtained, meaning the directory listing behind a file count, the declaration's member list behind a member count, the file's own length, or the repeated block quoted once with the path of every occurrence. A count recorded that way meets the evidence unit in rule 2, and section 5 re-verifies it by counting again rather than by matching a string.
@@ -71,15 +71,18 @@ Two lenses are read alongside every category rather than as categories of their 
 
 **Maintainability, coupling, and reuse.** Every module is read against the named defects below, and a finding names the one it found, which is what makes it arguable rather than a matter of taste:
 
-- **Single responsibility:** one unit carrying two reasons to change, or business logic entangled with I/O, framework, or presentation so it cannot be exercised or reused on its own.
+- **Single responsibility:** one unit carrying two reasons to change, or business logic entangled with I/O, framework, or presentation so it cannot be exercised or reused on its own. The tell is a description needing "and".
 - **Control coupling:** a parameter the body branches on rather than operates on, which is what the sixth count in category 1 measures.
 - **Common coupling:** shared mutable module state, or a circular import.
-- **Content coupling:** a unit reaching into another module's internals rather than its interface, so a change there forces a change here.
+- **Content coupling:** a unit reaching into another module's internals rather than its interface, through a chain of its collaborators, or into its data more than its own, so a change there forces a change here.
 - **Stamp coupling:** a whole record passed where one field would do, widening what the callee can reach.
-- **Dependency inversion:** high-level policy depending on low-level detail, or a dependency constructed inside the unit that uses it rather than passed in.
-- **Interface segregation:** an interface carrying members most callers ignore.
-- **Open-closed and Liskov substitution:** a new case that cannot be added without editing existing branching that no compiler or test enumerates, or a subtype that cannot stand where its base is expected.
-- **DRY:** the same logic written more than once, counted rather than sensed.
+- **Dependency inversion:** high-level policy depending on low-level detail, or a dependency such as a client, connection, or clock constructed inside the unit that uses it rather than passed in.
+- **Interface segregation:** an interface carrying members most callers ignore, or an implementor stubbing members it cannot honour.
+- **Open-closed:** a new case that cannot be added without editing existing branching that no compiler or test enumerates, usually the same branch on a kind tag in several places.
+- **Liskov substitution:** a subtype that cannot stand where its base is expected: an override that throws as unsupported, does nothing, demands more of its input or promises less, or a caller checking the concrete type first.
+- **DRY:** the same knowledge written more than once, whether logic, a rule, a literal a named constant already holds, state another value derives, or two lists that must change together, counted rather than sensed.
+- **Speculative generality:** an extension point, parameter, option, or layer no current caller uses.
+- **Altitude:** a special case added to shared code for one caller, or a symptom patched at each call site, where changing the shared mechanism once is the fix.
 - **Change amplification:** how many files must change together the next time a behaviour changes, and whether a value a consumer would configure is named where a consumer can find it rather than buried in a function body.
 
 **Report what this lens sees and let section 5 filter it.** Whether a proposed abstraction is premature is a real question and it is asked there, against the recommendation, where an abstraction with a single caller or configuration nobody sets is caught without costing the observation that prompted it. Held here it does the opposite: an instruction to be conservative, read at the moment of deciding what to report, produces a shorter audit rather than a more accurate one.
@@ -106,7 +109,7 @@ The thirteen categories, each with what to look for, are in [`audit-categories.m
 
 Before writing the report, take each finding and try to disprove it.
 
-1. Is the quoted string still in the file, spelled exactly as quoted? Search the file for the string as it reads there, because redaction applies to the report and not to this check. Where you no longer hold the credential value, match on the text around the placeholder, such as the assignment target or the call, and say that is what you matched. **Where the finding's evidence is a count, re-derive the count instead of matching a string:** list the directory again, re-read the member list, re-measure the file, re-count the occurrences. A count that no longer holds refutes the finding exactly as a missing quote does, and a count stated with nothing to compare it against is a fact about the code rather than a claim about it, so send it back for its comparison rather than passing it.
+1. Is the quoted string still in the file, spelled exactly as quoted? Search the file for the string as it reads there, because redaction applies to the report and not to this check. Where you no longer hold the credential value, match on the text around the placeholder, such as the assignment target or the call, and say that is what you matched. **Where the finding's evidence is a count, re-derive the count instead of matching a string:** list the directory again, re-read the member list, re-measure the file, re-count the occurrences, re-read the signature and split its parameters, re-measure the function body. A count that no longer holds refutes the finding exactly as a missing quote does, and a count stated with nothing to compare it against is a fact about the code rather than a claim about it, so send it back for its comparison rather than passing it.
 2. Does the surrounding code already handle it? Re-open the file and read past the cited symbol, including guard clauses and callers.
 3. Does a test, a type, a framework guarantee, or a configuration value already prevent it?
 4. Does the capability already exist elsewhere in the codebase (Rule 1)? **A finding whose subject is code re-implementing an existing capability passes this question on that fact rather than failing on it.** Rule 1 forbids recommending a capability the codebase already provides; it does not forbid reporting that the codebase built one twice. Answer by naming the module, package, or standard-library symbol that already provides the behaviour and the file that already depends on it.
@@ -133,7 +136,7 @@ Before writing the report, take each finding and try to disprove it.
 For each, in severity order:
 
 - **Issue:** what is wrong.
-- **Evidence:** file, symbol, and the quote, with any credential value replaced by `[REDACTED]`. For a structural finding, the count in place of the quote: the number, how it was obtained, and what it is measured against, as in `40 files directly in src/core/, from the directory listing, against 6 and 8 in src/features/ and src/lib/, which both group theirs into subdirectories`. A repeated declaration is measured against the key instead: the number of files, how they were found, and the configuration key and file that would carry it once. For a finding that a block re-implements something already present, the sources checked in order and the symbol that settles it, as in `the file's own imports, then the manifest and lockfile; the hashing module the file already imports exports this comparison`. For an architecture finding, the named principle from the maintainability lens and how this unit violates it.
+- **Evidence:** file, symbol, and the quote, with any credential value replaced by `[REDACTED]`. For a structural finding, the count in place of the quote: the number, how it was obtained, and what it is measured against, as in `40 files directly in src/core/, from the directory listing, against 6 and 8 in src/features/ and src/lib/, which both group theirs into subdirectories`. A repeated declaration is measured against the key instead: the number of files, how they were found, and the configuration key and file that would carry it once. For a finding that a block re-implements something already present, the sources checked in order and the symbol that settles it, as in `the file's own imports, then the manifest and lockfile; the hashing module the file already imports exports this comparison`. For an architecture finding, the named principle from the maintainability lens and how this unit violates it, or upholds it on a ✅ finding.
 - **Category:** which of the 13 above.
 - **Risk:** what happens if it is left.
 - **Recommendation:** the concrete change.

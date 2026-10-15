@@ -1,11 +1,11 @@
 // Tests for the file-system predicates in `file-system.mjs`, against real files, directories, and
 // symbolic links in a temporary directory. Run with `make -f .claude/Makefile test-scripts`.
-import assert from 'assert/strict';
-import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'fs';
+import assert from 'node:assert/strict';
+import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 // `node:test` has no unprefixed name, unlike the other built-in modules imported here.
 import { afterEach, beforeEach, describe, it } from 'node:test';
-import { tmpdir } from 'os';
-import { join } from 'path';
 import { isDirectory, isFile, isInside } from './file-system.mjs';
 
 let root;

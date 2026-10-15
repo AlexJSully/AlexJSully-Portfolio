@@ -1,11 +1,11 @@
 // Tests for the plugin rules in `plugin-manifests.mjs`, run through the checker that reports them
 // against a fixture repository from `fixture-repository.mjs`. Run with
 // `make -f .claude/Makefile test-scripts`.
-import assert from 'assert/strict';
-import { mkdirSync, renameSync, symlinkSync, unlinkSync } from 'fs';
+import assert from 'node:assert/strict';
+import { mkdirSync, renameSync, symlinkSync, unlinkSync } from 'node:fs';
+import { join } from 'node:path';
 // `node:test` has no unprefixed name, unlike the other built-in modules imported here.
 import { afterEach, beforeEach, describe, it } from 'node:test';
-import { join } from 'path';
 import {
 	ALPHA_DESCRIPTION,
 	ALPHA_MANIFEST,

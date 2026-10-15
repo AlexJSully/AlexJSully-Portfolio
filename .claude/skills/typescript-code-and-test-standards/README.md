@@ -5,7 +5,7 @@ TypeScript and JavaScript standards that formatters and linters cannot catch, ap
 ## What it covers
 
 - Comment discipline, and a documentation block on every exported symbol.
-- Naming, readability, and language-level defects such as an unhandled promise.
+- Naming, readability, Node built-ins imported with the `node:` prefix, and language-level defects such as an unhandled promise.
 - Structure measured rather than sensed: file length, interface size, directory shape, parameter counts, and repeated logic.
 - Reuse of what a dependency or the platform already provides.
 - Logic changes shipping with tests, one colocated test per source file, and a mocking policy whose default is not to mock.

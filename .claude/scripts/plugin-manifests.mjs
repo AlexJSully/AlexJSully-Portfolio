@@ -4,8 +4,8 @@
 // These rules follow what VS Code, Claude Code, the Copilot CLI, and `npx skills` read, not the
 // Agent Skills specification, so they change when one of those hosts does.
 // `check-skill-publishability.mjs` runs them and reports the result.
-import { existsSync, readFileSync, readdirSync, realpathSync } from 'fs';
-import { join, resolve } from 'path';
+import { existsSync, readFileSync, readdirSync, realpathSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 import { isInside } from './file-system.mjs';
 
 const REPO_ROOT = resolve(import.meta.dirname, '..', '..');

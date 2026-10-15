@@ -57,7 +57,7 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
 ### Writing new code
 
 1. Detect the project if you have not already.
-2. Before writing a function whose behaviour has a name outside this project, run the three-source lookup in **Reuse** below. It is cheaper before the code exists than after.
+2. Before writing a function whose behaviour has a name outside this project, run the three-source lookup in **Reuse** below. It is cheaper before the code exists than after. Import a Node built-in as `node:fs`, never `fs`.
 3. Write to the detected formatting and let the formatter own layout. Do not hand-align anything a formatter will rewrite. **A formatter collapses blank lines and strips them at block edges but never inserts a separating one, and it leaves an unbraced single-statement `if` at whatever width it was written.** Neither grouping nor width is settled by running it, so both stay yours: see **Readability and naming** below.
 4. Keep a documentation block on every exported symbol, including members of exported structures, and never delete or cut one below its public floor. See **Documentation blocks** below.
 5. Reread every comment you wrote and delete any that narrates the change rather than describing the code.
@@ -70,7 +70,7 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
 
 1. Detect the project.
 2. **Run the project's own format, lint, and type check commands first.** Never report by eye something a tool reports by exit code, and never report a finding the project's configuration has already turned off. A rule the project never configured is not a rule it turned off.
-3. Then review what tools cannot see, in the four groups below, in this order. **Each finding names two things: the TypeScript or JavaScript fact that makes it one, and the concrete replacement**, meaning the predicate's name, the bindings proposed, which members go into which type. A finding without a replacement defers the judgement rather than making it, and a finding that would read identically against another language is written at the wrong altitude for this skill.
+3. Then review what tools cannot see, in the four groups below, in this order. **Each finding names two things: the TypeScript or JavaScript fact that makes it one, and the concrete replacement**, meaning the predicate's name, the bindings proposed, which members go into which type. A finding without a replacement defers the judgement rather than making it.
 
     **Shape.**
 
@@ -84,7 +84,8 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
     - A function body whose length, nesting, or widest expression runs past what a reader holds at once. See **Structure** below.
     - A binding whose name does not say what it holds, and a long condition a named predicate or type guard would explain. See **Readability and naming** below.
     - A body running as one block, with no blank line between the groups doing different work. The formatter will not insert one. Same section.
-    - A construct spelled differently from how the rest of the codebase spells the same thing: a built-in module specifier (`node:fs` against `fs`, whichever of the two the codebase already uses), `import type` against a value import, an alias against a relative path.
+    - A Node built-in imported by its bare name rather than its `node:` specifier, **whatever neighbouring files do**: a mistyped `node:` name fails to load, while a mistyped bare one is looked up among installed packages. It is a runtime fact, not a preference. [node-built-ins.md](references/node-built-ins.md) lists every specifier position and the one exception.
+    - A construct spelled differently from how the rest of the codebase spells the same thing: `import type` against a value import, an alias against a relative path.
 
     **Comments and documentation.**
 
@@ -143,7 +144,7 @@ Worked before-and-after examples are in [comments-and-jsdoc.md](references/comme
 Prefer the readable form wherever it costs nothing at runtime, and wherever the project's linter has not decided otherwise by a rule it actually enables.
 
 - Braced blocks for anything that is not a **short** single-line early exit. `if (!data) return;` may stay unbraced on one line, as may `break`, `continue`, and `throw`. Everything else takes braces, including a single-statement body that spans lines.
-- **Length is what makes that exit readable, not the fact that it exits early.** A four-hundred-character condition returning a four-hundred-character expression is one line and is unreadable, and both halves are findings: brace the statement, and extract the condition to a named predicate. A linter configured as `curly: ['error', 'multi-line']` permits the long form, and a formatter prints an unbraced single-statement `if` as written however far past the print width it runs, so neither tool will say anything and the judgement is yours.
+- **Length is what makes that exit readable, not the fact that it exits early.** A four-hundred-character condition returning a four-hundred-character expression is one line and is unreadable, and both halves are findings: brace the statement, and extract the condition to a named predicate. A linter configured as `curly: ['error', 'multi-line']` permits the long form, and the formatter leaves it at its width (see step 3 of **Writing new code**), so neither tool will say anything and the judgement is yours.
 - A blank line before `return`, `break`, `continue`, and `throw` when it is not the first statement in its block.
 - No blank lines between `switch` cases.
 - Separate groups that do different work with a blank line: setup, action, assertion; or fetch, transform, render. **A body with no blank line anywhere is the finding**, whatever its length, because the formatter collapses and strips blank lines and never inserts one: a file written as a single block leaves the formatter as a single block, correctly indented and still unreadable.
@@ -159,7 +160,7 @@ Prefer the readable form wherever it costs nothing at runtime, and wherever the 
 - **Members in each exported interface, type, or class**, alongside how many a caller actually uses. Open two callers and count. An interface whose typical caller touches four of twenty members is the interface-segregation case, and the count is what shows it rather than an opinion about cohesion.
 - **Files sitting directly in the directory**, counted whatever subdirectories sit beside them, and whether the project's other directories at that level group their own files. A directory holding one subdirectory and two dozen loose files is not grouped: it holds one group and two dozen ungrouped files. A flat directory beside grouped siblings is the finding; a flat directory in a flat project is the convention.
 - **Occurrences of a repeated block.** Two may be coincidence; three is a pattern, named with all three paths. This counts test cases too: three differing only in a value are one table-driven case, and cases that cannot fail independently of one another are one case wearing three names.
-- **Files repeating one declaration**, meaning a setting, directive, suppression, or bootstrap import written into each file rather than into the configuration the tool reads. Count the files and name the key. **Look for the key, not for the directive's own spelling**, since the two are rarely the same word: a per-file test environment docblock against the runner's environment key, a per-file suppression comment against the linter's per-glob ignore map, a per-file build constraint against the build configuration's default.
+- **Files repeating one declaration**, meaning a setting, directive, suppression, or bootstrap import written into each file rather than into the configuration the tool reads. Count the files and name the key. **Look for the key, not for the directive's own spelling**, since the two are rarely the same word; [structure.md](references/structure.md) pairs the common ones.
 - **Parameters of each function**, split into those supplying data and those switching behaviour, against the other functions in the same module. A switch is a parameter the body branches on rather than operates on, whatever its type, and each one holds a second behaviour inside one name. It is the defect in a utility, meaning a function named for one operation, exported for general use, sitting where shared code sits, or having callers that do not know about each other. A function coordinating a sequence takes its modes legitimately.
 - **The shape of each function body**, as three numbers taken together: lines in the body, deepest nesting level, and the widest single expression a reader must hold at once. The six counts above measure everything around a function, and none reaches inside one.
 
@@ -237,7 +238,7 @@ The escalation ladder, the logic-against-boundary test, and worked examples are 
 
 The [Google TypeScript Style Guide digest](references/google-typescript-style-digest.md) carries the rules a formatter and linter do not already enforce, and it is read two ways.
 
-**Its quality half is a review input, read on every review rather than held for a tie.** That is the type system, assertions and suppressions, errors, and the language-defect rules. Each of those decides whether code is wrong, not which of two spellings a project prefers, so gating them on a question being open waits for a trigger a configured project never pulls.
+**Its quality half is a review input, read on every review rather than held for a tie.** That is the type system, assertions and suppressions, errors, and the language-defect rules.
 
 **Its preference half settles a question the project left open**: imports and exports, naming case, the rules frameworks commonly override, and the stylistic remainder of the language features. Reach for those only when the project's configuration, its rules files, and the surrounding code all leave the question open.
 
