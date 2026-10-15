@@ -1,6 +1,6 @@
 # Node built-in modules
 
-Import every Node built-in by its `node:` specifier (`node:fs`, `node:path`, `node:assert/strict`), never by its bare name. This file gives the runtime facts behind that rule, every position it applies to, its one exception, and the lint rules that check it.
+Import every Node built-in by its `node:` specifier (`node:fs`, `node:path`, `node:assert/strict`), never by its bare name. This file gives the runtime facts behind that rule, every position it applies to, its exceptions, and the lint rules that check it.
 
 ## Why the prefix is a runtime fact rather than a preference
 
@@ -12,9 +12,11 @@ Import every Node built-in by its `node:` specifier (`node:fs`, `node:path`, `no
 
 Every position that names a module: a static `import`, an `export ... from`, a dynamic `import()`, `require()` and `require.resolve()`, a test runner's module mock such as `jest.mock('node:fs')` or `vi.mock('node:fs')`, and a type position such as `import type` or `typeof import('node:fs')`.
 
-## The one exception
+## Exceptions
 
 A project whose stated target predates the scheme cannot use it. Node accepts `node:` in `import` from 12.20 and 14.13.1, and in `require()` from 14.18 and 16.0 ([`node:` imports](https://nodejs.org/api/esm.html#node-imports)). The same holds for a tool in the project that does not resolve the scheme at its pinned version: Jest, for example, resolves a prefixed `require()` from 27.1 and mocks a prefixed name from 29.6 ([Jest changelog](https://github.com/jestjs/jest/blob/main/CHANGELOG_PRE_v30.md)). Name the target or the tool version instead of reporting the import, as a shim for a missing platform feature is treated under **Reuse** in [SKILL.md](../SKILL.md).
+
+A bare name matching a dependency the project declares names that package, not the built-in, in code a bundler builds for the browser or Deno runs. `import { Buffer } from 'buffer'` beside a `buffer` entry in `package.json` is the npm polyfill, and `node:buffer` would name a different module, so it stays bare. Node itself always loads the built-in for such a name, so code only Node runs still takes the prefix.
 
 ## Lint rules that check it
 
@@ -25,4 +27,4 @@ Where the project already runs one of these, the rule is the check, and an enabl
 - [`import/enforce-node-protocol-usage`](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/enforce-node-protocol-usage.md) in eslint-plugin-import, set to `'always'`.
 - [`useNodejsImportProtocol`](https://biomejs.dev/linter/rules/use-nodejs-import-protocol/) in Biome, which skips a name the project declares as a dependency.
 
-ESLint's core `no-restricted-imports`, given every name in `module.builtinModules` that does not start with `node:` or `_`, checks static imports and `export ... from` with no new dependency, though it does not see `require()`. Recommend one of these to the project rather than adding it: this skill never edits configuration, and a new plugin is a dependency decision of its own.
+ESLint's core `no-restricted-imports`, given every name in `module.builtinModules` that does not start with `node:` or `_`, checks static imports and `export ... from` with no new dependency, though it sees neither `require()` nor a dynamic `import()`. Recommend one of these to the project rather than adding it: this skill never edits configuration, and a new plugin is a dependency decision of its own.

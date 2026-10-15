@@ -195,4 +195,6 @@ dist/**/*.js.map
 
 # Python
 .mypy_cache
+
+# DevSwarm
 .devswarm-temp/

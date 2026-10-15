@@ -57,7 +57,7 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
 ### Writing new code
 
 1. Detect the project if you have not already.
-2. Before writing a function whose behaviour has a name outside this project, run the three-source lookup in **Reuse** below. It is cheaper before the code exists than after. Import a Node built-in as `node:fs`, never `fs`.
+2. Before writing a function whose behaviour has a name outside this project, run the three-source lookup in **Reuse** below. It is cheaper before the code exists than after. Import a Node built-in as `node:fs`, never `fs`, outside the exceptions in [node-built-ins.md](references/node-built-ins.md).
 3. Write to the detected formatting and let the formatter own layout. Do not hand-align anything a formatter will rewrite. **A formatter collapses blank lines and strips them at block edges but never inserts a separating one, and it leaves an unbraced single-statement `if` at whatever width it was written.** Neither grouping nor width is settled by running it, so both stay yours: see **Readability and naming** below.
 4. Keep a documentation block on every exported symbol, including members of exported structures, and never delete or cut one below its public floor. See **Documentation blocks** below.
 5. Reread every comment you wrote and delete any that narrates the change rather than describing the code.
@@ -84,7 +84,7 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
     - A function body whose length, nesting, or widest expression runs past what a reader holds at once. See **Structure** below.
     - A binding whose name does not say what it holds, and a long condition a named predicate or type guard would explain. See **Readability and naming** below.
     - A body running as one block, with no blank line between the groups doing different work. The formatter will not insert one. Same section.
-    - A Node built-in imported by its bare name rather than its `node:` specifier, **whatever neighbouring files do**: a mistyped `node:` name fails to load, while a mistyped bare one is looked up among installed packages. It is a runtime fact, not a preference. [node-built-ins.md](references/node-built-ins.md) lists every specifier position and the one exception.
+    - A Node built-in imported by its bare name rather than its `node:` specifier, **whatever neighbouring files do**: a mistyped `node:` name fails to load, while a mistyped bare one is looked up among installed packages. [node-built-ins.md](references/node-built-ins.md) lists every specifier position and its exceptions.
     - A construct spelled differently from how the rest of the codebase spells the same thing: `import type` against a value import, an alias against a relative path.
 
     **Comments and documentation.**
@@ -144,7 +144,7 @@ Worked before-and-after examples are in [comments-and-jsdoc.md](references/comme
 Prefer the readable form wherever it costs nothing at runtime, and wherever the project's linter has not decided otherwise by a rule it actually enables.
 
 - Braced blocks for anything that is not a **short** single-line early exit. `if (!data) return;` may stay unbraced on one line, as may `break`, `continue`, and `throw`. Everything else takes braces, including a single-statement body that spans lines.
-- **Length is what makes that exit readable, not the fact that it exits early.** A four-hundred-character condition returning a four-hundred-character expression is one line and is unreadable, and both halves are findings: brace the statement, and extract the condition to a named predicate. A linter configured as `curly: ['error', 'multi-line']` permits the long form, and the formatter leaves it at its width (see step 3 of **Writing new code**), so neither tool will say anything and the judgement is yours.
+- **Length is what makes that exit readable, not the fact that it exits early.** A four-hundred-character condition returning a four-hundred-character expression is one line and is unreadable, and both halves are findings: brace the statement, and extract the condition to a named predicate. A linter configured as `curly: ['error', 'multi-line']` permits the long form, and the formatter leaves it as written (see step 3 of **Writing new code**), so neither tool will say anything and the judgement is yours.
 - A blank line before `return`, `break`, `continue`, and `throw` when it is not the first statement in its block.
 - No blank lines between `switch` cases.
 - Separate groups that do different work with a blank line: setup, action, assertion; or fetch, transform, render. **A body with no blank line anywhere is the finding**, whatever its length, because the formatter collapses and strips blank lines and never inserts one: a file written as a single block leaves the formatter as a single block, correctly indented and still unreadable.

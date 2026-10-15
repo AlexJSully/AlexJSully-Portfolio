@@ -154,7 +154,7 @@ Two lenses are read alongside every category in `review-categories.md` rather th
 - **Altitude:** a special case added to shared code for one caller, or a symptom patched at each call site, where changing the shared mechanism once is the fix.
 - **Change amplification:** how many files must change together the next time this behaviour changes, and whether a value a consumer would configure is named where a consumer can find it rather than buried in a function body.
 
-**Report what this lens sees and let section 6 filter it.** Whether a proposed split is premature generalization is a real question and it is asked there, against the fix. Held here it does the opposite: an instruction to be conservative, read at the moment of deciding what to report, produces a shorter review rather than a more accurate one.
+**Report what this lens sees and let section 6 filter it.** Whether a proposed split is premature generalization is a real question and it is asked there, against the fix. Held here it backfires: an instruction to be conservative, read at the moment of deciding what to report, produces a shorter review rather than a more accurate one.
 
 **Security and privacy in three directions.** Ask who each finding protects: _the end user_, meaning their data, session, device, and browser; _the host, system, and company_, meaning the server, its tokens, its logs, and any infrastructure detail leaking into public source; and _the developer and the build_, meaning whether cloning, installing, building, or opening this repository can compromise the machine that does it. The third is the one a review forgets it is allowed to raise. Each direction's checks are in [`security-and-privacy.md`](references/security-and-privacy.md), organized the same way.
 
