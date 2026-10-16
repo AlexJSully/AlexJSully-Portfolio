@@ -13,6 +13,7 @@ import Meta from './icons/meta.svg';
 import MPX from './icons/mpx.svg';
 import OpenVSX from './icons/openvsx.svg';
 import Publish from './icons/publish.svg';
+import Remix from './icons/remix.svg';
 import SciGrade from './icons/scigrade.svg';
 import SmallDevTalk from './icons/smalldevtalk.svg';
 import threads from './icons/threads.svg';
@@ -65,6 +66,8 @@ export const MPXIcon = (props: SvgIconProps): ReactElement => generateIconJSX(MP
 export const OpenVSXIcon = (props: SvgIconProps): ReactElement => generateIconJSX(OpenVSX as ComponentType, props);
 /** Renders a publication icon, used for published papers. */
 export const PublishIcon = (props: SvgIconProps): ReactElement => generateIconJSX(Publish as ComponentType, props);
+/** Renders the Remix.gg logo. */
+export const RemixIcon = (props: SvgIconProps): ReactElement => generateIconJSX(Remix as ComponentType, props);
 /** Renders the SciGrade project logo. */
 export const SciGradeIcon = (props: SvgIconProps): ReactElement => generateIconJSX(SciGrade as ComponentType, props);
 /** Renders the Small Dev Talk project logo. */

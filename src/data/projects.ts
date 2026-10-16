@@ -8,6 +8,7 @@ import {
 	MetaIcon,
 	OpenVSXIcon,
 	PublishIcon,
+	RemixIcon,
 	SciGradeIcon,
 	SmallDevTalkIcon,
 	UofTIcon,
@@ -104,6 +105,29 @@ const projects: Projects[] = [
 		},
 		showcase: true,
 		youtubeURL: 'https://www.youtube-nocookie.com/embed/zoPr6tYh5wA?mute=1&cc_load_policy=1&controls=1',
+	},
+	{
+		name: 'Crosstown Courier',
+		id: 'crosstown-courier',
+		description:
+			'A delivery-routing puzzle game made for the Remix.gg Friend Jam: build roads and bike paths, then dispatch couriers to deliver shape-matched packages before any neighbourhood overflows.',
+		title: 'Creator',
+		type: 'Personal Project',
+		url: 'https://remix.gg/g/crosstown-courier',
+		urls: [
+			{
+				text: 'Remix.gg',
+				tooltip: 'Play Crosstown Courier on Remix.gg',
+				icon: RemixIcon,
+				url: 'https://remix.gg/g/crosstown-courier',
+			},
+		],
+		color: '#b6ff00',
+		dates: {
+			startDate: '2026-05',
+			endDate: '2026-05',
+		},
+		showcase: false,
 	},
 	{
 		name: 'Workspace Wiki',
@@ -323,6 +347,29 @@ const projects: Projects[] = [
 		dates: {
 			startDate: '2019-04',
 			endDate: '2021-08',
+		},
+		showcase: false,
+	},
+	{
+		name: 'Publication Figure Retrieval',
+		id: 'publication-figure-retrieval',
+		description:
+			"Retrieves publication figures from PubMed Central for a list of plant species using NCBI's Entrez API",
+		title: 'Creator',
+		type: 'Personal Project',
+		url: 'https://github.com/AlexJSully/Publication-Figure-Retrieval',
+		urls: [
+			{
+				text: 'GitHub',
+				tooltip: 'Visit the GitHub repository for Publication Figure Retrieval',
+				icon: GitHubIcon,
+				url: 'https://github.com/AlexJSully/Publication-Figure-Retrieval',
+			},
+		],
+		color: '#ffffff',
+		dates: {
+			startDate: '2019-08',
+			endDate: '2020-06',
 		},
 		showcase: false,
 	},
