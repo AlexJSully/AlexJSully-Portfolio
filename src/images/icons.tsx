@@ -2,6 +2,7 @@ import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
 import { ComponentType, ReactElement } from 'react';
 import BAR from './icons/bar.svg';
 import BlueSky from './icons/bluesky.svg';
+import Farcaster from './icons/farcaster.svg';
 import GitHub from './icons/github.svg';
 import GolangGopher from './icons/golanggopher.svg';
 import GooglePlayStore from './icons/googleplay.svg';
@@ -9,6 +10,7 @@ import ImpactDepth from './icons/impactdepth.svg';
 import Instagram from './icons/instagram.svg';
 import iOS from './icons/ios.svg';
 import LinkedIn from './icons/linkedin.svg';
+import Mastodon from './icons/mastodon.svg';
 import Meta from './icons/meta.svg';
 import MPX from './icons/mpx.svg';
 import OpenVSX from './icons/openvsx.svg';
@@ -41,6 +43,8 @@ function generateIconJSX(icon: ComponentType, props: SvgIconProps): ReactElement
 export const BarIcon = (props: SvgIconProps): ReactElement => generateIconJSX(BAR as ComponentType, props);
 /** Renders the Bluesky logo. */
 export const BlueSkyIcon = (props: SvgIconProps): ReactElement => generateIconJSX(BlueSky as ComponentType, props);
+/** Renders the Farcaster logo. */
+export const FarcasterIcon = (props: SvgIconProps): ReactElement => generateIconJSX(Farcaster as ComponentType, props);
 /** Renders the GitHub logo. */
 export const GitHubIcon = (props: SvgIconProps): ReactElement => generateIconJSX(GitHub as ComponentType, props);
 /** Renders the Go gopher mascot. */
@@ -58,6 +62,8 @@ export const InstagramIcon = (props: SvgIconProps): ReactElement => generateIcon
 export const iOSIcon = (props: SvgIconProps): ReactElement => generateIconJSX(iOS as ComponentType, props);
 /** Renders the LinkedIn logo. */
 export const LinkedInIcon = (props: SvgIconProps): ReactElement => generateIconJSX(LinkedIn as ComponentType, props);
+/** Renders the Mastodon bird logo. */
+export const MastodonIcon = (props: SvgIconProps): ReactElement => generateIconJSX(Mastodon as ComponentType, props);
 /** Renders the Meta logo. */
 export const MetaIcon = (props: SvgIconProps): ReactElement => generateIconJSX(Meta as ComponentType, props);
 /** Renders the MPX project logo. */

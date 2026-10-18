@@ -104,7 +104,7 @@ const projects: Projects[] = [
 			endDate: 'current',
 		},
 		showcase: true,
-		youtubeURL: 'https://www.youtube-nocookie.com/embed/zoPr6tYh5wA?mute=1&cc_load_policy=1&controls=1',
+		youtubeURL: 'https://www.youtube-nocookie.com/embed/-sMhpndSiIc?mute=1&cc_load_policy=1&controls=1',
 	},
 	{
 		name: 'Crosstown Courier',
@@ -195,7 +195,7 @@ const projects: Projects[] = [
 			endDate: 'current',
 		},
 		showcase: true,
-		youtubeURL: 'https://www.youtube-nocookie.com/embed/x4uIs3s6P_I?mute=1&cc_load_policy=1&controls=1',
+		youtubeURL: 'https://www.youtube-nocookie.com/embed/UDBNQa0DuXg?mute=1&cc_load_policy=1&controls=1',
 	},
 	{
 		name: 'FHIRPath Go',
