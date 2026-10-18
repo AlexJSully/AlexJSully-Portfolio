@@ -1,4 +1,13 @@
-import { BlueSkyIcon, GitHubIcon, LinkedInIcon, MPXIcon, TwitchIcon, XIcon } from '@images/icons';
+import {
+	BlueSkyIcon,
+	FarcasterIcon,
+	GitHubIcon,
+	LinkedInIcon,
+	MPXIcon,
+	MastodonIcon,
+	TwitchIcon,
+	XIcon,
+} from '@images/icons';
 
 /** Social media data */
 const socials = [
@@ -37,6 +46,18 @@ const socials = [
 		url: 'https://app.masterpiecex.com/user/alexjsully',
 		icon: MPXIcon,
 		color: '#00EAB7',
+	},
+	{
+		name: 'Farcaster',
+		url: 'https://farcaster.xyz/alexjsully',
+		icon: FarcasterIcon,
+		color: '#8A63D2',
+	},
+	{
+		name: 'Mastodon',
+		url: 'https://mastodon.social/@alexjsully',
+		icon: MastodonIcon,
+		color: '#6364FF',
 	},
 ];
 

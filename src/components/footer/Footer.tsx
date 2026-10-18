@@ -155,9 +155,10 @@ export default function Footer() {
 									}}
 									size='large'
 									sx={{
-										color: '#fff',
-										filter: 'drop-shadow(0px 4px 4px rgba(250, 250, 250, 0.2))',
-										transition: 'all .2s ease-in-out',
+										color: social.color ?? 'primary.main',
+										filter: `drop-shadow(0px 2px 3px color-mix(in srgb, ${social.color ?? 'primary.main'} 45%, transparent))`,
+										transition:
+											'color .2s ease-in-out, background-color .2s ease-in-out, transform .2s ease-in-out',
 										'&:hover': {
 											backgroundColor: '#2c3443',
 											color: social.color ?? 'primary.main',
