@@ -147,6 +147,23 @@ Markdown is linted by a separate [markdown-lint.yaml](../../.github/workflows/ma
 
 No workflow calls `npm run validate`, and none of the steps above writes to a checked-out file. A violation that `npm run validate` would have repaired locally therefore fails CI instead, which is why the local run belongs before the commit rather than after the push.
 
+### Dependency review
+
+The [dependency-review.yaml](../../.github/workflows/dependency-review.yaml) workflow runs the [dependency review action](https://github.com/actions/dependency-review-action/blob/v5.0.0/README.md) on every pull request to `main`, without a path filter. It compares dependency changes between the pull request's base and head revisions using GitHub's dependency graph, which records detected packages and their relationships. The action is available for public repositories on GitHub Free, including repositories owned by personal accounts. It does not require the separate [enterprise licence compliance feature](https://docs.github.com/en/enterprise-cloud@latest/code-security/concepts/supply-chain-security/open-source-license-compliance).
+
+The workflow sets these policy inputs:
+
+- **`allow-licenses`**: Accepts `0BSD`, `Apache-2.0`, `BSD-2-Clause`, `BSD-3-Clause`, `BlueOak-1.0.0`, `CC0-1.0`, `ISC`, `MIT`, `MIT-0`, `Python-2.0`, `PSF-2.0`, and `Unlicense`. These are Software Package Data Exchange (SPDX) identifiers, standardized names for licences. The action evaluates compound licence expressions against this list. No package-specific licence exceptions are configured.
+- **`fail-on-severity`**: Fails on introduced known vulnerabilities rated `high` or `critical`.
+- **`fail-on-scopes`**: Includes `runtime`, `development`, and `unknown`, covering application dependencies, development tools, and dependencies whose scope GitHub cannot determine. Detected transitive dependencies, packages brought in by other dependencies, are included in the review.
+- **`retry-on-snapshot-warnings`**: Retries dependency comparisons with snapshot warnings for up to 120 seconds while GitHub processes dependency data.
+
+The workflow grants only `contents: read`, uses the automatic GitHub token, and posts no pull-request comments. Results appear in the `Dependency Review` check's job summary and logs. On failure, inspect the affected package and dependency chain, then update, remove, or replace the dependency, or review a deliberate change to `allow-licenses`. A licence outside the list requires review; the failed check is not a legal finding. Do not add a blanket exception solely to make the check pass.
+
+The action reviews dependency changes, not the entire existing dependency tree. It does not generate licences, verify attribution or redistribution obligations, or certify legal compliance. Its [licence detection limitation](https://github.com/actions/dependency-review-action/blob/v5.0.0/README.md#configuration-options) means an undetected licence is reported without failing the check; an unresolvable licence expression can fail. Review missing licence information manually. Existing dependencies with licences outside the allowlist are not automatically approved, and dependency updates involving those packages can fail.
+
+To prevent merging on a failed review, after the workflow has run, a repository administrator can select `Dependency Review` as a required status check in the branch protection rule or ruleset targeting `main`. The workflow itself does not configure branch protection. GitHub documents [required status checks](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches#require-status-checks-before-merging).
+
 ## Contributing
 
 If you want to contribute to this repository, please refer to the [Contributing Guide](../../CONTRIBUTING.md) for more details on the pull request process and code of conduct.
