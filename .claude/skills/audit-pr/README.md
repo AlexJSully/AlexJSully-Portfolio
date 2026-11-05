@@ -6,7 +6,7 @@ Reviews a pull request, or a working branch's diff, across eighteen categories f
 
 - Checks that the change does what its title, description, and linked ticket say.
 - Enters only the categories the diff triggers, chosen through a triage table.
-- Quotes the changed line behind every finding, with any credential value redacted.
+- Cites the file path and line number of the changed line behind every finding, and quotes it, with any credential value redacted.
 - Tries to refute each finding before publishing it, and drops the ones that do not survive.
 - Gives every finding a severity, says what the change does well, and ends with a verdict.
 
