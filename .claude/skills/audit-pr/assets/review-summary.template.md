@@ -14,7 +14,7 @@ Copy the blocks below into the review output and replace every bracketed placeho
 ```text
 ### [🔴 blocking | 🟡 should fix | 🔵 suggestion | ✅ positive] [Short title, roughly eight words or fewer]
 
-**File:** `[path/to/file.ext]`
+**Location:** `[path/from/repository/root/file.ext]:[line]`
 **Category:** [category name, spelled as the triage table spells it]
 **Changed line:** `[the line as the diff shows it, with any credential value replaced by [REDACTED]]`
 **Measured:** [structural findings only: the count, how it was obtained, and what it is measured against]
@@ -28,13 +28,14 @@ Copy the blocks below into the review output and replace every bracketed placeho
 
 Filling rules that decide whether the block is usable:
 
+- **Location** is the file's path from the repository root, never its name alone, since a change can touch many files sharing one name, then a colon and the line number of the quoted line in the file as the change leaves it, or a range such as `:42-43` where the quote spans two adjacent lines; where the two lines are apart, cite the line carrying the defect and name the other in **Issue**. A removed line cites its line in the base revision followed by a space and `(removed)`, as in `src/auth.ts:42 (removed)`. Take the number from a read or a search that printed it, never from an estimate. A structural finding gives the path it counts, with the line of the declaration that carries the count where one does.
 - **Changed line** is copied, not retyped: keep the indentation, the spelling, and any trailing comma. Quote one line; where the defect needs two, quote both and no more. Where the line holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, write `[REDACTED]` in place of that value and keep the rest of the line as it reads. Make the substitution here and nowhere earlier, because the checks below search the diff for the line as it stands. A redacted quote is a quote, so the finding still ships. If you cannot produce the quote at all, the finding does not ship, unless it carries **Measured** instead under the next rule.
 - **Measured** replaces **Changed line** on a finding no single line can carry, and fills all three parts, since a number alone reads as a fact rather than a defect: the count, how it was obtained, and what it is measured against. A bare number has nothing for the refutation pass to check.
 - **Looked up** replaces neither field and sits beside them on a reuse finding: the sources checked in the order the review gives them, and the symbol that settles it. A finding claiming nothing already provides the behaviour carries this field too, naming what was opened and what was searched, because that claim cannot be checked without it. Name each file; never quote a credentialed registry URL out of a lockfile into the field.
 - **Principle** sits on an architecture or design finding and names one principle from the maintainability lens, with one clause saying how this unit violates or upholds it. A finding that cannot name one is describing taste rather than a defect, and it is dropped rather than reworded. Omit the field on every other category.
 - **Issue** answers three questions in order and stops. A sentence that only restates the quoted line adds nothing, and every step of the chain it describes has to be one you can point at in the file.
 - **Suggested fix** carries code, not a description of code. Write the corrected form in the file's own language, complete enough to paste. Prose belongs here only where the finding is not about code, such as a process or a documentation gap. The field is deleted, along with its blank line, for a question and for every ✅ positive. A fix you could not verify keeps its code and is labelled `(unverified: [what would confirm it])`.
-- One defect per block. Where the same defect repeats across files, write one block and list the other paths at the end of **Issue** rather than repeating the block.
+- One defect per block. Where the same defect repeats across files, write one block and list the other locations, each as path and line, at the end of **Issue** rather than repeating the block.
 - Pre-existing code that this change makes wrong is labelled `(pre-existing)` in the title.
 
 ## Worked finding examples
@@ -44,7 +45,7 @@ Four filled blocks: two at the ends of the severity range, then the two evidence
 ```text
 ### 🟡 should fix Retry loop has no attempt ceiling
 
-**File:** `services/billing/sync.py`
+**Location:** `services/billing/sync.py:88`
 **Category:** Error handling and resilience
 **Changed line:** `    while not response.ok:`
 
@@ -62,21 +63,21 @@ for attempt in range(MAX_RETRIES):
 ```text
 ### ✅ positive Shutdown reaches a worker blocked on a receive
 
-**File:** `internal/worker/pool.go`
+**Location:** `internal/worker/pool.go:57`
 **Category:** Concurrency and shared state
 **Changed line:** `	case <-ctx.Done():`
 
 **Issue:** Cancellation travels through the context, so a worker parked on a channel receive returns instead of holding the pool open. Two call sites can request shutdown without racing to close the same channel, which removes the double-close panic path.
 ```
 
-The positive block carries no **Suggested fix** line and still names a file, a category, and a quoted line.
+The positive block carries no **Suggested fix** line and still names a location, a category, and a quoted line.
 
 Two more, showing how the two evidence fields are filled.
 
 ```text
 ### 🟡 should fix Utility takes two behaviour switches
 
-**File:** `src/lib/collect.ts`
+**Location:** `src/lib/collect.ts:12`
 **Category:** Architecture and design
 **Measured:** 3 parameters on `collectEntries`, 1 supplying data and 2 switching behaviour, from the signature, against 0 switches on `flattenNodes` and 0 on `countLeaves`, the two other exported functions in the same module
 **Principle:** single responsibility: the unit traverses, filters, and orders, so three reasons to change sit in one name
@@ -93,7 +94,7 @@ export function reverseOrder(entries: Entry[]): Entry[]
 ```text
 ### 🔴 blocking Hand-written digest comparison beside the library that exports one
 
-**File:** `src/main/java/app/TokenVerifier.java`
+**Location:** `src/main/java/app/TokenVerifier.java:41`
 **Category:** Security
 **Changed line:** `        for (int i = 0; i < expected.length; i++) {`
 **Looked up:** the file's own imports, then the manifest and its lockfile; `java.security.MessageDigest`, already imported two lines above, exports `isEqual` for exactly this comparison
@@ -132,7 +133,7 @@ The first block carries **Measured** and **Principle** and no **Changed line**, 
 
 ### What is done well
 
-- [Specific pattern, with the file it appears in. Same evidence standard as any other finding: no file and no quoted line, no entry.]
+- [Specific pattern, with its location as path and line. Same evidence standard as any other finding: no location and no quoted line, no entry.]
 
 ### Before merging
 
@@ -168,10 +169,10 @@ Three ways the line goes wrong:
 
 1. No bracketed placeholder survives anywhere in the output, including inside a suggested fix. `[REDACTED]` is not a placeholder and is left in place.
 2. Every severity count matches the blocks, and the verdict matches the counts.
-3. Every quoted line still appears in the diff, spelled as it reads there. A line carrying `[REDACTED]` is checked on the text around that placeholder, and never by recovering the value it stands for.
+3. Every quoted line still appears in the diff, spelled as it reads there, at the line number its **Location** gives, read in the base revision for a `(removed)` line. A line carrying `[REDACTED]` is checked on the text around that placeholder, and never by recovering the value it stands for.
 4. No ✅ block carries a suggested fix, and no 🔴 block lacks one. Every fix on a code finding is code rather than a description of code.
 5. Every step of every **Issue** points at a line in the file, so no block explains the defect by a mechanism the code does not carry.
 6. Every **Before merging** item traces to a finding block above, and every 🔴 finding has an item.
-7. No file path is cited that you did not open.
+7. Every **Location** gives a path from the repository root, in a file you opened, and a line number, except on a structural finding with no counted declaration. No file is named by its name alone.
 8. Every structural finding carries **Measured** with all three parts, and every reuse finding carries **Looked up** naming the sources opened.
 9. Every architecture and design finding carries **Principle** naming one from the maintainability lens. A block that cannot name one was dropped rather than reworded into a suggestion.
