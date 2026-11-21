@@ -304,8 +304,8 @@ raise DeliveryError(url)
 **Before sending, check these five points and correct any that fails:**
 
 1. It holds the three parts above, in that order, and nothing else.
-2. Every 🔴, 🟡, and 🔵 block about code has a fenced `Recommendation` in the file's language, and no ✅ block has one.
-3. Every quote appears in the file its `Evidence` names, and every count states its comparison.
+2. Every 🔴, 🟡, and 🔵 block about code has a fenced `Recommendation` in the file's language, apart from the findings the `Recommendation` rule exempts, and no ✅ block has one.
+3. Every quote appears in the file its `Evidence` names, a redacted quote matched on the text around `[REDACTED]`, and every count states its comparison.
 4. The severity counts equal the blocks, and `Scope` names the rule that applied.
 5. No bracketed placeholder survives, apart from `[REDACTED]`.
 

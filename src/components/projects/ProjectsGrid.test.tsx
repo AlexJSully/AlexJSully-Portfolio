@@ -59,17 +59,21 @@ describe('ProjectsGrid', () => {
 		});
 	});
 
-	it('names each project link by its visible text and describes it with its tooltip', () => {
-		const linkedProject = projects.find((candidate) => candidate.showcase && candidate.urls?.length);
-		const [firstURL] = linkedProject?.urls ?? [];
+	// Every URL button of every project, including those behind View More, such as eFP-Seq Browser's, whose logo
+	// carries visible text of its own.
+	const projectURLs = projects.flatMap(({ name, urls }) => (urls ?? []).map((url) => ({ project: name, ...url })));
 
-		if (!firstURL) {
-			throw new Error('ProjectsGrid link tests need a showcase project with at least one URL.');
-		}
+	it.each(projectURLs)(
+		'names the $project "$text" link by its visible text and points it at its URL',
+		({ text, tooltip, url }) => {
+			// The accessible name carries only the visible label, so a voice-control user can say what they see.
+			const button = screen.getByRole('button', { name: text, description: tooltip, hidden: true });
+			const link = button.closest('a');
 
-		// The accessible name carries only the visible label, so a voice-control user can say what they see.
-		expect(screen.getByRole('button', { name: firstURL.text, description: firstURL.tooltip })).toBeVisible();
-	});
+			expect(link).toHaveAttribute('href', url);
+			expect(link).toHaveAccessibleName(text);
+		},
+	);
 
 	it('toggles view more/less projects', () => {
 		fireEvent.click(screen.getByRole('button', { name: /view more projects/i }));

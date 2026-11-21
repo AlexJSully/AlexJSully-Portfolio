@@ -64,7 +64,7 @@
 		"eslint": "^10.14.0",
 		"jest": "^30.5.2",
 		"jest-environment-jsdom": "^30.5.2",
-		"markdownlint-cli2": "^0.24.0",
+		"markdownlint-cli2": "^0.23.3",
 		"prettier": "^3.9.10",
 		"sass": "^1.108.1",
 		"start-server-and-test": "^3.0.13",

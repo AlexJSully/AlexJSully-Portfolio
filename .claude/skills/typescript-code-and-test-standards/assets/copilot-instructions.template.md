@@ -54,7 +54,7 @@ Each defect below is provable from TypeScript or JavaScript alone. The rules com
 
 - Never `Number`, `String`, `Boolean`, `Symbol`, `Object`, or `Function` as a type. A call through `Function` is untyped and returns `any`; write the signature.
 - `as` and `!` need a runtime check or a comment saying why they hold. An assertion between unrelated types goes through `unknown` (`x as unknown as Foo`), never `any` or `{}`. No `@ts-ignore` or `@ts-nocheck`; `@ts-expect-error` only in unit tests, with a comment.
-- **A truthiness check on a type admitting `0`, `""`, `NaN`, or `0n` is a defect**: `if (count)` on `number | undefined` treats zero as missing. Never coerce an enum value to a boolean, explicitly or in a condition, because its first member is `0`.
+- **A truthiness check used as a presence check is a defect where a falsy value of the type is meaningful**: `if (count)` on `number | undefined` treats zero as missing, while `if (items.length)`, which means "non-empty", is intended. Never coerce an enum value to a boolean, explicitly or in a condition, because its first member is `0`.
 - No unary `+` or `parseFloat` to read a number; `Number()`, then check for `NaN`. `parseInt` only for a non-decimal radix.
 - Pass an arrow that forwards its arguments rather than a named function as a callback: `['1', '2', '3'].map(parseInt)` returns `[1, NaN, NaN]`.
 - Variants are a discriminated union, not optional fields read through `!`, and a `switch` over one assigns the value to `never` in its `default` so a new variant fails to compile.

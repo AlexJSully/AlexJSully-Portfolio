@@ -257,8 +257,8 @@ Worked blocks for the other evidence shapes, one carrying `Measured` and one car
 **Before sending, check the report against these five points and correct it where one fails:**
 
 1. It holds the three parts above, in that order, and nothing else.
-2. Every 🔴, 🟡, and 🔵 block about code has a fenced `Suggested fix` in the file's language, and no ✅ block has one.
-3. Every quoted line appears in the diff at the line its `Location` gives, and every `Location` is a path from the repository root with a line number.
+2. Every 🔴, 🟡, and 🔵 block about code has a fenced `Suggested fix` in the file's language, apart from the fix-less findings section 2 names, and no ✅ block has one.
+3. Every quoted line appears in the diff at the line its `Location` gives, a redacted line matched on the text around `[REDACTED]`, and every `Location` takes a form rule 2 gives.
 4. The four severity counts equal the blocks above them, and the verdict follows the counts.
 5. No bracketed placeholder survives, apart from `[REDACTED]`.
 

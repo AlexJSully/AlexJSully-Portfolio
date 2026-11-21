@@ -245,7 +245,7 @@ The [Google TypeScript Style Guide digest](references/google-typescript-style-di
 
 A project that consistently applies a different variant of any of them has a preference, not a defect. Follow the project.
 
-The [TypeScript Handbook digest](references/typescript-handbook-digest.md) is read with the quality half: boxed and `Function` types, callback and overload signatures, truthiness checks on `0` or `""`, and exhaustive narrowing.
+The [TypeScript Handbook digest](references/typescript-handbook-digest.md) is read with the quality half: boxed and `Function` types, callback and overload signatures, presence checks that drop `0` or `""`, and exhaustive narrowing.
 
 ## Bundled procedures
 
