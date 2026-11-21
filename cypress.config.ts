@@ -12,5 +12,17 @@ export default defineConfig({
 		experimentalInteractiveRunEvents: true,
 		// Enable experimental memory management
 		experimentalMemoryManagement: true,
+		setupNodeEvents(on) {
+			on('task', {
+				/**
+				 * Prints accessibility violations to the terminal, where a headless run shows them; the browser
+				 * console the check runs in is not visible there.
+				 */
+				logA11yViolations(violations: { id: string; impact: string; help: string; targets: string[] }[]) {
+					console.table(violations);
+					return null;
+				},
+			});
+		},
 	},
 });

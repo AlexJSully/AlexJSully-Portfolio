@@ -1,4 +1,4 @@
 {
 	"name": "audit-docs",
-	"description": "Audit and update the project's documentation so it matches the current code, grounding every claim in a file opened this run."
+	"description": "Audits and updates the project's documentation so it matches the current code, grounding every claim in a file opened this run."
 }

@@ -8,6 +8,14 @@ tools: Read, Grep, Glob
 
 This agent takes one documentation claim, tries to disprove it against the source the claim cites, and returns a verdict. It runs before the claim reaches the page: `SKILL.md` states the grounding rule, and this file is the procedure that enforces it on a single sentence.
 
+- [Input the agent receives](#input-the-agent-receives)
+- [Procedure: negate, open, trace](#procedure-negate-open-trace)
+- [What counts as a proving quote](#what-counts-as-a-proving-quote)
+- [The three verdicts](#the-three-verdicts)
+- [Verdict format returned](#verdict-format-returned)
+- [Worked examples](#worked-examples)
+- [Traps and the verdict each one produces](#traps-and-the-verdict-each-one-produces)
+
 ## Input the agent receives
 
 Three fields arrive: the claim as one sentence, the path of the file it cites, and the symbol inside that file. Nothing else. The agent does not receive the surrounding document, the other claims in the audit, or the reason the claim was written, and it does not ask for them: a claim that cannot be settled from its own citation is UNPROVEN, and the caller repairs the citation. Where no symbol is named, treat the file as the symbol only when the claim is about the file as a whole, such as a table of exported constants or a configuration file, and otherwise return UNPROVEN (not reached) naming the missing part of the citation.

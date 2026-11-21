@@ -1,6 +1,6 @@
 # Review summary template
 
-Copy the blocks below into the review output and replace every bracketed placeholder. `[REDACTED]` is the one exception: it marks a credential value withheld on purpose, and it is left in place. One finding block per finding, in severity order, then one closing summary at the end of the run.
+Copy the blocks below into the review output, in the order the skill's section 7 gives, and replace every bracketed placeholder. `[REDACTED]` is the one exception: it marks a credential value withheld on purpose, and it is left in place. One finding block per finding, in severity order, then one closing summary at the end of the run.
 
 - [Per-finding block](#per-finding-block)
 - [Worked finding examples](#worked-finding-examples)
@@ -11,7 +11,7 @@ Copy the blocks below into the review output and replace every bracketed placeho
 
 ## Per-finding block
 
-```text
+````text
 ### [🔴 blocking | 🟡 should fix | 🔵 suggestion | ✅ positive] [Short title, roughly eight words or fewer]
 
 **Location:** `[path/from/repository/root/file.ext]:[line]`
@@ -23,8 +23,12 @@ Copy the blocks below into the review output and replace every bracketed placeho
 
 **Issue:** [what is wrong]. [what can go wrong, and the input or state that triggers it]. [the rule, standard, or project convention it violates]
 
-**Suggested fix:** [the corrected code, in the language of the file]
+**Suggested fix:**
+
+```[language of the file]
+[the corrected lines, complete enough to paste]
 ```
+````
 
 Filling rules that decide whether the block is usable:
 
@@ -42,7 +46,7 @@ Filling rules that decide whether the block is usable:
 
 Four filled blocks: two at the ends of the severity range, then the two evidence shapes, one carrying no quoted line and one carrying a quoted line beside a lookup.
 
-```text
+````text
 ### 🟡 should fix Retry loop has no attempt ceiling
 
 **Location:** `services/billing/sync.py:88`
@@ -53,12 +57,14 @@ Four filled blocks: two at the ends of the severity range, then the two evidence
 
 **Suggested fix:**
 
+```python
 for attempt in range(MAX_RETRIES):
     response = post(url, json=payload)
     if response.ok:
         break
     sleep(backoff(attempt))
 ```
+````
 
 ```text
 ### ✅ positive Shutdown reaches a worker blocked on a receive
@@ -74,7 +80,7 @@ The positive block carries no **Suggested fix** line and still names a location,
 
 Two more, showing how the two evidence fields are filled.
 
-```text
+````text
 ### 🟡 should fix Utility takes two behaviour switches
 
 **Location:** `src/lib/collect.ts:12`
@@ -86,12 +92,14 @@ Two more, showing how the two evidence fields are filled.
 
 **Suggested fix:**
 
+```typescript
 export function collectEntries(node: Node): Entry[]
 export function keepMatching(entries: Entry[], match: Matcher): Entry[]
 export function reverseOrder(entries: Entry[]): Entry[]
 ```
+````
 
-```text
+````text
 ### 🔴 blocking Hand-written digest comparison beside the library that exports one
 
 **Location:** `src/main/java/app/TokenVerifier.java:41`
@@ -103,10 +111,12 @@ export function reverseOrder(entries: Entry[]): Entry[]
 
 **Suggested fix:**
 
+```java
 if (!MessageDigest.isEqual(expected, presented)) {
     throw new SecurityException("token mismatch");
 }
 ```
+````
 
 The first block carries **Measured** and **Principle** and no **Changed line**, because no single line shows a signature carrying two switches and an architecture finding names the principle it rests on. The second carries both a quoted line and **Looked up**, because the defect is a line and the fix is a symbol the file already had.
 

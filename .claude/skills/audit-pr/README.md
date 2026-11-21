@@ -1,6 +1,6 @@
 # audit-pr
 
-Reviews a pull request, or a working branch's diff, across eighteen categories from correctness and security to cost and accessibility, and produces findings a person can verify and paste into the pull request. It reports findings rather than editing files.
+Reviews a pull request, or a working branch's diff, across triaged categories from correctness and security to testing, accessibility, cost, and the contracts of the external systems it calls, and returns one report a person can verify. It reports findings rather than editing files.
 
 ## What it does
 
@@ -8,6 +8,7 @@ Reviews a pull request, or a working branch's diff, across eighteen categories f
 - Enters only the categories the diff triggers, chosen through a triage table.
 - Cites the file path and line number of the changed line behind every finding, and quotes it, with any credential value redacted.
 - Tries to refute each finding before publishing it, and drops the ones that do not survive.
+- Shows the corrected code for every finding it can fix, ready for the author to apply.
 - Gives every finding a severity, says what the change does well, and ends with a verdict.
 
 ## Usage

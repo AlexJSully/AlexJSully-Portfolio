@@ -59,6 +59,18 @@ describe('ProjectsGrid', () => {
 		});
 	});
 
+	it('names each project link by its visible text and describes it with its tooltip', () => {
+		const linkedProject = projects.find((candidate) => candidate.showcase && candidate.urls?.length);
+		const [firstURL] = linkedProject?.urls ?? [];
+
+		if (!firstURL) {
+			throw new Error('ProjectsGrid link tests need a showcase project with at least one URL.');
+		}
+
+		// The accessible name carries only the visible label, so a voice-control user can say what they see.
+		expect(screen.getByRole('button', { name: firstURL.text, description: firstURL.tooltip })).toBeVisible();
+	});
+
 	it('toggles view more/less projects', () => {
 		fireEvent.click(screen.getByRole('button', { name: /view more projects/i }));
 

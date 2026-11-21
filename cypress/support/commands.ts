@@ -14,15 +14,24 @@ declare global {
 /**
  * Settings passed to every `cypress-axe` accessibility check.
  *
- * `violationCallback` logs each violation so a failure names the offending rule; the reporter
- * otherwise states only that a violation occurred. `violations` is `any` because `cypress-axe`
- * does not export the callback's result type.
+ * `violationCallback` sends each violation's rule, impact, and element selectors to the
+ * `logA11yViolations` task, which prints them in the terminal so a failure names the offending
+ * rule; the reporter otherwise states only that a violation occurred. `violations` is `any`
+ * because `cypress-axe` does not export the callback's result type.
  */
 const axeParams = {
 	context: undefined,
 	rules: undefined,
 	violationCallback: (violations: any) => {
-		console.log('violations', violations);
+		cy.task(
+			'logA11yViolations',
+			violations.map(({ id, impact, help, nodes }: any) => ({
+				id,
+				impact,
+				help,
+				targets: nodes.map((node: any) => node.target.join(' ')),
+			})),
+		);
 	},
 };
 

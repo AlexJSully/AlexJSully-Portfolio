@@ -86,6 +86,18 @@ const sentryWebpackPluginOptions = {
 	org: process.env.NEXT_PUBLIC_SENTRY_ORG,
 	project: 'personal-portfolio',
 
+	// Tree-shakes Sentry SDK code this site never runs from the webpack and Turbopack bundles. Tracing stays, because
+	// the server and edge configs set `tracesSampleRate`.
+	bundleSizeOptimizations: {
+		// Removes the SDK's own debug logging, which no Sentry.init call turns on.
+		excludeDebugStatements: true,
+		// Removes Session Replay's iframe recording, shadow DOM recording, and compression worker; no config adds
+		// `replayIntegration`.
+		excludeReplayIframe: true,
+		excludeReplayShadowDom: true,
+		excludeReplayWorker: true,
+	},
+
 	// For all available options, see:
 	// https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 };

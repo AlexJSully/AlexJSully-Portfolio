@@ -1,6 +1,6 @@
 ---
 name: typescript-code-and-test-standards
-description: "TypeScript and JavaScript standards that formatters and linters cannot catch: comment discipline, JSDoc on every exported symbol, naming and readability, language-level defects such as an unhandled promise, logic changes shipping with tests, one colocated test per source file, a mocking policy defaulting not to mock, reuse of what a dependency provides, and structure measured rather than sensed: file length, interface size, directory shape, parameter counts, function body size, repeated logic, and a setting repeated per file. Detects the project's own tooling configuration rather than imposing one. Use when writing or reviewing a .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, or .cts file, when adding or repairing a Jest, Vitest, Mocha, or Cypress test, when a failing test tempts a mock or a skip, when a behaviour is about to be hand-written, and whenever a file, interface, directory, function, or parameter list grows or logic repeats, even when SOLID, DRY, coupling, or splitting a module are never named."
+description: "Applies TypeScript and JavaScript standards that formatters and linters cannot catch: comment discipline, JSDoc on every exported symbol, naming, language and type-system defects such as an unhandled promise, accessibility in UI components, logic changes shipping with tests, one colocated test per source file, mocking only at a boundary, reuse of what a dependency provides, and structure measured rather than sensed. Detects the project's own tooling configuration rather than imposing one. Use when writing or reviewing a .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, or .cts file or a UI component, when adding or repairing a Jest, Vitest, Mocha, or Cypress test, when a failing test tempts a mock or a skip, when a behaviour is about to be hand-written, and whenever a file, interface, function, or parameter list grows or logic repeats, even when SOLID, DRY, or accessibility are never named."
 license: MIT
 metadata:
     version: '1.0.0'
@@ -86,6 +86,7 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
     - A body running as one block, with no blank line between the groups doing different work. The formatter will not insert one. Same section.
     - A Node built-in imported by its bare name rather than its `node:` specifier, **whatever neighbouring files do**: a mistyped `node:` name fails to load, while a mistyped bare one is looked up among installed packages. [node-built-ins.md](references/node-built-ins.md) lists every specifier position and its exceptions.
     - A construct spelled differently from how the rest of the codebase spells the same thing: `import type` against a value import, an alias against a relative path.
+    - In UI code, a clickable non-button, a removed focus outline, an unlabelled control, a missing `alt`, or focus left behind by a dialog or route change. Every rule is in [accessibility.md](references/accessibility.md).
 
     **Comments and documentation.**
 
@@ -108,7 +109,7 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
 1. Read the test, read the source, and **name the cause in one sentence before editing anything.**
 2. Decide which side is wrong. If the source is wrong, fix the source. If the test encodes a behaviour the change deliberately replaced, rewrite the test to assert the new behaviour and say so explicitly.
 3. These are never the fix: `.skip`, deleting the test, deleting an assertion, loosening an assertion to something that cannot fail, adding a mock, adding a production fallback such as `?? defaultValue`, widening a type, or an `eslint-disable`.
-4. A mock added while chasing a red test hides the failure rather than fixing it. If a mock seems necessary, restart the mocking ladder from the top.
+4. If a mock seems necessary, restart the mocking ladder from the top.
 5. Re-run the single test, then the suite. **Confirm the reported test count**, because a runner configured to pass with no tests exits 0 on zero tests.
 
 ## Comments
@@ -244,6 +245,8 @@ The [Google TypeScript Style Guide digest](references/google-typescript-style-di
 
 A project that consistently applies a different variant of any of them has a preference, not a defect. Follow the project.
 
+The [TypeScript Handbook digest](references/typescript-handbook-digest.md) is read with the quality half: boxed and `Function` types, callback and overload signatures, truthiness checks on `0` or `""`, and exhaustive narrowing.
+
 ## Bundled procedures
 
 Two procedure files ship with this skill. Each is self-contained, restating every rule it enforces so that it can be followed without any of this context. **Both of those procedures report findings and edit nothing**, whatever mode the run itself is in: where the caller asked for a fix, the fix is applied by the run that dispatched them, from what they returned.
@@ -262,7 +265,3 @@ There is deliberately no third procedure for style, because the review above cov
 ## Adopting this skill in a project
 
 Installing it, and the two templates for surfaces a skill directory does not reach, are in [adopting.md](references/adopting.md).
-
-## Verify
-
-Run the project's own commands and confirm exit codes rather than reading output. Where a lint autofix ran, run the formatter again afterwards and finish with the formatter's check command, which is what CI runs. Confirm the reported test count, not just a green exit.

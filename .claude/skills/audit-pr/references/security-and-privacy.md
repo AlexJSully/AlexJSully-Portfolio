@@ -14,7 +14,7 @@ Operational detail for the security and privacy categories named in `SKILL.md`. 
 - [Ten OWASP areas for model and agent code](#ten-owasp-areas-for-model-and-agent-code)
 - [Model output used unvalidated as a path, query, command, or URL](#model-output-used-unvalidated-as-a-path-query-command-or-url)
 - [Privacy from collection through to deletion](#privacy-from-collection-through-to-deletion)
-- [Secrets that must never reach a log, and how they arrive there](#secrets-that-must-never-reach-a-log-and-how-they-arrive-there)
+- [Secrets and personal data that must never reach a log, and how they arrive there](#secrets-and-personal-data-that-must-never-reach-a-log-and-how-they-arrive-there)
 - [Severity for a security or privacy finding](#severity-for-a-security-or-privacy-finding)
 
 ## Name the source, the sink, and the neutralizing boundary
@@ -118,9 +118,9 @@ Fix       analytics.record( ageBand = bandFor(<birth date>), event = "signup" )
           The one field the feature reads, derived at collection. Nothing else is stored.
 ```
 
-## Secrets that must never reach a log, and how they arrive there
+## Secrets and personal data that must never reach a log, and how they arrive there
 
-Never logged: passwords, tokens, API keys, session identifiers, encryption keys. The value rarely appears as a literal in the diff, so look for the four carriers instead: a structured logger handed a whole request, user, or configuration object; an exception message or a trace that quotes a URL with its query string; a cache key, a metric label, or a span attribute built from an identifier; and a third-party client that captures breadcrumbs, headers, or request bodies by default.
+Never logged: passwords, tokens, API keys, session identifiers, encryption keys, and personal or health data such as names, email addresses, phone numbers, postal addresses, government identifiers, precise location, and health details. The value rarely appears as a literal in the diff, so look for the four carriers instead: a structured logger handed a whole request, user, or configuration object; an exception message or a trace that quotes a URL with its query string; a cache key, a metric label, or a span attribute built from an identifier; and a third-party client that captures breadcrumbs, headers, or request bodies by default.
 
 ```text
 Finding   log( "inbound request", <the whole request object> )

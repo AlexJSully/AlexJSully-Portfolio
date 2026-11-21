@@ -1,6 +1,6 @@
 ---
 name: audit-docs
-description: Audit and update the project's documentation so it matches the current code, grounding every claim in a file opened this run. Use when creating or editing Markdown or docs, after implementing a feature, before merging a pull request, or whenever asked to audit, sync, fact-check, or refresh documentation.
+description: Audits and updates the project's documentation so it matches the current code, grounding every claim in a file opened this run. Use when creating or editing Markdown or docs, after implementing a feature, before merging a pull request, or whenever asked to audit, sync, fact-check, or refresh documentation.
 license: MIT
 argument-hint: '[paths or area to audit; defaults to the active pull request or working changes]'
 ---

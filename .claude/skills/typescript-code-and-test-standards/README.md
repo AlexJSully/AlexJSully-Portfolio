@@ -6,6 +6,7 @@ TypeScript and JavaScript standards that formatters and linters cannot catch, ap
 
 - Comment discipline, and a documentation block on every exported symbol.
 - Naming, readability, Node built-ins imported with the `node:` prefix, and language-level defects such as an unhandled promise.
+- Type-system rules from the [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) and the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html), and accessibility rules for UI components drawn from [MDN Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility), each rule citing the page it comes from.
 - Structure measured rather than sensed: file length, interface size, directory shape, parameter counts, and repeated logic.
 - Reuse of what a dependency or the platform already provides.
 - Logic changes shipping with tests, one colocated test per source file, and a mocking policy whose default is not to mock.

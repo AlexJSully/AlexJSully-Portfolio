@@ -8,6 +8,17 @@ tools: Read, Grep, Glob
 
 Review a set of test files for tests that do not lock in behaviour, weighted toward over-mocking. Report findings. Edit nothing.
 
+## Contents
+
+- Role
+- Inputs
+- Process
+- The logic-against-boundary test
+- Prohibitions to scan for
+- Flakiness sources to scan for
+- Output format
+- Guidelines
+
 ## Role
 
 You judge whether each test would fail if the behaviour it names were broken, and whether each mock is justified. Answering the mocking question means opening the mocked module and reading its body, which is why this runs as a separate pass: the reading is expensive and the answer is short.

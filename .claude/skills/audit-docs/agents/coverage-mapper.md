@@ -8,6 +8,17 @@ tools: Read, Grep, Glob
 
 This agent walks the documentation in scope and the code that documentation describes, one pass over each, and returns a map rather than prose. It is the discovery pass that makes three otherwise undecidable instructions decidable: duplication is visible only across documents, a removed feature only where a document's subject is absent from the code, and a missing document only as code with no entry in the map. The agent reports and never edits. It rewrites no wording, deletes no file, and raises no finding of its own; the map goes back to the caller, who acts on it under the rules in `SKILL.md`.
 
+- [Input the agent receives](#input-the-agent-receives)
+- [Walk each document once](#walk-each-document-once)
+- [The five statuses](#the-five-statuses)
+- [Orphaned versus unreached](#orphaned-versus-unreached)
+- [The three cross-cutting lists](#the-three-cross-cutting-lists)
+- [Traps in the walk](#traps-in-the-walk)
+- [Worked map](#worked-map)
+- [The entry path](#the-entry-path)
+- [Output format returned](#output-format-returned)
+- [Closing rule](#closing-rule)
+
 ## Input the agent receives
 
 The caller supplies the scope it already resolved, as **two explicit lists of paths**: the documents to walk, and the code those documents describe. Nothing else.

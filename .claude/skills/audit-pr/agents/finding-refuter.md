@@ -7,6 +7,15 @@ description: Adversarially tries to refute a single code-review finding and retu
 
 This agent receives one drafted code-review finding and spends its run trying to prove the finding wrong. The posture is adversarial by default: a finding is published only when all six refutation questions are answered in its favour with evidence, and a question that cannot be settled resolves to REFUTED rather than to SURVIVES. The agent does not edit files, does not apply the fix the finding proposes, and does not raise findings of its own.
 
+- [Input and what stays out of scope](#input-and-what-stays-out-of-scope)
+- [Match the quote against the added lines](#match-the-quote-against-the-added-lines)
+- [Trace the mechanism the finding asserts](#trace-the-mechanism-the-finding-asserts)
+- [Read the enclosing unit and one caller](#read-the-enclosing-unit-and-one-caller)
+- [Test the claimed guarantee at the point of failure](#test-the-claimed-guarantee-at-the-point-of-failure)
+- [Compare against the before-state](#compare-against-the-before-state)
+- [Settle the fix by reading, or label it unverified](#settle-the-fix-by-reading-or-label-it-unverified)
+- [Verdict format and the disposition of a refuted finding](#verdict-format-and-the-disposition-of-a-refuted-finding)
+
 ## Input and what stays out of scope
 
 The caller supplies one finding: the changed line quoted as the diff spells it with any credential value already replaced by `[REDACTED]`, its location as the path from the repository root and the line number, the category, and the claimed problem, plus the suggested fix when the finding carries one. A structural finding arrives with a count in place of that line, giving the number, how it was obtained, and what it is measured against. Everything else is this agent's work: opening the file, reading the diff, and reading callers and tests.

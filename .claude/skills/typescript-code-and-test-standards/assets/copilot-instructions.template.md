@@ -48,6 +48,34 @@ Everything below is what those tools cannot check.
 - **A name is clear to a reader meeting it for the first time.** Do not abbreviate by deleting letters. A short name belongs to an established idiom in a tight scope, a loop index or a caught error; a run of unrelated single letters (`a`, `b`, `c`) is an absent name, not a short one.
 - A function body whose length, nesting depth, or widest expression runs past what a reader holds at once is a finding, backstopped at 50 lines, three levels, and a condition of more than about three logical operators or wider than the project's own print width. A long condition is usually type narrowing, so extract it to a named predicate, or to a type guard (`function isFoo(x: unknown): x is Foo`) where the caller needs the narrowing. A deeply nested body flattens by early return, and a nested chain of `typeof`/`in`/truthiness checks wants a discriminated union.
 
+## Types and language defects
+
+Each defect below is provable from TypeScript or JavaScript alone. The rules come from the [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) and the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/).
+
+- Never `Number`, `String`, `Boolean`, `Symbol`, `Object`, or `Function` as a type. A call through `Function` is untyped and returns `any`; write the signature.
+- `as` and `!` need a runtime check or a comment saying why they hold. An assertion between unrelated types goes through `unknown` (`x as unknown as Foo`), never `any` or `{}`. No `@ts-ignore` or `@ts-nocheck`; `@ts-expect-error` only in unit tests, with a comment.
+- **A truthiness check on a type admitting `0`, `""`, `NaN`, or `0n` is a defect**: `if (count)` on `number | undefined` treats zero as missing. Never coerce an enum value to a boolean, explicitly or in a condition, because its first member is `0`.
+- No unary `+` or `parseFloat` to read a number; `Number()`, then check for `NaN`. `parseInt` only for a non-decimal radix.
+- Pass an arrow that forwards its arguments rather than a named function as a callback: `['1', '2', '3'].map(parseInt)` returns `[1, NaN, NaN]`.
+- Variants are a discriminated union, not optional fields read through `!`, and a `switch` over one assigns the value to `never` in its `default` so a new variant fails to compile.
+- A callback whose result is ignored returns `void`, not `any`, and its parameters are optional only when the caller omits them. Specific overloads come before general ones, and a union replaces overloads that differ in one parameter.
+- A getter never changes observable state.
+- Throw, reject a promise, and abort a signal only with an `Error` or a subclass. `new Error(message, { cause })` takes an `Error` as `cause`. Handle a non-`Error` throw only where a comment names the API that throws one.
+- Recommend `exactOptionalPropertyTypes`, `noUncheckedIndexedAccess`, and `noImplicitOverride` where they are off; never change the configuration.
+
+## Accessibility
+
+For UI components, from [MDN Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility).
+
+- A native element before an ARIA role. A clickable element is a `<button>`, or an `<a href>` when it navigates; anything else needs a role, `tabIndex={0}`, and an Enter and Space key handler. A custom widget exposes its name, role, and state.
+- No positive `tabIndex`. Never remove a focus outline without a `:focus-visible` replacement.
+- A modal is a `<dialog>` opened with `showModal()`, with initial focus set and focus returned to its trigger on close. A client-side route change moves focus to the new view's heading and updates `document.title`.
+- A live region exists before its text changes; `polite` or `role="status"` by default, `assertive` or `role="alert"` for errors only.
+- Every form control has a programmatically associated label, a placeholder is not one, and the accessible name contains the visible label.
+- Every `<img>` has `alt`, `alt=""` when decorative. Link text makes sense out of context. Data tables use `<th scope>`. Headings descend without skipping a level, and the document root carries `lang`.
+- Colour is never the only signal. Where both colours are in the code, text contrast is at least 4.5:1, or 3:1 for large text. Script-driven animation checks `matchMedia('(prefers-reduced-motion: reduce)')`. Pointer targets are at least 24 by 24 CSS pixels. Focus or input never changes the context on its own.
+- In tests, query by role with the accessible name, and recommend an automated axe scan for UI changes rather than installing one.
+
 ## Tests
 
 - **Logic changes, bug fixes, and new features land with their tests in the same change.** Pure refactors need no new tests, but no existing test may be skipped, deleted, or weakened. A diff that weakens a test is a behaviour change, not a refactor.

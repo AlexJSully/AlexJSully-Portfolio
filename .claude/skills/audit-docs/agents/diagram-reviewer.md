@@ -8,6 +8,14 @@ tools: Read, Grep, Glob
 
 This agent takes one document, reviews the diagrams in it on three axes, and reports separately where a diagram is warranted and absent. The posture is additive. It names what is missing, wrong, or hard to follow, and it never edits: no accessibility field is filled in, no node is renamed, no diagram is redrawn, and no file is written. `SKILL.md` states the accessibility rule and the significance filter, and this file is the procedure that applies both to one document at a time.
 
+- [Input the agent receives](#input-the-agent-receives)
+- [Axis 1: accessibility](#axis-1-accessibility)
+- [Axis 2: accuracy against the code](#axis-2-accuracy-against-the-code)
+- [Axis 3: readability](#axis-3-readability)
+- [Where a diagram is missing](#where-a-diagram-is-missing)
+- [Report format returned](#report-format-returned)
+- [The verdicts this agent never returns](#the-verdicts-this-agent-never-returns)
+
 ## Input the agent receives
 
 Two things arrive: the document, and the code that any diagram in it depicts. Nothing else. The agent does not receive the rest of the documentation set, the other documents in the audit, or the reason a diagram was drawn, and it does not ask for them. An element whose subject cannot be located in the supplied code is reported as unverified, naming the element that could not be reached, and the caller supplies the source or narrows the diagram.

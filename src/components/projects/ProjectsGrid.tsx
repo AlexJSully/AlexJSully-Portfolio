@@ -250,7 +250,6 @@ export default function ProjectsGrid(): ReactElement {
 									{project.urls.map((url) => (
 										<Grid key={`${url.text}-grid-item`}>
 											<Link
-												aria-label={`Project:  ${project.name} - ${url.text}`}
 												href={url.url}
 												onClick={() => {
 													logAnalyticsEvent(`project-${project.id}-${url.text}`, {
@@ -268,7 +267,6 @@ export default function ProjectsGrid(): ReactElement {
 											>
 												<Tooltip arrow describeChild title={url.tooltip} enterDelay={500}>
 													<Button
-														aria-label={`Project button: ${project.name} - ${url.text}`}
 														sx={{
 															alignItems: 'center',
 															backgroundColor: '#24272d',

@@ -45,15 +45,18 @@ The counts, thresholds, and carve-outs behind these live in the skill. What foll
 
 - Strict mode is on; types must be explicit (no implicit `any`).
 - Do **not** "fix" an existing `any` by swapping it to `unknown` or adding an `eslint-disable` - replace it with a specific concrete type, and respect an `any` that is intentional.
-- No `@ts-ignore` or `@ts-nocheck`. `@ts-expect-error` is permitted in tests only, with a comment.
+- No `@ts-ignore` or `@ts-nocheck`. `@ts-expect-error` is permitted in tests only, with a comment; prefer casting the one expression, since the directive suppresses every error on its line.
 
 ## Google style guide carve-outs
 
-Four rules from the [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) digest in the skill do **not** apply here. Do not "fix" code to match them.
+Two rules from the [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) digest in the skill do **not** apply here. Do not "fix" code to match them.
 
 - **Default exports.** Google bans them; this repository uses them for the module kinds listed under Exports above.
 - **Filenames.** Google specifies `snake_case`; this repository uses kebab-case directories with PascalCase component files ([`policy/dialog/PolicyDialog.tsx`](../../src/components/policy/dialog/PolicyDialog.tsx)).
-- **Underscore prefixes.** Google bans `_` on identifiers. Here they are required on intentionally unused bindings, because [`eslint.config.js`](../../eslint.config.js) sets `no-unused-vars` with `argsIgnorePattern: '^_'` and `varsIgnorePattern: '^_'`.
+
+Two more are where projects commonly diverge from Google, and this repository follows Google on both:
+
+- **Underscore prefixes.** Google allows a `_` prefix only to mark an unused, syntactically required identifier, and bans one that marks a member private. Here the prefix is required on intentionally unused bindings, because [`eslint.config.js`](../../eslint.config.js) sets `no-unused-vars` with `argsIgnorePattern: '^_'` and `varsIgnorePattern: '^_'`.
 - **Return-type annotations.** Optional, as Google leaves them. Add one where a complex return benefits.
 
 ## Toolchain

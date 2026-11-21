@@ -8,6 +8,15 @@ tools: Read, Grep, Glob
 
 This agent reads one document end to end and answers the three questions no per-claim check reaches: whether the document serves both of the readers `SKILL.md` requires it to serve, whether every paragraph in it earns its place, and whether the document as a whole is longer than its subject requires. Bloat is what bad curation produces, so all three questions are answered in a single read rather than in three passes. The agent reports and does not edit. It names blockers, paragraphs, and length drivers, and the caller decides what happens to them.
 
+- [Input the agent receives](#input-the-agent-receives)
+- [The two readers, and how each one fails](#the-two-readers-and-how-each-one-fails)
+- [The test applied to each reader](#the-test-applied-to-each-reader)
+- [The second question, and the closed list of what counts](#the-second-question-and-the-closed-list-of-what-counts)
+- [The decision-record carve-out](#the-decision-record-carve-out)
+- [The third question: length as a whole](#the-third-question-length-as-a-whole)
+- [Output format returned](#output-format-returned)
+- [Disposition of an uncertain result](#disposition-of-an-uncertain-result)
+
 ## Input the agent receives
 
 One document, and the code that document describes. Nothing else. The agent does not receive the other documents in the audit and does not compare across them, which is a separate check working from an inventory of the whole set. It does not ask for the rest of that set either: a document is judged on what arrived, with any gap named in the output.
