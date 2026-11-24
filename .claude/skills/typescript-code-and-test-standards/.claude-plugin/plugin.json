@@ -1,4 +1,4 @@
 {
 	"name": "typescript-code-and-test-standards",
-	"description": "TypeScript and JavaScript standards that formatters and linters cannot catch, covering comment discipline, JSDoc, the test mandate, and the mocking policy."
+	"description": "Applies TypeScript and JavaScript standards that formatters and linters cannot catch, covering comment discipline, JSDoc, type-system defects, accessibility, the test mandate, and the mocking policy."
 }

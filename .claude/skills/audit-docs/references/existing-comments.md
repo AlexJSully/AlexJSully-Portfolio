@@ -5,6 +5,7 @@ An existing comment was written by someone who knew something about the code. Th
 - [Existing comments: correct, tighten, keep, or delete](#existing-comments-correct-tighten-keep-or-delete)
     - [Drifted private comment: correct it](#drifted-private-comment-correct-it)
     - [Verbose private documentation comment: tighten it](#verbose-private-documentation-comment-tighten-it)
+    - [Long rationale comment: cut to the decision and its reasons](#long-rationale-comment-cut-to-the-decision-and-its-reasons)
     - [In-body comment explaining why: keep it](#in-body-comment-explaining-why-keep-it)
     - [Comment restating the line beneath it: delete it](#comment-restating-the-line-beneath-it-delete-it)
     - [Change narration carrying a current fact: rewrite it](#change-narration-carrying-a-current-fact-rewrite-it)
@@ -58,6 +59,41 @@ def _normalize(path: str) -> str:
     the result against a raw drive path.
     """
 ```
+
+## Long rationale comment: cut to the decision and its reasons
+
+A comment that explains a design choice keeps the choice, each reason, and each warning. It loses the history, the alternatives that were not taken, and any sentence that says a kept reason again. Each kept sentence stays word for word.
+
+Before (Rust):
+
+```rust
+// We write the index file to a temporary path and rename it into place.
+// Originally we wrote the index in place, but a crash halfway through left
+// a truncated file that the next start could not parse. We looked at taking
+// a file lock instead, but locks are advisory on Linux and another process
+// could still read a half-written file. We also tried writing a checksum at
+// the end, which detected the problem but did not fix it. Rename is atomic
+// on the same filesystem, so readers see either the old index or the new
+// one, never a partial one. That is why the temporary file must be created
+// in the same directory as the index: a rename across filesystems is a copy
+// and is not atomic. This is the main reason for the design. Do not move
+// the temporary file to the system temp directory.
+let tmp = index_path.with_extension("tmp");
+```
+
+After:
+
+```rust
+// We write the index file to a temporary path and rename it into place.
+// Rename is atomic on the same filesystem, so readers see either the old
+// index or the new one, never a partial one. That is why the temporary file
+// must be created in the same directory as the index: a rename across
+// filesystems is a copy and is not atomic. Do not move the temporary file to
+// the system temp directory.
+let tmp = index_path.with_extension("tmp");
+```
+
+The cut sentences are the history ("Originally we wrote…"), the two alternatives not taken (the lock and the checksum), and "This is the main reason for the design", which restates the reason before it. The warning stays because it is the instruction a maintainer needs.
 
 ## In-body comment explaining why: keep it
 
@@ -115,7 +151,7 @@ Each of these removes knowledge the code does not carry, and none is on the clos
 
 - Deleting a private helper's documentation comment because the helper is private or internal.
 - Deleting every inline comment in a function because the function is short.
-- Deleting a comment explaining why because it is reasoning rather than description.
+- Deleting a comment explaining why because it is reasoning rather than description. Cutting the history and the alternatives inside it is tightening, not deletion.
 - Replacing a verbose comment with nothing instead of cutting its padding sentences.
 - Deleting a comment you are unsure about instead of keeping it and reporting it.
 - Trimming a redundant or verbose comment outside the requested scope, where only a drifted comment is corrected.

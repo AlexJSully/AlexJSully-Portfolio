@@ -20,7 +20,7 @@ This file holds the thirteen categories a codebase is audited against, each with
 
 Modularity, SOLID principles, coupling against cohesion, anti-patterns and code smells, separation of concerns, layer boundaries, dependency direction, and circular dependencies. Read through the maintainability lens above.
 
-**Measure before judging, and report the measurement.** These defects are the ones an audit reliably walks past, because every one of them is a property of shape that no single line displays, and a reader who only reads lines never meets it. "Flag monolithic files" is not a check until a file has been measured. Seven counts, each cheap, and each producing a number that goes in the finding:
+**Measure before judging, and report the measurement.** Seven counts, each cheap, and each producing a number that goes in the finding:
 
 - **Length** of every file in scope. Where several of them sit in one directory, record the longest and the shortest beside the individual numbers: a screen-level composite standing next to a one-expression primitive is two altitudes held as peers, and the two numbers with their two paths are what shows it.
 - **Members** of every type, interface, class, or module, counting what a caller must satisfy or an implementor must supply across every declaration contributing them, alongside how many of them a caller actually touches. Open two callers and count; an interface whose typical caller uses four of twenty members is the finding, and the count is what shows it.
@@ -30,7 +30,7 @@ Modularity, SOLID principles, coupling against cohesion, anti-patterns and code 
 - **Parameters** of every function, split into those supplying data and those switching behaviour, against the other functions in the same module. A switch is a parameter the body branches on rather than operates on, whatever its type, and each one holds a second behaviour inside one name. Count them where the function is a utility, meaning it is named for one operation, exported for general use, sits where shared code sits, or has callers that do not know about each other; a function coordinating a sequence takes its modes legitimately.
 - **Body** of every function: its lines, deepest nesting, and the widest condition a reader must hold at once.
 
-**A count triggers a look and is never a finding by itself.** What makes it one is the count plus what the shape costs a reader or the next change, plus the concrete split: which members go into which type, which files into which subdirectory, what the shared unit would hold, which key carries the declaration. A finding that reports a number and recommends refactoring gives the reader nothing to do with it.
+**A count triggers a look and is never a finding by itself.** What makes it one is the count plus what the shape costs a reader or the next change, plus the concrete split: which members go into which type, which files into which subdirectory, what the shared unit would hold, which key carries the declaration.
 
 **Two triggers, either sufficient.** The first is being an outlier in this tree, which is the one that travels: state the number and what it is measured against, since a file is long relative to its siblings and a directory is disorganized relative to how the tree organizes its others. The second is a backstop for a tree whose siblings are all bloated, where the first test finds nothing: roughly a file past 600 lines, a type past 15 members, more than 20 files sitting directly in a directory, a block repeated three times, one declaration repeated in three files, more than one behaviour-switching parameter on a utility, a function body past 50 lines, nesting past three levels, or more than three logical operators in one condition. Those numbers are the point where a reader stops holding the unit in their head at once, and they are approximate on purpose. Prefer the comparison where both apply.
 
@@ -112,7 +112,7 @@ The question that subsumes the rest: **would this test fail if the behaviour it 
 
 ## 10. Documentation
 
-Flag documentation that contradicts the code, a public surface with no documentation, a deprecation that does not name its replacement, and setup or usage instructions that no longer work. **Report the drift as a finding; do not perform a full documentation rewrite inside this audit.** Rewriting documentation is separate work with its own verification needs.
+Flag documentation that contradicts the code, a public surface with no documentation, a deprecation that does not name its replacement, and setup or usage instructions that no longer work. **Report the drift as a finding; do not perform a full documentation rewrite inside this audit.**
 
 ## 11. Performance, build output, and operating cost
 
@@ -130,7 +130,7 @@ A whole-codebase view also sees provisioned services with no caller, which bill 
 
 ## 12. Accessibility
 
-Target **WCAG 2.2 Level AA**, the current W3C Recommendation. Colour contrast (4.5:1 normal, 3:1 large), semantic markup and accessible names, keyboard navigation and focus indicators, alternative text, screen magnification and high contrast support, reduced-motion support, and form labels and error feedback.
+Target **WCAG 2.2 Level AA**. Colour contrast (4.5:1 normal, 3:1 large), semantic markup and accessible names, keyboard navigation and focus indicators, alternative text, screen magnification and high contrast support, reduced-motion support, and form labels and error feedback.
 
 The criteria WCAG 2.2 adds over 2.1 are the ones most often missed: focus not obscured, focus appearance, target size, dragging movements having a single-pointer alternative, consistent help, redundant entry, and accessible authentication.
 

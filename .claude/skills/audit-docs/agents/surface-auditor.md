@@ -6,7 +6,17 @@ tools: Read, Grep, Glob
 
 # Surface auditor
 
-This agent walks the code the caller's scope resolved to one time and returns four lists: public symbols carrying no documentation comment, comments the implementation beneath them contradicts, comments repeated above a usage site rather than sitting on a declaration, and comments carrying sentences their reader does not need. It is the discovery pass for the in-code documentation phase, which is the largest read of the audit, and it exists so that the reading happens in this context and the caller receives a short list instead of a context filled with source it will not open again. The agent reports. It does not write a comment, correct one, or delete one, and the caller decides every repair.
+This agent walks the code the caller's scope resolved to one time and returns four lists: public symbols carrying no documentation comment, comments the implementation beneath them contradicts, comments repeated above a usage site rather than sitting on a declaration, and comments carrying sentences their reader does not need. The agent reports. It does not write a comment, correct one, or delete one, and the caller decides every repair.
+
+- [Input the agent receives](#input-the-agent-receives)
+- [List one: undocumented public surface](#list-one-undocumented-public-surface)
+- [List two: comments the implementation contradicts](#list-two-comments-the-implementation-contradicts)
+- [List three: comments repeated above a usage site](#list-three-comments-repeated-above-a-usage-site)
+- [List four: sentences a comment does not need](#list-four-sentences-a-comment-does-not-need)
+- [What the agent does not report](#what-the-agent-does-not-report)
+- [The evidence bar](#the-evidence-bar)
+- [Output format returned](#output-format-returned)
+- [Closing rule](#closing-rule)
 
 ## Input the agent receives
 
@@ -28,7 +38,7 @@ For each member, add the lines in the paths handed in that set or read it, such 
 
 ## List two: comments the implementation contradicts
 
-For each one, quote the comment, quote the code that contradicts it, and say in one sentence what the code does instead. Five sub-classes are worth separating, since each points at a different repair:
+For each one, quote the comment, quote the code that contradicts it, and say in one sentence what the code does instead. Six sub-classes are worth separating, since each points at a different repair:
 
 - a documented parameter the signature no longer has;
 - a documented return value the function does not produce;
@@ -90,13 +100,15 @@ SYMBOL: `isBetaEnabled`. COMMENT: `isBetaEnabled mirrors the beta-features flag.
 
 ## List four: sentences a comment does not need
 
-A comment can be true, non-repeated, and still carry sentences its reader does not need. This list covers **every** comment in the paths handed in: inline comments, documentation comments on declarations, and file, module, or package comments. A public or exported symbol, a public structure member, or a package or module always keeps at least one sentence: keep the sentence saying what it does, or the first sentence when unclear. Correct a wrong or absent-content claim from the body, never delete that comment; if the body was not read, keep and report it. Report a comment here when it holds at least one sentence of these three kinds:
+A comment can be true, non-repeated, and still carry sentences its reader does not need. This list covers **every** comment in the paths handed in: inline comments, documentation comments on declarations, and file, module, or package comments. A public or exported symbol, a public structure member, or a package or module always keeps at least one sentence: keep the sentence saying what it does, or the first sentence when unclear. Correct a wrong or absent-content claim from the body, never delete that comment; if the body was not read, keep and report it. Read every comment longer than about five lines for this list. Report a comment here when it holds at least one sentence of these kinds:
 
 - a sentence restating the declaration or the code beneath it, such as a signature retold in prose or a straightforward conditional, loop, or assignment walked through step by step, except for the public floor sentence, which is always kept even where it restates the name, code, or syntax;
 - a sentence listing or re-describing members that carry their own comments, which is how a package or type comment turns into a tour of the interface: each member's own comment, and the reference the language generates from them, already carry it;
-- a sentence that only narrates alternatives or steps already captured by a later sentence, without stating a reason, constraint, edge case, or warning.
+- a sentence describing an alternative that was considered and not taken, where another sentence already states the approach the code uses;
+- a sentence telling the history of the code, such as what an earlier version did;
+- a sentence repeating a reason, constraint, or warning that another kept sentence already gives.
 
-Report the comment's own sentences in two verbatim sets: `KEEP`, the sentences carrying something the code does not show, and `CUT`, each sentence of the three kinds above beside the code string or member comment it restates. **`KEEP` is never empty for any comment reported here, public or private, documentation or inline**: keep its summary sentence, or the first sentence if unclear. This list tightens a comment and never removes one; a comment whose every sentence restates the line beneath it, with nothing kept, is outside this list and the caller judges it. A sentence giving a reason, a constraint, an edge case, a warning, or an explanation of non-obvious logic is always `KEEP`, since that is the conclusion the code cannot show. A wrong comment is corrected from the body, never deleted; an unread body means keep and report it. Never write replacement text: the caller writes any new wording from code it opens itself. A wrong comment also goes under `CONTRADICTED`, and the caller corrects it before cutting.
+Report the comment's own sentences in two verbatim sets: `KEEP`, the sentences carrying something the code does not show, and `CUT`, each sentence of the kinds above beside the code string or member comment it restates. **`KEEP` is never empty for any comment reported here, public or private, documentation or inline**: keep its summary sentence, or the first sentence if unclear. This list tightens a comment and never removes one; a comment whose every sentence restates the line beneath it, with nothing kept, is outside this list and the caller judges it. A sentence giving a reason, a constraint, an edge case, a warning, or an explanation of non-obvious logic that no other kept sentence already gives is always `KEEP`, since that is what the code cannot show. A sentence that only restates one of those, argues against an alternative not taken, or tells the history is `CUT`. A wrong comment is corrected from the body, never deleted; an unread body means keep and report it. Never write replacement text: the caller writes any new wording from code it opens itself. A wrong comment also goes under `CONTRADICTED`, and the caller corrects it before cutting.
 
 ```python
 # We need to check if the user is eligible for the discount.

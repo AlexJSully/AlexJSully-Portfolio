@@ -1,7 +1,7 @@
 import ThemeRegistry from '@components/ThemeRegistry';
 import { DELAYS } from '@constants/index';
 import projects from '@data/projects';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { ACCEPT_ALL, ESSENTIAL_ONLY, saveConsent } from '@util/consent/consentStore';
 import ProjectsGrid from './ProjectsGrid';
 
@@ -58,6 +58,23 @@ describe('ProjectsGrid', () => {
 			type: 'click',
 		});
 	});
+
+	// Every URL link of every project, including those behind View More, such as eFP-Seq Browser's, whose logo
+	// carries visible text of its own.
+	const projectURLs = projects.flatMap(({ name, urls }) => (urls ?? []).map((url) => ({ project: name, ...url })));
+
+	it.each(projectURLs)(
+		'names the $project "$text" link by its visible text, then its project, and points it at its URL',
+		({ project, text, tooltip, url }) => {
+			// The name starts with the visible label, so a voice-control user can say what they see, and ends with the
+			// project, so a screen-reader user can tell the links apart out of context.
+			const link = screen.getByRole('link', { name: `${text} (${project})`, description: tooltip, hidden: true });
+
+			expect(link).toHaveAttribute('href', url);
+			// One focusable element per URL, rather than a link wrapped around a separate button.
+			expect(within(link).queryByRole('button', { hidden: true })).not.toBeInTheDocument();
+		},
+	);
 
 	it('toggles view more/less projects', () => {
 		fireEvent.click(screen.getByRole('button', { name: /view more projects/i }));

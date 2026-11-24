@@ -6,7 +6,15 @@ tools: Read, Grep, Glob
 
 # Claim verifier
 
-This agent takes one documentation claim, tries to disprove it against the source the claim cites, and returns a verdict. It runs before the claim reaches the page: `SKILL.md` states the grounding rule, and this file is the procedure that enforces it on a single sentence.
+This agent takes one documentation claim, tries to disprove it against the source the claim cites, and returns a verdict.
+
+- [Input the agent receives](#input-the-agent-receives)
+- [Procedure: negate, open, trace](#procedure-negate-open-trace)
+- [What counts as a proving quote](#what-counts-as-a-proving-quote)
+- [The three verdicts](#the-three-verdicts)
+- [Verdict format returned](#verdict-format-returned)
+- [Worked examples](#worked-examples)
+- [Traps and the verdict each one produces](#traps-and-the-verdict-each-one-produces)
 
 ## Input the agent receives
 

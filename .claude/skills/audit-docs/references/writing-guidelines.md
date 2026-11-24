@@ -12,19 +12,21 @@ This file holds the prose rules for every sentence this audit writes or changes 
 
 ## Voice
 
-Write as a careful human technical writer: formal and neutral, never robotic. The robotic feel comes from the tells below, not from a formal register, so cut the tells and keep the register.
+Write as a careful technical writer explaining the system to a developer who reads the page once. The tone is formal and neutral, in plain English. [`voice-and-ai-tells.md`](voice-and-ai-tells.md) has examples of the target style.
 
-- **Lead with the point**, putting the conclusion, answer, or action in the first sentence. **Show, do not tell:** demonstrate with a command, number, cited line, or named edge case instead of asserting significance. Vary sentence length where natural, without forcing a cadence target.
-- **Avoid these AI tells** (representative, not exhaustive): signposting previews ("This section covers", "In this section we will"); puffery copulas ("serves as", "stands as", "is a testament to", "plays a vital/pivotal role"); the rule-of-three triad as a default; filler transitions ("Additionally", "Furthermore", "Moreover" at high frequency); formulaic conclusions ("In conclusion", "Despite its ... it faces challenges"); and padded words such as delve, leverage, underscore, showcase, intricate, vibrant, foster, tapestry, seamless. Keep a word when it is factually correct in context (a test `harness`, an OAuth `realm`).
-- **A why-claim is still a claim (Rule 2).** Cite the comment, design record, commit, test, or config that proves a rationale or trade-off, or state the _what_ and stop.
-- **Scope.** Apply this only to prose you add or change; do not rewrite accurate existing prose for rhythm (Phase 2, Rule 1). Introducing a term, naming a subject, or stating a prerequisite is an addition rather than a rewrite, so it is made in a document you edit in full even where the surrounding prose is accurate. It governs `docs/` prose, not in-code documentation, which Phase 3 keeps terse.
-- **Stay formal.** No contractions, casual asides, emoji, or detector-evasion tricks. Naturalness comes from cutting tells, not from informality.
+- **Write complete, grammatical sentences, one idea each.** Use "it", "this", and ordinary transitions wherever the meaning stays clear. Repeat the noun only where "it" could point at two things.
+- **Lead with the point.** Put the answer, conclusion, or action in the first sentence, then the detail. Show a fact (a command, a number, a cited line, a named edge case) instead of asserting that something matters.
+- **State what the code does, and stop.** Write a consequence or scenario only when a test, a comment, or a document states it.
+- **A why-claim is still a claim (Rule 2).** Cite the comment, design record, commit, test, or configuration that proves a reason or trade-off, or state the _what_ and stop.
+- **Scope.** Apply this only to prose you add or change; do not rewrite accurate existing prose for style (Phase 2, Rule 1). Introducing a term, naming a subject, or stating a prerequisite is an addition rather than a rewrite, so make it in a page you edit in full even where the surrounding prose is accurate. Comments follow Phase 3, which keeps them short.
+- **Stay formal.** No contractions, casual asides, or emoji.
 
 ## Brevity & style
 
 These rules govern what you write. An existing list, table, heading, or code block keeps its form under the readability rule in [`SKILL.md`](../SKILL.md); a run never turns a list into prose.
 
-- Use prose to carry reasoning (the _why_ and _how_); reserve bullets and numbered lists for genuine enumerations (steps, options, fields, parameters). Do not force explanation into parallel bullet fragments, and do not de-list a real list: enumerations stay lists, scannable for people and easy to retrieve. No walls of text. **Concise, not choppy:** no line-by-line narration, but keep the connective prose that carries logic. Lead each paragraph and section with its point, then give the detail.
+- **Write only what the change needs.** Cover the substance and stop: no filler sections, repeated summaries, or boilerplate. Edit the sentence a change made false before adding one. Never cut a definition, a unit, or a condition to save words; cut whole passages that do not earn their place instead.
+- Use prose to carry reasoning (the _why_ and _how_); reserve bullets and numbered lists for genuine enumerations (steps, options, fields, parameters). Do not force explanation into parallel bullet fragments, and do not de-list a real list: enumerations stay lists, scannable for people and easy to retrieve. **Concise, not choppy:** no line-by-line narration, but keep the connective prose that carries the logic. Lead each paragraph and section with its point, then give the detail.
 - **Tables only for uniform data scanned quickly**, meaning many parallel items with distinct attributes. If columns repeat across rows, cells sit empty, or a cell holds a sentence of prose, use a list with sub-headings instead.
 
 ## Language

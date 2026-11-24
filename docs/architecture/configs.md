@@ -60,7 +60,7 @@ All `Sentry.*` integrations are imported from `@sentry/nextjs`, and `withSentryC
 
 **Image handling.** `disableStaticImages` is on, because SVGs are compiled by `@svgr/webpack` through the `turbopack.rules` entry and no other image type is imported statically. Turning it off would restore Next's ambient `*.svg` declaration, which conflicts with the one in [`types/svg.d.ts`](../../types/svg.d.ts). Remote images are allowed only from `alexjsully.me`, with a 1800-second minimum cache lifetime.
 
-**Sentry wrapping.** The exported config is the bare `nextConfig` when `NEXT_PUBLIC_ENVIRONMENT` equals `development`, and `withSentryConfig(nextConfig, ...)` otherwise. Source maps upload to the organization named by `NEXT_PUBLIC_SENTRY_ORG` under the fixed project `personal-portfolio`.
+**Sentry wrapping.** The exported config is the bare `nextConfig` when `NEXT_PUBLIC_ENVIRONMENT` equals `development`, and `withSentryConfig(nextConfig, ...)` otherwise. Source maps upload to the organization named by `NEXT_PUBLIC_SENTRY_ORG` under the fixed project `personal-portfolio`. The wrapper's `bundleSizeOptimizations` option removes the Sentry SDK's debug statements and the Session Replay iframe, shadow DOM, and worker code from the bundles, since no `Sentry.init` call enables debug logging or adds Session Replay.
 
 ## Integration & Relationships
 

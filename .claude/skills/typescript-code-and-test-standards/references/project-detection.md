@@ -57,6 +57,7 @@ From `tsconfig.json`, or `jsconfig.json` in a JavaScript project:
 - `compilerOptions.allowJs` and `checkJs`, which decide whether JavaScript files are type-checked, and therefore whether documentation-block type annotations are load-bearing or noise
 - `verbatimModuleSyntax`, which changes how `import type` is emitted
 - `extends`, which can point at a shared base config in a dependency, so the effective options are the merge
+- [`exactOptionalPropertyTypes`](https://www.typescriptlang.org/tsconfig/#exactOptionalPropertyTypes), [`noUncheckedIndexedAccess`](https://www.typescriptlang.org/tsconfig/#noUncheckedIndexedAccess), and [`noImplicitOverride`](https://www.typescriptlang.org/tsconfig/#noImplicitOverride), which change what an optional property, an index read, and an overriding member mean, and [`erasableSyntaxOnly`](https://www.typescriptlang.org/tsconfig/#erasableSyntaxOnly), which rules out `enum`, parameter properties, and a `namespace` with runtime code. Where one of the first three is off, recommend it rather than setting it; [typescript-handbook-digest.md](typescript-handbook-digest.md#compiler-options-to-recommend) says what each catches
 
 **Traps.** A monorepo often has a root config plus one per package, and `references` entries mean several programs exist. A test directory frequently has its own `tsconfig.json` with a different `types` array, so the same source file can be checked twice under different settings.
 

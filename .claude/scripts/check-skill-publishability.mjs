@@ -61,6 +61,23 @@ const MAX_SKILL_FILE_BYTES = 39_000;
  */
 const BUNDLE_DIRS = ['references', 'agents', 'assets', 'scripts'];
 
+/**
+ * Directories whose Markdown a skill reads by following a link, so each file there must be linked
+ * from SKILL.md itself. The best-practices guide keeps references one level deep, because a file
+ * reached only through another reference may be read partially. `agents/` is left out: a host
+ * registers those files as subagents rather than reading them through a link.
+ */
+const LINKED_DIRS = ['references', 'assets'];
+
+/**
+ * The line count above which a bundled Markdown file needs a `## Contents` list, from the guide:
+ * "For reference files longer than 100 lines, include a table of contents at the top."
+ */
+const CONTENTS_THRESHOLD = 100;
+
+/** Words the specification reserves, which no skill name may contain. */
+const RESERVED_NAME_WORDS = ['anthropic', 'claude'];
+
 const failures = [];
 
 /** Each skill's state, worked out once, because the checks and the report each ask for it. */
@@ -122,7 +139,7 @@ function unparseableScalars(frontmatter) {
 function referencedPaths(body) {
 	const found = new Set();
 
-	for (const [, target] of body.matchAll(/\]\(((?:references|agents|assets|scripts)\/[^)\s]+)\)/g)) {
+	for (const [, target] of body.matchAll(/\]\((?:\.\/)?((?:references|agents|assets|scripts)\/[^)\s]+)\)/g)) {
 		found.add(target.split('#')[0]);
 	}
 
@@ -176,6 +193,9 @@ function checkSkill(name) {
 
 	checkFrontmatter(name, parts.frontmatter, label);
 	checkBody(name, parts.body, label);
+	checkReferenceDepth(name, parts.body, label);
+	checkContents(name);
+	checkPaths(name);
 	checkLicence(name, parts.frontmatter, label);
 	checkInvocable(name, parts.frontmatter);
 	checkIsolation(name, parts.frontmatter);
@@ -223,6 +243,28 @@ function checkFrontmatter(name, frontmatter, label) {
 		fail(label, `name is ${declared.length} characters, over the 64 the specification allows`);
 	}
 
+	const reserved = RESERVED_NAME_WORDS.find((word) => declared?.includes(word));
+
+	if (reserved) {
+		fail(label, `name "${declared}" contains the reserved word "${reserved}"`);
+	}
+
+	for (const [key, value] of [
+		['name', declared],
+		['description', description],
+	]) {
+		// Tag-shaped only, so a comparison such as "a < b or c > d" in prose is not mistaken for a tag.
+		if (value && /<\/?[A-Za-z][\w:-]*(?:\s[^<>]*)?\/?>/.test(value)) {
+			fail(label, `${key} contains an XML tag, which the specification forbids`);
+		}
+	}
+
+	// The description is injected into the system prompt, and the guide warns that a first- or
+	// second-person point of view there causes discovery problems.
+	if (description && /^(?:I|We|You)\b/.test(description)) {
+		fail(label, 'description must be written in the third person, as "Processes files", not "I can" or "You can"');
+	}
+
 	if (!description) {
 		fail(label, 'no description, which is how an agent decides when to use the skill');
 	} else if (description.length > MAX_DESCRIPTION) {
@@ -259,6 +301,108 @@ function checkBody(name, body, label) {
 			fail(label, `references "${target}", which does not exist in the skill directory`);
 		} else if (!isInside(realpathSync(resolved), realpathSync(skillRoot))) {
 			fail(label, `references "${target}", which resolves outside the skill directory, so no install copies it`);
+		}
+	}
+}
+
+/**
+ * Checks that every Markdown file in a linked bundle directory is linked from SKILL.md itself, so no
+ * reference sits two levels deep.
+ *
+ * @param {string} name Directory name of the skill under `.claude/skills/`.
+ * @param {string} body The Markdown beneath the frontmatter.
+ * @param {string} label Repository-relative path of the skill's SKILL.md, for reporting.
+ */
+function checkReferenceDepth(name, body, label) {
+	const linked = new Set(referencedPaths(body));
+
+	for (const file of skillFiles(name)) {
+		if (file.endsWith('.md') && LINKED_DIRS.some((dir) => file.startsWith(`${dir}/`)) && !linked.has(file)) {
+			fail(label, `bundles "${file}" without linking it; link every reference from SKILL.md, one level deep`);
+		}
+	}
+}
+
+/**
+ * Returns the table of contents at the top of a Markdown file: the list under a `## Contents` heading,
+ * or else the list that sits above the first level-two heading. Returns null when neither exists.
+ *
+ * @param {string} text The file's contents.
+ * @returns {string[] | null} The entries, each stripped of link syntax, code spans, and a trailing parenthetical.
+ */
+function contentsList(text) {
+	const underHeading = /^## Contents\r?\n\r?\n((?:[ \t]*- .*\r?\n?)+)/m.exec(text);
+	const preamble = text.split(/^## /m)[0];
+	const block = underHeading?.[1] ?? preamble.match(/^(?:[ \t]*- .*\r?\n?)+/m)?.[0];
+
+	if (!block) {
+		return null;
+	}
+
+	return [...block.matchAll(/^[ \t]*- (.*)$/gm)].map(([, item]) =>
+		item
+			.replace(/\[(.*?)\]\(.*?\)/g, '$1')
+			.replaceAll('`', '')
+			.replace(/\s*\(.*\)$/, '')
+			.trim(),
+	);
+}
+
+/**
+ * Checks that every bundled Markdown file longer than {@link CONTENTS_THRESHOLD} lines opens with a
+ * table of contents naming each of its level-two headings, either under `## Contents` or as the list
+ * above the first section. An entry may add a parenthetical, as the guide's own example does.
+ *
+ * @param {string} name Directory name of the skill under `.claude/skills/`.
+ */
+function checkContents(name) {
+	for (const file of skillFiles(name).filter((path) => path.endsWith('.md') && path.includes('/'))) {
+		const text = readFileSync(join(SKILL_DIR, name, file), 'utf8');
+		const label = `.claude/skills/${name}/${file}`;
+
+		if (text.replace(/\n$/, '').split('\n').length <= CONTENTS_THRESHOLD) {
+			continue;
+		}
+
+		const listed = contentsList(text);
+
+		if (!listed) {
+			fail(label, `is over ${CONTENTS_THRESHOLD} lines with no table of contents at the top`);
+			continue;
+		}
+
+		// A heading inside a fenced code block is an example of output, not a section of the file. A fence
+		// opens with three or more backticks or tildes and closes with at least as many of the same.
+		const prose = text.replace(/^(([`~])\2{2,})[^\n]*\n[\s\S]*?^\1\2*[ \t]*$/gm, '');
+
+		for (const [, heading] of prose.matchAll(/^## (.+)$/gm)) {
+			const plain = heading.replaceAll('`', '').trim();
+			// Compared the way contentsList normalizes an entry, so a heading carrying a parenthetical matches.
+			const entry = plain.replace(/\s*\(.*\)$/, '');
+
+			if (plain !== 'Contents' && !listed.includes(entry)) {
+				fail(label, `the table of contents does not list the section "${plain}"`);
+			}
+		}
+	}
+}
+
+/**
+ * Checks that no Markdown file in a skill writes a file path with backslashes, which the guide rules
+ * out because such a path fails on Unix systems.
+ *
+ * @param {string} name Directory name of the skill under `.claude/skills/`.
+ */
+function checkPaths(name) {
+	for (const file of skillFiles(name).filter((path) => path.endsWith('.md'))) {
+		const text = readFileSync(join(SKILL_DIR, name, file), 'utf8');
+		const match = /\b[\w.-]+\\[\w.-]+\.(?:md|py|js|mjs|cjs|ts|tsx|sh|json|txt|ya?ml)\b/.exec(text);
+
+		if (match) {
+			fail(
+				`.claude/skills/${name}/${file}`,
+				`writes the path "${match[0]}" with a backslash; use forward slashes`,
+			);
 		}
 	}
 }

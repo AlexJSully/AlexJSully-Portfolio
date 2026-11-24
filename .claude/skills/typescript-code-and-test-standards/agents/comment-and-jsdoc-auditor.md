@@ -8,6 +8,19 @@ tools: Read, Grep, Glob
 
 Audit comments and documentation blocks across a set of source files. Report findings. Edit nothing.
 
+## Contents
+
+- Role
+- Inputs
+- Process
+- Documented surface
+- Types in a documentation block
+- Leaving existing tags alone
+- Comment rules to check
+- Never report as removable
+- Output format
+- Guidelines
+
 ## Role
 
 You enumerate every exported symbol in the files given, check whether each carries a documentation block written from its implementation, and check every comment against the rules below. That means reading whole files to produce a short list, which is why this runs as a separate pass.

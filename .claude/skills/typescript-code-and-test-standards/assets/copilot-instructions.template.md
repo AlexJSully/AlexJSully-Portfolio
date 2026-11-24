@@ -6,6 +6,18 @@ applyTo: '**/*.ts,**/*.tsx,**/*.js,**/*.jsx'
 
 Copy this file to `.github/instructions/typescript-standards.instructions.md` in your own repository. The `.instructions.md` suffix is required there; a plain `.md` file in that folder is ignored. It **duplicates** the skill rather than linking to it, because Copilot code review on github.com has no skill loader and cannot follow a link into a skill directory. Use this path when a repository policy prevents installing the skill itself. Note that `applyTo` takes a single comma-separated string, not a list; a list is silently ignored.
 
+## Contents
+
+- Precedence
+- Comments
+- Documentation blocks
+- Readability and naming
+- Types and language defects
+- Accessibility
+- Tests
+- Mocking
+- Flakiness
+
 ## Precedence
 
 This project's formatter owns indentation, quotes, semicolons, width, trailing commas, and import order. Its linter owns unused variables, equality, and brace enforcement, for every rule it has turned on. Its compiler owns types. Never report a violation of a rule the project's configuration has turned off, and never change a configuration file to match these rules.
@@ -18,7 +30,7 @@ Everything below is what those tools cannot check.
 
 - **Comments describe the code as it stands.** Never narrate a change, a fix, or a prior state ("now uses", "changed to", "previously", "no longer", "restored"). Version control carries that, and the comment outlives the change that prompted it.
 - **Name the code a comment describes**: a line, a block, the function, or the file. A comment giving the reason the code is written as it is passes. Where no code corresponds, correct the comment to the current fact it carries, and delete it only when none remains.
-- **An existing comment is kept by default, public and private alike.** Delete only commented-out code, a comment whose every sentence restates the code beneath it, change narration stating no current fact, and a use-site copy of what the declaration's comment already says, where both sites are in scope, the declaration's body was read, and the copy adds nothing. A verbose comment is tightened by whole sentences, keeping its summary and every reason, constraint, or warning. Trim only inside the code you were asked to work on. Never delete or cut below one sentence the comment on a public or exported symbol, a public structure member, or a package or module. Keep the sentence saying what it does, even where it restates the name, code, or syntax; where unclear, keep the first sentence. If the body was not read, keep the comment and report it.
+- **An existing comment is kept by default, public and private alike.** Delete only commented-out code, a comment whose every sentence restates the code beneath it, change narration stating no current fact, and a use-site copy of what the declaration's comment already says, where both sites are in scope, the declaration's body was read, and the copy adds nothing. A verbose comment is tightened by whole sentences, keeping its summary and every reason, constraint, or warning that no other kept sentence gives, and cutting its history and the alternatives not taken. Trim only inside the code you were asked to work on. Never delete or cut below one sentence the comment on a public or exported symbol, a public structure member, or a package or module. Keep the sentence saying what it does, even where it restates the name, code, or syntax; where unclear, keep the first sentence. If the body was not read, keep the comment and report it.
 - **Never argue that the code is correct or safe.** A note defending a decision documents the edit rather than the code; a sentence giving the reason the code is written as it is stays.
 - A comment that contradicts the code is **corrected, not deleted**. The code is the truth.
 - Delete commented-out code.
@@ -47,6 +59,34 @@ Everything below is what those tools cannot check.
 - Separate groups doing different work with a blank line: setup, action, assertion. **A body with no blank line anywhere is the finding.** A formatter collapses and strips blank lines and never inserts one, so a file written as a single block stays one block, correctly indented and unreadable.
 - **A name is clear to a reader meeting it for the first time.** Do not abbreviate by deleting letters. A short name belongs to an established idiom in a tight scope, a loop index or a caught error; a run of unrelated single letters (`a`, `b`, `c`) is an absent name, not a short one.
 - A function body whose length, nesting depth, or widest expression runs past what a reader holds at once is a finding, backstopped at 50 lines, three levels, and a condition of more than about three logical operators or wider than the project's own print width. A long condition is usually type narrowing, so extract it to a named predicate, or to a type guard (`function isFoo(x: unknown): x is Foo`) where the caller needs the narrowing. A deeply nested body flattens by early return, and a nested chain of `typeof`/`in`/truthiness checks wants a discriminated union.
+
+## Types and language defects
+
+Each defect below is provable from TypeScript or JavaScript alone. The rules come from the [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) and the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/).
+
+- Never `Number`, `String`, `Boolean`, `Symbol`, `Object`, or `Function` as a type. A call through `Function` is untyped and returns `any`; write the signature.
+- `as` and `!` need a runtime check or a comment saying why they hold. An assertion between unrelated types goes through `unknown` (`x as unknown as Foo`), never `any` or `{}`. No `@ts-ignore` or `@ts-nocheck`; `@ts-expect-error` only in unit tests, with a comment.
+- **A truthiness check used as a presence check is a defect where a falsy value of the type is meaningful**: `if (count)` on `number | undefined` treats zero as missing, while `if (items.length)`, which means "non-empty", is intended. Never coerce an enum value to a boolean, explicitly or in a condition, because its first member is `0`.
+- No unary `+` or `parseFloat` to read a number; `Number()`, then check for `NaN`. `parseInt` only for a non-decimal radix.
+- Pass an arrow that forwards its arguments rather than a named function as a callback: `['1', '2', '3'].map(parseInt)` returns `[1, NaN, NaN]`.
+- Variants are a discriminated union, not optional fields read through `!`, and a `switch` over one assigns the value to `never` in its `default` so a new variant fails to compile.
+- A callback whose result is ignored returns `void`, not `any`, and its parameters are optional only when the caller omits them. Specific overloads come before general ones, and a union replaces overloads that differ in one parameter.
+- A getter never changes observable state.
+- Throw, reject a promise, and abort a signal only with an `Error` or a subclass. `new Error(message, { cause })` takes an `Error` as `cause`. Handle a non-`Error` throw only where a comment names the API that throws one.
+- Recommend `exactOptionalPropertyTypes`, `noUncheckedIndexedAccess`, and `noImplicitOverride` where they are off; never change the configuration.
+
+## Accessibility
+
+For UI components, from [MDN Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility).
+
+- A native element before an ARIA role. A clickable element is a `<button>`, or an `<a href>` when it navigates; anything else needs a role, `tabIndex={0}`, and an Enter and Space key handler. A custom widget exposes its name, role, and state.
+- No positive `tabIndex`. Never remove a focus outline without a `:focus-visible` replacement.
+- A modal is a `<dialog>` opened with `showModal()`, with initial focus set and focus returned to its trigger on close. A client-side route change moves focus to the new view's heading and updates `document.title`.
+- A live region exists before its text changes; `polite` or `role="status"` by default, `assertive` or `role="alert"` for errors only.
+- Every form control has a programmatically associated label, a placeholder is not one, and the accessible name contains the visible label.
+- Every `<img>` has `alt`, `alt=""` when decorative. Link text makes sense out of context. Data tables use `<th scope>`. Headings descend without skipping a level, and the document root carries `lang`.
+- Colour is never the only signal. Where both colours are in the code, text contrast is at least 4.5:1, or 3:1 for large text. Script-driven animation checks `matchMedia('(prefers-reduced-motion: reduce)')`. Pointer targets are at least 24 by 24 CSS pixels. Focus or input never changes the context on its own.
+- In tests, query by role with the accessible name, and recommend an automated axe scan for UI changes rather than installing one.
 
 ## Tests
 

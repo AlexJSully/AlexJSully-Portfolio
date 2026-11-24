@@ -1,6 +1,6 @@
 # Writing for both readers
 
-Every Markdown page has two readers: someone meeting the system for the first time, and someone who already works in it. A page that serves only the second is the ordinary failure, and it is invisible to its author, because the author cannot un-know the system. This file carries the repairs, each as a before and after pair.
+Every Markdown page has two readers: someone meeting the system for the first time, and someone who already works in it. A page that serves only the second is the ordinary failure, and it is invisible to its author, because the author cannot un-know the system.
 
 ## Contents
 
@@ -17,7 +17,7 @@ Every Markdown page has two readers: someone meeting the system for the first ti
 
 ## The ordering principle, which is how one page serves two readers
 
-Do not split the page between the two readers, and do not write two of them, one per reader. Order it: orientation first, depth after, and both in full. A page that has grown too long as a whole is tightened in place, as [Document length as a whole](#document-length-as-a-whole) shows; a split is proposed to the person who invoked the audit, never made as a repair.
+Do not split the page between the two readers, and do not write two of them, one per reader. Order it: orientation first, then the detail. A page that has grown too long as a whole is tightened in place, as [Document length as a whole](#document-length-as-a-whole) shows; a split is proposed to the person who invoked the audit, never made as a repair.
 
 The newcomer reads the top and stops when they have what they came for. The experienced reader skims the top in three seconds and reads the rest. Neither is served by a page that averages the two, which is the shape that produces prose too vague for the expert and too dense for the newcomer at the same time.
 
@@ -33,9 +33,9 @@ Before, from a caching layer's page:
 
 After:
 
-> Lookups are cached in front of the directory service so that a repeated name resolves without a network call. Read [the directory service page](../services/directory.md) first if the terms below are unfamiliar. Negative results are cached too, which is the part that surprises callers: the resolver checks `NEGATIVE_TTL` before evicting, so a miss recorded during a partition survives that partition by up to sixty seconds.
+> The resolver caches directory service lookups, including misses. See [the directory service page](../services/directory.md) for the terms below. The resolver checks `NEGATIVE_TTL` before evicting, so a miss recorded during a partition survives the partition by up to sixty seconds.
 
-The mechanism sentence is unchanged and still leads its own clause. What was added is the three sentences that make it followable, and the experienced reader loses nothing because the specific claim is still there.
+The mechanism sentence is unchanged. The added sentences name the subject and point to the prerequisite, and nothing else. The experienced reader loses nothing, because the specific claim is still there.
 
 **The opening is where a synthesis claim usually lives**, so it is the place the grounding rule bites hardest. Hold a quote from each file carrying a part of the sentence. "Lookups are cached in front of the directory service" is provable from the resolver and the client that calls it, read together; it is not provable from either alone, and that is not a reason to leave it out.
 
@@ -49,7 +49,7 @@ Before, from a synchronization guide:
 
 After:
 
-> Writes are merged rather than overwritten, using a conflict-free replicated data type (CRDT), a structure whose merge produces the same result regardless of the order replicas apply it in. A last-writer-wins register then settles the fields the merge leaves ambiguous, using the writer's timestamp.
+> Writes go through a conflict-free replicated data type (CRDT) merge, which gives the same result in any order, before the last-writer-wins (LWW) register is applied.
 
 Two rules operate here. Introduce the term where the document first uses it, in a short parenthesis or by a link to the document that defines it, then use it unchanged. And introduce it once per document rather than once per set, because a reader arriving by search lands in the middle of the set and reads one page.
 
@@ -65,7 +65,7 @@ Before, across four documents in one set:
 
 After: one of them, chosen once and used everywhere in the documents this run edits in full, with the code identifier written as the code spells it and the prose term matching it.
 
-Check this across the documents this run edits in full rather than within one, and report a divergent spelling in any other document rather than changing it. A single document is usually self-consistent; the divergence appears between documents written months apart.
+Check this across the documents this run edits in full rather than within one, and report a divergent spelling in any other document rather than changing it.
 
 ## The worked example
 
@@ -104,7 +104,7 @@ The type of a document decides how much it may assume, so choose it before writi
 | Cognition           | Application of skill    | Reference            | That the reader is working and needs a fact confirmed, not taught         |
 | Cognition           | Acquisition of skill    | Explanation          | That the reader is studying, so background and alternatives belong here   |
 
-Two consequences worth stating. A reference may be terse because its reader arrives knowing what they are looking for, but its opening still says what the thing is, since that reader may have arrived from a search engine rather than from the page above. And an explanation is the type most often missing from a set: rationale ends up scattered in single sentences across pages whose subject is something else, where no reader looking for it will find it.
+A reference may be terse because its reader arrives knowing what they are looking for, but its opening still says what the thing is, since that reader may have arrived from a search engine rather than from the page above. And an explanation is the type most often missing from a set: rationale ends up scattered in single sentences across pages whose subject is something else, where no reader looking for it will find it.
 
 **A set can be complete, accurate, and have no way in.** Every subject documented, every claim true, and nothing that takes a first-time reader through one task end to end. Report that gap by name when the scope reaches the whole set.
 
@@ -118,9 +118,9 @@ Before, from a queue client's page:
 
 After:
 
-> `poll` blocks until at least one message arrives or the timeout elapses, and returns an empty list on timeout rather than an error. A delivered message stays unacknowledged until `commit` returns successfully, so a consumer that exits between the two calls receives that message again on its next `poll`.
+> `poll` returns an empty list, not an error, when the timeout passes with no message. A message stays unacknowledged until `commit` returns.
 
-The first version restates a signature the reader can open in less time than the sentence takes to read. The second gives a boundary, an invariant, and the consequence a caller plans around.
+The first version restates a signature the reader can open faster than they can read the sentence. The second states two behaviours the signature does not show, in the same length.
 
 The repair for this failure is what the paragraph fails to add, not deletion by default. Delete only where nothing can be added, and where the source was opened this run to establish that.
 
@@ -128,7 +128,7 @@ The repair for this failure is what the paragraph fails to add, not deletion by 
 
 ## Document length as a whole
 
-Every repair so far is judged one paragraph at a time: does this sentence add a boundary, does this opening name the subject. None of them asks the question a reader who converts a page to a different format actually feels: is the whole thing longer than it needed to be. A document can pass every per-paragraph check and still be an essay nobody finishes, because each paragraph individually earned a place that, added up, produced more than the subject required.
+A document can pass every per-paragraph check and still be an essay nobody finishes, because each paragraph individually earned a place that, added up, produced more than the subject required.
 
 Judge the finished document as a reader would meet it: read it top to bottom in one pass, then ask whether a careful human, asked to write the same brief by hand, would have produced something shorter. If the answer is yes, the excess is usually one of three things: the same point made once too often across different sections, background that belongs on the page it was copied from rather than repeated here, or depth that serves a narrower audience than the page's opening promised. The first is removed in place; the second and third are proposed in the report, since moving content to another page is a restructure the invoking task has to ask for.
 
@@ -163,8 +163,6 @@ Run this before publishing, once per document this run edits in full.
 3. Name that specific thing in the output rather than calling the passage unclear. "Stops at `assertion consumer service`, used in the first sentence and never introduced" is a finding; "the opening is confusing" is not.
 4. Read it again as someone who works in the system daily, and name any paragraph they could have got faster from the source, with what it would have to add to earn its place.
 5. Report both results. A document passes only when both are clean.
-
-Step 1 is the hard one, and it is the whole exercise. An auditor who has just read the implementation knows what every term means, which is exactly the state the reader does not share.
 
 **Make it a test rather than an act of imagination.** For each candidate term, ask where you learned it. A term you could have defined before opening this project needs nothing. A term whose meaning you settled this run, by reading the code or by inferring it from surrounding names, is a term of art and needs introducing. This catches the compounds that intuition waves through, because a phrase built from familiar words can still carry semantics nobody can guess: knowing what a cache is does not tell a reader when a precache runs, and knowing all four words in a revalidate-behind-the-response strategy does not tell them which response the caller gets.
 

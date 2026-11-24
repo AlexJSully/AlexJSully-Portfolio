@@ -13,7 +13,7 @@ Two runners cover different layers. Jest exercises individual components and fun
 ### Key Elements
 
 - **Jest Configuration**: [jest.config.js](../../jest.config.js) wraps Next.js's own Jest transform, sets the `jsdom` environment, mirrors the `tsconfig.json` path aliases through `moduleNameMapper`, and loads [jest/setup.ts](../../jest/setup.ts) after the environment is ready. It ignores `cypress/`, so the two suites never collide.
-- **Cypress Configuration**: [cypress.config.ts](../../cypress.config.ts) sets `includeShadowDom` so commands reach into shadow roots, and enables `experimentalRunAllSpecs` to run every spec in one pass. No `baseUrl` is configured, so specs pass an absolute URL to `cy.visit()`.
+- **Cypress Configuration**: [cypress.config.ts](../../cypress.config.ts) sets `includeShadowDom` so commands reach into shadow roots, and enables `experimentalRunAllSpecs` to run every spec in one pass. No `baseUrl` is configured, so specs pass an absolute URL to `cy.visit()`. It also registers a `logA11yViolations` task: when `cy.a11yCheck()` in [cypress/support/commands.ts](../../cypress/support/commands.ts) finds accessibility violations, it sends each one's rule, impact, and element selectors to that task, which prints them as a table in the terminal.
 - **Test Files**: End-to-end test specs are located in [cypress/e2e/landing.cy.ts](../../cypress/e2e/landing.cy.ts) and related files in the same directory.
 - **Support Files**: Cypress support files are located in [cypress/support/e2e.ts](../../cypress/support/e2e.ts) and [cypress/support/commands.ts](../../cypress/support/commands.ts).
 
@@ -153,7 +153,7 @@ The [dependency-review.yaml](../../.github/workflows/dependency-review.yaml) wor
 
 The workflow sets these policy inputs:
 
-- **`allow-licenses`**: Accepts `0BSD`, `Apache-2.0`, `BSD-2-Clause`, `BSD-3-Clause`, `BlueOak-1.0.0`, `CC0-1.0`, `ISC`, `MIT`, `MIT-0`, `Python-2.0`, `PSF-2.0`, and `Unlicense`. These are Software Package Data Exchange (SPDX) identifiers, standardized names for licences. The action evaluates compound licence expressions against this list. No package-specific licence exceptions are configured.
+- **`allow-licenses`**: Accepts `0BSD`, `Apache-2.0`, `BSD-2-Clause`, `BSD-3-Clause`, `BlueOak-1.0.0`, `CC-BY-4.0`, `CC0-1.0`, `ISC`, `MIT`, `MIT-0`, `MPL-2.0`, `Python-2.0`, `PSF-2.0`, and `Unlicense`. These are Software Package Data Exchange (SPDX) identifiers, standardized names for licences. The action evaluates compound licence expressions against this list. `MPL-2.0` covers `axe-core`, the accessibility engine `cypress-axe` runs, and `CC-BY-4.0` covers `caniuse-lite`, the browser support data that `next` and `browserslist` depend on. No package-specific licence exceptions are configured.
 - **`fail-on-severity`**: Fails on introduced known vulnerabilities rated `high` or `critical`.
 - **`fail-on-scopes`**: Includes `runtime`, `development`, and `unknown`, covering application dependencies, development tools, and dependencies whose scope GitHub cannot determine. Detected transitive dependencies, packages brought in by other dependencies, are included in the review.
 - **`retry-on-snapshot-warnings`**: Retries dependency comparisons with snapshot warnings for up to 120 seconds while GitHub processes dependency data.

@@ -1,4 +1,4 @@
 {
 	"name": "audit-quality",
-	"description": "Audit code for architecture, security, privacy, testing, dependency, supply chain, and cost issues, reporting findings with file and symbol evidence."
+	"description": "Audits code for architecture, security, privacy, testing, dependency, supply chain, and cost issues, returning one report whose findings carry file and symbol evidence and show each fix as code."
 }

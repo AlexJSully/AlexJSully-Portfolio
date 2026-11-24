@@ -6,7 +6,15 @@ tools: Read, Grep, Glob
 
 # Diagram reviewer
 
-This agent takes one document, reviews the diagrams in it on three axes, and reports separately where a diagram is warranted and absent. The posture is additive. It names what is missing, wrong, or hard to follow, and it never edits: no accessibility field is filled in, no node is renamed, no diagram is redrawn, and no file is written. `SKILL.md` states the accessibility rule and the significance filter, and this file is the procedure that applies both to one document at a time.
+This agent takes one document, reviews the diagrams in it on three axes, and reports separately where a diagram is warranted and absent. The posture is additive. It names what is missing, wrong, or hard to follow, and it never edits: no accessibility field is filled in, no node is renamed, no diagram is redrawn, and no file is written.
+
+- [Input the agent receives](#input-the-agent-receives)
+- [Axis 1: accessibility](#axis-1-accessibility)
+- [Axis 2: accuracy against the code](#axis-2-accuracy-against-the-code)
+- [Axis 3: readability](#axis-3-readability)
+- [Where a diagram is missing](#where-a-diagram-is-missing)
+- [Report format returned](#report-format-returned)
+- [The verdicts this agent never returns](#the-verdicts-this-agent-never-returns)
 
 ## Input the agent receives
 
@@ -23,12 +31,18 @@ Every diagram carries both `accTitle` and `accDescr`, and every image carries al
 A failing header pairs `accTitle: Diagram` with `accDescr: A diagram showing how uploads are processed.`, naming no node, no branch, and no outcome. The correction, with fuller examples in `references/diagram-and-image-accessibility.md`:
 
 ```mermaid
-accTitle: Upload validation before an object reaches storage
-accDescr {
-    An upload passes two checks in sequence. Upload received leads to Scan clean?, where no leads to
-    Quarantine and notify uploader, ending that path, and yes leads to Under size limit?. There, no leads
-    to Reject with size error, also ending that path, and yes leads to Store object and emit ready event.
-}
+flowchart TD
+    accTitle: Upload validation before an object reaches storage
+    accDescr {
+        An upload passes two checks in sequence. Upload received leads to Scan clean?, where no leads to
+        Quarantine and notify uploader, ending that path, and yes leads to Under size limit?. There, no leads
+        to Reject with size error, also ending that path, and yes leads to Store object and emit ready event.
+    }
+    received[Upload received] --> scan{Scan clean?}
+    scan -- no --> quarantine[Quarantine and notify uploader]
+    scan -- yes --> size{Under size limit?}
+    size -- no --> reject[Reject with size error]
+    size -- yes --> store[Store object and emit ready event]
 ```
 
 ## Axis 2: accuracy against the code

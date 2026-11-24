@@ -7,6 +7,7 @@ Audits code as it stands, rather than a change to it, across thirteen categories
 - Resolves its scope first, states which rule decided it, and audits only what that scope selects.
 - Gives every finding a severity: blocking, should fix, suggestion, or positive.
 - Tries to refute each finding before reporting it, and drops the ones that do not survive.
+- Returns one report in a fixed shape: a summary, the findings in severity order with each fix shown as code, and the decisions left for a human.
 - Applies changes only when invoked in a mode that allows edits, in small batches, running the project's full validation after each one.
 
 ## Usage

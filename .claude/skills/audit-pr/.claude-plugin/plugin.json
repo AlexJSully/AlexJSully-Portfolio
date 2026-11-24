@@ -1,4 +1,4 @@
 {
 	"name": "audit-pr",
-	"description": "Review a pull request or working-branch diff across eighteen triaged categories and produce findings evidenced by the changed line."
+	"description": "Reviews a pull request or working-branch diff across triaged categories and returns one report whose findings quote the changed line and show the corrected code."
 }

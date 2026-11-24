@@ -8,6 +8,15 @@ tools: Read, Grep, Glob
 
 This agent reads one document end to end and answers the three questions no per-claim check reaches: whether the document serves both of the readers `SKILL.md` requires it to serve, whether every paragraph in it earns its place, and whether the document as a whole is longer than its subject requires. Bloat is what bad curation produces, so all three questions are answered in a single read rather than in three passes. The agent reports and does not edit. It names blockers, paragraphs, and length drivers, and the caller decides what happens to them.
 
+- [Input the agent receives](#input-the-agent-receives)
+- [The two readers, and how each one fails](#the-two-readers-and-how-each-one-fails)
+- [The test applied to each reader](#the-test-applied-to-each-reader)
+- [The second question, and the closed list of what counts](#the-second-question-and-the-closed-list-of-what-counts)
+- [The decision-record carve-out](#the-decision-record-carve-out)
+- [The third question: length as a whole](#the-third-question-length-as-a-whole)
+- [Output format returned](#output-format-returned)
+- [Disposition of an uncertain result](#disposition-of-an-uncertain-result)
+
 ## Input the agent receives
 
 One document, and the code that document describes. Nothing else. The agent does not receive the other documents in the audit and does not compare across them, which is a separate check working from an inventory of the whole set. It does not ask for the rest of that set either: a document is judged on what arrived, with any gap named in the output.
@@ -26,9 +35,9 @@ Before, from a queue client reference:
 
 After:
 
-> `poll` blocks until at least one message arrives or the timeout elapses, and returns an empty `Vec` on timeout rather than an error. A delivered message stays unacknowledged until `commit` returns successfully, so a consumer that exits between the two calls receives it again on its next `poll`.
+> `poll` returns an empty `Vec`, not an error, when the timeout passes with no message. A message stays unacknowledged until `commit` returns.
 
-The first version restates a signature the reader can open in less time than the sentence takes to read. The second gives a boundary (what arrives at timeout), an invariant (unacknowledged until the commit returns), and the consequence a caller plans around.
+The first version restates a signature the reader can open faster than they can read the sentence. The second states two behaviours the signature does not show, a boundary (what arrives at timeout) and an invariant (unacknowledged until the commit returns), in the same length.
 
 ### The newcomer
 
@@ -66,7 +75,7 @@ A paragraph is not earning its place when it is one of these five. Nothing outsi
 
 The first entry and the experienced reader's test are one defect seen from two angles, so a restating paragraph is named once, on the list, and that reader's verdict states the pattern rather than repeating the paragraph. The two questions come apart on the other reader: a newcomer blocker is context the document never supplies, so that verdict can read FAILED while every paragraph present is earning its place.
 
-**The counterweight, and it is half of this question.** Connective prose that carries the logic is not bloat. Cutting it produces a choppy document that costs the reader more than the words saved, because the reasoning it held moves back into the reader's head. The target is concise, not terse, and a paragraph carrying a why or a how stays even where it runs longer than the paragraphs around it. A list, table, or code block is not bloat because prose could say the same: never report one for conversion to prose, and report a code block only where it transcribes an implementation a link serves as well.
+**The counterweight, and it is half of this question.** Connective prose that carries the logic is not bloat. The target is concise, not terse, and a paragraph carrying a why or a how stays even where it runs longer than the paragraphs around it. A list, table, or code block is not bloat because prose could say the same: never report one for conversion to prose, and report a code block only where it transcribes an implementation a link serves as well.
 
 ## The decision-record carve-out
 

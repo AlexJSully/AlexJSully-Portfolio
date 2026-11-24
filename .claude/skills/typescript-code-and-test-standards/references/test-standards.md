@@ -117,7 +117,11 @@ Prefer building a fresh subject per case over sharing one across the file.
 
 ## Accessibility assertions
 
-Assert through roles and accessible names rather than through class names or test identifiers where the framework's testing library supports it. A query by role fails when the element stops being reachable to assistive technology, which is behaviour worth locking in; a query by class name passes right through that break.
+Assert through roles and [accessible names](https://developer.mozilla.org/en-US/docs/Glossary/Accessible_name) rather than through class names or test identifiers where the framework's testing library supports it. A query by role fails when the element stops being reachable to assistive technology, which is behaviour worth locking in; a query by class name passes right through that break.
+
+**Query by role with the accessible name.** In Testing Library that is `getByRole('button', { name: /submit/i })`, which its documentation ranks first: "This should be your top preference for just about everything. There's not much you can't get with this (if you can't, it's possible your UI is inaccessible)" ([queries priority](https://testing-library.com/docs/queries/about/#priority)). A test that can only find an element by test identifier is evidence for an accessibility finding, not a reason to add the identifier.
+
+**A UI change gets an automated accessibility scan where the project runs one.** An axe-based scan in a component or end-to-end test checks the rendered page, which reading the source cannot; axe-core's own documentation says it finds "on average 57% of WCAG issues automatically" ([axe-core](https://github.com/dequelabs/axe-core)). The rest is read by hand against [accessibility.md](accessibility.md). Where no scan is installed, recommend one and name where it would run; never add the dependency, which is the project's decision.
 
 Where a dedicated accessibility assertion library is not installed for unit tests, that check usually lives in the project's end-to-end suite. Confirm which, rather than adding a dependency.
 

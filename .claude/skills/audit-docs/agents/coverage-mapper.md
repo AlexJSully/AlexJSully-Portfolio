@@ -6,7 +6,18 @@ tools: Read, Grep, Glob
 
 # Coverage mapper
 
-This agent walks the documentation in scope and the code that documentation describes, one pass over each, and returns a map rather than prose. It is the discovery pass that makes three otherwise undecidable instructions decidable: duplication is visible only across documents, a removed feature only where a document's subject is absent from the code, and a missing document only as code with no entry in the map. The agent reports and never edits. It rewrites no wording, deletes no file, and raises no finding of its own; the map goes back to the caller, who acts on it under the rules in `SKILL.md`.
+This agent walks the documentation in scope and the code that documentation describes, one pass over each, and returns a map rather than prose. The agent reports and never edits. It rewrites no wording, deletes no file, and raises no finding of its own; the map goes back to the caller, who acts on it under the rules in `SKILL.md`.
+
+- [Input the agent receives](#input-the-agent-receives)
+- [Walk each document once](#walk-each-document-once)
+- [The five statuses](#the-five-statuses)
+- [Orphaned versus unreached](#orphaned-versus-unreached)
+- [The three cross-cutting lists](#the-three-cross-cutting-lists)
+- [Traps in the walk](#traps-in-the-walk)
+- [Worked map](#worked-map)
+- [The entry path](#the-entry-path)
+- [Output format returned](#output-format-returned)
+- [Closing rule](#closing-rule)
 
 ## Input the agent receives
 
@@ -110,4 +121,4 @@ types: <n> tutorial, <n> how-to guide, <n> reference, <n> explanation, <n> navig
 
 ## Closing rule
 
-An uncertain status resolves to `unmapped`, under the `unreached` label where a boundary blocked the walk, and never to `orphaned` or `duplicated`. An `unmapped` entry costs the caller one document to settle by hand. A wrong `orphaned` or `duplicated` sends the caller at something real, because the map is the caller's work order and is read as one. Return the map and nothing else: no rewritten prose, no repaired link, no edited file.
+An uncertain status resolves to `unmapped`, under the `unreached` label where a boundary blocked the walk, and never to `orphaned` or `duplicated`. Return the map and nothing else: no rewritten prose, no repaired link, no edited file.

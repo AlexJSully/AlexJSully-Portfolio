@@ -4,7 +4,8 @@ import LinkIcon from '@components/link-icon/LinkIcon';
 import { logAnalyticsEvent } from '@configs/firebase';
 import { DELAYS } from '@constants/index';
 import projects from '@data/projects';
-import { Button, Card, CardMedia, Grid, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Card, CardMedia, Grid, Stack, Tooltip, Typography } from '@mui/material';
+import { colors, focusRing, visuallyHiddenSx } from '@styles/tokens';
 import { useConsent } from '@util/consent/useConsent';
 import { isNetworkFast } from '@util/isNetworkFast';
 import Link from 'next/link';
@@ -249,52 +250,51 @@ export default function ProjectsGrid(): ReactElement {
 								>
 									{project.urls.map((url) => (
 										<Grid key={`${url.text}-grid-item`}>
-											<Link
-												aria-label={`Project:  ${project.name} - ${url.text}`}
-												href={url.url}
-												onClick={() => {
-													logAnalyticsEvent(`project-${project.id}-${url.text}`, {
-														name: `project-${project.id}-${url.text}`,
-														type: 'click',
-													});
-												}}
-												prefetch
-												rel='noopener noreferrer'
-												style={{
-													color: 'inherit',
-													textDecoration: 'none',
-												}}
-												target='_blank'
-											>
-												<Tooltip arrow describeChild title={url.tooltip} enterDelay={500}>
-													<Button
-														aria-label={`Project button: ${project.name} - ${url.text}`}
-														sx={{
-															alignItems: 'center',
-															backgroundColor: '#24272d',
-															border: `1px solid ${project.color || '#000'}25`,
-															color: '#fff',
-															display: 'flex',
-															fontWeight: 600,
-															transition: 'all .2s ease-in-out',
+											<Tooltip arrow describeChild title={url.tooltip} enterDelay={500}>
+												<Button
+													component='a'
+													href={url.url}
+													onClick={() => {
+														const eventName = `project-${project.id}-${url.text}`;
+
+														logAnalyticsEvent(eventName, {
+															name: eventName,
+															type: 'click',
+														});
+													}}
+													rel='noopener noreferrer'
+													sx={{
+														alignItems: 'center',
+														backgroundColor: colors.raised,
+														border: `1px solid ${project.color || '#000'}25`,
+														color: colors.text,
+														display: 'flex',
+														fontWeight: 600,
+														transition: 'all .2s ease-in-out',
+														svg: {
+															marginRight: '0.5rem',
+														},
+														'&:focus-visible': focusRing,
+														'&:hover': {
+															backgroundColor: colors.hover,
+															border: `1px solid ${project.color || '#000'}`,
 															svg: {
-																marginRight: '0.5rem',
+																transform: 'scale(1.1)',
+																transition: 'all .2s ease-in-out',
 															},
-															'&:hover': {
-																backgroundColor: '#2c3443',
-																border: `1px solid ${project.color || '#000'}`,
-																svg: {
-																	transform: 'scale(1.1)',
-																	transition: 'all .2s ease-in-out',
-																},
-															},
-														}}
-														variant='contained'
-													>
-														{url.icon({})} {url.text}
-													</Button>
-												</Tooltip>
-											</Link>
+														},
+													}}
+													target='_blank'
+													variant='contained'
+												>
+													{url.icon({})} {url.text}
+													{/* The project name gives the link its purpose out of context, after the visible label. */}
+													<Box
+														component='span'
+														sx={visuallyHiddenSx}
+													>{` (${project.name})`}</Box>
+												</Button>
+											</Tooltip>
 										</Grid>
 									))}
 								</Grid>

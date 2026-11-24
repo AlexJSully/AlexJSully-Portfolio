@@ -92,7 +92,7 @@ Each cost finding carries one line before the explanation: the dimension, the un
 | Logs and telemetry | ingested volume, retention   | debug line on a hot path, sampling removed, retention raised                  |
 | Model calls        | tokens in and out            | larger context, added retry, identical requests uncached                      |
 
-Never write a currency amount or reprint a published rate. Rates change, a reader cannot check the number against the provider from inside the diff, and the finding is about the dimension rather than the price. A log line on a hot path is one finding, filed under cost or under observability, never both.
+Never write a currency amount or reprint a published rate. A log line on a hot path is one finding, filed under cost or under observability, never both.
 
 ## Egress, bytes scanned, and build minutes need their own procedure
 
