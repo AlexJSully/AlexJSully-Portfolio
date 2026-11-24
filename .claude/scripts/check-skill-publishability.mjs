@@ -139,7 +139,7 @@ function unparseableScalars(frontmatter) {
 function referencedPaths(body) {
 	const found = new Set();
 
-	for (const [, target] of body.matchAll(/\]\(((?:references|agents|assets|scripts)\/[^)\s]+)\)/g)) {
+	for (const [, target] of body.matchAll(/\]\((?:\.\/)?((?:references|agents|assets|scripts)\/[^)\s]+)\)/g)) {
 		found.add(target.split('#')[0]);
 	}
 
@@ -253,14 +253,15 @@ function checkFrontmatter(name, frontmatter, label) {
 		['name', declared],
 		['description', description],
 	]) {
-		if (value && /<[^>]+>/.test(value)) {
+		// Tag-shaped only, so a comparison such as "a < b or c > d" in prose is not mistaken for a tag.
+		if (value && /<\/?[A-Za-z][\w:-]*(?:\s[^<>]*)?\/?>/.test(value)) {
 			fail(label, `${key} contains an XML tag, which the specification forbids`);
 		}
 	}
 
 	// The description is injected into the system prompt, and the guide warns that a first- or
 	// second-person point of view there causes discovery problems.
-	if (description && /^(I|I'm|I'll|We|We'll|You|You'll|You can)\b/.test(description)) {
+	if (description && /^(?:I|We|You)\b/.test(description)) {
 		fail(label, 'description must be written in the third person, as "Processes files", not "I can" or "You can"');
 	}
 
@@ -370,13 +371,16 @@ function checkContents(name) {
 			continue;
 		}
 
-		// A heading inside a fenced code block is an example of output, not a section of the file.
-		const prose = text.replace(/^(`{3,})[^\n]*\n[\s\S]*?^\1[ \t]*$/gm, '');
+		// A heading inside a fenced code block is an example of output, not a section of the file. A fence
+		// opens with three or more backticks or tildes and closes with at least as many of the same.
+		const prose = text.replace(/^(([`~])\2{2,})[^\n]*\n[\s\S]*?^\1\2*[ \t]*$/gm, '');
 
 		for (const [, heading] of prose.matchAll(/^## (.+)$/gm)) {
 			const plain = heading.replaceAll('`', '').trim();
+			// Compared the way contentsList normalizes an entry, so a heading carrying a parenthetical matches.
+			const entry = plain.replace(/\s*\(.*\)$/, '');
 
-			if (plain !== 'Contents' && !listed.includes(plain)) {
+			if (plain !== 'Contents' && !listed.includes(entry)) {
 				fail(label, `the table of contents does not list the section "${plain}"`);
 			}
 		}

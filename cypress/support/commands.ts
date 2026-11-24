@@ -27,7 +27,10 @@ Cypress.Commands.add('a11yCheck', () => {
 				id,
 				impact,
 				help,
-				targets: nodes.map((node) => node.target.join(' ')),
+				// A target entry inside a shadow root is itself an array, from the host down to the element.
+				targets: nodes.map((node) =>
+					node.target.map((part) => (Array.isArray(part) ? part.join(' >>> ') : part)).join(' '),
+				),
 			})),
 		);
 	});

@@ -49,7 +49,7 @@ default: {
 
 ## Read-only parameters and `satisfies`
 
-- **An array parameter the function does not mutate is `readonly T[]`.** "When we see a function that consumes ReadonlyArrays, it tells us that we can pass any array into that function without worrying that it will change its contents." A mutable array is assignable to it, so callers change nothing ([the ReadonlyArray type](https://www.typescriptlang.org/docs/handbook/2/objects.html#the-readonlyarray-type)).
+- **An array parameter the function does not mutate is `readonly T[]`.** "when we see a function that consumes ReadonlyArrays, it tells us that we can pass any array into that function without worrying that it will change its contents." A mutable array is assignable to it, so callers change nothing ([the ReadonlyArray type](https://www.typescriptlang.org/docs/handbook/2/objects.html#the-readonlyarray-type)).
 - **`satisfies` rather than `as` where the value should be checked against a type and keep its own narrower type.** "The new satisfies operator lets us validate that the type of an expression matches some type, without changing the resulting type of that expression." An `as` checks nothing, and an annotation widens the value to the annotated type ([the satisfies operator](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html#the-satisfies-operator)).
 
 ## Compiler options to recommend

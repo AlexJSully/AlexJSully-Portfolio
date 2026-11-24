@@ -1,7 +1,7 @@
 // Tests for the skill and prompt rules in `check-skill-publishability.mjs`, run against a fixture
 // repository from `fixture-repository.mjs`. Run with `make -f .claude/Makefile test-scripts`.
 import assert from 'node:assert/strict';
-import { mkdirSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs';
+import { mkdirSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 // `node:test` has no unprefixed name, unlike the other built-in modules imported here.
 import { afterEach, beforeEach, describe, it } from 'node:test';
@@ -489,6 +489,52 @@ describe('skill authoring guide checks', () => {
 		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, 'Run `scripts\\helper.py` first.\n'));
 
 		fixture.assertFailsOnce('writes the path "scripts\\helper.py" with a backslash');
+	});
+
+	it('counts a reference linked with a leading "./" as linked', () => {
+		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, '[guide](./references/guide.md)\n'));
+		fixture.write('.claude/skills/alpha/references/guide.md', '# Guide\n');
+
+		const { status, output } = fixture.check();
+
+		assert.equal(status, 0, output);
+	});
+
+	it('accepts a section heading carrying the same parenthetical as its contents entry', () => {
+		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, '[guide](references/guide.md)\n'));
+		fixture.write(
+			'.claude/skills/alpha/references/guide.md',
+			longReference('## Contents\n\n- Setup\n- Retry (backoff)\n\n', ['Setup', 'Retry (backoff)']),
+		);
+
+		const { status, output } = fixture.check();
+
+		assert.equal(status, 0, output);
+	});
+
+	it('ignores a heading inside a tilde-fenced block whose closing fence is longer', () => {
+		const example = '~~~markdown\n## Example output\n~~~~\n\n';
+
+		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, '[guide](references/guide.md)\n'));
+		fixture.write(
+			'.claude/skills/alpha/references/guide.md',
+			longReference(`## Contents\n\n- Setup\n\n${example}`, ['Setup']),
+		);
+
+		const { status, output } = fixture.check();
+
+		assert.equal(status, 0, output);
+	});
+
+	it('accepts a description using "<" and ">" as comparisons rather than a tag', () => {
+		fixture.write(
+			ALPHA_SKILL,
+			skillFile({ ...ALPHA_FIELDS, description: 'Flags a count that is < 10 or > 100 in release notes.' }),
+		);
+
+		const { status, output } = fixture.check();
+
+		assert.equal(status, 0, output);
 	});
 });
 
