@@ -66,10 +66,13 @@ Sources that could not be resolved this run: [name each one and what you used in
 
 ## Phase 3 result: in-code documentation audit
 
-**Status:** [changed / audited in-code documentation across [count] files, all accurate, no changes required]
+**Status:** [changed / audited in-code documentation across [count] files, all accurate, no changes required / no code files in scope]
+
+Code files in scope: [every code file the scope resolved to, each with its result below; on a pull request, every code file the diff touched].
 
 - `[file]`: [kind of change, such as documented a public symbol, corrected a parameter entry that named a removed argument, removed a comment that restated its line, removed an orphaned TODO, kept one copy of a repeated comment on the declaration of `[symbol]` and removed [count] copies above usage sites, cut sentences restating the code or re-describing members from the comment on `[symbol]`, keeping the rest word for word].
 - `[file]`: [kind of change].
+- `[file]`: audited, all accurate, no change.
 
 Public symbols left as they stand because their implementation was not read: [`Cache::evict` in `[file]`, `settle_invoice` in `[file]`, or write "none"].
 
@@ -79,15 +82,15 @@ Undocumented public symbols outside the change, listed rather than documented: [
 
 ## Files changed and kind of change
 
-| File     | Kind of change                                                 |
-| -------- | -------------------------------------------------------------- |
-| `[path]` | [corrected a factual statement about `[symbol]`]               |
-| `[path]` | [documented [count] previously undocumented public symbols]    |
-| `[path]` | [created, [tutorial / how-to guide / reference / explanation]] |
+| File     | Kind of change                                                 | Lines before → after |
+| -------- | -------------------------------------------------------------- | -------------------- |
+| `[path]` | [corrected a factual statement about `[symbol]`]               | [42 → 42]            |
+| `[path]` | [documented [count] previously undocumented public symbols]    | [118 → 121]          |
+| `[path]` | [created, [tutorial / how-to guide / reference / explanation]] | [0 → 35]             |
 
 Kinds to choose from: made the change the request asked for, corrected a factual statement, documented a public symbol, retained a public documentation comment at its one-sentence floor, corrected an existing documentation tag, corrected a drifted comment, removed a comment on the closed delete list (commented-out code, restating its code with nothing more, about code that no longer exists, change narration with no current fact, or a use-site comment that says no more than the declaration's comment, removed only when both sites were in scope, the declaration body was read, and any additional constraint was folded into the declaration), cut sentences from a comment, removed a duplicated section, replaced a transcribed code block with a link, introduced a term on first use, added orientation for a first-time reader, created, and, only where the request asked or the user approved it, renamed, moved, split, merged, or deleted.
 
-(One row per file, not one per edit. If no file changed, replace the table with "No files changed.")
+(One row per file, not one per edit. Count lines before and after your edits; a file that grew by more than the change needed is a length finding to fix before you return the report. If no file changed, replace the table with "No files changed.")
 
 ## Unverified claims and symbols
 
@@ -121,6 +124,8 @@ This run edits documentation, so a code defect is reported here and left alone. 
 (Delete this section from the finished report.)
 
 - Every phase carries a status line, including a phase whose answer is that the documentation was already accurate.
+- Phase 3 names every code file in scope with its result.
+- Every sentence in this report is plain English a developer understands on the first read.
 - Every symbol reported in Phase 3 as left as it stands because its implementation was not read also appears under Unverified.
 - No documentation comment on a public or exported symbol, public structure member, package, or module was deleted or cut below one sentence.
 - Every comment removed, public or private, documentation or inline, is on the closed delete list; every other comment was kept, corrected, or tightened by whole sentences inside the requested scope.

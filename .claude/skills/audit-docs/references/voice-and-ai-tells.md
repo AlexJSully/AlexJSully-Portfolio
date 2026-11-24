@@ -1,183 +1,106 @@
 # Voice and AI tells
 
-A formal, neutral register is correct for technical documentation. Prose reads as machine-generated because of a small set of recurring constructions layered on that register, not because of the formality, so the work is to cut the constructions and keep the register.
+This file shows the target style for every sentence the audit writes: plain, formal English that a developer understands on the first read. The examples teach the style better than a list of words to avoid, so read them before you write.
 
-- [Voice and AI tells](#voice-and-ai-tells)
-    - [Scope limit: only prose you add or change](#scope-limit-only-prose-you-add-or-change)
-    - [Signposting previews that announce content instead of giving it](#signposting-previews-that-announce-content-instead-of-giving-it)
-    - [Puffery copulas that assert significance](#puffery-copulas-that-assert-significance)
-    - [The rule-of-three triad as a default rhythm](#the-rule-of-three-triad-as-a-default-rhythm)
-    - [Filler transitions at high frequency](#filler-transitions-at-high-frequency)
-    - [Formulaic conclusions and manufactured tension](#formulaic-conclusions-and-manufactured-tension)
-    - [Padded vocabulary, its replacements, and the words that stay](#padded-vocabulary-its-replacements-and-the-words-that-stay)
-    - [Hedging that dodges commitment](#hedging-that-dodges-commitment)
-    - [Prose that restates the code instead of adding to it](#prose-that-restates-the-code-instead-of-adding-to-it)
-    - [Show, do not tell: the cited fact that earns the adjective](#show-do-not-tell-the-cited-fact-that-earns-the-adjective)
-    - [Leading with the point and letting sentence length follow content](#leading-with-the-point-and-letting-sentence-length-follow-content)
-    - [Self-check for a paragraph you just wrote](#self-check-for-a-paragraph-you-just-wrote)
+## Contents
 
-## Scope limit: only prose you add or change
+- [The target style](#the-target-style)
+- [Examples of the target style](#examples-of-the-target-style)
+- [What makes prose read as generated](#what-makes-prose-read-as-generated)
+- [Comments follow the same style, shorter](#comments-follow-the-same-style-shorter)
+- [Scope: only prose you add or change](#scope-only-prose-you-add-or-change)
+- [The rewrite pass](#the-rewrite-pass)
 
-Apply this catalogue to sentences you write, and to sentences you rewrite for a factual reason. Accurate existing prose stays as its author wrote it, tells and all: rewriting it for rhythm produces a diff no reviewer can check against the code, and it buries the factual corrections that were the point of the audit. Two cases cross back into scope. A sentence that contradicts the code is rewritten because it is wrong, and the replacement follows this file. A hedge concealing an unverified claim is an accuracy defect, so it is resolved by verification or deletion rather than preserved as someone's style.
+## The target style
 
-## Signposting previews that announce content instead of giving it
+- **Write for a person.** The reader is a developer who reads the page once. Write to explain the system to that developer.
+- **Write complete, grammatical sentences.** Each one has a subject and a verb and carries one idea. Use "it", "this", and ordinary transitions such as "however" or "so" wherever the meaning stays clear. Repeat the noun only where "it" could point at two things.
+- **Lead with the point.** The first sentence of a paragraph gives the answer; the detail follows.
+- **State what the code does.** Write the behaviour you read and nothing you worked out from it. A consequence or scenario goes in only when a test, a comment, or a document states it.
+- **Stop when the facts stop.** No closing summary, and no sentence that announces what the next sentence will say.
+- **Stay formal and neutral.** No contractions, no em-dashes or en-dashes, and no hedging. Use Canadian spelling in what you write.
 
-Delete the announcement and open with the content. The grammatical subject gives the tell away: it is the document (this section, this guide, the table below, we) rather than the system being described. A heading already performs the announcement, and the same construction reappears mid-document as "as mentioned above", which orients the reader inside the page instead of inside the software.
+## Examples of the target style
 
-- Before: "This section covers the retry configuration and explains how it applies to outbound requests."
-- After: "An outbound request that fails is retried rather than surfaced to the caller. It retries three times, with the count read from `MAX_ATTEMPTS` once at startup."
+Each pair shows a draft and the sentence to write instead. The rewrite is never longer than the fact needs.
 
-The repair deletes the announcement, not the orientation. The subject moves from the document to the system, and the first clause still says what the thing is, because a reader who does not already know what a retry configuration is cannot enter on the mechanism sentence alone.
+**Example 1.**
+Draft: "This section covers the retry configuration and explains how it applies to outbound requests."
 
-## Puffery copulas that assert significance
+Write: "A failed outbound request is retried three times. The count comes from `MAX_ATTEMPTS`."
 
-Replace the copula with the verb that names what the subject does. `serves as`, `stands as`, `is a testament to`, and `plays a vital role in` fill the predicate without stating a behaviour, so none of them can be grounded in a line of code. Test by deleting the sentence and asking what a reader can no longer predict; if the answer is nothing, it stated no behaviour. One survivor: `acts as` is correct where it names a relationship the code implements, such as a type acting as an adapter between two interfaces, because the adapter is a fact rather than a compliment.
+**Example 2.**
+Draft: "The scheduler serves as the backbone of the ingestion pipeline and plays a pivotal role in throughput."
 
-- Before: "The scheduler serves as the backbone of the ingestion pipeline and plays a pivotal role in throughput."
-- After: "The scheduler assigns each ingestion batch to a free worker, and holds the batch in the queue while every worker is busy."
+Write: "The scheduler assigns each ingestion batch to a free worker."
 
-## The rule-of-three triad as a default rhythm
+**Example 3.**
+Draft: "The connection pool is robust, reliable, and efficient, giving developers confidence and peace of mind."
 
-Three parallel items are correct when the set has three members, and generated-sounding when they arrive from cadence instead of a count. Three transport types or three lifecycle hooks stay, each one named. Three adjectives, or three abstract nouns circling one idea, come from rhythm. The check is to count the members in the source, then drop the third item and confirm whether the sentence lost information or only lost its cadence.
+Write: "The pool opens at most 16 connections and raises `PoolTimeout` after waiting 5 seconds for one."
 
-- Before: "The cache layer is fast, reliable, and scalable, giving developers speed, confidence, and peace of mind."
-- After: "The cache holds 10,000 entries and evicts the least recently used one on overflow. A miss falls through to the primary store."
+**Example 4.**
+Draft: "The worker should retry the request, and it generally handles transient network errors."
 
-## Filler transitions at high frequency
+Write: "The worker retries once on a connection timeout and raises on any other error."
 
-Keep a transition that marks a logical turn, and cut one that marks only that another sentence has started: the tell is density, not vocabulary. Count sentence-initial connectives per paragraph, and treat more than one, or any two in consecutive sentences, as a signal that the paragraph is a list wearing prose clothing. Either join the sentences or make it a real list. `however` and `instead` earn their place when the clause that follows contradicts the one before it; `additionally` rarely does, because sequence already implies addition.
+Where you did not read the body, write nothing and list the claim as unverified in the report.
 
-- Before: "Additionally, the parser accepts a leading byte-order mark. Furthermore, it rejects a trailing comma. Moreover, it lowercases header names."
-- After: "The parser accepts a leading byte-order mark, rejects a trailing comma, and lowercases header names."
+**Example 5.**
+Draft: "In conclusion, the queue is a strong solution, though despite its strengths it faces challenges at scale."
 
-## Formulaic conclusions and manufactured tension
+Write nothing. Delete the paragraph; the queue's limits are already stated where they apply.
 
-Stop when the facts stop. A closing paragraph that restates the section adds no fact, and the "despite its strengths, it faces challenges" shape invents a tension no source states. Where a limitation is real, state it at the point it bites, with its source: "The queue drops the oldest message once depth passes `QUEUE_MAX`." A limitation you cannot cite goes into your report to the human, never onto the page.
+## What makes prose read as generated
 
-- Before: "In conclusion, the queue is a strong solution, though despite its strengths it faces challenges at scale."
-- After: nothing at all. The paragraph is deleted, because the depth limit and the drop behaviour were already stated where they apply.
+A formal register is right for technical writing. Prose reads as generated because of a few habits, not because it is formal. Each habit has a plain alternative:
 
-## Padded vocabulary, its replacements, and the words that stay
+- **Announcing instead of saying.** A sentence whose subject is the document ("this section", "the table below") is announcing. Start with the system instead.
+- **Asserting significance.** A sentence that calls something central, key, or vital states no behaviour. Name what it does.
+- **Adjectives without facts.** Replace an adjective with the number, limit, or error type that earns it. If you have none, drop the adjective.
+- **Groups of three from rhythm.** List three items only when the code has three.
+- **Inferred consequences.** A sentence that chains "so", "which means", or "as a result" into a scenario the code does not state is a guess. Write the behaviour and stop.
 
-Substitute the plain word, which carries the same meaning and does not pattern-match to generated text.
+## Comments follow the same style, shorter
 
-| Padded word  | Write instead                             |
-| ------------ | ----------------------------------------- |
-| `delve into` | examine, read, or name the action         |
-| `leverage`   | use                                       |
-| `underscore` | show                                      |
-| `showcase`   | show, list                                |
-| `intricate`  | name the specific complication            |
-| `vibrant`    | delete                                    |
-| `foster`     | cause, allow, or name the mechanism       |
-| `tapestry`   | delete                                    |
-| `seamless`   | state what the reader does not have to do |
-| `utilize`    | use                                       |
-| `facilitate` | name what it actually does                |
+A comment you write is one sentence, or two when the second states an error, a constraint, or a caller duty you can quote.
 
-**A substitution inside a Markdown table cell is where this catalogue does its damage.** The mapping above changes the length of a cell, and re-padding the row to match is what breaks the table. Leave the cell ragged. Every row keeps the same number of `|`-separated cells as the header and the delimiter row, a cell stays on one line with no newline or bullet list inserted into it, a literal `|` inside a cell is written `\|`, and no substitution is a reason to re-flow, re-wrap, or restructure the table around it. Prefer leaving a cell as its author wrote it over making a table you then have to repair, and count the cells in every row after any edit inside one.
+**Example 1.**
 
-Do not run the table as a find-and-replace, because several entries are also ordinary technical terms and removing one would make the sentence wrong. A word stays when it names something that exists in the system: a test `harness` is a component, an OAuth `realm` is a protocol field, a library or module whose name happens to be one of these words keeps its name, and a word inside a quoted specification or error string stays as quoted. A word goes when it modifies something to make it sound larger than it is. The replacement for `seamless` is almost always a concrete negative fact, which is what makes the claim checkable.
+```go
+// Close flushes buffered rows, then closes the file.
+func (w *Writer) Close() error {
+```
 
-- Before: "The adapter leverages the connection pool to facilitate seamless failover across regions."
-- After: "The adapter borrows a connection from the pool, and retries against the secondary region when the primary does not answer within two seconds. No restart or re-authentication is required of the caller."
-
-## Hedging that dodges commitment
-
-Treat a hedge as an accuracy failure first and a voice failure second. `appears to`, `seems to`, `likely`, `generally`, and `is designed to` admit a sentence to the page without evidence, so the repair is verification or deletion, never a bolder synonym. `should` is banned outright, including where it states a caller obligation, because the two readings are indistinguishable on the page. Write the obligation as a fact or an imperative instead: "the caller closes the handle before the process exits", not "callers should close the handle".
-
-- Before: "The worker should retry the request, and generally handles transient network errors."
-- After: "The worker retries once on a connection timeout and raises on every other error class." Where the body was not read, no sentence is written and the symbol is listed as unverified in the output.
-
-## Prose that restates the code instead of adding to it
-
-Cut any sentence a reader could reconstruct from the declaration, except the one-sentence floor on a public symbol's documentation comment. That sentence stays as written even when it restates the name, code, or syntax. The pairs below distinguish that existing floor from additional documentation to write only when the body proves it.
+**Example 2.**
 
 ```python
-# The floor, kept as written:
 def set_timeout(seconds: int) -> None:
-    """Sets the timeout to the given number of seconds."""
-
-# Adds the meaning of 0 and a boundary the caller cannot see:
-def set_timeout(seconds: int) -> None:
-    """Bound every request opened after this call; 0 removes the bound.
-    A pooled connection keeps the value it held when it was created.
-    """
+    """Sets the timeout for every request opened after this call; 0 removes it."""
 ```
 
-```go
-// Floor, kept as written: Close closes the writer.
-// Written new: Close flushes buffered rows before releasing the file handle,
-// and a write after Close returns ErrClosed rather than panicking.
-func (w *Writer) Close() error {
-	flushErr := w.flush()
-	w.closed = true
-	if err := w.file.Close(); err != nil {
-		return err
-	}
-
-	return flushErr
-}
-
-func (w *Writer) Write(row []string) error {
-	if w.closed {
-		return ErrClosed
-	}
-
-	return w.buffer(row)
-}
-```
-
-Each sentence of the second comment rests on a line of a body, on every path through it: `w.flush()` runs before `w.file.Close()` whether or not it fails, `w.closed` is set before either can return, and `Write` opens with `if w.closed { return ErrClosed }`. A sentence with no such line behind it is not written, however likely it sounds.
-
-A package or file comment fails the same test in its own way: it re-describes members that already carry their own comments, and turns into a tour of the interface.
-
-```go
-// Package auth issues and verifies signed session tokens for the API.
-// NewIssuer creates an Issuer from a signing key. Issue signs a token for a
-// user ID, and Verify checks a token's signature and expiry, returning
-// ErrExpired or ErrInvalid. Middleware rejects a request without a valid
-// bearer token.
-package auth
-```
-
-Cut to its first sentence, since every sentence after it restates a member's own comment and the generated reference already lists those members:
+**Example 3.**
 
 ```go
 // Package auth issues and verifies signed session tokens for the API.
 package auth
 ```
 
-Procedure: cover the prose and read only the declaration. Anything you can still answer needs no sentence. Anything you cannot answer, and can prove from the body you read this run, is the sentence to write. **Apply it with the same exceptions the rule above carries**, since a procedure stated without them is stricter than the rule it implements: a reader who cannot open the source, and a reader who has not yet been told what the subject is, are both owed the plain statement of what the thing does, and so is every public symbol's documentation comment.
+A package comment says what the package is for. It does not describe members that have their own comments.
 
-## Show, do not tell: the cited fact that earns the adjective
+An existing comment on a public symbol that only restates the name, such as `// Close closes the writer.`, is the one-sentence floor. Keep it as written.
 
-Replace the adjective with the measurement, limit, or named edge case that made you reach for it. For each adjective in the draft, name what you read that makes it true: a value, a count, a timeout, an error type, or a branch replaces it directly. When nothing comes to mind, the adjective was a guess, so delete it and write no replacement.
+## Scope: only prose you add or change
 
-- Before: "The connection pool is robust and the token refresh is efficient."
-- After: "The pool opens at most 16 connections and blocks a caller for up to 5 seconds before raising `PoolTimeout`. A token is refreshed 60 seconds ahead of expiry, and a failed refresh returns the existing token until that expiry passes."
+Apply this file to sentences you write and to sentences you rewrite because they were wrong. Leave accurate existing prose as its author wrote it. Rewriting it for style produces a diff no reviewer can check against the code, and it hides the factual corrections that were the point of the audit. A hedge that hides an unverified claim is an accuracy problem, so resolve it by checking the code or deleting the sentence.
 
-## Leading with the point and letting sentence length follow content
+Inside a Markdown table cell, leave the wording alone unless it is wrong. Editing a cell for style risks breaking the table.
 
-Put the conclusion in the first sentence of the paragraph, then the qualification and the evidence, because a paragraph that builds toward its point hides the answer from anyone skimming first lines. The section-level version of that test is to read only the first sentence under each heading, in order: if that sequence does not summarize the document, the paragraphs are ordered as narration rather than as answers. Length follows the same principle of fitting the content. A compound fact takes a compound sentence and a consequence takes a short one, while a uniform run and an audible alternation both read as a pattern imposed on the facts. Do not count words, and do not split a sentence that is doing one job.
+## The rewrite pass
 
-- Before (order): "There are several considerations when configuring the export job. Batch size interacts with memory, since the connector holds a full batch before writing. Therefore a batch above 5,000 rows risks exhausting the container limit."
-- After (order): "Keep the export batch at or below 5,000 rows. The connector holds a full batch in memory before writing, so a larger batch can exhaust the container memory limit."
-- Before (length): "The parser reads the header. The parser validates the checksum. The parser emits the rows."
-- After (length): "The parser reads the header and validates its checksum before emitting any row. A mismatch aborts the file, so no partial output reaches the consumer."
+After you write a paragraph or a comment, reread each sentence once.
 
-## Self-check for a paragraph you just wrote
-
-Run these over a paragraph **you wrote or rewrote this run**, before moving on. Every yes is an edit to that paragraph, not a note for later, and not a licence to reach into prose the scope limit above puts out of bounds.
-
-**Two places these questions do not reach.** Accurate existing prose, which stays as its author wrote it. And the inside of a table cell, where the answer is to leave the cell alone: a cell is terse by design, so questions 1, 5, and 6 misfire on one, and editing it risks the table for a rhythm gain no reader gets.
-
-1. Does the opening sentence announce, preview, or wind up, instead of stating the point?
-2. Is a copula (`serves as`, `stands as`, `plays a role in`) standing in for a verb that names a behaviour?
-3. Is there an adjective you cannot replace with a number, a limit, an error type, or a case you read this run?
-4. Are there two or more sentence-initial connectives, or two in consecutive sentences?
-5. Does a group of three come from the rhythm rather than from a count in the source?
-6. Would a reader holding only the declaration learn nothing new here? A yes is an edit only where that reader can open the declaration and already knows what the subject is; an opening sentence and consumer-facing reference material both answer yes by design.
-7. Does a hedge survive anywhere, including a `should` that reads as a caller obligation?
-8. Is this paragraph a summary of the paragraphs above it? An opening that orients a first-time reader is not one, since it summarizes nothing above it.
-9. Did you change a sentence that was already accurate? Restore it.
+1. Does it read as ordinary English on the first pass? If not, rewrite it plainly.
+2. Does it say what the code does, rather than what follows from it? If it states a consequence no source states, cut that part.
+3. Is it the shortest sentence that still carries the fact? If a shorter one loses nothing, use it. Never cut a definition, a unit, or a condition to save words.
+4. Did you change a sentence that was already accurate? Restore it.

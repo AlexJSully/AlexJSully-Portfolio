@@ -1,12 +1,13 @@
 # audit-docs
 
-Audits a project's documentation against its code and corrects what has drifted, grounding every claim in a file opened during the run. It edits documentation only, never code behaviour.
+Audits a project's documentation against its code and corrects what has drifted, in both its Markdown pages and the comments in its code. It grounds every claim in a file opened during the run. It edits documentation only, never code behaviour.
 
 ## What it does
 
 - Brings the documentation in line with the code, the active pull request, or uncommitted changes.
 - Corrects statements the code contradicts, and writes documentation for a component that has none.
-- Audits the documentation comments and file headers in the code it covers, documenting any public symbol in scope that lacks one; on a pull request, only the symbols the change added or changed.
+- Audits the comments and file headers in every code file it covers, including every code file a pull request touched. It documents a public symbol in scope that lacks a comment; on a pull request, only the symbols the change added or changed.
+- Keeps its edits as short as the change needs, in plain English.
 - Edits files where they are. It renames, moves, splits, or deletes a file only when asked, and otherwise asks first or proposes the change in its report.
 - Holds every page to two readers: a newcomer meeting the system for the first time, and someone who already works in it.
 - Lists each claim it could not verify under "Unverified" in its report, rather than writing it into the documentation.

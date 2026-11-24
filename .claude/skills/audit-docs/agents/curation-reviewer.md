@@ -35,9 +35,9 @@ Before, from a queue client reference:
 
 After:
 
-> `poll` blocks until at least one message arrives or the timeout elapses, and returns an empty `Vec` on timeout rather than an error. A delivered message stays unacknowledged until `commit` returns successfully, so a consumer that exits between the two calls receives it again on its next `poll`.
+> `poll` returns an empty `Vec`, not an error, when the timeout passes with no message. A message stays unacknowledged until `commit` returns.
 
-The first version restates a signature the reader can open in less time than the sentence takes to read. The second gives a boundary (what arrives at timeout), an invariant (unacknowledged until the commit returns), and the consequence a caller plans around.
+The first version restates a signature the reader can open faster than they can read the sentence. The second states two behaviours the signature does not show, a boundary (what arrives at timeout) and an invariant (unacknowledged until the commit returns), in the same length.
 
 ### The newcomer
 
