@@ -138,4 +138,4 @@ Evidence: <the same defect quoted from the before-state>
 Reachability: <one sentence on whether this change makes it reachable>
 ```
 
-A refuted finding is deleted. It is not rewritten as a question, softened into a hedge, or demoted to a suggestion, because each of those keeps alive a claim the evidence has just defeated. Deleting findings is the expected result of this pass: a refutation run that returns SURVIVES on everything handed to it did not do the work.
+A refuted finding is deleted. It is not rewritten as a question, softened into a hedge, or demoted to a suggestion, because each of those keeps alive a claim the evidence has just defeated. Deleting findings is the expected result of this pass: a refutation pass that returns SURVIVES on everything handed to it did not do the work.

@@ -1,6 +1,6 @@
 # Evidence and citation
 
-A claim is publishable when you can name the file, the symbol, and a string copied character for character out of the source that shows the behaviour. This file gives the procedure for getting that proof, the traps that produce a claim without it, and where a claim goes when it cannot be grounded.
+A claim is publishable when you can name the file, the symbol, and a string copied character for character out of the source that shows the behaviour.
 
 - [What holding proof means](#what-holding-proof-means)
 - [Choosing the quote that proves the effect](#choosing-the-quote-that-proves-the-effect)
@@ -17,17 +17,17 @@ A claim is publishable when you can name the file, the symbol, and a string copi
 
 Proof is a three-part scratch record kept per claim, alongside the sentence it supports: the file path as the project spells it, the symbol (function, method, class, constant, rule, or build target), and a short verbatim string copied out of that symbol, punctuation, spelling, and casing intact.
 
-A line number is not part of the record, and citing one is not proof. It cannot be rechecked without opening the file, it moves the moment anything above it changes, and it can be typed without having read a single line. The copied string is different in kind: at output time you search the file for it, and either it is still there character for character or the claim comes off the page until you re-ground it. That recheck is what the record buys, and it is why the string is mandatory where the number is worthless.
+A line number is not part of the record, and citing one is not proof. It cannot be rechecked without opening the file, it moves the moment anything above it changes, and it can be typed without having read a single line. The copied string is different in kind: at output time you search the file for it, and either it is still there character for character or the claim comes off the page until you re-ground it.
 
 ## Choosing the quote that proves the effect
 
 Quote the line that performs or decides the behaviour: an assignment, a return, a raise or throw, a branch condition, or the call that does the work. A signature, a type declaration, an import, a docstring, or a log message proves that some text exists and nothing more. `log.info("deleting user")` proves a log line, not a deletion, and the deletion may sit three branches away or nowhere at all.
 
-Keep the quote to one line or the fragment carrying the operative token. A ten-line paste is not stronger evidence, and it is slower to re-find. Where the behaviour depends on a value defined elsewhere, hold two quotes: the definition of the value and the site that reads it.
+Keep the quote to one line or the fragment carrying the operative token. Where the behaviour depends on a value defined elsewhere, hold two quotes: the definition of the value and the site that reads it.
 
 ## Why the quote stays out of the published sentence
 
-The quote is a private verification token, not published text. The page cites the file and symbol through a single markdown link and states the behaviour in your own words: no pasted source, no line range, no commit hash, no "as of" qualifier. **This governs source pasted as evidence for a claim, and reaches nothing else.** A short usage example written for a reader to copy and adapt is a different artifact serving a different purpose, and the snippet allowance governs it. A reader follows the link to the file as it stands today, whereas pasted source and line ranges go stale on the next edit, silently and without a signal to anyone.
+The quote is a private verification token, not published text. The page cites the file and symbol through a single markdown link and states the behaviour in your own words: no pasted source, no line range, no commit hash, no "as of" qualifier. **This governs source pasted as evidence for a claim, and reaches nothing else.** A short usage example written for a reader to copy and adapt is a different artifact serving a different purpose, and the snippet allowance governs it.
 
 One value is withheld even from the note. Where the proving string holds a credential value, such as a token, a password, an API key, a private key, or a session identifier, record the string with that value replaced by `[REDACTED]`, leaving the surrounding assignment or call intact. The recheck at output time then runs on the text around the placeholder, which is what the note exists to make possible. Never reconstruct the value a placeholder stands for. A credential value belongs in neither the note nor the page.
 
@@ -103,4 +103,4 @@ Keep it off the page. Do not soften it into "appears to" or "should", do not par
 
 Existing published prose is treated differently from new prose. A sentence already on the page that a held quote contradicts is corrected. A sentence you simply could not confirm is left as written and listed as unverified, since deleting accurate content because your run did not reach it is a loss. A public symbol left undocumented and named in the list is a compliant outcome for the run; a sentence invented from a name is the defect the whole rule exists to prevent.
 
-**Could not reach is not the same as provably absent**, and only the second licenses deletion. Not reaching a subject is a fact about your run: the file sits behind a boundary you cannot open, the search was scoped too narrowly, the behaviour lives in a generated or vendored tree. Establishing that a subject is gone is a fact about the code, and it takes the same standard of proof as any other claim: you searched the tree the subject would have to live in, and it is not there. The first outcome leaves the documentation alone and reports it unverified. The second is what the rule about content describing removed features is for. Conflating them turns one unlucky run into deleted work, which is why the rule reads in this direction rather than the other.
+**Could not reach is not the same as provably absent**, and only the second licenses deletion. Not reaching a subject is a fact about your run: the file sits behind a boundary you cannot open, the search was scoped too narrowly, the behaviour lives in a generated or vendored tree. Establishing that a subject is gone is a fact about the code, and it takes the same standard of proof as any other claim: you searched the tree the subject would have to live in, and it is not there. The first outcome leaves the documentation alone and reports it unverified. The second is what the rule about content describing removed features is for.

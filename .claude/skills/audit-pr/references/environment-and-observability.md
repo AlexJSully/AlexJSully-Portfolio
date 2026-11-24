@@ -1,6 +1,6 @@
 # Environment parity and observability
 
-Both lenses ask what happens to this code once it leaves the machine it was written on. Parity covers behaviour that changes between a developer machine, a hermetic or ephemeral container, and each deployed environment. Observability covers whether someone can diagnose a failure in a deployed environment without reproducing it locally.
+Both categories ask what happens to this code once it leaves the machine it was written on. Parity covers behaviour that changes between a developer machine, a hermetic or ephemeral container, and each deployed environment. Observability covers whether someone can diagnose a failure in a deployed environment without reproducing it locally.
 
 **Reading the examples in this file.** Each fenced block holds a pair, the defect first and the corrected form second, with a comment above each half stating which of the two it is. Both halves are illustrations for a reviewer to read, not commands for this review to run.
 
@@ -50,7 +50,7 @@ Checklist for this group:
 
 ## Clock, locale, and randomness
 
-A date parsed or rendered without an explicit zone takes the host zone, so the test passes in one UTC offset and fails in another. Continuous integration commonly runs in UTC while a developer machine does not, which is why this class surfaces first as a build failure nobody can reproduce.
+A date parsed or rendered without an explicit zone takes the host zone, so the test passes in one UTC offset and fails in another.
 
 ```ruby
 # Interprets the value in the host's zone, so the resulting day shifts with the offset.
@@ -89,7 +89,7 @@ Take the least likely branch in the change, the one that fires under load or on 
 
 ## Log level, structure, and correlation
 
-Match the level to the event: `error` for something a human must act on, `warn` for a degraded path that continued, `info` for a state transition worth counting, `debug` for detail suppressed when deployed. A recovered condition logged at `error` produces alert noise that trains people to ignore the channel; a lost write logged at `info` is invisible.
+Match the level to the event: `error` for something a human must act on, `warn` for a degraded path that continued, `info` for a state transition worth counting, `debug` for detail suppressed when deployed.
 
 Prefer fields to an interpolated sentence, because fields can be filtered and aggregated and a sentence can only be searched as a substring.
 

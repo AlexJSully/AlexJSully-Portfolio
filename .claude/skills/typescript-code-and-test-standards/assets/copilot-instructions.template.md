@@ -6,6 +6,18 @@ applyTo: '**/*.ts,**/*.tsx,**/*.js,**/*.jsx'
 
 Copy this file to `.github/instructions/typescript-standards.instructions.md` in your own repository. The `.instructions.md` suffix is required there; a plain `.md` file in that folder is ignored. It **duplicates** the skill rather than linking to it, because Copilot code review on github.com has no skill loader and cannot follow a link into a skill directory. Use this path when a repository policy prevents installing the skill itself. Note that `applyTo` takes a single comma-separated string, not a list; a list is silently ignored.
 
+## Contents
+
+- Precedence
+- Comments
+- Documentation blocks
+- Readability and naming
+- Types and language defects
+- Accessibility
+- Tests
+- Mocking
+- Flakiness
+
 ## Precedence
 
 This project's formatter owns indentation, quotes, semicolons, width, trailing commas, and import order. Its linter owns unused variables, equality, and brace enforcement, for every rule it has turned on. Its compiler owns types. Never report a violation of a rule the project's configuration has turned off, and never change a configuration file to match these rules.

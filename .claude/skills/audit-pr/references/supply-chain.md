@@ -22,7 +22,7 @@ Build two lists before judging any single entry: every package name added or cha
 - **Imported, not declared.** It resolves today through another package's dependency tree and disappears on the first upgrade that drops it. Report it whether or not the build currently passes.
 - **Declared under a name close to an imported one.** Compare character by character: a hyphen against an underscore, singular against plural, a scope or namespace prefix dropped, a homoglyph, a transposed pair. This is the slopsquatting signature, and a generated install command is the usual way it enters a diff. Confirm the name against the registry before writing the finding, and say so plainly if you could not reach the registry.
 
-The pairing carries the weight. A package added with no matching import is not justified by "the build passes", and an import with no declaration passes the build for a reason that will not hold.
+A package added with no matching import is not justified by "the build passes", and an import with no declaration passes the build for a reason that will not hold.
 
 ## Signals in an added or upgraded dependency
 
@@ -102,7 +102,7 @@ context, so the job holds the base repository's secrets.
 Each line is ordinary alone. Together they run a stranger's code with a write token.
 ```
 
-Three properties combine there: the trigger supplies the base repository's credentials, the checkout brings in code any fork author controls, and the build step executes that code. Each is ordinary alone, and together they hand a write token to a stranger. Report the combination, not one line of it. Then check the rest of the surface:
+Three properties combine there: the trigger supplies the base repository's credentials, the checkout brings in code any fork author controls, and the build step executes that code. Report the combination, not one line of it. Then check the rest of the surface:
 
 - **Mutable third-party references.** An action, orb, plugin, or container image pinned to a branch, a floating major tag, or a `latest` alias resolves to different bytes on the next run. Require a full commit identifier or an image digest, and apply the same standard to anything a run step downloads.
 - **Secret reachability.** List which triggers in the changed workflow expose secrets, then which of those an outside contributor can fire. An environment with a required reviewer gates a secret. A job-level condition on the actor does not, if a fork can satisfy it.

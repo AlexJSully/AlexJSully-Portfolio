@@ -152,7 +152,7 @@ Procedure: cover the prose and read only the declaration. Anything you can still
 
 ## Show, do not tell: the cited fact that earns the adjective
 
-Replace the adjective with the measurement, limit, or named edge case that made you reach for it. This one move is what keeps objective prose from going flat, since the fact is more informative than the adjective and it arrives with a source. For each adjective in the draft, name what you read that makes it true: a value, a count, a timeout, an error type, or a branch replaces it directly. When nothing comes to mind, the adjective was a guess, so delete it and write no replacement.
+Replace the adjective with the measurement, limit, or named edge case that made you reach for it. For each adjective in the draft, name what you read that makes it true: a value, a count, a timeout, an error type, or a branch replaces it directly. When nothing comes to mind, the adjective was a guess, so delete it and write no replacement.
 
 - Before: "The connection pool is robust and the token refresh is efficient."
 - After: "The pool opens at most 16 connections and blocks a caller for up to 5 seconds before raising `PoolTimeout`. A token is refreshed 60 seconds ahead of expiry, and a failed refresh returns the existing token until that expiry passes."

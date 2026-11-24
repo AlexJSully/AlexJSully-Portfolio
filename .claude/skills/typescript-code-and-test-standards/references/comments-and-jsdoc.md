@@ -6,6 +6,7 @@ The comment and documentation rules at full length, with worked before-and-after
 
 - The single idea behind every comment rule
 - Comments that narrate a change
+- Comments that explain an absence
 - Comments that argue the code is safe
 - Correcting rather than deleting
 - Comments that restate the line beneath them

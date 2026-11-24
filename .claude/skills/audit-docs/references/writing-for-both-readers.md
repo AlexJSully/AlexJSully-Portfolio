@@ -1,6 +1,6 @@
 # Writing for both readers
 
-Every Markdown page has two readers: someone meeting the system for the first time, and someone who already works in it. A page that serves only the second is the ordinary failure, and it is invisible to its author, because the author cannot un-know the system. This file carries the repairs, each as a before and after pair.
+Every Markdown page has two readers: someone meeting the system for the first time, and someone who already works in it. A page that serves only the second is the ordinary failure, and it is invisible to its author, because the author cannot un-know the system.
 
 ## Contents
 
@@ -65,7 +65,7 @@ Before, across four documents in one set:
 
 After: one of them, chosen once and used everywhere in the documents this run edits in full, with the code identifier written as the code spells it and the prose term matching it.
 
-Check this across the documents this run edits in full rather than within one, and report a divergent spelling in any other document rather than changing it. A single document is usually self-consistent; the divergence appears between documents written months apart.
+Check this across the documents this run edits in full rather than within one, and report a divergent spelling in any other document rather than changing it.
 
 ## The worked example
 
@@ -104,7 +104,7 @@ The type of a document decides how much it may assume, so choose it before writi
 | Cognition           | Application of skill    | Reference            | That the reader is working and needs a fact confirmed, not taught         |
 | Cognition           | Acquisition of skill    | Explanation          | That the reader is studying, so background and alternatives belong here   |
 
-Two consequences worth stating. A reference may be terse because its reader arrives knowing what they are looking for, but its opening still says what the thing is, since that reader may have arrived from a search engine rather than from the page above. And an explanation is the type most often missing from a set: rationale ends up scattered in single sentences across pages whose subject is something else, where no reader looking for it will find it.
+A reference may be terse because its reader arrives knowing what they are looking for, but its opening still says what the thing is, since that reader may have arrived from a search engine rather than from the page above. And an explanation is the type most often missing from a set: rationale ends up scattered in single sentences across pages whose subject is something else, where no reader looking for it will find it.
 
 **A set can be complete, accurate, and have no way in.** Every subject documented, every claim true, and nothing that takes a first-time reader through one task end to end. Report that gap by name when the scope reaches the whole set.
 
@@ -128,7 +128,7 @@ The repair for this failure is what the paragraph fails to add, not deletion by 
 
 ## Document length as a whole
 
-Every repair so far is judged one paragraph at a time: does this sentence add a boundary, does this opening name the subject. None of them asks the question a reader who converts a page to a different format actually feels: is the whole thing longer than it needed to be. A document can pass every per-paragraph check and still be an essay nobody finishes, because each paragraph individually earned a place that, added up, produced more than the subject required.
+A document can pass every per-paragraph check and still be an essay nobody finishes, because each paragraph individually earned a place that, added up, produced more than the subject required.
 
 Judge the finished document as a reader would meet it: read it top to bottom in one pass, then ask whether a careful human, asked to write the same brief by hand, would have produced something shorter. If the answer is yes, the excess is usually one of three things: the same point made once too often across different sections, background that belongs on the page it was copied from rather than repeated here, or depth that serves a narrower audience than the page's opening promised. The first is removed in place; the second and third are proposed in the report, since moving content to another page is a restructure the invoking task has to ask for.
 
@@ -163,8 +163,6 @@ Run this before publishing, once per document this run edits in full.
 3. Name that specific thing in the output rather than calling the passage unclear. "Stops at `assertion consumer service`, used in the first sentence and never introduced" is a finding; "the opening is confusing" is not.
 4. Read it again as someone who works in the system daily, and name any paragraph they could have got faster from the source, with what it would have to add to earn its place.
 5. Report both results. A document passes only when both are clean.
-
-Step 1 is the hard one, and it is the whole exercise. An auditor who has just read the implementation knows what every term means, which is exactly the state the reader does not share.
 
 **Make it a test rather than an act of imagination.** For each candidate term, ask where you learned it. A term you could have defined before opening this project needs nothing. A term whose meaning you settled this run, by reading the code or by inferring it from surrounding names, is a term of art and needs introducing. This catches the compounds that intuition waves through, because a phrase built from familiar words can still carry semantics nobody can guess: knowing what a cache is does not tell a reader when a precache runs, and knowing all four words in a revalidate-behind-the-response strategy does not tell them which response the caller gets.
 

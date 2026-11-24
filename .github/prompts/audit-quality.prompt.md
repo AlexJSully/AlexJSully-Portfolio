@@ -203,7 +203,7 @@ A whole-codebase view also sees provisioned services with no caller, which bill 
 
 ### 12. Accessibility
 
-Target **WCAG 2.2 Level AA**, the current W3C Recommendation. Colour contrast (4.5:1 normal, 3:1 large), semantic markup and accessible names, keyboard navigation and focus indicators, alternative text, screen magnification and high contrast support, reduced-motion support, and form labels and error feedback.
+Target **WCAG 2.2 Level AA**. Colour contrast (4.5:1 normal, 3:1 large), semantic markup and accessible names, keyboard navigation and focus indicators, alternative text, screen magnification and high contrast support, reduced-motion support, and form labels and error feedback.
 
 The criteria WCAG 2.2 adds over 2.1 are the ones most often missed: focus not obscured, focus appearance, target size, dragging movements having a single-pointer alternative, consistent help, redundant entry, and accessible authentication.
 

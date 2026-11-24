@@ -1,6 +1,6 @@
 # Diagram and image accessibility
 
-A diagram or image that a reader cannot see must still deliver its content, which is the job of `accTitle`, `accDescr`, and alt text. Whether those fields are publishable is decided by concrete checks, and the work starts earlier still, with the decision to draw a diagram at all and the choice of type.
+A diagram or image that a reader cannot see must still deliver its content, which is the job of `accTitle`, `accDescr`, and alt text.
 
 - [The two required Mermaid accessibility fields](#the-two-required-mermaid-accessibility-fields)
 - [Worked Mermaid examples with usable accessibility text](#worked-mermaid-examples-with-usable-accessibility-text)
@@ -112,7 +112,7 @@ In HTML, it is the `alt` attribute, and the same bar applies:
 
 Two further checks:
 
-- **Text inside an image is unreachable.** Configuration, log output, terminal sessions, and error messages belong in a code block, where they can be copied, searched, and read aloud. A screenshot of text fails every reader using a screen reader and most readers using search.
+- **Text inside an image is unreachable.** Configuration, log output, terminal sessions, and error messages belong in a code block, where they can be copied, searched, and read aloud.
 - **Use an image only where showing is easier than describing.** A rendered interface, a physical layout, or a third-party console the reader must recognize qualifies. A structure that Mermaid can draw belongs in Mermaid, which stays diffable and carries its own accessibility fields. An image carrying no meaning is deleted rather than described, which is why every image that stays carries alt text saying what it shows. An image with an empty `alt` is therefore a finding rather than a compliant state: report it, and resolve it by removing the image, since reaching for empty `alt` is the signal that the image was carrying nothing. The rule admits no exception for a decorative image, because a decorative image does not belong in this documentation at all.
 
 ## Choosing the Mermaid diagram type
@@ -135,6 +135,6 @@ Pick from `flowchart`, `sequenceDiagram`, `classDiagram`, `stateDiagram`, `journ
 
 ## Deciding whether a diagram belongs at all
 
-Draw one for multi-service interactions, state machines, data pipelines, flows of five or more steps, user journeys, and dependency graphs. Skip it for trivial logic, basic create, read, update, and delete operations, and any case where the diagram would repeat a short list that the prose already gives. A three-node flowchart is a sentence that took longer to read.
+Draw one for multi-service interactions, state machines, data pipelines, flows of five or more steps, user journeys, and dependency graphs. Skip it for trivial logic, basic create, read, update, and delete operations, and any case where the diagram would repeat a short list that the prose already gives.
 
 A diagram is a set of claims and carries the same grounding requirement as prose. Every node names something that exists in the code as read this run, and every arrow names a call, transition, or dependency that the code makes. A planned service, a structure someone described in a discussion, or an arrow added because it makes the picture symmetrical is a false statement rendered as a picture, and it is harder to fact-check later than a false sentence because no reviewer reads a diagram for citations. When the code cannot be confirmed, leave the diagram out and report the gap. The same reasoning applies afterwards: when an audit touches a file a published diagram depends on, re-read the diagram against the current code and correct or delete it in that pass. A diagram also inherits the significance filter that governs the surrounding flows, so logging, metrics, and internal helper steps stay out unless the system being documented is itself observability.

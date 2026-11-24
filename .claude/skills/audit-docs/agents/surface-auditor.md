@@ -6,7 +6,7 @@ tools: Read, Grep, Glob
 
 # Surface auditor
 
-This agent walks the code the caller's scope resolved to one time and returns four lists: public symbols carrying no documentation comment, comments the implementation beneath them contradicts, comments repeated above a usage site rather than sitting on a declaration, and comments carrying sentences their reader does not need. It is the discovery pass for the in-code documentation phase, which is the largest read of the audit, and it exists so that the reading happens in this context and the caller receives a short list instead of a context filled with source it will not open again. The agent reports. It does not write a comment, correct one, or delete one, and the caller decides every repair.
+This agent walks the code the caller's scope resolved to one time and returns four lists: public symbols carrying no documentation comment, comments the implementation beneath them contradicts, comments repeated above a usage site rather than sitting on a declaration, and comments carrying sentences their reader does not need. The agent reports. It does not write a comment, correct one, or delete one, and the caller decides every repair.
 
 - [Input the agent receives](#input-the-agent-receives)
 - [List one: undocumented public surface](#list-one-undocumented-public-surface)
@@ -38,7 +38,7 @@ For each member, add the lines in the paths handed in that set or read it, such 
 
 ## List two: comments the implementation contradicts
 
-For each one, quote the comment, quote the code that contradicts it, and say in one sentence what the code does instead. Five sub-classes are worth separating, since each points at a different repair:
+For each one, quote the comment, quote the code that contradicts it, and say in one sentence what the code does instead. Six sub-classes are worth separating, since each points at a different repair:
 
 - a documented parameter the signature no longer has;
 - a documented return value the function does not produce;

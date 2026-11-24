@@ -153,7 +153,7 @@ The [dependency-review.yaml](../../.github/workflows/dependency-review.yaml) wor
 
 The workflow sets these policy inputs:
 
-- **`allow-licenses`**: Accepts `0BSD`, `Apache-2.0`, `BSD-2-Clause`, `BSD-3-Clause`, `BlueOak-1.0.0`, `CC0-1.0`, `ISC`, `MIT`, `MIT-0`, `Python-2.0`, `PSF-2.0`, and `Unlicense`. These are Software Package Data Exchange (SPDX) identifiers, standardized names for licences. The action evaluates compound licence expressions against this list. No package-specific licence exceptions are configured.
+- **`allow-licenses`**: Accepts `0BSD`, `Apache-2.0`, `BSD-2-Clause`, `BSD-3-Clause`, `BlueOak-1.0.0`, `CC-BY-4.0`, `CC0-1.0`, `ISC`, `MIT`, `MIT-0`, `MPL-2.0`, `Python-2.0`, `PSF-2.0`, and `Unlicense`. These are Software Package Data Exchange (SPDX) identifiers, standardized names for licences. The action evaluates compound licence expressions against this list. `MPL-2.0` covers `axe-core`, the accessibility engine `cypress-axe` runs, and `CC-BY-4.0` covers `caniuse-lite`, the browser support data that `next` and `browserslist` depend on. No package-specific licence exceptions are configured.
 - **`fail-on-severity`**: Fails on introduced known vulnerabilities rated `high` or `critical`.
 - **`fail-on-scopes`**: Includes `runtime`, `development`, and `unknown`, covering application dependencies, development tools, and dependencies whose scope GitHub cannot determine. Detected transitive dependencies, packages brought in by other dependencies, are included in the review.
 - **`retry-on-snapshot-warnings`**: Retries dependency comparisons with snapshot warnings for up to 120 seconds while GitHub processes dependency data.

@@ -86,7 +86,7 @@ The defects named in the maintainability lens above, plus inconsistent patterns,
 
 **A repeated declaration is fixed by hoisting the majority and leaving the minority declared.** Count the majority over every file the setting governs rather than over the files this change touches, since a default taken from the diff can be the wrong value for the rest of the tree, and say what the new default does to the files outside the change. Two conditions retire this count without a finding: values differing file by file with no majority, so no default would carry them, and a tool defining no project-level key for the setting. The second is a sentence to write rather than a count to drop, naming the key you looked for and the configuration file you read, because a key you did not find is not a key that does not exist. Repetition a rename, a codemod, or a formatter pass produced is not this finding either: the line repeats because the files repeat, and no key would carry it.
 
-Read the change through two further lenses. **Scalability:** what this code does at ten and a hundred times the current data, users, or call rate, and whether it adds work that grows with input where constant work would do. **Maintainability:** what a reader six months from now needs that this diff does not tell them.
+Read the change through two further questions. **Scalability:** what this code does at ten and a hundred times the current data, users, or call rate, and whether it adds work that grows with input where constant work would do. **Maintainability:** what a reader six months from now needs that this diff does not tell them.
 
 ## 7. Testing
 
@@ -124,7 +124,7 @@ Before flagging any style deviation, read two or three other files of the same l
 
 ## 11. Accessibility
 
-Target **WCAG 2.2 Level AA**, the current W3C Recommendation. Semantic markup, alternative text and accessible names, keyboard navigation, ARIA correctness, colour contrast (4.5:1 normal, 3:1 large), form labels and error feedback, and reduced-motion support.
+Target **WCAG 2.2 Level AA**. Semantic markup, alternative text and accessible names, keyboard navigation, ARIA correctness, colour contrast (4.5:1 normal, 3:1 large), form labels and error feedback, and reduced-motion support.
 
 The criteria WCAG 2.2 adds over 2.1 are the ones most often missed: focus not obscured, focus appearance, target size, dragging movements having a single-pointer alternative, consistent help, redundant entry, and accessible authentication.
 

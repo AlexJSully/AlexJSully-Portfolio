@@ -28,7 +28,7 @@ You judge whether the two halves of a published audit still aim at the same outc
 
 ## Procedure
 
-1. **Run `make -f .claude/Makefile check-skills` first** and read the exit code. It decides the mechanical questions: specification validity, licences, bundled paths resolving, and the isolation rules. Fix anything it reports before judging parity, and report what you fixed.
+1. **Run `make -f .claude/Makefile check-skills` first** and read the exit code. It decides the mechanical questions: specification validity, licences, bundled paths resolving, the isolation rules, and the skill authoring guide's checkable rules. Fix anything it reports before judging parity, and report what you fixed.
 2. **Read both halves in full.** There is no shortcut; the judgement is semantic.
 3. **Build a rule inventory for each half.** List every hard rule, prohibition, evidence requirement, and output-format element. Compare the two lists rather than the two texts.
 4. **Classify each difference** as allowed depth, allowed fallback, or a real divergence. State which for every difference you found, so the caller can check your reasoning.

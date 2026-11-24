@@ -1,7 +1,7 @@
 // Tests for the skill and prompt rules in `check-skill-publishability.mjs`, run against a fixture
 // repository from `fixture-repository.mjs`. Run with `make -f .claude/Makefile test-scripts`.
 import assert from 'node:assert/strict';
-import { mkdirSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs';
+import { mkdirSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 // `node:test` has no unprefixed name, unlike the other built-in modules imported here.
 import { afterEach, beforeEach, describe, it } from 'node:test';
@@ -312,6 +312,7 @@ describe('skill checks', () => {
 	}
 
 	it('walks a directory linked back up the tree once', () => {
+		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, '[deep](references/nested/deep.md)\n'));
 		fixture.write('.claude/skills/alpha/references/nested/deep.md', '# Deep\n');
 		symlinkSync('..', join(fixture.root, '.claude/skills/alpha/references/nested/loop'));
 
@@ -350,12 +351,14 @@ describe('skill checks', () => {
 	});
 
 	it('holds a bundled reference to the same budget', () => {
+		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, '[detail](references/detail.md)\n'));
 		fixture.write('.claude/skills/alpha/references/detail.md', 'x'.repeat(39_001));
 
 		fixture.assertFailsOnce('references/detail.md: is 39001 bytes against a budget of 39000');
 	});
 
 	it('holds a Markdown file nested in a bundle directory to the same budget', () => {
+		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, '[deep](references/nested/deep.md)\n'));
 		fixture.write('.claude/skills/alpha/references/nested/deep.md', 'x'.repeat(39_001));
 
 		fixture.assertFailsOnce('references/nested/deep.md: is 39001 bytes against a budget of 39000');
@@ -373,6 +376,120 @@ describe('skill checks', () => {
 			fixture.assertFailsOnce(message);
 		});
 	}
+});
+
+/** Returns a Markdown reference over the table-of-contents threshold, opening with `contents`, with one section per heading. */
+function longReference(contents, headings) {
+	const sections = headings.map((heading) => `## ${heading}\n\n${'Detail.\n\n'.repeat(30)}`).join('');
+
+	return `# Reference\n\nWhat this file covers.\n\n${contents}${sections}`;
+}
+
+describe('skill authoring guide checks', () => {
+	it('reports a reference that SKILL.md does not link, so it would sit two levels deep', () => {
+		fixture.write('.claude/skills/alpha/references/hidden.md', '# Hidden\n');
+
+		fixture.assertFailsOnce('bundles "references/hidden.md" without linking it');
+	});
+
+	it('reports a bundled asset that SKILL.md does not link', () => {
+		fixture.write('.claude/skills/alpha/assets/template.md', '# Template\n');
+
+		fixture.assertFailsOnce('bundles "assets/template.md" without linking it');
+	});
+
+	it('does not require SKILL.md to link a file under agents/, which a host registers as a subagent', () => {
+		const { status, output } = fixture.check();
+
+		assert.equal(status, 0, output);
+	});
+
+	it('reports a reference over 100 lines with no table of contents', () => {
+		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, '[guide](references/guide.md)\n'));
+		fixture.write('.claude/skills/alpha/references/guide.md', longReference('', ['Setup', 'Usage']));
+
+		fixture.assertFailsOnce('references/guide.md: is over 100 lines with no table of contents at the top');
+	});
+
+	it('accepts a "## Contents" list naming every section, one entry carrying a parenthetical', () => {
+		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, '[guide](references/guide.md)\n'));
+		fixture.write(
+			'.claude/skills/alpha/references/guide.md',
+			longReference('## Contents\n\n- Setup\n- Usage (commands, then flags)\n\n', ['Setup', 'Usage']),
+		);
+
+		const { status, output } = fixture.check();
+
+		assert.equal(status, 0, output);
+	});
+
+	it('accepts a nested list of in-page links above the first section as the table of contents', () => {
+		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, '[guide](references/guide.md)\n'));
+		fixture.write(
+			'.claude/skills/alpha/references/guide.md',
+			longReference('- [Reference](#reference)\n    - [Setup](#setup)\n    - [Usage](#usage)\n\n', [
+				'Setup',
+				'Usage',
+			]),
+		);
+
+		const { status, output } = fixture.check();
+
+		assert.equal(status, 0, output);
+	});
+
+	it('reports a section the table of contents leaves out', () => {
+		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, '[guide](references/guide.md)\n'));
+		fixture.write(
+			'.claude/skills/alpha/references/guide.md',
+			longReference('## Contents\n\n- Setup\n\n', ['Setup', 'Usage']),
+		);
+
+		fixture.assertFailsOnce('the table of contents does not list the section "Usage"');
+	});
+
+	it('ignores a heading inside a fenced code block when checking the table of contents', () => {
+		const example = '````markdown\n## Example output\n````\n\n';
+
+		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, '[guide](references/guide.md)\n'));
+		fixture.write(
+			'.claude/skills/alpha/references/guide.md',
+			longReference(`## Contents\n\n- Setup\n\n${example}`, ['Setup']),
+		);
+
+		const { status, output } = fixture.check();
+
+		assert.equal(status, 0, output);
+	});
+
+	for (const { label, description } of [
+		{ label: 'the first person', description: 'I can help you format release notes.' },
+		{ label: 'the second person', description: 'You can use this to format release notes.' },
+	]) {
+		it(`reports a description written in ${label}`, () => {
+			fixture.write(ALPHA_SKILL, skillFile({ ...ALPHA_FIELDS, description }));
+
+			fixture.assertFailsOnce('description must be written in the third person');
+		});
+	}
+
+	it('reports a name holding a reserved word', () => {
+		fixture.addInternalSkill('claude-notes');
+
+		fixture.assertFailsOnce('contains the reserved word "claude"');
+	});
+
+	it('reports an XML tag in the description', () => {
+		fixture.write(ALPHA_SKILL, skillFile({ ...ALPHA_FIELDS, description: 'Formats <notes> for release.' }));
+
+		fixture.assertFailsOnce('description contains an XML tag');
+	});
+
+	it('reports a file path written with a backslash', () => {
+		fixture.write(ALPHA_SKILL, skillFile(ALPHA_FIELDS, 'Run `scripts\\helper.py` first.\n'));
+
+		fixture.assertFailsOnce('writes the path "scripts\\helper.py" with a backslash');
+	});
 });
 
 describe('prompt checks', () => {

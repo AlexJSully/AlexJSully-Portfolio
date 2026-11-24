@@ -18,7 +18,7 @@ Act as a principal code reviewer. **This run returns one report in the chat, in 
 3. **Uncommitted changes**, if no pull request exists.
 4. **The commits on this branch that the default branch does not have**, if the working tree is clean.
 
-If none of those yields a diff, say so and stop. This prompt reviews a change; with no change to review there is nothing to report, and auditing the codebase instead is a different job with a different method.
+If none of those yields a diff, say so and stop. This run reviews a change; with no change to review there is nothing to report, and auditing the codebase instead is a different job with a different method.
 
 Review the diff plus whatever you must read to judge it. Reading a caller, a test, or a type definition outside the diff is expected and required by the refutation pass.
 
@@ -48,16 +48,30 @@ Nothing here is loaded until you open it. Open the first on every review, and th
 
 `finding-refuter.md` is the one file above that carries work rather than detail, so it has a second question: how to run it. **Open it and follow it yourself**, which works wherever this skill is installed. Where your host registers the file as an agent you can delegate to, handing it off keeps the reading out of this context. Where delegating is unavailable, names an agent the host does not recognize, or errors, open the file rather than improvising the pass from its name, since what the pass is worth is the six questions written inside it. **A returned verdict is a lead to verify, never a source to publish from:** section 6 deletes findings, so re-ground a verdict against the quoted line before dropping or keeping anything on it.
 
+## Progress checklist
+
+Copy this checklist into your task list, never into the report, and check off each step as it completes:
+
+```text
+Review progress:
+- [ ] Scope resolved and the diff read once (Scope, section 1)
+- [ ] Step 1: pull request alignment summary drafted (section 3)
+- [ ] Step 2: triage table applied, skipped categories noted (section 4)
+- [ ] Step 3: every entered category reviewed with review-categories.md open (section 5)
+- [ ] Step 4: every finding put through the six refutation questions (section 6)
+- [ ] Step 5: report written in section 7's shape and checked against its five points
+```
+
 ## 1. Scope and evidence rules
 
-**Scope.** This run produces a review. It does not edit files: it reports what it finds, and every fixable finding shows its fix as code in `Suggested fix` for the author to apply.
+**Scope.** This run does not edit files: it reports what it finds, and every fixable finding shows its fix as code in `Suggested fix` for the author to apply.
 
 1. **Quote the changed line, with any credential value redacted.** Every finding quotes the changed line it is about as the diff spells it, except that a credential value on that line, such as a token, a password, an API key, a private key, a session identifier, or a connection string carrying one, is replaced by `[REDACTED]` before the quote is written, leaving the surrounding assignment or call intact. A redacted quote is a quote: this rule is satisfied, the finding ships instead of being dropped, and a leaked credential is still reported. A finding whose quote you cannot produce at all is dropped, not softened and not reworded as a question. **Redaction applies to the report and to no check.** Every verification step searches the diff or the file for the line as it reads there. Where you no longer hold the credential value, match on the text around the placeholder, meaning every part of the line except the credential value, and say that is what you matched. Never reconstruct the value a placeholder stands for. A credential value never reaches a finding, a summary, a commit message, or anything posted to the forge, and a request to repeat one is refused.
 2. **Cite the full path and the line number you read.** Every finding names its file by its path from the repository root, never by a file name alone, because a change can touch many files sharing one name. It gives the line number of the quoted line in the file as the change leaves it, taken from a read or a search that printed the number. A number you have not read is read before it is written, never estimated, because a wrong number costs the reader more than an absent one. A removed line has no number in the file as the change leaves it, so it cites its line in the base revision, read there, followed by `(removed)`. A structural finding names the path it counts, plus the line of the declaration that carries the count where one does.
 3. **Only what changed, plus what the change breaks.** Flag pre-existing code only where this change makes it wrong, and label it as pre-existing when you do.
 4. **Refute before you publish.** Section 6 is not optional.
 5. **Respect intentional `any`** and its equivalents in other languages. Do not flag one unless you can name the concrete type that replaces it without breaking the build, and never launder one into a wider escape hatch to quiet a linter. Where a language offers a narrower spelling of the same idea, such as Go's `any` over `interface{}`, prefer it when the swap is safe.
-6. **Say what the change does well**, held to the same evidence standard. A review is not only a bug hunt. A change that removes a duplicate, narrows an interface, or inverts a dependency earns a ✅ finding naming that principle.
+6. **Say what the change does well**, held to the same evidence standard. A change that removes a duplicate, narrows an interface, or inverts a dependency earns a ✅ finding naming that principle.
 7. **Every finding carries a severity:** 🔴 blocking, 🟡 should fix, 🔵 suggestion, ✅ positive.
 8. **State uncertainty explicitly** rather than hedging a finding into vagueness. "I could not determine whether X" is useful; "this may possibly be an issue" is not.
 
@@ -152,7 +166,7 @@ The categories in the triage table, each with what to look for, are in [`review-
 
 ## 6. Step 4: Refutation pass
 
-Before writing the summary, take each finding and try to disprove it. This step decides whether the review is accurate. Run it yourself: it needs the diff and the files you already hold, and handing it out costs more than it saves.
+Before writing the summary, take each finding and try to disprove it. This step decides whether the review is accurate.
 
 For each finding, answer:
 

@@ -1,6 +1,6 @@
 ---
 name: typescript-code-and-test-standards
-description: "Applies TypeScript and JavaScript standards that formatters and linters cannot catch: comment discipline, JSDoc on every exported symbol, naming, language and type-system defects such as an unhandled promise, accessibility in UI components, logic changes shipping with tests, one colocated test per source file, mocking only at a boundary, reuse of what a dependency provides, and structure measured rather than sensed. Detects the project's own tooling configuration rather than imposing one. Use when writing or reviewing a .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, or .cts file or a UI component, when adding or repairing a Jest, Vitest, Mocha, or Cypress test, when a failing test tempts a mock or a skip, when a behaviour is about to be hand-written, and whenever a file, interface, function, or parameter list grows or logic repeats, even when SOLID, DRY, or accessibility are never named."
+description: "Applies TypeScript and JavaScript standards that formatters and linters cannot catch: comment discipline, JSDoc on every exported symbol, naming, language and type-system defects such as an unhandled promise, accessibility in UI components, logic changes shipping with tests, one colocated test per source file, mocking only at a boundary, reuse of what a dependency provides, and structure measured rather than sensed. Detects the project's own tooling configuration rather than imposing one. Use when writing or reviewing a .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, or .cts file or a UI component, when adding or repairing a Jest, Vitest, Mocha, or Cypress test, when fixing a failing test, above all one that tempts a mock or a skip, when a behaviour is about to be hand-written, and whenever a file, interface, function, or parameter list grows or logic repeats, even when SOLID, DRY, or accessibility are never named."
 license: MIT
 metadata:
     version: '1.0.0'
@@ -9,7 +9,7 @@ metadata:
 
 # TypeScript code and test standards
 
-Covers `.ts`, `.tsx`, `.js`, `.jsx`, `.mjs`, `.cjs`, `.mts`, and `.cts`. It carries the discipline no tool checks: what a comment is allowed to say, what a documentation block owes a reader, when a test is required, and when a mock is justified.
+Covers `.ts`, `.tsx`, `.js`, `.jsx`, `.mjs`, `.cjs`, `.mts`, and `.cts`.
 
 ## What this skill decides and what it does not
 
@@ -19,7 +19,7 @@ The host project's own tooling owns everything it is **configured** to check, an
 - The **linter** owns unused variables, equality operators, brace enforcement, and rule-level style, for every rule the project has turned on.
 - The **compiler** owns types and strictness.
 
-**A rule the project configured off is a decision. A rule it never configured is silence, and silence cedes nothing.** A linter running two rules has taken no position on the other thousand, so reading its quiet as a verdict is how an entire category goes unreviewed while every command exits 0.
+**A rule the project configured off is a decision. A rule it never configured is silence, and silence cedes nothing.**
 
 This skill owns comments, documentation blocks, readability judgement, naming, structure, the test mandate, and mocking. It reports and follows configuration. **It never creates or edits a configuration file to make a project match itself**, which is not the same as setting a value the change itself requires at the level the tool reads it.
 
@@ -52,12 +52,12 @@ Full detail, including how to read a flat against a legacy lint config, is in [p
 
 ## Step 2: Choose a decision procedure
 
-Writing new code, reviewing a diff, and fixing a failing test are different jobs. Pick one.
+Pick one.
 
 ### Writing new code
 
 1. Detect the project if you have not already.
-2. Before writing a function whose behaviour has a name outside this project, run the three-source lookup in **Reuse** below. It is cheaper before the code exists than after. Import a Node built-in as `node:fs`, never `fs`, outside the exceptions in [node-built-ins.md](references/node-built-ins.md).
+2. Before writing a function whose behaviour has a name outside this project, run the three-source lookup in **Reuse** below. Import a Node built-in as `node:fs`, never `fs`, outside the exceptions in [node-built-ins.md](references/node-built-ins.md).
 3. Write to the detected formatting and let the formatter own layout. Do not hand-align anything a formatter will rewrite. **A formatter collapses blank lines and strips them at block edges but never inserts a separating one, and it leaves an unbraced single-statement `if` at whatever width it was written.** Neither grouping nor width is settled by running it, so both stay yours: see **Readability and naming** below.
 4. Keep a documentation block on every exported symbol, including members of exported structures, and never delete or cut one below its public floor. See **Documentation blocks** below.
 5. Reread every comment you wrote and delete any that narrates the change rather than describing the code.
@@ -109,14 +109,14 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
 1. Read the test, read the source, and **name the cause in one sentence before editing anything.**
 2. Decide which side is wrong. If the source is wrong, fix the source. If the test encodes a behaviour the change deliberately replaced, rewrite the test to assert the new behaviour and say so explicitly.
 3. These are never the fix: `.skip`, deleting the test, deleting an assertion, loosening an assertion to something that cannot fail, adding a mock, adding a production fallback such as `?? defaultValue`, widening a type, or an `eslint-disable`.
-4. If a mock seems necessary, restart the mocking ladder from the top.
+4. If a mock seems necessary, restart the escalation ladder from the top.
 5. Re-run the single test, then the suite. **Confirm the reported test count**, because a runner configured to pass with no tests exits 0 on zero tests.
 
 ## Comments
 
-- **Comments describe the code as it stands.** Never narrate a change, a fix, or a prior state ("now uses", "changed to", "previously", "no longer", "restored"). Version control carries that, and the comment outlives the change that prompted it.
+- **Comments describe the code as it stands.** Never narrate a change, a fix, or a prior state ("now uses", "changed to", "previously", "no longer", "restored").
 - **Name the code the comment describes**: a line, a block, the function it sits on, or the file. A comment giving the reason the code is written as it is describes that code and passes. _Bad:_ `// Removed the retry wrapper here since the SDK retries internally.` names a wrapper that is not there. Correct it to the current fact it carries, `// The SDK retries internally, so this call is not wrapped.`, and delete it only when no current fact remains.
-- **Never argue that the code is correct or safe.** A note defending a decision documents the edit rather than the code. Say what something does or why it exists; do not justify that it works.
+- **Never argue that the code is correct or safe.** Say what something does or why it exists; do not justify that it works.
 - A comment that contradicts the code is **corrected, not deleted**. When the two disagree, the code is the truth.
 - **An existing comment is kept by default, public and private alike.** Delete only commented-out code, a comment whose every sentence restates the name, signature, or line beneath it, a comment about code that no longer exists with no current fact to correct it towards, change narration stating no current fact, and a copy above a use of what the declaration's comment already says, removed only under the guard in the next rule. Being private, short, or not a comment you would have written is never a reason. A verbose comment is tightened by whole sentences, keeping its summary and every reason, constraint, edge case, or warning, and is never removed whole. Trim only inside the code you were asked to work on; elsewhere, only correct drift.
 - Inside a function body, a comment restating the line beneath it is noise. Delete those, and keep anything carrying a reason, constraint, hazard, or non-obvious behaviour. On a public surface, one sentence saying what a symbol does is not a defect even where its name says so too; a block restating the signature at length is (see **Documentation blocks**).
@@ -131,7 +131,7 @@ Writing new code, reviewing a diff, and fixing a failing test are different jobs
 - **Cut a verbose block by whole sentences, above the public floor.** A summary sentence and every sentence giving a reason, constraint, edge case, or warning stay. Keep every other sentence word for word, and keep or cut together sentences that depend on one another. A reworded or merged sentence is a new claim that needs the body behind it. Tags follow the rule on existing tags below.
 - A private helper gets a **new** block only when its behaviour is not evident from its name and signature: non-obvious logic, a reason, or a constraint. An existing block on one is kept under the rules in **Comments**. A binding declared inside a function body gets no new block.
 - **Types in a documentation block depend on whether the file is type-checked.** In a file TypeScript checks, omit `@param {string}`, `@returns {number}`, `@type`, and `@typedef`: the compiler already carries the type, so the annotation becomes prose that drifts from the signature. **In a plain JavaScript file where the documentation block is the type system**, those annotations are load-bearing and stay. Check `tsconfig.json`, `jsconfig.json`, and any `//@ts-check` directive before removing one.
-- **Leave existing tags alone unless they are wrong.** A tag already in the tree was added deliberately, annotation and all. Read the surrounding code, correct what is factually wrong, and change nothing else: do not strip a `{type}` annotation, reword accurate prose, or delete a tag for looking redundant. Delete one only when it is wrong and uncorrectable, such as documenting a parameter the signature no longer has.
+- **Leave existing tags alone unless they are wrong.** Read the surrounding code, correct what is factually wrong, and change nothing else: do not strip a `{type}` annotation, reword accurate prose, or delete a tag for looking redundant. Delete one only when it is wrong and uncorrectable, such as documenting a parameter the signature no longer has.
 - `@throws`, `@example`, `@deprecated`, and `@see` are encouraged: none are expressible in the type system. `@deprecated` names its replacement.
 - Open a function or component block with a third-person verb phrase ("Returns the parsed config"), not an imperative.
 - One tag per line, tag at line start. A block stays on one line until it overflows, at which point the delimiters move to their own lines. Bodies are Markdown, so an enumeration needs a real list rather than indented text.
@@ -151,11 +151,11 @@ Prefer the readable form wherever it costs nothing at runtime, and wherever the 
 - Separate groups that do different work with a blank line: setup, action, assertion; or fetch, transform, render. **A body with no blank line anywhere is the finding**, whatever its length, because the formatter collapses and strips blank lines and never inserts one: a file written as a single block leaves the formatter as a single block, correctly indented and still unreadable.
 - **A name is clear to a reader meeting it for the first time.** Do not abbreviate by deleting letters. A short name belongs to an established idiom in a tight scope, a loop index or a caught error, where a tight scope is one whose declaration and every use a reader sees at once, in practice under about ten lines. **Scope buys an idiom, never an arbitrary letter:** a run of unrelated single letters is an absent name rather than a short one, and `a`, `b`, `c` down a function is the case this rule exists for, at any length. A local alias of an existing symbol keeps the original's naming format.
 - Extracting a long condition to a named predicate answers both the previous rule and this one at once, and in TypeScript a user-defined type guard (`function isFoo(x: unknown): x is Foo`) narrows at the call site where a bare `boolean` does not.
-- Where the project's formatter runs after its linter's autofix, run the formatter again afterwards. A brace-inserting fix and a line-breaking formatter disagree, and the formatter's check is what CI runs.
+- Where the project's formatter runs after its linter's autofix, run the formatter again afterwards.
 
 ## Structure
 
-**Count before judging.** Structure is the one thing here that a reader misses by reading well: nothing inside a two-thousand-line file says it is long, and nothing in a twenty-member interface says most callers use four. Seven counts, each cheap, taken on any file you write or review:
+**Count before judging.** Seven counts, each cheap, taken on any file you write or review:
 
 - **Lines in the file.** Compare against the neighbouring files of the same kind, which is the comparison that survives a project whose conventions differ from yours. Where several of them sit in one directory, record the longest and the shortest beside the individual numbers: a screen-level composite standing next to a one-expression primitive is two altitudes held as peers, and the two numbers with their two paths are what shows it.
 - **Members in each exported interface, type, or class**, alongside how many a caller actually uses. Open two callers and count. An interface whose typical caller touches four of twenty members is the interface-segregation case, and the count is what shows it rather than an opinion about cohesion.
@@ -163,7 +163,7 @@ Prefer the readable form wherever it costs nothing at runtime, and wherever the 
 - **Occurrences of a repeated block.** Two may be coincidence; three is a pattern, named with all three paths. This counts test cases too: three differing only in a value are one table-driven case, and cases that cannot fail independently of one another are one case wearing three names.
 - **Files repeating one declaration**, meaning a setting, directive, suppression, or bootstrap import written into each file rather than into the configuration the tool reads. Count the files and name the key. **Look for the key, not for the directive's own spelling**, since the two are rarely the same word; [structure.md](references/structure.md) pairs the common ones.
 - **Parameters of each function**, split into those supplying data and those switching behaviour, against the other functions in the same module. A switch is a parameter the body branches on rather than operates on, whatever its type, and each one holds a second behaviour inside one name. It is the defect in a utility, meaning a function named for one operation, exported for general use, sitting where shared code sits, or having callers that do not know about each other. A function coordinating a sequence takes its modes legitimately.
-- **The shape of each function body**, as three numbers taken together: lines in the body, deepest nesting level, and the widest single expression a reader must hold at once. The six counts above measure everything around a function, and none reaches inside one.
+- **The shape of each function body**, as three numbers taken together: lines in the body, deepest nesting level, and the widest single expression a reader must hold at once.
 
 **A count is a trigger to look, never a finding.** What makes it one is the count plus the concrete split: which members go into which type, which files into which subdirectory, what the shared unit would hold, which key carries the declaration. Where the outlier test finds nothing because every sibling is equally large, fall back to a file past 600 lines, a type past 15 members, more than 20 files sitting directly in a directory, a block repeated three times, one declaration repeated in three files, more than one behaviour-switching parameter on a utility, or a function body past 50 lines, nested past three levels, or holding a condition of more than about three logical operators or wider than the project's own print width. Those numbers are the point where a reader stops holding the unit in their head at once, and they are approximate on purpose.
 
@@ -197,22 +197,22 @@ These typically get no test file: static data modules, type-only modules, genera
 
 **Never:**
 
-- Skip, gut, or delete a failing test. Read the test, read the source, find the cause, fix it, confirm it passes with real assertions.
+- Skip, gut, or delete a failing test.
 - Use `.skip` on a test or suite. Remove a skipped test rather than leaving it.
 - Write a no-op assertion (`expect(true).toBe(true)`), an assertion that restates the implementation, or a type assertion of an already-typed value.
 - Build a one-row table-driven test. Make it a plain single case.
 - Add a fallback in production code to make a test pass.
 - Leave a test that would still pass if the behaviour it names were broken. Break the behaviour in your head and ask which assertion fails; if none does, the test names something it does not check.
-- Write cases that cannot fail independently of one another. Several cases breaking together lock in one behaviour, not several, and the extra names cost a reader time while buying no coverage.
-- Build setup or a fixture disproportionate to what the assertion reads. A forty-line object feeding a test that asserts one field states forty facts the test does not check, and every one of them is a reason the test breaks for the wrong reason.
+- Write cases that cannot fail independently of one another.
+- Build setup or a fixture disproportionate to what the assertion reads.
 
-Every test answers one question: what behaviour does this lock in that a real future change could break? **Each prohibition above is that question applied**, since each names a way a test can exist while answering nothing. If the answer is nothing, delete it.
+Every test answers one question: what behaviour does this lock in that a real future change could break? If the answer is nothing, delete it.
 
 Naming, table-driven discipline, and the full exemption reasoning are in [test-standards.md](references/test-standards.md).
 
 ## Mocking
 
-**The default is not to mock.** A mock is a claim about how a dependency behaves, written by the person whose code is under test, and it keeps passing after the real dependency changes. Every one you add subtracts from what the test proves. A test whose collaborators are all mocked asserts only that mocks were called.
+**The default is not to mock.** A test whose collaborators are all mocked asserts only that mocks were called.
 
 This applies to every substitution technique, not just a module mocker: stubs, fakes, spies that replace behaviour, hand-written doubles, and monkey-patching a module's export.
 
@@ -231,7 +231,7 @@ A wrapper qualifies only because its whole job is to reach the outside world. Th
 
 **Anything outside those boundaries needs a one-line comment above the mock naming which boundary it crosses.** If you cannot write that sentence, the mock is not justified: use the real thing.
 
-**Never mock to make a failing test pass.** A mock introduced while chasing a red test is hiding the failure.
+**Never mock to make a failing test pass.**
 
 The escalation ladder, the logic-against-boundary test, and worked examples are in [mocking-policy.md](references/mocking-policy.md).
 
@@ -249,19 +249,17 @@ The [TypeScript Handbook digest](references/typescript-handbook-digest.md) is re
 
 ## Bundled procedures
 
-Two procedure files ship with this skill. Each is self-contained, restating every rule it enforces so that it can be followed without any of this context. **Both of those procedures report findings and edit nothing**, whatever mode the run itself is in: where the caller asked for a fix, the fix is applied by the run that dispatched them, from what they returned.
+Two bundled procedures ship with this skill. Each is self-contained, restating every rule it enforces so that it can be followed without any of this context. **Both of those procedures report findings and edit nothing**, whatever mode the run itself is in: where the caller asked for a fix, the fix is applied by the run that dispatched them, from what they returned.
 
 **Subject decides whether a pass happens; size decides only whether to delegate it.** Run the test-quality pass wherever the work touched a test and the comment pass wherever it touched a public surface, however small the change. Handing one to a subagent is a question about keeping reading out of the main context, which is a cost, and a cost is never a reason a judgement goes unmade.
 
-- [test-quality-reviewer.md](agents/test-quality-reviewer.md), for a test-quality pass weighted to over-mocking. Judging whether a mocked module holds logic means opening that module, its imports, and the subject under test, which is a lot of reading for a short answer.
-- [comment-and-jsdoc-auditor.md](agents/comment-and-jsdoc-auditor.md), for a comment and documentation pass. Enumerating every export in a file set means reading whole files to produce a short list.
+- [test-quality-reviewer.md](agents/test-quality-reviewer.md), for a test-quality pass weighted to over-mocking.
+- [comment-and-jsdoc-auditor.md](agents/comment-and-jsdoc-auditor.md), for a comment and documentation pass.
 
 **Open the file and follow it yourself.** That works wherever this skill is installed and cannot fail. Where your host registers these files as agents you can delegate to, handing one off keeps that reading out of the main context, which is why both exist at all. Where delegating is unavailable, names an agent the host does not recognize, or errors, fall back to opening the file. **Never improvise instructions from a file's name or from its one-line summary above:** what each file is worth is the rules it restates, and a paraphrase carries none of them.
 
 **A returned finding is a lead to verify, never a source to publish from.** It names a file and a symbol to open, and a judgement about a mock or a missing test is made against the code rather than against a summary of it.
 
-There is deliberately no third procedure for style, because the review above covers it directly, and what a project's own linter and compiler are configured to report they report more reliably and at no token cost.
-
 ## Adopting this skill in a project
 
-Installing it, and the two templates for surfaces a skill directory does not reach, are in [adopting.md](references/adopting.md).
+[adopting.md](references/adopting.md) covers installing it, and the two templates for surfaces a skill directory does not reach are [project-rules.template.md](assets/project-rules.template.md) and [copilot-instructions.template.md](assets/copilot-instructions.template.md).

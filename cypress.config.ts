@@ -19,7 +19,9 @@ export default defineConfig({
 				 * console the check runs in is not visible there. Each element gets its own row, because
 				 * `console.table` prints only the first three items of a nested array.
 				 */
-				logA11yViolations(violations: { id: string; impact: string; help: string; targets: string[] }[]) {
+				logA11yViolations(
+					violations: { id: string; impact?: string | null; help: string; targets: string[] }[],
+				) {
 					console.table(
 						violations.flatMap(({ targets, ...violation }) =>
 							targets.map((target) => ({ ...violation, target })),

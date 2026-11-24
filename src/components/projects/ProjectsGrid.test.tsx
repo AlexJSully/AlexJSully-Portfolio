@@ -1,7 +1,7 @@
 import ThemeRegistry from '@components/ThemeRegistry';
 import { DELAYS } from '@constants/index';
 import projects from '@data/projects';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { ACCEPT_ALL, ESSENTIAL_ONLY, saveConsent } from '@util/consent/consentStore';
 import ProjectsGrid from './ProjectsGrid';
 
@@ -59,19 +59,20 @@ describe('ProjectsGrid', () => {
 		});
 	});
 
-	// Every URL button of every project, including those behind View More, such as eFP-Seq Browser's, whose logo
+	// Every URL link of every project, including those behind View More, such as eFP-Seq Browser's, whose logo
 	// carries visible text of its own.
 	const projectURLs = projects.flatMap(({ name, urls }) => (urls ?? []).map((url) => ({ project: name, ...url })));
 
 	it.each(projectURLs)(
-		'names the $project "$text" link by its visible text and points it at its URL',
-		({ text, tooltip, url }) => {
-			// The accessible name carries only the visible label, so a voice-control user can say what they see.
-			const button = screen.getByRole('button', { name: text, description: tooltip, hidden: true });
-			const link = button.closest('a');
+		'names the $project "$text" link by its visible text, then its project, and points it at its URL',
+		({ project, text, tooltip, url }) => {
+			// The name starts with the visible label, so a voice-control user can say what they see, and ends with the
+			// project, so a screen-reader user can tell the links apart out of context.
+			const link = screen.getByRole('link', { name: `${text} (${project})`, description: tooltip, hidden: true });
 
 			expect(link).toHaveAttribute('href', url);
-			expect(link).toHaveAccessibleName(text);
+			// One focusable element per URL, rather than a link wrapped around a separate button.
+			expect(within(link).queryByRole('button', { hidden: true })).not.toBeInTheDocument();
 		},
 	);
 

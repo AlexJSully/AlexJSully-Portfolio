@@ -19,7 +19,7 @@ Act as a principal code reviewer, security auditor, and refactoring architect. *
 4. **The system or component the surrounding task concerns**, where the task named one.
 5. **The whole repository**, only when none of the above applies.
 
-On a large repository or a monorepo, rules 2 to 4 are the normal answer and rule 5 is close to never correct without an explicit instruction: auditing everything by default burns the run on code nobody asked about and produces a report too large to act on.
+On a large repository or a monorepo, scope rules 2 to 4 are the normal answer and scope rule 5 is close to never correct without an explicit instruction: auditing everything by default burns the run on code nobody asked about and produces a report too large to act on.
 
 A few checks are worth running repository-wide even under a narrow scope, because they are cheap and the answer is not local: the dependency and lockfile review, workflow and CI configuration, and licence declarations.
 
@@ -43,7 +43,7 @@ Some agents resolve the references below automatically. Where yours does not, re
 6. **Every finding carries a severity:** 🔴 blocking, 🟡 should fix, 🔵 suggestion, ✅ positive. A unit that keeps one copy of its knowledge, keeps its interfaces narrow, or receives its dependencies rather than constructing them earns a ✅ finding naming that principle, held to the same evidence.
 7. **State uncertainty explicitly** rather than hedging a finding into vagueness.
 
-**A structural finding is evidenced by a count, and rule 3 does not drop it.** The evidence unit there is the path, the number, and how the number was obtained, meaning the directory listing behind a file count, the declaration's member list behind a member count, the file's own length, or the repeated block quoted once with the path of every occurrence. A count recorded that way meets the evidence unit in rule 2, and section 5 re-verifies it by counting again rather than by matching a string.
+**A structural finding is evidenced by a count, and evidence rule 3 does not drop it.** The evidence unit there is the path, the number, and how the number was obtained, meaning the directory listing behind a file count, the declaration's member list behind a member count, the file's own length, or the repeated block quoted once with the path of every occurrence. A count recorded that way meets the evidence unit in evidence rule 2, and section 5 re-verifies it by counting again rather than by matching a string.
 
 **Execution budget.** Open a file once and work from what you read rather than re-opening it to confirm something you already recorded. Settle a question by reading: where a formatter, linter, type checker, or test suite is the only thing that can settle one, run it at most once for the whole audit and never once per finding. Where the scope is too large to cover completely, take the highest-risk areas first, report how much of the selected scope you opened, and stop there rather than continuing past the point where the report stops being actionable.
 
@@ -51,9 +51,9 @@ Some agents resolve the references below automatically. Where yours does not, re
 
 ## 2. Hard rules
 
-**Rule 1: do not duplicate existing infrastructure.** Before recommending any capability (error tracking, logging, monitoring, analytics, validation, caching, authentication), verify whether it already exists. Read configuration files, initialization code, and existing integrations first. Recommending something the codebase already provides creates double-tracking, conflicting behaviour, or dead code, and it is the most common way an audit makes a codebase worse.
+**Rule 1: do not duplicate existing infrastructure.** Before recommending any capability (error tracking, logging, monitoring, analytics, validation, caching, authentication), verify whether it already exists. Read configuration files, initialization code, and existing integrations first.
 
-**Rule 1 also points at the code under audit.** The test applied to a recommendation applies to a block: before judging code that implements behaviour with a name outside this project, such as a wire format, a token or cookie grammar, a version-ordering rule, a delimited-text parser, a retry schedule, or a cryptographic construction, check three sources in order and say which you read. The project's own modules. Then the manifest and its lockfile, where a package the project already declares is the answer wherever it covers the case, and one present only transitively is not, since importing it depends on another package's resolution. Then the language's standard library or the runtime platform, read against the project's stated target rather than the newest release. A codebase re-implementing what it already depends on holds two versions of one behaviour, and only one of them receives the next fix. **The third source is reached by searching, not by failing to find:** name the manifest file you opened and the query you ran before concluding that nothing present provides the behaviour, and read the lockfile beside the manifest, since the manifest lists what the project asked for while the lockfile lists what is actually resolved. **The import list is the trigger that does not depend on recognizing anything.** A named behaviour is looked up only once it is recognized, so the block that survives is the one whose name meant nothing to the reader: read the exported surface of a module a hand-written block sits beneath and appears to duplicate, and check it against that block. The trigger is the block, never the list. A block hand-rolling half of what its own file already imports is the shape this misses most often. **Where nothing present provides it, report that and stop**, because adding a dependency is a supply-chain decision the project owns and this is never resolved by recommending an installation.
+**Rule 1 also points at the code under audit.** The test applied to a recommendation applies to a block: before judging code that implements behaviour with a name outside this project, such as a wire format, a token or cookie grammar, a version-ordering rule, a delimited-text parser, a retry schedule, or a cryptographic construction, check three sources in order and say which you read. The project's own modules. Then the manifest and its lockfile, where a package the project already declares is the answer wherever it covers the case, and one present only transitively is not, since importing it depends on another package's resolution. Then the language's standard library or the runtime platform, read against the project's stated target rather than the newest release. **The third source is reached by searching, not by failing to find:** name the manifest file you opened and the query you ran before concluding that nothing present provides the behaviour, and read the lockfile beside the manifest, since the manifest lists what the project asked for while the lockfile lists what is actually resolved. **The import list is the trigger that does not depend on recognizing anything.** A named behaviour is looked up only once it is recognized, so the block that survives is the one whose name meant nothing to the reader: read the exported surface of a module a hand-written block sits beneath and appears to duplicate, and check it against that block. The trigger is the block, never the list. A block hand-rolling half of what its own file already imports is the shape this misses most often. **Where nothing present provides it, report that and stop**, because adding a dependency is a supply-chain decision the project owns and this is never resolved by recommending an installation.
 
 **Rule 2: judge against this project, not a generic one.** Scale, platform, regulatory exposure, and traffic all come from discovery in section 3. A recommendation that is right for a multi-tenant service is wrong for a static site, and prescribing infrastructure a project has no use for is a defect in the audit rather than advice.
 
@@ -64,6 +64,18 @@ Some agents resolve the references below automatically. Where yours does not, re
 3. **Audit in bounded batches.** Work through a category or an area at a time and finish it before opening the next.
 4. **Refutation pass** (section 5).
 5. **Report** (section 7).
+
+Copy this checklist into your task list, never into the report, and check off each step as it completes:
+
+```text
+Audit progress:
+- [ ] Scope resolved and its rule recorded for the summary (Scope)
+- [ ] Step 1: discovery finished before any finding
+- [ ] Step 2: triage done, skipped categories named with reasons
+- [ ] Step 3: each entered category audited in a bounded batch
+- [ ] Step 4: every finding put through the six refutation questions (section 5)
+- [ ] Step 5: report written in section 7's shape and checked against its five points
+```
 
 ## 4. Audit categories
 
@@ -85,7 +97,7 @@ Two lenses are read alongside every category rather than as categories of their 
 - **Altitude:** a special case added to shared code for one caller, or a symptom patched at each call site, where changing the shared mechanism once is the fix.
 - **Change amplification:** how many files must change together the next time a behaviour changes, and whether a value a consumer would configure is named where a consumer can find it rather than buried in a function body.
 
-**Report what this lens sees and let section 5 filter it.** Whether a proposed abstraction is premature is a real question and it is asked there, against the recommendation, where an abstraction with a single caller or configuration nobody sets is caught without costing the observation that prompted it. Held here it does the opposite: an instruction to be conservative, read at the moment of deciding what to report, produces a shorter audit rather than a more accurate one.
+**Report what this lens sees and let section 5 filter it.** Whether a proposed abstraction is premature is a real question and it is asked there, against the recommendation, where an abstraction with a single caller or configuration nobody sets is caught without costing the observation that prompted it.
 
 **Security and privacy in three directions.** Ask who each finding protects. _The end user:_ their data, session, device, and browser. _The host, system, and company:_ server-side request forgery, command injection, path traversal, unsafe deserialization, resource exhaustion, privilege escalation, over-scoped tokens, log injection, and internal hostnames, employee names, or infrastructure detail leaking into public source, comments, or source maps. _The developer and the build:_ whether cloning, installing, building, or opening this repository can compromise the machine that does it.
 

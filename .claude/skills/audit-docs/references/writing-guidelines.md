@@ -18,7 +18,7 @@ Write as a careful human technical writer: formal and neutral, never robotic. Th
 - **Avoid these AI tells** (representative, not exhaustive): signposting previews ("This section covers", "In this section we will"); puffery copulas ("serves as", "stands as", "is a testament to", "plays a vital/pivotal role"); the rule-of-three triad as a default; filler transitions ("Additionally", "Furthermore", "Moreover" at high frequency); formulaic conclusions ("In conclusion", "Despite its ... it faces challenges"); and padded words such as delve, leverage, underscore, showcase, intricate, vibrant, foster, tapestry, seamless. Keep a word when it is factually correct in context (a test `harness`, an OAuth `realm`).
 - **A why-claim is still a claim (Rule 2).** Cite the comment, design record, commit, test, or config that proves a rationale or trade-off, or state the _what_ and stop.
 - **Scope.** Apply this only to prose you add or change; do not rewrite accurate existing prose for rhythm (Phase 2, Rule 1). Introducing a term, naming a subject, or stating a prerequisite is an addition rather than a rewrite, so it is made in a document you edit in full even where the surrounding prose is accurate. It governs `docs/` prose, not in-code documentation, which Phase 3 keeps terse.
-- **Stay formal.** No contractions, casual asides, emoji, or detector-evasion tricks. Naturalness comes from cutting tells, not from informality.
+- **Stay formal.** No contractions, casual asides, emoji, or detector-evasion tricks.
 
 ## Brevity & style
 

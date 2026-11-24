@@ -225,7 +225,7 @@ Before flagging any style deviation, read two or three other files of the same l
 
 ### 11. Accessibility
 
-Target **WCAG 2.2 Level AA**, the current W3C Recommendation. Semantic markup, alternative text and accessible names, keyboard navigation, ARIA correctness, colour contrast (4.5:1 normal, 3:1 large), form labels and error feedback, and reduced-motion support.
+Target **WCAG 2.2 Level AA**. Semantic markup, alternative text and accessible names, keyboard navigation, ARIA correctness, colour contrast (4.5:1 normal, 3:1 large), form labels and error feedback, and reduced-motion support.
 
 The criteria WCAG 2.2 adds over 2.1 are the ones most often missed: focus not obscured, focus appearance, target size, dragging movements having a single-pointer alternative, consistent help, redundant entry, and accessible authentication.
 
