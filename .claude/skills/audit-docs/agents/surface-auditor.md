@@ -106,9 +106,12 @@ A comment can be true, non-repeated, and still carry sentences its reader does n
 - a sentence listing or re-describing members that carry their own comments, which is how a package or type comment turns into a tour of the interface: each member's own comment, and the reference the language generates from them, already carry it;
 - a sentence describing an alternative that was considered and not taken, where another sentence already states the approach the code uses;
 - a sentence telling the history of the code, such as what an earlier version did;
-- a sentence repeating a reason, constraint, or warning that another kept sentence already gives.
+- a sentence repeating a reason, constraint, or warning that another kept sentence already gives;
+- a sentence arguing that the code is correct or safe;
+- a sentence working out a scenario or consequence that no code, test, or document states;
+- a sentence explaining what a language, library, or platform does in general rather than what this code does with it.
 
-Report the comment's own sentences in two verbatim sets: `KEEP`, the sentences carrying something the code does not show, and `CUT`, each sentence of the kinds above beside the code string or member comment it restates. **`KEEP` is never empty for any comment reported here, public or private, documentation or inline**: keep its summary sentence, or the first sentence if unclear. This list tightens a comment and never removes one; a comment whose every sentence restates the line beneath it, with nothing kept, is outside this list and the caller judges it. A sentence giving a reason, a constraint, an edge case, a warning, or an explanation of non-obvious logic that no other kept sentence already gives is always `KEEP`, since that is what the code cannot show. A sentence that only restates one of those, argues against an alternative not taken, or tells the history is `CUT`. A wrong comment is corrected from the body, never deleted; an unread body means keep and report it. Never write replacement text: the caller writes any new wording from code it opens itself. A wrong comment also goes under `CONTRADICTED`, and the caller corrects it before cutting.
+Report the comment's own sentences in two verbatim sets: `KEEP`, the sentences carrying something the code does not show, and `CUT`, each sentence of the kinds above beside the code string or member comment it restates. **`KEEP` is never empty for any comment reported here, public or private, documentation or inline**: keep its summary sentence, or the first sentence if unclear. This list tightens a comment and never removes one; a comment whose every sentence restates the line beneath it, with nothing kept, is outside this list and the caller judges it. A sentence giving a reason, a constraint, an edge case, a warning, or an explanation of non-obvious logic about this code that no other kept sentence already gives is `KEEP`, since that is what the code cannot show. A sentence that only restates one of those, argues against an alternative not taken, tells the history, or is one of the last three kinds above is `CUT`, even where it reads like a reason. `KEEP` marks what the code cannot show, not what must survive: the caller may still cut a `KEEP` sentence under its own length limit for a comment the change added. A wrong comment is corrected from the body, never deleted; an unread body means keep and report it. Never write replacement text: the caller writes any new wording from code it opens itself. A wrong comment also goes under `CONTRADICTED`, and the caller corrects it before cutting.
 
 ```python
 # We need to check if the user is eligible for the discount.
@@ -200,7 +203,7 @@ DECLARATION: <file path of the declaration>
 BLOCKED BY: <outside the paths handed in / inside them and not opened>
 
 VERBOSE
-<file path> :: <symbol, or the line the comment sits above>
+<file path> :: <symbol, or the line the comment sits above> :: <the comment's line count>
 KEEP: <each sentence carrying what the code does not show, verbatim, with any credential value replaced by [REDACTED]; never empty, with the summary sentence or, if unclear, the first sentence always here>
 CUT: <each sentence to delete, verbatim> :: <the code string or member comment it restates, or the later sentence that already states the same conclusion>
 
