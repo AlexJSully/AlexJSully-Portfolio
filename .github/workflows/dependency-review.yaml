@@ -23,9 +23,10 @@ jobs:
                   vulnerability-check: true
                   fail-on-severity: high
                   fail-on-scopes: runtime, development, unknown
+                  # LicenseRef-bad-fsl-1.1-apache-2.0 is how GitHub reports FSL-1.1-Apache-2.0, the licence of `sentry`, the Sentry CLI that @sentry/nextjs installs through @sentry/bundler-plugins.
                   allow-licenses: >-
                       0BSD, Apache-2.0, BSD-2-Clause, BSD-3-Clause, BlueOak-1.0.0,
                       CC-BY-4.0, CC0-1.0, ISC, MIT, MIT-0, MPL-2.0, Python-2.0, PSF-2.0,
-                      Unlicense
+                      Unlicense, LicenseRef-bad-fsl-1.1-apache-2.0
                   retry-on-snapshot-warnings: true
                   retry-on-snapshot-warnings-timeout: 120
