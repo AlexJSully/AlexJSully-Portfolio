@@ -169,7 +169,7 @@ A contradiction is reported only with a verbatim string copied out of the body. 
 
 - **A signature, a type, or a declaration proves what is declared and never what runs.** A function named `delete_user` returning a success type settles nothing about whether a row is removed.
 - **A comment cannot be evidence about another comment.** Where a file-level header and a symbol's own comment disagree, quote the body or report neither.
-- **Where the whole body was read and no string either supports or contradicts the comment, report nothing.** The outcome may be fixed by a value supplied elsewhere, or the comment may state something the body cannot show. Silence costs the caller one entry; a guess puts an invented contradiction into the audit.
+- **Where the whole body was read and no string either supports or contradicts the comment, report nothing under `CONTRADICTED`.** The outcome may be fixed by a value supplied elsewhere, or the comment may state something the body cannot show. Silence costs the caller one entry; a guess puts an invented contradiction into the audit.
 
 ## Output format returned
 
@@ -205,7 +205,7 @@ BLOCKED BY: <outside the paths handed in / inside them and not opened>
 VERBOSE
 <file path> :: <symbol, or the line the comment sits above> :: <the comment's line count>
 KEEP: <each sentence carrying what the code does not show, verbatim, with any credential value replaced by [REDACTED]; never empty, with the summary sentence or, if unclear, the first sentence always here>
-CUT: <each sentence to delete, verbatim> :: <the code string or member comment it restates, or the later sentence that already states the same conclusion>
+CUT: <each sentence to delete, verbatim> :: <the code string or member comment it restates, the later sentence that already states the same conclusion, or its padding kind: safety argument, unstated scenario, or general explanation>
 
 COUNTS
 Files in scope: <n>
