@@ -1,6 +1,6 @@
 # Existing comments: correct, tighten, keep, or delete
 
-An existing comment was written by someone who knew something about the code. The audit's job is to keep that knowledge accurate, not to restyle it. Each pair below shows one outcome of the ordered tests in Phase 3: test 1 runs first, then the first of the other tests that applies decides, and deletion is the narrowest outcome.
+An existing comment was written by someone who knew something about the code. The audit's job is to keep that knowledge accurate, not to restyle it. Each pair below shows one outcome of the ordered tests in Phase 3: test 1 runs first, then the first of the other tests that applies decides, a comment test 1 corrected is never deleted, and deletion is the narrowest outcome.
 
 - [Existing comments: correct, tighten, keep, or delete](#existing-comments-correct-tighten-keep-or-delete)
     - [Drifted private comment: correct it](#drifted-private-comment-correct-it)
@@ -213,5 +213,5 @@ Each of these removes knowledge the code does not carry, and none is on the clos
 - Replacing a verbose comment with nothing instead of cutting its padding sentences.
 - Deleting a comment you are unsure about instead of keeping it and reporting it.
 - Trimming a redundant or verbose comment outside the requested scope, where only a drifted comment is corrected.
-- Correcting a long drifted comment and stopping there, without putting it through the verbose test.
+- Correcting a long drifted comment inside the requested scope and stopping there, without putting it through the verbose test.
 - Adding a sentence to a comment the change added when it already holds two.

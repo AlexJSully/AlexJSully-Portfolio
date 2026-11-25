@@ -108,7 +108,7 @@ Return findings only.
 ```text
 SEVERITY  file:symbol
   What: one sentence naming the defect.
-  Evidence: the exact comment or declaration, quoted, with any credential value replaced by [REDACTED].
+  Evidence: the exact comment or declaration, quoted, with any credential value replaced by [REDACTED], and, for a verbose block, its line count.
   Fix: the concrete change.
 ```
 

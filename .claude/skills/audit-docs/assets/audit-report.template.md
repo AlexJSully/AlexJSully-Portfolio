@@ -133,7 +133,7 @@ This run edits documentation, so a code defect is reported here and left alone. 
 - Every symbol reported in Phase 3 as left as it stands because its implementation was not read also appears under Unverified.
 - No documentation comment on a public or exported symbol, public structure member, package, or module was deleted or cut below one sentence.
 - Every comment removed, public or private, documentation or inline, is on the closed delete list; every other comment was kept, corrected, or tightened by whole sentences inside the requested scope.
-- Every comment the change added is at most two sentences, every comment longer than about five lines in the edit set went through the verbose test, and no edited comment grew by more than one Phase 1 sentence.
+- Every comment the change added is at most two sentences, every comment longer than about five lines in a code file in scope went through the verbose test, and no edited comment grew by more than one Phase 1 sentence.
 - Every file changed is inside the scope, and none was renamed, moved, split, or deleted unless the request asked for it or the user approved it.
 - Every file named in a phase result appears in the files changed table, and every row of that table is a file that was edited.
 - The file count in the summary matches the number of rows in the table.
