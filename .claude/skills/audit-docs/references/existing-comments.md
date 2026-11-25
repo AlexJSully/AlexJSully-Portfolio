@@ -1,11 +1,13 @@
 # Existing comments: correct, tighten, keep, or delete
 
-An existing comment was written by someone who knew something about the code. The audit's job is to keep that knowledge accurate, not to restyle it. Each pair below shows one outcome of the ordered tests in Phase 3: the first test that applies decides, and deletion is the narrowest outcome.
+An existing comment was written by someone who knew something about the code. The audit's job is to keep that knowledge accurate, not to restyle it. Each pair below shows one outcome of the ordered tests in Phase 3: test 1 runs first, then the first of the other tests that applies decides, a comment test 1 corrected is never deleted, and deletion is the narrowest outcome.
 
 - [Existing comments: correct, tighten, keep, or delete](#existing-comments-correct-tighten-keep-or-delete)
     - [Drifted private comment: correct it](#drifted-private-comment-correct-it)
     - [Verbose private documentation comment: tighten it](#verbose-private-documentation-comment-tighten-it)
     - [Long rationale comment: cut to the decision and its reasons](#long-rationale-comment-cut-to-the-decision-and-its-reasons)
+    - [Drifted and long comment: correct it, then tighten it](#drifted-and-long-comment-correct-it-then-tighten-it)
+    - [Comment the change added: cut it to the length of a new comment](#comment-the-change-added-cut-it-to-the-length-of-a-new-comment)
     - [In-body comment explaining why: keep it](#in-body-comment-explaining-why-keep-it)
     - [Comment restating the line beneath it: delete it](#comment-restating-the-line-beneath-it-delete-it)
     - [Change narration carrying a current fact: rewrite it](#change-narration-carrying-a-current-fact-rewrite-it)
@@ -95,6 +97,62 @@ let tmp = index_path.with_extension("tmp");
 
 The cut sentences are the history ("Originally we wrote…"), the two alternatives not taken (the lock and the checksum), and "This is the main reason for the design", which restates the reason before it. The warning stays because it is the instruction a maintainer needs.
 
+## Drifted and long comment: correct it, then tighten it
+
+Correcting a comment does not end the audit of it. Test 1 fixes the count, and test 3 still runs on the corrected comment.
+
+Before (Kotlin), where `MAX_RETRIES` is `5`:
+
+```kotlin
+// Sends the event batch, retrying up to three times.
+// The function takes a list of events and returns true on success.
+// It loops over the attempts and calls the client each time.
+// The server rejects a batch larger than MAX_BATCH, so the caller must
+// split it first.
+fun send(events: List<Event>): Boolean = retrying(MAX_RETRIES) { client.post(events) }
+```
+
+After:
+
+```kotlin
+// Sends the event batch, retrying up to `MAX_RETRIES` times.
+// The server rejects a batch larger than MAX_BATCH, so the caller must
+// split it first.
+fun send(events: List<Event>): Boolean = retrying(MAX_RETRIES) { client.post(events) }
+```
+
+The second sentence restates the signature and the third walks through the body. The caller duty stays.
+
+## Comment the change added: cut it to the length of a new comment
+
+The pull request added this comment, so it is new writing under review, not knowledge to preserve. It keeps one sentence saying what the code does and one sentence for the constraint a caller needs.
+
+Before (C#):
+
+```csharp
+// Caches the parsed manifest so repeated lookups skip the disk read.
+// This is safe because the manifest is immutable once loaded, and
+// ConcurrentDictionary guarantees thread-safe access across callers.
+// ConcurrentDictionary uses fine-grained locking, so readers never block
+// each other. If two threads miss the cache at the same moment, both may
+// parse the file, but GetOrAdd keeps one result for every caller. This
+// could matter in a busy deployment where many requests arrive at startup.
+// The cache is never invalidated, so a manifest edited on disk is not
+// picked up until the process restarts.
+private static readonly ConcurrentDictionary<string, Manifest> Cache = new();
+```
+
+After:
+
+```csharp
+// Caches the parsed manifest so repeated lookups skip the disk read.
+// The cache is never invalidated, so a manifest edited on disk is not
+// picked up until the process restarts.
+private static readonly ConcurrentDictionary<string, Manifest> Cache = new();
+```
+
+The cut sentences argue the code is safe, explain what `ConcurrentDictionary` does in general, and work out a busy-deployment scenario that no code states. The report lists the safety argument as a reason cut, so the author can move it to the pull request description.
+
 ## In-body comment explaining why: keep it
 
 The comment names the code beneath it and says why it is written this way, which the code cannot show. It passes the name-the-code test and states a reason, so it stays as written, however short the function.
@@ -155,3 +213,5 @@ Each of these removes knowledge the code does not carry, and none is on the clos
 - Replacing a verbose comment with nothing instead of cutting its padding sentences.
 - Deleting a comment you are unsure about instead of keeping it and reporting it.
 - Trimming a redundant or verbose comment outside the requested scope, where only a drifted comment is corrected.
+- Correcting a long drifted comment inside the requested scope and stopping there, without putting it through the verbose test.
+- Adding a sentence to a comment the change added when it already holds two.

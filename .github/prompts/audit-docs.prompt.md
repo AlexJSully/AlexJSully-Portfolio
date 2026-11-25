@@ -10,7 +10,7 @@ agent: 'agent'
 Read this whole prompt before you start. Check the project's own files (#codebase), resolving each reference with your own file-search, pull request, and diff tools if it is not handed to you.
 
 - **Documentation has two parts, and you audit both.** One part is the Markdown pages. The other is the comments in the code: documentation comments, inline comments, and file headers. On a pull request, audit the comments in every code file the diff touched, not only the Markdown.
-- **Keep it short.** Match the length to what the change needs. Cover the substance, and add no filler sections, repeated summaries, or boilerplate. On a pull request, the documentation edit is about the size of the code change: fix the sentence the change made false, and add a sentence only for behaviour the change added. A comment you write is one sentence, or two when the second states an error, a constraint, or a caller duty.
+- **Keep it short.** Match the length to what the change needs. Cover the substance, and add no filler sections, repeated summaries, or boilerplate. On a pull request, the documentation edit is about the size of the code change: fix the sentence the change made false, and add a sentence only for behaviour the change added. A comment you write is one sentence, or two when the second states an error, a constraint, or a caller duty. A comment the change added is held to the limit in [A comment the change added](#a-comment-the-change-added): tighten a longer one in this run, and never take it past two sentences.
 - **Write plain English for people.** Your reader is a developer reading once. Write complete, grammatical sentences, one idea each, with ordinary pronouns and transitions where the meaning is clear. State what the code does. Do not work out scenarios or consequences that no code, test, or document states.
 - **Edit only what the request covers.** Edit in full only the files the scope resolves to (see [Scope](#scope)). On a pull request or working changes, those are the files the diff touched. Any other document gets only the edits the change itself requires. A file you opened only for context stays exactly as you found it.
 - **Files keep their path and name.** Rename, move, split, merge, or delete a file, or create a directory, only when the request asks for it or the user approves it. Where one looks necessary, ask the user and wait. Where you cannot ask, propose it in your report instead.
@@ -63,6 +63,7 @@ Run this phase only when there is an active pull request or working changes. Tre
 - List what the diff changed in behaviour: added, removed, or modified.
 - For each change, update whichever documentation describes that behaviour: a Markdown page, a code comment, or both. Do this even where the pull request did not touch the docs.
 - Document only behaviour the change made. Edit the existing sentence the change made false before you consider adding one. A new sentence states the new behaviour and stops.
+- A comment gains at most one sentence in this phase. In a file in scope, Phase 3 still judges it afterwards, so a long comment you corrected here is also tightened there.
 - Report whether you made changes or found the documentation already accurate.
 
 ## Phase 2: audit the Markdown pages
@@ -85,14 +86,18 @@ Run this phase on every audit, over every code file in scope, whatever Phases 1 
 
 ### Judge each existing comment with these tests, in order
 
-The first test that applies decides.
+Run test 1 on every comment first. Then the first of tests 2 to 4 that applies decides, except that a comment test 1 corrected skips test 2, so it is still tightened and never deleted.
 
 1. **Drifted.** It states something the code no longer does. Correct it from the body, and keep the wording that is still true.
 2. **Wholly redundant.** Every sentence restates the name, the signature, or the line beneath it, such as `// Increment counter`, and gives no reason, constraint, edge case, or warning. Delete it, unless the floor keeps it.
-3. **Verbose.** A useful fact sits inside padding. Keep the summary sentence and each sentence giving a reason, constraint, edge case, or warning that no other kept sentence gives. Cut whole sentences that restate the signature, describe members that have their own comments, walk through the body, describe alternatives that were not taken, tell the history of the code, or repeat a reason already given. This test never removes a whole comment. Put every comment longer than about five lines through this test.
+3. **Verbose.** A useful fact sits inside padding. Keep the summary sentence and each sentence giving a reason, constraint, edge case, or warning that no other kept sentence gives. Cut whole sentences that restate the signature, describe members that have their own comments, walk through the body, describe alternatives that were not taken, tell the history of the code, or repeat a reason already given. Also cut a sentence that argues the code is correct or safe, works out a scenario or consequence that no code, test, or document states, or explains what a language, library, or platform does in general. These read like reasons but give none about this code. This test never removes a whole comment. Put every comment longer than about five lines through this test.
 4. **Otherwise, it stays as written.**
 
-**Cut by whole sentences.** Keep every sentence you do not cut word for word. Where a kept sentence depends on a cut one ("also", "these"), keep both or cut both. A rewritten or merged sentence is a new claim and needs its own proof. Correct a comment that is both wrong and long before you tighten it.
+**Cut by whole sentences.** Keep every sentence you do not cut word for word. Where a kept sentence depends on a cut one ("also", "these"), keep both or cut both. A rewritten or merged sentence is a new claim and needs its own proof.
+
+### A comment the change added
+
+On a pull request or working changes, a comment whose lines the diff added is new writing under review, not an existing comment. It meets the length of a comment you write: one sentence saying what the code does, plus at most one sentence for an error, a constraint, a caller duty, or the one reason the code cannot show. Choose the kept sentences by the tests above, then cut the rest by whole sentences. List each reason you cut in your report, so the author can move it to the pull request description or a decision record. Sentences the diff added to an older comment are held to the same limit; the older sentences stay under the tests above. A comment the diff only moved, with the same lines removed elsewhere in the diff, stays an existing comment, and a licence header is not held to this limit. The floor and the closed delete list still apply.
 
 **The closed delete list.** Besides test 2, delete only:
 
@@ -213,7 +218,8 @@ Before you write the report, confirm each item and fix what fails inside the sco
 - Every existing list, table, and code block kept its form; any code block you removed only transcribed code and is now a link.
 - No hedging, no new subjective adjectives, and no em-dashes or en-dashes in what you wrote.
 - No comment was deleted except under the closed list, no public symbol's comment dropped below its floor, and every tightened comment lost whole sentences only.
-- Every comment you wrote is at most two sentences, and it sits on a declaration, not above a use.
+- Every comment you wrote, and every comment the diff added, is at most two sentences, and a comment you wrote sits on a declaration, not above a use. No comment you edited grew by more than one Phase 1 sentence.
+- Every comment longer than about five lines in a code file in scope went through test 3, and the report gives the line count before and after of each one it tightened.
 - Each page you edited in full opens by naming its subject, and nothing in it stops a newcomer, or your report names the place that does.
 - Every diagram has `accTitle` and `accDescr` and parses, and every image has real alt text. Every table you touched still has matching cell counts, and nested lists render.
 - Every file link resolves to a file, not a directory.
@@ -221,8 +227,8 @@ Before you write the report, confirm each item and fix what fails inside the sco
 
 ## Report
 
-End with a report under these headings: scope and summary (the rule that applied, files read and changed); Phase 1, Phase 2, and Phase 3 results, each with a status line, where Phase 3 names every code file in scope with its result; files changed, one row per file with the kind of change and its line count before and after; Unverified; observed outside scope; and code problems observed but not changed. Name files in code spans. Write "none" under a heading with nothing to report.
+End with a report under these headings: scope and summary (the rule that applied, files read and changed); Phase 1, Phase 2, and Phase 3 results, each with a status line, where Phase 3 names every code file in scope with its result, each tightened comment with its line count before and after, and each reason cut from a comment the change added; files changed, one row per file with the kind of change and its line count before and after; Unverified; observed outside scope; and code problems observed but not changed. Name files in code spans. Write "none" under a heading with nothing to report.
 
 ## Reminder
 
-Keep every edit as short as the change allows, in plain English a developer understands on the first read. Audit the comments in every code file in scope, not only the Markdown.
+Keep every edit as short as the change allows, in plain English a developer understands on the first read. Audit the comments in every code file in scope, not only the Markdown. Tighten a long comment the change added or touched, and add at most one sentence to any comment.
